@@ -5,8 +5,9 @@
 BUILD_DIR ?= build
 TARGET ?= $(BUILD_DIR)/main
 
-# make cmake shut up
+# always generate fresh build rules when cmake is re-run
 CMFLAGS += --fresh
+# make cmake shut up
 CMFLAGS += --log-level WARNING
 CMFLAGS += -Wno-deprecated
 
