@@ -6,8 +6,13 @@
 
 # Git
 
+- Push as often as possible
+- Development is done on separate branches, these follow a pattern of
+  `name/feature` (i.e. `loek/dll-so-poc` or `jaro/class2`)
+- The master branch is considered stable, and should always contain a
+  working/compiling version of the project
+
 - TODO: tagging / versions
-- TODO: branch stability / gitflow?
 
 # Code style
 
