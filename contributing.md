@@ -17,6 +17,13 @@
   sure to separate the include statements using a blank line (clang-format may
   sort include statements, but does not sort across empty lines).
 
+## CMakeLists specific
+
+- Make sure list arguments (e.g. sources, libraries) given to commands (e.g.
+  `target_sources`, `target_link_libraries`) are on separate lines. This makes
+  resolving merge conflicts when multiple sources were added by different
+  people to the same CMakeLists.txt easier.
+
 # Documentation
 
 - All documentation is written in U.S. English
@@ -26,4 +33,6 @@
 
 - External libraries should be included as Git submodules under the `lib/`
   subdirectory
+- When adding new submodules, make sure to manually set the `branch` and
+  `shallow` options in the [.gitmodules](./.gitmodules) file
 
