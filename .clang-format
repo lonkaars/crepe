@@ -1,0 +1,27 @@
+---
+AccessModifierOffset: -4
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortLoopsOnASingleLine: true
+BasedOnStyle: LLVM
+BreakBeforeBraces: Attach
+ColumnLimit: 80
+EmptyLineBeforeAccessModifier: Always
+IndentAccessModifiers: false
+IndentCaseLabels: true
+IndentWidth: 4
+Language: Cpp
+Standard: Cpp11
+TabWidth: 4
+UseTab: Always
+PointerAlignment: Middle
+SpaceAfterCStyleCast: true
+AlignConsecutiveAssignments:
+  Enabled: false
+AlignTrailingComments:
+  Kind: Never
+ReflowComments: false
+AlignEscapedNewlines: DontAlign
+BreakBeforeBinaryOperators: All
+...
+
+# vim: ft=yaml
