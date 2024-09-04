@@ -14,6 +14,7 @@
 
 - TODO: tagging / versions
 
+
 # Code style
 
 - Formatting nitty-gritty is handled by clang-format/clang-tidy
@@ -21,6 +22,9 @@
 - When using libraries of which the header include order is important, make
   sure to separate the include statements using a blank line (clang-format may
   sort include statements, but does not sort across empty lines).
+- [Cpp practices](https://lefticus.gitbooks.io/cpp-best-practices/content/)
+- [C++ core guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+- [Google c++ style](https://google.github.io/styleguide/cppguide.html)
 
 ## CMakeLists specific
 
@@ -29,9 +33,15 @@
   resolving merge conflicts when multiple sources were added by different
   people to the same CMakeLists.txt easier.
 
+## Doxygen style
+
+- [a C-style doxygen example](https://www.cs.cmu.edu/~410/doc/doxygen.html)
+
+
 # Documentation
 
 - All documentation is written in U.S. English
+- [stanford latex style](https://web.stanford.edu/class/ee364b/latex_templates/template_notes.pdf)
 - TODO
 
 # Libraries
