@@ -26,6 +26,39 @@
 - [C++ core guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
 - [Google c++ style](https://google.github.io/styleguide/cppguide.html)
 
+```cpp
+code-style-example/style.h
+```
+
+```cpp
+code-style-example/style.cpp
+```
+
+```cpp
+// good
+class MyClass
+{
+public:
+  void do_something(const int i);
+  void do_something(const std::string &str);
+};
+```
+
+```cpp
+// instead of doing this
+auto s = "Hello";
+auto x = "42"s;
+auto x = 42;
+auto x = 42.f;
+
+// Do this
+std::string s = "Hello";
+std::string  x = "42"s;
+int x = 42;
+float x = 42.f;
+```
+
+
 ## CMakeLists specific
 
 - Make sure list arguments (e.g. sources, libraries) given to commands (e.g.
