@@ -181,6 +181,18 @@ Print_color(Product_info::red);  // Error: cannot convert Product_info to int.
 std::size_t i = 0; // use this instead of using a int
 double x = 0.0;
 ```
+- comment style guide, you can use TODO:, FIXME:, NOTE:, or HACK: as admonitions when needed.
+
+```cpp 
+// Compute the first 10,000 decimals of Pi.
+// FIXME: Don't crash when computing the 1,337th decimal due to `increment`
+//        being negative.
+```
+bad example
+```cpp
+// Draw loading screen.
+draw_load_screen();
+```
 
 ## CMakeLists specific
 
