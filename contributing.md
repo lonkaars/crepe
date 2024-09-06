@@ -26,14 +26,90 @@
 - [C++ core guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
 - [Google c++ style](https://google.github.io/styleguide/cppguide.html)
 
+
+- .h basic code style with doxygen
 ```cpp
-code-style-example/style.h
+// code-style-example/style.cpp
+/*! @file MyClass.h */
+
+#ifndef MYPROJECT_MYCLASS_HPP
+#define MYPROJECT_MYCLASS_HPP
+
+/**
+ * @brief example class
+ */
+class MyClass {
+
+public:
+	/**
+	 * @brief example constructor
+	 *
+	 * @param[integer] t_value example first argument
+	 */
+	MyClass(int t_value);
+
+	/**
+	 * @brief constructor example
+	 *
+	 */
+	MyClass();
+
+	/**
+	 * @brief deconstuctor example
+	 *
+	 */
+	~MyClass();
+
+	/**
+	 * @brief setter example with correct const implementation
+	 *
+	 * @param[const integer] t_value first argument
+	 */
+	void set_value(const int t_value);
+
+	/**
+	 * @brief getter example with correct const implementation
+	 *
+	 * @return const integer
+	 */
+	const int get_value() const;
+
+	/**
+	 * @brief increment member m_value
+	 *
+	 */
+	void increment();
+
+private:
+	/**
+	 * @m_value basic member example
+	 */
+	int m_value;
+};
+
+#endif
 ```
 
+- .cpp basic code style
 ```cpp
-code-style-example/style.cpp
+// code-style-example/style.cpp
+
+#include "style.h"
+
+MyClass::MyClass(int t_value) : m_value(t_value) {}
+
+MyClass::MyClass() { m_value = 0; }
+
+MyClass::~MyClass() {}
+
+const int MyClass::get_value() const { return m_value; }
+
+void MyClass::set_value(const int t_value) { m_value = t_value; }
+
+void MyClass::increment() { m_value += 1; }
 ```
 
+- when to use references
 ```cpp
 // good
 class MyClass
@@ -43,6 +119,7 @@ public:
   void do_something(const std::string &str);
 };
 ```
+- Do not use auto
 
 ```cpp
 // instead of doing this
@@ -57,7 +134,53 @@ std::string  x = "42"s;
 int x = 42;
 float x = 42.f;
 ```
+- Do not define constants as define but instead directly declare it.
+```cpp
+// Bad Idea
+#define PI 3.14159;
 
+// Good Idea
+namespace my_project {
+  class Constants {
+  public:
+    // if the above macro would be expanded, then the following line would be:
+    //   static const double 3.14159 = 3.14159;
+    // which leads to a compile-time error. Sometimes such errors are hard to understand.
+    static constexpr double PI = 3.14159;
+  };
+}
+```
+- Use enum class instead of using enum only to prevent bugs
+```cpp
+void Print_color(int color);
+
+enum Web_color { red = 0xFF0000, green = 0x00FF00, blue = 0x0000FF };
+enum Product_info { red = 0, purple = 1, blue = 2 };
+
+Web_color webby = Web_color::blue;
+
+// Clearly at least one of these calls is buggy.
+Print_color(webby);
+Print_color(Product_info::blue);
+```
+Instead use an enum class:
+```cpp
+
+void Print_color(int color);
+
+enum class Web_color { red = 0xFF0000, green = 0x00FF00, blue = 0x0000FF };
+enum class Product_info { red = 0, purple = 1, blue = 2 };
+
+Web_color webby = Web_color::blue;
+Print_color(webby);  // Error: cannot convert Web_color to int.
+Print_color(Product_info::red);  // Error: cannot convert Product_info to int.
+
+```
+- Think about using size_t instead of using int for preventing processor mismatching. This might prevent a bug in the future.
+```cpp
+std::size_t i = 0; // use this instead of using a int
+double x = 0.0;
+```
 
 ## CMakeLists specific
 
