@@ -110,42 +110,78 @@ void MyClass::increment() { m_value += 1; }
 ```
 
 - when to use references
+
+-- If the input parameter in the function cannot accept a nullptr
 ```cpp
-// good
-class MyClass
-{
-public:
-  void do_something(const int i);
-  void do_something(const std::string &str);
-};
+void foo::function(const std::string& name){};
 ```
+-- Use a reference when you know that the object will exist for the lifetime of the reference and when nullability is not a concern.
+```cpp
+int x = 10;
+int& ref = x;
+ref = 20;
+```
+
+-- If a function should return a reference to an object that exists elsewhere (such as a member of a class or an element in a container), you can return a reference.
+```cpp
+container& get_element(std::vector<container>& vec, size_t index){
+  return vec[index];
+}
+```
+- When to use pointers
+
+-- Use pointers when dealing with dynamic memory
+```cpp
+int* ptr = new int(5);
+delete ptr;
+```
+
+-- Pointers can be nullptr, allowing them to represent "no object." Use pointers when you need to express optional ownership or reference.
+```cpp
+void foo::function(int* ptr){
+  if(ptr){
+    // ptr is not null
+  }
+}
+```
+
+-- When dealing with polymorphism.
+```cpp
+class Base {};
+class Derived : public Base {};
+
+Base* obj = new Derived();
+obj->function();
+```
+
+
 - Do not use auto
 
+-- Instead of doing this
 ```cpp
-// instead of doing this
 auto s = "Hello";
 auto x = "42"s;
 auto x = 42;
 auto x = 42.f;
-
-// Do this
+```
+-- Do this.
+```cpp
 std::string s = "Hello";
 std::string  x = "42"s;
 int x = 42;
 float x = 42.f;
 ```
 - Do not define constants as define but instead directly declare it.
+-- This is wrong.
 ```cpp
-// Bad Idea
 #define PI 3.14159;
+```
 
-// Good Idea
+-- Do this.
+```cpp
 namespace my_project {
   class Constants {
   public:
-    // if the above macro would be expanded, then the following line would be:
-    //   static const double 3.14159 = 3.14159;
-    // which leads to a compile-time error. Sometimes such errors are hard to understand.
     static constexpr double PI = 3.14159;
   };
 }
@@ -163,7 +199,7 @@ Web_color webby = Web_color::blue;
 Print_color(webby);
 Print_color(Product_info::blue);
 ```
-Instead use an enum class:
+- Instead use an enum class:
 ```cpp
 
 void Print_color(int color);
@@ -176,6 +212,7 @@ Print_color(webby);  // Error: cannot convert Web_color to int.
 Print_color(Product_info::red);  // Error: cannot convert Product_info to int.
 
 ```
+
 - Think about using size_t instead of using int for preventing processor mismatching. This might prevent a bug in the future.
 ```cpp
 std::size_t i = 0; // use this instead of using a int
@@ -183,15 +220,16 @@ double x = 0.0;
 ```
 - comment style guide, you can use TODO:, FIXME:, NOTE:, or HACK: as admonitions when needed.
 
+-- Bad example
+```cpp
+// Draw loading screen.
+draw_load_screen();
+```
+-- Better
 ```cpp 
 // Compute the first 10,000 decimals of Pi.
 // FIXME: Don't crash when computing the 1,337th decimal due to `increment`
 //        being negative.
-```
-bad example
-```cpp
-// Draw loading screen.
-draw_load_screen();
 ```
 
 ## CMakeLists specific
