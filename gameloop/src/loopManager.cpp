@@ -19,24 +19,28 @@ void LoopManager::processInput(){
 void LoopManager::fixedUpdate(){
 	fprintf(stderr,"fixed update\n");
 }
-void LoopManager::loop(){
-	fprintf(stderr,"loop. \n");
-	LoopTimer& timer = LoopTimer::getInstance();
-	while(gameRunning){
-		timer.update();
-		lag += timer.getDeltaTime();
-		processInput();
-		while (lag >= timer.getFixedDeltaTime())
-		{
-			fixedUpdate();
-			lag -= timer.getFixedDeltaTime();
-		}
-		//update();
-		//timer.enforceFrameRate();
-		render();
-	}
-	window.destroyWindow();
+void LoopManager::loop() {
+    LoopTimer& timer = LoopTimer::getInstance();
+    timer.start();
+
+    while (gameRunning) {
+        timer.update();
+
+        while (timer.getLag() >= timer.getFixedDeltaTime()) {
+            processInput();
+            fixedUpdate();
+            timer.advanceFixedUpdate();
+        }
+
+        update();
+        render();
+
+        timer.enforceFrameRate();
+    }
+
+    window.destroyWindow();
 }
+
 void LoopManager::setup(){
 	gameRunning = window.initWindow();
 	LoopTimer::getInstance().start();
