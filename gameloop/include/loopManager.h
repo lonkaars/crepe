@@ -18,9 +18,8 @@ class LoopManager{
 		bool gameRunning = false;
 		WindowManager window;
 		int timeScale = 1;
-		float lag = 0.0;
+		float accumulator = 0.0;
 		double currentTime;
 		double t = 0.0;
 		double dt = 0.01;
-		state previous;
 };
