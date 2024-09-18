@@ -14,6 +14,8 @@ set(SOURCES
     src/window.cpp
     src/main.cpp
 	src/eventManager.cpp
+	src/gameObject.cpp
+	src/timer.cpp
 )
 
 add_executable(gameloop ${SOURCES})

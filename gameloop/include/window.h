@@ -1,20 +1,18 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include <vector>
+#include "gameObject.h"
+#include <iostream>
 class WindowManager{
 	public:
 		WindowManager();
 		virtual ~WindowManager();
-		bool loadMedia();
-		void update();
-		bool init();
-		void close();
+		void render(std::vector<GameObject*> objects);
 		bool initWindow();
 		void destroyWindow();
+		
 		SDL_Renderer* getRenderer();
 	private:
-		//Loads media
-		//Frees media and shuts down SDL
-		
 		const int SCREEN_WIDTH = 800;
 		const int SCREEN_HEIGHT = 600;
 		SDL_Window* window = NULL;
