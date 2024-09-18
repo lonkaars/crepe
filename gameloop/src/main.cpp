@@ -3,6 +3,7 @@
 #include <stdio.h>
 //#include "window.h"
 #include "loopManager.h"
+#include "timer.h"
 //Screen dimension constants
 
 
@@ -13,5 +14,6 @@ int main( int argc, char* args[] )
 	LoopManager gameLoop;
 	gameLoop.setup();
 	gameLoop.loop();
+
 	return 0;
 }

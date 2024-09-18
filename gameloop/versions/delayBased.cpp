@@ -16,23 +16,13 @@ void LoopManager::processInput(){
 		break;
 	}
 }
-void LoopManager::fixedUpdate(){
-	fprintf(stderr,"fixed update\n");
-}
 void LoopManager::loop(){
 	fprintf(stderr,"loop. \n");
-	LoopTimer& timer = LoopTimer::getInstance();
 	while(gameRunning){
-		timer.update();
-		lag += timer.getDeltaTime();
+		//Timer::getInstance().update();
+        //deltaTime = Timer::getInstance().getDeltaTime();
 		processInput();
-		while (lag >= timer.getFixedDeltaTime())
-		{
-			fixedUpdate();
-			lag -= timer.getFixedDeltaTime();
-		}
-		//update();
-		//timer.enforceFrameRate();
+		update();
 		render();
 	}
 	window.destroyWindow();
@@ -40,24 +30,23 @@ void LoopManager::loop(){
 void LoopManager::setup(){
 	gameRunning = window.initWindow();
 	LoopTimer::getInstance().start();
-	LoopTimer::getInstance().setFPS(50);
+	LoopTimer::getInstance().setFPS(210);
 	
 	for(int i = 0; i < 2;i++){
-		GameObject* square = new GameObject("square2",i*40,i*40,20,20,0,0);
-		objectList.push_back(square);
+		GameObject* square2 = new GameObject("square2",i*40,i*40,20,20,0,0);
+		objectList.push_back(square2);
 	}
 }
 void LoopManager::render(){
-	fprintf(stderr,"**********render********** \n");
 	if(gameRunning){
 		window.render(objectList);
 	}
 }
 
 void LoopManager::update() {
-	fprintf(stderr,"**********normal update********** \n");
     LoopTimer& timer = LoopTimer::getInstance();
-	
+    timer.enforceFrameRate();
+    timer.update();
     float delta= timer.getDeltaTime();
 
     for (int i = 0; i < objectList.size(); i++) {
