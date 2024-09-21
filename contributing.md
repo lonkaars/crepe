@@ -16,8 +16,9 @@
 
 # Code style
 
-- Formatting nitty-gritty is handled by clang-format/clang-tidy
 - ASCII only
+- Formatting nitty-gritty is handled by clang-format/clang-tidy (run `make
+  format` in the root folder of this repository to format all sources files)
 - When using libraries of which the header include order is important, make
   sure to separate the include statements using a blank line (clang-format may
   sort include statements, but does not sort across empty lines).
@@ -32,7 +33,6 @@
 # Documentation
 
 - All documentation is written in U.S. English
-- TODO
 
 # Libraries
 
