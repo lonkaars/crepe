@@ -1,4 +1,1 @@
-class EventManager
-{
-
-};
+class EventManager {};
