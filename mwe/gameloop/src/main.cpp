@@ -6,11 +6,9 @@
 #include "timer.h"
 //Screen dimension constants
 
-
 //Starts up SDL and creates window
 
-int main( int argc, char* args[] )
-{
+int main(int argc, char * args[]) {
 	LoopManager gameLoop;
 	gameLoop.setup();
 	gameLoop.loop();
