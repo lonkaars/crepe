@@ -24,21 +24,6 @@ ResourceManager::~ResourceManager(){
 }
 
 
-Resource* ResourceManager::Load(const Constants::FILE_PATH& file_path){
-
-	if(m_resources.find(file_path) != m_resources.end(	)){
-		return m_resources[file_path];
-	}
-
-	Resource* res = ResourceFactory::create_resource(file_path);
-	if(res){
-		m_resources[file_path] = std::move(res);
-	}
-
-	return m_resources[file_path];
-}
-
-
 void ResourceManager::Unload(const Constants::FILE_PATH& file_path){
 	std::unordered_map<Constants::FILE_PATH, Resource* >::iterator itr = m_resources.find(file_path);
 	if(itr != m_resources.end()){

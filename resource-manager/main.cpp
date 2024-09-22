@@ -2,56 +2,61 @@
 
 #include "Image_asset.h"
 #include "resource_manager.h"
+#include "spritesheet.h"
 #include <SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL_events.h>
 #include <SDL_render.h>
+#include <SDL_stdinc.h>
 #include <SDL_surface.h>
 #include <SDL_timer.h>
 #include <SDL_video.h>
 #include <cstddef>
 
-
-int main(){
+int main() {
 	SDL_Init(SDL_INIT_VIDEO);
-	ResourceManager* rm = new ResourceManager;
+	ResourceManager * rm = new ResourceManager;
 
-
-	Image* img = static_cast<Image*>(rm->Load("../img.png"));
+	//Image* img = rm->Load<Image>("../spritesheet_test.png");
 	//Resource* sound = rm->Load("/sound.ogg");
 
-	
 	bool quit = false;
-	
+
 	SDL_Event event;
 
-	SDL_Window* window = SDL_CreateWindow("Tessting resources", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
+	SDL_Window * window
+		= SDL_CreateWindow("Tessting resources", SDL_WINDOWPOS_UNDEFINED,
+						   SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
 
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, img->surface);
+	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
 
+	SpriteSheet spritesheet("../spritesheet_test.png", *renderer, 1, 4);
+	SDL_SetRenderDrawColor(renderer, 168, 230, 255, 255);
+	SDL_RenderClear(renderer);
 
 	while (!quit) {
-		SDL_WaitEvent(&event);
+		Uint32 ticks = SDL_GetTicks();
+		int sprite = (ticks / 100) % 4;
 
-		switch (event.type) {
-			case SDL_QUIT:
-				quit = true;
-				break;
+		//SDL_Rect srcrect = { sprite * 32, 0, 32, 64 };
+		SDL_Rect dstrect = {10, 10, 32, 64};
+
+		while (SDL_PollEvent(&event) != NULL) {
+			switch (event.type) {
+				case SDL_QUIT:
+					quit = true;
+					break;
+			}
 		}
 
-		SDL_RenderCopy(renderer, texture, NULL, NULL);
+		SDL_RenderClear(renderer);
+		spritesheet.select_sprite(sprite, 0);
+		spritesheet.draw_selected_sprite(renderer, &dstrect);
 		SDL_RenderPresent(renderer);
-
-		SDL_Delay(100);
-	
 	}
-	SDL_DestroyTexture(texture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
-
-
 
 	return 0;
 }
