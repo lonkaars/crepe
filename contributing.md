@@ -38,6 +38,6 @@
 
 - External libraries should be included as Git submodules under the `lib/`
   subdirectory
-- When adding new submodules, make sure to manually set the `branch` and
-  `shallow` options in the [.gitmodules](./.gitmodules) file
+- When adding new submodules, please set the `shallow` option to `true` in the
+  [.gitmodules](./.gitmodules) file
 
