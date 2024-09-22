@@ -23,6 +23,7 @@ add_executable(main
     Image_asset.cpp
     resource_fabricator.cpp
     resource_manager.cpp
+	spritesheet.cpp
 	constants.cpp
 )
 
