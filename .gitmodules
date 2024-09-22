@@ -3,3 +3,6 @@
 	url = https://github.com/google/googletest
 	branch = v1.15.x
 	shallow = true
+[submodule "lib/miniaudio/lib"]
+	path = lib/miniaudio/lib
+	url = https://github.com/mackron/miniaudio
