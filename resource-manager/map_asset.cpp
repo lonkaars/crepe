@@ -8,6 +8,7 @@
 #include <SDL_render.h>
 #include <cassert>
 #include <iostream>
+#include <iterator>
 #include <ostream>
 #include <string>
 #include <tmxlite/Layer.hpp>
@@ -49,6 +50,8 @@ void Map::SetMapTextures(){
 	const auto& tileSets = m_Map.getTilesets();
 	assert(~tileSets.empty());
 
+	std::cout << "Processing SetMapTextures " << std::endl;
+
 	for (const auto& ts : tileSets ) {
 		m_MapTextures.emplace_back(new TextureMap);
 		if(!m_MapTextures.back()->loadFromFile(ts.getImagePath(), m_Renderer)){
@@ -60,6 +63,7 @@ void Map::SetMapTextures(){
 void Map::SetMapLayers(){
 	const auto& mapLayers = m_Map.getLayers();
 
+	std::cout << "Processing SetMapLayers " << std::endl;
 	for(auto i = 0u; i < mapLayers.size(); ++i){
 		if (mapLayers[i]->getType() == tmx::Layer::Type::Tile) {
 			m_RenderLayers.emplace_back(new MapLayer);		
