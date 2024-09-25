@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 # Set C and C++ standards
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 20)
@@ -12,9 +13,10 @@ add_compile_definitions(DEBUG)
 # Project name and supported languages
 project(crepe C CXX)
 
-# Find SDL2
+find_package(TMXLITE REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
+
 
 # Add all source files to the executable
 add_executable(main 
@@ -25,11 +27,12 @@ add_executable(main
     resource_manager.cpp
 	spritesheet.cpp
 	constants.cpp
+	map_asset.cpp
+	map_layer.cpp
+	TextureMap.cpp
 )
 
-# Include directories for headers
-target_include_directories(main PRIVATE ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} .)
+target_include_directories(main PRIVATE ${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${TMXLITE_INCLUDE_DIR} .)
 
-# Link SDL2 library
-target_link_libraries(main PRIVATE ${SDL2_LIBRARIES} SDL2_image::SDL2_image)
+target_link_libraries(main PRIVATE ${SDL2_LIBRARIES} SDL2_image::SDL2_image ${TMXLITE_LIBRARIES} )
 

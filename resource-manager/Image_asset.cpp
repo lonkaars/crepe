@@ -1,10 +1,9 @@
 
 
 #include "Image_asset.h"
-#include <SDL2/SDL_surface.h>
 #include <SDL_image.h>
-#include <SDL_render.h>
-#include <string>
+#include <SDL_surface.h>
+
 
 
 Texture::Texture(const std::string& path){
@@ -15,12 +14,14 @@ void Texture::setTexture(SDL_Renderer& renderer){
 	m_texture = SDL_CreateTextureFromSurface(&renderer, m_surface);
 }
 
-
 Texture::~Texture(){
-	SDL_FreeSurface(m_surface);
+	if (m_surface) {
+		SDL_FreeSurface(m_surface);
+	}
 
-	if(m_texture)
+	if(m_texture){
 		SDL_DestroyTexture(m_texture);
+	}
 }
 
 SDL_Surface* Texture::getSurface() const {
