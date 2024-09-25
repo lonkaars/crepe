@@ -15,10 +15,6 @@
 
 int main() {
 	SDL_Init(SDL_INIT_VIDEO);
-	ResourceManager * rm = new ResourceManager;
-
-	//Image* img = rm->Load<Image>("../spritesheet_test.png");
-	//Resource* sound = rm->Load("/sound.ogg");
 
 	bool quit = false;
 
@@ -28,18 +24,20 @@ int main() {
 		= SDL_CreateWindow("Tessting resources", SDL_WINDOWPOS_UNDEFINED,
 						   SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
 
+
 	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
 
-	SpriteSheet spritesheet("../spritesheet_test.png", *renderer, 1, 4);
+	ResourceManager * rm = new ResourceManager();
+
+	Texture* img = rm->Load<Texture>("../img.png");
+	img->setTexture(*renderer);
+
+	SpriteSheet* SS = rm->Load<SpriteSheet>("../spritesheet_test.png");
+
 	SDL_SetRenderDrawColor(renderer, 168, 230, 255, 255);
 	SDL_RenderClear(renderer);
 
 	while (!quit) {
-		Uint32 ticks = SDL_GetTicks();
-		int sprite = (ticks / 100) % 4;
-
-		//SDL_Rect srcrect = { sprite * 32, 0, 32, 64 };
-		SDL_Rect dstrect = {10, 10, 32, 64};
 
 		while (SDL_PollEvent(&event) != NULL) {
 			switch (event.type) {
@@ -49,9 +47,9 @@ int main() {
 			}
 		}
 
+
 		SDL_RenderClear(renderer);
-		spritesheet.select_sprite(sprite, 0);
-		spritesheet.draw_selected_sprite(renderer, &dstrect);
+		SDL_RenderCopy(renderer, img->getTexture(), NULL, NULL);
 		SDL_RenderPresent(renderer);
 	}
 	SDL_DestroyRenderer(renderer);
