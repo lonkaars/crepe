@@ -1,3 +1,6 @@
-target_sources(main PUBLIC
-	main.cpp
+target_sources(crepe PUBLIC
+	Sound.cpp
 )
+
+add_subdirectory(api)
+
