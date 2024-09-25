@@ -16,6 +16,7 @@ SpriteSheet::SpriteSheet(const std::string& path){
 }
 
 void SpriteSheet::set_spritesheet_data(SDL_Renderer& renderer, const int row, const int column){
+	m_spritesheet->setTexture(renderer);
 	m_clip.w = m_spritesheet->getSurface()->w / column;
 	m_clip.h = m_spritesheet->getSurface()->h / row;
 }
