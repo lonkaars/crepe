@@ -31,13 +31,11 @@ int main() {
 
 	ResourceManager * rm = new ResourceManager();
 
-	/*
 	Texture* img = rm->Load<Texture>("../img.png");
 	img->setTexture(*renderer);
 
 	SpriteSheet* SS = rm->Load<SpriteSheet>("../spritesheet_test.png");
 	SS->set_spritesheet_data(*renderer, 1, 4);
-	*/
 
 	Map* map = rm->Load<Map>("../../asset/tiled/demo.tmx");
 	map->SetRenderer(*renderer);
@@ -61,6 +59,11 @@ int main() {
 
 
 		SDL_RenderClear(renderer);
+		SDL_RenderCopy(renderer, img->getTexture(), NULL, NULL);
+		SS->select_sprite(sprite, 0);
+		SDL_Rect pos = {10,10,32,64};
+		SS->draw_selected_sprite(renderer, &pos);
+		map->draw();
 		SDL_RenderPresent(renderer);
 	}
 	delete rm;
