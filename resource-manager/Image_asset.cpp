@@ -1,21 +1,32 @@
 
 
 #include "Image_asset.h"
-#include "spritesheet.h"
 #include <SDL2/SDL_surface.h>
 #include <SDL_image.h>
+#include <SDL_render.h>
 #include <string>
 
 
-Image::Image(const std::string& path){
-	surface = IMG_Load(path.c_str());
+Texture::Texture(const std::string& path){
+	m_surface = IMG_Load(path.c_str());
+}
+
+void Texture::setTexture(SDL_Renderer& renderer){
+	m_texture = SDL_CreateTextureFromSurface(&renderer, m_surface);
 }
 
 
-Image::~Image(){
-	SDL_FreeSurface(surface);
+Texture::~Texture(){
+	SDL_FreeSurface(m_surface);
+
+	if(m_texture)
+		SDL_DestroyTexture(m_texture);
 }
 
-SDL_Surface* Image::getSurface() const {
-	return surface;
+SDL_Surface* Texture::getSurface() const {
+	return m_surface;
+}
+
+SDL_Texture* Texture::getTexture() const{
+	return m_texture;
 }

@@ -5,6 +5,7 @@
 #include "resource.h"
 #include "resource_fabricator.h"
 #include <SDL2/SDL_image.h>
+#include <SDL_render.h>
 #include <unordered_map>
 
 
@@ -31,3 +32,4 @@ void ResourceManager::Unload(const Constants::FILE_PATH& file_path){
 		m_resources.erase(itr);
 	}
 }
+

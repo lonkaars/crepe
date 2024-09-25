@@ -2,14 +2,22 @@
 
 
 
-#include <algorithm>
-#include <string>
+#include <SDL_render.h>
 #include <unordered_map>
 
 
 #include "resource.h"
 #include "constants.h"
 #include "resource_fabricator.h"
+
+
+enum class asset_type{
+	TEXTURE,
+	SPRITESHEET,
+	AUDIO,
+	MAP,
+	UNKNOWN,
+};
 
 using namespace crepe;
 
@@ -29,7 +37,7 @@ public:
 			return static_cast<T*>(m_resources[file_path]);
 		}
 
-		Resource* resource = ResourceFactory::create_resource(file_path);
+		Resource* resource = ResourceFactory::create_resource<T>(file_path);
 		if (resource) {
 			m_resources[file_path] = std::move(resource);
 		}
@@ -40,7 +48,6 @@ public:
 
 private:
 	std::unordered_map<Constants::FILE_PATH, Resource*> m_resources;
-
 
 
 };

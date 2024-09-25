@@ -3,16 +3,22 @@
 
 
 
+#include "Image_asset.h"
+#include "resource.h"
 #include <SDL_rect.h>
 #include <SDL_render.h>
 #include <SDL_surface.h>
 #include <string>
-class SpriteSheet{
+
+
+class SpriteSheet : public Resource{
 
 
 public:
-	SpriteSheet(const std::string& path, SDL_Renderer& renderer, const int row, const int column);
+	SpriteSheet(const std::string& path);
 	~SpriteSheet();
+
+	void set_spritesheet_data(SDL_Renderer& renderer, const int row, const int column);
 
 
 	void select_sprite(const int x, const int y);
@@ -21,7 +27,5 @@ public:
 
 private:
 	SDL_Rect m_clip;
-	SDL_Surface* m_spritesheet_image;
-	SDL_Texture * texture;
-
+	Texture* m_spritesheet;
 };
