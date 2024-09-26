@@ -25,7 +25,7 @@ void LoopTimer::update() {
     if (deltaTime > maximumDeltaTime) {
         deltaTime = maximumDeltaTime;
     }
-
+	deltaTime *= gameScale;
     elapsedTime += deltaTime;
     lastFrameTime = currentFrameTime;
 }
@@ -53,7 +53,12 @@ void LoopTimer::setFPS(int FPS) {
 int LoopTimer::getFPS() const {
     return FPS;
 }
-
+void LoopTimer::setGameScale(double value){
+	gameScale = value;
+};
+double LoopTimer::getGameScale(){
+	return gameScale;
+}
 void LoopTimer::enforceFrameRate() {
     uint64_t currentFrameTime = SDL_GetTicks64();
     double frameDuration = (currentFrameTime - lastFrameTime) / 1000.0;
