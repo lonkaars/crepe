@@ -1,15 +1,11 @@
 #include "timer.h"
-
-// Constructor (private)
 LoopTimer::LoopTimer(){}
 
-// Get the singleton instance of the timer
 LoopTimer& LoopTimer::getInstance() {
     static LoopTimer instance;
     return instance;
 }
 
-// Start the timer (initialize frame time)
 void LoopTimer::start() {
     lastFrameTime = SDL_GetTicks64();
     elapsedTime = 0;
@@ -17,10 +13,9 @@ void LoopTimer::start() {
     deltaTime = 0;
 }
 
-// Update the timer, calculate deltaTime
 void LoopTimer::update() {
     uint64_t currentFrameTime = SDL_GetTicks64();
-    deltaTime = (currentFrameTime - lastFrameTime) / 1000.0;  // Convert to seconds
+    deltaTime = (currentFrameTime - lastFrameTime) / 1000.0;
 
     if (deltaTime > maximumDeltaTime) {
         deltaTime = maximumDeltaTime;

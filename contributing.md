@@ -16,8 +16,9 @@
 
 # Code style
 
-- Formatting nitty-gritty is handled by clang-format/clang-tidy
 - ASCII only
+- Formatting nitty-gritty is handled by clang-format/clang-tidy (run `make
+  format` in the root folder of this repository to format all sources files)
 - When using libraries of which the header include order is important, make
   sure to separate the include statements using a blank line (clang-format may
   sort include statements, but does not sort across empty lines).
@@ -32,12 +33,11 @@
 # Documentation
 
 - All documentation is written in U.S. English
-- TODO
 
 # Libraries
 
 - External libraries should be included as Git submodules under the `lib/`
   subdirectory
-- When adding new submodules, make sure to manually set the `branch` and
-  `shallow` options in the [.gitmodules](./.gitmodules) file
+- When adding new submodules, please set the `shallow` option to `true` in the
+  [.gitmodules](./.gitmodules) file
 
