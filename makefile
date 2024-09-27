@@ -1,5 +1,3 @@
-all: $(TARGET) # TARGET is defined in lazy.mk (build/main)
-
 .PHONY: FORCE
 
 doxygen: Doxyfile FORCE
