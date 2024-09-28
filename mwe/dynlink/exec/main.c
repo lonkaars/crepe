@@ -1,7 +1,8 @@
-#include <lib.h>
+#include <test.h>
 
 int main() {
 	library_function();
 
 	return 0;
 }
+
