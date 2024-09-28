@@ -15,13 +15,22 @@ project(crepe C CXX)
 add_library(crepe SHARED)
 
 target_include_directories(crepe
-	SYSTEM INTERFACE .
+	PUBLIC SYSTEM INTERFACE .
 )
 
-# NOTE: all libraries *must* be linked as PRIVATE
+# TODO: libraries should be linked as PRIVATE
 target_link_libraries(crepe
-	PRIVATE soloud
+	PUBLIC soloud
 )
 
 add_subdirectory(crepe)
+
+install(
+	TARGETS crepe
+	FILE_SET HEADERS DESTINATION include/crepe
+)
+
+
+add_executable(dummy_audio dummy_audio.cpp)
+target_link_libraries(dummy_audio PUBLIC crepe)
 

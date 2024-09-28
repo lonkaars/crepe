@@ -13,7 +13,7 @@ add_subdirectory(../src crepe)
 
 add_executable(test
 	dummy.cpp
-	audio.cpp
+	# audio.cpp
 )
 
 target_link_libraries(test
