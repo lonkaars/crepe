@@ -8,6 +8,7 @@ using namespace crepe;
 Sound::Sound(std::unique_ptr<api::Resource> res) {
 	dbg_trace();
 	this->res = std::move(res);
+	this->sample.load(this->res->canonical());
 }
 
 void Sound::play() {
