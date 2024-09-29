@@ -9,8 +9,6 @@
 
 namespace crepe {
 
-class SoundSystem;
-
 class Sound {
 public:
 	/**
@@ -54,15 +52,17 @@ public:
 	 */
 	void set_looping(bool looping);
 
-private:
-	friend class SoundSystem;
+public:
+	Sound(const char * src);
 	Sound(std::unique_ptr<api::Resource> res);
+
+private:
+	void load(std::unique_ptr<api::Resource> res);
 
 private:
 	std::unique_ptr<api::Resource> res;
 	SoLoud::Wav sample;
 	SoLoud::handle handle;
-	bool paused;
 };
 
 }

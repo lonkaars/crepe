@@ -7,7 +7,15 @@ using namespace crepe;
 
 Sound::Sound(std::unique_ptr<api::Resource> res) {
 	dbg_trace();
-	this->res = std::move(res);
+	this->load(std::move(res));
+}
+
+Sound::Sound(const char * src) {
+	dbg_trace();
+	this->load(std::make_unique<api::Resource>(src));
+}
+
+void Sound::load(std::unique_ptr<api::Resource> res) {
 	this->sample.load(this->res->canonical());
 }
 
