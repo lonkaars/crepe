@@ -1,4 +1,5 @@
 #include "crepe/SoundSystem.h"
+#include "crepe/util/log.h"
 
 #include <chrono>
 #include <thread>
@@ -8,6 +9,8 @@ using namespace std;
 using namespace std::chrono_literals;
 
 int main() {
+	dbg_trace();
+
 	auto bgm = SoundSystem::sound("../mwe/audio/bgm.ogg");
 	auto sfx1 = SoundSystem::sound("../mwe/audio/sfx1.wav");
 	auto sfx2 = SoundSystem::sound("../mwe/audio/sfx2.wav");
