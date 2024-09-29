@@ -16,7 +16,13 @@ public:
 private:
 	SoundSystem();
 	virtual ~SoundSystem();
-	static SoundSystem instance;
+
+	// singleton
+	static SoundSystem & instance();
+	SoundSystem(const SoundSystem &) = delete;
+	SoundSystem(SoundSystem &&) = delete;
+	SoundSystem &operator=(const SoundSystem &) = delete;
+	SoundSystem &operator=(SoundSystem &&) = delete;
 
 private:
 	SoLoud::Soloud engine;

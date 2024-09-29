@@ -55,9 +55,8 @@ public:
 	void set_looping(bool looping);
 
 private:
-	Sound(std::unique_ptr<api::Resource> res, SoundSystem & system);
-	SoundSystem & system;
 	friend class SoundSystem;
+	Sound(std::unique_ptr<api::Resource> res);
 
 private:
 	std::unique_ptr<api::Resource> res;

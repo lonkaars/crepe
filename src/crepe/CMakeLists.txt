@@ -9,4 +9,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 )
 
 add_subdirectory(api)
+add_subdirectory(util)
 
