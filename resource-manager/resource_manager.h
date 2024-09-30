@@ -10,18 +10,7 @@
 #include "constants.h"
 #include "resource_fabricator.h"
 
-
-enum class asset_type{
-	TEXTURE,
-	SPRITESHEET,
-	AUDIO,
-	MAP,
-	UNKNOWN,
-};
-
 using namespace crepe;
-
-
 
 class ResourceManager{
 

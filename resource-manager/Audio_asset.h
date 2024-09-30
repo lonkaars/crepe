@@ -8,7 +8,7 @@
 class Audio : public Resource {
 
 public:
-	Audio(const std::string& path);
+	Audio(const std::string&);
 	~Audio();
 
 

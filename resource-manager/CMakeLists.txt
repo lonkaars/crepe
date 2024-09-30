@@ -24,7 +24,9 @@ add_executable(main
     Audio_asset.cpp
     Image_asset.cpp
     resource_fabricator.cpp
+	tiledMap.cpp
     resource_manager.cpp
+    resource_converter.cpp
 	spritesheet.cpp
 	constants.cpp
 	map_asset.cpp
