@@ -1,62 +1,37 @@
-#include "ViewFacade.hpp"
-#include "Square.hpp"
-#include "PhysicsBody.hpp"
-#include "Collider.hpp"
+#include "Gameobject.hpp"
+#include "RigidBody.hpp"
+#include "PhysicsSystem.hpp"
 #include <iostream>
 
 int main() {
-    ViewFacade view;
-    if (!view.initialize("Physics Squares", 800, 600)) {
-        std::cerr << "Failed to initialize the view facade!" << std::endl;
-        return -1;
-    }
+    // Create the PhysicsSystem
+    PhysicsSystem physicsSystem;
 
-    Square square1(100, 100, 50, 50);
-    Square square2(100, 460, 50, 5);
+    // Create a GameObject
+    GameObject* player = new GameObject("Player", "PlayerTag", 0);
 
-    PhysicsBody* physics1 = new PhysicsBody(1.0f, 0.0f, 0.0f);
-    PhysicsBody* physics2 = new PhysicsBody(1.0f, 0.0f, 0.0f);
-    Collider* collider1 = new Collider();
-    Collider* collider2 = new Collider();
+    // Create a RigidBody component for the player
+    RigidBody* playerRigidBody = new RigidBody(10.0f, 1.0f, BodyType::Dynamic);
 
-    square1.AddComponent(physics1);
-    square1.AddComponent(collider1);
-    square2.AddComponent(physics2);
-    square2.AddComponent(collider2);
+    // Add the RigidBody component to the player GameObject
+    player->AddComponent(playerRigidBody);
 
-    // Game loop
-    while (view.isRunning()) {
-        view.handleEvents();
+    // Create a vector of GameObjects (you could add more objects here)
+    std::vector<GameObject*> gameObjects;
+    gameObjects.push_back(player);
 
-        view.updateDeltaTime();
-        float deltaTime = view.getDeltaTime();
+    // Simulate a frame in the game loop with deltaTime (e.g., 0.016 for ~60 FPS)
+    float deltaTime = 0.016f;
 
-        square1.UpdateComponents();
-        square2.UpdateComponents();
+    // Apply forces to all gameObjects (only applies to objects with a RigidBody)
+    physicsSystem.ApplyForces(gameObjects, deltaTime);
 
-        physics1->ApplyPhysics(square1.x, square1.y, deltaTime, 800, 600);
-        physics2->ApplyPhysics(square2.x, square2.y, deltaTime, 800, 600);
+    // Output the new velocity after applying gravity
+    std::cout << "Player's y-velocity after gravity: " << playerRigidBody->velocity[1] << std::endl;
 
-       
-        if (view.isSpacePressed()) {
-            physics1->ActivateJetpack(); 
-        } else {
-            physics1->DeactivateJetpack();
-        }
-
-        if (collider1->CheckCollision(square1.x, square1.y, square1.width, square1.height,
-                                      square2.x, square2.y, square2.width, square2.height)) {
-            std::cout << "The squares are touching!" << std::endl;
-            return 0;
-        }
-
-        view.clear();
-
-        view.drawSquare(static_cast<int>(square1.x), static_cast<int>(square1.y), square1.width, square1.height, 255, 0, 0);
-        view.drawSquare(static_cast<int>(square2.x), static_cast<int>(square2.y), square2.width, square2.height, 0, 255, 0);
-
-        view.present();
-    }
+    // Clean up
+    delete playerRigidBody;
+    delete player;
 
     return 0;
 }
