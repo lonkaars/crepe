@@ -60,7 +60,6 @@ private:
 	void load(std::unique_ptr<api::Resource> res);
 
 private:
-	std::unique_ptr<api::Resource> res;
 	SoLoud::Wav sample;
 	SoLoud::handle handle;
 };
