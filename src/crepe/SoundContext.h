@@ -6,17 +6,17 @@
 
 namespace crepe {
 
-class SoundSystem {
+class SoundContext {
 private:
-	SoundSystem();
-	virtual ~SoundSystem();
+	SoundContext();
+	virtual ~SoundContext();
 
 	// singleton
-	static SoundSystem & get_instance();
-	SoundSystem(const SoundSystem &) = delete;
-	SoundSystem(SoundSystem &&) = delete;
-	SoundSystem &operator=(const SoundSystem &) = delete;
-	SoundSystem &operator=(SoundSystem &&) = delete;
+	static SoundContext & get_instance();
+	SoundContext(const SoundContext &) = delete;
+	SoundContext(SoundContext &&) = delete;
+	SoundContext &operator=(const SoundContext &) = delete;
+	SoundContext &operator=(SoundContext &&) = delete;
 
 private:
 	SoLoud::Soloud engine;

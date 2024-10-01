@@ -1,20 +1,20 @@
 #include "util/log.h"
 
-#include "SoundSystem.h"
+#include "SoundContext.h"
 
 using namespace crepe;
 
-SoundSystem & SoundSystem::get_instance() {
-	static SoundSystem instance;
+SoundContext & SoundContext::get_instance() {
+	static SoundContext instance;
 	return instance;
 }
 
-SoundSystem::SoundSystem() {
+SoundContext::SoundContext() {
 	dbg_trace();
 	engine.init();
 }
 
-SoundSystem::~SoundSystem() {
+SoundContext::~SoundContext() {
 	dbg_trace();
 	engine.deinit();
 }

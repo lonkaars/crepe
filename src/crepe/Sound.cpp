@@ -1,7 +1,7 @@
 #include "util/log.h"
 
 #include "Sound.h"
-#include "SoundSystem.h"
+#include "SoundContext.h"
 
 using namespace crepe;
 
@@ -20,42 +20,42 @@ void Sound::load(std::unique_ptr<api::Resource> res) {
 }
 
 void Sound::play() {
-	SoundSystem & system = SoundSystem::get_instance();
-	if (system.engine.getPause(this->handle)) {
+	SoundContext & ctx = SoundContext::get_instance();
+	if (ctx.engine.getPause(this->handle)) {
 		// resume if paused
-		system.engine.setPause(this->handle, false);
+		ctx.engine.setPause(this->handle, false);
 	} else {
 		// or start new sound
-		this->handle = system.engine.play(this->sample, this->volume);
-		system.engine.setLooping(this->handle, this->looping);
+		this->handle = ctx.engine.play(this->sample, this->volume);
+		ctx.engine.setLooping(this->handle, this->looping);
 	}
 }
 
 void Sound::pause() {
-	SoundSystem & system = SoundSystem::get_instance();
-	if (system.engine.getPause(this->handle)) return;
-	system.engine.setPause(this->handle, true);
+	SoundContext & ctx = SoundContext::get_instance();
+	if (ctx.engine.getPause(this->handle)) return;
+	ctx.engine.setPause(this->handle, true);
 }
 
 void Sound::rewind() {
-	SoundSystem & system = SoundSystem::get_instance();
-	if (!system.engine.isValidVoiceHandle(this->handle)) return;
-	system.engine.seek(this->handle, 0);
+	SoundContext & ctx = SoundContext::get_instance();
+	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
+	ctx.engine.seek(this->handle, 0);
 }
 
 void Sound::set_volume(float volume) {
 	this->volume = volume;
 
-	SoundSystem & system = SoundSystem::get_instance();
-	if (!system.engine.isValidVoiceHandle(this->handle)) return;
-	system.engine.setVolume(this->handle, this->volume);
+	SoundContext & ctx = SoundContext::get_instance();
+	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
+	ctx.engine.setVolume(this->handle, this->volume);
 }
 
 void Sound::set_looping(bool looping) {
 	this->looping = looping;
 
-	SoundSystem & system = SoundSystem::get_instance();
-	if (!system.engine.isValidVoiceHandle(this->handle)) return;
-	system.engine.setLooping(this->handle, this->looping);
+	SoundContext & ctx = SoundContext::get_instance();
+	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
+	ctx.engine.setLooping(this->handle, this->looping);
 }
 
