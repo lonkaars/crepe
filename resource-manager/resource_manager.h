@@ -14,11 +14,29 @@ using namespace crepe;
 
 class ResourceManager{
 
-public:
 
+private:
+	
+	static ResourceManager* m_single_resource_manager;
+	std::unordered_map<Constants::FILE_PATH, Resource*> m_resources;
+
+
+
+protected:
 	ResourceManager();
 	~ResourceManager();
-	
+
+public:
+	ResourceManager(const ResourceManager &) = delete;
+	ResourceManager(ResourceManager &&) = delete;
+	ResourceManager &operator=(const ResourceManager &) = delete;
+	ResourceManager &operator=(ResourceManager &&) = delete;
+
+	static ResourceManager* get_instance();
+
+
+
+public:
 	template<typename T>
 	T* Load(const Constants::FILE_PATH& file_path){
 		
@@ -35,8 +53,6 @@ public:
 
 	void Unload(const Constants::FILE_PATH& file_path);
 
-private:
-	std::unordered_map<Constants::FILE_PATH, Resource*> m_resources;
 
 
 };
