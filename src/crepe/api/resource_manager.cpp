@@ -6,9 +6,9 @@
 
 using namespace crepe::api;
 
-ResourceManager* ResourceManager::get_instance(){
+ResourceManager& ResourceManager::get_instance(){
 	static ResourceManager instance;
-	return &instance;
+	return instance;
 }
 
 

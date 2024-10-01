@@ -2,7 +2,7 @@
 
 
 
-#include "resource.h"
+#include "Resource.h"
 #include <string>
 
 namespace crepe::api {

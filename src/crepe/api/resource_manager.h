@@ -8,7 +8,7 @@
 #include <utility>
 
 
-#include "api/resource.h"
+#include "Resource.h"
 #include "fabricator/resource_fabricator.h"
 
 
