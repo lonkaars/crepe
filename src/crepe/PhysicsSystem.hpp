@@ -10,8 +10,8 @@ private:
     void ApplyGravity(RigidBody* rb, float deltaTime);
     void ApplyMovement(RigidBody*  rb, float deltaTime);
     void ApplyPlayerMovement(RigidBody*  rb, float deltaTime);
-    void ApplyBounce(RigidBody*  obj);jaro
-    
+    void ApplyBounce(RigidBody*  obj);
+
     void ApplyRotation(RigidBody*  rb, float deltaTime);
     void ApplyDirectionalForce(RigidBody*  rb, float forceX, float forceY);
 
