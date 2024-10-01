@@ -9,7 +9,7 @@ set(CMAKE_BUILD_TYPE Debug)
 add_compile_definitions(DEBUG)
 
 add_subdirectory(../lib/soloud soloud)
-add_subdirectory(../lib/SDL_image SDL_image)
+add_subdirectory(../lib/sdl_image sdl_image)
 
 project(crepe C CXX)
 
@@ -23,7 +23,7 @@ target_include_directories(crepe
 target_link_libraries(crepe
 	PUBLIC soloud
 	PUBLIC SDL2
-	PUBLIC SDL2_image
+	PUBLIC sdl_image
 )
 
 add_subdirectory(crepe)
