@@ -9,13 +9,15 @@ set(CMAKE_BUILD_TYPE Debug)
 project(test C CXX)
 
 add_subdirectory(../lib/googletest googletest)
+add_subdirectory(../src crepe)
 
 add_executable(test
 	dummy.cpp
+	# audio.cpp
 )
 
 target_link_libraries(test
-	gtest_main
-	# TODO: add crepe engine
+	PRIVATE gtest_main
+	PUBLIC crepe # TODO: this does not work properly
 )
 
