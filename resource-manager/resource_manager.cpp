@@ -5,6 +5,15 @@
 #include "resource.h"
 #include <unordered_map>
 
+ResourceManager* ResourceManager::m_single_resource_manager = nullptr;
+
+ResourceManager* ResourceManager::get_instance(){
+	if (m_single_resource_manager == nullptr) {
+		m_single_resource_manager = new ResourceManager();
+	}
+	return m_single_resource_manager;
+}
+
 
 ResourceManager::ResourceManager(){
 }
@@ -14,6 +23,8 @@ ResourceManager::~ResourceManager(){
 	for(auto pair : m_resources){
 		delete pair.second;
 	}
+
+	delete m_single_resource_manager;
 }
 
 

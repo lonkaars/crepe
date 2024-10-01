@@ -15,8 +15,6 @@
 #include <SDL_timer.h>
 #include <SDL_video.h>
 #include <cstddef>
-#include <iostream>
-#include <ostream>
 
 int main() {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -32,8 +30,8 @@ int main() {
 
 
 	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
-
-	ResourceManager * rm = new ResourceManager();
+	
+	ResourceManager* rm = ResourceManager::get_instance();
 	ResourceConverter resource_converter;
 
 	Texture* img = rm->Load<Texture>("../img.png");
