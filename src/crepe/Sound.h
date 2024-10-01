@@ -79,5 +79,4 @@ private:
 	bool looping = false;
 };
 
-}
-
+} // namespace crepe

@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <memory>
 
-#include <crepe/api/Resource.h>
 #include <crepe/api/AudioSource.h>
+#include <crepe/api/Resource.h>
 
 #include <chrono>
 #include <thread>
@@ -26,4 +26,3 @@ TEST(audio, play) {
 
 	ASSERT_TRUE(true);
 }
-

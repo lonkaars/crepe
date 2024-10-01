@@ -38,5 +38,4 @@ constexpr const char * BG_MAGENTA_BRIGHT = "\e[105m";
 constexpr const char * BG_CYAN_BRIGHT = "\e[106m";
 constexpr const char * BG_WHITE_BRIGHT = "\e[107m";
 
-}
-
+} // namespace crepe::util::color
