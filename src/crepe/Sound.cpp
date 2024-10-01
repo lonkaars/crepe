@@ -16,7 +16,7 @@ Sound::Sound(const char * src) {
 }
 
 void Sound::load(std::unique_ptr<api::Resource> res) {
-	this->sample.load(this->res->canonical());
+	this->sample.load(res->canonical());
 }
 
 void Sound::play() {
