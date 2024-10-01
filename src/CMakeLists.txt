@@ -8,7 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 set(CMAKE_BUILD_TYPE Debug)
 add_compile_definitions(DEBUG)
 
-#add_subdirectory(../lib/soloud soloud)
+add_subdirectory(../lib/soloud soloud)
 
 project(crepe C CXX)
 
@@ -20,7 +20,7 @@ target_include_directories(crepe
 
 # TODO: libraries should be linked as PRIVATE
 target_link_libraries(crepe
-	#PUBLIC soloud
+	PUBLIC soloud
 )
 
 add_subdirectory(crepe)
@@ -29,7 +29,6 @@ install(
 	TARGETS crepe
 	FILE_SET HEADERS DESTINATION include/crepe
 )
-
 
 add_executable(dummy_rm dummy_resource_manager.cpp)
 target_link_libraries(dummy_rm PUBLIC crepe)

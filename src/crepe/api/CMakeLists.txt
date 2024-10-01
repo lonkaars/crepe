@@ -13,5 +13,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Audio_asset.h
 	spritesheet.h
 	resource_manager.h
+	Component.h
+	AudioSource.h
 )
-
