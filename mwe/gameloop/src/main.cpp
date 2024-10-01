@@ -5,7 +5,6 @@
 #include "loopManager.h"
 #include "timer.h"
 
-
 int main(int argc, char * args[]) {
 	LoopManager gameLoop;
 	gameLoop.setup();
