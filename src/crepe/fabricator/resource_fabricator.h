@@ -2,7 +2,7 @@
 
 
 
-#include "api/resource.h"
+#include "api/Resource.h"
 #include <memory>
 #include <string>
 
