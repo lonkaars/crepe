@@ -1,1 +1,5 @@
-class EventManager {};
+#pragma once
+class EventManager {
+	public:
+		EventManager();
+};
