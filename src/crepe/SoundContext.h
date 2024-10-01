@@ -15,13 +15,12 @@ private:
 	static SoundContext & get_instance();
 	SoundContext(const SoundContext &) = delete;
 	SoundContext(SoundContext &&) = delete;
-	SoundContext &operator=(const SoundContext &) = delete;
-	SoundContext &operator=(SoundContext &&) = delete;
+	SoundContext & operator=(const SoundContext &) = delete;
+	SoundContext & operator=(SoundContext &&) = delete;
 
 private:
 	SoLoud::Soloud engine;
 	friend class Sound;
 };
 
-}
-
+} // namespace crepe

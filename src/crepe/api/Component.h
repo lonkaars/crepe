@@ -7,5 +7,4 @@ public:
 	bool active;
 };
 
-}
-
+} // namespace crepe::api

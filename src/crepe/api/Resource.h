@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 namespace crepe::api {
 
@@ -21,5 +21,4 @@ private:
 	std::ifstream file;
 };
 
-}
-
+} // namespace crepe::api

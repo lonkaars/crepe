@@ -38,8 +38,7 @@ int main() {
 	this_thread::sleep_for(500ms);
 
 	// play all samples simultaniously
-	for (unsigned i = 0; i < 3; i++)
-		soloud.play(sfx[i]);
+	for (unsigned i = 0; i < 3; i++) soloud.play(sfx[i]);
 	this_thread::sleep_for(1000ms);
 
 	// stop all audio and exit

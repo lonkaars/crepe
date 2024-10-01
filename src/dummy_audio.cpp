@@ -1,5 +1,5 @@
-#include "crepe/util/log.h"
 #include "crepe/Sound.h"
+#include "crepe/util/log.h"
 
 #include <chrono>
 #include <thread>
@@ -38,4 +38,3 @@ int main() {
 
 	return 0;
 }
-

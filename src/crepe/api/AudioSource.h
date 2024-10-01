@@ -38,5 +38,4 @@ private:
 	std::unique_ptr<crepe::Sound> _sound;
 };
 
-}
-
+} // namespace crepe::api

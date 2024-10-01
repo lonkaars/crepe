@@ -9,11 +9,6 @@ Resource::Resource(const std::string & src) {
 	this->file = std::ifstream(this->src, std::ios::in | std::ios::binary);
 }
 
-const std::istream & Resource::read() {
-	return this->file;
-}
+const std::istream & Resource::read() { return this->file; }
 
-const char * Resource::canonical() {
-	return this->src.c_str();
-}
-
+const char * Resource::canonical() { return this->src.c_str(); }
