@@ -12,7 +12,7 @@ private:
 	virtual ~SoundSystem();
 
 	// singleton
-	static SoundSystem & instance();
+	static SoundSystem & get_instance();
 	SoundSystem(const SoundSystem &) = delete;
 	SoundSystem(SoundSystem &&) = delete;
 	SoundSystem &operator=(const SoundSystem &) = delete;

@@ -46,11 +46,23 @@ public:
 	 */
 	void set_volume(float volume);
 	/**
+	 * \brief Get playback volume / gain
+	 *
+	 * \return Volume
+	 */
+	float get_volume() const { return this->volume; }
+	/**
 	 * \brief Set looping behavior for this sample
 	 *
 	 * \param looping  Looping behavior (false = one-shot, true = loop)
 	 */
 	void set_looping(bool looping);
+	/**
+	 * \brief Get looping behavior
+	 *
+	 * \return true if looping, false if one-shot
+	 */
+	bool get_looping() const { return this->looping; }
 
 public:
 	Sound(const char * src);
@@ -62,6 +74,9 @@ private:
 private:
 	SoLoud::Wav sample;
 	SoLoud::handle handle;
+
+	float volume = 1.0f;
+	bool looping = false;
 };
 
 }

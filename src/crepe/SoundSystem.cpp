@@ -4,7 +4,7 @@
 
 using namespace crepe;
 
-SoundSystem & SoundSystem::instance() {
+SoundSystem & SoundSystem::get_instance() {
 	static SoundSystem instance;
 	return instance;
 }
