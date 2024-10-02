@@ -16,12 +16,18 @@ void ComponentManager::AddComponent(std::uint32_t id, Args&&... args) {
 
 template <typename T>
 void ComponentManager::DeleteComponentsById(std::uint32_t id) {
+	std::type_index type = typeid(T);	//Determine the type of T (this is used as the key of the unordered_map<>)
 
+	
 }
 
 template <typename T>
 void ComponentManager::DeleteComponents() {
+	std::type_index type = typeid(T);	//Determine the type of T (this is used as the key of the unordered_map<>)
 
+	if (mComponents.find(type) != mComponents.end()) {	//Find the type (in the unordered_map<>)
+		mComponents[type].clear();	//Clear the whole vector<> of this specific type
+	}
 }
 
 template <typename T>
@@ -30,7 +36,7 @@ std::vector<std::reference_wrapper<T>> ComponentManager::GetComponentsByID(std::
 
 	std::vector<std::reference_wrapper<T>> componentVector;	//Create an empty vector<>
 
-    if (mComponents.find(type) != mComponents.end()) {	//Find the type (in the unordered_list<>)
+    if (mComponents.find(type) != mComponents.end()) {	//Find the type (in the unordered_map<>)
 
         const std::vector<std::vector<std::unique_ptr<Component>>>& componentArray = mComponents.at(type);	//Get the correct vector<>
 
@@ -55,7 +61,7 @@ std::vector<std::pair<std::reference_wrapper<T>, std::uint32_t>> ComponentManage
     std::vector<std::pair<std::reference_wrapper<T>, std::uint32_t>> componentVector;	//Create an empty vector<>
 	std::uint32_t id = 0;	//Set the id to 0 (the id will also be stored in the returned vector<>)
 
-    if (mComponents.find(type) != mComponents.end()) {	//Find the type (in the unordered_list<>)
+    if (mComponents.find(type) != mComponents.end()) {	//Find the type (in the unordered_map<>)
 
         const std::vector<std::vector<std::unique_ptr<Component>>>& componentArray = mComponents.at(type);	//Get the correct vector<>
 
