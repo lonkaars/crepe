@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(ecs-homemade)
 
 # Set the C++ standard (optional, but good practice)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Use the debug mode (otherwise breakpoints are not compiled)
