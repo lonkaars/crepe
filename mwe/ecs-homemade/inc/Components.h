@@ -20,3 +20,10 @@ public:
 	int mGravityScale;
 	int mBodyType;
 };
+
+class Colider : public Component {
+public:
+	Colider(int size);
+
+	int mSize;
+};
