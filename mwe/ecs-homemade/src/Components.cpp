@@ -8,3 +8,5 @@ void Sprite::Render() {
 }
 
 Rigidbody::Rigidbody(int mass, int gravityScale, int bodyType) : mMass(mass), mGravityScale(gravityScale), mBodyType(bodyType) {}
+
+Colider::Colider(int size) : mSize(size) {}
