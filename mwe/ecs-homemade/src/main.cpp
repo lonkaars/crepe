@@ -33,7 +33,8 @@ int main() {
 	
 	//Add non components to entity3, entity4, entity5 and entity6
 
-	gameObect7.AddComponent<Sprite>();	//Add only a sprite to entity 7
+	gameObect7.AddComponent<Sprite>();	//Add a sprite to entity 7
+	gameObect7.AddComponent<Colider>(30);	//Add a colder to entity 7
 
 	//The entities are now initialized
 	//Now I will demonstrate some ways of retreiving/getting components
