@@ -13,5 +13,5 @@ void ComponentManager::DeleteAllComponentsOfId(std::uint32_t id) {
 }
 
 void ComponentManager::DeleteAllComponents() {
-	mComponents.clear();
+	mComponents.clear();	//Clear the whole unordered_map<>
 }

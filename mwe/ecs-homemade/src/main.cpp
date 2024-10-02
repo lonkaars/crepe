@@ -69,6 +69,9 @@ int main() {
 	}
 	std::cout << std::endl;
 
+	ComponentManager::GetInstance().DeleteComponents<Sprite>();
+	gameObect5.AddComponent<Sprite>();
+
 	std::cout << "Finding all rigidbodies of entity 3" << std::endl;
 	std::vector<std::reference_wrapper<Rigidbody>> rigidbodyOfEntity3 = ComponentManager::GetInstance().GetComponentsByID<Rigidbody>(gameObect3.mId);
 	for(Rigidbody& rigidbodyEntity3 : rigidbodyOfEntity3) {
@@ -98,8 +101,6 @@ int main() {
 		rigidbody.get().mMass = -1;
 	}
 	std::cout << std::endl;
-
-	ComponentManager::GetInstance().DeleteAllComponents();
 
 	std::cout << "Finding all rigidbodies of all entities for the second time (after changing mMass to -1)" << std::endl;
 	std::vector<std::pair<std::reference_wrapper<Rigidbody>, std::uint32_t>> rigidBodies2 = ComponentManager::GetInstance().GetComponentsByType<Rigidbody>();
