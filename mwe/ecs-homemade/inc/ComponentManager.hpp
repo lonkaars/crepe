@@ -18,7 +18,13 @@ template <typename T>
 void ComponentManager::DeleteComponentsById(std::uint32_t id) {
 	std::type_index type = typeid(T);	//Determine the type of T (this is used as the key of the unordered_map<>)
 
-	
+	if (mComponents.find(type) != mComponents.end()) {	//Find the type (in the unordered_map<>)
+		std::vector<std::vector<std::unique_ptr<Component>>>& componentArray = mComponents[type];	//Get the correct vector<>
+
+        if (id < componentArray.size()) {	//Make sure that the id (that we are looking for) is within the boundaries of the vector<>
+            componentArray[id].clear();	//Clear the whole vector<> of this specific type and id
+        }
+	}
 }
 
 template <typename T>
