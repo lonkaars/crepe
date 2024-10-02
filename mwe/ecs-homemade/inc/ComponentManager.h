@@ -18,12 +18,16 @@ public:
     ComponentManager& operator=(ComponentManager&&) = delete;	//Singleton
 
 	template <typename T, typename... Args>
-	void AddComponent(std::uint32_t id, Args&&... args);	//Add a component
-	//TODO: void DeleteAllComponentsOfId(std::uint32_t id);	//Deletes all components of a specific id
-	//TODO: void DeleteAllComponents();	//Deletes all components
+	void AddComponent(std::uint32_t id, Args&&... args);	//Add a component of a specific type
+	template <typename T>
+	void DeleteComponentsById(std::uint32_t id);	//Deletes all components of a specific type and id
+	template <typename T>
+	void DeleteComponents();	//Deletes all components of a specific type
+	void DeleteAllComponentsOfId(std::uint32_t id);	//Deletes all components of a specific id
+	void DeleteAllComponents();	//Deletes all components
 
 	template <typename T>
-    std::vector<std::reference_wrapper<T>> GetComponentsByID(std::uint32_t id) const;	//Get a vector<> of all components at specific id
+    std::vector<std::reference_wrapper<T>> GetComponentsByID(std::uint32_t id) const;	//Get a vector<> of all components at specific type and id
 	template <typename T>
 	std::vector<std::pair<std::reference_wrapper<T>, std::uint32_t>> GetComponentsByType() const;	//Get a vector<> of all components of a specific type
 

@@ -99,6 +99,8 @@ int main() {
 	}
 	std::cout << std::endl;
 
+	ComponentManager::GetInstance().DeleteAllComponents();
+
 	std::cout << "Finding all rigidbodies of all entities for the second time (after changing mMass to -1)" << std::endl;
 	std::vector<std::pair<std::reference_wrapper<Rigidbody>, std::uint32_t>> rigidBodies2 = ComponentManager::GetInstance().GetComponentsByType<Rigidbody>();
 	for(auto& [rigidbody2, id2] : rigidBodies2) {
