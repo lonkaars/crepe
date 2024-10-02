@@ -1,11 +1,15 @@
 #include <filesystem>
+#include <iostream>
+#include <iterator>
 
 #include "Resource.h"
+#include "util/log.h"
 
 using namespace crepe::api;
 
 Resource::Resource(const std::string & src) {
-	this->src = std::filesystem::canonical(src);
+	dbg_trace();
+	this->src = std::filesystem::path(src);
 	this->file = std::ifstream(this->src, std::ios::in | std::ios::binary);
 }
 
