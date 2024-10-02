@@ -4,7 +4,7 @@
 #include <functional>
 template<typename EventType>
 using EventHandler = std::function<void(const EventType& e)>;
-class EventHandlerWrapperInterface {
+class IEventHandlerWrapper{
 public:
     void Exec(const Event& e)
     {
@@ -18,7 +18,7 @@ private:
 };
 
 template<typename EventType>
-class EventHandlerWrapper : public EventHandlerWrapperInterface {
+class EventHandlerWrapper : public IEventHandlerWrapper {
 public:
     explicit EventHandlerWrapper(const EventHandler<EventType>& handler)
         : m_handler(handler)

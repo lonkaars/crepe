@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <variant>
 using Keycode = uint16_t;
 enum : Keycode {
     // From glfw3.h
@@ -146,62 +147,72 @@ public:
         return ++id;
     }
 };
-class Event {
-public:
-    virtual ~Event() = default;
-    virtual std::uint32_t GetEventType() const = 0;
-
-    virtual std::string ToString() const { 
-        return std::to_string(GetEventType()); 
-    };
-
-    bool isHandled { false };
-};
 #define EVENT_TYPE(event_type)                  \
     static std::uint32_t GetStaticEventType()   \
     {                                           \
         static std::uint32_t type = UUIDGenerator::GetUniqueID(); \
         return type;                            \
     }                                           \
-    std::uint32_t GetEventType() const override \
+    std::uint32_t GetEventId() const override \
     {                                           \
         return GetStaticEventType();            \
     }
+class Event {
+	public:
+		Event(std::string eventType) {
+			eventData["eventType"] = eventType;
+		}
+		virtual ~Event() = default;
+		
+		virtual std::uint32_t GetEventId() const = 0;
+		virtual std::string toString() const {
+			return std::to_string(GetEventId());
+		}
+
+		void addArgument(const std::string& key, const std::variant<int, std::string, float>& value);
+
+		std::variant<int, std::string, float> getArgument(const std::string& key) const;
+
+		std::string getType() const;
+		bool isHandled() const;
+		void markHandled();
+	private:
+		std::unordered_map<std::string, std::variant<int, std::string, float>> eventData;
+		bool isHandled = false;
+};
 
 class KeyPressedEvent : public Event {
+	public:
+    	EVENT_TYPE("KeyPressedEvent");
+		KeyPressedEvent(int keyCode);
+		Keycode getKeyCode() const;
+		int getRepeatCount() const;
+	private:
+		Keycode keycode;
 public:
-    EVENT_TYPE("KeyPressedEvent");
-
-    KeyPressedEvent(int keyCode, int repeatCount)
-        : key(keyCode)
-        , repeatCount(repeatCount)
-    {
-    }
-    std::string ToString() const override
-    {
-        return "KeyPressedEvent KeyPressed" + std::to_string(key);
-    }
-
-public:
-    Keycode key { 0 };
-    int repeatCount { 0 };
+    Keycode key = 0;
+    int repeatCount = 0;
 };
 
 class KeyReleasedEvent : public Event {
+	public:
+    	EVENT_TYPE("KeyReleasedEvent");
+		KeyReleasedEvent(int keyCode);
+		Keycode getKeyCode();
+	private:
+		Keycode keycode;
 public:
-    EVENT_TYPE("KeyReleased");
-
-    KeyReleasedEvent(int keyCode)
-        : key(keyCode)
-    {
-    }
-    std::string ToString() const override
-    {
-        return "KeyPressedEvent KeyPressed" + std::to_string(key);
-    }
-
-public:
-    Keycode key { 0 };
+    Keycode key = 0;
 };
 
-
+class MousePressedEvent : public Event {
+	public:
+    	EVENT_TYPE("MousePressedEvent");
+		MousePressedEvent(int mouseX,int mouseY);
+		std::pair<int,int> getMousePosition();
+	private:
+		Keycode keycode;
+		int mouseX = 0;
+		int mouseY = 0;
+   
+};
