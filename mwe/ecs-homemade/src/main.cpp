@@ -69,9 +69,6 @@ int main() {
 	}
 	std::cout << std::endl;
 
-	ComponentManager::GetInstance().DeleteAllComponentsOfId(gameObect0.mId);
-	gameObect0.AddComponent<Rigidbody>(-10, -120, -564);
-
 	std::cout << "Finding all rigidbodies of entity 3" << std::endl;
 	std::vector<std::reference_wrapper<Rigidbody>> rigidbodyOfEntity3 = ComponentManager::GetInstance().GetComponentsByID<Rigidbody>(gameObect3.mId);
 	for(Rigidbody& rigidbodyEntity3 : rigidbodyOfEntity3) {
