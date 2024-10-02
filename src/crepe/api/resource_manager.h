@@ -7,19 +7,17 @@
 #include <unordered_map>
 #include <utility>
 
-
-#include "Resource.h"
-#include "fabricator/resource_fabricator.h"
+#include "api/baseResource.h"
 
 
- namespace crepe::api{
+namespace crepe::api{
 
 class ResourceManager{
 
 
 private:
 	
-	std::unordered_map< std::string, std::unique_ptr<api::Resource>> m_resources;
+	std::unordered_map< std::string, std::unique_ptr<BaseResource>>  m_resources;
 
 
 protected:
@@ -44,10 +42,10 @@ public:
 			return static_cast<T*>(m_resources[file_path].get());
 		}
 
-		std::unique_ptr<api::Resource> resource = ResourceFactory::create_resource<T>(file_path);
+		auto resource = std::make_unique<T>(file_path.c_str());
 		if (resource) {
 			m_resources[file_path] = std::move(resource);
-			return static_cast<T*>(m_resources[file_path].get()	);
+			return static_cast<T*>(m_resources[file_path].get() );
 		}
 
 		return nullptr;

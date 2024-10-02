@@ -6,10 +6,11 @@
 #include <memory>
 
 #include "api/Resource.h"
+#include "api/baseResource.h"
 
 namespace crepe {
 
-class Sound {
+class Sound : public api::BaseResource{
 public:
 	/**
 	 * \brief Pause this sample

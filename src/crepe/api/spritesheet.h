@@ -4,18 +4,35 @@
 
 
 #include "Resource.h"
-#include <string>
+#include "SDL_rect.h"
+#include "SDL_render.h"
+#include <memory>
 
 
 namespace crepe::api {
 
-
-
-class SpriteSheet : public Resource{
+class Spritesheet{
 
 public:
-	SpriteSheet(const std::string&);
-	~SpriteSheet();
+	Spritesheet(const char * src, const int row , const int col);
+	Spritesheet(std::unique_ptr<api::Resource> res, const int row, const int col);
+	~Spritesheet();
 
+	void select_sprite(const int x, const int y);
+	void draw_selected_sprite(const int x, const int y);
+private:
+	void load(std::unique_ptr<api::Resource> res, const int row, const int col);;
+	SDL_Texture* get_texture() const;
+
+
+
+private:
+
+	SDL_Texture* m_spritesheet;
+	SDL_Rect m_clip;
+
+	friend class SdlContext;
 };
+
 }
+

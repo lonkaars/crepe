@@ -9,7 +9,7 @@ set(CMAKE_BUILD_TYPE Debug)
 add_compile_definitions(DEBUG)
 
 add_subdirectory(../lib/soloud soloud)
-add_subdirectory(../lib/sdl_image sdl_image)
+add_subdirectory(../lib/sdl_image/src SDL2_image)
 
 project(crepe C CXX)
 
@@ -23,7 +23,7 @@ target_include_directories(crepe
 target_link_libraries(crepe
 	PUBLIC soloud
 	PUBLIC SDL2
-	PUBLIC sdl_image
+	PUBLIC SDL2_image
 )
 
 add_subdirectory(crepe)
@@ -33,5 +33,5 @@ install(
 	FILE_SET HEADERS DESTINATION include/crepe
 )
 
-add_executable(dummy_rm dummy_audio.cpp)
+add_executable(dummy_rm dummy_resource_manager.cpp)
 target_link_libraries(dummy_rm PUBLIC crepe)
