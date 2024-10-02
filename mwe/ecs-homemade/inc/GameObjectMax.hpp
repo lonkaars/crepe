@@ -1,6 +1,6 @@
 #include "ComponentManager.h"
 
-template <typename T>
-void GameObject::AddComponent(T* component) {
-	ComponentManager::GetInstance().AddComponent(component, mId);
+template <typename T, typename... Args>
+void GameObject::AddComponent(Args&&... args) {
+	ComponentManager::GetInstance().AddComponent<T>(mId, std::forward<Args>(args)...);
 }
