@@ -10,7 +10,7 @@
 
 namespace crepe {
 
-class Sound : public api::BaseResource{
+class Sound{
 public:
 	/**
 	 * \brief Pause this sample
