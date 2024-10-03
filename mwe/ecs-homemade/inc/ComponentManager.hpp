@@ -76,7 +76,7 @@ std::vector<std::pair<std::reference_wrapper<T>, std::uint32_t>> ComponentManage
                 T* castedComponent = static_cast<T*>(componentPtr.get());	//Cast the unique_ptr to a raw pointer
 
                 if (castedComponent) {	//Ensure that the cast was successful
-                    componentVector.push_back(std::make_pair(std::ref(*castedComponent), id));	//Pair the dereferenced raw pointer and the id and add it to the vector<>
+                    componentVector.emplace_back(std::ref(*castedComponent), id);	//Pair the dereferenced raw pointer and the id and add it to the vector<>
                 }
             }
 
