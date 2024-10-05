@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class Component {
 public:
 	Component();
@@ -9,7 +11,9 @@ public:
 
 class Sprite : public Component {
 public:
-	void Render();
+	Sprite(std::string path);
+
+	std::string mPath;
 };
 
 class Rigidbody : public Component {
