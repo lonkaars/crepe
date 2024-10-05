@@ -6,9 +6,9 @@
 
 namespace crepe::api {
 
-class Resource {
+class Asset {
 public:
-	Resource(const std::string & src);
+	Asset(const std::string & src);
 
 public:
 	//! Get an input stream to the contents of this resource

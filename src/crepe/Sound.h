@@ -5,7 +5,7 @@
 
 #include <memory>
 
-#include "api/Resource.h"
+#include "api/Asset.h"
 
 namespace crepe {
 
@@ -66,10 +66,10 @@ public:
 
 public:
 	Sound(const char * src);
-	Sound(std::unique_ptr<api::Resource> res);
+	Sound(std::unique_ptr<api::Asset> res);
 
 private:
-	void load(std::unique_ptr<api::Resource> res);
+	void load(std::unique_ptr<api::Asset> res);
 
 private:
 	SoLoud::Wav sample;

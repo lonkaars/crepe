@@ -5,7 +5,7 @@
 
 using namespace crepe::api;
 
-AudioSource::AudioSource(std::unique_ptr<Resource> audio_clip) {
+AudioSource::AudioSource(std::unique_ptr<Asset> audio_clip) {
 	this->_sound = std::make_unique<crepe::Sound>(std::move(audio_clip));
 }
 

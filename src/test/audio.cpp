@@ -2,7 +2,7 @@
 #include <memory>
 
 #include <crepe/api/AudioSource.h>
-#include <crepe/api/Resource.h>
+#include <crepe/api/Asset.h>
 
 #include <chrono>
 #include <thread>
@@ -15,7 +15,7 @@ using namespace crepe::api;
 // TODO: mock internal audio class
 
 TEST(audio, play) {
-	auto res = std::make_unique<Resource>("../mwe/audio/bgm.ogg");
+	auto res = std::make_unique<Asset>("../mwe/audio/bgm.ogg");
 	auto bgm = AudioSource(std::move(res));
 
 	bgm.play();

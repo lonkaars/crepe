@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "Component.h"
-#include "Resource.h"
+#include "Asset.h"
 
 namespace crepe {
 class Sound;
@@ -14,7 +14,7 @@ namespace crepe::api {
 //! Audio source component
 class AudioSource : Component {
 public:
-	AudioSource(std::unique_ptr<Resource> audio_clip);
+	AudioSource(std::unique_ptr<Asset> audio_clip);
 	virtual ~AudioSource() = default;
 
 public:
@@ -26,7 +26,7 @@ public:
 
 public:
 	//! Sample file location
-	std::unique_ptr<Resource> audio_clip;
+	std::unique_ptr<Asset> audio_clip;
 	//! TODO: ?????
 	bool play_on_awake;
 	//! Repeat the current audio clip during playback
