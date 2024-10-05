@@ -26,20 +26,20 @@ int main() {
 
 	std::vector<std::pair<std::reference_wrapper<Sprite>, std::uint32_t>> sprites = ComponentManager::GetInstance().GetComponentsByType<Sprite>();
 	for(auto& [sprite, id] : sprites) {
-		std::cout << sprite.get().mPath << std::endl;
+		//std::cout << sprite.get().mPath << std::endl;
 	}
-	std::cout << std::endl;
+	//std::cout << std::endl;
 
 	std::vector<std::pair<std::reference_wrapper<Rigidbody>, std::uint32_t>> rigidBodies = ComponentManager::GetInstance().GetComponentsByType<Rigidbody>();
 	for(auto& [rigidbody, id] : rigidBodies) {
-		std::cout << rigidbody.get().mMass << " " << rigidbody.get().mGravityScale << " " << rigidbody.get().mBodyType << std::endl;
+		//std::cout << rigidbody.get().mMass << " " << rigidbody.get().mGravityScale << " " << rigidbody.get().mBodyType << std::endl;
 	}
-
+	//std::cout << std::endl;
+	
 	std::vector<std::pair<std::reference_wrapper<Colider>, std::uint32_t>> coliders = ComponentManager::GetInstance().GetComponentsByType<Colider>();
 	for(auto& [colider, id] : coliders) {
-		std::cout << colider.get().mSize << std::endl;
+		//std::cout << colider.get().mSize << std::endl;
 	}
-	std::cout << std::endl;
 
 	auto stopLooping = std::chrono::high_resolution_clock::now();
 
