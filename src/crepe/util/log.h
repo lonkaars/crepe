@@ -12,9 +12,12 @@
 					  __FILE_NAME__, __LINE__, crepe::util::color::RESET, \
 					  __VA_ARGS__)
 
+// very illegal global function-style macros
+// NOLINTBEGIN
 #define dbg_logf(fmt, ...) _crepe_logf_here(": " fmt, __VA_ARGS__)
 #define dbg_log(str) _crepe_logf_here(": %s", str)
 #define dbg_trace() _crepe_logf_here("%s", "")
+// NOLINTEND
 
 #endif
 
