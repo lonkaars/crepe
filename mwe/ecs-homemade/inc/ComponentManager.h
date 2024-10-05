@@ -29,7 +29,7 @@ public:
 	template <typename T>
     std::vector<std::reference_wrapper<T>> GetComponentsByID(std::uint32_t id) const;	//Get a vector<> of all components at specific type and id
 	template <typename T>
-	std::vector<std::pair<std::reference_wrapper<T>, std::uint32_t>> GetComponentsByType() const;	//Get a vector<> of all components of a specific type
+	std::vector<std::reference_wrapper<T>> GetComponentsByType() const;	//Get a vector<> of all components of a specific type
 
 private:
     static ComponentManager mInstance;	//Singleton

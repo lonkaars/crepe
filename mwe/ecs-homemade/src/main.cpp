@@ -24,20 +24,20 @@ int main() {
 
 	//This is what systems would do:
 
-	std::vector<std::pair<std::reference_wrapper<Sprite>, std::uint32_t>> sprites = ComponentManager::GetInstance().GetComponentsByType<Sprite>();
-	for(auto& [sprite, id] : sprites) {
+	std::vector<std::reference_wrapper<Sprite>> sprites = ComponentManager::GetInstance().GetComponentsByType<Sprite>();
+	for(Sprite& sprite : sprites) {
 		//std::cout << sprite.get().mPath << std::endl;
 	}
 	//std::cout << std::endl;
 
-	std::vector<std::pair<std::reference_wrapper<Rigidbody>, std::uint32_t>> rigidBodies = ComponentManager::GetInstance().GetComponentsByType<Rigidbody>();
-	for(auto& [rigidbody, id] : rigidBodies) {
+	std::vector<std::reference_wrapper<Rigidbody>> rigidBodies = ComponentManager::GetInstance().GetComponentsByType<Rigidbody>();
+	for(Rigidbody& rigidbody : rigidBodies) {
 		//std::cout << rigidbody.get().mMass << " " << rigidbody.get().mGravityScale << " " << rigidbody.get().mBodyType << std::endl;
 	}
 	//std::cout << std::endl;
-	
-	std::vector<std::pair<std::reference_wrapper<Colider>, std::uint32_t>> coliders = ComponentManager::GetInstance().GetComponentsByType<Colider>();
-	for(auto& [colider, id] : coliders) {
+
+	std::vector<std::reference_wrapper<Colider>> coliders = ComponentManager::GetInstance().GetComponentsByType<Colider>();
+	for(Colider& colider : coliders) {
 		//std::cout << colider.get().mSize << std::endl;
 	}
 

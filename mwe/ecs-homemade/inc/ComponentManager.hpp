@@ -61,11 +61,11 @@ std::vector<std::reference_wrapper<T>> ComponentManager::GetComponentsByID(std::
 }
 
 template <typename T>
-std::vector<std::pair<std::reference_wrapper<T>, std::uint32_t>> ComponentManager::GetComponentsByType() const {
+std::vector<std::reference_wrapper<T>> ComponentManager::GetComponentsByType() const {
     std::type_index type = typeid(T);	//Determine the type of T (this is used as the key of the unordered_map<>)
 
-    std::vector<std::pair<std::reference_wrapper<T>, std::uint32_t>> componentVector;	//Create an empty vector<>
-	std::uint32_t id = 0;	//Set the id to 0 (the id will also be stored in the returned vector<>)
+    std::vector<std::reference_wrapper<T>> componentVector;	//Create an empty vector<>
+	//std::uint32_t id = 0;	//Set the id to 0 (the id will also be stored in the returned vector<>)
 
     if (mComponents.find(type) != mComponents.end()) {	//Find the type (in the unordered_map<>)
 
@@ -76,11 +76,11 @@ std::vector<std::pair<std::reference_wrapper<T>, std::uint32_t>> ComponentManage
                 T* castedComponent = static_cast<T*>(componentPtr.get());	//Cast the unique_ptr to a raw pointer
 
                 if (castedComponent) {	//Ensure that the cast was successful
-                    componentVector.emplace_back(std::ref(*castedComponent), id);	//Pair the dereferenced raw pointer and the id and add it to the vector<>
+                    componentVector.emplace_back(std::ref(*castedComponent));	//Pair the dereferenced raw pointer and the id and add it to the vector<>
                 }
             }
 
-			++id;	//Increase the id (the id will also be stored in the returned vector<>)
+			//++id;	//Increase the id (the id will also be stored in the returned vector<>)
         }
     }
 
