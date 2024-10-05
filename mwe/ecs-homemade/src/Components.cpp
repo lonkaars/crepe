@@ -3,9 +3,7 @@
 
 Component::Component() : mActive(true) {}
 
-void Sprite::Render() {
-	std::cout << "Rendering sprite" << std::endl;
-}
+Sprite::Sprite(std::string path) : mPath(path) {}
 
 Rigidbody::Rigidbody(int mass, int gravityScale, int bodyType) : mMass(mass), mGravityScale(gravityScale), mBodyType(bodyType) {}
 
