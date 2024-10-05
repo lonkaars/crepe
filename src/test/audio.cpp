@@ -26,3 +26,4 @@ TEST(audio, play) {
 
 	ASSERT_TRUE(true);
 }
+

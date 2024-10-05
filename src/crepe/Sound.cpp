@@ -58,3 +58,4 @@ void Sound::set_looping(bool looping) {
 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 	ctx.engine.setLooping(this->handle, this->looping);
 }
+
