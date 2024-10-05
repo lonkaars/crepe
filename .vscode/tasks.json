@@ -9,8 +9,8 @@
                 "-G",
                 "Ninja",
                 "-B",
-                "${workspaceFolder}/mwe/ecs-homemade/build",  // Create build folder here
-                "${workspaceFolder}/mwe/ecs-homemade"  // Path to your source directory
+                "${workspaceFolder}/mwe/ecs-memory-efficient/build",  // Create build folder here
+                "${workspaceFolder}/mwe/ecs-memory-efficient"  // Path to your source directory
             ],
             "group": {
                 "kind": "build",
@@ -24,7 +24,7 @@
             "command": "cmake",
             "args": [
                 "--build",
-                "${workspaceFolder}/mwe/ecs-homemade/build"  // Build directory
+                "${workspaceFolder}/mwe/ecs-memory-efficient/build"  // Build directory
             ],
             "dependsOn": "configure",  // Ensure the configure task runs first
             "group": {
