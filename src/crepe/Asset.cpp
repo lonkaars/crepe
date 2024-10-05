@@ -2,7 +2,7 @@
 
 #include "Asset.h"
 
-using namespace crepe::api;
+using namespace crepe;
 
 Asset::Asset(const std::string & src) {
 	this->src = std::filesystem::canonical(src);

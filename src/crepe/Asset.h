@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-namespace crepe::api {
+namespace crepe {
 
 class Asset {
 public:
@@ -21,4 +21,4 @@ private:
 	std::ifstream file;
 };
 
-} // namespace crepe::api
+} // namespace crepe
