@@ -9,7 +9,10 @@
 #include <crepe/util/log.h>
 #include <crepe/ComponentManager.h>
 #include <crepe/GameObject.h>
-#include <crepe/Components.h>
+#include <crepe/Component.h>
+#include <crepe/Sprite.h>
+#include <crepe/Rigidbody.h>
+#include <crepe/Collider.h>
 
 using namespace crepe;
 using namespace std;

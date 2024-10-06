@@ -17,6 +17,7 @@
 # Code style
 
 - ASCII only
+- Class names are always singular
 - Explanatory comments are placed above the line(s) they are explaining
 - Source files should only contain comments that plainly state what the code is
   supposed to do
