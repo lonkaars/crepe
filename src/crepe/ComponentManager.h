@@ -23,22 +23,22 @@ public:
 public:
 	//! Add a component of a specific type
 	template <typename T, typename... Args>
-	void add_component(std::uint32_t id, Args &&... args);
+	void add_component(uint32_t id, Args &&... args);
 	//! Deletes all components of a specific type and id
 	template <typename T>
-	void delete_components_by_id(std::uint32_t id);
+	void delete_components_by_id(uint32_t id);
 	//! Deletes all components of a specific type
 	template <typename T>
 	void delete_components();
 	//! Deletes all components of a specific id
-	void delete_all_components_of_id(std::uint32_t id);
+	void delete_all_components_of_id(uint32_t id);
 	//! Deletes all components
 	void delete_all_components();
 
 	//! Get a vector<> of all components at specific type and id
 	template <typename T>
 	std::vector<std::reference_wrapper<T>>
-	get_components_by_id(std::uint32_t id) const;
+	get_components_by_id(uint32_t id) const;
 	//! Get a vector<> of all components of a specific type
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
@@ -58,3 +58,6 @@ private:
 };
 
 } // namespace crepe
+
+#include "ComponentManager.hpp"
+

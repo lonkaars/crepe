@@ -7,7 +7,7 @@ ComponentManager & ComponentManager::get_instance() {
 	return instance;
 }
 
-void ComponentManager::delete_all_components_of_id(std::uint32_t id) {
+void ComponentManager::delete_all_components_of_id(uint32_t id) {
 	// Loop through all the types (in the unordered_map<>)
 	for (auto & [type, componentArray] : components) {
 		// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
