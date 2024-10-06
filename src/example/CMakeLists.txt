@@ -1,0 +1,3 @@
+add_executable(audio_internal EXCLUDE_FROM_ALL audio_internal.cpp)
+target_link_libraries(audio_internal PUBLIC crepe)
+
