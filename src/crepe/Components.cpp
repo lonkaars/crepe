@@ -3,11 +3,12 @@
 
 using namespace crepe;
 
-Component::Component() : mActive(true) {}
+Component::Component() : m_active(true) {}
 
-Sprite::Sprite(std::string path) : mPath(path) {}
+Sprite::Sprite(std::string path) : m_path(path) {}
 
 Rigidbody::Rigidbody(int mass, int gravityScale, int bodyType)
-	: mMass(mass), mGravityScale(gravityScale), mBodyType(bodyType) {}
+	: m_mass(mass), m_gravity_scale(gravityScale), m_body_type(bodyType) {}
 
-Colider::Colider(int size) : mSize(size) {}
+Collider::Collider(int size) : m_size(size) {}
+

@@ -8,7 +8,7 @@ class Component {
 public:
 	Component();
 
-	bool mActive;
+	bool m_active;
 };
 
 // TODO: these should be in separate files
@@ -17,23 +17,23 @@ class Sprite : public Component {
 public:
 	Sprite(std::string path);
 
-	std::string mPath;
+	std::string m_path;
 };
 
 class Rigidbody : public Component {
 public:
 	Rigidbody(int mass, int gravityScale, int bodyType);
 
-	int mMass;
-	int mGravityScale;
-	int mBodyType;
+	int m_mass;
+	int m_gravity_scale;
+	int m_body_type;
 };
 
-class Colider : public Component {
+class Collider : public Component {
 public:
-	Colider(int size);
+	Collider(int size);
 
-	int mSize;
+	int m_size;
 };
 
-}
+} // namespace crepe
