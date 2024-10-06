@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <string>
 
+namespace crepe {
+
 class GameObject {
 public:
 	GameObject(std::uint32_t id, std::string name, std::string tag, int layer);
@@ -16,4 +18,5 @@ public:
 	int mLayer;
 };
 
-#include "GameObjectMax.hpp"
+}
+
