@@ -13,5 +13,4 @@ public:
 	std::string path;
 };
 
-}
-
+} // namespace crepe

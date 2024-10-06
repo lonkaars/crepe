@@ -13,4 +13,4 @@ public:
 	int body_type;
 };
 
-}
+} // namespace crepe

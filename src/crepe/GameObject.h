@@ -22,4 +22,3 @@ public:
 } // namespace crepe
 
 #include "GameObject.hpp"
-
