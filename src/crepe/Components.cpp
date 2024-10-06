@@ -1,14 +1,13 @@
 #include "Components.h"
-#include <iostream>
 
 using namespace crepe;
+using namespace std;
 
-Component::Component() : m_active(true) {}
+Component::Component() : active(true) {}
 
-Sprite::Sprite(std::string path) : m_path(path) {}
+Sprite::Sprite(string path) : path(path) {}
 
 Rigidbody::Rigidbody(int mass, int gravityScale, int bodyType)
-	: m_mass(mass), m_gravity_scale(gravityScale), m_body_type(bodyType) {}
+	: mass(mass), gravity_scale(gravityScale), body_type(bodyType) {}
 
-Collider::Collider(int size) : m_size(size) {}
-
+Collider::Collider(int size) : size(size) {}

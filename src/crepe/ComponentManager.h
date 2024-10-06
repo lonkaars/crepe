@@ -58,5 +58,3 @@ private:
 };
 
 } // namespace crepe
-
-// #include "ComponentManager.hpp"

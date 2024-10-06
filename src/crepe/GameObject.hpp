@@ -7,9 +7,9 @@
 namespace crepe {
 
 template <typename T, typename... Args>
-void GameObject::AddComponent(Args &&... args) {
-	ComponentManager::get_instance().AddComponent<T>(
-		mId, std::forward<Args>(args)...);
+void GameObject::add_component(Args &&... args) {
+	auto & mgr = ComponentManager::get_instance();
+	mgr.add_component<T>(id, std::forward<Args>(args)...);
 }
 
 } // namespace crepe
