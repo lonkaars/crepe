@@ -1,12 +1,16 @@
 #pragma once
 
+#include <type_traits>
+
 #include "ComponentManager.h"
 
 namespace crepe {
 
-template <typename T, typename... Args>
+template <class T, typename... Args>
 void ComponentManager::add_component(uint32_t id, Args &&... args) {
 	using namespace std;
+
+	static_assert(is_base_of<Component, T>::value, "add_component must recieve a derivative class of Component");
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	type_index type = typeid(T);
@@ -23,9 +27,11 @@ void ComponentManager::add_component(uint32_t id, Args &&... args) {
 		components[type].resize(id + 1);
 	}
 
-	// Create a new component of type T using perfect forwarding and store its
-	// unique_ptr in the vector<>
-	components[type][id].push_back(make_unique<T>(forward<Args>(args)...));
+	// Create a new component of type T (arguments directly forwarded). The
+	// constructor must be called by ComponentManager.
+	T * instance = new T(forward<Args>(args)...);
+	// store its unique_ptr in the vector<>
+	components[type][id].push_back(unique_ptr<T>(instance));
 }
 
 template <typename T>

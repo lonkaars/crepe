@@ -8,6 +8,8 @@ target_sources(crepe PUBLIC
 	Collider.cpp
 	Rigidbody.cpp
 	Sprite.cpp
+	ScriptSystem.cpp
+	Script.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -22,6 +24,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Collider.h
 	Rigidbody.h
 	Sprite.h
+	System.h
+	ScriptSystem.h
 )
 
 add_subdirectory(api)
