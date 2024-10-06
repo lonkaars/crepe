@@ -3,8 +3,11 @@ target_sources(crepe PUBLIC
 	Sound.cpp
 	SoundContext.cpp
 	ComponentManager.cpp
-	Components.cpp
+	Component.cpp
 	GameObject.cpp
+	Collider.cpp
+	Rigidbody.cpp
+	Sprite.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -13,9 +16,12 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	SoundContext.h
 	ComponentManager.h
 	ComponentManager.hpp
-	Components.h
+	Component.h
 	GameObject.h
 	GameObject.hpp
+	Collider.h
+	Rigidbody.h
+	Sprite.h
 )
 
 add_subdirectory(api)

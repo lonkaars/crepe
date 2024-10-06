@@ -7,7 +7,7 @@
 #include <utility>
 #include <vector>
 
-#include "Components.h"
+#include "Component.h"
 
 namespace crepe {
 
