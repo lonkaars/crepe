@@ -11,5 +11,4 @@ public:
 	int size;
 };
 
-}
-
+} // namespace crepe
