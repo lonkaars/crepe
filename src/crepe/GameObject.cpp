@@ -6,4 +6,4 @@ using namespace crepe;
 
 GameObject::GameObject(std::uint32_t id, std::string name, std::string tag,
 					   int layer)
-	: mId(id), mName(name), mTag(tag), mActive(true), mLayer(layer) {}
+	: m_id(id), m_name(name), m_tag(tag), m_active(true), m_layer(layer) {}

@@ -42,7 +42,8 @@ void ComponentManager::DeleteComponentsById(std::uint32_t id) {
 	}
 }
 
-template <typename T> void ComponentManager::DeleteComponents() {
+template <typename T>
+void ComponentManager::DeleteComponents() {
 	std::type_index type = typeid(
 		T); //Determine the type of T (this is used as the key of the unordered_map<>)
 

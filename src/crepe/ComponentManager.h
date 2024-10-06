@@ -22,20 +22,26 @@ public:
 
 public:
 	//! Add a component of a specific type
-	template <typename T, typename... Args> void AddComponent(std::uint32_t id, Args &&... args);
+	template <typename T, typename... Args>
+	void add_component(std::uint32_t id, Args &&... args);
 	//! Deletes all components of a specific type and id
-	template <typename T> void DeleteComponentsById(std::uint32_t id);
+	template <typename T>
+	void delete_components_by_id(std::uint32_t id);
 	//! Deletes all components of a specific type
-	template <typename T> void DeleteComponents();
+	template <typename T>
+	void delete_components();
 	//! Deletes all components of a specific id
-	void DeleteAllComponentsOfId(std::uint32_t id);
+	void delete_all_components_of_id(std::uint32_t id);
 	//! Deletes all components
-	void DeleteAllComponents();
+	void delete_all_components();
 
 	//! Get a vector<> of all components at specific type and id
-	template <typename T> std::vector<std::reference_wrapper<T>> GetComponentsByID(std::uint32_t id) const;
+	template <typename T>
+	std::vector<std::reference_wrapper<T>>
+	get_components_by_id(std::uint32_t id) const;
 	//! Get a vector<> of all components of a specific type
-	template <typename T> std::vector<std::reference_wrapper<T>> GetComponentsByType() const;
+	template <typename T>
+	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
 
 private:
 	ComponentManager() = default;
@@ -46,10 +52,11 @@ private:
 	 * The first std::vector<> stores another vector<>. This first vector<> is to bind the entity's id to a component.
 	 * The second std::vector<> stores unique_ptrs. Each component can be gathered via an unique_ptr. This second vector<> allows multiple components of the same std::type_index for one entity (id).
 	 */
-	std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>> components;
+	std::unordered_map<std::type_index,
+					   std::vector<std::vector<std::unique_ptr<Component>>>>
+		components;
 };
 
-}
+} // namespace crepe
 
 // #include "ComponentManager.hpp"
-
