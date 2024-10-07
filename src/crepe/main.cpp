@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 
     ParticleSystem particleSystem;
 
-    unsigned int maxParticles = 10;         // maximum number of particles
+    unsigned int maxParticles = 100;         // maximum number of particles
     unsigned int emissionRate = 1;          // particles created per second
     unsigned int speed = 50;                 // base speed of particles
     unsigned int speedOffset = 10;           // random offset for particle speed
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
     std::vector<ParticleEmitter> emitters;
 
     // Loop to create 1000 emitters
-    for (unsigned int i = 0; i < 100; ++i) {
+    for (unsigned int i = 0; i < 1000; ++i) {
         ParticleEmitter emitter(maxParticles, emissionRate, speed, speedOffset, angle, angleOffset, beginLifespan, endLifespan);
         
         // Set a position for each emitter, modifying the position for demonstration
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
     }
     float deltaTime = 0.1f;
     bool running = true;
-
+    std::cout << "start loop " << std::endl;
     while (running) {
         app.handleEvents(running);
 
@@ -59,15 +59,20 @@ int main(int argc, char* argv[]) {
         std::cout << "Update took " << duration.count() << " ms" << std::endl;
         app.clearScreen();
 
+        start = std::chrono::high_resolution_clock::now();
         // render particles using the drawSquare method from SDLApp
         for (const ParticleEmitter& emitter : emitters) {
             for (const Particle& particle : emitter.particles) {
-
-                app.drawSquare(particle.position.x, particle.position.y, 5); // draw each particle
+                if(particle.active)app.drawSquare(particle.position.x, particle.position.y, 5); // draw each particle
             }
         }
+        
 
         app.presentScreen();
+        end = std::chrono::high_resolution_clock::now();
+         duration = end - start; // get duration in milliseconds
+
+        std::cout << "screen took " << duration.count() << " ms" << std::endl;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(20)); // simulate ~50 FPS
     }
