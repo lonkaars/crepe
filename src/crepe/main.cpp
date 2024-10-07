@@ -1,83 +1,53 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include <SDL.h>
+#include "SDLApp.hpp"
 #include "ParticleEmitter.hpp"
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
-void renderParticles(SDL_Renderer* renderer, const ParticleEmitter& emitter) {
-    for (const auto& particle : emitter.particles) {
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); 
-        SDL_Rect rect = { particle.position.x, particle.position.y, 5, 5 }; 
-        SDL_RenderFillRect(renderer, &rect);
-    }
-}
-
 int main(int argc, char* argv[]) {
-  
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        std::cerr << "SDL Initialization Error: " << SDL_GetError() << std::endl;
+    SDLApp app(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    if (!app.initialize()) {
+        std::cerr << "Failed to initialize SDLApp." << std::endl;
         return 1;
     }
 
-    SDL_Window* window = SDL_CreateWindow("Particle System",
-                                          SDL_WINDOWPOS_CENTERED,
-                                          SDL_WINDOWPOS_CENTERED,
-                                          WINDOW_WIDTH,
-                                          WINDOW_HEIGHT,
-                                          SDL_WINDOW_SHOWN);
-    if (!window) {
-        std::cerr << "Window Creation Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
 
-    // Create SDL renderer
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer) {
-        std::cerr << "Renderer Creation Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
+    unsigned int maxParticles = 100;         //maximum number of particles
+    unsigned int emissionRate = 10;     //particles created per second
+    unsigned int speed = 50;            //base speed of particles
+    unsigned int speedOffset = 10;      //random offset for particle speed
+    unsigned int angle = 180;             //base angle of particle emission
+    unsigned int angleOffset = 30;      //random offset for particle angle
 
-    ParticleEmitter emitter(100, 10.0f);
-    emitter.position = { 400, 300 };
-    ParticleEmitter emitter2(100, 10.0f);
-    emitter2.position = { 600, 600 }; 
+
+    ParticleEmitter emitter(maxParticles, emissionRate, speed, speedOffset, angle, angleOffset);
+
+    emitter.setPosition(400, 300);
 
     float deltaTime = 0.1f;
-
     bool running = true;
-    SDL_Event event;
-    while (running) {
 
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                running = false;
-            }
+    while (running) {
+        app.handleEvents(running);
+        emitter.update(deltaTime);
+
+        app.clearScreen();
+
+        //render particles using the drawSquare method
+        const std::vector<Particle>& particles = emitter.getParticles();
+        for (std::size_t i = 0; i < particles.size(); ++i) {
+            app.drawSquare(particles[i].position.x, particles[i].position.y, 5);
         }
 
-        emitter.update(deltaTime);
-        emitter2.update(deltaTime);
+        app.presentScreen();
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); 
-        SDL_RenderClear(renderer);
-
-        renderParticles(renderer, emitter);
-        renderParticles(renderer, emitter2);
-
-        SDL_RenderPresent(renderer);
-
-        
+        std::this_thread::sleep_for(std::chrono::milliseconds(17));
     }
 
-  
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
+    app.cleanUp();
     return 0;
 }

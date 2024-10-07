@@ -1,28 +1,30 @@
 #pragma once
 
 #include <vector>
-#include <cstdlib>  
-#include <ctime>   
 #include "Particle.hpp"
-#include <cmath>
 
 class ParticleEmitter {
 public:
-    std::vector<Particle> particles;
+    ParticleEmitter(unsigned int maxParticles, unsigned int emissionRate, unsigned int speed, unsigned int speedOffset, unsigned int angle, unsigned int angleOffset);
+    void update(float deltaTime); // Keep deltaTime as float
+    const std::vector<Particle>& getParticles() const; //returns the collection of particles
+    void setPosition(int x, int y); //sets the position of the emitter
+private:
+    void emitParticle(); //emits a new particle
 
-    struct Position {
+    struct Position { //struct to hold position
         int x;
         int y;
-    } position;
+    };
 
-    int maxParticles;
-    float emissionRate;
-    float elapsedTime;
+    Position m_position; //position of the emitter
+    unsigned int m_maxParticles; //maximum number of particles
+    unsigned int m_emissionRate; //rate of particle emission
+    float m_elapsedTime; //elapsed time since the last emission
+    unsigned int m_speed; //base speed of the particles
+    unsigned int m_speedOffset; //offset for random speed variation
+    unsigned int m_minAngle; //min angle of particle emission
+    unsigned int m_maxAngle; //max angle of particle emission
 
-    ParticleEmitter(int maxParticles, float emissionRate);
-    void update(float deltaTime);
-
-private:
-    void emitParticle();
-    float randFloat(float minangle, float maxangle, float minVel, float maxVel);
+    std::vector<Particle> particles; //collection of particles
 };
