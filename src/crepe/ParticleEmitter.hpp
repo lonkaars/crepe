@@ -3,13 +3,12 @@
 #include <vector>
 #include "Particle.hpp"
 
+
+
 class ParticleEmitter {
 public:
     ParticleEmitter(unsigned int maxParticles, unsigned int emissionRate, unsigned int speed, unsigned int speedOffset, unsigned int angle, unsigned int angleOffset,float m_beginLifespan,float m_endLifespan);
-    struct Position { //struct to hold position
-        float x;
-        float y;
-    };
+    ~ParticleEmitter();
 
     Position m_position; //position of the emitter
     unsigned int m_maxParticles; //maximum number of particles
@@ -22,4 +21,5 @@ public:
     float m_endLifespan; //begin Lifespan of particle
 
     std::vector<Particle> particles; //collection of particles
+
 };

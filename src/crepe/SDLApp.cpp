@@ -1,5 +1,8 @@
 #include "SDLApp.hpp"
 #include <iostream>
+#include <vector>
+#include "Particle.hpp"
+#include "ParticleEmitter.hpp"
 
 SDLApp::SDLApp(int windowWidth, int windowHeight)
     : windowWidth(windowWidth), windowHeight(windowHeight), window(nullptr), renderer(nullptr) {}
@@ -57,6 +60,12 @@ void SDLApp::drawSquare(int x, int y, int size) {
     SDL_Rect rect = { x, y, size, size };
     SDL_RenderFillRect(renderer, &rect);
 }
+
+SDL_Texture* squareTexture = nullptr; // Load this with an image or create it
+
+
+
+
 
 void SDLApp::cleanUp() {
     if (renderer) {

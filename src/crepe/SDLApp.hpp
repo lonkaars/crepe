@@ -2,6 +2,8 @@
 #define SDLAPP_HPP
 
 #include <SDL2/SDL.h>
+#include "Particle.hpp"
+#include "ParticleEmitter.hpp"
 
 class SDLApp {
 public:
@@ -14,7 +16,8 @@ public:
     void presentScreen();
     void drawSquare(int x, int y, int size);
     void cleanUp();
-
+    void drawParticles(const std::vector<ParticleEmitter>& emitters);
+    void drawMultipleSquares(const std::vector<SDL_Rect>& squares);
 private:
     int windowWidth;
     int windowHeight;
