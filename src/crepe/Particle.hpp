@@ -3,8 +3,8 @@
 class Particle {
 public:
     struct Position {
-        int x;
-        int y;
+        float x;
+        float y;
     };
 
     Position position;
@@ -14,6 +14,5 @@ public:
     Particle(float lifespan, Position position, Position velocity);
     void update(float deltaTime);
     bool isAlive() const;
-private:
     float timeInLife;
 };

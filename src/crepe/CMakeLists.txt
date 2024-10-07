@@ -2,6 +2,7 @@ target_sources(main PUBLIC
     main.cpp
 	Particle.cpp
 	ParticleEmitter.cpp
+	ParticleSystem.cpp
 	SDLApp.cpp
 )
 
