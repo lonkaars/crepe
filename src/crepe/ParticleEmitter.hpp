@@ -5,7 +5,7 @@
 
 class ParticleEmitter {
 public:
-    ParticleEmitter(unsigned int maxParticles, unsigned int emissionRate, unsigned int speed, unsigned int speedOffset, unsigned int angle, unsigned int angleOffset);
+    ParticleEmitter(unsigned int maxParticles, unsigned int emissionRate, unsigned int speed, unsigned int speedOffset, unsigned int angle, unsigned int angleOffset,float m_beginLifespan,float m_endLifespan);
     struct Position { //struct to hold position
         float x;
         float y;
@@ -18,6 +18,8 @@ public:
     unsigned int m_speedOffset; //offset for random speed variation
     unsigned int m_minAngle; //min angle of particle emission
     unsigned int m_maxAngle; //max angle of particle emission
+    float m_beginLifespan; //begin Lifespan of particle (only visual)
+    float m_endLifespan; //begin Lifespan of particle
 
     std::vector<Particle> particles; //collection of particles
 };

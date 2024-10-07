@@ -5,6 +5,7 @@
 #include "ParticleEmitter.hpp"
 #include "ParticleSystem.hpp"
 #include "Particle.hpp"
+#include <chrono>
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
@@ -19,29 +20,43 @@ int main(int argc, char* argv[]) {
 
     ParticleSystem particleSystem;
 
-    unsigned int maxParticles = 100;         // maximum number of particles
-    unsigned int emissionRate = 10;          // particles created per second
+    unsigned int maxParticles = 10;         // maximum number of particles
+    unsigned int emissionRate = 1;          // particles created per second
     unsigned int speed = 50;                 // base speed of particles
     unsigned int speedOffset = 10;           // random offset for particle speed
     unsigned int angle = 90;                 // base angle of particle emission
     unsigned int angleOffset = 30;           // random offset for particle angle
+    float beginLifespan = 0.0f;             // beginning lifespan of particles
+    float endLifespan = 2.0f;               // ending lifespan of particles
 
-    ParticleEmitter emitter1(maxParticles, emissionRate, speed, speedOffset, angle, angleOffset);
-    emitter1.m_position = {200, 200};  // set the position of the first emitter
+    // Vector to hold all the emitters
+    std::vector<ParticleEmitter> emitters;
 
-    ParticleEmitter emitter2(maxParticles, emissionRate, speed, speedOffset, angle - 90, angleOffset); // Another emitter
-    emitter2.m_position = {200, 150};  // set the position of the second emitter
-
-    std::vector<ParticleEmitter> emitters = {  emitter2 }; // array of emitters
-
+    // Loop to create 1000 emitters
+    for (unsigned int i = 0; i < 100; ++i) {
+        ParticleEmitter emitter(maxParticles, emissionRate, speed, speedOffset, angle, angleOffset, beginLifespan, endLifespan);
+        
+        // Set a position for each emitter, modifying the position for demonstration
+        emitter.m_position = {static_cast<float>(200 + (i % 100)), static_cast<float>(200 + (i / 100) * 10)}; // Adjust position for each emitter
+        
+        emitters.push_back(emitter); // Add the emitter to the vector
+    }
     float deltaTime = 0.1f;
     bool running = true;
 
     while (running) {
         app.handleEvents(running);
 
+        // Start timing
+        auto start = std::chrono::high_resolution_clock::now();
+
         particleSystem.update(deltaTime, emitters); // update particle system with delta time and emitters
 
+        // End timing
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float, std::milli> duration = end - start; // get duration in milliseconds
+
+        std::cout << "Update took " << duration.count() << " ms" << std::endl;
         app.clearScreen();
 
         // render particles using the drawSquare method from SDLApp
