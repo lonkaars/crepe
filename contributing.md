@@ -36,6 +36,8 @@
   as these are no longer accessible when the engine is installed
 - Getter and setter functions are appropriately prefixed with `get_` and
   `set_`.
+- Header files declare either a single class or symbols within a single
+  namespace.
 
 ## CMakeLists specific
 
