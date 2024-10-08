@@ -48,4 +48,3 @@ void crepe::util::logf(log_level level, const char * fmt, ...) {
 	va_logf(level, args, fmt);
 	va_end(args);
 }
-

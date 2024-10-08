@@ -1,11 +1,13 @@
 target_sources(crepe PUBLIC
+	Asset.cpp
 	Sound.cpp
-	SoundSystem.cpp
+	SoundContext.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
+	Asset.h
 	Sound.h
-	SoundSystem.h
+	SoundContext.h
 )
 
 add_subdirectory(api)

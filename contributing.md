@@ -22,6 +22,14 @@
 - When using libraries of which the header include order is important, make
   sure to separate the include statements using a blank line (clang-format may
   sort include statements, but does not sort across empty lines).
+- All engine-related code is implemented under the `crepe` namespace,
+  user-facing APIs under `crepe::api` (the folder structure should also reflect
+  this).
+- `using namespace` may not be used in header files, only in source files.
+- Do not (indirectly) include private dependency headers in API header files,
+  as these are no longer accessible when the engine is installed
+- Getter and setter functions are appropriately prefixed with `get_` and
+  `set_`.
 
 ## CMakeLists specific
 

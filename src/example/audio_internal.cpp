@@ -1,5 +1,10 @@
-#include "crepe/util/log.h"
-#include "crepe/Sound.h"
+/** \file
+ * 
+ * Standalone example for usage of the internal \c Sound class.
+ */
+
+#include <crepe/Sound.h>
+#include <crepe/util/log.h>
 
 #include <chrono>
 #include <thread>
@@ -38,4 +43,3 @@ int main() {
 
 	return 0;
 }
-
