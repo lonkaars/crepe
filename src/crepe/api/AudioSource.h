@@ -35,7 +35,7 @@ public:
 	float volume;
 
 private:
-	std::unique_ptr<crepe::Sound> _sound;
+	std::unique_ptr<crepe::Sound> sound;
 };
 
 } // namespace crepe::api
