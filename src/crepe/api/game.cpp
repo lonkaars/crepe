@@ -2,17 +2,29 @@
 
 
 #include "game.h"
-#include "api/spritesheet.h"
+#include "core/renderSystem.h"
 #include "facade/SdlContext.h"
-#include "facade/Texture.h"
-#include <vector>
 
 
-void game::render(std::vector<crepe::Texture*> & draw, std::vector<crepe::api::Spritesheet*> & ss){
-	auto& ctx = crepe::SdlContext::get_instance();
-
-	ctx.loop(*draw[0], *ss[0]);
+Engine::Engine(int windowHeight, int window_with){
+	crepe::SdlContext& ctx = crepe::SdlContext::get_instance();
 }
 
 
 
+void Engine::loop() {
+
+	bool running = true;
+	crepe::SdlContext& ctx = crepe::SdlContext::get_instance();
+	RenderSystem rendering;
+
+	while (running) {
+		ctx.handleEvents(running);
+
+		ctx.clearScreen();
+
+		rendering.render();
+
+		ctx.presentScreen();
+	}
+}

@@ -8,4 +8,5 @@ add_subdirectory(api)
 add_subdirectory(util)
 add_subdirectory(fabricator)
 add_subdirectory(facade)
+add_subdirectory(core)
 

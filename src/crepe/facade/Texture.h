@@ -1,12 +1,14 @@
 #pragma once
 
+#include "SDL_rect.h"
 #include "api/baseResource.h"
-#include "facade/SdlContext.h"
 #include "api/Resource.h"
 #include <SDL2/SDL_render.h>
 #include <memory>
 
 namespace crepe {
+
+
 
 class Texture  : public api::BaseResource{
 
@@ -16,13 +18,13 @@ public:
 	~Texture();
 
 	SDL_Texture* get_texture() const;
+	SDL_Rect& get_rect() ;
 private:
 	void load(std::unique_ptr<api::Resource> res);
 
 private:
 	SDL_Texture* m_texture;
-
-	friend class SdlContext;
+	SDL_Rect srcrect;
 };
 
 } // namespace crepe

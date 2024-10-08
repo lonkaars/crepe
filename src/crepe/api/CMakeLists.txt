@@ -4,6 +4,7 @@ target_sources(crepe PUBLIC
 	resource_manager.cpp
 	Resource.cpp
 	game.cpp
+	Color.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -15,4 +16,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	resource_manager.h
 	Component.h
 	AudioSource.h
+	Sprite.h
+	Color.h
+	Transform.h
+	Point.h
 )

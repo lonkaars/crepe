@@ -27,9 +27,13 @@ Texture::~Texture(){
 void Texture::load(std::unique_ptr<api::Resource> res) {
 	dbg_trace();
 	SdlContext& ctx = SdlContext::get_instance();
-	m_texture = ctx.setTextureFromPath(res->canonical());
+	m_texture = ctx.setTextureFromPath(res->canonical(), srcrect, 1, 1);
 }
 
 SDL_Texture* Texture::get_texture() const{
 	return m_texture;
+}
+
+SDL_Rect& Texture::get_rect() {
+	return srcrect;
 }
