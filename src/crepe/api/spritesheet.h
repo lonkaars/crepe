@@ -24,14 +24,10 @@ private:
 	void load(std::unique_ptr<api::Resource> res, const int row, const int col);;
 	SDL_Texture* get_texture() const;
 
-
-
 private:
 
 	SDL_Texture* m_spritesheet;
 	SDL_Rect m_clip;
-
-	friend class SdlContext;
 };
 
 }

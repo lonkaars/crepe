@@ -33,6 +33,6 @@ install(
 	FILE_SET HEADERS DESTINATION include/crepe
 )
 
-add_executable(dummy_rm dummy_resource_manager.cpp)
+add_executable(dummy_rm dummy_rendering.cpp)
 #add_executable(dummy_rm dummy_audio.cpp)
 target_link_libraries(dummy_rm PUBLIC crepe)

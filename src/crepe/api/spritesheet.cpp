@@ -30,12 +30,6 @@ void Spritesheet::select_sprite(const int x, const int y){
 	m_clip.y = y * m_clip.h;
 }
 
-void Spritesheet::draw_selected_sprite(const int x, const int y){
-	auto& ctx = SdlContext::get_instance();
-	SDL_Rect tmp = { x, y, m_clip.w, m_clip.h};
-	SDL_RenderCopy(ctx.m_game_renderer, this->m_spritesheet, &this->m_clip, &tmp);
-}
-
 void Spritesheet::load(std::unique_ptr<api::Resource> res, const int row, const int col){
 	auto& ctx = SdlContext::get_instance();
 

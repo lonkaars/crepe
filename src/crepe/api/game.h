@@ -1,15 +1,17 @@
 #pragma once
 
 
-#include "api/spritesheet.h"
-#include "facade/Texture.h"
-#include <vector>
 
-class game {
+class Engine{
 
 public:
-	game(){}
-	~game(){}
+	Engine(int windowWith, int windowHeight);
+	~Engine() = default;
 
-	void render(std::vector<crepe::Texture*>&, std::vector<crepe::api::Spritesheet*>&);
+	void loop();
+
+
+private:
+	int window_height;
+	int window_width;
 };
