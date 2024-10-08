@@ -9,10 +9,12 @@ set(CMAKE_BUILD_TYPE Debug)
 add_compile_definitions(DEBUG)
 
 add_subdirectory(../lib/soloud soloud)
+add_subdirectory(../lib/googletest googletest)
 
 project(crepe C CXX)
 
 add_library(crepe SHARED)
+add_executable(test_main EXCLUDE_FROM_ALL)
 
 target_include_directories(crepe
 	PUBLIC SYSTEM INTERFACE .
@@ -24,13 +26,16 @@ target_link_libraries(crepe
 )
 
 add_subdirectory(crepe)
+add_subdirectory(test)
+add_subdirectory(example)
 
 install(
 	TARGETS crepe
 	FILE_SET HEADERS DESTINATION include/crepe
 )
 
-
-add_executable(dummy_audio dummy_audio.cpp)
-target_link_libraries(dummy_audio PUBLIC crepe)
+target_link_libraries(test_main
+	PRIVATE gtest_main
+	PUBLIC crepe
+)
 
