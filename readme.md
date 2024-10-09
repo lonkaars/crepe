@@ -7,7 +7,8 @@ This repository contains:
 |`lib/`|third-party libraries as git submodules|
 |`mwe/`|minimal working examples and proof-of-concepts|
 |`src/crepe/`|game engine source code|
-|`test/`|game engine unit tests|
+|`src/test/`|unit tests|
+|`src/example`|standalone examples using game engine|
 
 ## Compilation
 

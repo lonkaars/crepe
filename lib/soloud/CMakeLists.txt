@@ -9,7 +9,7 @@ add_subdirectory(../sdl2 sdl2)
 
 project(soloud C CXX)
 
-add_library(soloud STATIC
+add_library(soloud SHARED
 	src/src/audiosource/ay/chipplayer.cpp
 	src/src/audiosource/ay/sndbuffer.cpp
 	src/src/audiosource/ay/sndchip.cpp

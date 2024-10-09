@@ -1,68 +1,53 @@
 #include "timer.h"
-LoopTimer::LoopTimer(){}
+LoopTimer::LoopTimer() {}
 
-LoopTimer& LoopTimer::getInstance() {
-    static LoopTimer instance;
-    return instance;
+LoopTimer & LoopTimer::getInstance() {
+	static LoopTimer instance;
+	return instance;
 }
 
 void LoopTimer::start() {
-    lastFrameTime = SDL_GetTicks64();
-    elapsedTime = 0;
-    elapsedFixedTime = 0;
-    deltaTime = 0;
+	lastFrameTime = SDL_GetTicks64();
+	elapsedTime = 0;
+	elapsedFixedTime = 0;
+	deltaTime = 0;
 }
 
 void LoopTimer::update() {
-    uint64_t currentFrameTime = SDL_GetTicks64();
-    deltaTime = (currentFrameTime - lastFrameTime) / 1000.0;
+	uint64_t currentFrameTime = SDL_GetTicks64();
+	deltaTime = (currentFrameTime - lastFrameTime) / 1000.0;
 
-    if (deltaTime > maximumDeltaTime) {
-        deltaTime = maximumDeltaTime;
-    }
+	if (deltaTime > maximumDeltaTime) {
+		deltaTime = maximumDeltaTime;
+	}
 	deltaTime *= gameScale;
-    elapsedTime += deltaTime;
-    lastFrameTime = currentFrameTime;
+	elapsedTime += deltaTime;
+	lastFrameTime = currentFrameTime;
 }
 
-double LoopTimer::getDeltaTime() const {
-    return deltaTime;
-}
-int LoopTimer::getCurrentTime() const {
-    return SDL_GetTicks();
-}
+double LoopTimer::getDeltaTime() const { return deltaTime; }
+int LoopTimer::getCurrentTime() const { return SDL_GetTicks(); }
 
-void LoopTimer::advanceFixedUpdate() {
-    elapsedFixedTime += fixedDeltaTime;
-}
+void LoopTimer::advanceFixedUpdate() { elapsedFixedTime += fixedDeltaTime; }
 
-double LoopTimer::getFixedDeltaTime() const {
-    return fixedDeltaTime;
-}
+double LoopTimer::getFixedDeltaTime() const { return fixedDeltaTime; }
 
 void LoopTimer::setFPS(int FPS) {
-    this->FPS = FPS;
-    frameTargetTime = 1.0 / FPS;
+	this->FPS = FPS;
+	frameTargetTime = 1.0 / FPS;
 }
 
-int LoopTimer::getFPS() const {
-    return FPS;
-}
-void LoopTimer::setGameScale(double value){
-	gameScale = value;
-};
-double LoopTimer::getGameScale(){
-	return gameScale;
-}
+int LoopTimer::getFPS() const { return FPS; }
+void LoopTimer::setGameScale(double value) { gameScale = value; };
+double LoopTimer::getGameScale() { return gameScale; }
 void LoopTimer::enforceFrameRate() {
-    uint64_t currentFrameTime = SDL_GetTicks64();
-    double frameDuration = (currentFrameTime - lastFrameTime) / 1000.0;
+	uint64_t currentFrameTime = SDL_GetTicks64();
+	double frameDuration = (currentFrameTime - lastFrameTime) / 1000.0;
 
-    if (frameDuration < frameTargetTime) {
-        uint32_t delayTime = (uint32_t)((frameTargetTime - frameDuration) * 1000.0);
-        SDL_Delay(delayTime);
-    }
+	if (frameDuration < frameTargetTime) {
+		uint32_t delayTime
+			= (uint32_t) ((frameTargetTime - frameDuration) * 1000.0);
+		SDL_Delay(delayTime);
+	}
 }
-double LoopTimer::getLag() const {
-    return elapsedTime - elapsedFixedTime;
-}
+double LoopTimer::getLag() const { return elapsedTime - elapsedFixedTime; }
