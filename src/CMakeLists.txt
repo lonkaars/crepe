@@ -7,13 +7,35 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 set(CMAKE_BUILD_TYPE Debug)
 add_compile_definitions(DEBUG)
 
+add_subdirectory(../lib/soloud soloud)
+add_subdirectory(../lib/googletest googletest)
+
 project(crepe C CXX)
 
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+add_library(crepe SHARED)
+add_executable(test_main EXCLUDE_FROM_ALL)
 
-add_executable(main)
+target_include_directories(crepe
+	PUBLIC SYSTEM INTERFACE .
+)
 
-target_link_libraries(main ${SDL2_LIBRARIES})
+# TODO: libraries should be linked as PRIVATE
+target_link_libraries(crepe
+	PUBLIC soloud
+)
+
+add_subdirectory(crepe)
+add_subdirectory(test)
+add_subdirectory(example)
+
+install(
+	TARGETS crepe
+	FILE_SET HEADERS DESTINATION include/crepe
+)
+
+target_link_libraries(test_main
+	PRIVATE gtest_main
+	PUBLIC crepe
+)
 
 add_subdirectory(crepe)
