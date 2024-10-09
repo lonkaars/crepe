@@ -30,6 +30,27 @@
   as these are no longer accessible when the engine is installed
 - Getter and setter functions are appropriately prefixed with `get_` and
   `set_`.
+- Doxygen commands are used with a backslash instead of an at-sign (i.e.
+  `\brief` instead of `@brief`)
+- A singleton's instance is always accessed using a getter function that
+  instantiates its own class as a static variable within the getter function
+  scope, instead of storing the instance as a member variable directly:
+
+  ```cpp
+  class Bad {
+    static Bad instance;
+    Bad & get_instance() { return instance; }
+  };
+
+  class Good {
+    Good & get_instance() {
+      static Good instance;
+      return instance;
+    }
+  };
+  ```
+- Member variable default values should be directly defined in the class
+  declaration instead of using the constructor.
 
 ## CMakeLists specific
 
