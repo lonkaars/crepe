@@ -9,6 +9,7 @@ add_compile_definitions(DEBUG)
 
 add_subdirectory(../lib/soloud soloud)
 add_subdirectory(../lib/googletest googletest)
+add_subdirectory(../lib/sdl2 sdl2)
 
 project(crepe C CXX)
 
@@ -22,6 +23,7 @@ target_include_directories(crepe
 # TODO: libraries should be linked as PRIVATE
 target_link_libraries(crepe
 	PUBLIC soloud
+	PUBLIC sdl2	
 )
 
 add_subdirectory(crepe)
