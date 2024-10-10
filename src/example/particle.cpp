@@ -5,9 +5,13 @@
 #include "ParticleEmitter.h"
 #include "ParticleSystem.h"
 #include "Particle.h"
+#include <crepe/Component.h>
+#include <crepe/ComponentManager.h>
+#include <crepe/GameObject.h>
 #include <chrono>
 
 using namespace crepe;
+using namespace std;
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
@@ -16,9 +20,14 @@ int main(int argc, char* argv[]) {
     SDLApp app(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     if (!app.initialize()) {
-        std::cerr << "Failed to initialize SDLApp." << std::endl;
+        cerr << "Failed to initialize SDLApp." << endl;
         return 1;
     }
+
+	auto & mgr = ComponentManager::get_instance();
+	GameObject * game_object[1];
+	game_object[0] = new GameObject(0, "Name", "Tag", 0);
+	
 
     ParticleSystem particleSystem;
 
@@ -32,36 +41,40 @@ int main(int argc, char* argv[]) {
     float endLifespan = 2.0f;               // ending lifespan of particles
 
     // Vector to hold all the emitters
-    std::vector<ParticleEmitter> emitters;
+    // vector<ParticleEmitter> emitters;
+	game_object[0]->add_component<ParticleEmitter>(maxParticles, emissionRate, speed, speedOffset, angle, angleOffset, beginLifespan, endLifespan);
+
+	std::vector<std::reference_wrapper<ParticleEmitter>> emitters = mgr.get_components_by_type<ParticleEmitter>();
+	
 
     // Loop to create 1000 emitters
-    for (unsigned int i = 0; i < 1000; ++i) {
-        ParticleEmitter emitter(maxParticles, emissionRate, speed, speedOffset, angle, angleOffset, beginLifespan, endLifespan);
+    // for (unsigned int i = 0; i < 1000; ++i) {
+    //     ParticleEmitter emitter(maxParticles, emissionRate, speed, speedOffset, angle, angleOffset, beginLifespan, endLifespan);
         
-        // Set a position for each emitter, modifying the position for demonstration
-        emitter.m_position = {static_cast<float>(200 + (i % 100)), static_cast<float>(200 + (i / 100) * 10)}; // Adjust position for each emitter
+    //     // Set a position for each emitter, modifying the position for demonstration
+    //     emitter.m_position = {static_cast<float>(200 + (i % 100)), static_cast<float>(200 + (i / 100) * 10)}; // Adjust position for each emitter
         
-        emitters.push_back(emitter); // Add the emitter to the vector
-    }
+    //     emitters.push_back(emitter); // Add the emitter to the vector
+    // }
     float deltaTime = 0.1f;
     bool running = true;
-    std::cout << "start loop " << std::endl;
+    cout << "start loop " << endl;
     while (running) {
         app.handleEvents(running);
 
         // Start timing
-        auto start = std::chrono::high_resolution_clock::now();
+        auto start = chrono::high_resolution_clock::now();
 
         particleSystem.update(deltaTime, emitters); // update particle system with delta time and emitters
 
         // End timing
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<float, std::milli> duration = end - start; // get duration in milliseconds
+        auto end = chrono::high_resolution_clock::now();
+        chrono::duration<float, milli> duration = end - start; // get duration in milliseconds
 
-        std::cout << "Update took " << duration.count() << " ms" << std::endl;
+        cout << "Update took " << duration.count() << " ms" << endl;
         app.clearScreen();
 
-        start = std::chrono::high_resolution_clock::now();
+        start = chrono::high_resolution_clock::now();
         // render particles using the drawSquare method from SDLApp
         for (const ParticleEmitter& emitter : emitters) {
             for (const Particle& particle : emitter.particles) {
@@ -71,12 +84,12 @@ int main(int argc, char* argv[]) {
         
 
         app.presentScreen();
-        end = std::chrono::high_resolution_clock::now();
+        end = chrono::high_resolution_clock::now();
          duration = end - start; // get duration in milliseconds
 
-        std::cout << "screen took " << duration.count() << " ms" << std::endl;
+        cout << "screen took " << duration.count() << " ms" << endl;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(20)); // simulate ~50 FPS
+        this_thread::sleep_for(chrono::milliseconds(20)); // simulate ~50 FPS
     }
 
     app.cleanUp();
