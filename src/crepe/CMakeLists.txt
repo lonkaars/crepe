@@ -21,10 +21,10 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Asset.h
 	Sound.h
 	SoundContext.h
-	ParticleEmitter.hpp
-	ParticleSystem.hpp
-	Particle.hpp
-	SDLApp.hpp
+	ParticleEmitter.h
+	ParticleSystem.h
+	Particle.h
+	SDLApp.h
 	ComponentManager.h
 	ComponentManager.hpp
 	Component.h

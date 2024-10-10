@@ -1,7 +1,10 @@
 #pragma once
 
 #include <vector>
-#include "ParticleEmitter.hpp"
+#include "ParticleEmitter.h"
+
+
+namespace crepe {
 
 class ParticleSystem {
 public:
@@ -12,3 +15,5 @@ private:
 
     float m_elapsedTime; //elapsed time since the last emission
 };
+
+}

@@ -1,10 +1,12 @@
-#include "ParticleSystem.hpp"
+#include "ParticleSystem.h"
 #include <cmath>
 // #include <cstdlib>
 #include <ctime>
 #include <iostream>  // include iostream for std::cout
-#include "ParticleEmitter.hpp"
-#include "Particle.hpp"
+#include "ParticleEmitter.h"
+#include "Particle.h"
+
+using namespace crepe;
 
 ParticleSystem::ParticleSystem() : m_elapsedTime(0.0f) {}  // Initialize m_elapsedTime to 0
 
@@ -39,11 +41,11 @@ void ParticleSystem::emitParticle(ParticleEmitter& emitter) {
     //check if value is overthe 360 degrees
     if(emitter.m_maxAngle < emitter.m_minAngle)
     {
-        randomAngle = ((emitter.m_minAngle + (std::rand() % (static_cast<int>(emitter.m_maxAngle + 360 - emitter.m_minAngle + 1))))%360);
+        randomAngle = ((emitter.m_minAngle + (std::rand() % (static_cast<uint32_t>(emitter.m_maxAngle + 360 - emitter.m_minAngle + 1))))%360);
     }
     else
     {
-        randomAngle = emitter.m_minAngle + (std::rand() % (static_cast<int>(emitter.m_maxAngle - emitter.m_minAngle + 1)));
+        randomAngle = emitter.m_minAngle + (std::rand() % (static_cast<uint32_t>(emitter.m_maxAngle - emitter.m_minAngle + 1)));
     }
     
 

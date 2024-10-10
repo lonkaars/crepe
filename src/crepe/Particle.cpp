@@ -1,5 +1,7 @@
-#include "Particle.hpp"
+#include "Particle.h"
 #include <iostream>
+
+using namespace crepe;
 
 Particle::Particle()
 {

@@ -1,5 +1,7 @@
 #pragma once
 
+namespace crepe {
+
 struct Position {
         float x;
         float y;
@@ -18,3 +20,5 @@ public:
     void update(float deltaTime);
     float timeInLife;
 };
+
+}
