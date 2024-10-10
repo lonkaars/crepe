@@ -5,11 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 set(CMAKE_BUILD_TYPE Debug)
 
-add_subdirectory(../lib/soloud soloud)
-add_subdirectory(../lib/googletest googletest)
-add_subdirectory(../lib/sdl2 sdl2)
-
 project(crepe C CXX)
+
+find_package(SDL2 REQUIRED)
+find_package(SoLoud REQUIRED)
+find_package(GTest REQUIRED)
 
 add_library(crepe SHARED)
 add_executable(test_main EXCLUDE_FROM_ALL)
@@ -18,10 +18,9 @@ target_include_directories(crepe
 	PUBLIC SYSTEM INTERFACE .
 )
 
-# TODO: libraries should be linked as PRIVATE
 target_link_libraries(crepe
-	PUBLIC soloud
-	PUBLIC sdl2	
+	PRIVATE soloud
+	PRIVATE SDL2
 )
 
 add_subdirectory(crepe)

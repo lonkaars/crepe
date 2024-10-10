@@ -1,6 +1,6 @@
 #pragma once
 
-#include <soloud.h>
+#include <soloud/soloud.h>
 
 #include "Sound.h"
 
