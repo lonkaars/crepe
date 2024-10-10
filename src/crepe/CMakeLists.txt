@@ -8,6 +8,14 @@ target_sources(crepe PUBLIC
 	ParticleEmitter.cpp
 	ParticleSystem.cpp
 	SDLApp.cpp
+	ComponentManager.cpp
+	Component.cpp
+	GameObject.cpp
+	Collider.cpp
+	Rigidbody.cpp
+	Sprite.cpp
+	ScriptSystem.cpp
+	Script.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -18,6 +26,16 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	ParticleSystem.hpp
 	Particle.hpp
 	SDLApp.hpp
+	ComponentManager.h
+	ComponentManager.hpp
+	Component.h
+	GameObject.h
+	GameObject.hpp
+	Collider.h
+	Rigidbody.h
+	Sprite.h
+	System.h
+	ScriptSystem.h
 )
 
 add_subdirectory(api)

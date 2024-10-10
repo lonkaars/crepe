@@ -17,6 +17,12 @@
 # Code style
 
 - ASCII only
+- Class names are always singular
+- Explanatory comments are placed above the line(s) they are explaining
+- Source files should only contain comments that plainly state what the code is
+  supposed to do
+- Explanatory comments in headers may be used to clarify implementation design
+  decisions
 - Formatting nitty-gritty is handled by clang-format/clang-tidy (run `make
   format` in the root folder of this repository to format all sources files)
 - When using libraries of which the header include order is important, make
@@ -51,6 +57,8 @@
   ```
 - Member variable default values should be directly defined in the class
   declaration instead of using the constructor.
+- Header files declare either a single class or symbols within a single
+  namespace.
 
 ## CMakeLists specific
 
