@@ -8,10 +8,10 @@
 using namespace crepe::util;
 
 static const char * const LOG_PREFIX[] = {
-	[log_level::debug] = "[DBG] ",
-	[log_level::info] = "[INFO] ",
-	[log_level::warning] = "[WARN] ",
-	[log_level::error] = "[ERR] ",
+	[log_level::DEBUG] = "[DBG] ",
+	[log_level::INFO] = "[INFO] ",
+	[log_level::WARNING] = "[WARN] ",
+	[log_level::ERROR] = "[ERR] ",
 };
 
 static void va_logf(enum log_level level, va_list args, const std::string fmt) {
@@ -38,7 +38,7 @@ static void va_logf(enum log_level level, va_list args, const std::string fmt) {
 void crepe::util::logf(const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
-	va_logf(crepe::util::log_level::debug, args, fmt);
+	va_logf(crepe::util::log_level::DEBUG, args, fmt);
 	va_end(args);
 }
 
