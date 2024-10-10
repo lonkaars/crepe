@@ -9,7 +9,7 @@ namespace crepe {
 class ParticleSystem {
 public:
     ParticleSystem();
-    void update(float deltaTime, std::vector<ParticleEmitter>& emitters);
+    void update(float deltaTime, std::vector<std::reference_wrapper<ParticleEmitter>>& emitters);
 private:
     void emitParticle(ParticleEmitter &emitter); //emits a new particle
 

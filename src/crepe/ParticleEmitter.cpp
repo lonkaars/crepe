@@ -11,6 +11,8 @@ ParticleEmitter::ParticleEmitter(uint32_t maxParticles, uint32_t emissionRate, u
     std::cout << "Create emitter" << std::endl;
     m_minAngle = (360 + angle - (angleOffset % 360)) % 360; // calculate minAngle
     m_maxAngle = (360 + angle + (angleOffset % 360)) % 360; // calculate maxAngle
+	m_position.x = 400;
+	m_position.y = 400;
     for (size_t i = 0; i < m_maxParticles; i++)
     {
         this->particles.emplace_back();
