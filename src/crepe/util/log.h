@@ -9,7 +9,7 @@
 #define _crepe_logf_here(fmt, ...) \
 	crepe::util::logf(util::log_level::DEBUG, "%s%s (%s:%d)" fmt "\n", \
 					  crepe::util::color::FG_WHITE, __PRETTY_FUNCTION__, \
-					  __FILE_NAME__, __LINE__, crepe::util::color::RESET, \
+					  __FILE__, __LINE__, crepe::util::color::RESET, \
 					  __VA_ARGS__)
 
 // very illegal global function-style macros
