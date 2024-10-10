@@ -59,6 +59,11 @@
   declaration instead of using the constructor.
 - Header files declare either a single class or symbols within a single
   namespace.
+- Use of the `auto` type is not allowed, with the following exceptions:
+  - When naming the item type in a range-based for loop
+  - When calling template factory methods that explicitly name the return type
+    in the function call signature
+  - When fetching a singleton instance
 
 ## CMakeLists specific
 
