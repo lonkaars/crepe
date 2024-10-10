@@ -3,7 +3,6 @@ target_sources(crepe PUBLIC
 	Asset.cpp
 	Sound.cpp
 	SoundContext.cpp
-	main.cpp
 	Particle.cpp
 	ParticleEmitter.cpp
 	ParticleSystem.cpp

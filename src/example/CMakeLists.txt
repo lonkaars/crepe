@@ -15,7 +15,5 @@ endfunction()
 add_example(audio_internal)
 add_example(components_internal)
 add_example(script)
-
-add_executable(particel EXCLUDE_FROM_ALL particel.cpp)
-target_link_libraries(particel PUBLIC crepe)
-
+add_example(particel)
+target_link_libraries(particel PUBLIC SDL2)
