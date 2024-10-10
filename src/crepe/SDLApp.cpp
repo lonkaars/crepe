@@ -1,8 +1,8 @@
-#include "SDLApp.hpp"
+#include "SDLApp.h"
 #include <iostream>
 #include <vector>
-#include "Particle.hpp"
-#include "ParticleEmitter.hpp"
+#include "Particle.h"
+#include "ParticleEmitter.h"
 
 SDLApp::SDLApp(int windowWidth, int windowHeight)
     : windowWidth(windowWidth), windowHeight(windowHeight), window(nullptr), renderer(nullptr) {}

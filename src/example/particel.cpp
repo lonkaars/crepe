@@ -1,11 +1,13 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include "SDLApp.hpp"
-#include "ParticleEmitter.hpp"
-#include "ParticleSystem.hpp"
-#include "Particle.hpp"
+#include "SDLApp.h"
+#include "ParticleEmitter.h"
+#include "ParticleSystem.h"
+#include "Particle.h"
 #include <chrono>
+
+using namespace crepe;
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
