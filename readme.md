@@ -5,10 +5,10 @@ This repository contains:
 |folder|content|
 |-|-|
 |`lib/`|third-party libraries as git submodules|
-|`mwe/`|minimal working examples and proof-of-concepts|
+|`mwe/`|minimal working examples and standalone proof-of-concepts (isolated from the engine)|
 |`src/crepe/`|game engine source code|
 |`src/test/`|unit tests|
-|`src/example/`|standalone examples using game engine|
+|`src/example/`|standalone examples or proof-of-concepts using game engine internals|
 
 ## Compilation
 
