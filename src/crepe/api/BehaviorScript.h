@@ -6,11 +6,14 @@
 namespace crepe::api {
 
 class BehaviorScript : public Script, public Component {
+protected:
 	// only allow ComponentManager to instantiate scripts
 	friend class ComponentManager;
-
-protected:
 	BehaviorScript();
+public:
+	// but allow uniqe_ptr to call the destructor (THIS IS VERY IMPORTANT)
+	virtual ~BehaviorScript() = default;
+
 };
 
 }

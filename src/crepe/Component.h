@@ -3,12 +3,14 @@
 namespace crepe {
 
 class Component {
+protected:
+	Component() = default;
 public:
-	Component();
+	virtual ~Component() = default;
 	// TODO: shouldn't this constructor be deleted because this class will never
 	// directly be instantiated?
 
-	bool active;
+	bool active = true;
 };
 
 } // namespace crepe
