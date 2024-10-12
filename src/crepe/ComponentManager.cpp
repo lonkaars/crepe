@@ -1,3 +1,4 @@
+#include "util/log.h"
 #include "ComponentManager.h"
 
 using namespace crepe;
@@ -20,5 +21,14 @@ void ComponentManager::delete_all_components_of_id(uint32_t id) {
 
 void ComponentManager::delete_all_components() {
 	// Clear the whole unordered_map<>
-	components.clear();
+	this->components.clear();
 }
+
+ComponentManager::ComponentManager() {
+	dbg_trace();
+}
+
+ComponentManager::~ComponentManager() {
+	dbg_trace();
+}
+

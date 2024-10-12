@@ -2,4 +2,3 @@
 
 using namespace crepe;
 
-Component::Component() : active(true) {}

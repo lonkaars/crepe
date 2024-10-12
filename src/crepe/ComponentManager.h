@@ -44,7 +44,8 @@ public:
 	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
 
 private:
-	ComponentManager() = default;
+	ComponentManager();
+	virtual ~ComponentManager();
 
 	/*
 	 * The std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>> below might seem a bit strange, let me explain this structure:
