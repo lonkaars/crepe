@@ -14,6 +14,7 @@ public:
 	// but allow uniqe_ptr to call the destructor (THIS IS VERY IMPORTANT)
 	virtual ~BehaviorScript() = default;
 
+	static BehaviorScript * component;
 };
 
 }
