@@ -3,6 +3,7 @@
 #include <type_traits>
 
 #include "ComponentManager.h"
+#include "api/BehaviorScript.h"
 
 namespace crepe {
 

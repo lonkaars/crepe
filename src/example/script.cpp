@@ -11,9 +11,10 @@
 #include <crepe/api/BehaviorScript.h>
 
 using namespace crepe;
+using namespace crepe::api;
 using namespace std;
 
-class MyScript : public api::BehaviorScript {
+class MyScript : public BehaviorScript {
 	void update() {
 		dbg_trace();
 	}

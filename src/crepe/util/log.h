@@ -7,7 +7,7 @@
 
 // utility macros
 #define _crepe_logf_here(fmt, ...) \
-	crepe::util::logf(util::log_level::DEBUG, "%s%s (%s:%d)" fmt "\n", \
+	crepe::util::logf(util::log_level::DEBUG, "%s%s (%s:%d)%s" fmt "\n", \
 					  crepe::util::color::FG_WHITE, __PRETTY_FUNCTION__, \
 					  __FILE_NAME__, __LINE__, crepe::util::color::RESET, \
 					  __VA_ARGS__)
