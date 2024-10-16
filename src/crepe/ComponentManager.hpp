@@ -3,12 +3,11 @@
 #include <type_traits>
 
 #include "ComponentManager.h"
-#include "api/BehaviorScript.h"
 
 namespace crepe {
 
 template <class T, typename... Args>
-void ComponentManager::add_component(uint32_t id, Args &&... args) {
+T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	using namespace std;
 
 	static_assert(is_base_of<Component, T>::value, "add_component must recieve a derivative class of Component");
@@ -33,6 +32,8 @@ void ComponentManager::add_component(uint32_t id, Args &&... args) {
 	T * instance = new T(forward<Args>(args)...);
 	// store its unique_ptr in the vector<>
 	components[type][id].push_back(unique_ptr<T>(instance));
+
+	return *instance;
 }
 
 template <typename T>
