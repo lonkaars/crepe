@@ -18,7 +18,7 @@ public:
 	ComponentManager & operator=(ComponentManager &&) = delete; //Singleton
 
 	template <typename T, typename... Args>
-	void AddComponent(std::uint32_t id,
+	T& AddComponent(std::uint32_t id,
 					  Args &&... args); //Add a component of a specific type
 	template <typename T>
 	void DeleteComponentsById(

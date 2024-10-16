@@ -1,6 +1,6 @@
 
 template <typename T, typename... Args>
-void ComponentManager::AddComponent(std::uint32_t id, Args &&... args) {
+T& ComponentManager::AddComponent(std::uint32_t id, Args &&... args) {
 	std::type_index type = typeid(
 		T); //Determine the type of T (this is used as the key of the unordered_map<>)
 
@@ -21,6 +21,8 @@ void ComponentManager::AddComponent(std::uint32_t id, Args &&... args) {
 
 	mComponents[type][id].push_back(std::make_unique<T>(std::forward<Args>(
 		args)...)); //Create a new component of type T using perfect forwarding and store its unique_ptr in the vector<>
+
+	return static_cast<T&>(*mComponents[type][id].back().get());
 }
 
 template <typename T>
