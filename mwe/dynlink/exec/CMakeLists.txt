@@ -5,12 +5,20 @@ set(CMAKE_CXX_STANDARD 20)
 
 project(main C CXX)
 
+add_executable(main main.c)
+
 # Since we have the source code for the test library, we might as well let
 # CMake use it so it automatically picks up the interface headers and compiles
 # the library for us. The same can be achieved manually, but is more code.
 add_subdirectory(../lib test)
 
-add_executable(main main.c)
+# include(ExternalProject)
+# ExternalProject_Add(test_ext
+# 	SOURCE_DIR ../../lib
+# 	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX="${CMAKE_BINARY_DIR}/ext"
+# )
+# add_dependencies(main test_ext)
+# find_package(test REQUIRED)
 
 # Make sure ld.so (linux) looks in the same folder as the final executable for
 # the .so dependency

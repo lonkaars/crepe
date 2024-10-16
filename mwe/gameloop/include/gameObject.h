@@ -19,6 +19,7 @@ public:
 	void setHeight(float value);
 	void setVelX(float value);
 	void setVelY(float value);
+	int direction;
 
 private:
 	std::string name = "";

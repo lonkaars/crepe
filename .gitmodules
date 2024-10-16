@@ -3,7 +3,7 @@
 	url = https://github.com/google/googletest
 	shallow = true
 [submodule "lib/soloud/src"]
-	path = lib/soloud/src
+	path = lib/soloud
 	url = https://github.com/jarikomppa/soloud
 	shallow = true
 [submodule "lib/sdl2"]

@@ -13,6 +13,8 @@ public:
 	double getFixedDeltaTime() const;
 	void setFPS(int FPS);
 	int getFPS() const;
+	double getGameScale();
+	void setGameScale(double);
 	void enforceFrameRate();
 	double getLag() const;
 
