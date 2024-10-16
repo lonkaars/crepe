@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Script.h"
 #include "../Component.h"
+#include "../Script.h"
 
 namespace crepe::api {
 
@@ -13,5 +13,4 @@ protected:
 	BehaviorScript();
 };
 
-}
-
+} // namespace crepe::api

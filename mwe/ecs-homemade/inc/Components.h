@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <memory>
+#include <string>
 
 class Component {
 public:
@@ -40,7 +40,7 @@ public:
 	virtual void onUpdate() = 0;
 };
 
-template<typename T>
+template <typename T>
 class BehaviourWrapper : public IBehaviour {
 public:
 	BehaviourWrapper();
@@ -53,7 +53,7 @@ private:
 
 class BehaviourScript : public Component {
 public:
-	template<typename T>
+	template <typename T>
 	void addScript();
 
 	void onStart();

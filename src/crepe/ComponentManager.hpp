@@ -10,7 +10,8 @@ template <class T, typename... Args>
 void ComponentManager::add_component(uint32_t id, Args &&... args) {
 	using namespace std;
 
-	static_assert(is_base_of<Component, T>::value, "add_component must recieve a derivative class of Component");
+	static_assert(is_base_of<Component, T>::value,
+				  "add_component must recieve a derivative class of Component");
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	type_index type = typeid(T);

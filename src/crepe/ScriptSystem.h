@@ -14,5 +14,4 @@ private:
 	~ScriptSystem();
 };
 
-}
-
+} // namespace crepe

@@ -11,13 +11,13 @@ Rigidbody::Rigidbody(int mass, int gravityScale, int bodyType)
 Colider::Colider(int size) : mSize(size) {}
 
 void BehaviourScript::onStart() {
-	if(behaviour) {
+	if (behaviour) {
 		behaviour->onStart();
 	}
 }
 
 void BehaviourScript::onUpdate() {
-	if(behaviour) {
+	if (behaviour) {
 		behaviour->onUpdate();
 	}
 }
