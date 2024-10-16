@@ -16,7 +16,7 @@ protected:
 	friend class crepe::ComponentManager;
 	BehaviorScript();
 public:
-	virtual ~BehaviorScript() = default;
+	virtual ~BehaviorScript();
 
 public:
 	template<class T>
