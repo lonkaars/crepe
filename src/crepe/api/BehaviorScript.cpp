@@ -9,10 +9,3 @@ BehaviorScript::BehaviorScript() {
 	dbg_trace();
 }
 
-BehaviorScript::~BehaviorScript() {
-	if (this->script != nullptr) {
-		delete this->script;
-		this->script = nullptr;
-	}
-}
-

@@ -11,7 +11,8 @@ template<class T>
 BehaviorScript & BehaviorScript::set_script() {
 	static_assert(std::is_base_of<Script, T>::value);
 	dbg_trace();
-	this->script = new T();
+	Script * s = new T();
+	this->script = std::unique_ptr<Script>(s);
 	return *this;
 }
 

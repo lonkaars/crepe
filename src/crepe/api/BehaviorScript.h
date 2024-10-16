@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "../Component.h"
 
 namespace crepe {
@@ -16,7 +18,7 @@ protected:
 	friend class crepe::ComponentManager;
 	BehaviorScript();
 public:
-	virtual ~BehaviorScript();
+	virtual ~BehaviorScript() = default;
 
 public:
 	template<class T>
@@ -24,7 +26,7 @@ public:
 
 protected:
 	friend class crepe::ScriptSystem;
-	Script * script = nullptr;
+	std::unique_ptr<Script> script = nullptr;
 };
 
 }
