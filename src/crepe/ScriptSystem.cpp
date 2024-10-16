@@ -40,7 +40,7 @@ forward_list<Script *> ScriptSystem::get_scripts() {
 
 	for (auto behavior_script_ref : behavior_scripts) {
 		BehaviorScript & behavior_script = behavior_script_ref.get();
-		Script * script = behavior_script.script;
+		Script * script = behavior_script.script.get();
 		if (script == nullptr) continue;
 		scripts.push_front(script);
 	}
