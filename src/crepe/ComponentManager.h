@@ -23,7 +23,7 @@ public:
 public:
 	//! Add a component of a specific type
 	template <typename T, typename... Args>
-	void add_component(uint32_t id, Args &&... args);
+	T & add_component(uint32_t id, Args &&... args);
 	//! Deletes all components of a specific type and id
 	template <typename T>
 	void delete_components_by_id(uint32_t id);
