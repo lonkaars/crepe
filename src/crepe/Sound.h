@@ -1,7 +1,7 @@
 #pragma once
 
-#include <soloud.h>
-#include <soloud_wav.h>
+#include <soloud/soloud.h>
+#include <soloud/soloud_wav.h>
 
 #include <memory>
 
