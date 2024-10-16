@@ -9,13 +9,9 @@
 
 class myScript {
 public:
-	void onStart() {
-		std::cout << "In onStart" << std::endl;
-	}
+	void onStart() { std::cout << "In onStart" << std::endl; }
 
-	void onUpdate() {
-		std::cout << "In onUpdate" << std::endl;
-	}
+	void onUpdate() { std::cout << "In onUpdate" << std::endl; }
 };
 
 int main() {
@@ -57,7 +53,8 @@ int main() {
 	}
 
 	std::vector<std::reference_wrapper<BehaviourScript>> scripts
-		= ComponentManager::GetInstance().GetComponentsByType<BehaviourScript>();
+		= ComponentManager::GetInstance()
+			  .GetComponentsByType<BehaviourScript>();
 	for (BehaviourScript & script : scripts) {
 		//script.onStart();
 		//script.onUpdate();

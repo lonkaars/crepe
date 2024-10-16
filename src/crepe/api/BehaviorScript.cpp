@@ -4,7 +4,4 @@
 
 using namespace crepe::api;
 
-BehaviorScript::BehaviorScript() {
-	dbg_trace();
-}
-
+BehaviorScript::BehaviorScript() { dbg_trace(); }
