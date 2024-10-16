@@ -7,6 +7,17 @@
 #include "Components.h"
 #include "GameObjectMax.h"
 
+class myScript {
+public:
+	void onStart() {
+		std::cout << "In onStart" << std::endl;
+	}
+
+	void onUpdate() {
+		std::cout << "In onUpdate" << std::endl;
+	}
+};
+
 int main() {
 	auto startAdding = std::chrono::high_resolution_clock::now();
 
@@ -18,6 +29,7 @@ int main() {
 		gameObject[i]->AddComponent<Sprite>("C:/Test");
 		gameObject[i]->AddComponent<Rigidbody>(0, 0, i);
 		gameObject[i]->AddComponent<Colider>(i);
+		gameObject[i]->AddComponent<BehaviourScript>().addScript<myScript>();
 	}
 
 	auto stopAdding = std::chrono::high_resolution_clock::now();
@@ -42,6 +54,13 @@ int main() {
 		= ComponentManager::GetInstance().GetComponentsByType<Colider>();
 	for (Colider & colider : coliders) {
 		//std::cout << colider.get().mSize << std::endl;
+	}
+
+	std::vector<std::reference_wrapper<BehaviourScript>> scripts
+		= ComponentManager::GetInstance().GetComponentsByType<BehaviourScript>();
+	for (BehaviourScript & script : scripts) {
+		//script.onStart();
+		//script.onUpdate();
 	}
 
 	auto stopLooping = std::chrono::high_resolution_clock::now();
