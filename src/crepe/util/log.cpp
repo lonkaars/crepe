@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <string>
 
-#include "log.h"
 #include "fmt.h"
+#include "log.h"
 
 using namespace crepe::util;
 
@@ -38,4 +38,3 @@ void crepe::util::logf(log_level level, const char * fmt, ...) {
 	log(level, va_stringf(args, fmt));
 	va_end(args);
 }
-

@@ -1,6 +1,6 @@
-#include <string>
-#include <cstdio>
 #include <cstdarg>
+#include <cstdio>
+#include <string>
 
 #include "fmt.h"
 
@@ -31,4 +31,3 @@ string crepe::util::stringf(const char * fmt, ...) {
 	va_end(args);
 	return out;
 }
-

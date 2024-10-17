@@ -3,22 +3,20 @@
  * Standalone example for usage of the script component and system
  */
 
-#include <crepe/util/log.h>
-#include <crepe/ScriptSystem.h>
 #include <crepe/ComponentManager.h>
 #include <crepe/GameObject.h>
+#include <crepe/ScriptSystem.h>
+#include <crepe/util/log.h>
 
-#include <crepe/api/Script.h>
 #include <crepe/api/BehaviorScript.h>
+#include <crepe/api/Script.h>
 
 using namespace crepe;
 using namespace crepe::api;
 using namespace std;
 
 class MyScript : public Script {
-	void update() {
-		dbg_log("MY SCRIPT UPDATE");
-	}
+	void update() { dbg_log("MY SCRIPT UPDATE"); }
 };
 
 int main() {
@@ -32,4 +30,3 @@ int main() {
 
 	return 0;
 }
-

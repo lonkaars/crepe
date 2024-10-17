@@ -1,5 +1,5 @@
-#include "util/log.h"
 #include "ComponentManager.h"
+#include "util/log.h"
 
 using namespace crepe;
 
@@ -24,11 +24,6 @@ void ComponentManager::delete_all_components() {
 	this->components.clear();
 }
 
-ComponentManager::ComponentManager() {
-	dbg_trace();
-}
+ComponentManager::ComponentManager() { dbg_trace(); }
 
-ComponentManager::~ComponentManager() {
-	dbg_trace();
-}
-
+ComponentManager::~ComponentManager() { dbg_trace(); }
