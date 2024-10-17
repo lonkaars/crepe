@@ -10,7 +10,8 @@ template <class T, typename... Args>
 T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	using namespace std;
 
-	static_assert(is_base_of<Component, T>::value, "add_component must recieve a derivative class of Component");
+	static_assert(is_base_of<Component, T>::value,
+				  "add_component must recieve a derivative class of Component");
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	type_index type = typeid(T);
@@ -81,7 +82,8 @@ ComponentManager::get_components_by_id(uint32_t id) const {
 	if (components.find(type) == components.end()) return component_vector;
 
 	// Get the correct vector<>
-	const vector<vector<unique_ptr<Component>>> & component_array = components.at(type);
+	const vector<vector<unique_ptr<Component>>> & component_array
+		= components.at(type);
 
 	// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
 	if (id >= component_array.size()) return component_vector;
@@ -117,7 +119,8 @@ ComponentManager::get_components_by_type() const {
 	if (components.find(type) == components.end()) return component_vector;
 
 	// Get the correct vector<>
-	const vector<vector<unique_ptr<Component>>> & component_array = components.at(type);
+	const vector<vector<unique_ptr<Component>>> & component_array
+		= components.at(type);
 
 	// Loop through the whole vector<>
 	for (const vector<unique_ptr<Component>> & component : component_array) {

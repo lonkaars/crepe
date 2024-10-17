@@ -7,7 +7,7 @@
 
 namespace crepe::api {
 
-template<class T>
+template <class T>
 BehaviorScript & BehaviorScript::set_script() {
 	static_assert(std::is_base_of<Script, T>::value);
 	dbg_trace();
@@ -16,4 +16,4 @@ BehaviorScript & BehaviorScript::set_script() {
 	return *this;
 }
 
-}
+} // namespace crepe::api

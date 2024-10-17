@@ -8,6 +8,7 @@ namespace crepe::api {
 
 class Script {
 	friend class crepe::ScriptSystem;
+
 protected:
 	virtual void init() {}
 	virtual void update() {}
@@ -17,5 +18,4 @@ protected:
 	// added event.
 };
 
-}
-
+} // namespace crepe::api

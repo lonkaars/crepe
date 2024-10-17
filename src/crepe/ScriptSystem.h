@@ -21,8 +21,6 @@ private:
 
 private:
 	std::forward_list<api::Script *> get_scripts();
-
 };
 
-}
-
+} // namespace crepe
