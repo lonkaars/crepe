@@ -10,7 +10,7 @@ public:
 	GameObject(uint32_t id, std::string name, std::string tag, int layer);
 
 	template <typename T, typename... Args>
-	void add_component(Args &&... args);
+	T & add_component(Args &&... args);
 
 	uint32_t id;
 	std::string name;
