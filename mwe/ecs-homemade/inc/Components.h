@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 class Component {
@@ -31,3 +32,35 @@ public:
 
 	int mSize;
 };
+
+class IBehaviour {
+public:
+	virtual ~IBehaviour() = default;
+	virtual void onStart() = 0;
+	virtual void onUpdate() = 0;
+};
+
+template <typename T>
+class BehaviourWrapper : public IBehaviour {
+public:
+	BehaviourWrapper();
+	void onStart() override;
+	void onUpdate() override;
+
+private:
+	T instance;
+};
+
+class BehaviourScript : public Component {
+public:
+	template <typename T>
+	void addScript();
+
+	void onStart();
+	void onUpdate();
+
+private:
+	std::unique_ptr<IBehaviour> behaviour;
+};
+
+#include "Components.hpp"
