@@ -39,8 +39,8 @@ int main() {
 	auto stop_adding = chrono::high_resolution_clock::now();
 
 	auto sprites = mgr.get_components_by_type<Sprite>();
-	for (auto sprite : sprites) {
-		assert(sprite.get().path == "test");
+	for (auto & sprite : sprites) {
+		assert(sprite.path == "test");
 	}
 
 	auto stop_looping = chrono::high_resolution_clock::now();
