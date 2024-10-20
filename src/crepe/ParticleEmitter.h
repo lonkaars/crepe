@@ -10,7 +10,7 @@ namespace crepe {
 
 class ParticleEmitter : public Component {
 public:
-    ParticleEmitter(uint32_t maxParticles, uint32_t emissionRate, uint32_t speed, uint32_t speedOffset, uint32_t angle, uint32_t angleOffset,float m_beginLifespan,float m_endLifespan);
+    ParticleEmitter(uint32_t gameObjectId, uint32_t maxParticles, uint32_t emissionRate, uint32_t speed, uint32_t speedOffset, uint32_t angle, uint32_t angleOffset,float m_beginLifespan,float m_endLifespan);
     ~ParticleEmitter();
 
     Position m_position; //position of the emitter

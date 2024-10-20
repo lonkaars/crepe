@@ -6,7 +6,7 @@ namespace crepe {
 
 class Transform : public Component {
 public:
-	Transform(int mass, int gravityScale, int bodyType);
+	Transform(uint32_t gameObjectId,int mass, int gravityScale, int bodyType);
 
 	int mass;
 	int gravity_scale;
