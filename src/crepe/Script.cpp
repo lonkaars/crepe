@@ -2,6 +2,5 @@
 
 using namespace crepe;
 
-void Script::init() { }
-void Script::update() { }
-
+void Script::init() {}
+void Script::update() {}

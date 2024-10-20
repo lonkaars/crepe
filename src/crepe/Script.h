@@ -12,5 +12,4 @@ protected:
 	// added event.
 };
 
-}
-
+} // namespace crepe
