@@ -1,8 +1,6 @@
 #include "ParticleSystem.h"
 #include <cmath>
-// #include <cstdlib>
 #include <ctime>
-#include <iostream>  // include iostream for std::cout
 #include "ParticleEmitter.h"
 #include "Particle.h"
 #include "ComponentManager.h"
@@ -11,7 +9,10 @@ using namespace crepe;
 
 ParticleSystem::ParticleSystem() : m_elapsedTime(0.0f) {}  // Initialize m_elapsedTime to 0
 
-void ParticleSystem::update(float deltaTime, std::vector<std::reference_wrapper<ParticleEmitter>>& emitters) {
+void ParticleSystem::update() {
+	ComponentManager& mgr = ComponentManager::get_instance();
+	std::vector<std::reference_wrapper<ParticleEmitter>> emitters = mgr.get_components_by_type<ParticleEmitter>();
+	float deltaTime = 0.10;
     for (ParticleEmitter& emitter : emitters) {
         float updateAmount = 1/static_cast<float>(emitter.m_emissionRate);
         for (float i = 0; i < deltaTime; i += updateAmount)
