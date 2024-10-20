@@ -5,8 +5,8 @@
 
 using namespace crepe;
 
-ParticleEmitter::ParticleEmitter(uint32_t maxParticles, uint32_t emissionRate, uint32_t speed, uint32_t speedOffset, uint32_t angle, uint32_t angleOffset, float m_beginLifespan, float m_endLifespan)
-    : m_maxParticles(maxParticles), m_emissionRate(emissionRate), m_speed(speed), m_speedOffset(speedOffset), m_position{0, 0}, m_beginLifespan(m_beginLifespan),m_endLifespan(m_endLifespan) {
+ParticleEmitter::ParticleEmitter(uint32_t gameObjectId ,uint32_t maxParticles, uint32_t emissionRate, uint32_t speed, uint32_t speedOffset, uint32_t angle, uint32_t angleOffset, float m_beginLifespan, float m_endLifespan)
+    : Component(gameObjectId), m_maxParticles(maxParticles), m_emissionRate(emissionRate), m_speed(speed), m_speedOffset(speedOffset), m_position{0, 0}, m_beginLifespan(m_beginLifespan),m_endLifespan(m_endLifespan) {
     std::srand(static_cast<uint32_t>(std::time(nullptr))); // initialize random seed
     std::cout << "Create emitter" << std::endl;
     m_minAngle = (360 + angle - (angleOffset % 360)) % 360; // calculate minAngle

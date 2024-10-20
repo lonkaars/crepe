@@ -5,4 +5,4 @@
 using namespace crepe;
 using namespace std;
 
-Sprite::Sprite(string path) : path(path) {}
+Sprite::Sprite(uint32_t gameObjectId, string path) : Component(gameObjectId), path(path) {}

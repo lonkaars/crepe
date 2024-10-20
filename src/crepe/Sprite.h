@@ -8,7 +8,7 @@ namespace crepe {
 
 class Sprite : public Component {
 public:
-	Sprite(std::string path);
+	Sprite(uint32_t gameObjectId,std::string path);
 
 	std::string path;
 };

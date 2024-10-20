@@ -15,6 +15,7 @@ target_sources(crepe PUBLIC
 	Sprite.cpp
 	ScriptSystem.cpp
 	Script.cpp
+	PhysicsSystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -35,6 +36,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Sprite.h
 	System.h
 	ScriptSystem.h
+	PhysicsSystem.h
 )
 
 add_subdirectory(api)
