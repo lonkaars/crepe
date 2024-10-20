@@ -4,13 +4,19 @@
 
 namespace crepe {
 
+struct Position
+{
+	int x;
+	int y;
+};
+
+
 class Transform : public Component {
 public:
-	Transform(uint32_t gameObjectId,int mass, int gravityScale, int bodyType);
-
-	int mass;
-	int gravity_scale;
-	int body_type;
+	Transform(uint32_t gameObjectId,Position position, int rotation, int scale);
+	Position postion;
+	int rotation;
+	int scale;
 };
 
 } // namespace crepe

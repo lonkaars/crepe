@@ -16,6 +16,9 @@ target_sources(crepe PUBLIC
 	ScriptSystem.cpp
 	Script.cpp
 	PhysicsSystem.cpp
+	Transform.cpp
+	Force.cpp
+	CollisionSystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -37,6 +40,9 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	System.h
 	ScriptSystem.h
 	PhysicsSystem.h
+	Transform.h
+	Force.h
+	CollisionSystem.h
 )
 
 add_subdirectory(api)
