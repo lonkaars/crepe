@@ -14,7 +14,8 @@ enum class BodyType {
 class Rigidbody : public Component {
 public:
 	Rigidbody(uint32_t gameObjectId,int mass, int gravityScale, BodyType bodyType);
-
+	int32_t velocity_x;
+    int32_t velocity_y;
 	int mass;
 	int gravity_scale;
 	BodyType body_type;
