@@ -1,16 +1,36 @@
 #pragma once
 
-#include "../Component.h"
-#include "../Script.h"
+#include <memory>
+
+#include "Component.h"
+#include "Script.h"
+
+namespace crepe {
+class ScriptSystem;
+class ComponentManager;
+} // namespace crepe
 
 namespace crepe::api {
 
-class BehaviorScript : public Script, public Component {
-	// only allow ComponentManager to instantiate scripts
-	friend class ComponentManager;
+class Script;
+
+class BehaviorScript : public Component {
+protected:
+	friend class crepe::ComponentManager;
+	BehaviorScript();
+
+public:
+	virtual ~BehaviorScript() = default;
+
+public:
+	template <class T>
+	BehaviorScript & set_script();
 
 protected:
-	BehaviorScript();
+	friend class crepe::ScriptSystem;
+	std::unique_ptr<Script> script = nullptr;
 };
 
 } // namespace crepe::api
+
+#include "BehaviorScript.hpp"
