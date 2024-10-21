@@ -9,10 +9,15 @@ public:
 	LogColor() = default;
 
 public:
+	//! get color code as c-style string (or color content string)
 	const char * c_str(const char * content = NULL);
+	//! color printf-style format string
+	const char * fmt(const char * fmt, ...);
+	//! get color code as stl string (or color content string)
 	const std::string str(const std::string & content = "");
 
 public:
+	//! reset color to default foreground and background color
 	LogColor & reset();
 
 public:

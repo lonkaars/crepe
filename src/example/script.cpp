@@ -24,8 +24,6 @@ int main() {
 	auto & cfg = api::Config::get_instance();
 	cfg.log.level = util::log_level::TRACE;
 
-	dbg_trace();
-
 	auto obj = GameObject(0, "name", "tag", 0);
 	obj.add_component<BehaviorScript>().set_script<MyScript>();
 
