@@ -4,17 +4,22 @@
 #include <string>
 
 #include "log.h"
+#include "../api/Config.h"
 
 using namespace crepe::util;
 
 static const char * const LOG_PREFIX[] = {
-	[log_level::DEBUG] = "[DBG] ",
+	[log_level::TRACE] = "[TRACE] ",
+	[log_level::DEBUG] = "[DEBUG] ",
 	[log_level::INFO] = "[INFO] ",
 	[log_level::WARNING] = "[WARN] ",
-	[log_level::ERROR] = "[ERR] ",
+	[log_level::ERROR] = "[ERROR] ",
 };
 
 static void va_logf(enum log_level level, va_list args, const std::string fmt) {
+	auto & cfg = crepe::api::Config::get_instance();
+	if (level < cfg.log.level) return;
+
 	va_list args_copy;
 	va_copy(args_copy, args);
 
