@@ -15,13 +15,13 @@ static const char * const LOG_PREFIX[] = {
 	[log_level::ERROR] = "[ERR] ",
 };
 
-static void log(enum log_level level, const std::string msg) {
+static void log(enum log_level level, const std::string & msg) {
 	using namespace std;
-	string final = string(LOG_PREFIX[level]) + msg;
-	if (!final.ends_with("\n")) final += "\n";
+	string out = string(LOG_PREFIX[level]) + msg;
+	if (!out.ends_with("\n")) out += "\n";
 
 	// TODO: also log to file or smth
-	printf("%s", final.c_str());
+	printf("%s", out.c_str());
 	fflush(stdout);
 }
 
