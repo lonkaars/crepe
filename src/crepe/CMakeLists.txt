@@ -9,7 +9,6 @@ target_sources(crepe PUBLIC
 	Rigidbody.cpp
 	Sprite.cpp
 	ScriptSystem.cpp
-	Script.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
