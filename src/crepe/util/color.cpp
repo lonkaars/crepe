@@ -1,4 +1,7 @@
+#include <cstdarg>
+
 #include "color.h"
+#include "fmt.h"
 #include "../api/Config.h"
 
 using namespace crepe::util;
@@ -16,8 +19,16 @@ const string LogColor::str(const string & content) {
 }
 
 const char * LogColor::c_str(const char * content) {
-	this->final = this->str(content);
+	this->final = this->str(content == NULL ? "" : content);
 	return this->final.c_str();
+}
+
+const char * LogColor::fmt(const char * fmt, ...) {
+	va_list args;
+	va_start(args, fmt);
+	string content = va_stringf(args, fmt);
+	va_end(args);
+	return this->c_str(content.c_str());
 }
 
 LogColor & LogColor::add_code(unsigned int code) {
