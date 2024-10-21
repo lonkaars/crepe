@@ -1,4 +1,5 @@
 target_sources(crepe PUBLIC
+	color.cpp
 	log.cpp
 )
 
