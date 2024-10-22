@@ -25,11 +25,11 @@ static void log(enum log_level level, const string msg) {
 	auto & cfg = crepe::api::Config::get_instance();
 	if (level < cfg.log.level) return;
 
-	string final = log_prefix(level) + msg;
-	if (!final.ends_with("\n")) final += "\n";
+	string out = log_prefix(level) + msg;
+	if (!out.ends_with("\n")) out += "\n";
 
 	// TODO: also log to file or smth
-	printf("%s", final.c_str());
+	printf("%s", out.c_str());
 	fflush(stdout);
 }
 
