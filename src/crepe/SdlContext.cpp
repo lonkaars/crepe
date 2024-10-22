@@ -1,12 +1,10 @@
 
 
 #include "SdlContext.h"
-#include "SDL_hints.h"
-#include "SDL_rect.h"
-#include "SDL_stdinc.h"
+
 #include "api/Sprite.h"
+#include "api/Texture.h"
 #include "api/Transform.h"
-#include "facade/Texture.h"
 #include "util/log.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -15,7 +13,6 @@
 #include <SDL2/SDL_video.h>
 #include <cstddef>
 #include <iostream>
-#include <ostream>
 
 using namespace crepe;
 
@@ -24,7 +21,7 @@ SdlContext & SdlContext::get_instance() {
 	return instance;
 }
 
-void SdlContext::handleEvents(bool & running) {
+void SdlContext::handle_events(bool & running) {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
@@ -32,32 +29,25 @@ void SdlContext::handleEvents(bool & running) {
 		}
 	}
 }
-void SdlContext::clearScreen() { SDL_RenderClear(this->m_game_renderer); }
 
-void SdlContext::presentScreen() { SDL_RenderPresent(this->m_game_renderer); }
+SdlContext::~SdlContext() {
+	dbg_trace();
 
-void SdlContext::draw(const api::Sprite & sprite,
-					  const api::Transform & transform) {
-	static SDL_RendererFlip renderFlip
-		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flipX)
-							  | (SDL_FLIP_VERTICAL * sprite.flip.flipY));
+	if (m_game_renderer) SDL_DestroyRenderer(m_game_renderer);
 
-	// needs maybe camera for position
-	static SDL_Rect dstrect = {
-		.x = static_cast<int>(transform.position.x),
-		.y = static_cast<int>(transform.position.y),
-		.w
-		= static_cast<int>(sprite.sprite_image->get_rect().w * transform.scale),
-		.h
-		= static_cast<int>(sprite.sprite_image->get_rect().h * transform.scale),
-	};
+	if (m_game_window) {
+		SDL_DestroyWindow(m_game_window);
+	}
 
-	SDL_RenderCopyEx(this->m_game_renderer, sprite.sprite_image->get_texture(),
-					 &sprite.sprite_image->get_rect(), &dstrect, 0, NULL,
-					 renderFlip);
+	IMG_Quit();
+	SDL_Quit();
 }
 
+void SdlContext::clear_screen() { SDL_RenderClear(this->m_game_renderer); }
+
 SdlContext::SdlContext() {
+	dbg_trace();
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError()
 				  << std::endl;
@@ -80,95 +70,37 @@ SdlContext::SdlContext() {
 		SDL_DestroyWindow(m_game_window);
 		return;
 	}
-	int imgFlags = IMG_INIT_PNG;
-	if (!(IMG_Init(imgFlags) & imgFlags)) {
+
+	int img_flags = IMG_INIT_PNG;
+	if (!(IMG_Init(img_flags) & img_flags)) {
 		std::cout << "SDL_image could not initialize! SDL_image Error: "
 				  << IMG_GetError() << std::endl;
 	}
+}
+void SdlContext::present_screen() { SDL_RenderPresent(this->m_game_renderer); }
 
-	SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
-	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
-	//SDL_SetHint(SDL_HINT_RENDER_OPENGL_SHADERS, "1");
-	SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "X");
+void SdlContext::draw(const api::Sprite & sprite,
+					  const api::Transform & transform) {
 
+	static SDL_RendererFlip render_flip
+		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
+							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
+	int w, h;
+	SDL_QueryTexture(sprite.sprite_image->m_texture, NULL, NULL, &w, &h);
+	// needs maybe camera for position
+	SDL_Rect dstrect = {
+		.x = static_cast<int>(transform.position.x),
+		.y = static_cast<int>(transform.position.y),
+		.w = static_cast<int>(w * transform.scale),
+		.h = static_cast<int>(h * transform.scale),
+	};
 
-
-	const char * hint = SDL_GetHint(SDL_HINT_RENDER_BATCHING);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_RENDER_BATCHING: " << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_RENDER_DRIVER);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_RENDER_DRIVER: " << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_RENDER_OPENGL_SHADERS);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_RENDER_OPENGL_SHADERS: " << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_RENDER_SCALE_QUALITY);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_RENDER_SCALE_QUALITY: " << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_RENDER_VSYNC);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_RENDER_VSYNC: " << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_TIMER_RESOLUTION);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_TIMER_RESOLUTION: " << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT: " << hint
-				  << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN: "
-				  << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_RENDER_LOGICAL_SIZE_MODE);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_RENDER_LOGICAL_SIZE_MODE: " << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_VIDEO_DOUBLE_BUFFER: " << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_OPENGL_ES_DRIVER);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_OPENGL_ES_DRIVER: " << hint << std::endl;
-	}
-
-	hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
-	if (hint != NULL) {
-		std::cout << "SDL_HINT_FRAMEBUFFER_ACCELERATION: " << hint << std::endl;
-	}
-
-	std::cout << "HALLO " << std::endl;
+	SDL_RenderCopyEx(this->m_game_renderer, sprite.sprite_image->m_texture,
+					 NULL, &dstrect, 0, NULL, render_flip);
 }
 
-SdlContext::~SdlContext() {
-	if (m_game_renderer) SDL_DestroyRenderer(m_game_renderer);
-
-	if (m_game_window) {
-		SDL_DestroyWindow(m_game_window);
-	}
-	IMG_Quit();
-	SDL_Quit();
-}
-
+/*
 SDL_Texture * SdlContext::setTextureFromPath(const char * path, SDL_Rect & clip,
 											 const int row, const int col) {
 	dbg_trace();
@@ -178,7 +110,8 @@ SDL_Texture * SdlContext::setTextureFromPath(const char * path, SDL_Rect & clip,
 		std::cerr << "Error surface " << IMG_GetError << std::endl;
 	}
 
-	clip.w = tmp->w / col;
+	clip.
+		w = tmp->w / col;
 	clip.h = tmp->h / row;
 
 	SDL_Texture * CreatedTexture
@@ -192,22 +125,23 @@ SDL_Texture * SdlContext::setTextureFromPath(const char * path, SDL_Rect & clip,
 
 	return CreatedTexture;
 }
+*/
 
-SDL_Texture * SdlContext::setTextureFromPath(const char * path) {
+SDL_Texture * SdlContext::texture_from_path(const char * path) {
 	dbg_trace();
-
+	
 	SDL_Surface * tmp = IMG_Load(path);
 	if (!tmp) {
 		std::cerr << "Error surface " << IMG_GetError << std::endl;
 	}
-	SDL_Texture * CreatedTexture
+	SDL_Texture * created_texture
 		= SDL_CreateTextureFromSurface(m_game_renderer, tmp);
 
-	if (!CreatedTexture) {
+	if (!created_texture) {
 		std::cerr << "Error could not create texture " << IMG_GetError
 				  << std::endl;
 	}
 	SDL_FreeSurface(tmp);
 
-	return CreatedTexture;
+	return created_texture;
 }

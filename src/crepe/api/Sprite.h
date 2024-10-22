@@ -2,26 +2,28 @@
 
 #include "Component.h"
 #include "api/Color.h"
-#include "facade/Texture.h"
+#include "api/Texture.h"
+#include <SDL2/SDL_rect.h>
 #include <cstdint>
+#include <memory>
 
 
 namespace crepe::api {
 
 struct flip_settings{
-	bool flipX : 1;
-	bool flipY : 1;
+	bool flip_x: 1;
+	bool flip_y : 1;
 };
 class Sprite : public Component {
 	
 public:
-	Sprite(crepe::Texture& image, const Color& color, const flip_settings& flip ) :  sprite_image(&image), color(color), flip(flip){}
-	crepe::Texture* sprite_image;
+	Sprite(std::unique_ptr<Texture> image, const Color& color, const flip_settings& flip );
+	~Sprite();
+	std::unique_ptr<Texture> sprite_image;
 	Color color;
 	flip_settings flip;
-	uint8_t sortingLayer;
-	uint8_t orderInLayer;
-
+	uint8_t sorting_in_layer;
+	uint8_t order_in_layer;
 
 };
 

@@ -8,6 +8,7 @@ set(CMAKE_BUILD_TYPE Debug)
 project(crepe C CXX)
 
 find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
 find_package(SoLoud REQUIRED)
 find_package(GTest REQUIRED)
 
@@ -20,7 +21,8 @@ target_include_directories(crepe
 
 target_link_libraries(crepe
 	PRIVATE soloud
-	PRIVATE SDL2
+	PUBLIC SDL2
+	PUBLIC SDL2_image
 )
 
 add_subdirectory(crepe)
