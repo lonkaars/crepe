@@ -1,43 +1,50 @@
 #pragma once
 
-#include "SDL_rect.h"
+#include "RenderSystem.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 
-namespace crepe {
+namespace crepe::api {
+class Texture;
+}
 
+namespace crepe {
 
 class SdlContext {
 
 public:
-
-	void handleEvents(bool& running);
-	void clearScreen();
-	void presentScreen();
-	void draw(const api::Sprite&, const api::Transform&);
-
 	// singleton
 	static SdlContext & get_instance();
-	SDL_Texture* setTextureFromPath(const char*);
-	SDL_Texture* setTextureFromPath(const char*, SDL_Rect& clip, const int row, const int col);
-
-private:
-	SdlContext();
-	virtual ~SdlContext();
-
 	SdlContext(const SdlContext &) = delete;
 	SdlContext(SdlContext &&) = delete;
 	SdlContext & operator=(const SdlContext &) = delete;
 	SdlContext & operator=(SdlContext &&) = delete;
 
+	//TODO decide events wouter?
 
 private:
+	void handle_events(bool & running);
 
-	SDL_Window* m_game_window;
-	SDL_Renderer* m_game_renderer;
+private:
+	SdlContext();
+	virtual ~SdlContext();
+
+private:
+	friend class api::Texture;
+	SDL_Texture * texture_from_path(const char *);
+	//SDL_Texture* setTextureFromPath(const char*, SDL_Rect& clip, const int row, const int col);
+
+private:
+	friend class RenderSystem;
+	void draw(const api::Sprite &, const api::Transform &);
+	void clear_screen();
+	void present_screen();
+
+private:
+	SDL_Window * m_game_window;
+	SDL_Renderer * m_game_renderer;
 };
 
-} //
-
+} // namespace crepe
