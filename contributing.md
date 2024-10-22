@@ -18,220 +18,48 @@
 # Code style
 
 - ASCII only
+- Class names are always singular
+- Explanatory comments are placed above the line(s) they are explaining
+- Source files should only contain comments that plainly state what the code is
+  supposed to do
+- Explanatory comments in headers may be used to clarify implementation design
+  decisions
 - Formatting nitty-gritty is handled by clang-format/clang-tidy (run `make
   format` in the root folder of this repository to format all sources files)
 - When using libraries of which the header include order is important, make
   sure to separate the include statements using a blank line (clang-format may
   sort include statements, but does not sort across empty lines).
-- [Cpp practices](https://lefticus.gitbooks.io/cpp-best-practices/content/)
-- [C++ core guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
-- [Google c++ style](https://google.github.io/styleguide/cppguide.html)
+- All engine-related code is implemented under the `crepe` namespace,
+  user-facing APIs under `crepe::api` (the folder structure should also reflect
+  this).
+- `using namespace` may not be used in header files, only in source files.
+- Do not (indirectly) include private dependency headers in API header files,
+  as these are no longer accessible when the engine is installed
+- Getter and setter functions are appropriately prefixed with `get_` and
+  `set_`.
+- Doxygen commands are used with a backslash instead of an at-sign (i.e.
+  `\brief` instead of `@brief`)
+- A singleton's instance is always accessed using a getter function that
+  instantiates its own class as a static variable within the getter function
+  scope, instead of storing the instance as a member variable directly:
 
-
-- .h basic code style with doxygen
-```cpp
-// code-style-example/style.cpp
-/*! @file MyClass.h */
-
-#ifndef MYPROJECT_MYCLASS_HPP
-#define MYPROJECT_MYCLASS_HPP
-
-/**
- * @brief example class
- */
-class MyClass {
-
-public:
-	/**
-	 * @brief example constructor
-	 *
-	 * @param[integer] t_value example first argument
-	 */
-	MyClass(int t_value);
-
-	/**
-	 * @brief constructor example
-	 *
-	 */
-	MyClass();
-
-	/**
-	 * @brief deconstuctor example
-	 *
-	 */
-	~MyClass();
-
-	/**
-	 * @brief setter example with correct const implementation
-	 *
-	 * @param[const integer] t_value first argument
-	 */
-	void set_value(const int t_value);
-
-	/**
-	 * @brief getter example with correct const implementation
-	 *
-	 * @return const integer
-	 */
-	const int get_value() const;
-
-	/**
-	 * @brief increment member m_value
-	 *
-	 */
-	void increment();
-
-private:
-	/**
-	 * @m_value basic member example
-	 */
-	int m_value;
-};
-
-#endif
-```
-
-- .cpp basic code style
-```cpp
-// code-style-example/style.cpp
-
-#include "style.h"
-
-MyClass::MyClass(int t_value) : m_value(t_value) {}
-
-MyClass::MyClass() { m_value = 0; }
-
-MyClass::~MyClass() {}
-
-const int MyClass::get_value() const { return m_value; }
-
-void MyClass::set_value(const int t_value) { m_value = t_value; }
-
-void MyClass::increment() { m_value += 1; }
-```
-
-- when to use references
-
--- If the input parameter in the function cannot accept a nullptr
-```cpp
-void foo::function(const std::string& name){};
-```
--- Use a reference when you know that the object will exist for the lifetime of the reference and when nullability is not a concern.
-```cpp
-int x = 10;
-int& ref = x;
-ref = 20;
-```
-
--- If a function should return a reference to an object that exists elsewhere (such as a member of a class or an element in a container), you can return a reference.
-```cpp
-container& get_element(std::vector<container>& vec, size_t index){
-  return vec[index];
-}
-```
-- When to use pointers
-
--- Use pointers when dealing with dynamic memory
-```cpp
-int* ptr = new int(5);
-delete ptr;
-```
-
--- Pointers can be nullptr, allowing them to represent "no object." Use pointers when you need to express optional ownership or reference.
-```cpp
-void foo::function(int* ptr){
-  if(ptr){
-    // ptr is not null
-  }
-}
-```
-
--- When dealing with polymorphism.
-```cpp
-class Base {};
-class Derived : public Base {};
-
-Base* obj = new Derived();
-obj->function();
-```
-
-
-- Do not use auto
-
--- Instead of doing this
-```cpp
-auto s = "Hello";
-auto x = "42"s;
-auto x = 42;
-auto x = 42.f;
-```
--- Do this.
-```cpp
-std::string s = "Hello";
-std::string  x = "42"s;
-int x = 42;
-float x = 42.f;
-```
-- Do not define constants as define but instead directly declare it.
--- This is wrong.
-```cpp
-#define PI 3.14159;
-```
-
--- Do this.
-```cpp
-namespace my_project {
-  class Constants {
-  public:
-    static constexpr double PI = 3.14159;
+  ```cpp
+  class Bad {
+    static Bad instance;
+    Bad & get_instance() { return instance; }
   };
-}
-```
-- Use enum class instead of using enum only to prevent bugs
-```cpp
-void Print_color(int color);
 
-enum Web_color { red = 0xFF0000, green = 0x00FF00, blue = 0x0000FF };
-enum Product_info { red = 0, purple = 1, blue = 2 };
-
-Web_color webby = Web_color::blue;
-
-// Clearly at least one of these calls is buggy.
-Print_color(webby);
-Print_color(Product_info::blue);
-```
-- Instead use an enum class:
-```cpp
-
-void Print_color(int color);
-
-enum class Web_color { red = 0xFF0000, green = 0x00FF00, blue = 0x0000FF };
-enum class Product_info { red = 0, purple = 1, blue = 2 };
-
-Web_color webby = Web_color::blue;
-Print_color(webby);  // Error: cannot convert Web_color to int.
-Print_color(Product_info::red);  // Error: cannot convert Product_info to int.
-
-```
-
-- Think about using size_t instead of using int for preventing processor mismatching. This might prevent a bug in the future.
-```cpp
-std::size_t i = 0; // use this instead of using a int
-double x = 0.0;
-```
-- comment style guide, you can use TODO:, FIXME:, NOTE:, or HACK: as admonitions when needed.
-
--- Bad example
-```cpp
-// Draw loading screen.
-draw_load_screen();
-```
--- Better
-```cpp 
-// Compute the first 10,000 decimals of Pi.
-// FIXME: Don't crash when computing the 1,337th decimal due to `increment`
-//        being negative.
-```
+  class Good {
+    Good & get_instance() {
+      static Good instance;
+      return instance;
+    }
+  };
+  ```
+- Member variable default values should be directly defined in the class
+  declaration instead of using the constructor.
+- Header files declare either a single class or symbols within a single
+  namespace.
 
 ## CMakeLists specific
 

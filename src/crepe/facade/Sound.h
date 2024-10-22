@@ -1,12 +1,11 @@
 #pragma once
 
-#include <soloud.h>
-#include <soloud_wav.h>
+#include <soloud/soloud.h>
+#include <soloud/soloud_wav.h>
 
 #include <memory>
 
-#include "api/Resource.h"
-#include "api/baseResource.h"
+#include "Asset.h"
 
 namespace crepe {
 
@@ -67,10 +66,10 @@ public:
 
 public:
 	Sound(const char * src);
-	Sound(std::unique_ptr<api::Resource> res);
+	Sound(std::unique_ptr<Asset> res);
 
 private:
-	void load(std::unique_ptr<api::Resource> res);
+	void load(std::unique_ptr<Asset> res);
 
 private:
 	SoLoud::Wav sample;

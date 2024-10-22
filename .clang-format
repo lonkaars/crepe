@@ -22,6 +22,7 @@ AlignTrailingComments:
 ReflowComments: false
 AlignEscapedNewlines: DontAlign
 BreakBeforeBinaryOperators: All
+AlwaysBreakTemplateDeclarations: Yes
 ...
 
 # vim: ft=yaml
