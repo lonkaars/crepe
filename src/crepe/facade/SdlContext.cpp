@@ -1,7 +1,9 @@
 
 
 #include "SdlContext.h"
+#include "SDL_hints.h"
 #include "SDL_rect.h"
+#include "SDL_stdinc.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
 #include "facade/Texture.h"
@@ -34,7 +36,8 @@ void SdlContext::clearScreen() { SDL_RenderClear(this->m_game_renderer); }
 
 void SdlContext::presentScreen() { SDL_RenderPresent(this->m_game_renderer); }
 
-void SdlContext::draw(const api::Sprite & sprite, const api::Transform& transform) {
+void SdlContext::draw(const api::Sprite & sprite,
+					  const api::Transform & transform) {
 	static SDL_RendererFlip renderFlip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flipX)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flipY));
@@ -43,12 +46,15 @@ void SdlContext::draw(const api::Sprite & sprite, const api::Transform& transfor
 	static SDL_Rect dstrect = {
 		.x = static_cast<int>(transform.position.x),
 		.y = static_cast<int>(transform.position.y),
-		.w = static_cast<int>(sprite.sprite_image->get_rect().w * transform.scale),
-		.h = static_cast<int>(sprite.sprite_image->get_rect().h * transform.scale),
+		.w
+		= static_cast<int>(sprite.sprite_image->get_rect().w * transform.scale),
+		.h
+		= static_cast<int>(sprite.sprite_image->get_rect().h * transform.scale),
 	};
 
 	SDL_RenderCopyEx(this->m_game_renderer, sprite.sprite_image->get_texture(),
-					 &sprite.sprite_image->get_rect(), &dstrect, 0, NULL, renderFlip);
+					 &sprite.sprite_image->get_rect(), &dstrect, 0, NULL,
+					 renderFlip);
 }
 
 SdlContext::SdlContext() {
@@ -58,9 +64,9 @@ SdlContext::SdlContext() {
 		return;
 	}
 
-	m_game_window
-		= SDL_CreateWindow("Crepe Game Engine", SDL_WINDOWPOS_CENTERED,
-						   SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN);
+	m_game_window = SDL_CreateWindow(
+		"Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		1920, 1080, SDL_WINDOW_SHOWN);
 	if (!m_game_window) {
 		std::cerr << "Window could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
@@ -79,7 +85,78 @@ SdlContext::SdlContext() {
 		std::cout << "SDL_image could not initialize! SDL_image Error: "
 				  << IMG_GetError() << std::endl;
 	}
+
 	SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
+	SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
+	//SDL_SetHint(SDL_HINT_RENDER_OPENGL_SHADERS, "1");
+	SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "X");
+
+
+
+
+	const char * hint = SDL_GetHint(SDL_HINT_RENDER_BATCHING);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_RENDER_BATCHING: " << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_RENDER_DRIVER);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_RENDER_DRIVER: " << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_RENDER_OPENGL_SHADERS);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_RENDER_OPENGL_SHADERS: " << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_RENDER_SCALE_QUALITY);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_RENDER_SCALE_QUALITY: " << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_RENDER_VSYNC);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_RENDER_VSYNC: " << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_TIMER_RESOLUTION);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_TIMER_RESOLUTION: " << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT: " << hint
+				  << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN: "
+				  << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_RENDER_LOGICAL_SIZE_MODE);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_RENDER_LOGICAL_SIZE_MODE: " << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_VIDEO_DOUBLE_BUFFER);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_VIDEO_DOUBLE_BUFFER: " << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_OPENGL_ES_DRIVER);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_OPENGL_ES_DRIVER: " << hint << std::endl;
+	}
+
+	hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
+	if (hint != NULL) {
+		std::cout << "SDL_HINT_FRAMEBUFFER_ACCELERATION: " << hint << std::endl;
+	}
+
+	std::cout << "HALLO " << std::endl;
 }
 
 SdlContext::~SdlContext() {
@@ -134,4 +211,3 @@ SDL_Texture * SdlContext::setTextureFromPath(const char * path) {
 
 	return CreatedTexture;
 }
-
