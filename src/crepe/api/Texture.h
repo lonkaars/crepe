@@ -6,7 +6,7 @@
 #include "Asset.h"
 
 namespace crepe {
-class SdlContext;
+class SDLContext;
 }
 
 namespace crepe::api {
@@ -24,7 +24,7 @@ private:
 private:
 	SDL_Texture * texture = nullptr;
 
-	friend class crepe::SdlContext;
+	friend class crepe::SDLContext;
 };
 
 } // namespace crepe::api

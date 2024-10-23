@@ -7,7 +7,7 @@
 
 #include "ComponentManager.h"
 #include "RenderSystem.h"
-#include "SdlContext.h"
+#include "SDLContext.h"
 
 using namespace crepe;
 using namespace crepe::api;
@@ -28,7 +28,7 @@ void RenderSystem::update() {
 	std::vector<std::reference_wrapper<Sprite>> sprites
 		= mgr.get_components_by_type<Sprite>();
 
-	SdlContext & render = SdlContext::get_instance();
+	SDLContext & render = SDLContext::get_instance();
 	render.clear_screen();
 
 	for (const Sprite & sprite : sprites) {
