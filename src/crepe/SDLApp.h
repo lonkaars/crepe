@@ -1,13 +1,12 @@
-#ifndef SDLAPP_HPP
-#define SDLAPP_HPP
+#pragma once
 
-#include "Particle.h"
-#include "api/ParticleEmitter.h"
 #include <SDL2/SDL.h>
+
+#include "api/ParticleEmitter.h"
 
 class SDLApp {
 public:
-	SDLApp(int windowWidth, int windowHeight);
+	SDLApp(int window_width, int window_height);
 	~SDLApp();
 
 	bool initialize();
@@ -25,5 +24,3 @@ private:
 	SDL_Window * window;
 	SDL_Renderer * renderer;
 };
-
-#endif

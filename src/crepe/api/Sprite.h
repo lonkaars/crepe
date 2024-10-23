@@ -1,11 +1,13 @@
 #pragma once
 
-#include "Component.h"
-#include "api/Color.h"
-#include "api/Texture.h"
 #include <SDL2/SDL_rect.h>
 #include <cstdint>
 #include <memory>
+
+#include "api/Color.h"
+#include "api/Texture.h"
+
+#include "Component.h"
 
 namespace crepe::api {
 
@@ -13,6 +15,7 @@ struct FlipSettings {
 	bool flip_x = 1;
 	bool flip_y = 1;
 };
+
 class Sprite : public Component {
 
 public:

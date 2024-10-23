@@ -1,5 +1,3 @@
-
-
 #include "Color.h"
 
 using namespace crepe::api;

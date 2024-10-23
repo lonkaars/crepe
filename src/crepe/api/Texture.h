@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Asset.h"
 #include <SDL2/SDL_render.h>
 #include <memory>
+
+#include "Asset.h"
 
 namespace crepe {
 class SdlContext;
@@ -21,7 +22,7 @@ private:
 	void load(std::unique_ptr<Asset> res);
 
 private:
-	SDL_Texture * m_texture = nullptr;
+	SDL_Texture * texture = nullptr;
 
 	friend class crepe::SdlContext;
 };

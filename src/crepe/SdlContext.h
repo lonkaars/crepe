@@ -1,10 +1,12 @@
 #pragma once
 
-#include "RenderSystem.h"
-#include "api/Sprite.h"
-#include "api/Transform.h"
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+
+#include "api/Sprite.h"
+#include "api/Transform.h"
+
+#include "RenderSystem.h"
 
 namespace crepe::api {
 class Texture;
@@ -43,8 +45,8 @@ private:
 	void present_screen();
 
 private:
-	SDL_Window * m_game_window = nullptr;
-	SDL_Renderer * m_game_renderer = nullptr;
+	SDL_Window * game_window = nullptr;
+	SDL_Renderer * game_renderer = nullptr;
 };
 
 } // namespace crepe

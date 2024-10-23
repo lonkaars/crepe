@@ -1,12 +1,11 @@
-
-
-#include "Sprite.h"
-#include "Component.h"
-#include "api/Texture.h"
-#include "util/log.h"
 #include <cstdint>
 #include <memory>
-#include <utility>
+
+#include "api/Texture.h"
+#include "util/log.h"
+
+#include "Component.h"
+#include "Sprite.h"
 
 using namespace std;
 using namespace crepe;

@@ -83,7 +83,7 @@ int main(int argc, char * argv[]) {
 			for (const Particle & particle : emitter.particles) {
 				if (particle.active)
 					app.draw_square(particle.position.x, particle.position.y,
-								   5); // draw each particle
+									5); // draw each particle
 			}
 		}
 

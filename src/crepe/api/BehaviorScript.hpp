@@ -3,6 +3,7 @@
 #include <type_traits>
 
 #include "../util/log.h"
+
 #include "BehaviorScript.h"
 
 namespace crepe::api {
