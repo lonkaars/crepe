@@ -7,6 +7,7 @@ target_sources(crepe PUBLIC
 	Sprite.cpp
 	Force.cpp
 	ParticleEmitter.cpp
+	Transform.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -19,5 +20,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Sprite.h
 	Force.h
 	ParticleEmitter.h
+	Transform.h
 )
 
