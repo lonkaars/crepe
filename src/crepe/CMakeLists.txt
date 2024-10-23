@@ -10,7 +10,6 @@ target_sources(crepe PUBLIC
 	Component.cpp
 	ScriptSystem.cpp
 	PhysicsSystem.cpp
-	Transform.cpp
 	CollisionSystem.cpp
 	Collider.cpp
 )
@@ -28,7 +27,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	System.h
 	ScriptSystem.h
 	PhysicsSystem.h
-	Transform.h
 	CollisionSystem.h
 	Collider.h
 )
