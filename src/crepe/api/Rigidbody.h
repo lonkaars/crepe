@@ -3,7 +3,7 @@
 #include "Component.h"
 #include <cstdint>
 
-namespace crepe {
+namespace crepe::api{
 
 enum class BodyType {
     Static,     // Does not move (e.g. walls, ground ...)
