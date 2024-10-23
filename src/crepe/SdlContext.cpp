@@ -11,6 +11,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_video.h>
+#include <cmath>
 #include <cstddef>
 #include <iostream>
 
@@ -33,9 +34,9 @@ void SdlContext::handle_events(bool & running) {
 SdlContext::~SdlContext() {
 	dbg_trace();
 
-	if (m_game_renderer) SDL_DestroyRenderer(m_game_renderer);
+	if (m_game_renderer != nullptr) SDL_DestroyRenderer(m_game_renderer);
 
-	if (m_game_window) {
+	if (m_game_window != nullptr) {
 		SDL_DestroyWindow(m_game_window);
 	}
 
@@ -56,7 +57,7 @@ SdlContext::SdlContext() {
 
 	m_game_window = SDL_CreateWindow(
 		"Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		1920, 1080, SDL_WINDOW_SHOWN);
+		1920, 1080, SDL_WINDOW_HIDDEN);
 	if (!m_game_window) {
 		std::cerr << "Window could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
@@ -95,9 +96,10 @@ void SdlContext::draw(const api::Sprite & sprite,
 		.w = static_cast<int>(w * transform.scale),
 		.h = static_cast<int>(h * transform.scale),
 	};
-
+	
+	double degrees = transform.rotation * 180 / M_PI;
 	SDL_RenderCopyEx(this->m_game_renderer, sprite.sprite_image->m_texture,
-					 NULL, &dstrect, 0, NULL, render_flip);
+					 NULL, &dstrect, degrees, NULL, render_flip);
 }
 
 /*

@@ -17,9 +17,9 @@ struct flip_settings{
 class Sprite : public Component {
 	
 public:
-	Sprite(std::unique_ptr<Texture> image, const Color& color, const flip_settings& flip );
+	Sprite(std::shared_ptr<Texture> image, const Color& color, const flip_settings& flip );
 	~Sprite();
-	std::unique_ptr<Texture> sprite_image;
+	std::shared_ptr<Texture> sprite_image;
 	Color color;
 	flip_settings flip;
 	uint8_t sorting_in_layer;

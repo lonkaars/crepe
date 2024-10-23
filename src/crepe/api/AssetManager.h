@@ -2,56 +2,49 @@
 
 
 
+#include <any>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
 
-#include "api/baseResource.h"
-
 
 namespace crepe::api{
 
-class ResourceManager{
+class AssetManager{
 
 
 private:
+	std::unordered_map< std::string, std::any>  asset_cache;
 	
-	std::unordered_map< std::string, std::unique_ptr<BaseResource>>  m_resources;
-
-
-protected:
-	ResourceManager() = default;
-	~ResourceManager();
+private:
+	AssetManager();
+	virtual ~AssetManager();
 
 public:
-	ResourceManager(const ResourceManager &) = delete;
-	ResourceManager(ResourceManager &&) = delete;
-	ResourceManager &operator=(const ResourceManager &) = delete;
-	ResourceManager &operator=(ResourceManager &&) = delete;
+	AssetManager(const AssetManager &) = delete;
+	AssetManager(AssetManager &&) = delete;
+	AssetManager &operator=(const AssetManager &) = delete;
+	AssetManager &operator=(AssetManager &&) = delete;
 
-	static ResourceManager& get_instance();
 
+	static AssetManager& get_instance();
 
 
 public:
-	template<typename T>
-	T* Load(const std::string& file_path){
-		
-		if (m_resources.find(file_path) != m_resources.end()) {
-			return static_cast<T*>(m_resources[file_path].get());
+	template<typename asset>
+	std::shared_ptr<asset> cache(const std::string& file_path, bool reload = false){
+		auto it = asset_cache.find(file_path);
+
+		if (!reload && it != asset_cache.end()) {
+			return std::any_cast<std::shared_ptr<asset>>(it->second);
 		}
 
-		auto resource = std::make_unique<T>(file_path.c_str());
-		if (resource) {
-			m_resources[file_path] = std::move(resource);
-			return static_cast<T*>(m_resources[file_path].get() );
-		}
+		std::shared_ptr<asset> new_asset = std::make_shared<asset>(file_path.c_str());
 
-		return nullptr;
+		asset_cache[file_path] = new_asset;
+
+		return new_asset;
 	}
-
-	void Unload(const std::string& file_path);
-
 };
 }

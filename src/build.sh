@@ -6,3 +6,4 @@ cmake -B build -G Ninja
 ninja -C build
 
 ninja -C build/ rendering
+ninja -C build/ asset_manager
