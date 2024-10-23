@@ -14,6 +14,7 @@
 
 - TODO: tagging / versions
 
+
 # Code style
 
 - ASCII only
@@ -66,6 +67,11 @@
   `target_sources`, `target_link_libraries`) are on separate lines. This makes
   resolving merge conflicts when multiple sources were added by different
   people to the same CMakeLists.txt easier.
+
+## Doxygen style
+
+- [a C-style doxygen example](https://www.cs.cmu.edu/~410/doc/doxygen.html)
+
 
 # Documentation
 

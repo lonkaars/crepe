@@ -23,3 +23,6 @@ add_example(particle)
 add_example(Physics)
 target_link_libraries(particle PUBLIC SDL2)
 target_link_libraries(Physics PUBLIC SDL2)
+add_example(rendering)
+add_example(asset_manager)
+
