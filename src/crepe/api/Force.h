@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Component.h"
+#include "../Component.h"
 #include <cstdint>
 #include <utility>
 
-namespace crepe {
+namespace crepe::api {
 
 class Force : public Component {
 public:

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Component.h"
+#include "../Component.h"
 #include <cstdint>
 
-namespace crepe {
+namespace crepe::api {
 
 enum class BodyType {
     Static,     // Does not move (e.g. walls, ground ...)
@@ -21,4 +21,4 @@ public:
 	BodyType body_type;
 };
 
-} // namespace crepe
+} // namespace crepe::api

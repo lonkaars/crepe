@@ -1,10 +1,10 @@
 #pragma once
 
+#include "../ComponentManager.h"
+
 #include "GameObject.h"
 
-#include "ComponentManager.h"
-
-namespace crepe {
+namespace crepe::api {
 
 template <typename T, typename... Args>
 T & GameObject::add_component(Args &&... args) {
@@ -12,4 +12,4 @@ T & GameObject::add_component(Args &&... args) {
 	return mgr.add_component<T>(id, std::forward<Args>(args)...);
 }
 
-} // namespace crepe
+} // namespace crepe::api

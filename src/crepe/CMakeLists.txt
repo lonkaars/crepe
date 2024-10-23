@@ -9,15 +9,11 @@ target_sources(crepe PUBLIC
 	SDLApp.cpp
 	ComponentManager.cpp
 	Component.cpp
-	GameObject.cpp
-	Collider.cpp
-	Rigidbody.cpp
-	Sprite.cpp
 	ScriptSystem.cpp
 	PhysicsSystem.cpp
 	Transform.cpp
-	Force.cpp
 	CollisionSystem.cpp
+	Collider.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -31,17 +27,12 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	ComponentManager.h
 	ComponentManager.hpp
 	Component.h
-	GameObject.h
-	GameObject.hpp
-	Collider.h
-	Rigidbody.h
-	Sprite.h
 	System.h
 	ScriptSystem.h
 	PhysicsSystem.h
 	Transform.h
-	Force.h
 	CollisionSystem.h
+	Collider.h
 )
 
 add_subdirectory(api)
