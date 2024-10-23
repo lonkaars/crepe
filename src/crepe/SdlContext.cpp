@@ -57,7 +57,7 @@ SdlContext::SdlContext() {
 
 	m_game_window = SDL_CreateWindow(
 		"Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		1920, 1080, SDL_WINDOW_HIDDEN);
+		1920, 1080, SDL_WINDOW_SHOWN);
 	if (!m_game_window) {
 		std::cerr << "Window could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
