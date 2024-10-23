@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "Component.h"
+#include "../Component.h"
 
-namespace crepe {
+namespace crepe::api {
 
 class Sprite : public Component {
 public:
@@ -13,4 +13,4 @@ public:
 	std::string path;
 };
 
-} // namespace crepe
+} // namespace crepe::api
