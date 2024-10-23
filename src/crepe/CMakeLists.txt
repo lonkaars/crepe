@@ -1,4 +1,3 @@
-
 target_sources(crepe PUBLIC
 	Asset.cpp
 	Sound.cpp

@@ -11,6 +11,6 @@
 	url = https://github.com/libsdl-org/SDL
 	shallow = true
 [submodule "lib/sdl_image/src"]
-	path = lib/sdl_image/src
+	path = lib/sdl_image
 	url = https://github.com/libsdl-org/SDL_image
-	branch = SDL2
+	shallow = true
