@@ -1,11 +1,8 @@
 #pragma once
 
-namespace crepe {
+#include "Position.h"
 
-struct Position {
-        float x;
-        float y;
-    };
+namespace crepe {
 
 class Particle {
 public:
