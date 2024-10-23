@@ -1,7 +1,7 @@
 #pragma once
-#include "Collider.h"
+#include "../Collider.h"
 
-namespace crepe {
+namespace crepe::api {
 
 class CircleCollider : public Collider {
 public:
