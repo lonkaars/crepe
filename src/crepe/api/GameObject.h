@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <string>
 
-namespace crepe {
+namespace crepe::api {
 
 class GameObject {
 public:
@@ -19,6 +19,6 @@ public:
 	int layer;
 };
 
-} // namespace crepe
+} // namespace crepe::api
 
 #include "GameObject.hpp"

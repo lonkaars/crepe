@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Component.h"
+#include "../Component.h"
 #include "Script.h"
 
 namespace crepe {

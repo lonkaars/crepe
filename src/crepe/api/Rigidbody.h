@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Component.h"
+#include "../Component.h"
 
-namespace crepe {
+namespace crepe::api {
 
 class Rigidbody : public Component {
 public:
@@ -13,4 +13,4 @@ public:
 	int body_type;
 };
 
-} // namespace crepe
+} // namespace crepe::api

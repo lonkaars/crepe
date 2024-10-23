@@ -5,9 +5,6 @@ target_sources(crepe PUBLIC
 	SdlContext.cpp
 	ComponentManager.cpp
 	Component.cpp
-	GameObject.cpp
-	Collider.cpp
-	Rigidbody.cpp
 	ScriptSystem.cpp
 	RenderSystem.cpp
 )
@@ -20,10 +17,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	ComponentManager.h
 	ComponentManager.hpp
 	Component.h
-	GameObject.h
-	GameObject.hpp
-	Collider.h
-	Rigidbody.h
 	System.h
 	ScriptSystem.h
 	RenderSystem.h

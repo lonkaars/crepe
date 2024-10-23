@@ -4,11 +4,11 @@
  */
 
 #include <crepe/ComponentManager.h>
-#include <crepe/GameObject.h>
 #include <crepe/ScriptSystem.h>
 #include <crepe/util/log.h>
 
 #include <crepe/api/BehaviorScript.h>
+#include <crepe/api/GameObject.h>
 #include <crepe/api/Script.h>
 
 using namespace crepe;

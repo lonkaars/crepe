@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Component.h"
+#include "../Component.h"
 
-namespace crepe {
+namespace crepe::api {
 
 class Collider : public Component {
 public:
@@ -11,4 +11,4 @@ public:
 	int size;
 };
 
-} // namespace crepe
+} // namespace crepe::api

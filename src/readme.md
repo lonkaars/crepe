@@ -18,7 +18,8 @@ running the build command:
 $ ninja -C build test_main
 ```
 
-Each source file in the example/ folder corresponds to a CMake target as well:
+Each source file in the example/ folder corresponds to a CMake target as well
+(all examples can be built at once by specifying the `examples` target):
 
 ```
 $ ninja -C build audio_internal components_internal

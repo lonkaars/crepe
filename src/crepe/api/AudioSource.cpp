@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "AudioSource.h"
 
 #include "Sound.h"
