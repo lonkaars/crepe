@@ -4,4 +4,4 @@
 
 using namespace crepe::api;
 
-BehaviorScript::BehaviorScript() { dbg_trace(); }
+BehaviorScript::BehaviorScript() : Component(gameObjectId) { dbg_trace(); }
