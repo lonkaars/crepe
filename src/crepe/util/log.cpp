@@ -9,13 +9,13 @@
 using namespace crepe::util;
 
 static const char * const LOG_PREFIX[] = {
-	[log_level::DEBUG] = "[DBG] ",
-	[log_level::INFO] = "[INFO] ",
-	[log_level::WARNING] = "[WARN] ",
-	[log_level::ERROR] = "[ERR] ",
+	[LogLevel::DEBUG] = "[DBG] ",
+	[LogLevel::INFO] = "[INFO] ",
+	[LogLevel::WARNING] = "[WARN] ",
+	[LogLevel::ERROR] = "[ERR] ",
 };
 
-static void log(enum log_level level, const std::string & msg) {
+static void log(LogLevel level, const std::string & msg) {
 	using namespace std;
 	string out = string(LOG_PREFIX[level]) + msg;
 	if (!out.ends_with("\n")) out += "\n";
@@ -28,11 +28,11 @@ static void log(enum log_level level, const std::string & msg) {
 void crepe::util::logf(const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
-	log(log_level::DEBUG, va_stringf(args, fmt));
+	log(LogLevel::DEBUG, va_stringf(args, fmt));
 	va_end(args);
 }
 
-void crepe::util::logf(log_level level, const char * fmt, ...) {
+void crepe::util::logf(LogLevel level, const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	log(level, va_stringf(args, fmt));

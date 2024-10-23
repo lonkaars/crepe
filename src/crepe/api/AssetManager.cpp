@@ -3,21 +3,16 @@
 #include "AssetManager.h"
 #include "util/log.h"
 
-
 using namespace crepe::api;
 
-AssetManager& AssetManager::get_instance(){
+AssetManager & AssetManager::get_instance() {
 	static AssetManager instance;
 	return instance;
 }
 
-
-AssetManager::~AssetManager(){
+AssetManager::~AssetManager() {
 	dbg_trace();
 	this->asset_cache.clear();
 }
 
-AssetManager::AssetManager(){
-	dbg_trace();
-}
-
+AssetManager::AssetManager() { dbg_trace(); }

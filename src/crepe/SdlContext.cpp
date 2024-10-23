@@ -96,7 +96,7 @@ void SdlContext::draw(const api::Sprite & sprite,
 		.w = static_cast<int>(w * transform.scale),
 		.h = static_cast<int>(h * transform.scale),
 	};
-	
+
 	double degrees = transform.rotation * 180 / M_PI;
 	SDL_RenderCopyEx(this->m_game_renderer, sprite.sprite_image->m_texture,
 					 NULL, &dstrect, degrees, NULL, render_flip);
@@ -131,7 +131,7 @@ SDL_Texture * SdlContext::setTextureFromPath(const char * path, SDL_Rect & clip,
 
 SDL_Texture * SdlContext::texture_from_path(const char * path) {
 	dbg_trace();
-	
+
 	SDL_Surface * tmp = IMG_Load(path);
 	if (!tmp) {
 		std::cerr << "Error surface " << IMG_GetError << std::endl;

@@ -1,17 +1,11 @@
 #pragma once
 
-
-
-
 #include <string>
-class Resource{
+class Resource {
 public:
-	
-	virtual ~Resource() =default;
+	virtual ~Resource() = default;
 
-	const std::string& getContent() const{
-		return this->m_content;
-	}
+	const std::string & getContent() const { return this->m_content; }
 
 protected:
 	std::string m_content;

@@ -1,19 +1,19 @@
 #pragma once
 
-#include <vector>
 #include "api/ParticleEmitter.h"
-
+#include <vector>
 
 namespace crepe {
 
 class ParticleSystem {
 public:
-    ParticleSystem();
-    void update();
-private:
-    void emitParticle(ParticleEmitter &emitter); //emits a new particle
+	ParticleSystem();
+	void update();
 
-    float m_elapsedTime; //elapsed time since the last emission
+private:
+	void emit_particle(ParticleEmitter & emitter); //emits a new particle
+
+	float m_elapsed_time; //elapsed time since the last emission
 };
 
-}
+} // namespace crepe

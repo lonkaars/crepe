@@ -4,9 +4,8 @@
 #include <SDL2/SDL_render.h>
 #include <memory>
 
-
 namespace crepe {
-	class SdlContext;
+class SdlContext;
 }
 
 namespace crepe::api {
@@ -18,10 +17,8 @@ public:
 	Texture(std::unique_ptr<Asset> res);
 	~Texture();
 
-
 private:
 	void load(std::unique_ptr<Asset> res);
-
 
 private:
 	SDL_Texture * m_texture = nullptr;
@@ -29,4 +26,4 @@ private:
 	friend class crepe::SdlContext;
 };
 
-} // namespace crepe
+} // namespace crepe::api

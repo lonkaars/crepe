@@ -13,9 +13,8 @@ ResourceConverter::ResourceConverter() { IMG_Init(IMG_INIT_PNG); }
 
 ResourceConverter::~ResourceConverter() { IMG_Quit(); }
 
-SDL_Surface *
-ResourceConverter::FromStringToImage(const Texture& resource) {
-	const std::string& content = resource.getContent();
+SDL_Surface * ResourceConverter::FromStringToImage(const Texture & resource) {
+	const std::string & content = resource.getContent();
 	SDL_RWops * rw = SDL_RWFromConstMem(content.data(), content.size());
 	if (!rw) {
 		std::cerr << "Failed to create SDL_RWops: " << SDL_GetError()
@@ -30,8 +29,7 @@ ResourceConverter::FromStringToImage(const Texture& resource) {
 	return surface;
 }
 
-
-TiledMap ResourceConverter::FromStringToMap(const Map& resource){
-	const std::string& content = resource.getContent();
+TiledMap ResourceConverter::FromStringToMap(const Map & resource) {
+	const std::string & content = resource.getContent();
 	return TiledMap(content);
 }

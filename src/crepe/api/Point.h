@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 namespace crepe::api {
 
 class Point {
@@ -10,5 +8,4 @@ public:
 	double y;
 };
 
-
-}
+} // namespace crepe::api
