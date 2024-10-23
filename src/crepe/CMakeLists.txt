@@ -4,10 +4,6 @@ target_sources(crepe PUBLIC
 	SoundContext.cpp
 	ComponentManager.cpp
 	Component.cpp
-	GameObject.cpp
-	Collider.cpp
-	Rigidbody.cpp
-	Sprite.cpp
 	ScriptSystem.cpp
 )
 
@@ -18,11 +14,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	ComponentManager.h
 	ComponentManager.hpp
 	Component.h
-	GameObject.h
-	GameObject.hpp
-	Collider.h
-	Rigidbody.h
-	Sprite.h
 	System.h
 	ScriptSystem.h
 )
