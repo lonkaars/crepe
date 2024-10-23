@@ -43,8 +43,8 @@ private:
 	void present_screen();
 
 private:
-	SDL_Window * m_game_window;
-	SDL_Renderer * m_game_renderer;
+	SDL_Window * m_game_window = nullptr;
+	SDL_Renderer * m_game_renderer = nullptr;
 };
 
 } // namespace crepe

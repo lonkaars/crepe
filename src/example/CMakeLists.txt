@@ -16,4 +16,5 @@ add_example(audio_internal)
 add_example(components_internal)
 add_example(script)
 add_example(rendering)
+add_example(asset_manager)
 

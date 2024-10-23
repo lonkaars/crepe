@@ -10,8 +10,8 @@ using namespace std;
 using namespace crepe;
 using namespace crepe::api;
 
-Sprite::Sprite(unique_ptr<Texture> image, const Color & color,
-			   const flip_settings & flip) : color(color), flip(flip), sprite_image(std::move(image)) {
+Sprite::Sprite(shared_ptr<Texture> image, const Color & color,
+			   const flip_settings & flip) : color(color), flip(flip), sprite_image(image) {
 	dbg_trace();
 }
 

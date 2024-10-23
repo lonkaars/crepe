@@ -1,25 +1,23 @@
 
 
-#include "resource_manager.h"
-#include <string>
-#include <unordered_map>
+#include "AssetManager.h"
+#include "util/log.h"
+
 
 using namespace crepe::api;
 
-ResourceManager& ResourceManager::get_instance(){
-	static ResourceManager instance;
+AssetManager& AssetManager::get_instance(){
+	static AssetManager instance;
 	return instance;
 }
 
 
-ResourceManager::~ResourceManager(){
-	m_resources.clear();
+AssetManager::~AssetManager(){
+	dbg_trace();
+	this->asset_cache.clear();
 }
 
-
-void ResourceManager::Unload(const std::string& file_path){
-	if(m_resources.find(file_path) != m_resources.end()){
-		m_resources.erase(file_path);
-	}
+AssetManager::AssetManager(){
+	dbg_trace();
 }
 

@@ -6,8 +6,6 @@
 
 #include "Texture.h"
 #include <SDL2/SDL_render.h>
-#include <iostream>
-#include <string>
 
 using namespace crepe::api;
 

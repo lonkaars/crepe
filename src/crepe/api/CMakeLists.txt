@@ -6,6 +6,7 @@ target_sources(crepe PUBLIC
 	Texture.cpp
 	Sprite.cpp
 	Transform.cpp
+	AssetManager.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -16,5 +17,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Transform.h 
 	Color.h 
 	Sprite.h
-	Texture.h
+	Texture.h 
+	AssetManager.h 
 )
