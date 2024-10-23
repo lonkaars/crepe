@@ -43,4 +43,5 @@ public:
 		return new_asset;
 	}
 };
+
 } // namespace crepe::api

@@ -1,7 +1,6 @@
-
+#include "util/log.h"
 
 #include "AssetManager.h"
-#include "util/log.h"
 
 using namespace crepe::api;
 

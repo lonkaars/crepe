@@ -1,10 +1,10 @@
+#include <cstdint>
 
-
-#include "Transform.h"
-#include "Component.h"
 #include "api/Point.h"
 #include "util/log.h"
-#include <cstdint>
+
+#include "Component.h"
+#include "Transform.h"
 
 using namespace crepe::api;
 

@@ -2,7 +2,7 @@
 
 using namespace crepe::api;
 
-Rigidbody::Rigidbody(uint32_t gameObjectId, int mass, int gravityScale,
+Rigidbody::Rigidbody(uint32_t game_object_id, int mass, int gravity_scale,
 					 BodyType bodyType)
-	: Component(gameObjectId), mass(mass), gravity_scale(gravityScale),
+	: Component(game_object_id), mass(mass), gravity_scale(gravity_scale),
 	  body_type(bodyType) {}

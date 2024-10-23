@@ -3,11 +3,8 @@
 namespace crepe {
 
 class PhysicsSystem {
-private:
-	/* data */
-
 public:
-	PhysicsSystem(/* args */);
+	PhysicsSystem();
 	void update();
 };
 

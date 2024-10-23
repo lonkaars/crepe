@@ -1,8 +1,6 @@
-#include "SDLApp.h"
-#include "Particle.h"
-#include "api/ParticleEmitter.h"
 #include <iostream>
-#include <vector>
+
+#include "SDLApp.h"
 
 SDLApp::SDLApp(int window_width, int window_height)
 	: window_width(window_width), window_height(window_height), window(nullptr),
@@ -18,8 +16,8 @@ bool SDLApp::initialize() {
 	}
 
 	window = SDL_CreateWindow("Particle System", SDL_WINDOWPOS_CENTERED,
-							  SDL_WINDOWPOS_CENTERED, window_width, window_height,
-							  SDL_WINDOW_SHOWN);
+							  SDL_WINDOWPOS_CENTERED, window_width,
+							  window_height, SDL_WINDOW_SHOWN);
 	if (!window) {
 		std::cerr << "Window Creation Error: " << SDL_GetError() << std::endl;
 		return false;

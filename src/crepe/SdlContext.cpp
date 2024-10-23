@@ -1,11 +1,3 @@
-
-
-#include "SdlContext.h"
-
-#include "api/Sprite.h"
-#include "api/Texture.h"
-#include "api/Transform.h"
-#include "util/log.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
@@ -14,6 +6,13 @@
 #include <cmath>
 #include <cstddef>
 #include <iostream>
+
+#include "api/Sprite.h"
+#include "api/Texture.h"
+#include "api/Transform.h"
+#include "util/log.h"
+
+#include "SdlContext.h"
 
 using namespace crepe;
 
@@ -34,17 +33,18 @@ void SdlContext::handle_events(bool & running) {
 SdlContext::~SdlContext() {
 	dbg_trace();
 
-	if (m_game_renderer != nullptr) SDL_DestroyRenderer(m_game_renderer);
+	if (this->game_renderer != nullptr)
+		SDL_DestroyRenderer(this->game_renderer);
 
-	if (m_game_window != nullptr) {
-		SDL_DestroyWindow(m_game_window);
+	if (this->game_window != nullptr) {
+		SDL_DestroyWindow(this->game_window);
 	}
 
 	IMG_Quit();
 	SDL_Quit();
 }
 
-void SdlContext::clear_screen() { SDL_RenderClear(this->m_game_renderer); }
+void SdlContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
 
 SdlContext::SdlContext() {
 	dbg_trace();
@@ -55,20 +55,20 @@ SdlContext::SdlContext() {
 		return;
 	}
 
-	m_game_window = SDL_CreateWindow(
+	this->game_window = SDL_CreateWindow(
 		"Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		1920, 1080, SDL_WINDOW_SHOWN);
-	if (!m_game_window) {
+	if (!this->game_window) {
 		std::cerr << "Window could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
 	}
 
-	m_game_renderer
-		= SDL_CreateRenderer(m_game_window, -1, SDL_RENDERER_ACCELERATED);
-	if (!m_game_renderer) {
+	this->game_renderer
+		= SDL_CreateRenderer(this->game_window, -1, SDL_RENDERER_ACCELERATED);
+	if (!this->game_renderer) {
 		std::cerr << "Renderer could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
-		SDL_DestroyWindow(m_game_window);
+		SDL_DestroyWindow(this->game_window);
 		return;
 	}
 
@@ -78,7 +78,8 @@ SdlContext::SdlContext() {
 				  << IMG_GetError() << std::endl;
 	}
 }
-void SdlContext::present_screen() { SDL_RenderPresent(this->m_game_renderer); }
+
+void SdlContext::present_screen() { SDL_RenderPresent(this->game_renderer); }
 
 void SdlContext::draw(const api::Sprite & sprite,
 					  const api::Transform & transform) {
@@ -88,7 +89,7 @@ void SdlContext::draw(const api::Sprite & sprite,
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
 	int w, h;
-	SDL_QueryTexture(sprite.sprite_image->m_texture, NULL, NULL, &w, &h);
+	SDL_QueryTexture(sprite.sprite_image->texture, NULL, NULL, &w, &h);
 	// needs maybe camera for position
 	SDL_Rect dstrect = {
 		.x = static_cast<int>(transform.position.x),
@@ -98,8 +99,8 @@ void SdlContext::draw(const api::Sprite & sprite,
 	};
 
 	double degrees = transform.rotation * 180 / M_PI;
-	SDL_RenderCopyEx(this->m_game_renderer, sprite.sprite_image->m_texture,
-					 NULL, &dstrect, degrees, NULL, render_flip);
+	SDL_RenderCopyEx(this->game_renderer, sprite.sprite_image->texture, NULL,
+					 &dstrect, degrees, NULL, render_flip);
 }
 
 /*
@@ -117,7 +118,7 @@ SDL_Texture * SdlContext::setTextureFromPath(const char * path, SDL_Rect & clip,
 	clip.h = tmp->h / row;
 
 	SDL_Texture * CreatedTexture
-		= SDL_CreateTextureFromSurface(m_game_renderer, tmp);
+		= SDL_CreateTextureFromSurface(this->game_renderer, tmp);
 
 	if (!CreatedTexture) {
 		std::cerr << "Error could not create texture " << IMG_GetError
@@ -137,7 +138,7 @@ SDL_Texture * SdlContext::texture_from_path(const char * path) {
 		std::cerr << "Error surface " << IMG_GetError << std::endl;
 	}
 	SDL_Texture * created_texture
-		= SDL_CreateTextureFromSurface(m_game_renderer, tmp);
+		= SDL_CreateTextureFromSurface(this->game_renderer, tmp);
 
 	if (!created_texture) {
 		std::cerr << "Error could not create texture " << IMG_GetError

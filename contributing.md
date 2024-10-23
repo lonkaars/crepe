@@ -71,6 +71,8 @@
   possible (i.e. if you only need a reference or pointer type).
 - Template functions are only declared in a `.h` header, and defined in a
   matching `.hpp` header.
+- Where possible, end (initializer) lists with a trailing comma (e.g. with
+  structs, enums)
 
 ## CMakeLists specific
 
