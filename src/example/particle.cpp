@@ -2,14 +2,15 @@
 #include <thread>
 #include <chrono>
 #include "SDLApp.h"
-#include "ParticleEmitter.h"
+#include "api/ParticleEmitter.h"
 #include "ParticleSystem.h"
 #include "Particle.h"
 #include <crepe/Component.h>
 #include <crepe/ComponentManager.h>
-#include <crepe/GameObject.h>
+#include <crepe/api/GameObject.h>
 #include <chrono>
 
+using namespace crepe::api;
 using namespace crepe;
 using namespace std;
 

@@ -4,7 +4,6 @@ target_sources(crepe PUBLIC
 	Sound.cpp
 	SoundContext.cpp
 	Particle.cpp
-	ParticleEmitter.cpp
 	ParticleSystem.cpp
 	SDLApp.cpp
 	ComponentManager.cpp
@@ -20,7 +19,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Asset.h
 	Sound.h
 	SoundContext.h
-	ParticleEmitter.h
 	ParticleSystem.h
 	Particle.h
 	SDLApp.h
