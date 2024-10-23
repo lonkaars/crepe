@@ -1,22 +1,15 @@
 #pragma once
 
 #include "Component.h"
-
-namespace crepe {
-
-struct Position
-{
-	int x;
-	int y;
-};
-
+#include "api/Point.h"
+namespace crepe::api {
 
 class Transform : public Component {
 public:
-	Transform(uint32_t gameObjectId,Position position, int rotation, int scale);
-	Position postion;
-	int rotation;
-	int scale;
+	Transform(Point&, double, double);
+	~Transform();
+	Point position; // Translation (shift)
+	double rotation; // Rotation, in radians
+	double scale; // Multiplication factoh
 };
-
-} // namespace crepe
+} // namespace crepe::api

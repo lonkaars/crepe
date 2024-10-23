@@ -8,6 +8,9 @@ target_sources(crepe PUBLIC
 	Force.cpp
 	ParticleEmitter.cpp
 	Transform.cpp
+	Color.cpp
+	Texture.cpp
+	AssetManager.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -21,5 +24,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Force.h
 	ParticleEmitter.h
 	Transform.h
+	Point.h
+	Color.h
+	Texture.h 
+	AssetManager.h 
 )
-
