@@ -14,7 +14,6 @@ target_sources(crepe PUBLIC
 	Rigidbody.cpp
 	Sprite.cpp
 	ScriptSystem.cpp
-	Script.cpp
 	PhysicsSystem.cpp
 	Transform.cpp
 	Force.cpp
