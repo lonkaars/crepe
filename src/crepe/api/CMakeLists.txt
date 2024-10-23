@@ -10,7 +10,6 @@ target_sources(crepe PUBLIC
 	Color.cpp
 	Texture.cpp
 	AssetManager.cpp
-	Collider.cpp
 	Sprite.cpp
 )
 
