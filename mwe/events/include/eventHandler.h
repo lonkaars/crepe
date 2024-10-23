@@ -1,39 +1,48 @@
 #pragma once
+
 #include "event.h"
-#include <iostream>
+
 #include <functional>
+#include <iostream>
 template<typename EventType>
 using EventHandler = std::function<void(const EventType& e)>;
-class IEventHandlerWrapper{
-public:
-    void Exec(const Event& e)
-    {
-        Call(e);
-    }
 
-    virtual std::string GetType() const = 0;
+class IEventHandlerWrapper {
+public:
+    virtual ~IEventHandlerWrapper() = default;
+
+    void exec(const Event& e);
+
+    virtual std::string getType() const = 0;
+    virtual bool isDestroyOnSuccess() const = 0;
 
 private:
-    virtual void Call(const Event& e) = 0;
+    virtual void call(const Event& e) = 0;
 };
 
 template<typename EventType>
 class EventHandlerWrapper : public IEventHandlerWrapper {
 public:
-    explicit EventHandlerWrapper(const EventHandler<EventType>& handler)
+    explicit EventHandlerWrapper(const EventHandler<EventType>& handler, const bool destroyOnSuccess = false)
         : m_handler(handler)
-        , m_handlerType(m_handler.target_type().name()) {};
+        , m_handlerType(m_handler.target_type().name())
+        , m_destroyOnSuccess(destroyOnSuccess)
+    { 
+		// std::cout << m_handlerType << std::endl;
+	}
 
 private:
-    void Call(const Event& e) override
+    void call(const Event& e) override
     {
-        if (e.GetEventType() == EventType::GetStaticEventType()) {
+        if (e.getEventType() == EventType::getStaticEventType()) {
             m_handler(static_cast<const EventType&>(e));
         }
     }
 
-    std::string GetType() const override { return m_handlerType; }
+    std::string getType() const override { return m_handlerType; }
+    bool isDestroyOnSuccess() const { return m_destroyOnSuccess; }
 
     EventHandler<EventType> m_handler;
     const std::string m_handlerType;
+    bool m_destroyOnSuccess { false };
 };
