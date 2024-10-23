@@ -1,11 +1,12 @@
 #include "PhysicsSystem.h"
 #include "ComponentManager.h"
-#include "Rigidbody.h"
-#include "Transform.h"
+#include "api/Rigidbody.h"
+#include "api/Transform.h"
 #include "Force.h"
 #include <iostream>
 
 using namespace crepe;
+using namespace crepe::api;
 
 PhysicsSystem::PhysicsSystem() {
 
