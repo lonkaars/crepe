@@ -8,10 +8,10 @@ namespace crepe::api {
 
 class Force : public Component {
 public:
-    Force(uint32_t gameObjectId, uint32_t forceMagnitude, uint32_t direction);
+	Force(uint32_t gameObjectId, uint32_t forceMagnitude, uint32_t direction);
 
-    int32_t force_x;
-    int32_t force_y;
+	int32_t force_x;
+	int32_t force_y;
 };
 
-} // namespace crepe
+} // namespace crepe::api

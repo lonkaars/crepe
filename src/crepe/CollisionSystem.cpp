@@ -4,10 +4,6 @@
 
 using namespace crepe;
 
-CollisionSystem::CollisionSystem() {
+CollisionSystem::CollisionSystem() {}
 
-}
-
-void CollisionSystem::update() {
-	
-}
+void CollisionSystem::update() {}

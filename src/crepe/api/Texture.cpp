@@ -28,5 +28,4 @@ Texture::~Texture() {
 void Texture::load(std::unique_ptr<Asset> res) {
 	SdlContext & ctx = SdlContext::get_instance();
 	m_texture = ctx.texture_from_path(res->canonical());
-
 }

@@ -32,11 +32,11 @@ void RenderSystem::update() {
 	render.clear_screen();
 
 	for (const Sprite & sprite : sprites) {
-		std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(sprite.gameObjectId);
-		for (const Transform& transform : transforms) {
+		std::vector<std::reference_wrapper<Transform>> transforms
+			= mgr.get_components_by_id<Transform>(sprite.game_object_id);
+		for (const Transform & transform : transforms) {
 			render.draw(sprite, transform);
 		}
-
 	}
 	render.present_screen();
 }

@@ -27,26 +27,22 @@ int main() {
 		= SDL_CreateWindow("Tessting resources", SDL_WINDOWPOS_UNDEFINED,
 						   SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
 
-
-
 	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
-	
-	ResourceManager* rm = ResourceManager::get_instance();
+
+	ResourceManager * rm = ResourceManager::get_instance();
 	ResourceConverter resource_converter;
 
-	Texture* img = rm->Load<Texture>("../img.png");
+	Texture * img = rm->Load<Texture>("../img.png");
 
-	SpriteSheet* SS = rm->Load<SpriteSheet>("../spritesheet_test.png");
-	Map* map = rm->Load<Map>("../../asset/tiled/demo.tmx");
+	SpriteSheet * SS = rm->Load<SpriteSheet>("../spritesheet_test.png");
+	Map * map = rm->Load<Map>("../../asset/tiled/demo.tmx");
 
-	SDL_Surface* surface = resource_converter.FromStringToImage(*img);
-	SDL_Texture* m_texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_Surface * surface = resource_converter.FromStringToImage(*img);
+	SDL_Texture * m_texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
-
 
 	TiledMap testingTiledMap = resource_converter.FromStringToMap(*map);
 	testingTiledMap.SetRenderer(*renderer);
-
 
 	SDL_SetRenderDrawColor(renderer, 168, 230, 255, 255);
 	SDL_RenderClear(renderer);
@@ -61,7 +57,6 @@ int main() {
 					quit = true;
 					break;
 			}
-
 		}
 
 		SDL_RenderClear(renderer);
@@ -72,7 +67,6 @@ int main() {
 		SDL_RenderPresent(renderer);
 	}
 	delete rm;
-
 
 	SDL_DestroyTexture(m_texture);
 	SDL_DestroyRenderer(renderer);

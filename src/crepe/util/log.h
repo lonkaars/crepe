@@ -7,7 +7,7 @@
 
 // utility macros
 #define _crepe_logf_here(fmt, ...) \
-	crepe::util::logf(util::log_level::DEBUG, "%s%s (%s:%d)%s" fmt "\n", \
+	crepe::util::logf(util::LogLevel::DEBUG, "%s%s (%s:%d)%s" fmt "\n", \
 					  crepe::util::color::FG_WHITE, __PRETTY_FUNCTION__, \
 					  __FILE_NAME__, __LINE__, crepe::util::color::RESET, \
 					  __VA_ARGS__)
@@ -23,7 +23,7 @@
 
 namespace crepe::util {
 
-enum log_level {
+enum LogLevel {
 	DEBUG,
 	INFO,
 	WARNING,
@@ -31,6 +31,6 @@ enum log_level {
 };
 
 void logf(const char * fmt, ...);
-void logf(enum log_level level, const char * fmt, ...);
+void logf(enum LogLevel level, const char * fmt, ...);
 
 } // namespace crepe::util

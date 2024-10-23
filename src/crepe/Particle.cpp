@@ -1,25 +1,20 @@
 #include "Particle.h"
-#include <iostream>
 
 using namespace crepe;
 
-Particle::Particle()
-{
-    this->active = false;
-}
+Particle::Particle() { this->active = false; }
 
 void Particle::reset(float lifespan, Position position, Position velocity) {
-    this->timeInLife = 0;
-    this->lifespan = lifespan;
-    this->position = position;
-    this->velocity = velocity;
-    this->active = true;
+	this->time_in_life = 0;
+	this->lifespan = lifespan;
+	this->position = position;
+	this->velocity = velocity;
+	this->active = true;
 }
 
 void Particle::update(float deltaTime) {
-    timeInLife += deltaTime;
-    position.x += velocity.x * deltaTime;
-    position.y += velocity.y * deltaTime;
-    if(timeInLife >= lifespan)this->active = false;
+	time_in_life += deltaTime;
+	position.x += velocity.x * deltaTime;
+	position.y += velocity.y * deltaTime;
+	if (time_in_life >= lifespan) this->active = false;
 }
-

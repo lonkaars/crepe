@@ -4,12 +4,8 @@
 
 #include <string>
 
-
-SpriteSheet::SpriteSheet(const std::string& content){
+SpriteSheet::SpriteSheet(const std::string & content) {
 	this->m_content = content;
 }
 
-SpriteSheet::~SpriteSheet(){
-}
-
-
+SpriteSheet::~SpriteSheet() {}

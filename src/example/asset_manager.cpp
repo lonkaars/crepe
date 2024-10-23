@@ -9,9 +9,7 @@ using namespace crepe::api;
 int main() {
 
 	// this needs to be called before the asset manager otherwise the destructor of sdl is not in the right order
-	{
-		Texture test("../asset/texture/img.png");
-	}
+	{ Texture test("../asset/texture/img.png"); }
 
 	auto & mgr = AssetManager::get_instance();
 
