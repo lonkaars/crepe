@@ -4,6 +4,9 @@
 namespace crepe {
 
 class Component {
+protected:
+	Component() = default;
+
 public:
 	Component(uint32_t id);
 	virtual ~Component() {}
