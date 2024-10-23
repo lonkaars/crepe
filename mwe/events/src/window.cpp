@@ -1,8 +1,5 @@
 #include "window.h"
 WindowManager::WindowManager() {
-	if (!initWindow()) {
-		printf("Failed to initialize!\n");
-	}
 }
 WindowManager::~WindowManager() { destroyWindow(); }
 SDL_Renderer * WindowManager::getRenderer() { return renderer; }

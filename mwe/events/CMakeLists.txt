@@ -13,7 +13,13 @@ find_package(SDL2 REQUIRED)
 add_executable(gameloop
 	src/window.cpp
 	src/main.cpp
+	#src/eventHandler.cpp
 	src/eventManager.cpp
+	src/event.cpp
+	src/loopManager.cpp
+	src/timer.cpp
+	src/keyCodes.cpp
+	src/eventHandler.cpp
 )
 
 # Link the SDL2 library to your project

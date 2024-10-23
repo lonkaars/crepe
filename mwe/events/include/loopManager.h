@@ -1,16 +1,18 @@
 #pragma once
-#include "gameObject.h"
 #include "window.h"
 #include <SDL2/SDL.h>
-#include "event.h"
+#include "timer.h"
+//#include "combinedEvent.h"
+#include "eventManager.h"
+#include "loopManager.h"
+#include "eventHandler.h"
 class LoopManager {
 public:
 	LoopManager();
 	void setup();
 	void loop();
-
+	void setRunning(bool running);
 private:
-	std::vector<GameObject *> objectList;
 	void processInput();
 	void update();
 	void lateUpdate();
