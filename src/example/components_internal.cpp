@@ -6,14 +6,17 @@
 #include <cassert>
 #include <chrono>
 
-#include <crepe/Collider.h>
 #include <crepe/Component.h>
 #include <crepe/ComponentManager.h>
-#include <crepe/GameObject.h>
-#include <crepe/Rigidbody.h>
-#include <crepe/Sprite.h>
+
+#include <crepe/api/Collider.h>
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Rigidbody.h>
+#include <crepe/api/Sprite.h>
+
 #include <crepe/util/log.h>
 
+using namespace crepe::api;
 using namespace crepe;
 using namespace std;
 

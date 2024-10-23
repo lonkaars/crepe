@@ -8,9 +8,8 @@ protected:
 
 public:
 	virtual ~Component() = default;
-	// TODO: shouldn't this constructor be deleted because this class will never
-	// directly be instantiated?
 
+public:
 	bool active = true;
 };
 
