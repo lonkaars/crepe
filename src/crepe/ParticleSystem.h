@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "ParticleEmitter.h"
+#include "api/ParticleEmitter.h"
 
 
 namespace crepe {

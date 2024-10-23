@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include "Particle.h"
-#include "ParticleEmitter.h"
+#include "api/ParticleEmitter.h"
 
 class SDLApp {
 public:

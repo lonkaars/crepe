@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "Particle.h"
-#include "ParticleEmitter.h"
+#include "api/ParticleEmitter.h"
 
 SDLApp::SDLApp(int windowWidth, int windowHeight)
     : windowWidth(windowWidth), windowHeight(windowHeight), window(nullptr), renderer(nullptr) {}
