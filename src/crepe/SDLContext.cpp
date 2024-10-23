@@ -12,16 +12,16 @@
 #include "api/Transform.h"
 #include "util/log.h"
 
-#include "SdlContext.h"
+#include "SDLContext.h"
 
 using namespace crepe;
 
-SdlContext & SdlContext::get_instance() {
-	static SdlContext instance;
+SDLContext & SDLContext::get_instance() {
+	static SDLContext instance;
 	return instance;
 }
 
-void SdlContext::handle_events(bool & running) {
+void SDLContext::handle_events(bool & running) {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_QUIT) {
@@ -30,7 +30,7 @@ void SdlContext::handle_events(bool & running) {
 	}
 }
 
-SdlContext::~SdlContext() {
+SDLContext::~SDLContext() {
 	dbg_trace();
 
 	if (this->game_renderer != nullptr)
@@ -44,9 +44,9 @@ SdlContext::~SdlContext() {
 	SDL_Quit();
 }
 
-void SdlContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
+void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
 
-SdlContext::SdlContext() {
+SDLContext::SDLContext() {
 	dbg_trace();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -79,9 +79,9 @@ SdlContext::SdlContext() {
 	}
 }
 
-void SdlContext::present_screen() { SDL_RenderPresent(this->game_renderer); }
+void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer); }
 
-void SdlContext::draw(const api::Sprite & sprite,
+void SDLContext::draw(const api::Sprite & sprite,
 					  const api::Transform & transform) {
 
 	static SDL_RendererFlip render_flip
@@ -104,7 +104,7 @@ void SdlContext::draw(const api::Sprite & sprite,
 }
 
 /*
-SDL_Texture * SdlContext::setTextureFromPath(const char * path, SDL_Rect & clip,
+SDL_Texture * SDLContext::setTextureFromPath(const char * path, SDL_Rect & clip,
 											 const int row, const int col) {
 	dbg_trace();
 
@@ -130,7 +130,7 @@ SDL_Texture * SdlContext::setTextureFromPath(const char * path, SDL_Rect & clip,
 }
 */
 
-SDL_Texture * SdlContext::texture_from_path(const char * path) {
+SDL_Texture * SDLContext::texture_from_path(const char * path) {
 	dbg_trace();
 
 	SDL_Surface * tmp = IMG_Load(path);

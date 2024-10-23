@@ -14,15 +14,15 @@ class Texture;
 
 namespace crepe {
 
-class SdlContext {
+class SDLContext {
 
 public:
 	// singleton
-	static SdlContext & get_instance();
-	SdlContext(const SdlContext &) = delete;
-	SdlContext(SdlContext &&) = delete;
-	SdlContext & operator=(const SdlContext &) = delete;
-	SdlContext & operator=(SdlContext &&) = delete;
+	static SDLContext & get_instance();
+	SDLContext(const SDLContext &) = delete;
+	SDLContext(SDLContext &&) = delete;
+	SDLContext & operator=(const SDLContext &) = delete;
+	SDLContext & operator=(SDLContext &&) = delete;
 
 	//TODO decide events wouter?
 
@@ -30,8 +30,8 @@ private:
 	void handle_events(bool & running);
 
 private:
-	SdlContext();
-	virtual ~SdlContext();
+	SDLContext();
+	virtual ~SDLContext();
 
 private:
 	friend class api::Texture;

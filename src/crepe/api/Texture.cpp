@@ -3,7 +3,7 @@
 #include "util/log.h"
 
 #include "Asset.h"
-#include "SdlContext.h"
+#include "SDLContext.h"
 #include "Texture.h"
 
 using namespace crepe::api;
@@ -27,6 +27,6 @@ Texture::~Texture() {
 }
 
 void Texture::load(unique_ptr<Asset> res) {
-	SdlContext & ctx = SdlContext::get_instance();
+	SDLContext & ctx = SDLContext::get_instance();
 	this->texture = ctx.texture_from_path(res->canonical());
 }

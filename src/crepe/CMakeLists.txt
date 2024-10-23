@@ -11,7 +11,7 @@ target_sources(crepe PUBLIC
 	PhysicsSystem.cpp
 	CollisionSystem.cpp
 	Collider.cpp
-	SdlContext.cpp
+	SDLContext.cpp
 
 	RenderSystem.cpp
 )
@@ -20,7 +20,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Asset.h
 	Sound.h
 	SoundContext.h
-	SdlContext.h
+	SDLContext.h
 	ComponentManager.h
 	ComponentManager.hpp
 	Component.h
@@ -29,7 +29,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	PhysicsSystem.h
 	CollisionSystem.h
 	Collider.h
-	SdlContext.h
+	SDLContext.h
 	RenderSystem.h
 )
 
