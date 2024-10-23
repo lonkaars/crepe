@@ -25,4 +25,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Color.h
 	Texture.h 
 	AssetManager.h 
+	AssetManager.hpp
 )
