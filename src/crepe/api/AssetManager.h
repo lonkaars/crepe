@@ -26,10 +26,10 @@ public:
 
 public:
 	template <typename asset>
-	std::shared_ptr<asset> cache(const std::string & file_path, bool reload = false);
+	std::shared_ptr<asset> cache(const std::string & file_path,
+								 bool reload = false);
 };
 
 } // namespace crepe::api
 
 #include "AssetManager.hpp"
-

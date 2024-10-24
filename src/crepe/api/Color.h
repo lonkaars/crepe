@@ -6,6 +6,7 @@ class Color {
 
 	// FIXME: can't these colors be defined as a `static constexpr const Color`
 	// instead?
+
 public:
 	Color(double red, double green, double blue, double alpha);
 	static const Color & get_white();

@@ -5,7 +5,8 @@
 namespace crepe::api {
 
 template <typename asset>
-std::shared_ptr<asset> AssetManager::cache(const std::string & file_path, bool reload) {
+std::shared_ptr<asset> AssetManager::cache(const std::string & file_path,
+										   bool reload) {
 	auto it = asset_cache.find(file_path);
 
 	if (!reload && it != asset_cache.end()) {

@@ -1,17 +1,18 @@
 #pragma once
+#include "timer.h"
 #include "window.h"
 #include <SDL2/SDL.h>
-#include "timer.h"
 //#include "combinedEvent.h"
+#include "eventHandler.h"
 #include "eventManager.h"
 #include "loopManager.h"
-#include "eventHandler.h"
 class LoopManager {
 public:
 	LoopManager();
 	void setup();
 	void loop();
 	void setRunning(bool running);
+
 private:
 	void processInput();
 	void update();
