@@ -1,17 +1,22 @@
 #pragma once
 
+#include <cstdint>
+
 namespace crepe {
+
+class ComponentManager;
 
 class Component {
 protected:
-	Component() = default;
+	friend class crepe::ComponentManager;
+	Component(uint32_t id);
 
 public:
 	virtual ~Component() = default;
-	// TODO: shouldn't this constructor be deleted because this class will never
-	// directly be instantiated?
 
-	bool active = true;
+public:
+	uint32_t game_object_id;
+	bool active;
 };
 
 } // namespace crepe

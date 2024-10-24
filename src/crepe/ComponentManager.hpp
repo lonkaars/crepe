@@ -30,7 +30,7 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 
 	// Create a new component of type T (arguments directly forwarded). The
 	// constructor must be called by ComponentManager.
-	T * instance = new T(forward<Args>(args)...);
+	T * instance = new T(id, forward<Args>(args)...);
 	// store its unique_ptr in the vector<>
 	components[type][id].push_back(unique_ptr<T>(instance));
 

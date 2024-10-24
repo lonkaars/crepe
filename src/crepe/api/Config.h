@@ -26,7 +26,7 @@ public:
 		 * Only messages with equal or higher priority than this value will be
 		 * logged.
 		 */
-		util::log_level level = util::log_level::INFO;
+		util::LogLevel level = util::LogLevel::INFO;
 		/**
 		 * \brief Colored log output
 		 *

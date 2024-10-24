@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Component.h"
+#include "../Component.h"
 #include "Script.h"
 
 namespace crepe {
@@ -17,7 +17,7 @@ class Script;
 class BehaviorScript : public Component {
 protected:
 	friend class crepe::ComponentManager;
-	BehaviorScript();
+	using Component::Component;
 
 public:
 	virtual ~BehaviorScript() = default;
