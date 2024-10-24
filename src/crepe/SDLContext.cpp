@@ -98,14 +98,14 @@ void SDLContext::draw(const api::Sprite & sprite,
 
 	int w, h;
 	SDL_QueryTexture(sprite.sprite_image->texture, NULL, NULL, &w, &h);
-	// needs maybe camera for position
+	// needs maybe camera for position 
 	SDL_Rect dstrect = {
-		.x = static_cast<int>(transform.position.x),
-		.y = static_cast<int>(transform.position.y),
+		.x = static_cast<int>(transform.position.x ),
+		.y = static_cast<int>(transform.position.y ),
 		.w = static_cast<int>(w * transform.scale),
 		.h = static_cast<int>(h * transform.scale),
 	};
-
+	
 	double degrees = transform.rotation * 180 / M_PI;
 	SDL_RenderCopyEx(this->game_renderer, sprite.sprite_image->texture, NULL,
 					 &dstrect, degrees, NULL, render_flip);

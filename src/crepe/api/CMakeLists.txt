@@ -27,4 +27,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Texture.h 
 	AssetManager.h 
 	AssetManager.hpp
+	BoxCollider.h
+	CircleCollider.h
 )

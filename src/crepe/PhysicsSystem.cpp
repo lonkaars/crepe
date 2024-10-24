@@ -20,7 +20,6 @@ void PhysicsSystem::update() {
 		= mgr.get_components_by_type<Transform>();
 
 	for (Rigidbody & rigidbody : rigidbodies) {
-
 		switch (rigidbody.body_type) {
 			case BodyType::DYNAMIC:
 				for (Transform & transform : transforms) {
