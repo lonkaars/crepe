@@ -48,4 +48,4 @@ private:
 	std::string final = "";
 };
 
-} // namespace crepe::util::color
+} // namespace crepe::util

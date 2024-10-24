@@ -3,20 +3,25 @@
 #include <cstdlib>
 #include <string>
 
+#include "../api/Config.h"
 #include "fmt.h"
 #include "log.h"
-#include "../api/Config.h"
 
 using namespace crepe::util;
 using namespace std;
 
 string log_prefix(LogLevel level) {
 	switch (level) {
-		case LogLevel::TRACE: return LogColor().fg_white().str("[TRACE]") + " ";
-		case LogLevel::DEBUG: return LogColor().fg_magenta().str("[DEBUG]") + " ";
-		case LogLevel::INFO: return LogColor().fg_blue().str("[INFO]") + " ";
-		case LogLevel::WARNING: return LogColor().fg_yellow().str("[WARN]") + " ";
-		case LogLevel::ERROR: return LogColor().fg_red().str("[ERROR]") + " ";
+		case LogLevel::TRACE:
+			return LogColor().fg_white().str("[TRACE]") + " ";
+		case LogLevel::DEBUG:
+			return LogColor().fg_magenta().str("[DEBUG]") + " ";
+		case LogLevel::INFO:
+			return LogColor().fg_blue().str("[INFO]") + " ";
+		case LogLevel::WARNING:
+			return LogColor().fg_yellow().str("[WARN]") + " ";
+		case LogLevel::ERROR:
+			return LogColor().fg_red().str("[ERROR]") + " ";
 	}
 	return "";
 }
@@ -46,4 +51,3 @@ void crepe::util::logf(LogLevel level, const char * fmt, ...) {
 	log(level, va_stringf(args, fmt));
 	va_end(args);
 }
-

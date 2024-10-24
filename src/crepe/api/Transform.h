@@ -12,6 +12,7 @@ class Transform : public Component {
 	// FIXME: What's the difference between the `Point` and `Position`
 	// classes/structs? How about we replace both with a universal `Vec2` that
 	// works similar (or the same) as those found in GLSL?
+
 public:
 	Transform(uint32_t id, Point &, double, double);
 	~Transform();

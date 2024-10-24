@@ -7,6 +7,7 @@ namespace crepe::api {
 class Config {
 private:
 	Config() = default;
+
 public:
 	~Config() = default;
 
@@ -36,5 +37,4 @@ public:
 	} log;
 };
 
-}
-
+} // namespace crepe::api

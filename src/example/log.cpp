@@ -3,8 +3,8 @@
  * Standalone example for usage of the logging functions
  */
 
-#include <crepe/util/log.h>
 #include <crepe/api/Config.h>
+#include <crepe/util/log.h>
 
 using namespace crepe;
 using namespace crepe::util;
@@ -22,4 +22,3 @@ int main() {
 
 	return 0;
 }
-

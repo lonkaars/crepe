@@ -1,5 +1,5 @@
 #pragma once
 class EventManager {
-	public:
-		EventManager();
+public:
+	EventManager();
 };
