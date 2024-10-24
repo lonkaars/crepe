@@ -12,13 +12,13 @@ using namespace crepe::util;
 int main() {
 	auto & cfg = api::Config::get_instance();
 	// make sure all log messages get printed
-	cfg.log.level = util::log_level::TRACE;
+	cfg.log.level = util::LogLevel::TRACE;
 
 	dbg_trace();
 	dbg_logf("cfg.log.color is equal to %d", cfg.log.color);
-	logf(log_level::INFO, "info message!");
-	logf(log_level::WARNING, "very scary warning");
-	logf(log_level::ERROR, "fatal error!!!");
+	logf(LogLevel::INFO, "info message!");
+	logf(LogLevel::WARNING, "very scary warning");
+	logf(LogLevel::ERROR, "fatal error!!!");
 
 	return 0;
 }

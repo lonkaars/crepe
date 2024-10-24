@@ -4,12 +4,12 @@
  */
 
 #include <crepe/ComponentManager.h>
-#include <crepe/GameObject.h>
 #include <crepe/ScriptSystem.h>
 #include <crepe/util/log.h>
 
 #include <crepe/api/Config.h>
 #include <crepe/api/BehaviorScript.h>
+#include <crepe/api/GameObject.h>
 #include <crepe/api/Script.h>
 
 using namespace crepe;
@@ -22,7 +22,7 @@ class MyScript : public Script {
 
 int main() {
 	auto & cfg = api::Config::get_instance();
-	cfg.log.level = util::log_level::TRACE;
+	cfg.log.level = util::LogLevel::TRACE;
 
 	auto obj = GameObject(0, "name", "tag", 0);
 	obj.add_component<BehaviorScript>().set_script<MyScript>();

@@ -10,18 +10,18 @@
 using namespace crepe::util;
 using namespace std;
 
-string log_prefix(log_level level) {
+string log_prefix(LogLevel level) {
 	switch (level) {
-		case log_level::TRACE: return LogColor().fg_white().str("[TRACE]") + " ";
-		case log_level::DEBUG: return LogColor().fg_magenta().str("[DEBUG]") + " ";
-		case log_level::INFO: return LogColor().fg_blue().str("[INFO]") + " ";
-		case log_level::WARNING: return LogColor().fg_yellow().str("[WARN]") + " ";
-		case log_level::ERROR: return LogColor().fg_red().str("[ERROR]") + " ";
+		case LogLevel::TRACE: return LogColor().fg_white().str("[TRACE]") + " ";
+		case LogLevel::DEBUG: return LogColor().fg_magenta().str("[DEBUG]") + " ";
+		case LogLevel::INFO: return LogColor().fg_blue().str("[INFO]") + " ";
+		case LogLevel::WARNING: return LogColor().fg_yellow().str("[WARN]") + " ";
+		case LogLevel::ERROR: return LogColor().fg_red().str("[ERROR]") + " ";
 	}
 	return "";
 }
 
-static void log(enum log_level level, const string msg) {
+static void log(LogLevel level, const string msg) {
 	auto & cfg = crepe::api::Config::get_instance();
 	if (level < cfg.log.level) return;
 
@@ -36,11 +36,11 @@ static void log(enum log_level level, const string msg) {
 void crepe::util::logf(const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
-	log(log_level::DEBUG, va_stringf(args, fmt));
+	log(LogLevel::DEBUG, va_stringf(args, fmt));
 	va_end(args);
 }
 
-void crepe::util::logf(log_level level, const char * fmt, ...) {
+void crepe::util::logf(LogLevel level, const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	log(level, va_stringf(args, fmt));
