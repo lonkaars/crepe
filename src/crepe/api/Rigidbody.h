@@ -6,6 +6,7 @@
 
 namespace crepe::api {
 
+// FIXME: can't this enum be defined inside the class declaration of Rigidbody?
 enum class BodyType {
 	//! Does not move (e.g. walls, ground ...)
 	STATIC,

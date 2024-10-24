@@ -6,10 +6,12 @@ SDLApp::SDLApp(int window_width, int window_height)
 	: window_width(window_width), window_height(window_height), window(nullptr),
 	  renderer(nullptr) {}
 
+// FIXME: why is there clean_up and ~SDLApp?
 SDLApp::~SDLApp() { clean_up(); }
 
 bool SDLApp::initialize() {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+		// FIXME: throw exception
 		std::cerr << "SDL Initialization Error: " << SDL_GetError()
 				  << std::endl;
 		return false;
@@ -19,12 +21,14 @@ bool SDLApp::initialize() {
 							  SDL_WINDOWPOS_CENTERED, window_width,
 							  window_height, SDL_WINDOW_SHOWN);
 	if (!window) {
+		// FIXME: throw exception
 		std::cerr << "Window Creation Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (!renderer) {
+		// FIXME: throw exception
 		std::cerr << "Renderer Creation Error: " << SDL_GetError() << std::endl;
 		return false;
 	}

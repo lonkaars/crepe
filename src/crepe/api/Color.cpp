@@ -11,6 +11,7 @@ Color Color::cyan = Color(0, 255, 255, 0);
 Color Color::yellow = Color(255, 255, 0, 0);
 Color Color::magenta = Color(255, 0, 255, 0);
 
+// FIXME: do we really need double precision for color values?
 Color::Color(double red, double green, double blue, double alpha) {
 	this->a = alpha;
 	this->r = red;

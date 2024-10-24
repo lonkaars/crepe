@@ -18,9 +18,11 @@ ParticleEmitter::ParticleEmitter(uint32_t game_object_id,
 	std::srand(
 		static_cast<uint32_t>(std::time(nullptr))); // initialize random seed
 	std::cout << "Create emitter" << std::endl;
-	min_angle = (360 + angle - (angleOffset % 360)) % 360; // calculate minAngle
-	max_angle = (360 + angle + (angleOffset % 360)) % 360; // calculate maxAngle
-	position.x = 400;
+	// FIXME: Why do these expressions start with `360 +`, only to be `% 360`'d
+	// right after? This does not make any sense to me.
+	min_angle = (360 + angle - (angleOffset % 360)) % 360;
+	max_angle = (360 + angle + (angleOffset % 360)) % 360;
+	position.x = 400; // FIXME: what are these magic values?
 	position.y = 400;
 	for (size_t i = 0; i < max_particles; i++) {
 		this->particles.emplace_back();
