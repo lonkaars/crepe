@@ -7,6 +7,8 @@ namespace crepe {
 class Particle {
 public:
 	Position position;
+	// FIXME: `Position` is an awkward name for a 2D vector. See FIXME comment in
+	// api/Transform.h for fix proposal.
 	Position velocity;
 	float lifespan;
 	bool active;

@@ -40,6 +40,9 @@ SDLContext::~SDLContext() {
 		SDL_DestroyWindow(this->game_window);
 	}
 
+	// TODO: how are we going to ensure that these are called from the same
+	// thread that SDL_Init() was called on? This has caused problems for me
+	// before.
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -48,8 +51,10 @@ void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
 
 SDLContext::SDLContext() {
 	dbg_trace();
+	// FIXME: read window defaults from config manager
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+		// FIXME: throw exception
 		std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError()
 				  << std::endl;
 		return;
@@ -59,6 +64,7 @@ SDLContext::SDLContext() {
 		"Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		1920, 1080, SDL_WINDOW_SHOWN);
 	if (!this->game_window) {
+		// FIXME: throw exception
 		std::cerr << "Window could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
 	}
@@ -66,6 +72,7 @@ SDLContext::SDLContext() {
 	this->game_renderer
 		= SDL_CreateRenderer(this->game_window, -1, SDL_RENDERER_ACCELERATED);
 	if (!this->game_renderer) {
+		// FIXME: throw exception
 		std::cerr << "Renderer could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
 		SDL_DestroyWindow(this->game_window);
@@ -74,6 +81,7 @@ SDLContext::SDLContext() {
 
 	int img_flags = IMG_INIT_PNG;
 	if (!(IMG_Init(img_flags) & img_flags)) {
+		// FIXME: throw exception
 		std::cout << "SDL_image could not initialize! SDL_image Error: "
 				  << IMG_GetError() << std::endl;
 	}
