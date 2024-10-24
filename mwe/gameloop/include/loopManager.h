@@ -2,6 +2,7 @@
 #include "gameObject.h"
 #include "window.h"
 #include <SDL2/SDL.h>
+#include "event.h"
 class LoopManager {
 public:
 	LoopManager();
