@@ -4,6 +4,10 @@
 #include "api/Transform.h"
 #include "api/Rigidbody.h"
 
+#include <vector>
+#include <utility>
+
+
 namespace crepe {
 
 class CollisionSystem {
@@ -15,8 +19,7 @@ private:
 	const crepe::api::BoxCollider& box2,
 	const crepe::api::Transform& trf2, const crepe::api::Rigidbody& rgb2);
 
-private:
-	void detectBoxCollisions();
+	void detectBoxCollisions(std::vector<std::pair<int, int>>& collisions);
 };
 
 } // namespace crepe

@@ -100,8 +100,8 @@ void SDLContext::draw(const api::Sprite & sprite,
 	SDL_QueryTexture(sprite.sprite_image->texture, NULL, NULL, &w, &h);
 	// needs maybe camera for position 
 	SDL_Rect dstrect = {
-		.x = static_cast<int>(transform.position.x ),
-		.y = static_cast<int>(transform.position.y ),
+		.x = static_cast<int>(transform.position.x - w/2),
+		.y = static_cast<int>(transform.position.y - h/2),
 		.w = static_cast<int>(w * transform.scale),
 		.h = static_cast<int>(h * transform.scale),
 	};

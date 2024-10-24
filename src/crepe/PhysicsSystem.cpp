@@ -36,17 +36,6 @@ void PhysicsSystem::update() {
 							rigidbody.velocity_x += force.force_x;
 							rigidbody.velocity_y += force.force_y;
 						}
-
-						std::cout << "before transform.postion.x "
-								  << transform.position.x << std::endl;
-						std::cout << "before transform.postion.y "
-								  << transform.position.y << std::endl;
-						transform.position.x += rigidbody.velocity_x;
-						transform.position.y += rigidbody.velocity_y;
-						std::cout << "after transform.postion.x "
-								  << transform.position.x << std::endl;
-						std::cout << "after transform.postion.y "
-								  << transform.position.y << std::endl;
 					}
 				}
 				break;
