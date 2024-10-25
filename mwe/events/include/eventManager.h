@@ -28,21 +28,10 @@ public:
 	void dispatchEvents();
 
 private:
-<<<<<<< HEAD
     EventManager() = default;
     std::vector<std::pair<std::unique_ptr<Event>, int>> eventsQueue;
     std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>> subscribers;
     std::unordered_map<int, std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>> subscribersByEventId;
-=======
-	EventManager() = default;
-	std::vector<std::pair<std::unique_ptr<Event>, int>> m_eventsQueue;
-	std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>
-		m_subscribers;
-	std::unordered_map<
-		int, std::unordered_map<
-				 int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>
-		m_subscribersByEventId;
->>>>>>> b3b762a34e7ccb4a0dcd041a693ac7180af16002
 };
 
 template <typename EventType>

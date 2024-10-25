@@ -5,11 +5,8 @@
 #include <string>
 #include <unordered_map>
 #include <variant>
-<<<<<<< HEAD
 #include "keyCodes.h"
 #include "customTypes.h"
-=======
->>>>>>> b3b762a34e7ccb4a0dcd041a693ac7180af16002
 
 class UUIDGenerator {
 public:
