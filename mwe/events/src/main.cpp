@@ -52,13 +52,13 @@ int main(int argc, char* args[]) {
 	triggerEvent(PlayerDamagedEvent(50, 1));
     subscribe<KeyPressedEvent>(onKeyPressed,1,false);
     subscribe<KeyPressedEvent>(onKeyPressed1,false);
-	// std::unique_ptr<Event> anotherKeyPressEvent = std::make_unique<KeyPressedEvent>(65);
     // queueEvent(std::move(anotherKeyPressEvent));
     triggerEvent(KeyPressedEvent(42), 1);
 	
 	EventManager::getInstance().dispatchEvents();
 	//collision event call
 	testCollisionEvent();
+	
 	gameLoop.setup();
 	gameLoop.loop();
     return 0;
