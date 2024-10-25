@@ -26,9 +26,9 @@ public:
 
 private:
     EventManager() = default;
-    std::vector<std::pair<std::unique_ptr<Event>, int>> m_eventsQueue;
-    std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>> m_subscribers;
-    std::unordered_map<int, std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>> m_subscribersByEventId;
+    std::vector<std::pair<std::unique_ptr<Event>, int>> eventsQueue;
+    std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>> subscribers;
+    std::unordered_map<int, std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>> subscribersByEventId;
 };
 
 

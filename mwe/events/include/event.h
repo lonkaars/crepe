@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <variant>
 #include "keyCodes.h"
+#include "customTypes.h"
 
 class UUIDGenerator {
 public:
@@ -84,4 +85,16 @@ public:
 private:
     int mouseX = 0;
     int mouseY = 0;
+};
+class CollisionEvent : public Event {
+public:
+    CollisionEvent(Collision);
+
+    REGISTER_EVENT_TYPE(CollisionEvent)
+
+    Collision getCollisionData() const;
+
+private:
+   	Collision collisionData;
+    
 };

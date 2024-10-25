@@ -54,3 +54,13 @@ MousePressedEvent::MousePressedEvent(int mouseX, int mouseY)
 std::pair<int, int> MousePressedEvent::getMousePosition() const {
     return {mouseX, mouseY};
 }
+
+//Collision event
+CollisionEvent::CollisionEvent(Collision collision) : collisionData(collision), Event("CollisionEvent") {
+
+}
+
+Collision CollisionEvent::getCollisionData() const
+{
+	return this->collisionData;
+}
