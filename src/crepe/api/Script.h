@@ -22,10 +22,10 @@ protected:
 	// added event.
 
 protected:
-	template<typename T>
+	template <typename T>
 	T & get_component();
 
-	template<typename T>
+	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components();
 
 private:
@@ -36,4 +36,3 @@ private:
 } // namespace crepe::api
 
 #include "Script.hpp"
-
