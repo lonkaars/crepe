@@ -33,6 +33,8 @@ libraries from source:
    $ cd lib/sdl2
    or
    $ cd lib/soloud/contrib
+   or
+   $ cd lib/sdl_image
    ```
 3. Configure the build, run the build and install:
    ```

@@ -4,7 +4,6 @@
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
-#include <utility>
 #include <vector>
 
 #include "Component.h"

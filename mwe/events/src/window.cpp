@@ -1,6 +1,5 @@
 #include "window.h"
-WindowManager::WindowManager() {
-}
+WindowManager::WindowManager() {}
 WindowManager::~WindowManager() { destroyWindow(); }
 SDL_Renderer * WindowManager::getRenderer() { return renderer; }
 

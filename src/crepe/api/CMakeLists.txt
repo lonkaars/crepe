@@ -3,19 +3,29 @@ target_sources(crepe PUBLIC
 	BehaviorScript.cpp
 	Script.cpp
 	GameObject.cpp
-	Collider.cpp
 	Rigidbody.cpp
+	Force.cpp
+	ParticleEmitter.cpp
+	Transform.cpp
+	Color.cpp
+	Texture.cpp
+	AssetManager.cpp
 	Sprite.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	# AudioSource.h
 	BehaviorScript.h
+	Config.h
 	Script.h
+	Script.hpp
 	GameObject.h
 	GameObject.hpp
-	Collider.h
 	Rigidbody.h
 	Sprite.h
+	Point.h
+	Color.h
+	Texture.h 
+	AssetManager.h 
+	AssetManager.hpp
 )
-

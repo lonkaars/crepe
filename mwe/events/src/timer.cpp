@@ -16,8 +16,7 @@ void LoopTimer::start() {
 // Update the timer, calculate deltaTime
 void LoopTimer::update() {
 	uint64_t currentFrameTime = SDL_GetTicks64();
-	deltaTime
-		= (currentFrameTime - lastFrameTime) / 1000.0;
+	deltaTime = (currentFrameTime - lastFrameTime) / 1000.0;
 
 	if (deltaTime > maximumDeltaTime) {
 		deltaTime = maximumDeltaTime;

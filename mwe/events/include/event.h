@@ -1,90 +1,98 @@
 #pragma once
+#include "keyCodes.h"
 #include <cstdint>
 #include <iostream>
 #include <string>
 #include <unordered_map>
 #include <variant>
+<<<<<<< HEAD
 #include "keyCodes.h"
 #include "customTypes.h"
+=======
+>>>>>>> b3b762a34e7ccb4a0dcd041a693ac7180af16002
 
 class UUIDGenerator {
 public:
-    static std::uint32_t getUniqueID() {
-        static std::uint32_t id = 0;
-        return ++id;
-    }
+	static std::uint32_t getUniqueID() {
+		static std::uint32_t id = 0;
+		return ++id;
+	}
 };
 #define REGISTER_EVENT_TYPE(ClassName) \
+\
 public: \
-    static std::uint32_t getStaticEventType() { \
-        static std::uint32_t typeID = UUIDGenerator::getUniqueID(); \
-        return typeID; \
-    } \
-    virtual std::uint32_t getEventType() const override { \
-        return getStaticEventType(); \
-    }
+	static std::uint32_t getStaticEventType() { \
+		static std::uint32_t typeID = UUIDGenerator::getUniqueID(); \
+		return typeID; \
+	} \
+	virtual std::uint32_t getEventType() const override { \
+		return getStaticEventType(); \
+	}
 class Event {
 public:
-    Event(std::string eventType);
-    virtual ~Event() = default;
-    virtual std::uint32_t getEventType() const = 0;
-    virtual std::string toString() const;
-    void addArgument(const std::string& key, const std::variant<int, std::string, float>& value);
+	Event(std::string eventType);
+	virtual ~Event() = default;
+	virtual std::uint32_t getEventType() const = 0;
+	virtual std::string toString() const;
+	void addArgument(const std::string & key,
+					 const std::variant<int, std::string, float> & value);
 
-    std::variant<int, std::string, float> getArgument(const std::string& key) const;
+	std::variant<int, std::string, float>
+	getArgument(const std::string & key) const;
 
-    std::string getType() const;
-    bool getHandled() const;
-    void markHandled();
+	std::string getType() const;
+	bool getHandled() const;
+	void markHandled();
 
 private:
-    std::unordered_map<std::string, std::variant<int, std::string, float>> eventData;
-    bool isHandled = false;
+	std::unordered_map<std::string, std::variant<int, std::string, float>>
+		eventData;
+	bool isHandled = false;
 };
 
 // KeyPressedEvent class
 class KeyPressedEvent : public Event {
 public:
-    KeyPressedEvent(int keyCode);
+	KeyPressedEvent(int keyCode);
 
-    REGISTER_EVENT_TYPE("KeyPressedEvent");
+	REGISTER_EVENT_TYPE("KeyPressedEvent");
 
-    Keycode getKeyCode() const;
-    int getRepeatCount() const;
+	Keycode getKeyCode() const;
+	int getRepeatCount() const;
 
 private:
-    Keycode keycode;
+	Keycode keycode;
 
 public:
-    Keycode key = 0;
-    int repeatCount = 0;
+	Keycode key = 0;
+	int repeatCount = 0;
 };
 
 // KeyReleasedEvent class
 class KeyReleasedEvent : public Event {
 public:
-    KeyReleasedEvent(int keyCode);
+	KeyReleasedEvent(int keyCode);
 
-    REGISTER_EVENT_TYPE(KeyReleasedEvent);
+	REGISTER_EVENT_TYPE(KeyReleasedEvent);
 
-    Keycode getKeyCode() const;
+	Keycode getKeyCode() const;
 
 private:
-    Keycode key = 0;
+	Keycode key = 0;
 };
 
 // MousePressedEvent class
 class MousePressedEvent : public Event {
 public:
-    MousePressedEvent(int mouseX, int mouseY);
+	MousePressedEvent(int mouseX, int mouseY);
 
-    REGISTER_EVENT_TYPE(MousePressedEvent)
+	REGISTER_EVENT_TYPE(MousePressedEvent)
 
-    std::pair<int, int> getMousePosition() const;
+	std::pair<int, int> getMousePosition() const;
 
 private:
-    int mouseX = 0;
-    int mouseY = 0;
+	int mouseX = 0;
+	int mouseY = 0;
 };
 class CollisionEvent : public Event {
 public:

@@ -5,7 +5,9 @@
 using namespace crepe;
 
 Asset::Asset(const std::string & src) {
-	this->src = std::filesystem::canonical(src);
+	// FIXME: restore this
+	// this->src = std::filesystem::canonical(src);
+	this->src = src;
 	this->file = std::ifstream(this->src, std::ios::in | std::ios::binary);
 }
 
