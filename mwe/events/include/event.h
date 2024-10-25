@@ -1,12 +1,11 @@
 #pragma once
+#include "customTypes.h"
 #include "keyCodes.h"
 #include <cstdint>
 #include <iostream>
 #include <string>
 #include <unordered_map>
 #include <variant>
-#include "keyCodes.h"
-#include "customTypes.h"
 
 class UUIDGenerator {
 public:
@@ -93,13 +92,12 @@ private:
 };
 class CollisionEvent : public Event {
 public:
-    CollisionEvent(Collision);
+	CollisionEvent(Collision);
 
-    REGISTER_EVENT_TYPE(CollisionEvent)
+	REGISTER_EVENT_TYPE(CollisionEvent)
 
-    Collision getCollisionData() const;
+	Collision getCollisionData() const;
 
 private:
-   	Collision collisionData;
-    
+	Collision collisionData;
 };
