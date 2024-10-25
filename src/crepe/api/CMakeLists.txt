@@ -18,6 +18,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	BehaviorScript.h
 	Config.h
 	Script.h
+	Script.hpp
 	GameObject.h
 	GameObject.hpp
 	Rigidbody.h

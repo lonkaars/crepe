@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "../Component.h"
-#include "Script.h"
 
 namespace crepe {
 class ScriptSystem;
