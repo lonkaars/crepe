@@ -22,10 +22,10 @@ bool CollisionSystem::checkAABBCollision(
     float halfWidth2 = box2.width / 2.0f;
     float halfHeight2 = box2.height / 2.0f;
 
-    float centerX1 = trf1.position.x + rgb1.velocity_x;
-    float centerY1 = trf1.position.y + rgb1.velocity_y;
-    float centerX2 = trf2.position.x + rgb2.velocity_x;
-    float centerY2 = trf2.position.y + rgb2.velocity_y;
+    float centerX1 = trf1.position.x + rgb1.velocity.y;
+    float centerY1 = trf1.position.y + rgb1.velocity.y;
+    float centerX2 = trf2.position.x + rgb2.velocity.x;
+    float centerY2 = trf2.position.y + rgb2.velocity.y;
 
     return (std::abs(centerX1 - centerX2) < (halfWidth1 + halfWidth2) &&
             std::abs(centerY1 - centerY2) < (halfHeight1 + halfHeight2));
@@ -73,11 +73,65 @@ void CollisionSystem::detectBoxCollisions(std::vector<std::pair<int, int>>& coll
     }
 }
 
+void CollisionSystem::handleCollision(std::vector<std::pair<int, int>>& collisions) {
+    ComponentManager& mgr = ComponentManager::get_instance();
+    std::vector<std::reference_wrapper<Rigidbody>> rigidbodies = mgr.get_components_by_type<Rigidbody>();
+
+    for (Rigidbody& rigidbody : rigidbodies) {
+        // Move the object according to its velocity
+        std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(rigidbody.game_object_id);
+        Transform& transform = transforms.front().get();
+        transform.position.x += rigidbody.velocity.x;
+        transform.position.y += rigidbody.velocity.y;
+
+        // Check collisions after moving
+        for (const auto& collision : collisions) {
+            if (rigidbody.game_object_id != collision.first) { continue; }
+
+            std::vector<std::reference_wrapper<Rigidbody>> collidedBody = mgr.get_components_by_id<Rigidbody>(collision.second);
+            std::vector<std::reference_wrapper<Transform>> collidedTransforms = mgr.get_components_by_id<Transform>(collision.second);
+            Transform& collidedTransform = collidedTransforms.front().get();
+
+            // Retrieve BoxCollider components for the current and collided objects
+            std::vector<std::reference_wrapper<BoxCollider>> boxColliders = mgr.get_components_by_id<BoxCollider>(rigidbody.game_object_id);
+            std::vector<std::reference_wrapper<BoxCollider>> collidedBoxColliders = mgr.get_components_by_id<BoxCollider>(collision.second);
+
+            if (boxColliders.empty() || collidedBoxColliders.empty()) { continue; }
+
+            const BoxCollider& boxCollider = boxColliders.front().get();
+            const BoxCollider& collidedBoxCollider = collidedBoxColliders.front().get();
+
+            float halfWidth1 = boxCollider.width / 2.0f;
+            float halfHeight1 = boxCollider.height / 2.0f;
+            float halfWidth2 = collidedBoxCollider.width / 2.0f;
+            float halfHeight2 = collidedBoxCollider.height / 2.0f;
+
+            float deltaX = transform.position.x - collidedTransform.position.x;
+            float deltaY = transform.position.y - collidedTransform.position.y;
+            float overlapX = (halfWidth1 + halfWidth2) - std::abs(deltaX);
+            float overlapY = (halfHeight1 + halfHeight2) - std::abs(deltaY);
+
+            if (collidedBody.front().get().body_type == BodyType::STATIC) {
+                // Resolve collision based on the smallest overlap
+                if (overlapX < overlapY) {
+                    transform.position.x += (deltaX > 0 ? overlapX : -overlapX);
+                    rigidbody.velocity.x = 0;  // Stop movement in X
+                } else {
+                    transform.position.y += (deltaY > 0 ? overlapY : -overlapY);
+                    rigidbody.velocity.y = 0;  // Stop movement in Y
+                }
+            } else {
+                // Handle dynamic collisions here
+            }
+            break;
+        }
+    }
+}
+
 void CollisionSystem::update() {
 	std::cout << "Update Collision " << std::endl;
 	std::vector<std::pair<int, int>> collisions;
 	
-
     // Call detectBoxCollisions and pass the vector to store collisions
     this->detectBoxCollisions(collisions);
 
@@ -85,33 +139,6 @@ void CollisionSystem::update() {
     for (const auto& collision : collisions) {
         std::cout << "( collision tussen object " << collision.first << " en object " << collision.second << ") " << std::endl;
     }
-
-
-	//temp move
-	ComponentManager& mgr = ComponentManager::get_instance();
-	std::vector<std::reference_wrapper<Rigidbody>> rigidbodies = mgr.get_components_by_type<Rigidbody>();
-	bool done = false;
-	for (Rigidbody & rigidbody : rigidbodies) {
-		for (const auto& collision : collisions) {
-			if(rigidbody.game_object_id == collision.first)
-			{
-				std::vector<std::reference_wrapper<Rigidbody>> collidedbody = mgr.get_components_by_id<Rigidbody>(collision.second);
-				if(collidedbody.front().get().body_type == BodyType::STATIC)
-				{
-					done = true;
-				}
-				break;
-			}		
-		}
-		if(!done)
-		{
-			std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(rigidbody.game_object_id);
-			Transform& transformOuter = transforms.front().get();
-			transformOuter.position.x += rigidbody.velocity_x;
-			transformOuter.position.y += rigidbody.velocity_y;
-		}
-		
-		done = false;
-	}
+	this->handleCollision(collisions);
 	
 }

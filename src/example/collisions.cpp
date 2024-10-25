@@ -15,6 +15,7 @@
 #include <crepe/api/Color.h>
 
 #include <chrono>
+#include <thread>
 #include <iostream>
 #include <memory>
 
@@ -54,19 +55,19 @@ int main(int argc, char * argv[]) {
 	auto & sys = crepe::RenderSystem::get_instance();
 	auto start = std::chrono::steady_clock::now();
 	while (true) {
+		auto loop_start = std::chrono::steady_clock::now();
+
 		sys.update();
-
-		while (true) {
-            std::string input;
-            std::getline(std::cin, input); // Wait for input
-            if (input == "") {
-                // Signal to exit (you can use a shared variable or condition variable here)
-                break; // Exit the loop on 'a'
-            }
-        }
-
 		physics_system.update();
 		collision_system.update();
+
+		// Calculate the duration of the current loop and sleep if needed
+		auto loop_end = std::chrono::steady_clock::now();
+		auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(loop_end - loop_start).count();
+		int target_ms = 60;
+		if (elapsed_ms < target_ms) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(target_ms - elapsed_ms));
+		}
 	}
 	return 0;
 }

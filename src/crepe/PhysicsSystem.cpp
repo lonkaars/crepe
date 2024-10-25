@@ -24,17 +24,17 @@ void PhysicsSystem::update() {
 			case BodyType::DYNAMIC:
 				for (Transform & transform : transforms) {
 					if (transform.game_object_id == rigidbody.game_object_id) {
-						rigidbody.velocity_x = 0;
-						rigidbody.velocity_y = 0;
+						rigidbody.velocity.x = 0;
+						rigidbody.velocity.y = 0;
 						std::vector<std::reference_wrapper<Force>> forces
 							= mgr.get_components_by_id<Force>(
 								rigidbody.game_object_id);
-						rigidbody.velocity_y
+						rigidbody.velocity.y
 							+= rigidbody.gravity_scale * 1 * rigidbody.mass;
 
 						for (Force & force : forces) {
-							rigidbody.velocity_x += force.force_x;
-							rigidbody.velocity_y += force.force_y;
+							rigidbody.velocity.x += force.force_x;
+							rigidbody.velocity.y += force.force_y;
 						}
 					}
 				}
