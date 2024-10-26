@@ -13,5 +13,10 @@ public:
 private:
 	RenderSystem();
 	~RenderSystem();
+
+	void clear_screen();
+	void present_screen();
+	void update_camera();
+	void render_sprites();
 };
 } // namespace crepe

@@ -1,14 +1,14 @@
 #pragma once
 
+#include "Component.h"
 #include "api/Color.h"
-#include "api/GameObject.h"
 #include <cstdint>
 namespace crepe::api {
 
-class Camera : public GameObject {
+class Camera : public Component {
 
 public:
-	Camera(uint32_t id, std::string name, std::string tag, int layer);
+	Camera(uint32_t id, const Color&);
 	~Camera();
 
 public:

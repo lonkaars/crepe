@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
@@ -10,6 +11,9 @@
 #include "api/Sprite.h"
 #include "api/Texture.h"
 #include "api/Transform.h"
+#include "api/event.h"
+#include "api/eventManager.h"
+#include "keyCodes.h"
 #include "util/log.h"
 
 #include "SDLContext.h"
@@ -20,34 +24,6 @@ SDLContext & SDLContext::get_instance() {
 	static SDLContext instance;
 	return instance;
 }
-
-void SDLContext::handle_events(bool & running) {
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		if (event.type == SDL_QUIT) {
-			running = false;
-		}
-	}
-}
-
-SDLContext::~SDLContext() {
-	dbg_trace();
-
-	if (this->game_renderer != nullptr)
-		SDL_DestroyRenderer(this->game_renderer);
-
-	if (this->game_window != nullptr) {
-		SDL_DestroyWindow(this->game_window);
-	}
-
-	// TODO: how are we going to ensure that these are called from the same
-	// thread that SDL_Init() was called on? This has caused problems for me
-	// before.
-	IMG_Quit();
-	SDL_Quit();
-}
-
-void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
 
 SDLContext::SDLContext() {
 	dbg_trace();
@@ -62,7 +38,7 @@ SDLContext::SDLContext() {
 
 	this->game_window = SDL_CreateWindow(
 		"Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		1920, 1080, SDL_WINDOW_SHOWN);
+		this->viewport.w, this->viewport.h, 0);
 	if (!this->game_window) {
 		// FIXME: throw exception
 		std::cerr << "Window could not be created! SDL_Error: "
@@ -87,6 +63,49 @@ SDLContext::SDLContext() {
 	}
 }
 
+SDLContext::~SDLContext() {
+	dbg_trace();
+
+	if (this->game_renderer != nullptr)
+		SDL_DestroyRenderer(this->game_renderer);
+
+	if (this->game_window != nullptr) {
+		SDL_DestroyWindow(this->game_window);
+	}
+
+	// TODO: how are we going to ensure that these are called from the same
+	// thread that SDL_Init() was called on? This has caused problems for me
+	// before.
+	IMG_Quit();
+	SDL_Quit();
+}
+
+void SDLContext::handle_events(bool & running) {
+	SDL_Event event;
+	SDL_PollEvent(&event);
+	switch (event.type) {
+		case SDL_QUIT:
+			running = false;
+			break;
+		case SDL_KEYDOWN:
+			triggerEvent(
+				api::KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
+			this->test_w -= 5;
+			this->test_h -= 5;
+			break;
+		case SDL_KEYUP:
+			this->test_w += 5;
+			this->test_h += 5;
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+			triggerEvent(api::MousePressedEvent(x, y));
+			break;
+	}
+}
+
+void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer); }
 
 void SDLContext::draw(const api::Sprite & sprite,
@@ -111,33 +130,6 @@ void SDLContext::draw(const api::Sprite & sprite,
 					 &dstrect, degrees, NULL, render_flip);
 }
 
-/*
-SDL_Texture * SDLContext::setTextureFromPath(const char * path, SDL_Rect & clip,
-											 const int row, const int col) {
-	dbg_trace();
-
-	SDL_Surface * tmp = IMG_Load(path);
-	if (!tmp) {
-		std::cerr << "Error surface " << IMG_GetError << std::endl;
-	}
-
-	clip.
-		w = tmp->w / col;
-	clip.h = tmp->h / row;
-
-	SDL_Texture * CreatedTexture
-		= SDL_CreateTextureFromSurface(this->game_renderer, tmp);
-
-	if (!CreatedTexture) {
-		std::cerr << "Error could not create texture " << IMG_GetError
-				  << std::endl;
-	}
-	SDL_FreeSurface(tmp);
-
-	return CreatedTexture;
-}
-*/
-
 SDL_Texture * SDLContext::texture_from_path(const char * path) {
 	dbg_trace();
 
@@ -155,4 +147,33 @@ SDL_Texture * SDLContext::texture_from_path(const char * path) {
 	SDL_FreeSurface(tmp);
 
 	return created_texture;
+}
+
+void SDLContext::camera(const api::Camera & cam) {
+	this->viewport.w = static_cast<int>(cam.aspect_width * cam.zoom) + test_w;
+	this->viewport.h = static_cast<int>(cam.aspect_height * cam.zoom) + test_h;
+	this->viewport.x = static_cast<int>(cam.x);
+	this->viewport.y = static_cast<int>(cam.y);
+
+
+	std::cout << this->viewport.x << " " << this->viewport.y << std::endl;
+	/*
+	if (this->viewport.y > 0) {
+		this->viewport.y = 0;
+	}
+	if (this->viewport.y  < -720) {
+		this->viewport.y = -720;	
+	}
+
+	if (this->viewport.x > 0) {
+		this->viewport.x = 0;
+	}
+
+	if (this->viewport.x < -1280) {
+		this->viewport.x = -1280;
+	}
+	*/
+	SDL_RenderSetViewport(this->game_renderer, &this->viewport);
+	SDL_SetRenderDrawColor(this->game_renderer, cam.bg_color.r, cam.bg_color.g,
+						   cam.bg_color.b, cam.bg_color.a);
 }
