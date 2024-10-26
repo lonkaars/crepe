@@ -24,3 +24,6 @@ add_example(rendering)
 add_example(asset_manager)
 add_example(particle)
 add_example(physics)
+add_example(savemgr)
+add_example(proxy)
+
