@@ -31,6 +31,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Collider.h
 	SDLContext.h
 	RenderSystem.h
+	Proxy.h
+	Proxy.hpp
 )
 
 add_subdirectory(api)
