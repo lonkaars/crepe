@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Proxy.h"
+#include "../ValueBroker.h"
 
 namespace crepe::api {
 
@@ -8,11 +8,11 @@ class SaveManager {
 public:
 	//! Get a reference to a value and initialize it with a value if it does not yet exist
 	template <typename T>
-	Proxy<T> & get(const char * key, const T & default_value);
+	ValueBroker<T> & get(const char * key, const T & default_value);
 
 	//! Get a reference to a value
 	template <typename T>
-	Proxy<T> & get(const char * key);
+	ValueBroker<T> & get(const char * key);
 
 	//! Set a value directly
 	template <typename T>
@@ -22,8 +22,8 @@ public:
 	bool has(const char * key);
 
 private:
-	SaveManager();
-	virtual ~SaveManager();
+	SaveManager() = default;
+	virtual ~SaveManager() = default;
 
 public:
 	// singleton

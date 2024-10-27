@@ -8,5 +8,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	color.h
 	log.h
 	fmt.h
+	Proxy.h
+	Proxy.hpp
 )
 
