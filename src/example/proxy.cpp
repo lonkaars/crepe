@@ -3,44 +3,45 @@
  * Standalone example for usage of the proxy type
  */
 
+#include "ValueBroker.h"
 #include <crepe/api/Config.h>
 #include <crepe/util/log.h>
-#include <crepe/Proxy.h>
+#include <crepe/util/Proxy.h>
 
 using namespace std;
 using namespace crepe;
 using namespace crepe::util;
 
-template <typename T>
-class MyProxyHandler : public ProxyHandler<T> {
-public:
-	virtual void set(const T & val) {
-		dbg_logf("set %s", to_string(val).c_str());
-		this->val = val;
-	}
-
-	virtual const T & get() {
-		dbg_logf("get %s", to_string(this->val).c_str());
-		return this->val;
-	}
-
-private:
-	T val = 0;
-};
-
-void test_ro(const int & val) { }
-void test_rw(int & val) { }
+void test_ro_ref(const int & val) { }
+void test_rw_ref(int & val) { }
+void test_ro_val(int val) { }
 
 int main() {
 	auto & cfg = api::Config::get_instance();
 	cfg.log.level = util::LogLevel::DEBUG;
 
-	Proxy<int> val(make_unique<MyProxyHandler<int>>());
+	int real_value = 0;
 
-	val = 54;
+	ValueBroker<int> broker {
+		real_value,
+		[] (int & value, const int & target) {
+			dbg_logf("set %s to %s", to_string(value).c_str(), to_string(target).c_str());
+			value = target;
+		},
+		[] (int & value) -> const int & {
+			dbg_logf("get %s", to_string(value).c_str());
+			return value;
+		},
+	};
 
-	test_ro(val); // this is allowed
-	// test_rw(val); // this should throw a compile error
+	Proxy<int> proxy { broker };
+
+	broker.set(54);
+	proxy = 84;
+
+	test_ro_ref(proxy); // this is allowed
+	// test_rw_ref(proxy); // this should throw a compile error
+	test_ro_val(proxy);
 
 	return 0;
 }
