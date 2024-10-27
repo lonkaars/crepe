@@ -1,6 +1,12 @@
 #pragma once
 
+#include <memory>
+
 #include "../ValueBroker.h"
+
+namespace crepe {
+class DB;
+}
 
 namespace crepe::api {
 
@@ -22,7 +28,7 @@ public:
 	bool has(const char * key);
 
 private:
-	SaveManager() = default;
+	SaveManager();
 	virtual ~SaveManager() = default;
 
 public:
@@ -32,6 +38,9 @@ public:
 	SaveManager(SaveManager &&) = delete;
 	SaveManager & operator = (const SaveManager &) = delete;
 	SaveManager & operator = (SaveManager &&) = delete;
+
+private:
+	std::unique_ptr<DB> db = nullptr;
 };
 
 }
