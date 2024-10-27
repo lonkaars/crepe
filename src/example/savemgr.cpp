@@ -14,6 +14,7 @@ using namespace crepe::util;
 
 int main() {
 	const char * key = "mygame.test";
+
 	SaveManager & mgr = SaveManager::get_instance();
 
 	ValueBroker<unsigned int> & prop = mgr.get<unsigned int>(key, 0);

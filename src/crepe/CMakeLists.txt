@@ -12,8 +12,8 @@ target_sources(crepe PUBLIC
 	CollisionSystem.cpp
 	Collider.cpp
 	SDLContext.cpp
-
 	RenderSystem.cpp
+	DB.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -33,6 +33,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	RenderSystem.h
 	ValueBroker.h
 	ValueBroker.hpp
+	DB.h
 )
 
 add_subdirectory(api)

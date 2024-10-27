@@ -26,4 +26,5 @@ add_example(particle)
 add_example(physics)
 add_example(savemgr)
 add_example(proxy)
+add_example(db)
 
