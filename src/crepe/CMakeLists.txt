@@ -4,7 +4,6 @@ target_sources(crepe PUBLIC
 	SoundContext.cpp
 	Particle.cpp
 	ParticleSystem.cpp
-	SDLApp.cpp
 	ComponentManager.cpp
 	Component.cpp
 	ScriptSystem.cpp
