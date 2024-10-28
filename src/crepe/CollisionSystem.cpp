@@ -7,11 +7,17 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include "api/event.h"
+#include "api/eventManager.h"
+#include "api/Point.h"
 
-using namespace crepe::api;
 using namespace crepe;
+using namespace crepe::api;
 
-CollisionSystem::CollisionSystem() {}
+
+CollisionSystem::CollisionSystem() {
+	
+}
 
 bool CollisionSystem::checkAABBCollision(
     const BoxCollider& box1, const Transform& trf1, const crepe::api::Rigidbody& rgb1,

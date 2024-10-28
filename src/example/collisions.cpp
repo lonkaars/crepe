@@ -3,6 +3,7 @@
 #include <crepe/CollisionSystem.h>
 #include <crepe/api/AssetManager.h>
 #include <crepe/PhysicsSystem.h>
+#include <crepe/api/loopManager.h>
 
 #include <crepe/Component.h>
 #include <crepe/api/GameObject.h>
@@ -14,6 +15,7 @@
 #include <crepe/api/Texture.h>
 #include <crepe/api/Color.h>
 
+
 #include <chrono>
 #include <thread>
 #include <iostream>
@@ -24,9 +26,15 @@ using namespace crepe;
 using namespace std;
 
 int main(int argc, char * argv[]) {
+	// LoopManager gameLoop;
 	CollisionSystem collision_system;
+	// collision_system.update();
+	// EventManager::getInstance().dispatchEvents();
+	// gameLoop.setRunning(true);
+	// gameLoop.setup();
+	// gameLoop.loop();
 	PhysicsSystem physics_system;
-	auto & mgr = AssetManager::get_instance();
+	// auto & mgr = AssetManager::get_instance();
 	GameObject * game_object[2];
 	
 	Color color(0, 0, 0, 0);

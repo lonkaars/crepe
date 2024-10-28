@@ -1,6 +1,6 @@
 #pragma once
 
-#include "customTypes.h"
+#include "../Collider.h"
 #include "keyCodes.h"
 #include <cstdint>
 #include <string>

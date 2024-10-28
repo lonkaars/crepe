@@ -8,11 +8,11 @@ namespace crepe {
 struct Collision {
     int objectIdA;          // ID of the first object
     int objectIdB;          // ID of the second object
-    crepe::api::Vector2 contactPoint;   // Point of contact
-    crepe::api::Vector2 contactNormal;  // Normal vector at the contact point
-
+    api::Vector2 contactPoint;   // Point of contact
+    api::Vector2 contactNormal;  // Normal vector at the contact point
+	
     // Constructor to initialize a Collision
-    Collision(int idA, int idB, const crepe::api::Vector2& point, const crepe::api::Vector2& normal, float depth)
+    Collision(int idA, int idB, const api::Vector2& point, const api::Vector2& normal, float depth)
         : objectIdA(idA), objectIdB(idB), contactPoint(point), contactNormal(normal) {}
 
 };

@@ -17,8 +17,8 @@ enum class BodyType {
 };
 
 struct Vector2 {
-    float x; // X component of the vector
-    float y; // Y component of the vector
+    float x = 0; // X component of the vector
+    float y = 0; // Y component of the vector
 
     // Vector subtraction
     Vector2 operator-(const Vector2& other) const {

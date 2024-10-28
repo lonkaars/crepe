@@ -6,6 +6,8 @@
 
 #include <vector>
 #include <utility>
+#include "api/event.h"
+#include "api/eventManager.h"
 
 
 namespace crepe {
