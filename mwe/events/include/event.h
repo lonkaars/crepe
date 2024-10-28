@@ -64,7 +64,20 @@ public:
 	Keycode key = 0;
 	int repeatCount = 0;
 };
+class MouseClickEvent : public Event {
+public:
+    MouseClickEvent(int x, int y, MouseButton button);
 
+	REGISTER_EVENT_TYPE("KeyClickedEvent");
+    int getX() const { return x; }
+    int getY() const { return y; }
+    MouseButton getButton() const { return button; }
+
+private:
+    int x;
+    int y;
+    MouseButton button;
+};
 // KeyReleasedEvent class
 class KeyReleasedEvent : public Event {
 public:
@@ -90,6 +103,31 @@ public:
 private:
 	int mouseX = 0;
 	int mouseY = 0;
+	MouseButton button;
+};
+class MouseReleasedEvent : public Event {
+public:
+	MouseReleasedEvent(int mouseX, int mouseY, MouseButton button);
+
+	REGISTER_EVENT_TYPE(MouseReleasedEvent)
+
+	std::pair<int, int> getMousePosition() const;
+	MouseButton getMouseButton() const;
+private:
+	int mouseX = 0;
+	int mouseY = 0;
+	MouseButton button;
+};
+class MouseMovedEvent : public Event {
+public:
+	MouseMovedEvent(int mouseX, int mouseY);
+
+	REGISTER_EVENT_TYPE(MouseMovedEvent)
+
+	std::pair<int, int> getMousePosition() const;
+private:
+	int mouseX = 0;
+	int mouseY = 0;
 };
 class CollisionEvent : public Event {
 public:
@@ -102,4 +140,17 @@ public:
 private:
    	Collision collisionData;
     
+};
+class TextSubmitEvent : public Event {
+public:
+    TextSubmitEvent(std::string submittedText);
+
+    REGISTER_EVENT_TYPE(TextSubmitEvent)
+
+    std::string getText() const {
+        return text;
+    }
+
+private:
+    std::string text;
 };

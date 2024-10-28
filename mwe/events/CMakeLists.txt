@@ -21,7 +21,7 @@ add_executable(gameloop
 	src/keyCodes.cpp
 	src/eventHandler.cpp
 )
-
+add_subdirectory(../../lib/SDL_ttf SDL_ttf)
 # Link the SDL2 library to your project
 target_link_libraries(gameloop ${SDL2_LIBRARIES})
 
@@ -29,3 +29,4 @@ target_link_libraries(gameloop ${SDL2_LIBRARIES})
 target_include_directories(gameloop PRIVATE ${SDL2_INCLUDE_DIRS})
 target_include_directories(gameloop PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
+file(COPY ${PROJECT_SOURCE_DIR}/font DESTINATION ${CMAKE_BINARY_DIR})
