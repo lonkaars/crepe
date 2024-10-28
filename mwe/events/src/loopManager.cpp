@@ -1,22 +1,27 @@
 #include "loopManager.h"
 
-LoopManager::LoopManager() {}
+LoopManager::LoopManager() 
+    : inputSystem(std::make_unique<InputSystem>()){
+	shutdownHandler = [this](const ShutDownEvent& event) { this->onShutdown(event); };
+	subscribe(shutdownHandler);
+}
 void LoopManager::processInput() {
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	switch (event.type) {
-		case SDL_QUIT:
-			gameRunning = false;
-			break;
-		case SDL_KEYDOWN:
-			triggerEvent(KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			int x, y;
-			SDL_GetMouseState(&x, &y);
-			triggerEvent(MousePressedEvent(x, y));
-			break;
-	}
+	inputSystem->processInput();
+	// SDL_Event event;
+	// SDL_PollEvent(&event);
+	// switch (event.type) {
+	// 	case SDL_QUIT:
+	// 		gameRunning = false;
+	// 		break;
+	// 	case SDL_KEYDOWN:
+	// 		triggerEvent(KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
+	// 		break;
+	// 	case SDL_MOUSEBUTTONDOWN:
+	// 		int x, y;
+	// 		SDL_GetMouseState(&x, &y);
+	// 		triggerEvent(MousePressedEvent(x, y));
+	// 		break;
+	// }
 }
 void LoopManager::setRunning(bool running) { this->gameRunning = running; }
 void LoopManager::fixedUpdate() {
@@ -28,9 +33,8 @@ void LoopManager::loop() {
 
 	while (gameRunning) {
 		timer.update();
-
+		processInput();
 		while (timer.getLag() >= timer.getFixedDeltaTime()) {
-			processInput();
 			fixedUpdate();
 			timer.advanceFixedUpdate();
 		}
@@ -66,22 +70,29 @@ void LoopManager::setup() {
 			  }
 		  };
 	subscribe<KeyPressedEvent>(closeWindowCallback, false);
+	Button* testButton = new Button(200,200);
+	testButton->color = {100,0,100};
+	testButton->onClick = []() {
+    	std::cout << "Button was clicked" << std::endl;
+	};
+	testButton->x = 200;
+	testButton->y = 200;
+	inputSystem->registerButton(testButton);
+
+	window.addUIObject(testButton);
 }
 void LoopManager::render() {
 	//fprintf(stderr, "**********render********** \n");
 	if (gameRunning) {
-		//window.render(objectList);
+		window.renderUIObjects();
 	}
 }
-
+void LoopManager::onShutdown(const ShutDownEvent& e){
+	this->gameRunning = false;
+}
 void LoopManager::update() {
 	//fprintf(stderr, "**********normal update********** \n");
 	LoopTimer & timer = LoopTimer::getInstance();
 
 	float delta = timer.getDeltaTime();
-
-	// for (int i = 0; i < objectList.size(); i++) {
-	// 	objectList[i]->setX(objectList[i]->getX() + 50 * delta);
-	// 	objectList[i]->setY(objectList[i]->getY() + 50 * delta);
-	// }
 }

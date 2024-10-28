@@ -7,7 +7,6 @@
 #include <variant>
 #include "keyCodes.h"
 #include "customTypes.h"
-
 class UUIDGenerator {
 public:
 	static std::uint32_t getUniqueID() {
@@ -151,3 +150,22 @@ public:
 private:
     std::string text;
 };
+class ShutDownEvent : public Event {
+public:
+    ShutDownEvent() : Event("ShutDownEvent"){};
+
+    REGISTER_EVENT_TYPE(ShutDownEvent)
+
+private:
+};
+// class ButtonClickEvent : public Event {
+// public:
+//     ButtonClickEvent(int x,int y,int width,int height);
+
+//     REGISTER_EVENT_TYPE(TextSubmitEvent)
+
+//     std::string getText() const;
+
+// private:
+//     std::string text;
+// };

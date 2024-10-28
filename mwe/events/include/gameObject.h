@@ -3,14 +3,14 @@
 #include <string>
 class GameObject {
 public:
-	GameObject(std::uint32_t id, std::string name, std::string tag, int layer);
+	GameObject(){}
 
-	template <typename... Args>
-	void addSpriteComponent(Args &&... args);
-	template <typename... Args>
-	void addRigidbodyComponent(Args &&... args);
-	template <typename... Args>
-	void addColiderComponent(Args &&... args);
+	// template <typename... Args>
+	// void addSpriteComponent(Args &&... args);
+	// template <typename... Args>
+	// void addRigidbodyComponent(Args &&... args);
+	// template <typename... Args>
+	// void addColiderComponent(Args &&... args);
 
 	std::uint32_t mId;
 	std::string mName;

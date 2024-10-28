@@ -6,6 +6,10 @@
 #include "eventHandler.h"
 #include "eventManager.h"
 #include "loopManager.h"
+#include "uiRenderer.h"
+#include "uiObject.h"
+#include "inputSystem.h"
+#include <memory>
 class LoopManager {
 public:
 	LoopManager();
@@ -19,6 +23,7 @@ private:
 	void lateUpdate();
 	void fixedUpdate();
 	void render();
+	void onShutdown(const ShutDownEvent& e);
 	bool gameRunning = false;
 	WindowManager window;
 	int timeScale = 1;
@@ -26,4 +31,6 @@ private:
 	double currentTime;
 	double t = 0.0;
 	double dt = 0.01;
+	std::unique_ptr<InputSystem> inputSystem;
+	EventHandler<ShutDownEvent> shutdownHandler;
 };
