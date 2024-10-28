@@ -11,6 +11,8 @@ public:
 protected:
     void subscribeEvents(int listenerId = 0);
     void unsubscribeEvents(int listenerId = 0);
+	void activate(int listenerId = 0) { subscribeEvents(listenerId); }
+    void deactivate(int listenerId = 0) { unsubscribeEvents(listenerId); }
 
 private:
     EventHandler<KeyPressedEvent> keyPressedHandler;
