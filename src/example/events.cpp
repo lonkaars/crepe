@@ -1,9 +1,15 @@
-#include "customTypes.h"
-#include "event.h"
-#include "loopManager.h"
-#include <SDL2/SDL.h>
+
+
+#include <crepe/api/event.h>
+#include <crepe/api/loopManager.h>
+#include <crepe/api/eventManager.h>
+#include <crepe/api/eventHandler.h>
 #include <iostream>
-#include <memory>
+
+using namespace crepe;
+using namespace crepe::api;
+
+
 class PlayerDamagedEvent : public Event {
 public:
 	PlayerDamagedEvent(int damage, int playerID)
@@ -49,6 +55,8 @@ int main(int argc, char * args[]) {
 	//     onKeyPressed(e);
 	// };
 	// custom event class poc
+	//
+	gameLoop.setRunning(true);
 	subscribe<PlayerDamagedEvent>(onPlayerDamaged);
 	triggerEvent(PlayerDamagedEvent(50, 1));
 	subscribe<KeyPressedEvent>(onKeyPressed, 1, false);

@@ -1,11 +1,13 @@
 #pragma once
+
 #include "customTypes.h"
 #include "keyCodes.h"
 #include <cstdint>
-#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <variant>
+
+namespace crepe::api {
 
 class UUIDGenerator {
 public:
@@ -101,3 +103,4 @@ public:
 private:
 	Collision collisionData;
 };
+} // namespace crepe::api

@@ -1,5 +1,6 @@
 #include "eventManager.h"
 
+using namespace crepe::api;
 void EventManager::shutdown() { subscribers.clear(); }
 
 void EventManager::subscribe(int eventType,

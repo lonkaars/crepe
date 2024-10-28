@@ -11,6 +11,12 @@ target_sources(crepe PUBLIC
 	Texture.cpp
 	AssetManager.cpp
 	Sprite.cpp
+	timer.cpp
+	loopManager.cpp
+	eventManager.cpp
+	eventHandler.cpp
+	event.cpp
+	Camera.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -18,6 +24,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	BehaviorScript.h
 	Config.h
 	Script.h
+	Script.hpp
 	GameObject.h
 	GameObject.hpp
 	Rigidbody.h
@@ -29,4 +36,10 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	AssetManager.hpp
 	BoxCollider.h
 	CircleCollider.h
+	timer.h 
+	loopManager.h 
+	eventManager.h 
+	eventHandler.h 
+	event.h
+	Camera.h
 )

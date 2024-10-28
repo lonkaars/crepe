@@ -1,12 +1,9 @@
 #pragma once
 #include "event.h"
 #include "eventHandler.h"
-#include "keyCodes.h"
 #include <memory>
-#include <unordered_map>
-#include <vector>
-// using EventType = std::uint32_t;
-// using EventId = std::uint64_t;
+
+namespace crepe::api {
 
 class EventManager {
 public:
@@ -63,4 +60,5 @@ inline void triggerEvent(const Event & triggeredEvent, int eventId = 0) {
 inline void queueEvent(std::unique_ptr<Event> && queuedEvent, int eventId = 0) {
 	EventManager::getInstance().queueEvent(
 		std::forward<std::unique_ptr<Event>>(queuedEvent), eventId);
+}
 }

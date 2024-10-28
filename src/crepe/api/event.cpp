@@ -1,5 +1,8 @@
 #include "event.h"
 #include "keyCodes.h"
+
+using namespace crepe::api;
+
 // Event class methods
 Event::Event(std::string eventType) { eventData["eventType"] = eventType; }
 
