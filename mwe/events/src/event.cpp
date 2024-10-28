@@ -54,7 +54,9 @@ Collision CollisionEvent::getCollisionData() const
 }
 
 TextSubmitEvent::TextSubmitEvent(std::string text) 
-    : text(text), Event("TextSubmitEvent") {}
+    : text(text), Event("TextSubmitEvent") {
+		
+	}
 
 std::string TextSubmitEvent::getText() const {
     return this->text;

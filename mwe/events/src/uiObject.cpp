@@ -2,7 +2,7 @@
 
 // Constructor for UIObject
 UIObject::UIObject(int width, int height)
-    : width(width), height(height) {
+    : width(width), height(height){
 
 	}
 

@@ -1,7 +1,8 @@
 #pragma once
 #include "event.h"
-#include "eventManager.h"
 #include "eventHandler.h"
+#include "eventManager.h"
+
 class IMouseListener {
 public:
     virtual ~IMouseListener();

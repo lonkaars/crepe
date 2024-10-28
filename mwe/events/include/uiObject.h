@@ -1,8 +1,10 @@
+#pragma once
 #include "gameObject.h"
 #include <SDL2/SDL.h>
 #include <SDL_ttf.h>
 #include "event.h"
 #include "eventHandler.h"
+#include <functional>
 struct Alignment {
     enum class Horizontal { LEFT, CENTER, RIGHT };
     enum class Vertical { TOP, MIDDLE, BOTTOM };
@@ -21,28 +23,29 @@ struct Alignment {
     int marginRight = 0;
 };
 struct RGBColor{
-	int red,
-	int green,
-	int blue
+	int red;
+	int green;
+	int blue;
 };
 class UIObject : public GameObject{
 	public:
 	UIObject(int width,int height);
-	private:
+	virtual ~UIObject() {}
 	int width;
 	int height;
+	int x;
+	int y;
 };
 class Button : public UIObject{
 	public:
 	Button(int width,int height);
-	EventHandler<KeyPressedEvent> onKeyPressed;
-	EventHandler<KeyReleasedEvent> onKeyReleased;
+	RGBColor color;
+	std::function<void()> onClick;
 
 };
 class Text : public UIObject{
 	public:
 	Text(int width,int height);
-	private:
 	std::string text;
 	int size;
 	Alignment alignment;
