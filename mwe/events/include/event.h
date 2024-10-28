@@ -67,15 +67,14 @@ public:
 class MouseClickEvent : public Event {
 public:
     MouseClickEvent(int x, int y, MouseButton button);
-
+	
 	REGISTER_EVENT_TYPE("KeyClickedEvent");
-    int getX() const { return x; }
-    int getY() const { return y; }
+	std::pair<int, int> getMousePosition() const;
     MouseButton getButton() const { return button; }
 
 private:
-    int x;
-    int y;
+    int mouseX = 0;
+	int mouseY = 0;
     MouseButton button;
 };
 // KeyReleasedEvent class
@@ -147,9 +146,7 @@ public:
 
     REGISTER_EVENT_TYPE(TextSubmitEvent)
 
-    std::string getText() const {
-        return text;
-    }
+    std::string getText() const;
 
 private:
     std::string text;

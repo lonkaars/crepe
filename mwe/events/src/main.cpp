@@ -6,6 +6,10 @@
 #include "loopManager.h"
 #include "event.h"
 #include "customTypes.h"
+#include "iKeyListener.h"
+#include "iMouseListener.h"
+#include "keyListenerTest.h"
+#include "mouseListenerTest.h"
 class PlayerDamagedEvent : public Event {
 public:
 	PlayerDamagedEvent(int damage, int playerID)
@@ -46,10 +50,9 @@ void testCollisionEvent() {
 }
 int main(int argc, char * args[]) {
 	LoopManager gameLoop;
-	// Create an event handler for KeyPressedEvent
-	// EventHandler<KeyPressedEvent> callback = [](const KeyPressedEvent& e) {
-	//     onKeyPressed(e);
-	// };
+	int testListenerId = 0;
+	KeyListenerTest keyListener(testListenerId);
+    MouseListenerTest mouseListener(testListenerId);
 	// custom event class poc
 	subscribe<PlayerDamagedEvent>(onPlayerDamaged);
 	triggerEvent(PlayerDamagedEvent(50, 1));
