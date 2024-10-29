@@ -45,7 +45,7 @@ private:
 
 private:
 	friend class RenderSystem;
-	void draw(const api::Sprite &, const api::Transform &);
+	void draw(const api::Sprite &, const api::Transform &, const api::Camera&);
 	void clear_screen();
 	void present_screen();
 	void camera(const api::Camera&);
@@ -54,9 +54,6 @@ private:
 	SDL_Window * game_window = nullptr;
 	SDL_Renderer * game_renderer = nullptr;
 	SDL_Rect viewport = {0,0,640,480};
-
-	int test_w = 0;
-	int test_h = 0;
 };
 
 } // namespace crepe

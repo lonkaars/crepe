@@ -35,8 +35,9 @@ void RenderSystem::update_camera(){
 
 	std::vector<std::reference_wrapper<Camera>> cameras = mgr.get_components_by_type<Camera>();
 	
-	for (const Camera& cam : cameras) {
+	for (Camera& cam : cameras) {
 		SDLContext::get_instance().camera(cam);
+		this->curr_cam = &cam;
 	}
 }
 void RenderSystem::render_sprites(){
@@ -51,7 +52,7 @@ void RenderSystem::render_sprites(){
 		std::vector<std::reference_wrapper<Transform>> transforms
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id);
 		for (const Transform & transform : transforms) {
-			render.draw(sprite, transform);
+			render.draw(sprite, transform, *curr_cam);
 		}
 	}
 }

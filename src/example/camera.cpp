@@ -32,8 +32,9 @@ public:
 };
 
 
-uint8_t cam_x = 0;
-uint8_t cam_y = 0;
+int cam_x = 0;
+int cam_y = 0;
+double zoom = 1;
 
 void camera_movement(const CameraTest& cam){
 
@@ -54,11 +55,16 @@ void on_key_pressed(const KeyPressedEvent& e){
 		case S:
 			cam_y -= 20;
 			break;
+		case Z:
+			zoom -= 0.01;
+			break;
+		case X:
+			zoom += 0.01;
+			break;
 		default:
 			break;
 
 	}
-	std::cout << e.getKeyCode() << std::endl;
 }
 
 class MyCameraScript : public Script {
@@ -66,6 +72,7 @@ class MyCameraScript : public Script {
 		auto& cam = this->get_component<Camera>();
 		cam.x = cam_x;
 		cam.y = cam_y;
+		cam.zoom = zoom;
 	}
 
 };
