@@ -3,9 +3,11 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <iostream>
 
 #include "api/Camera.h"
@@ -105,36 +107,35 @@ void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer); }
 
 void SDLContext::draw(const api::Sprite & sprite,
 					  const api::Transform & transform,
-					  const api::Camera & cam ) {
+					  const api::Camera & cam) {
 
 	static SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
 	int img_width, img_height;
-	SDL_QueryTexture(sprite.sprite_image->texture, NULL, NULL, &img_width, &img_height);
+	SDL_QueryTexture(sprite.sprite_image->texture, NULL, NULL, &img_width,
+					 &img_height);
 
-   	double adjusted_x = (transform.position.x - cam.x) * cam.zoom;
-    double adjusted_y = (transform.position.y - cam.y) * cam.zoom;
-    double adjusted_w = img_width * transform.scale * cam.zoom;
-    double adjusted_h = img_height * transform.scale * cam.zoom;
+	//SDL_RenderSetScale(this->game_renderer, cam.zoom, cam.zoom);
 
-    SDL_Rect srcrect;
-    srcrect.x = std::max(0, static_cast<int>((cam.x - transform.position.x) / transform.scale));
-    srcrect.y = std::max(0, static_cast<int>((cam.y - transform.position.y) / transform.scale));
-    srcrect.w = std::min(static_cast<int>(img_width), static_cast<int>(cam.aspect_width / cam.zoom));
-    srcrect.h = std::min(static_cast<int>(img_height), static_cast<int>(cam.aspect_height / cam.zoom));
+	double adjusted_x = (transform.position.x);
+	double adjusted_y = (transform.position.y);
+	double adjusted_w = img_width * transform.scale ;
+	double adjusted_h = img_height * transform.scale ;
 
-    SDL_Rect dstrect = {
-        .x = static_cast<int>(adjusted_x),
-        .y = static_cast<int>(adjusted_y),
-        .w = static_cast<int>(srcrect.w * cam.zoom),
-        .h = static_cast<int>(srcrect.h * cam.zoom),
-    };
+
+	SDL_Rect dstrect = {
+		.x = static_cast<int>(adjusted_x),
+		.y = static_cast<int>(adjusted_y),
+		.w = static_cast<int>(adjusted_w),
+		.h = static_cast<int>(adjusted_h),
+	};
 
 	double degrees = transform.rotation * 180 / M_PI;
 
-	SDL_RenderCopyEx(this->game_renderer, sprite.sprite_image->texture, NULL,
+
+	SDL_RenderCopyEx(this->game_renderer, sprite.sprite_image->texture, &dstrect,
 					 &dstrect, degrees, NULL, render_flip);
 }
 
@@ -158,14 +159,14 @@ SDL_Texture * SDLContext::texture_from_path(const char * path) {
 }
 
 void SDLContext::camera(const api::Camera & cam) {
-    int new_width = static_cast<int>(cam.aspect_width * cam.zoom);
-    int new_height = static_cast<int>(cam.aspect_height * cam.zoom);
+	int new_width = static_cast<int>(cam.aspect_width * cam.zoom);
+	int new_height = static_cast<int>(cam.aspect_height * cam.zoom);
 
-    this->viewport.w = std::max(0, new_width);
-    this->viewport.h = std::max(0, new_height);
+	this->viewport.w = std::max(0, new_width);
+	this->viewport.h = std::max(0, new_height);
 
-    this->viewport.x = static_cast<int>(cam.x);
-    this->viewport.y = static_cast<int>(cam.y);
+	this->viewport.x = static_cast<int>(cam.x);
+	this->viewport.y = static_cast<int>(cam.y);
 
 	std::cout << this->viewport.x << " " << this->viewport.y << std::endl;
 
@@ -173,3 +174,5 @@ void SDLContext::camera(const api::Camera & cam) {
 	SDL_SetRenderDrawColor(this->game_renderer, cam.bg_color.r, cam.bg_color.g,
 						   cam.bg_color.b, cam.bg_color.a);
 }
+
+const uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }

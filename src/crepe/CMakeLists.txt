@@ -16,6 +16,7 @@ target_sources(crepe PUBLIC
 	RenderSystem.cpp
 
 	keyCodes.cpp
+	AnimatorSystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -35,6 +36,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	RenderSystem.h
 
 	keyCodes.h
+
+	AnimatorSystem.h
 )
 
 add_subdirectory(api)

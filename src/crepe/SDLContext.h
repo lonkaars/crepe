@@ -3,7 +3,9 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <cstdint>
 
+#include "AnimatorSystem.h"
 #include "api/Camera.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
@@ -34,6 +36,10 @@ public:
 private:
 	friend class api::LoopManager;
 	void handle_events(bool & running);
+
+private:
+	friend class AnimatorSystem;
+	const uint64_t get_ticks() const;
 
 private:
 	SDLContext();

@@ -19,6 +19,7 @@ target_sources(crepe PUBLIC
 	event.cpp
 
 	Camera.cpp
+	Animator.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -44,5 +45,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	event.h
 
 	Camera.h
+	Animator.h
 
 )

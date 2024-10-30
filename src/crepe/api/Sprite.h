@@ -27,6 +27,10 @@ public:
 	FlipSettings flip;
 	uint8_t sorting_in_layer;
 	uint8_t order_in_layer;
+
+private:
+	SDL_Rect src;
+	SDL_Rect dst;
 };
 
 } // namespace crepe::api
