@@ -1,7 +1,18 @@
 [submodule "lib/googletest"]
 	path = lib/googletest
 	url = https://github.com/google/googletest
-	branch = v1.15.x
+	shallow = true
+[submodule "lib/soloud/src"]
+	path = lib/soloud
+	url = https://github.com/jarikomppa/soloud
+	shallow = true
+[submodule "lib/sdl2"]
+	path = lib/sdl2
+	url = https://github.com/libsdl-org/SDL
+	shallow = true
+[submodule "lib/sdl_image/src"]
+	path = lib/sdl_image
+	url = https://github.com/libsdl-org/SDL_image
 	shallow = true
 [submodule "lib/miniaudio/lib"]
 	path = lib/miniaudio/lib
