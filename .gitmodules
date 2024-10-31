@@ -14,6 +14,3 @@
 	path = lib/sdl_image
 	url = https://github.com/libsdl-org/SDL_image
 	shallow = true
-[submodule "lib/miniaudio/lib"]
-	path = lib/miniaudio/lib
-	url = https://github.com/mackron/miniaudio
