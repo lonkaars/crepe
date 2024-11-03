@@ -40,7 +40,7 @@ void onKeyPressed(const KeyPressedEvent& e)
 	fprintf(stderr,"second function KeyCode %d\n",keyCode);
 }
 void CollisionHandler(const CollisionEvent& e){
-	std::cout << "collision betwee object id: "<< e.getCollisionData().objectIdA << " and id: " << e.getCollisionData().objectIdB << std::endl;
+	std::cout << "collision between object id: "<< e.getCollisionData().objectIdA << " and id: " << e.getCollisionData().objectIdB << std::endl;
 }
 void testCollisionEvent() {
 	Collision testCollision(1, 2, {3, 4}, {5, 6}, 7.8f);
@@ -69,19 +69,3 @@ int main(int argc, char * args[]) {
 	gameLoop.loop();
 	return 0;
 }
-// void collisionUpdate(){
-// 	int count;
-// 	//iedere collision
-// 	for (int i = 0; i < count; i++)
-// 	{
-// 		//trigger object 1
-// 		//triger object 2
-// 		triggerEvent(CollisionEvent(1,2),1);
-// 		triggerEvent(CollisionEvent(1,2),2);
-// 	}
-	
-// }
-// int main(){
-	
-// 	return 0;
-// }

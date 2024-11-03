@@ -19,7 +19,7 @@ Text::Text(int width, int height)
 }
 
 TextInput::TextInput(int width, int height)
-    : UIObject(width, height), textBuffer(""), placeholder(""), caretPosition(0), 
+    : UIObject(width, height), textBuffer(""), placeholder(""), 
       isActive(false), textColor{255, 255, 255}, backgroundColor{0, 0, 0}, maxLength(100), font(nullptr) {
     alignment.horizontal = Alignment::Horizontal::LEFT;
     alignment.vertical = Alignment::Vertical::TOP;

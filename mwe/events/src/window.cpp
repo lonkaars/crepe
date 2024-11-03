@@ -36,7 +36,6 @@ bool WindowManager::initWindow() {
 }
 
 void WindowManager::destroyWindow() {
-    delete uiRenderer;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
