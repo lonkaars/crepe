@@ -1,11 +1,8 @@
 #include "loopManager.h"
 #include "timer.h"
-LoopManager::LoopManager() {
-	this->window = new WindowManager();
-	
-}
-LoopManager::~LoopManager(){
-	for(GameObject* object : this->objectList){
+LoopManager::LoopManager() { this->window = new WindowManager(); }
+LoopManager::~LoopManager() {
+	for (GameObject * object : this->objectList) {
 		delete object;
 	}
 	delete this->window;

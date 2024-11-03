@@ -4,9 +4,9 @@
 
 class KeyListenerTest : public IKeyListener {
 public:
-    KeyListenerTest(int listenerId);
-    ~KeyListenerTest();
+	KeyListenerTest(int listenerId);
+	~KeyListenerTest();
 
-    void onKeyPressed(const KeyPressedEvent& event) override;
-    void onKeyReleased(const KeyReleasedEvent& event) override;
+	void onKeyPressed(const KeyPressedEvent & event) override;
+	void onKeyReleased(const KeyReleasedEvent & event) override;
 };

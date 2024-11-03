@@ -1,16 +1,13 @@
 #include "customTypes.h"
 #include "event.h"
-#include "loopManager.h"
-#include <SDL2/SDL.h>
-#include <iostream>
-#include <memory>
-#include "loopManager.h"
-#include "event.h"
-#include "customTypes.h"
 #include "iKeyListener.h"
 #include "iMouseListener.h"
 #include "keyListenerTest.h"
+#include "loopManager.h"
 #include "mouseListenerTest.h"
+#include <SDL2/SDL.h>
+#include <iostream>
+#include <memory>
 class PlayerDamagedEvent : public Event {
 public:
 	PlayerDamagedEvent(int damage, int playerID)
@@ -53,7 +50,7 @@ int main(int argc, char * args[]) {
 	LoopManager gameLoop;
 	int testListenerId = 0;
 	KeyListenerTest keyListener(testListenerId);
-    MouseListenerTest mouseListener(testListenerId);
+	MouseListenerTest mouseListener(testListenerId);
 	// custom event class poc
 	subscribe<PlayerDamagedEvent>(onPlayerDamaged);
 	triggerEvent(PlayerDamagedEvent(50, 1));

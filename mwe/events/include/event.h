@@ -6,8 +6,6 @@
 #include <string>
 #include <unordered_map>
 #include <variant>
-#include "keyCodes.h"
-#include "customTypes.h"
 class UUIDGenerator {
 public:
 	static std::uint32_t getUniqueID() {
@@ -66,16 +64,16 @@ public:
 };
 class MouseClickEvent : public Event {
 public:
-    MouseClickEvent(int x, int y, MouseButton button);
-	
+	MouseClickEvent(int x, int y, MouseButton button);
+
 	REGISTER_EVENT_TYPE("KeyClickedEvent");
 	std::pair<int, int> getMousePosition() const;
-    MouseButton getButton() const { return button; }
+	MouseButton getButton() const { return button; }
 
 private:
-    int mouseX = 0;
+	int mouseX = 0;
 	int mouseY = 0;
-    MouseButton button;
+	MouseButton button;
 };
 // KeyReleasedEvent class
 class KeyReleasedEvent : public Event {
@@ -112,6 +110,7 @@ public:
 
 	std::pair<int, int> getMousePosition() const;
 	MouseButton getMouseButton() const;
+
 private:
 	int mouseX = 0;
 	int mouseY = 0;
@@ -124,6 +123,7 @@ public:
 	REGISTER_EVENT_TYPE(MouseMovedEvent)
 
 	std::pair<int, int> getMousePosition() const;
+
 private:
 	int mouseX = 0;
 	int mouseY = 0;
@@ -141,20 +141,20 @@ private:
 };
 class TextSubmitEvent : public Event {
 public:
-    TextSubmitEvent(std::string submittedText);
+	TextSubmitEvent(std::string submittedText);
 
-    REGISTER_EVENT_TYPE(TextSubmitEvent)
+	REGISTER_EVENT_TYPE(TextSubmitEvent)
 
-    std::string getText() const;
+	std::string getText() const;
 
 private:
-    std::string text;
+	std::string text;
 };
 class ShutDownEvent : public Event {
 public:
-    ShutDownEvent() : Event("ShutDownEvent"){};
+	ShutDownEvent() : Event("ShutDownEvent") {};
 
-    REGISTER_EVENT_TYPE(ShutDownEvent)
+	REGISTER_EVENT_TYPE(ShutDownEvent)
 
 private:
 };

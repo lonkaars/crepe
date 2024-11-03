@@ -5,10 +5,10 @@
 //#include "combinedEvent.h"
 #include "eventHandler.h"
 #include "eventManager.h"
-#include "loopManager.h"
-#include "uiRenderer.h"
-#include "uiObject.h"
 #include "inputSystem.h"
+#include "loopManager.h"
+#include "uiObject.h"
+#include "uiRenderer.h"
 #include <memory>
 class LoopManager {
 public:
@@ -23,7 +23,7 @@ private:
 	void lateUpdate();
 	void fixedUpdate();
 	void render();
-	void onShutdown(const ShutDownEvent& e);
+	void onShutdown(const ShutDownEvent & e);
 	bool gameRunning = false;
 	WindowManager window;
 	int timeScale = 1;

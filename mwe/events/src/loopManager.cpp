@@ -1,8 +1,8 @@
 #include "loopManager.h"
 
-LoopManager::LoopManager() 
-    : inputSystem(std::make_unique<InputSystem>()){
-	shutdownHandler = [this](const ShutDownEvent& event) { this->onShutdown(event); };
+LoopManager::LoopManager() : inputSystem(std::make_unique<InputSystem>()) {
+	shutdownHandler
+		= [this](const ShutDownEvent & event) { this->onShutdown(event); };
 	subscribe(shutdownHandler);
 }
 void LoopManager::processInput() {
@@ -70,22 +70,20 @@ void LoopManager::setup() {
 			  }
 		  };
 	subscribe<KeyPressedEvent>(closeWindowCallback, false);
-	Button* testButton = new Button(200,200);
-	testButton->color = {100,0,100};
-	testButton->onClick = []() {
-    	std::cout << "Button was clicked" << std::endl;
-	};
+	Button * testButton = new Button(200, 200);
+	testButton->color = {100, 0, 100};
+	testButton->onClick
+		= []() { std::cout << "Button was clicked" << std::endl; };
 	testButton->x = 200;
 	testButton->y = 200;
 	inputSystem->registerButton(testButton);
 
 	window.addUIObject(testButton);
 
-
-	TextInput* testInput = new TextInput(200,200);
+	TextInput * testInput = new TextInput(200, 200);
 	testInput->x = 100;
 	testInput->y = 100;
-	testInput->backgroundColor = {20,50,80};
+	testInput->backgroundColor = {20, 50, 80};
 	inputSystem->registerTextInput(testInput);
 	window.addUIObject(testInput);
 }
@@ -95,7 +93,7 @@ void LoopManager::render() {
 		window.renderUIObjects();
 	}
 }
-void LoopManager::onShutdown(const ShutDownEvent& e){
+void LoopManager::onShutdown(const ShutDownEvent & e) {
 	this->gameRunning = false;
 }
 void LoopManager::update() {

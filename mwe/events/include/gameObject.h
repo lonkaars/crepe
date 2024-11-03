@@ -3,7 +3,7 @@
 #include <string>
 class GameObject {
 public:
-	GameObject(){}
+	GameObject() {}
 
 	// template <typename... Args>
 	// void addSpriteComponent(Args &&... args);
