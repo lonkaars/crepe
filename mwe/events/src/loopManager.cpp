@@ -80,6 +80,14 @@ void LoopManager::setup() {
 	inputSystem->registerButton(testButton);
 
 	window.addUIObject(testButton);
+
+
+	TextInput* testInput = new TextInput(200,200);
+	testInput->x = 100;
+	testInput->y = 100;
+	testInput->backgroundColor = {20,50,80};
+	inputSystem->registerTextInput(testInput);
+	window.addUIObject(testInput);
 }
 void LoopManager::render() {
 	//fprintf(stderr, "**********render********** \n");

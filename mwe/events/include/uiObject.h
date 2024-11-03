@@ -53,17 +53,18 @@ class Text : public UIObject{
 	TTF_Font *font;
 	RGBColor color;
 };
-class TextInput : public UIObject{
-	public:
-	TextInput (int width,int height);
-	std::string textBuffer;
+class TextInput : public UIObject {
+public:
+    TextInput(int width, int height);
+    std::string textBuffer;          
     std::string placeholder;
-    size_t caretPosition;
-    bool isActive;
+    bool isActive = false;
     RGBColor textColor;
     RGBColor backgroundColor;
-    size_t maxLength;
+    size_t maxLength = 100;
     Alignment alignment;
-    TTF_Font* font;
-	EventHandler<TextSubmitEvent> onSubmit;
+    TTF_Font* font = nullptr;
+    std::function<void()> onSubmit; 
+	std::function<void()> onFocus; 
 };
+

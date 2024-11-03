@@ -1,6 +1,15 @@
 #include "loopManager.h"
 #include "timer.h"
-LoopManager::LoopManager() {}
+LoopManager::LoopManager() {
+	this->window = new WindowManager();
+	
+}
+LoopManager::~LoopManager(){
+	for(GameObject* object : this->objectList){
+		delete object;
+	}
+	delete this->window;
+}
 void LoopManager::processInput() {
 	SDL_Event event;
 	SDL_PollEvent(&event);
@@ -42,14 +51,14 @@ void LoopManager::loop() {
 		timer.enforceFrameRate();
 	}
 
-	window.destroyWindow();
+	window->destroyWindow();
 }
 
 void LoopManager::setup() {
-	gameRunning = window.initWindow();
-	LoopTimer::getInstance().start();
-	LoopTimer::getInstance().setFPS(500);
 
+	LoopTimer::getInstance().start();
+	LoopTimer::getInstance().setFPS(10);
+	this->gameRunning = true;
 	for (int i = 1; i < 3; i++) {
 		GameObject * square
 			= new GameObject("square2", i * 60, i * 60, 20, 20, 0, 0);
@@ -59,7 +68,7 @@ void LoopManager::setup() {
 void LoopManager::render() {
 	fprintf(stderr, "**********render********** \n");
 	if (gameRunning) {
-		window.render(objectList);
+		window->render(objectList);
 	}
 }
 
