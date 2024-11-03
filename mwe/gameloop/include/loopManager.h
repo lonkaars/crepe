@@ -17,7 +17,7 @@ private:
 	void fixedUpdate();
 	void render();
 	bool gameRunning = false;
-	WindowManager* window;
+	WindowManager * window;
 	int timeScale = 1;
 	float accumulator = 0.0;
 	double currentTime;

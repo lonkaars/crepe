@@ -51,27 +51,20 @@ Collision CollisionEvent::getCollisionData() const {
 	return this->collisionData;
 }
 
-TextSubmitEvent::TextSubmitEvent(std::string text) 
-    : text(text), Event("TextSubmitEvent") {
-		
-	}
+TextSubmitEvent::TextSubmitEvent(std::string text)
+	: text(text), Event("TextSubmitEvent") {}
 
-std::string TextSubmitEvent::getText() const {
-    return this->text;
-}
+std::string TextSubmitEvent::getText() const { return this->text; }
 
-MouseReleasedEvent::MouseReleasedEvent(int x, int y, MouseButton button) : mouseX(x), mouseY(y), button(button),Event("MouseReleased"){
-
+MouseReleasedEvent::MouseReleasedEvent(int x, int y, MouseButton button)
+	: mouseX(x), mouseY(y), button(button), Event("MouseReleased") {}
+std::pair<int, int> MouseReleasedEvent::getMousePosition() const {
+	return {mouseX, mouseY};
 }
-std::pair<int, int> MouseReleasedEvent::getMousePosition() const{
-	return {mouseX,mouseY};
-}
-MouseClickEvent::MouseClickEvent(int x,int y,MouseButton button) : mouseX(x), mouseY(y), button(button),Event("MouseClickEvent"){
-
-}
-MouseMovedEvent::MouseMovedEvent(int x, int y) : mouseX(x), mouseY(y),Event("MouseMovedEvent"){
-
-}
+MouseClickEvent::MouseClickEvent(int x, int y, MouseButton button)
+	: mouseX(x), mouseY(y), button(button), Event("MouseClickEvent") {}
+MouseMovedEvent::MouseMovedEvent(int x, int y)
+	: mouseX(x), mouseY(y), Event("MouseMovedEvent") {}
 std::pair<int, int> MouseClickEvent::getMousePosition() const {
 	return {mouseX, mouseY};
 }
