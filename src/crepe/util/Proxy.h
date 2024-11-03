@@ -11,10 +11,10 @@ public:
 	operator const T & () const;
 
 public:
-	Proxy(ValueBroker<T> &);
+	Proxy(ValueBroker<T>);
 
 private:
-	ValueBroker<T> & broker;
+	ValueBroker<T> broker;
 };
 
 }

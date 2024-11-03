@@ -8,19 +8,17 @@ namespace crepe {
 
 template <typename T>
 ValueBroker<T>::ValueBroker(T & value) :
-	value(value),
-	setter([] (T & value, const T & target) {
+	setter([&value] (const T & target) {
 		value = std::move(target);
 	}),
-	getter([] (T & value) -> const int & {
+	getter([&value] () -> const int & {
 		return value;
 	})
 	{
 }
 
 template <typename T>
-ValueBroker<T>::ValueBroker(T & value, const setter_t & setter, const getter_t & getter) :
-	value(value),
+ValueBroker<T>::ValueBroker(const setter_t & setter, const getter_t & getter) :
 	setter(setter),
 	getter(getter)
 	{
@@ -28,12 +26,12 @@ ValueBroker<T>::ValueBroker(T & value, const setter_t & setter, const getter_t &
 
 template <typename T>
 const T & ValueBroker<T>::get() {
-	return this->getter(this->value);
+	return this->getter();
 }
 
 template <typename T>
 void ValueBroker<T>::set(const T & value) {
-	this->setter(this->value, value);
+	this->setter(value);
 }
 
 }

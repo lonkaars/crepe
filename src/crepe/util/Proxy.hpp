@@ -5,7 +5,7 @@
 namespace crepe::util {
 
 template <typename T>
-Proxy<T>::Proxy(ValueBroker<T> & broker) : broker(broker) { }
+Proxy<T>::Proxy(ValueBroker<T> broker) : broker(broker) { }
 
 template <typename T>
 Proxy<T> & Proxy<T>::operator = (const T & val) {

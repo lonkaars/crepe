@@ -23,14 +23,13 @@ int main() {
 	int real_value = 0;
 
 	ValueBroker<int> broker {
-		real_value,
-		[] (int & value, const int & target) {
-			dbg_logf("set %s to %s", to_string(value).c_str(), to_string(target).c_str());
-			value = target;
+		[&real_value] (const int & target) {
+			dbg_logf("set %s to %s", to_string(real_value).c_str(), to_string(target).c_str());
+			real_value = target;
 		},
-		[] (int & value) -> const int & {
-			dbg_logf("get %s", to_string(value).c_str());
-			return value;
+		[&real_value] () -> const int & {
+			dbg_logf("get %s", to_string(real_value).c_str());
+			return real_value;
 		},
 	};
 
