@@ -7,7 +7,7 @@
 using namespace std;
 using namespace crepe;
 
-DB::DB(const char * path) {
+DB::DB(const string & path) {
 	dbg_trace();
 	int ret;
 
@@ -18,7 +18,7 @@ DB::DB(const char * path) {
 	this->db = { db, [] (libdb::DB * db) { db->close(db, 0); } };
 
 	// load or create database file
-	if ((ret = this->db->open(this->db.get(), NULL, path, NULL, libdb::DB_BTREE, DB_CREATE, 0)) != 0) {
+	if ((ret = this->db->open(this->db.get(), NULL, path.c_str(), NULL, libdb::DB_BTREE, DB_CREATE, 0)) != 0) {
 		throw nullptr;
 	}
 

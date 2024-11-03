@@ -30,5 +30,4 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	AssetManager.h 
 	AssetManager.hpp
 	SaveManager.h
-	SaveManager.hpp
 )

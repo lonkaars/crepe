@@ -35,6 +35,11 @@ public:
 		 */
 		bool color = true;
 	} log;
+
+	//! Save manager
+	struct {
+		std::string location = "save.crepe.db";
+	} savemgr;
 };
 
 } // namespace crepe::api

@@ -14,7 +14,7 @@ namespace crepe {
 
 class DB {
 public:
-	DB(const char * path);
+	DB(const std::string & path);
 	virtual ~DB() = default;
 
 public:
