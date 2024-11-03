@@ -44,12 +44,10 @@ std::pair<int, int> MousePressedEvent::getMousePosition() const {
 }
 
 //Collision event
-CollisionEvent::CollisionEvent(Collision collision) : collisionData(collision), Event("CollisionEvent") {
+CollisionEvent::CollisionEvent(Collision collision)
+	: collisionData(collision), Event("CollisionEvent") {}
 
-}
-
-Collision CollisionEvent::getCollisionData() const
-{
+Collision CollisionEvent::getCollisionData() const {
 	return this->collisionData;
 }
 

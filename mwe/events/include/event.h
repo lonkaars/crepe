@@ -1,4 +1,5 @@
 #pragma once
+#include "customTypes.h"
 #include "keyCodes.h"
 #include <cstdint>
 #include <iostream>
@@ -129,15 +130,14 @@ private:
 };
 class CollisionEvent : public Event {
 public:
-    CollisionEvent(Collision);
+	CollisionEvent(Collision);
 
-    REGISTER_EVENT_TYPE(CollisionEvent)
+	REGISTER_EVENT_TYPE(CollisionEvent)
 
-    Collision getCollisionData() const;
+	Collision getCollisionData() const;
 
 private:
-   	Collision collisionData;
-    
+	Collision collisionData;
 };
 class TextSubmitEvent : public Event {
 public:

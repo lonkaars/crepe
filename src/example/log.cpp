@@ -9,16 +9,21 @@
 using namespace crepe;
 using namespace crepe::util;
 
-int main() {
-	auto & cfg = api::Config::get_instance();
+// unrelated setup code
+int _ = [] () {
 	// make sure all log messages get printed
+	auto & cfg = api::Config::get_instance();
 	cfg.log.level = util::LogLevel::TRACE;
 
+	return 0; // satisfy compiler
+} ();
+
+int main() {
 	dbg_trace();
-	dbg_logf("cfg.log.color is equal to %d", cfg.log.color);
-	logf(LogLevel::INFO, "info message!");
-	logf(LogLevel::WARNING, "very scary warning");
-	logf(LogLevel::ERROR, "fatal error!!!");
+	dbg_logf("test printf parameters: %d", 3);
+	logf(LogLevel::INFO, "info message");
+	logf(LogLevel::WARNING, "warning");
+	logf(LogLevel::ERROR, "error");
 
 	return 0;
 }
