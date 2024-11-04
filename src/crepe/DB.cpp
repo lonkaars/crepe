@@ -31,7 +31,7 @@ DB::DB(const string & path) {
 }
 
 
-libdb::DBT DB::to_thing(const string & thing) {
+libdb::DBT DB::to_thing(const string & thing) const {
 	libdb::DBT thang;
 	memset(&thang, 0, sizeof(libdb::DBT));
 	thang.data = (void *) thing.data();
@@ -44,19 +44,19 @@ string DB::get(const string & key) {
 	libdb::DBT db_val;
 	memset(&db_val, 0, sizeof(libdb::DBT));
 
-	// int ret = this->cursor->get(this->cursor.get(), NULL, &db_key, &db_val);
-	return "";
+	int ret = this->cursor->get(this->cursor.get(), &db_key, &db_val, DB_FIRST);
+	if (ret != 0) throw nullptr; // TODO: proper exception
+	return { static_cast<char *>(db_val.data), db_val.size };
 }
 
 void DB::set(const string & key, const string & value) {
 	libdb::DBT db_key = this->to_thing(key);
 	libdb::DBT db_val = this->to_thing(value);
 	int ret = this->db->put(this->db.get(), NULL, &db_key, &db_val, 0);
-	// TODO: check flags
-	// TODO: check ret
+	if (ret != 0) throw nullptr; // TODO: proper exception
 }
 
-bool DB::has(const std::string & key) {
+bool DB::has(const std::string & key) noexcept {
 	try {
 		this->get(key);
 	} catch (...) {
