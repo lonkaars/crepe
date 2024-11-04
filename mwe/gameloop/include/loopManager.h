@@ -1,4 +1,5 @@
 #pragma once
+#include "event.h"
 #include "gameObject.h"
 #include "window.h"
 #include <SDL2/SDL.h>

@@ -7,10 +7,11 @@
 namespace crepe {
 
 template <class T, typename... Args>
-void ComponentManager::add_component(uint32_t id, Args &&... args) {
+T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	using namespace std;
 
-	static_assert(is_base_of<Component, T>::value, "add_component must recieve a derivative class of Component");
+	static_assert(is_base_of<Component, T>::value,
+				  "add_component must recieve a derivative class of Component");
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	type_index type = typeid(T);
@@ -29,9 +30,11 @@ void ComponentManager::add_component(uint32_t id, Args &&... args) {
 
 	// Create a new component of type T (arguments directly forwarded). The
 	// constructor must be called by ComponentManager.
-	T * instance = new T(forward<Args>(args)...);
+	T * instance = new T(id, forward<Args>(args)...);
 	// store its unique_ptr in the vector<>
 	components[type][id].push_back(unique_ptr<T>(instance));
+
+	return *instance;
 }
 
 template <typename T>
@@ -60,11 +63,9 @@ void ComponentManager::delete_components() {
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	std::type_index type = typeid(T);
 
-	// Find the type (in the unordered_map<>)
-	if (components.find(type) != components.end()) {
-		// Clear the whole vector<> of this specific type
-		components[type].clear();
-	}
+	if (components.find(type) == components.end()) return;
+
+	components[type].clear();
 }
 
 template <typename T>
@@ -78,30 +79,26 @@ ComponentManager::get_components_by_id(uint32_t id) const {
 	// Create an empty vector<>
 	vector<reference_wrapper<T>> component_vector;
 
-	// Find the type (in the unordered_map<>)
-	if (components.find(type) != components.end()) {
-		// Get the correct vector<>
-		const vector<vector<unique_ptr<Component>>> & component_array
-			= components.at(type);
+	if (components.find(type) == components.end()) return component_vector;
 
-		// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
-		if (id < component_array.size()) {
-			// Loop trough the whole vector<>
-			for (const unique_ptr<Component> & component_ptr :
-				 component_array[id]) {
-				// Cast the unique_ptr to a raw pointer
-				T * casted_component = static_cast<T *>(component_ptr.get());
+	// Get the correct vector<>
+	const vector<vector<unique_ptr<Component>>> & component_array
+		= components.at(type);
 
-				// Ensure that the cast was successful
-				if (casted_component) {
-					// Add the dereferenced raw pointer to the vector<>
-					component_vector.push_back(*casted_component);
-				}
-			}
-		}
+	// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
+	if (id >= component_array.size()) return component_vector;
+
+	// Loop trough the whole vector<>
+	for (const unique_ptr<Component> & component_ptr : component_array[id]) {
+		// Cast the unique_ptr to a raw pointer
+		T * casted_component = static_cast<T *>(component_ptr.get());
+
+		if (casted_component == nullptr) continue;
+
+		// Add the dereferenced raw pointer to the vector<>
+		component_vector.push_back(*casted_component);
 	}
 
-	// Return the vector<>
 	return component_vector;
 }
 
@@ -119,30 +116,28 @@ ComponentManager::get_components_by_type() const {
 	// uint32_t id = 0;
 
 	// Find the type (in the unordered_map<>)
-	if (components.find(type) != components.end()) {
+	if (components.find(type) == components.end()) return component_vector;
 
-		// Get the correct vector<>
-		const vector<vector<unique_ptr<Component>>> & component_array
-			= components.at(type);
+	// Get the correct vector<>
+	const vector<vector<unique_ptr<Component>>> & component_array
+		= components.at(type);
 
-		// Loop through the whole vector<>
-		for (const vector<unique_ptr<Component>> & component :
-			 component_array) {
-			// Loop trough the whole vector<>
-			for (const unique_ptr<Component> & component_ptr : component) {
-				// Cast the unique_ptr to a raw pointer
-				T * casted_component = static_cast<T *>(component_ptr.get());
+	// Loop through the whole vector<>
+	for (const vector<unique_ptr<Component>> & component : component_array) {
+		// Loop trough the whole vector<>
+		for (const unique_ptr<Component> & component_ptr : component) {
+			// Cast the unique_ptr to a raw pointer
+			T * casted_component = static_cast<T *>(component_ptr.get());
 
-				// Ensure that the cast was successful
-				if (casted_component) {
-					// Pair the dereferenced raw pointer and the id and add it to the vector<>
-					component_vector.emplace_back(ref(*casted_component));
-				}
-			}
+			// Ensure that the cast was successful
+			if (casted_component == nullptr) continue;
 
-			// Increase the id (the id will also be stored in the returned vector<>)
-			//++id;
+			// Pair the dereferenced raw pointer and the id and add it to the vector<>
+			component_vector.emplace_back(ref(*casted_component));
 		}
+
+		// Increase the id (the id will also be stored in the returned vector<>)
+		//++id;
 	}
 
 	// Return the vector<>

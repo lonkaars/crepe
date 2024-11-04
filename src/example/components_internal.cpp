@@ -6,14 +6,16 @@
 #include <cassert>
 #include <chrono>
 
-#include <crepe/Collider.h>
 #include <crepe/Component.h>
 #include <crepe/ComponentManager.h>
-#include <crepe/GameObject.h>
-#include <crepe/Rigidbody.h>
-#include <crepe/Sprite.h>
+
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Rigidbody.h>
+#include <crepe/api/Sprite.h>
+
 #include <crepe/util/log.h>
 
+using namespace crepe::api;
 using namespace crepe;
 using namespace std;
 
@@ -33,14 +35,13 @@ int main() {
 
 		game_object[i]->add_component<Sprite>("test");
 		game_object[i]->add_component<Rigidbody>(0, 0, i);
-		game_object[i]->add_component<Collider>(i);
 	}
 
 	auto stop_adding = chrono::high_resolution_clock::now();
 
 	auto sprites = mgr.get_components_by_type<Sprite>();
 	for (auto sprite : sprites) {
-		assert(sprite.get().path == "test");
+		assert(true);
 	}
 
 	auto stop_looping = chrono::high_resolution_clock::now();

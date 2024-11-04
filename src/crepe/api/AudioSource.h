@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "Asset.h"
-#include "Component.h"
+#include "../Asset.h"
+#include "../Component.h"
 
 namespace crepe {
 class Sound;

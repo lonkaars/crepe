@@ -1,7 +1,8 @@
-#include "AudioSource.h"
+#include <memory>
 
 #include "../Sound.h"
-#include <memory>
+
+#include "AudioSource.h"
 
 using namespace crepe::api;
 

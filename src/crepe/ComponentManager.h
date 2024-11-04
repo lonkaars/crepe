@@ -4,7 +4,6 @@
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
-#include <utility>
 #include <vector>
 
 #include "Component.h"
@@ -23,7 +22,7 @@ public:
 public:
 	//! Add a component of a specific type
 	template <typename T, typename... Args>
-	void add_component(uint32_t id, Args &&... args);
+	T & add_component(uint32_t id, Args &&... args);
 	//! Deletes all components of a specific type and id
 	template <typename T>
 	void delete_components_by_id(uint32_t id);
@@ -44,7 +43,8 @@ public:
 	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
 
 private:
-	ComponentManager() = default;
+	ComponentManager();
+	virtual ~ComponentManager();
 
 	/*
 	 * The std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>> below might seem a bit strange, let me explain this structure:

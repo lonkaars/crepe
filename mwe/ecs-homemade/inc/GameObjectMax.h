@@ -8,7 +8,7 @@ public:
 	GameObject(std::uint32_t id, std::string name, std::string tag, int layer);
 
 	template <typename T, typename... Args>
-	void AddComponent(Args &&... args);
+	T & AddComponent(Args &&... args);
 
 	std::uint32_t mId;
 	std::string mName;
