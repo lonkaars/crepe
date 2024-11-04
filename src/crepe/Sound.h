@@ -1,9 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <soloud/soloud.h>
 #include <soloud/soloud_wav.h>
-
-#include <memory>
 
 #include "Asset.h"
 

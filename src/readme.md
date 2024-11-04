@@ -8,26 +8,27 @@ Examples (using Ninja):
 
 ```
 $ cmake -B build -G Ninja
-$ ninja -C build
+$ cmake --build build
 ```
 
 Unit tests can be built by explicitly specifying the target `test_main` when
 running the build command:
 
 ```
-$ ninja -C build test_main
+$ cmake --build build --target test_main
 ```
 
-Each source file in the example/ folder corresponds to a CMake target as well:
+Each source file in the example/ folder corresponds to a CMake target as well
+(all examples can be built at once by specifying the `examples` target):
 
 ```
-$ ninja -C build audio_internal components_internal
+$ cmake --build build --target audio_internal script
 ```
 
 For installing crêpe system-wide after building (install must be run with
 elevated privileges):
 
 ```
-# ninja -C build install
+# cmake --install build
 ```
 

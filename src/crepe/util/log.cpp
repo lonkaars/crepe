@@ -3,48 +3,51 @@
 #include <cstdlib>
 #include <string>
 
+#include "../api/Config.h"
+#include "fmt.h"
 #include "log.h"
 
 using namespace crepe::util;
+using namespace std;
 
-static const char * const LOG_PREFIX[] = {
-	[log_level::DEBUG] = "[DBG] ",
-	[log_level::INFO] = "[INFO] ",
-	[log_level::WARNING] = "[WARN] ",
-	[log_level::ERROR] = "[ERR] ",
-};
+string log_prefix(LogLevel level) {
+	switch (level) {
+		case LogLevel::TRACE:
+			return LogColor().fg_white().str("[TRACE]") + " ";
+		case LogLevel::DEBUG:
+			return LogColor().fg_magenta().str("[DEBUG]") + " ";
+		case LogLevel::INFO:
+			return LogColor().fg_blue().str("[INFO]") + " ";
+		case LogLevel::WARNING:
+			return LogColor().fg_yellow().str("[WARN]") + " ";
+		case LogLevel::ERROR:
+			return LogColor().fg_red().str("[ERROR]") + " ";
+	}
+	return "";
+}
 
-static void va_logf(enum log_level level, va_list args, const std::string fmt) {
-	va_list args_copy;
-	va_copy(args_copy, args);
+static void log(LogLevel level, const string msg) {
+	auto & cfg = crepe::api::Config::get_instance();
+	if (level < cfg.log.level) return;
 
-	// prepend log level and ensure newline
-	std::string format_fixed = LOG_PREFIX[level] + fmt;
-	if (!format_fixed.ends_with("\n")) format_fixed += "\n";
-
-	size_t sz = vsnprintf(NULL, 0, format_fixed.c_str(), args_copy) + 1;
-	char * msg = (char *) malloc(sz);
-	va_end(args_copy);
-
-	vsnprintf(msg, sz, format_fixed.c_str(), args);
+	string out = log_prefix(level) + msg;
+	if (!out.ends_with("\n")) out += "\n";
 
 	// TODO: also log to file or smth
-	printf("%s", msg);
+	printf("%s", out.c_str());
 	fflush(stdout);
-
-	free(msg);
 }
 
 void crepe::util::logf(const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
-	va_logf(crepe::util::log_level::DEBUG, args, fmt);
+	log(LogLevel::DEBUG, va_stringf(args, fmt));
 	va_end(args);
 }
 
-void crepe::util::logf(log_level level, const char * fmt, ...) {
+void crepe::util::logf(LogLevel level, const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
-	va_logf(level, args, fmt);
+	log(level, va_stringf(args, fmt));
 	va_end(args);
 }
