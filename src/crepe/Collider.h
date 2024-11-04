@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include "api/Rigidbody.h"
+#include "api/Transform.h"
 
 namespace crepe {
 

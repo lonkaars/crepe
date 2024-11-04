@@ -19,6 +19,7 @@ void LoopManager::processInput() {
 void LoopManager::setRunning(bool running) { this->gameRunning = running; }
 
 void LoopManager::fixedUpdate() {
+	physicsSystem.update();
 	//fprintf(stderr, "fixed update\n");
 }
 

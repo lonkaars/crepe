@@ -1,5 +1,7 @@
 #pragma once
 
+#include "PhysicsSystem.h"
+
 namespace crepe::api {
 
 class LoopManager {
@@ -21,6 +23,8 @@ private:
 	double currentTime;
 	double t = 0.0;
 	double dt = 0.01;
+private:
+	PhysicsSystem physicsSystem;
 };
 
 }
