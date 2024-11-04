@@ -1,11 +1,11 @@
 #pragma once
-#include "event.h"
 #include "gameObject.h"
 #include "window.h"
 #include <SDL2/SDL.h>
 class LoopManager {
 public:
 	LoopManager();
+	~LoopManager();
 	void setup();
 	void loop();
 
@@ -17,7 +17,7 @@ private:
 	void fixedUpdate();
 	void render();
 	bool gameRunning = false;
-	WindowManager window;
+	WindowManager * window;
 	int timeScale = 1;
 	float accumulator = 0.0;
 	double currentTime;

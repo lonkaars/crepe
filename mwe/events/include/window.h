@@ -1,19 +1,27 @@
 #pragma once
+#include "uiObject.h"
+#include "uiRenderer.h"
 #include <SDL2/SDL.h>
-#include <iostream>
 #include <vector>
+
 class WindowManager {
 public:
 	WindowManager();
 	virtual ~WindowManager();
+
 	bool initWindow();
 	void destroyWindow();
-
 	SDL_Renderer * getRenderer();
+
+	void addUIObject(UIObject * uiObject);
+	void renderUIObjects();
 
 private:
 	const int SCREEN_WIDTH = 800;
 	const int SCREEN_HEIGHT = 600;
-	SDL_Window * window = NULL;
-	SDL_Renderer * renderer = NULL;
+	SDL_Window * window = nullptr;
+	SDL_Renderer * renderer = nullptr;
+
+	UIRenderer * uiRenderer;
+	std::vector<UIObject *> uiObjects;
 };
