@@ -52,7 +52,7 @@ int main(int argc, char * argv[]) {
 
 	game_object[1] = new GameObject(1, "Name", "Tag", 0);
 	point.x = 20;
-	point.y = 50;
+	point.y = 80;
 	game_object[1]->add_component<Transform>(point, 0, 1);
 	game_object[1]->add_component<Rigidbody>(1, 1, BodyType::STATIC);
 	game_object[1]->add_component<BoxCollider>(20,20);
