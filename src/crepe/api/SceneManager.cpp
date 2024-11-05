@@ -12,9 +12,7 @@ SceneManager & SceneManager::get_instance() {
 }
 
 // Push the next scene onto the queue
-void SceneManager::load_scene(std::string name) {
-	next_scene.push(name);
-}
+void SceneManager::load_scene(std::string name) { next_scene.push(name); }
 
 // Load a new scene from the queue (if there is one)
 void SceneManager::empty_queue() {
