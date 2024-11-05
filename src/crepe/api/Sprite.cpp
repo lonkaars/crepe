@@ -3,9 +3,9 @@
 
 #include "../util/log.h"
 
-#include "Texture.h"
 #include "Component.h"
 #include "Sprite.h"
+#include "Texture.h"
 
 using namespace std;
 using namespace crepe;

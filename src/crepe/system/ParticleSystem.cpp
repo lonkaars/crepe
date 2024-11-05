@@ -1,8 +1,8 @@
 #include <cmath>
 #include <ctime>
 
-#include "../api/ParticleEmitter.h"
 #include "../ComponentManager.h"
+#include "../api/ParticleEmitter.h"
 
 #include "ParticleSystem.h"
 
