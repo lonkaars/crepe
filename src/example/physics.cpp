@@ -16,13 +16,8 @@ using namespace std;
 int main(int argc, char * argv[]) {
 	PhysicsSystem physics_system;
 	GameObject * game_object[2];
-	game_object[1] = new GameObject(2, "Name", "Tag", 0); // not found not used
-	game_object[0] = new GameObject(5, "Name", "Tag", 0);
-	Point point = {
-		.x = 0,
-		.y = 0,
-	};
-	game_object[0]->add_component<Transform>(point, 0, 0);
+	game_object[1] = new GameObject(2, "Name", "Tag", Point{0, 0}, 0, 0); // not found not used
+	game_object[0] = new GameObject(5, "Name", "Tag", Point{0, 0}, 0, 0);
 	game_object[0]->add_component<Rigidbody>(1, 1, BodyType::DYNAMIC);
 	game_object[0]->add_component<Force>(1, 0);
 	physics_system.update();
