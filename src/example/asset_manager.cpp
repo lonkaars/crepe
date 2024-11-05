@@ -3,7 +3,7 @@
 #include <crepe/api/Texture.h>
 
 using namespace crepe;
-using namespace crepe::api;
+
 int main() {
 
 	// this needs to be called before the asset manager otherwise the destructor

@@ -4,7 +4,7 @@
 
 #include "../Component.h"
 
-namespace crepe::api {
+namespace crepe {
 
 // FIXME: can't this enum be defined inside the class declaration of Rigidbody?
 enum class BodyType {
@@ -27,4 +27,4 @@ public:
 	BodyType body_type;
 };
 
-} // namespace crepe::api
+} // namespace crepe

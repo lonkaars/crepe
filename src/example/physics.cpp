@@ -10,7 +10,6 @@
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Transform.h>
 
-using namespace crepe::api;
 using namespace crepe;
 using namespace std;
 

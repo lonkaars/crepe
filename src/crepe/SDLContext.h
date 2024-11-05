@@ -8,12 +8,9 @@
 
 #include "system/RenderSystem.h"
 
-namespace crepe::api {
-class Texture;
-}
-
 namespace crepe {
 
+class Texture;
 class SDLContext {
 
 public:
@@ -34,13 +31,13 @@ private:
 	virtual ~SDLContext();
 
 private:
-	friend class api::Texture;
+	friend class Texture;
 	SDL_Texture * texture_from_path(const char *);
 	//SDL_Texture* setTextureFromPath(const char*, SDL_Rect& clip, const int row, const int col);
 
 private:
 	friend class RenderSystem;
-	void draw(const api::Sprite &, const api::Transform &);
+	void draw(const Sprite &, const Transform &);
 	void clear_screen();
 	void present_screen();
 

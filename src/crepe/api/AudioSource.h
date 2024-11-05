@@ -6,10 +6,8 @@
 #include "../Component.h"
 
 namespace crepe {
-class Sound;
-}
 
-namespace crepe::api {
+class Sound;
 
 //! Audio source component
 class AudioSource : Component {
@@ -35,7 +33,7 @@ public:
 	float volume;
 
 private:
-	std::unique_ptr<crepe::Sound> sound;
+	std::unique_ptr<Sound> sound;
 };
 
-} // namespace crepe::api
+} // namespace crepe

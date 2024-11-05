@@ -15,7 +15,6 @@
 
 using namespace std;
 using namespace crepe;
-using namespace crepe::api;
 
 int main() {
 
