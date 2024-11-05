@@ -37,6 +37,7 @@ install(
 )
 
 target_link_libraries(test_main
+	PRIVATE gtest
 	PRIVATE gtest_main
 	PUBLIC crepe
 )

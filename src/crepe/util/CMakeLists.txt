@@ -1,11 +1,11 @@
 target_sources(crepe PUBLIC
-	color.cpp
+	LogColor.cpp
 	log.cpp
 	fmt.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
-	color.h
+	LogColor.h
 	log.h
 	fmt.h
 	Proxy.h

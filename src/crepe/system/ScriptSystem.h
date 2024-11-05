@@ -4,11 +4,9 @@
 
 #include "System.h"
 
-namespace crepe::api {
-class Script;
-}
-
 namespace crepe {
+
+class Script;
 
 class ScriptSystem : public System {
 public:
@@ -20,7 +18,8 @@ private:
 	~ScriptSystem();
 
 private:
-	std::forward_list<api::Script *> get_scripts();
+	// TODO: to forward_list<reference_wrapper>
+	std::forward_list<Script *> get_scripts();
 };
 
 } // namespace crepe

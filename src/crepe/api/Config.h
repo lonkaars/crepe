@@ -2,7 +2,7 @@
 
 #include "../util/log.h"
 
-namespace crepe::api {
+namespace crepe {
 
 class Config {
 private:
@@ -27,7 +27,7 @@ public:
 		 * Only messages with equal or higher priority than this value will be
 		 * logged.
 		 */
-		util::LogLevel level = util::LogLevel::INFO;
+		LogLevel level = LogLevel::INFO;
 		/**
 		 * \brief Colored log output
 		 *
@@ -42,4 +42,4 @@ public:
 	} savemgr;
 };
 
-} // namespace crepe::api
+} // namespace crepe

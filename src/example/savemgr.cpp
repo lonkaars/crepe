@@ -10,14 +10,12 @@
 #include <crepe/api/Config.h>
 
 using namespace crepe;
-using namespace crepe::api;
-using namespace crepe::util;
 
 // unrelated setup code
 int _ = [] () {
 	// make sure all log messages get printed
 	auto & cfg = Config::get_instance();
-	cfg.log.level = util::LogLevel::TRACE;
+	cfg.log.level = LogLevel::TRACE;
 
 	return 0; // satisfy compiler
 } ();

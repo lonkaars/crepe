@@ -3,6 +3,16 @@
 #include <cstdint>
 #include <unordered_map>
 using Keycode = uint16_t;
+enum class MouseButton {
+	None = 0,
+	Left_Mouse = 1,
+	Right_Mouse = 2,
+	Middle_Mouse = 3,
+	X1_Mouse = 4,
+	X2_Mouse = 5,
+	Scroll_Up = 6,
+	Scroll_Down = 7,
+};
 enum : Keycode {
 	// From glfw3.h
 	Space = 32,
@@ -136,6 +146,7 @@ enum : Keycode {
 	RightSuper = 347,
 	Menu = 348
 };
+
 // Define the mapping
 extern const std::unordered_map<SDL_Keycode, Keycode> sdlToCustom;
 
