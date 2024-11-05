@@ -2,9 +2,9 @@
 #include <vector>
 
 #include "../ComponentManager.h"
-#include "../facade/SDLContext.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
+#include "../facade/SDLContext.h"
 #include "../util/log.h"
 
 #include "RenderSystem.h"
