@@ -12,8 +12,8 @@ target_sources(crepe PUBLIC
 	CollisionSystem.cpp
 	Collider.cpp
 	SDLContext.cpp
-
 	RenderSystem.cpp
+	Metadata.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -31,6 +31,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Collider.h
 	SDLContext.h
 	RenderSystem.h
+	Metadata.h
 )
 
 add_subdirectory(api)
