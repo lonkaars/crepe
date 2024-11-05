@@ -13,9 +13,9 @@ namespace crepe::api {
 //! Vector2 struct
 struct Vector2 {
 		//! X component of the vector
-		float x = 0; 
+		float x; 
 		//! Y component of the vector
-		float y = 0;
+		float y;
 
 		//! Subtracts another vector from this vector and returns the result.
 		Vector2 operator-(const Vector2& other) const {
