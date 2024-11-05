@@ -11,11 +11,15 @@ using namespace std;
 
 int main() {
 	GameObject body(0, "body", "person", Point{0, 0}, 0, 1);
-	GameObject leg(1, "leg", "person", Point{1, 1}, 0, 1);
-	GameObject foot(2, "foot", "person", Point{2, 2}, 0, 1);
+	GameObject rightLeg(1, "rightLeg", "person", Point{1, 1}, 0, 1);
+	GameObject leftLeg(2, "leftLeg", "person", Point{1, 1}, 0, 1);
+	GameObject rightFoot(3, "rightFoot", "person", Point{2, 2}, 0, 1);
+	GameObject leftFoot(4, "leftFoot", "person", Point{2, 2}, 0, 1);
 
-	foot.set_parent(leg);
-	leg.set_parent(body);
+	rightFoot.set_parent(rightLeg);
+	leftFoot.set_parent(leftLeg);
+	rightLeg.set_parent(body);
+	leftLeg.set_parent(body);
 
 	ComponentManager & mgr = ComponentManager::get_instance();
 	vector<reference_wrapper<Metadata>> metadata = mgr.get_components_by_type<Metadata>();
