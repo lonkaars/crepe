@@ -1,6 +1,5 @@
 #include <cstdint>
 
-#include "api/Point.h"
 #include "util/log.h"
 
 #include "Component.h"

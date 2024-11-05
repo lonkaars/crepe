@@ -1,10 +1,7 @@
-#include <iostream>
-
 #include "../ComponentManager.h"
-#include "../api/Force.h"
 #include "../api/Rigidbody.h"
 #include "../api/Transform.h"
-
+#include "../api/Config.h"
 #include "PhysicsSystem.h"
 
 #include <cmath>
@@ -19,62 +16,62 @@ void PhysicsSystem::update() {
 		= mgr.get_components_by_type<Rigidbody>();
 	std::vector<std::reference_wrapper<Transform>> transforms
 		= mgr.get_components_by_type<Transform>();
-
+	double gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
 		if(!rigidbody.active){continue;}
-		switch (rigidbody.body_type) {
+		switch (rigidbody.data.body_type) {
 			case Rigidbody::BodyType::DYNAMIC:
 				for (Transform & transform : transforms) {
 					if (transform.game_object_id == rigidbody.game_object_id) {
 						
 						// Add gravity 
-						if(rigidbody.use_gravity)
+						if(rigidbody.data.use_gravity)
 						{
-							rigidbody.linear_velocity.y += (rigidbody.mass * rigidbody.gravity_scale * this->gravity);
+							rigidbody.data.linear_velocity.y += (rigidbody.data.mass * rigidbody.data.gravity_scale * gravity);
 						}
 						// Add damping
-						if(rigidbody.angular_damping != 0)
+						if(rigidbody.data.angular_damping != 0)
 						{
-							rigidbody.angular_velocity *= rigidbody.angular_damping;
+							rigidbody.data.angular_velocity *= rigidbody.data.angular_damping;
 						}
-						if(rigidbody.linear_damping != Vector2{0,0})
+						if(rigidbody.data.linear_damping != Vector2{0,0})
 						{
-							rigidbody.linear_velocity *= rigidbody.linear_damping;
+							rigidbody.data.linear_velocity *= rigidbody.data.linear_damping;
 						}
 
 						// Max velocity check
-						if(rigidbody.angular_velocity > rigidbody.max_angular_velocity)
+						if(rigidbody.data.angular_velocity > rigidbody.data.max_angular_velocity)
 						{
-							rigidbody.angular_velocity = rigidbody.max_angular_velocity;
+							rigidbody.data.angular_velocity = rigidbody.data.max_angular_velocity;
 						}
-						else if (rigidbody.angular_velocity < -rigidbody.max_angular_velocity)
+						else if (rigidbody.data.angular_velocity < -rigidbody.data.max_angular_velocity)
 						{
-							rigidbody.angular_velocity = -rigidbody.max_angular_velocity;
+							rigidbody.data.angular_velocity = -rigidbody.data.max_angular_velocity;
 						}
-						if(rigidbody.linear_velocity > rigidbody.max_linear_velocity)
-						{
-							rigidbody.linear_velocity = rigidbody.max_linear_velocity;
-						}
-						else if (rigidbody.linear_velocity > -rigidbody.max_linear_velocity)
-						{
-							rigidbody.linear_velocity = -rigidbody.max_linear_velocity;
-						}
+						// if(rigidbody.data.linear_velocity. rigidbody.data.max_linear_velocity)
+						// {
+						// 	rigidbody.data.linear_velocity = rigidbody.data.max_linear_velocity;
+						// }
+						// else if (rigidbody.data.linear_velocity > -rigidbody.data.max_linear_velocity)
+						// {
+						// 	rigidbody.data.linear_velocity = -rigidbody.data.max_linear_velocity;
+						// }
 						// Move object 
-						if(!rigidbody.constraints.rotation)
+						if(!rigidbody.data.constraints.rotation)
 						{
-							transform.rotation += rigidbody.angular_velocity;
+							transform.rotation += rigidbody.data.angular_velocity;
 							transform.rotation = std::fmod(transform.rotation, 360.0);
 							if (transform.rotation < 0) {
 								transform.rotation += 360.0;
 							}
 						}
-						if(!rigidbody.constraints.x)
+						if(!rigidbody.data.constraints.x)
 						{
-							transform.position.x += rigidbody.linear_velocity.x;
+							transform.position.x += rigidbody.data.linear_velocity.x;
 						}
-						if(!rigidbody.constraints.y)
+						if(!rigidbody.data.constraints.y)
 						{
-							transform.position.y += rigidbody.linear_velocity.y;
+							transform.position.y += rigidbody.data.linear_velocity.y;
 						}
 					}
 				}

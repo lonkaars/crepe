@@ -29,7 +29,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	GameObject.hpp
 	Rigidbody.h
 	Sprite.h
-	Point.h
 	Color.h
 	Texture.h 
 	AssetManager.h 

@@ -35,6 +35,9 @@ public:
 		 */
 		bool color = true;
 	} log;
+	struct {
+		double gravity = 1;
+	} physics;
 };
 
 } // namespace crepe

@@ -2,8 +2,6 @@
 
 #include <cstdint>
 
-#include "api/Point.h"
-
 #include "Component.h"
 #include <cstdint>
 #include <cmath>
@@ -13,9 +11,9 @@ namespace crepe {
 //! Vector2 struct
 struct Vector2 {
 		//! X component of the vector
-		float x; 
+		float x = 0; 
 		//! Y component of the vector
-		float y;
+		float y = 0;
 
 		//! Subtracts another vector from this vector and returns the result.
 		Vector2 operator-(const Vector2& other) const {
@@ -58,16 +56,6 @@ struct Vector2 {
 				float length = std::sqrt(x * x + y * y);
 				if (length == 0) return {0, 0}; // Prevent division by zero
 				return {x / length, y / length};
-		}
-
-		//! Compares this vector's magnitude with another vector's magnitude.
-		bool operator<(const Vector2& other) const {
-				return this->magnitude() < other.magnitude();
-		}
-
-		//! Compares this vector's magnitude with another vector's magnitude.
-		bool operator>(const Vector2& other) const {
-				return this->magnitude() > other.magnitude();
 		}
 
 		//! Returns the negation of this vector.

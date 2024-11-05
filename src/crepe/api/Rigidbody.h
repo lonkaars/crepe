@@ -19,41 +19,33 @@ public:
 	};
 	struct physics_constraints {
 		//! X constraint
-		bool x; 
+		bool x = 0; 
 		//! Y constraint
-		bool y; 
+		bool y = 0; 
 		//! rotation constraint
-		bool rotation; 
+		bool rotation = 0; 
 	};
-
+public:
+	struct rigidbody_data{
+		double mass = 0.0;
+		double gravity_scale = 0.0;
+		BodyType body_type = BodyType::DYNAMIC;
+		Vector2 linear_velocity;
+		Vector2 max_linear_velocity;
+		Vector2 linear_damping;
+		double angular_velocity = 0.0;
+		double max_angular_velocity = 0.0;
+		double angular_damping = 0.0;
+		physics_constraints constraints;
+		bool use_gravity = true;
+		bool bounce = false;
+	};
 public:
 	Rigidbody(
 		uint32_t game_object_id, 
-		double mass, 
-		double gravity_scale,
-		BodyType body_type,
-		const Vector2& linear_velocity,
-		const Vector2& max_linear_velocity,
-		const Vector2& linear_damping,
-		double angular_velocity,
-		double max_angular_velocity,
-		double angular_damping,
-		physics_constraints constraints,
-		bool use_gravity,
-		bool bounce
+		const rigidbody_data& data
 		);
-	double mass;
-	double gravity_scale;
-	BodyType body_type;
-	Vector2 linear_velocity;
-	Vector2 max_linear_velocity;
-	Vector2 linear_damping;
-	double angular_velocity;
-	double max_angular_velocity;
-	double angular_damping;
-	physics_constraints constraints;
-	bool use_gravity;
-	bool bounce;
+	rigidbody_data data;
 };
 
 } // namespace crepe

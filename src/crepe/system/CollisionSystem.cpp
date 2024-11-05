@@ -9,7 +9,6 @@
 #include <cmath>
 #include "api/event.h"
 #include "api/eventManager.h"
-#include "api/Point.h"
 
 using namespace crepe;
 
