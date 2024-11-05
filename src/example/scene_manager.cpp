@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "../crepe/api/SceneManager.h"
-#include "../crepe/api/Scene.h"
-#include "../crepe/api/GameObject.h"
-#include "../crepe/Metadata.h"
 #include "../crepe/ComponentManager.h"
+#include "../crepe/Metadata.h"
+#include "../crepe/api/GameObject.h"
+#include "../crepe/api/Scene.h"
+#include "../crepe/api/SceneManager.h"
 
 using namespace crepe;
 using namespace std;
@@ -46,8 +46,9 @@ int main() {
 
 	// Get the Metadata components of each GameObject of Scene1
 	ComponentManager & component_mgr = ComponentManager::get_instance();
-	vector<reference_wrapper<Metadata>> metadata = component_mgr.get_components_by_type<Metadata>();
-	
+	vector<reference_wrapper<Metadata>> metadata
+		= component_mgr.get_components_by_type<Metadata>();
+
 	cout << "Metadata components of Scene1:" << endl;
 	// Print the Metadata
 	for (auto & m : metadata) {
@@ -62,7 +63,7 @@ int main() {
 
 	// Get the Metadata components of each GameObject of Scene2
 	metadata = component_mgr.get_components_by_type<Metadata>();
-	
+
 	cout << "Metadata components of Scene2:" << endl;
 	// Print the Metadata
 	for (auto & m : metadata) {
