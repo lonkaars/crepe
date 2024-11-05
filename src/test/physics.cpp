@@ -15,26 +15,47 @@ class PhysicsTest : public ::testing::Test {
 protected:
     GameObject* game_object;
     PhysicsSystem physics_system;
-
-    void SetUp() override {
-        game_object = new GameObject(0,"","",Vector2{0,0},0,0);
-        game_object->add_component<Rigidbody>(Rigidbody::RigidbodyData{
-            .mass = 1,
-            .gravity_scale = 1,
-            .body_type = Rigidbody::BodyType::DYNAMIC,
-            .constraints = {0, 0},
-            .use_gravity = true,
-            .bounce = false
-        });
+		void SetUp() override {
+			ComponentManager & mgr = ComponentManager::get_instance();
+			std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(0);
+			if (transforms.empty()) {
+				game_object = new GameObject(0,"","",Vector2{0,0},0,0);
+				game_object->add_component<Rigidbody>(Rigidbody::RigidbodyData{
+						.mass = 1,
+						.gravity_scale = 1,
+						.body_type = Rigidbody::BodyType::DYNAMIC,
+						.constraints = {0, 0},
+						.use_gravity = true,
+						.bounce = false
+				});
+			}
     }
 
-    void TearDown() override {
-        delete game_object;
+		void preTestSetup() {
+			Config::get_instance().physics.gravity = 1; // Example setup
+			ComponentManager & mgr = ComponentManager::get_instance();
+			std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(0);
+			Transform& transform = transforms.front().get();
+			transform.position.x = 0.0;
+			transform.position.y = 0.0;
+			transform.rotation = 0.0;
     }
+
 };
 
 // Test for linear movement
 TEST_F(PhysicsTest, gravity) {
+	Config::get_instance().physics.gravity = 1;
+	ComponentManager & mgr = ComponentManager::get_instance();
+	std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(0);
+	const Transform& transform = transforms.front().get();
+	ASSERT_FALSE(transforms.empty());
+	EXPECT_EQ(transform.position.y, 0);
+	physics_system.update();
+	EXPECT_EQ(transform.position.y, 1); // Update expected result
+}
+
+TEST_F(PhysicsTest, gravity2) {
 	Config::get_instance().physics.gravity = 1;
 	ComponentManager & mgr = ComponentManager::get_instance();
 	std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(0);
