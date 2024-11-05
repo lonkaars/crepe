@@ -7,17 +7,19 @@
 using namespace std;
 
 string crepe::util::va_stringf(va_list args, const char * fmt) {
+	string out;
+
 	va_list args_copy;
 	va_copy(args_copy, args);
-
-	size_t sz = vsnprintf(NULL, 0, fmt, args_copy) + 1;
-	char * msg = (char *) malloc(sz);
+	size_t length = vsnprintf(NULL, 0, fmt, args_copy);
+	// resize to include terminating null byte
+	out.resize(length + 1);
 	va_end(args_copy);
 
-	vsnprintf(msg, sz, fmt, args);
-
-	string out = msg;
-	free(msg);
+	// vsnprintf adds terminating null byte
+	vsnprintf(out.data(), out.size(), fmt, args);
+	// resize to actual length
+	out.resize(length);
 
 	va_end(args);
 
