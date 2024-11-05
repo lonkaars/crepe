@@ -11,84 +11,402 @@
   `name/feature` (i.e. `loek/dll-so-poc` or `jaro/class2`)
 - The master branch is considered stable, and should always contain a
   working/compiling version of the project
-
 - TODO: tagging / versions
-
 
 # Code style
 
-- ASCII only
-- Class names are always singular
-- Explanatory comments are placed above the line(s) they are explaining
-- Source files should only contain comments that plainly state what the code is
-  supposed to do
-- Explanatory comments in headers may be used to clarify implementation design
-  decisions
 - Formatting nitty-gritty is handled by clang-format/clang-tidy (run `make
   format` in the root folder of this repository to format all sources files)
+- ASCII only
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  // crepe startup message
+  std::string message = "Hello, world!";
+  ```
+  </td><td>
+
+  ```cpp
+  // crêpe startup message
+  std::string message = "こんにちは世界";
+  ```
+  </td></tr></table>
+- Class names are always singular
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {};
+  ```
+  </td><td>
+
+  ```cpp
+  class Cars {};
+  ```
+  </td></tr></table>
+- Source files contain the following types of comments:
+  - What is the code supposed to do (optional)
+  - Implementation details (if applicable)
+- Header files contain the following types of comments:
+  - Usage documentation (required)
+  - Implementation details (if they affect the header)
+  - Design/data structure decisions (if applicable)
+- Comments are placed *above* the line(s) they are explaining
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  int add(int a, int b) {
+    // add numbers
+    int out = a + b;
+    return out;
+  }
+  ```
+  </td><td>
+
+  ```cpp
+  int add(int a, int b) {
+    int out = a + b; // add numbers
+    return out;
+  }
+  ```
+  </td></tr></table>
 - Header includes are split into paragraphs separated by a blank line. The
   order is:
   1. system headers (using `<`brackets`>`)
   2. relative headers NOT in the same folder as the current file
   3. relative headers in the same folder as the current file
-- When using libraries of which the header include order is important, make
-  sure to separate the include statements using a blank line (clang-format may
-  sort include statements, but does not sort across empty lines).
-- All engine-related code is implemented under the `crepe` namespace,
-  user-facing APIs under `crepe::api` (the folder structure should also reflect
-  this).
+
+  > [!NOTE]
+  > When using libraries of which the header include order is important, make
+  > sure to separate the include statements using a blank line (clang-format
+  > may sort include statements, but does not sort across empty lines).
+
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  #include <SDL2/SDL.h>
+  #include <iostream>
+
+  #include "api/Sprite.h"
+  #include "util/log.h"
+
+  #include "SDLContext.h"
+  ```
+  </td><td>
+
+  ```cpp
+  #include <SDL2/SDL.h>
+  #include "SDLContext.h"
+  #include "util/log.h"
+  #include <iostream>
+  #include "api/Sprite.h"
+  ```
+  </td></tr></table>
 - `using namespace` may not be used in header files, only in source files.
-- Do not (indirectly) include private *dependency* headers in API header files,
-  as these are no longer accessible when the engine is installed
-- Getter and setter functions are appropriately prefixed with `get_` and
-  `set_`.
-- Doxygen commands are used with a backslash instead of an at-sign (i.e.
-  `\brief` instead of `@brief`)
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  example.h:
+  ```cpp
+  namespace crepe {
+  void foo();
+  }
+  ```
+  
+  example.cpp:
+  ```cpp
+  #include "example.h"
+  using namespace crepe;
+  void foo() {}
+  ```
+  </td><td>
+
+  example.h:
+  ```cpp
+  namespace crepe {
+  template <typename T>
+  T foo();
+  }
+  ```
+  
+  example.hpp:
+  ```cpp
+  #include "example.h"
+  using namespace crepe;
+  template <typename T>
+  T foo();
+  ```
+  </td></tr></table>
+
+- Getter and setter functions are appropriately prefixed with `get_` and `set_`.
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_speed() const;
+    void set_speed(int speed);
+  private:
+    int speed;
+  };
+  
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int speed() const;
+    void set_speed(int speed);
+  private:
+    int speed;
+  };
+  ```
+  </td></tr></table>
+
 - A singleton's instance is always accessed using a getter function that
   instantiates its own class as a static variable within the getter function
   scope, instead of storing the instance as a member variable directly:
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
-  class Bad {
-    static Bad instance;
-    Bad & get_instance() { return instance; }
-  };
-
-  class Good {
-    Good & get_instance() {
-      static Good instance;
+  class Foo {
+    Foo & get_instance() {
+      static Foo instance;
       return instance;
     }
   };
   ```
-- Member variable default values should be directly defined in the class
+  </td><td>
+
+  ```cpp
+  Foo Foo::instance {};
+
+  class Foo {
+    static Foo instance;
+    Foo & get_instance() { return Foo::instance; }
+  };
+
+  ```
+  </td></tr></table>
+
+- Member variable default values should be directly defined in the class/struct
   declaration instead of using the constructor.
-- Header files declare either a single class or symbols within a single
-  namespace.
-- Use of the `auto` type is not allowed, with the following exceptions:
-  - When naming the item type in a range-based for loop
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+    int speed = 0;
+  };
+  
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+    Foo() : speed(0) {}
+    int speed;
+  };
+  ```
+  </td></tr></table>
+
+- Use of the `auto` type is *not* allowed, with the following exceptions:
+  - When naming the item type in a range-based for loop:
+    
+    ```cpp
+    for (auto & item : foo()) {
+      // ...
+    }
+    ```
   - When calling template factory methods that explicitly name the return type
     in the function call signature
+    ```cpp
+    auto ptr = make_unique<Foo>();
+    ```
   - When fetching a singleton instance
+    ```cpp
+    auto & mgr = crepe::api::Config::get_instance();
+    ```
+
 - Only use member initializer lists for non-trivial types.
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    Foo() : bar("baz") {}
+  private:
+    std::string bar;
+  };
+  
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    Foo() : bar(0) {}
+  private:
+    int bar;
+  };
+  ```
+  </td></tr></table>
+
 - C++-style structs should define default values for all non-trivial fields.
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  struct Foo {
+    int bar;
+    std::string baz;
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  struct Foo {
+    int bar = 0;
+    std::string baz;
+  };
+  ```
+  </td></tr></table>
+
 - Declare incomplete classes instead of including the relevant header where
-  possible (i.e. if you only need a reference or pointer type).
-- Template functions are only declared in a `.h` header, and defined in a
+  possible (i.e. if you only need a reference or raw pointer).
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Bar;
+  class Foo {
+    Bar & bar;
+  };
+  
+  ```
+  </td><td>
+
+  ```cpp
+  #include "Bar.h"
+  class Foo {
+    Bar & bar;
+  };
+  ```
+  </td></tr></table>
+
+- Template functions are only *declared* in a `.h` header, and *defined* in a
   matching `.hpp` header.
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  add.h:
+  ```cpp
+  template <typename T>
+  T add(T a, T b);
+
+  #include "add.hpp"
+  ```
+  
+  add.hpp:
+  ```cpp
+  #include "add.h"
+
+  template <typename T>
+  T add(T a, T b) {
+    return a + b;
+  }
+  ```
+  </td><td>
+
+  add.h:
+  ```cpp
+  template <typename T>
+  T add(T a, T b) {
+    return a + b;
+  }
+  ```
+  </td></tr></table>
+
 - Where possible, end (initializer) lists with a trailing comma (e.g. with
   structs, enums)
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
-## CMakeLists specific
+  ```cpp
+  enum Color {
+    Red,
+    Green,
+    Blue,
+  };
+  
+  ```
+  </td><td>
+
+  ```cpp
+  enum Color {
+    Red,
+    Green,
+    Blue
+  };
+  ```
+  </td></tr></table>
+- `#pragma` should be used instead of include guards
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  #pragma once
+
+  // ...
+  ```
+  </td><td>
+
+  ```cpp
+  #ifndef __INCLUDED_H
+  #define __INCLUDED_H
+
+  // ...
+
+  #endif
+  ```
+  </td></tr></table>
+
+## CMakeLists-specific
 
 - Make sure list arguments (e.g. sources, libraries) given to commands (e.g.
   `target_sources`, `target_link_libraries`) are on separate lines. This makes
   resolving merge conflicts when multiple sources were added by different
   people to the same CMakeLists.txt easier.
 
+# Structure
+
+- All engine-related code is implemented under the `crepe` namespace,
+  user-facing APIs under `crepe::api` (the folder structure should also reflect
+  this).
+- Do not (indirectly) include private *dependency* headers in API header files,
+  as these are no longer accessible when the engine is installed
+- Header files declare either a single class or symbols within a single
+  namespace.
+- TODO: folder structure
+
 # Documentation
 
 - All documentation is written in U.S. English
+- Doxygen commands are used with a backslash instead of an at-sign.
+  <table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  /**
+   * \brief do something
+   *
+   * \param bar  Magic number
+   */
+  void foo(int bar);
+  ```
+  </td><td>
+
+  ```cpp
+  /**
+   * @brief do something
+   *
+   * @param bar  Magic number
+   */
+  void foo();
+  ```
+  </td></tr></table>
 
 # Libraries
 
