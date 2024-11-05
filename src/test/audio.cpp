@@ -7,4 +7,4 @@ using namespace std::chrono_literals;
 
 // TODO: mock internal audio class
 
-TEST(audio, play) { ASSERT_TRUE(true); }
+TEST(audio, play) {ASSERT_TRUE(true);}

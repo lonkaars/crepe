@@ -16,6 +16,7 @@ void PhysicsSystem::update() {
 		= mgr.get_components_by_type<Rigidbody>();
 	std::vector<std::reference_wrapper<Transform>> transforms
 		= mgr.get_components_by_type<Transform>();
+
 	double gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
 		if(!rigidbody.active){continue;}

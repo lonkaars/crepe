@@ -26,7 +26,7 @@ int main(int argc, char * argv[]) {
 	Color color(0, 0, 0, 0);
 	game_object[0] = new GameObject(0, "Name", "Tag", Vector2{0,0},0,0);
 	game_object[0]->add_component<Camera>(Color::get_white());
-	game_object[0]->add_component<Rigidbody>(Rigidbody::rigidbody_data{
+	game_object[0]->add_component<Rigidbody>(Rigidbody::RigidbodyData{
 		.mass = 1,
 		.gravity_scale = 1,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
@@ -40,7 +40,7 @@ int main(int argc, char * argv[]) {
 
 	game_object[1] = new GameObject(1, "Name", "Tag", Vector2{0,0},0,0);
 	
-	game_object[1]->add_component<Rigidbody>(Rigidbody::rigidbody_data{
+	game_object[1]->add_component<Rigidbody>(Rigidbody::RigidbodyData{
 		.mass = 1,
 		.gravity_scale = 1,
 		.body_type = Rigidbody::BodyType::STATIC,

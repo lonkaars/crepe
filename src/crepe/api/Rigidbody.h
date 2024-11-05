@@ -17,7 +17,7 @@ public:
 		//! Moves but does not respond to forces (e.g. moving platforms ...)
 		KINEMATIC,
 	};
-	struct physics_constraints {
+	struct PhysicsConstraints {
 		//! X constraint
 		bool x = 0; 
 		//! Y constraint
@@ -26,7 +26,7 @@ public:
 		bool rotation = 0; 
 	};
 public:
-	struct rigidbody_data{
+	struct RigidbodyData{
 		double mass = 0.0;
 		double gravity_scale = 0.0;
 		BodyType body_type = BodyType::DYNAMIC;
@@ -36,16 +36,16 @@ public:
 		double angular_velocity = 0.0;
 		double max_angular_velocity = 0.0;
 		double angular_damping = 0.0;
-		physics_constraints constraints;
+		PhysicsConstraints constraints;
 		bool use_gravity = true;
 		bool bounce = false;
 	};
 public:
 	Rigidbody(
 		uint32_t game_object_id, 
-		const rigidbody_data& data
+		const RigidbodyData& data
 		);
-	rigidbody_data data;
+	RigidbodyData data;
 };
 
 } // namespace crepe

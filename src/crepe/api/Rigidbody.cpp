@@ -3,5 +3,5 @@
 using namespace crepe;
 
 crepe::Rigidbody::Rigidbody(uint32_t game_object_id,
-							const rigidbody_data & data) :
+							const RigidbodyData & data) :
 	Component(game_object_id), data(data){}
