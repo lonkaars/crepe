@@ -14,7 +14,7 @@ class Transform : public Component {
 	// works similar (or the same) as those found in GLSL?
 
 public:
-	Transform(uint32_t id, const Point &, double, double);
+	Transform(uint32_t id, Point, double, double);
 	~Transform();
 	//! Translation (shift)
 	Point position;
