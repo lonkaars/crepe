@@ -1,4 +1,4 @@
-#include "../DB.h"
+#include "../facade/DB.h"
 #include "../util/log.h"
 
 #include "Config.h"
@@ -7,7 +7,6 @@
 
 using namespace std;
 using namespace crepe;
-using namespace crepe::api;
 
 template <>
 string SaveManager::serialize(const string & value) {

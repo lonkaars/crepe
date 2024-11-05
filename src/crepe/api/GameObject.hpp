@@ -4,7 +4,7 @@
 
 #include "GameObject.h"
 
-namespace crepe::api {
+namespace crepe {
 
 template <typename T, typename... Args>
 T & GameObject::add_component(Args &&... args) {
@@ -12,4 +12,4 @@ T & GameObject::add_component(Args &&... args) {
 	return mgr.add_component<T>(this->id, std::forward<Args>(args)...);
 }
 
-} // namespace crepe::api
+} // namespace crepe

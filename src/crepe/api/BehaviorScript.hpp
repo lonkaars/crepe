@@ -7,7 +7,7 @@
 #include "BehaviorScript.h"
 #include "Script.h"
 
-namespace crepe::api {
+namespace crepe {
 
 template <class T>
 BehaviorScript & BehaviorScript::set_script() {
@@ -19,4 +19,4 @@ BehaviorScript & BehaviorScript::set_script() {
 	return *this;
 }
 
-} // namespace crepe::api
+} // namespace crepe

@@ -3,22 +3,21 @@
  * Standalone example for usage of the proxy type
  */
 
-#include "ValueBroker.h"
+#include <crepe/ValueBroker.h>
 #include <crepe/api/Config.h>
 #include <crepe/util/log.h>
 #include <crepe/util/Proxy.h>
 
 using namespace std;
 using namespace crepe;
-using namespace crepe::util;
 
 void test_ro_ref(const int & val) { }
 void test_rw_ref(int & val) { }
 void test_ro_val(int val) { }
 
 int main() {
-	auto & cfg = api::Config::get_instance();
-	cfg.log.level = util::LogLevel::DEBUG;
+	auto & cfg = Config::get_instance();
+	cfg.log.level = LogLevel::DEBUG;
 
 	int real_value = 0;
 

@@ -1,4 +1,4 @@
-#include <crepe/DB.h>
+#include <crepe/facade/DB.h>
 #include <crepe/api/Config.h>
 #include <crepe/util/log.h>
 
@@ -7,8 +7,8 @@ using namespace std;
 
 // run before main
 static auto _ = [] () {
-	auto & cfg = api::Config::get_instance();
-	cfg.log.level = util::LogLevel::TRACE;
+	auto & cfg = Config::get_instance();
+	cfg.log.level = LogLevel::TRACE;
 	return 0;
 }();
 

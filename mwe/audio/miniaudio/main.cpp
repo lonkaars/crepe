@@ -33,12 +33,10 @@ int main() {
 	ma_sound_start(&sfx[2]);
 	ma_sound_start(&bgm); // this actually resumes now
 	this_thread::sleep_for(500ms);
-	for (unsigned i = 0; i < 3; i++)
-		ma_sound_seek_to_pcm_frame(&sfx[i], 0);
+	for (unsigned i = 0; i < 3; i++) ma_sound_seek_to_pcm_frame(&sfx[i], 0);
 
 	// 5. play all samples simultaniously
-	for (unsigned i = 0; i < 3; i++)
-		ma_sound_start(&sfx[i]);
+	for (unsigned i = 0; i < 3; i++) ma_sound_start(&sfx[i]);
 	this_thread::sleep_for(1000ms);
 
 	ma_engine_uninit(&engine);

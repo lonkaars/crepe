@@ -2,7 +2,7 @@
 
 #include "Proxy.h"
 
-namespace crepe::util {
+namespace crepe {
 
 template <typename T>
 Proxy<T>::Proxy(ValueBroker<T> broker) : broker(broker) { }
@@ -14,7 +14,7 @@ Proxy<T> & Proxy<T>::operator = (const T & val) {
 }
 
 template <typename T>
-Proxy<T>::operator const T & () const {
+Proxy<T>::operator const T & () {
 	return this->broker.get();
 }
 

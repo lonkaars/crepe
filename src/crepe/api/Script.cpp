@@ -1,3 +1,3 @@
 #include "Script.h"
 
-using namespace crepe::api;
+using namespace crepe;

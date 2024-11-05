@@ -7,16 +7,15 @@
 #include <crepe/util/log.h>
 
 using namespace crepe;
-using namespace crepe::util;
 
 // unrelated setup code
-int _ = [] () {
+int _ = []() {
 	// make sure all log messages get printed
-	auto & cfg = api::Config::get_instance();
-	cfg.log.level = util::LogLevel::TRACE;
+	auto & cfg = Config::get_instance();
+	cfg.log.level = LogLevel::TRACE;
 
 	return 0; // satisfy compiler
-} ();
+}();
 
 int main() {
 	dbg_trace();

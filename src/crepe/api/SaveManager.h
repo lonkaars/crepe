@@ -5,10 +5,8 @@
 #include "../ValueBroker.h"
 
 namespace crepe {
-class DB;
-}
 
-namespace crepe::api {
+class DB;
 
 class SaveManager {
 public:
