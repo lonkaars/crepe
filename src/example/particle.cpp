@@ -25,7 +25,7 @@ int main(int argc, char * argv[]) {
 	}
 
 	GameObject * game_object[1];
-	game_object[0] = new GameObject(0, "Name", "Tag", 0);
+	game_object[0] = new GameObject(0, "Name", "Tag", Point{0, 0}, 0, 1);
 
 	// FIXME: all systems are singletons, so this shouldn't even compile.
 	ParticleSystem particle_system;
