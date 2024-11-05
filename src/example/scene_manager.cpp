@@ -6,7 +6,6 @@
 #include "../crepe/Metadata.h"
 #include "../crepe/ComponentManager.h"
 
-using namespace crepe::api;
 using namespace crepe;
 using namespace std;
 
