@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Metadata.h"
 
-using namespace crepe::api;
+using namespace crepe;
 using namespace std;
 
 GameObject::GameObject(uint32_t id, std::string name, std::string tag,
