@@ -16,6 +16,7 @@ class Transform : public Component {
 public:
 	Transform(uint32_t id, Point, double, double);
 	~Transform();
+	int get_instances_max() const;
 	//! Translation (shift)
 	Point position;
 	//! Rotation, in radians
