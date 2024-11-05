@@ -5,7 +5,7 @@
 
 #include "api/Point.h"
 
-namespace crepe::api {
+namespace crepe {
 
 class GameObject {
 public:
@@ -19,6 +19,6 @@ public:
 	uint32_t id;
 };
 
-} // namespace crepe::api
+} // namespace crepe
 
 #include "GameObject.hpp"

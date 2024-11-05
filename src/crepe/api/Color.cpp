@@ -1,6 +1,6 @@
 #include "Color.h"
 
-using namespace crepe::api;
+using namespace crepe;
 
 Color Color::white = Color(255, 255, 255, 0);
 Color Color::red = Color(255, 0, 0, 0);

@@ -1,8 +1,6 @@
-
-
 #include <crepe/ComponentManager.h>
-#include <crepe/RenderSystem.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/system/RenderSystem.h>
 #include <crepe/util/log.h>
 
 #include <crepe/api/AssetManager.h>
@@ -17,7 +15,6 @@
 
 using namespace std;
 using namespace crepe;
-using namespace crepe::api;
 
 int main() {
 

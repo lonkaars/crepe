@@ -1,6 +1,6 @@
 #pragma once
 
-namespace crepe::api {
+namespace crepe {
 
 class Color {
 
@@ -34,4 +34,4 @@ private:
 	static Color black;
 };
 
-} // namespace crepe::api
+} // namespace crepe
