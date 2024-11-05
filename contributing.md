@@ -69,10 +69,15 @@
   ```cpp
   // Good
   // This class handles the rendering process
-  class Renderer {};
+  class Renderer {
+      // This method initializes the rendering context
+      void init_context();
+  };
   
   // Bad
-  class Renderer {}; // This class handles the rendering process
+  class Renderer {
+      void init_context(); // This method initializes the rendering context
+  };
   ```
 
 - Formatting nitty-gritty is handled by clang-format/clang-tidy (run `make format` in the root folder of this repository to format all sources files)
