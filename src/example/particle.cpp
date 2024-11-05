@@ -5,7 +5,7 @@
 #include <crepe/Component.h>
 #include <crepe/ComponentManager.h>
 #include <crepe/Particle.h>
-#include <crepe/SDLApp.h>
+#include <crepe/facade/SDLApp.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/system/ParticleSystem.h>
