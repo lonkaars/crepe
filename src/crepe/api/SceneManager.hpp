@@ -1,6 +1,6 @@
 #include "SceneManager.h"
 
-using namespace crepe::api;
+using namespace crepe;
 using namespace std;
 
 // Add a new concrete scene to the scene manager

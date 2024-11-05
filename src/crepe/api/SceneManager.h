@@ -6,7 +6,7 @@
 
 #include "Scene.h"
 
-namespace crepe::api {
+namespace crepe {
 
 class SceneManager {
 public:
@@ -31,6 +31,6 @@ private:
 	std::queue<std::string> next_scene;
 };
 
-} // namespace crepe::api
+} // namespace crepe
 
 #include "SceneManager.hpp"
