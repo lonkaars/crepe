@@ -3,7 +3,7 @@
 #include "Component.h"
 #include "api/Color.h"
 #include <cstdint>
-namespace crepe::api {
+namespace crepe {
 
 class Camera : public Component {
 
@@ -17,4 +17,4 @@ public:
 	double x,y; // camera position
 	double zoom;
 };
-} // namespace crepe::api
+} // namespace crepe

@@ -8,13 +8,13 @@
 #include <cstddef>
 #include <iostream>
 
-#include "api/Sprite.h"
-#include "api/Texture.h"
-#include "api/Transform.h"
-#include "api/event.h"
-#include "api/eventManager.h"
-#include "keyCodes.h"
-#include "util/log.h"
+#include "../api/Sprite.h"
+#include "../api/Texture.h"
+#include "../api/Transform.h"
+#include "../api/event.h"
+#include "../api/eventManager.h"
+#include "../keyCodes.h"
+#include "../util/log.h"
 
 #include "SDLContext.h"
 
@@ -89,7 +89,7 @@ void SDLContext::handle_events(bool & running) {
 			break;
 		case SDL_KEYDOWN:
 			triggerEvent(
-				api::KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
+				KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
 			this->test_w -= 5;
 			this->test_h -= 5;
 			break;
@@ -100,7 +100,7 @@ void SDLContext::handle_events(bool & running) {
 		case SDL_MOUSEBUTTONDOWN:
 			int x, y;
 			SDL_GetMouseState(&x, &y);
-			triggerEvent(api::MousePressedEvent(x, y));
+			triggerEvent(MousePressedEvent(x, y));
 			break;
 	}
 }
@@ -108,8 +108,7 @@ void SDLContext::handle_events(bool & running) {
 void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer); }
 
-void SDLContext::draw(const api::Sprite & sprite,
-					  const api::Transform & transform) {
+void SDLContext::draw(const Sprite & sprite, const Transform & transform) {
 
 	static SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
@@ -149,7 +148,7 @@ SDL_Texture * SDLContext::texture_from_path(const char * path) {
 	return created_texture;
 }
 
-void SDLContext::camera(const api::Camera & cam) {
+void SDLContext::camera(const Camera & cam) {
 	this->viewport.w = static_cast<int>(cam.aspect_width * cam.zoom) + test_w;
 	this->viewport.h = static_cast<int>(cam.aspect_height * cam.zoom) + test_h;
 	this->viewport.x = static_cast<int>(cam.x);

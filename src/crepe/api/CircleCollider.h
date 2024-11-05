@@ -1,7 +1,7 @@
 #pragma once
 #include "../Collider.h"
 
-namespace crepe::api {
+namespace crepe {
 
 class CircleCollider : public Collider {
 public:
@@ -10,4 +10,4 @@ public:
 	double radius;
 };
 
-} // namespace crepe::api
+} // namespace crepe

@@ -1,7 +1,7 @@
 #pragma once
 #include "../Collider.h"
 
-namespace crepe::api {
+namespace crepe {
 
 class BoxCollider : public Collider {
 public:
@@ -11,4 +11,4 @@ public:
 	double height;
 };
 
-} // namespace crepe::api
+} // namespace crepe

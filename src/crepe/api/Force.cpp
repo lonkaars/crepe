@@ -2,7 +2,7 @@
 
 #include "Force.h"
 
-namespace crepe::api {
+namespace crepe {
 
 Force::Force(uint32_t game_object_id, uint32_t magnitude, uint32_t direction)
 	: Component(game_object_id) {
@@ -18,4 +18,4 @@ Force::Force(uint32_t game_object_id, uint32_t magnitude, uint32_t direction)
 		std::round(magnitude * std::sin(radian_direction)));
 }
 
-} // namespace crepe::api
+} // namespace crepe

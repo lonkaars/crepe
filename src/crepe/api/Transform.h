@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <cmath>
 
-namespace crepe::api {
+namespace crepe {
 
 //! Vector2 struct
 struct Vector2 {
@@ -99,6 +99,7 @@ class Transform : public Component {
 public:
 	Transform(uint32_t id, const Vector2& position, double rotation, double scale);
 	~Transform();
+	virtual int get_instances_max() const { return 1; }
 	//! Translation (shift)
 	Vector2 position = {0,0};
 	//! Rotation, in radians
@@ -107,4 +108,4 @@ public:
 	double scale = 0;	
 };
 
-} // namespace crepe::api
+} // namespace crepe

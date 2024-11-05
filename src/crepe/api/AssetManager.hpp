@@ -2,7 +2,7 @@
 
 #include "AssetManager.h"
 
-namespace crepe::api {
+namespace crepe {
 
 template <typename asset>
 std::shared_ptr<asset> AssetManager::cache(const std::string & file_path,
@@ -21,4 +21,4 @@ std::shared_ptr<asset> AssetManager::cache(const std::string & file_path,
 	return new_asset;
 }
 
-} // namespace crepe::api
+} // namespace crepe

@@ -12,7 +12,6 @@
 #include "api/Point.h"
 
 using namespace crepe;
-using namespace crepe::api;
 
 
 CollisionSystem::CollisionSystem() {

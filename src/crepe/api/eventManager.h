@@ -3,7 +3,7 @@
 #include "eventHandler.h"
 #include <memory>
 
-namespace crepe::api {
+namespace crepe {
 
 class EventManager {
 public:

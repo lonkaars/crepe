@@ -1,17 +1,16 @@
 #include <functional>
 #include <vector>
 
-#include "api/Camera.h"
-#include "api/Sprite.h"
-#include "api/Transform.h"
-#include "util/log.h"
+#include "../api/Camera.h"
+#include "../ComponentManager.h"
+#include "../api/Sprite.h"
+#include "../api/Transform.h"
+#include "../facade/SDLContext.h"
+#include "../util/log.h"
 
-#include "ComponentManager.h"
 #include "RenderSystem.h"
-#include "SDLContext.h"
 
 using namespace crepe;
-using namespace crepe::api;
 
 RenderSystem::RenderSystem() { dbg_trace(); }
 

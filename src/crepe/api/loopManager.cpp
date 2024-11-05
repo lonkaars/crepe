@@ -1,15 +1,15 @@
 #include "loopManager.h"
 
-#include "RenderSystem.h"
-#include "SDLContext.h"
-#include "ScriptSystem.h"
+#include "system/RenderSystem.h"
+#include "facade/SDLContext.h"
+#include "system/ScriptSystem.h"
 #include "api/event.h"
 #include "api/eventHandler.h"
 #include "api/eventManager.h"
 #include "api/timer.h"
 #include "keyCodes.h"
 
-using namespace crepe::api;
+using namespace crepe;
 
 LoopManager::LoopManager() {}
 void LoopManager::processInput() {

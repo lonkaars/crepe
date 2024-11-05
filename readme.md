@@ -5,10 +5,10 @@ This repository contains:
 |folder|content|
 |-|-|
 |`lib/`|third-party libraries as git submodules|
-|`mwe/`|minimal working examples and proof-of-concepts|
+|`mwe/`|minimal working examples and standalone proof-of-concepts (isolated from the engine)|
 |`src/crepe/`|game engine source code|
 |`src/test/`|unit tests|
-|`src/example/`|standalone examples using game engine|
+|`src/example/`|standalone examples or proof-of-concepts using game engine internals|
 
 ## Compilation
 
@@ -19,28 +19,29 @@ building instructions.
 ## Installing libraries
 
 The expected library (source) versions are included in this repository as git
-submodules. Follow these steps for manually building one of the required
-libraries from source:
+submodules, which may be used if your distro's package manager does not provide
+(recent enough versions of) them. To build any of the dependencies, make sure
+the submodules are initialized by running:
 
-1. Ensure the git submodules are initialized:
-   ```
-   $ git submodule update --init --recursive --depth 1
-   ```
-2. `cd` into the library source folder:
+```
+$ git submodule update --init --recursive --depth 1
+```
+
+Then, follow these steps for each library you want to install:
+
+1. Change into the library folder (run **one** of these):
    ```
    $ cd lib/googletest
-   or
    $ cd lib/sdl2
-   or
    $ cd lib/soloud/contrib
-   or
    $ cd lib/sdl_image
    ```
-3. Configure the build, run the build and install:
+2. Use CMake to configure the build, run the build and install (run **all** of
+   these):
    ```
    $ cmake -B build -G Ninja
-   $ ninja -C build
-   # ninja -C build install
+   $ cmake --build build
+   # cmake --install build
    ```
 
 ## Documentation

@@ -4,7 +4,7 @@
 #include "../Component.h"
 #include "Transform.h"
 
-namespace crepe::api {
+namespace crepe {
 
 //! Rigidbody component
 class Rigidbody : public Component {
@@ -56,4 +56,4 @@ public:
 	bool bounce;
 };
 
-} // namespace crepe::api
+} // namespace crepe

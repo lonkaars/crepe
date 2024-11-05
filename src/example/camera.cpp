@@ -20,7 +20,6 @@
 #include <memory>
 
 using namespace crepe;
-using namespace crepe::api;
 
 
 class CameraTest : public Event {

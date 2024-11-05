@@ -3,7 +3,7 @@
 
 //TODO remove this include
 #include <SDL2/SDL.h>
-using namespace crepe::api;
+using namespace crepe;
 
 LoopTimer::LoopTimer() {}
 LoopTimer & LoopTimer::getInstance() {

@@ -7,7 +7,6 @@
 #include <iostream>
 
 using namespace crepe;
-using namespace crepe::api;
 
 
 class PlayerDamagedEvent : public Event {

@@ -1,12 +1,12 @@
 #include <SDL2/SDL_render.h>
 
-#include "util/log.h"
+#include "../facade/SDLContext.h"
+#include "../util/log.h"
 
 #include "Asset.h"
-#include "SDLContext.h"
 #include "Texture.h"
 
-using namespace crepe::api;
+using namespace crepe;
 using namespace std;
 
 Texture::Texture(unique_ptr<Asset> res) {

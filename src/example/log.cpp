@@ -7,18 +7,22 @@
 #include <crepe/util/log.h>
 
 using namespace crepe;
-using namespace crepe::util;
+
+// unrelated setup code
+int _ = []() {
+	// make sure all log messages get printed
+	auto & cfg = Config::get_instance();
+	cfg.log.level = LogLevel::TRACE;
+
+	return 0; // satisfy compiler
+}();
 
 int main() {
-	auto & cfg = api::Config::get_instance();
-	// make sure all log messages get printed
-	cfg.log.level = util::LogLevel::TRACE;
-
 	dbg_trace();
-	dbg_logf("cfg.log.color is equal to %d", cfg.log.color);
-	logf(LogLevel::INFO, "info message!");
-	logf(LogLevel::WARNING, "very scary warning");
-	logf(LogLevel::ERROR, "fatal error!!!");
+	dbg_logf("test printf parameters: %d", 3);
+	logf(LogLevel::INFO, "info message");
+	logf(LogLevel::WARNING, "warning");
+	logf(LogLevel::ERROR, "error");
 
 	return 0;
 }

@@ -1,12 +1,9 @@
 #pragma once
-
 #include <cstdint>
 
-namespace crepe {
-	class SDLContext;
-}
-namespace crepe::api {
+namespace crepe{
 
+class SDLContext;
 class Color {
 
 	// FIXME: can't these colors be defined as a `static constexpr const Color`
@@ -42,4 +39,4 @@ private:
 	friend class crepe::SDLContext;
 };
 
-} // namespace crepe::api
+} // namespace crepe

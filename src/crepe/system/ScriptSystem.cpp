@@ -2,16 +2,15 @@
 #include <functional>
 #include <vector>
 
-#include "api/BehaviorScript.h"
-#include "api/Script.h"
-#include "util/log.h"
+#include "../ComponentManager.h"
+#include "../api/BehaviorScript.h"
+#include "../api/Script.h"
+#include "../util/log.h"
 
-#include "ComponentManager.h"
 #include "ScriptSystem.h"
 
 using namespace std;
 using namespace crepe;
-using namespace crepe::api;
 
 ScriptSystem::ScriptSystem() { dbg_trace(); }
 ScriptSystem::~ScriptSystem() { dbg_trace(); }
@@ -37,6 +36,7 @@ forward_list<Script *> ScriptSystem::get_scripts() {
 
 	for (auto behavior_script_ref : behavior_scripts) {
 		BehaviorScript & behavior_script = behavior_script_ref.get();
+		if (!behavior_script.active) continue;
 		Script * script = behavior_script.script.get();
 		if (script == nullptr) continue;
 		scripts.push_front(script);

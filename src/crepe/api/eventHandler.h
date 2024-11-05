@@ -4,7 +4,7 @@
 
 #include <functional>
 
-namespace crepe::api {
+namespace crepe {
 
 template <typename EventType>
 using EventHandler = std::function<void(const EventType & e)>;

@@ -12,7 +12,7 @@
 
 #include "chrono"
 
-using namespace crepe::api;
+using namespace crepe;
 
 int main() {
 	auto cam = Camera(0, "MainCamera", "TAG", 0);

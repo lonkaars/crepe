@@ -1,6 +1,6 @@
 #include "Rigidbody.h"
 
-using namespace crepe::api;
+using namespace crepe;
 Rigidbody::Rigidbody(
 	uint32_t game_object_id, double mass, double gravity_scale,
 	BodyType body_type, const Vector2& linear_velocity, 

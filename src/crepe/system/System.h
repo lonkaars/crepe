@@ -8,8 +8,8 @@ public:
 	virtual void update() = 0;
 
 protected:
-	System() {};
-	virtual ~System() {};
+	System(){};
+	virtual ~System(){};
 
 private:
 	// singleton
