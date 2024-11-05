@@ -17,8 +17,7 @@
 // NOLINTBEGIN
 #define dbg_logf(fmt, ...) \
 	_crepe_logf_here(crepe::LogLevel::DEBUG, ": " fmt, __VA_ARGS__)
-#define dbg_log(str) \
-	_crepe_logf_here(crepe::LogLevel::DEBUG, "%s: " str, "")
+#define dbg_log(str) _crepe_logf_here(crepe::LogLevel::DEBUG, "%s: " str, "")
 #define dbg_trace() _crepe_logf_here(crepe::LogLevel::TRACE, "%s", "")
 // NOLINTEND
 

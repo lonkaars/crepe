@@ -1,9 +1,9 @@
 #include <iostream>
 
+#include "../ComponentManager.h"
 #include "../api/Force.h"
 #include "../api/Rigidbody.h"
 #include "../api/Transform.h"
-#include "../ComponentManager.h"
 
 #include "PhysicsSystem.h"
 

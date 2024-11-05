@@ -1,7 +1,7 @@
 #include <SDL2/SDL_render.h>
 
-#include "../util/log.h"
 #include "../SDLContext.h"
+#include "../util/log.h"
 
 #include "Asset.h"
 #include "Texture.h"

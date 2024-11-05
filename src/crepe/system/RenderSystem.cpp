@@ -1,11 +1,11 @@
 #include <functional>
 #include <vector>
 
+#include "../ComponentManager.h"
+#include "../SDLContext.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../util/log.h"
-#include "../SDLContext.h"
-#include "../ComponentManager.h"
 
 #include "RenderSystem.h"
 
