@@ -7,7 +7,7 @@ using namespace crepe::api;
 using namespace std;
 
 GameObject::GameObject(uint32_t id, std::string name, std::string tag, Point position, double rotation, double scale) : id(id) {
-	auto & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = ComponentManager::get_instance();
 	mgr.add_component<Transform>(this->id, position, rotation, scale);
 	mgr.add_component<Metadata>(this->id, name, tag);
 }
