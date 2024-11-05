@@ -403,6 +403,7 @@ that you can click on to open them.
   |`crepe/api/`|User-facing APIs|
   |`crepe/util/`|Standalone utilities and helper functions|
   |`crepe/system/`|(ECS) system classes|
+  |`crepe/facade/`|Library façades|
 - Do not (indirectly) include private *dependency* headers in API header files,
   as these are no longer accessible when the engine is installed
 - All code is implemented under the `crepe` namespace.

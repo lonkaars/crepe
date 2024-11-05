@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "../ComponentManager.h"
-#include "../SDLContext.h"
+#include "../facade/SDLContext.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../util/log.h"

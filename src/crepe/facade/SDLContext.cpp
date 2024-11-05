@@ -7,10 +7,10 @@
 #include <cstddef>
 #include <iostream>
 
-#include "api/Sprite.h"
-#include "api/Texture.h"
-#include "api/Transform.h"
-#include "util/log.h"
+#include "../api/Sprite.h"
+#include "../api/Texture.h"
+#include "../api/Transform.h"
+#include "../util/log.h"
 
 #include "SDLContext.h"
 

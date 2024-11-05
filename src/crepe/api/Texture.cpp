@@ -1,6 +1,6 @@
 #include <SDL2/SDL_render.h>
 
-#include "../SDLContext.h"
+#include "../facade/SDLContext.h"
 #include "../util/log.h"
 
 #include "Asset.h"

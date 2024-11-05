@@ -3,10 +3,9 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 
-#include "api/Sprite.h"
-#include "api/Transform.h"
-
-#include "system/RenderSystem.h"
+#include "../api/Sprite.h"
+#include "../api/Transform.h"
+#include "../system/RenderSystem.h"
 
 namespace crepe {
 

@@ -3,7 +3,7 @@
  * Standalone example for usage of the internal \c Sound class.
  */
 
-#include <crepe/Sound.h>
+#include <crepe/facade/Sound.h>
 #include <crepe/api/Config.h>
 #include <crepe/util/log.h>
 
