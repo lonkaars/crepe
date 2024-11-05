@@ -9,7 +9,7 @@ class ScriptSystem;
 class ComponentManager;
 } // namespace crepe
 
-namespace crepe::api {
+namespace crepe {
 
 class Script;
 
@@ -30,6 +30,6 @@ protected:
 	std::unique_ptr<Script> script = nullptr;
 };
 
-} // namespace crepe::api
+} // namespace crepe
 
 #include "BehaviorScript.hpp"

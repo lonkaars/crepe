@@ -4,7 +4,7 @@
  */
 
 #include <crepe/ComponentManager.h>
-#include <crepe/ScriptSystem.h>
+#include <crepe/system/ScriptSystem.h>
 #include <crepe/util/log.h>
 
 #include <crepe/api/BehaviorScript.h>
@@ -14,14 +14,13 @@
 #include <crepe/api/Transform.h>
 
 using namespace crepe;
-using namespace crepe::api;
 using namespace std;
 
 // Unrelated stuff that is not part of this POC
 int _ = []() {
 	// Show dbg_trace() output
-	auto & cfg = api::Config::get_instance();
-	cfg.log.level = util::LogLevel::TRACE;
+	auto & cfg = Config::get_instance();
+	cfg.log.level = LogLevel::TRACE;
 
 	return 0; // satisfy compiler
 }();

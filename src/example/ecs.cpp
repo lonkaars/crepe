@@ -5,7 +5,6 @@
 #include "../crepe/api/GameObject.h"
 #include "../crepe/api/Transform.h"
 
-using namespace crepe::api;
 using namespace crepe;
 using namespace std;
 

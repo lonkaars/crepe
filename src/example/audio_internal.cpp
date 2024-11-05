@@ -3,14 +3,13 @@
  * Standalone example for usage of the internal \c Sound class.
  */
 
-#include <crepe/Sound.h>
 #include <crepe/api/Config.h>
+#include <crepe/facade/Sound.h>
 #include <crepe/util/log.h>
 
 #include <thread>
 
 using namespace crepe;
-using namespace crepe::api;
 using namespace std;
 using namespace std::chrono_literals;
 using std::make_unique;
@@ -18,8 +17,8 @@ using std::make_unique;
 // Unrelated stuff that is not part of this POC
 int _ = []() {
 	// Show dbg_trace() output
-	auto & cfg = api::Config::get_instance();
-	cfg.log.level = util::LogLevel::TRACE;
+	auto & cfg = Config::get_instance();
+	cfg.log.level = LogLevel::TRACE;
 
 	return 0; // satisfy compiler
 }();
