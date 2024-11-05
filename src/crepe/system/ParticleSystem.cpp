@@ -1,9 +1,9 @@
 #include <cmath>
 #include <ctime>
 
-#include "api/ParticleEmitter.h"
+#include "../api/ParticleEmitter.h"
+#include "../ComponentManager.h"
 
-#include "ComponentManager.h"
 #include "ParticleSystem.h"
 
 using namespace crepe;

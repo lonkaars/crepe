@@ -1,13 +1,13 @@
 #include <functional>
 #include <vector>
 
-#include "api/Sprite.h"
-#include "api/Transform.h"
-#include "util/log.h"
+#include "../api/Sprite.h"
+#include "../api/Transform.h"
+#include "../util/log.h"
+#include "../SDLContext.h"
+#include "../ComponentManager.h"
 
-#include "ComponentManager.h"
 #include "RenderSystem.h"
-#include "SDLContext.h"
 
 using namespace crepe;
 using namespace crepe::api;

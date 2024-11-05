@@ -3,17 +3,11 @@ target_sources(crepe PUBLIC
 	Sound.cpp
 	SoundContext.cpp
 	Particle.cpp
-	ParticleSystem.cpp
 	SDLApp.cpp
 	ComponentManager.cpp
 	Component.cpp
-	ScriptSystem.cpp
-	PhysicsSystem.cpp
-	CollisionSystem.cpp
 	Collider.cpp
 	SDLContext.cpp
-
-	RenderSystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -24,15 +18,11 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	ComponentManager.h
 	ComponentManager.hpp
 	Component.h
-	System.h
-	ScriptSystem.h
-	PhysicsSystem.h
-	CollisionSystem.h
 	Collider.h
 	SDLContext.h
-	RenderSystem.h
 )
 
 add_subdirectory(api)
 add_subdirectory(util)
+add_subdirectory(system)
 

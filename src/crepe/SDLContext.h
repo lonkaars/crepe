@@ -6,7 +6,7 @@
 #include "api/Sprite.h"
 #include "api/Transform.h"
 
-#include "RenderSystem.h"
+#include "system/RenderSystem.h"
 
 namespace crepe::api {
 class Texture;

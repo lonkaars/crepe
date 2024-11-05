@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "api/Force.h"
-#include "api/Rigidbody.h"
-#include "api/Transform.h"
+#include "../api/Force.h"
+#include "../api/Rigidbody.h"
+#include "../api/Transform.h"
+#include "../ComponentManager.h"
 
-#include "ComponentManager.h"
 #include "PhysicsSystem.h"
 
 using namespace crepe;
