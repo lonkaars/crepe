@@ -12,16 +12,16 @@ int main() {
 	// Create a few GameObjects
 	try {
 		GameObject body(0, "body", "person", Point{0, 0}, 0, 1);
-		GameObject rightLeg(1, "rightLeg", "person", Point{1, 1}, 0, 1);
-		GameObject leftLeg(2, "leftLeg", "person", Point{1, 1}, 0, 1);
-		GameObject rightFoot(3, "rightFoot", "person", Point{2, 2}, 0, 1);
-		GameObject leftFoot(4, "leftFoot", "person", Point{2, 2}, 0, 1);
+		GameObject right_leg(1, "rightLeg", "person", Point{1, 1}, 0, 1);
+		GameObject left_leg(2, "leftLeg", "person", Point{1, 1}, 0, 1);
+		GameObject right_foot(3, "rightFoot", "person", Point{2, 2}, 0, 1);
+		GameObject left_foot(4, "leftFoot", "person", Point{2, 2}, 0, 1);
 
 		// Set the parent of each GameObject
-		rightFoot.set_parent(rightLeg);
-		leftFoot.set_parent(leftLeg);
-		rightLeg.set_parent(body);
-		leftLeg.set_parent(body);
+		right_foot.set_parent(right_leg);
+		left_foot.set_parent(left_leg);
+		right_leg.set_parent(body);
+		left_leg.set_parent(body);
 
 		// Adding a second Transform component is not allowed and will invoke an exception
 		body.add_component<Transform>(Point{10, 10}, 0, 1);
