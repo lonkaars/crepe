@@ -6,7 +6,7 @@
 #include "Component.h"
 #include "Transform.h"
 
-using namespace crepe::api;
+using namespace crepe;
 
 Transform::Transform(uint32_t game_id, const Point & point, double rot,
 					 double scale)

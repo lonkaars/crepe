@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace crepe::util {
+namespace crepe {
 
 class LogColor {
 public:

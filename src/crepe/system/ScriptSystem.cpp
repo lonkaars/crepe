@@ -11,7 +11,6 @@
 
 using namespace std;
 using namespace crepe;
-using namespace crepe::api;
 
 ScriptSystem::ScriptSystem() { dbg_trace(); }
 ScriptSystem::~ScriptSystem() { dbg_trace(); }

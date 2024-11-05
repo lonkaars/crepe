@@ -10,7 +10,6 @@
 #include "RenderSystem.h"
 
 using namespace crepe;
-using namespace crepe::api;
 
 RenderSystem::RenderSystem() { dbg_trace(); }
 

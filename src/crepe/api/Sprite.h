@@ -9,7 +9,7 @@
 
 #include "Component.h"
 
-namespace crepe::api {
+namespace crepe {
 
 struct FlipSettings {
 	bool flip_x = 1;
@@ -29,4 +29,4 @@ public:
 	uint8_t order_in_layer;
 };
 
-} // namespace crepe::api
+} // namespace crepe

@@ -10,7 +10,6 @@
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/system/ParticleSystem.h>
 
-using namespace crepe::api;
 using namespace crepe;
 using namespace std;
 

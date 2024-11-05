@@ -5,7 +5,7 @@
 #include "BehaviorScript.h"
 #include "Script.h"
 
-namespace crepe::api {
+namespace crepe {
 
 template <typename T>
 T & Script::get_component() {
@@ -22,4 +22,4 @@ std::vector<std::reference_wrapper<T>> Script::get_components() {
 	return mgr.get_components_by_id<T>(this->parent->game_object_id);
 }
 
-} // namespace crepe::api
+} // namespace crepe
