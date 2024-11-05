@@ -2,7 +2,7 @@
 
 #include "SceneManager.h"
 
-using namespace crepe::api;
+using namespace crepe;
 
 SceneManager::SceneManager() {}
 

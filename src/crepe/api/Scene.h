@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace crepe::api {
+namespace crepe {
 
 class Scene {
 public:
@@ -14,4 +14,4 @@ public:
 	std::string name;
 };
 
-} // namespace crepe::api
+} // namespace crepe
