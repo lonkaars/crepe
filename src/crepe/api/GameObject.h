@@ -9,7 +9,8 @@ namespace crepe::api {
 
 class GameObject {
 public:
-	GameObject(uint32_t id, std::string name, std::string tag, Point position, double rotation, double scale);
+	GameObject(uint32_t id, std::string name, std::string tag, Point position,
+			   double rotation, double scale);
 	void set_parent(GameObject & parent);
 
 	template <typename T, typename... Args>
