@@ -2,11 +2,11 @@
 #include <functional>
 #include <vector>
 
-#include "api/BehaviorScript.h"
-#include "api/Script.h"
-#include "util/log.h"
+#include "../api/BehaviorScript.h"
+#include "../api/Script.h"
+#include "../util/log.h"
+#include "../ComponentManager.h"
 
-#include "ComponentManager.h"
 #include "ScriptSystem.h"
 
 using namespace std;

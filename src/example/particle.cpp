@@ -1,13 +1,14 @@
-#include "Particle.h"
-#include "ParticleSystem.h"
-#include "SDLApp.h"
-#include "api/ParticleEmitter.h"
 #include <chrono>
-#include <crepe/Component.h>
-#include <crepe/ComponentManager.h>
-#include <crepe/api/GameObject.h>
 #include <iostream>
 #include <thread>
+
+#include <crepe/Component.h>
+#include <crepe/ComponentManager.h>
+#include <crepe/Particle.h>
+#include <crepe/SDLApp.h>
+#include <crepe/api/GameObject.h>
+#include <crepe/api/ParticleEmitter.h>
+#include <crepe/system/ParticleSystem.h>
 
 using namespace crepe::api;
 using namespace crepe;

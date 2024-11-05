@@ -4,7 +4,7 @@
  */
 
 #include <crepe/ComponentManager.h>
-#include <crepe/ScriptSystem.h>
+#include <crepe/system/ScriptSystem.h>
 #include <crepe/util/log.h>
 
 #include <crepe/api/BehaviorScript.h>
