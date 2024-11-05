@@ -6,7 +6,7 @@ namespace crepe {
 class ScriptSystem;
 }
 
-namespace crepe::api {
+namespace crepe {
 
 class BehaviorScript;
 
@@ -29,10 +29,10 @@ protected:
 	std::vector<std::reference_wrapper<T>> get_components();
 
 private:
-	friend class crepe::api::BehaviorScript;
+	friend class crepe::BehaviorScript;
 	BehaviorScript * parent = nullptr;
 };
 
-} // namespace crepe::api
+} // namespace crepe
 
 #include "Script.hpp"

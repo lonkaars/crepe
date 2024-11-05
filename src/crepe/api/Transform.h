@@ -6,7 +6,7 @@
 
 #include "Component.h"
 
-namespace crepe::api {
+namespace crepe {
 
 class Transform : public Component {
 	// FIXME: What's the difference between the `Point` and `Position`
@@ -25,4 +25,4 @@ public:
 	double scale;
 };
 
-} // namespace crepe::api
+} // namespace crepe

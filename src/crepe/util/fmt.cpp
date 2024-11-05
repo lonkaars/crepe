@@ -6,7 +6,7 @@
 
 using namespace std;
 
-string crepe::util::va_stringf(va_list args, const char * fmt) {
+string crepe::va_stringf(va_list args, const char * fmt) {
 	string out;
 
 	va_list args_copy;
@@ -26,7 +26,7 @@ string crepe::util::va_stringf(va_list args, const char * fmt) {
 	return out;
 }
 
-string crepe::util::stringf(const char * fmt, ...) {
+string crepe::stringf(const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	string out = va_stringf(args, fmt);
