@@ -31,6 +31,13 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	// Create a new component of type T (arguments directly forwarded). The
 	// constructor must be called by ComponentManager.
 	T * instance = new T(id, forward<Args>(args)...);
+
+	// Check if the vector size is not greater than get_instances_max
+	if (components[type][id].size() >= instance->get_instances_max()) {
+		throw std::runtime_error(
+			"Exceeded maximum number of instances for this component type");
+	}
+
 	// store its unique_ptr in the vector<>
 	components[type][id].push_back(unique_ptr<T>(instance));
 
