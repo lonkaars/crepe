@@ -12,17 +12,16 @@ SceneManager & SceneManager::get_instance() {
 	return instance;
 }
 
-// Push the next scene onto the queue
-void SceneManager::load_scene(const std::string & name) { next_scene.push(name); }
+// Set the next scene (this scene will be loaded at the end of the frame)
+void SceneManager::set_next_scene(const std::string & name) {
+	next_scene = name;
+}
 
-// Load a new scene from the queue (if there is one)
-void SceneManager::empty_queue() {
-	while (!next_scene.empty()) {
-		string name = next_scene.front();
-		next_scene.pop();
-
+// Load a new scene (if there is one)
+void SceneManager::load_next_scene() {
+	if (!next_scene.empty()) {
 		for (auto & scene : scenes) {
-			if (scene->name == name) {
+			if (scene->name == next_scene) {
 				// Delete all components of the current scene
 				ComponentManager & mgr = ComponentManager::get_instance();
 				mgr.delete_all_components();
