@@ -11,8 +11,8 @@
 #include "api/Transform.h"
 
 #include "RenderSystem.h"
-#include "api/loopManager.h"
-
+#include "api/LoopManager.h"
+#include "api/LoopTimer.h"
 
 typedef SDL_Keycode CREPE_KEYCODES;
 
@@ -41,7 +41,7 @@ private:
 
 private:
 	friend class AnimatorSystem;
-	friend class LoopTimer;
+	friend class api::LoopTimer;
 	const uint64_t get_ticks() const;
 	/**
 		 * \brief SDL_delay() facade function

@@ -1,5 +1,5 @@
 #pragma once
-#include "SDLContext.h"
+
 #include <cstdint>
 
 namespace crepe::api{
@@ -59,7 +59,6 @@ class LoopTimer {
 
 	private:
 		friend class LoopManager;
-
 		void start();
 		void enforce_frame_rate();
 		double get_fixed_delta_time() const;
@@ -67,7 +66,7 @@ class LoopTimer {
 		LoopTimer();
 		void update();
 		void advance_fixed_update();
-
+	private:
 		int fps = 50;                       ///< Current frames per second
 		double game_scale = 1;              ///< Current game scale
 		double maximum_delta_time = 0.25;   ///< Maximum delta time to avoid large jumps

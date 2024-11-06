@@ -12,8 +12,8 @@ target_sources(crepe PUBLIC
 	AssetManager.cpp
 	Sprite.cpp
 
-	timer.cpp
-	loopManager.cpp
+	LoopTimer.cpp
+	LoopManager.cpp
 	eventManager.cpp
 	eventHandler.cpp
 	event.cpp
@@ -38,8 +38,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	AssetManager.h 
 	AssetManager.hpp
 	
-	timer.h 
-	loopManager.h 
+	LoopTimer.h 
+	LoopManager.h 
 	eventManager.h 
 	eventHandler.h 
 	event.h

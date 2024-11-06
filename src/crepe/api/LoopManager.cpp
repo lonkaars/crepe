@@ -1,4 +1,4 @@
-#include "loopManager.h"
+#include "api/LoopManager.h"
 
 #include "RenderSystem.h"
 #include "SDLContext.h"
@@ -12,13 +12,13 @@
 using namespace crepe::api;
 
 LoopManager::LoopManager() {}
-void LoopManager::processInput() {
+void LoopManager::process_input() {
 	SDLContext::get_instance().handle_events(this->gameRunning);
 }
 
-void LoopManager::setRunning(bool running) { this->gameRunning = running; }
+void LoopManager::set_running(bool running) { this->gameRunning = running; }
 
-void LoopManager::fixedUpdate() {
+void LoopManager::fixed_update() {
 	//fprintf(stderr, "fixed update\n");
 }
 
@@ -29,23 +29,23 @@ void LoopManager::loop() {
 	while (gameRunning) {
 		timer.update();
 
-		while (timer.getLag() >= timer.getFixedDeltaTime()) {
-			processInput();
-			fixedUpdate();
-			timer.advanceFixedUpdate();
+		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
+			process_input();
+			fixed_update();
+			timer.advance_fixed_update();
 		}
 
 		update();
 		render();
 
-		timer.enforceFrameRate();
+		timer.enforce_frame_rate();
 	}
 }
 
 
 void LoopManager::setup() {
 	LoopTimer::getInstance().start();
-	LoopTimer::getInstance().setFPS(60);
+	LoopTimer::getInstance().set_fps(60);
 }
 
 void LoopManager::render() {
@@ -56,6 +56,6 @@ void LoopManager::render() {
 
 void LoopManager::update() {
 	LoopTimer & timer = LoopTimer::getInstance();
-	float delta = timer.getDeltaTime();
+	float delta = timer.get_delta_time();
 	ScriptSystem::get_instance().update();
 }
