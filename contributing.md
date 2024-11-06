@@ -49,7 +49,7 @@ that you can click on to open them.
   class Cars {};
   ```
   </td></tr></table></details>
-- Source files (.cpp, .hpp) contain the following types of comments:
+- Source files (<code>.cpp</code>, <code>.hpp</code>) contain the following types of comments:
   - What is the code supposed to do (optional)
   - Implementation details (if applicable)
 - Header files (.h) contain the following types of comments:
@@ -479,7 +479,7 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  File names (.h, .cpp, .hpp) should be written using CamelCase
+  File names (<code>.h</code>, <code>.cpp</code>, <code>.hpp</code>) should be written using CamelCase
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
@@ -519,7 +519,7 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  Use angle brackets (`<>`) for including libraries and double quotes (`""`) for including local files.
+  Use angle brackets (<code><></code>) for including libraries and double quotes (<code>""</code>) for including local files.
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
