@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "Component.h"
+#include "../Component.h"
 
 namespace crepe {
 
