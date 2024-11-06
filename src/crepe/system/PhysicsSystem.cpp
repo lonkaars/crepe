@@ -8,8 +8,6 @@
 
 using namespace crepe;
 
-PhysicsSystem::PhysicsSystem() {}
-
 void PhysicsSystem::update() {
 	ComponentManager & mgr = ComponentManager::get_instance();
 	std::vector<std::reference_wrapper<Rigidbody>> rigidbodies
