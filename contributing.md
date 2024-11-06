@@ -54,6 +54,9 @@ that you can click on to open them.
   - Implementation details (if applicable)
 - Header files (.h) contain the following types of comments:
   - Usage documentation (required)
+
+    > [!NOTE]
+    > Constructors/destructors aren't required to have a `\brief` description
   - Implementation details (if they affect the header)
   - Design/data structure decisions (if applicable)
 - <details><summary>
