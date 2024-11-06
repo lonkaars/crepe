@@ -49,14 +49,25 @@ void PhysicsSystem::update() {
 						{
 							rigidbody.data.angular_velocity = -rigidbody.data.max_angular_velocity;
 						}
-						// if(rigidbody.data.linear_velocity. rigidbody.data.max_linear_velocity)
-						// {
-						// 	rigidbody.data.linear_velocity = rigidbody.data.max_linear_velocity;
-						// }
-						// else if (rigidbody.data.linear_velocity > -rigidbody.data.max_linear_velocity)
-						// {
-						// 	rigidbody.data.linear_velocity = -rigidbody.data.max_linear_velocity;
-						// }
+
+						if(rigidbody.data.linear_velocity.x > rigidbody.data.max_linear_velocity.x)
+						{
+							rigidbody.data.linear_velocity.x = rigidbody.data.max_linear_velocity.x;
+						}
+						else if(rigidbody.data.linear_velocity.x < -rigidbody.data.max_linear_velocity.x)
+						{
+							rigidbody.data.linear_velocity.x = -rigidbody.data.max_linear_velocity.x;
+						}
+
+						if(rigidbody.data.linear_velocity.y > rigidbody.data.max_linear_velocity.y)
+						{
+							rigidbody.data.linear_velocity.y = rigidbody.data.max_linear_velocity.y;
+						}
+						else if(rigidbody.data.linear_velocity.y < -rigidbody.data.max_linear_velocity.y)
+						{
+							rigidbody.data.linear_velocity.y = -rigidbody.data.max_linear_velocity.y;
+						}
+
 						// Move object 
 						if(!rigidbody.data.constraints.rotation)
 						{

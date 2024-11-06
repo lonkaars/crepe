@@ -41,11 +41,11 @@ public:
 		bool bounce = false;
 	};
 public:
-	Rigidbody(
-		uint32_t game_object_id, 
-		const RigidbodyData& data
-		);
+	Rigidbody(uint32_t game_object_id,const RigidbodyData& data);
 	RigidbodyData data;
+public:
+	void add_force_linear(const Vector2 & force);
+	void add_force_angular(double force);
 };
 
 } // namespace crepe
