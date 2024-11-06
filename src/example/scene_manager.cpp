@@ -39,9 +39,8 @@ int main() {
 	scene_mgr.add_scene<concreteScene1>("scene1");
 	scene_mgr.add_scene<concreteScene2>("scene2");
 
-	// Load scene1 to the queue
-	scene_mgr.set_next_scene("scene1");
-	// Empty the queue (now scene1 is loaded)
+	// There is no need to call set_next_scene() at the beginnen, because the first scene will be automatically set as the next scene
+	// Load scene1 (the first scene added)
 	scene_mgr.load_next_scene();
 
 	// Get the Metadata components of each GameObject of Scene1
@@ -56,9 +55,9 @@ int main() {
 			 << " Tag: " << m.get().tag << endl;
 	}
 
-	// Load scene2 to the queue
+	// Set scene2 as the next scene
 	scene_mgr.set_next_scene("scene2");
-	// Empty the queue (now scene2 is loaded)
+	// Load scene2
 	scene_mgr.load_next_scene();
 
 	// Get the Metadata components of each GameObject of Scene2
