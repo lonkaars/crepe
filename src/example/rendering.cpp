@@ -17,7 +17,6 @@ using namespace std;
 using namespace crepe;
 
 int main() {
-
 	dbg_trace();
 
 	auto obj = GameObject(0, "name", "tag", Point{0, 0}, 1, 1);

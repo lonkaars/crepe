@@ -386,6 +386,37 @@ that you can click on to open them.
   #endif
   ```
   </td></tr></table></details>
+- <details><summary>
+  Variables that are being moved always use the fully qualified <code>std::move</code>
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  using namespace std;
+  string foo = "bar";
+  ref_fn(std::move(foo));
+  ```
+  </td><td>
+
+  ```cpp
+  using namespace std;
+  string foo = "bar";
+  ref_fn(move(foo));
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  If possible, classes and structs are passed to functions by (const) reference
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  void foo(const Point & p);
+  ```
+  </td><td>
+
+  ```cpp
+  void foo(Point & p);
+  void bar(Point p);
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 
