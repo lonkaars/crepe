@@ -36,12 +36,13 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	// Check if the vector size is not greater than get_instances_max
 	if (instance->get_instances_max() != -1
 		&& components[type][id].size() >= instance->get_instances_max()) {
+		// TODO: Exception
 		throw std::runtime_error(
 			"Exceeded maximum number of instances for this component type");
 	}
 
 	// store its unique_ptr in the vector<>
-	components[type][id].push_back(move(instance));
+	components[type][id].push_back(std::move(instance));
 
 	return *instance;
 }

@@ -14,9 +14,9 @@ class Transform : public Component {
 	// works similar (or the same) as those found in GLSL?
 
 public:
-	Transform(uint32_t id, Point, double, double);
+	Transform(uint32_t id, const Point &, double, double);
 	~Transform();
-	int get_instances_max() const;
+	virtual int get_instances_max() const { return 1; }
 	//! Translation (shift)
 	Point position;
 	//! Rotation, in radians
