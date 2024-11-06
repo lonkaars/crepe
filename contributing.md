@@ -49,10 +49,10 @@ that you can click on to open them.
   class Cars {};
   ```
   </td></tr></table></details>
-- Source files contain the following types of comments:
+- Source files (.cpp, .hpp) contain the following types of comments:
   - What is the code supposed to do (optional)
   - Implementation details (if applicable)
-- Header files contain the following types of comments:
+- Header files (.h) contain the following types of comments:
   - Usage documentation (required)
   - Implementation details (if they affect the header)
   - Design/data structure decisions (if applicable)
@@ -110,7 +110,8 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  <code>using namespace</code> may not be used in header files, only in source files.
+  <code>using namespace</code> may not be used in header files (.h, .hpp), only
+  in source files (.cpp).
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   example.h:
