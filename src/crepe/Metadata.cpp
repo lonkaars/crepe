@@ -3,6 +3,6 @@
 using namespace crepe;
 using namespace std;
 
-Metadata::Metadata(uint32_t game_object_id, const string & name, const string & tag)
+Metadata::Metadata(uint32_t game_object_id, const string & name,
+				   const string & tag)
 	: Component(game_object_id), name(name), tag(tag) {}
-
