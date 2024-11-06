@@ -1,5 +1,5 @@
 #include "LoopTimer.h"
-using namespace crepe;
+using namespace crepe::api;
 LoopTimer::LoopTimer() {}
 
 LoopTimer & LoopTimer::getInstance() {
@@ -8,14 +8,14 @@ LoopTimer & LoopTimer::getInstance() {
 }
 
 void LoopTimer::start() {
-	last_frame_time = SDL_GetTicks64();
+	last_frame_time = SDLContext::get_instance().get_ticks();
     elapsed_time = 0;
     elapsed_fixed_time = 0;
     delta_time = 0;
 }
 
 void LoopTimer::update() {
-	uint64_t currentFrameTime = SDL_GetTicks64();
+	uint64_t currentFrameTime = SDLContext::get_instance().get_ticks();
 	delta_time = (currentFrameTime - last_frame_time) / 1000.0;
 
 	if (delta_time > maximum_delta_time) {
@@ -42,13 +42,13 @@ int LoopTimer::get_fps() const { return fps; }
 void LoopTimer::set_game_scale(double value) { game_scale = value; };
 double LoopTimer::get_game_scale() const { return game_scale; }
 void LoopTimer::enforce_frame_rate() {
-	uint64_t currentFrameTime = SDL_GetTicks64();
+	uint64_t currentFrameTime = SDLContext::get_instance().get_ticks();
 	double frameDuration = (currentFrameTime - last_frame_time) / 1000.0;
 
 	if (frameDuration < frame_target_time) {
 		uint32_t delayTime
 			= (uint32_t) ((frame_target_time - frameDuration) * 1000.0);
-		SDL_Delay(delayTime);
+		SDLContext::get_instance().delay(delayTime);
 	}
 }
 double LoopTimer::get_lag() const { return elapsed_time - elapsed_fixed_time; }

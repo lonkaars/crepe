@@ -168,3 +168,4 @@ void SDLContext::camera(const api::Camera & cam) {
 }
 
 const uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
+void SDLContext::delay(uint32_t ms){SDL_Delay(ms);}

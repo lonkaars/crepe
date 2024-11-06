@@ -1,9 +1,8 @@
 #pragma once
-#include "gameObject.h"
 
+namespace crepe::api {
 
-namespace crepe {
-	class LoopManager {
+class LoopManager {
 	public:
 		LoopManager();
 		~LoopManager();
@@ -61,4 +60,5 @@ namespace crepe {
 
 		bool gameRunning = false;
 	};
+
 }

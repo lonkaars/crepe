@@ -41,8 +41,14 @@ private:
 
 private:
 	friend class AnimatorSystem;
+	friend class LoopTimer;
 	const uint64_t get_ticks() const;
-
+	/**
+		 * \brief SDL_delay() facade function
+		 *
+		 * \param ms Delay time in ms
+		 */
+	void delay(uint32_t ms);
 private:
 	SDLContext();
 	virtual ~SDLContext();

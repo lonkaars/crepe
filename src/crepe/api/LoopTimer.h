@@ -1,9 +1,9 @@
 #pragma once
+#include "SDLContext.h"
+#include <cstdint>
 
-#include <SDL2/SDL.h>
-
-namespace crepe {
-	class LoopTimer {
+namespace crepe::api{
+class LoopTimer {
 	public:
 		/**
 		 * \brief Get the singleton instance of LoopTimer.

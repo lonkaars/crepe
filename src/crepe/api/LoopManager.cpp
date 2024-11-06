@@ -6,7 +6,7 @@
 #include "api/event.h"
 #include "api/eventHandler.h"
 #include "api/eventManager.h"
-#include "api/timer.h"
+#include "api/LoopTimer.h"
 #include "keyCodes.h"
 
 using namespace crepe::api;
@@ -42,30 +42,10 @@ void LoopManager::loop() {
 	}
 }
 
-void onKey(const KeyPressedEvent & e) {
-	int keyCode = e.getKeyCode();
-	std::cout << "keycode pressed: " << keyCode << std::endl;
-}
-void onMouse(const MousePressedEvent & e) {
-	fprintf(stderr, "mouse Position X: %d Y: %d\n", e.getMousePosition().first,
-			e.getMousePosition().second);
-}
-
 
 void LoopManager::setup() {
 	LoopTimer::getInstance().start();
-	LoopTimer::getInstance().setFPS(50);
-	EventHandler<KeyPressedEvent> callback = onKey;
-	subscribe<KeyPressedEvent>(callback, false);
-	EventHandler<MousePressedEvent> mouseCallback = onMouse;
-	subscribe<MousePressedEvent>(mouseCallback, false);
-	EventHandler<KeyPressedEvent> closeWindowCallback
-		= [this](const KeyPressedEvent & e) {
-			  if (e.getKeyCode() == Escape) {
-				  this->setRunning(false);
-			  }
-		  };
-	subscribe<KeyPressedEvent>(closeWindowCallback, false);
+	LoopTimer::getInstance().setFPS(60);
 }
 
 void LoopManager::render() {
