@@ -1,9 +1,7 @@
 #include <cstdint>
 
-#include "api/Point.h"
 #include "util/log.h"
 
-#include "Component.h"
 #include "Transform.h"
 
 using namespace crepe;
