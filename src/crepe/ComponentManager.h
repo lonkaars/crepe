@@ -28,6 +28,7 @@ public:
 	ComponentManager(ComponentManager &&) = delete;
 	ComponentManager & operator=(const ComponentManager &) = delete;
 	ComponentManager & operator=(ComponentManager &&) = delete;
+	~ComponentManager();
 
 	/**
 	 * \brief Add a component to the ComponentManager
@@ -101,7 +102,6 @@ public:
 
 private:
 	ComponentManager();
-	virtual ~ComponentManager();
 
 private:
 	/**
