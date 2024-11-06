@@ -421,6 +421,118 @@ that you can click on to open them.
   void bar(Point p);
   ```
   </td></tr></table></details>
+- <details><summary>
+  Follow the rule-of-five
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    Foo();
+    ~Foo();
+    Foo(const Foo &);
+    Foo(Foo &&) noexcept;
+    Foo & operator=(const Foo &);
+    Foo & operator=(Foo &&) noexcept;
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    Foo();
+    ~Foo();
+    Foo(const Foo &);
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Ensure const-correctness
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_value() const;
+    void set_value(int new_value);
+    const std::string & get_name() const;
+    void set_name(const std::string & new_name);
+  private:
+    int value;
+    std::string name;
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_value();
+    void set_value(int new_value);
+    std::string get_name();
+    void set_name(std::string new_name);
+  private:
+    int value;
+    std::string name;
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  File names (.h/.cpp/.hpp) should be written using CamelCase
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  MyClass.h
+  MyClass.cpp
+  MyClass.hpp
+  ```
+  </td><td>
+
+  ```cpp
+  my_class.h
+  my_class.cpp
+  my_class.hpp
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Implementation is not allowed in header files, except if the method only returns a constant value
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_value() const { return 42; }
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int calculate_value() const {
+      int result = 0;
+      // complex calculation
+      return result;
+    }
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Use angle brackets (`<>`) for including libraries and double quotes (`""`) for including local files.
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  #include <iostream>
+  #include "MyClass.h"
+  ```
+  </td><td>
+
+  ```cpp
+  #include "iostream"
+  #include <MyClass.h>
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 
