@@ -27,7 +27,7 @@ public:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	GameObject(uint32_t id, std::string name, std::string tag,
+	GameObject(uint32_t id, const std::string & name, const std::string & tag,
 			   const Point & position, double rotation, double scale);
 	/**
 	 * \brief Set the parent of this GameObject
