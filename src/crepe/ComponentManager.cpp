@@ -1,5 +1,6 @@
-#include "ComponentManager.h"
 #include "util/log.h"
+
+#include "ComponentManager.h"
 
 using namespace crepe;
 
