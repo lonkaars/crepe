@@ -1,7 +1,9 @@
 #pragma once
 
 #include <cstdint>
+
 #include "../Component.h"
+
 #include "Transform.h"
 
 namespace crepe {

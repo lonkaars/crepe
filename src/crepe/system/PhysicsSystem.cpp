@@ -1,10 +1,11 @@
+#include <cmath>
+
 #include "../ComponentManager.h"
 #include "../api/Rigidbody.h"
 #include "../api/Transform.h"
 #include "../api/Config.h"
-#include "PhysicsSystem.h"
 
-#include <cmath>
+#include "PhysicsSystem.h"
 
 using namespace crepe;
 
