@@ -9,6 +9,7 @@
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/facade/SDLApp.h>
 #include <crepe/system/ParticleSystem.h>
+#include <crepe/api/Point.h>
 
 using namespace crepe;
 using namespace std;
