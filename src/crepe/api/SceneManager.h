@@ -20,15 +20,15 @@ public:
 public:
 	template <typename T>
 	void add_scene(const std::string & name);
-	void load_scene(const std::string & name);
-	void empty_queue();
+	void set_next_scene(const std::string & name);
+	void load_next_scene();
 
 private:
 	SceneManager();
 
 private:
 	std::vector<std::unique_ptr<Scene>> scenes;
-	std::queue<std::string> next_scene;
+	std::string next_scene;
 };
 
 } // namespace crepe

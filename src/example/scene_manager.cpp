@@ -40,9 +40,9 @@ int main() {
 	scene_mgr.add_scene<concreteScene2>("scene2");
 
 	// Load scene1 to the queue
-	scene_mgr.load_scene("scene1");
+	scene_mgr.set_next_scene("scene1");
 	// Empty the queue (now scene1 is loaded)
-	scene_mgr.empty_queue();
+	scene_mgr.load_next_scene();
 
 	// Get the Metadata components of each GameObject of Scene1
 	ComponentManager & component_mgr = ComponentManager::get_instance();
@@ -57,9 +57,9 @@ int main() {
 	}
 
 	// Load scene2 to the queue
-	scene_mgr.load_scene("scene2");
+	scene_mgr.set_next_scene("scene2");
 	// Empty the queue (now scene2 is loaded)
-	scene_mgr.empty_queue();
+	scene_mgr.load_next_scene();
 
 	// Get the Metadata components of each GameObject of Scene2
 	metadata = component_mgr.get_components_by_type<Metadata>();
