@@ -1,6 +1,7 @@
 #pragma once
 
 #include "System.h"
+#include "api/Camera.h"
 
 namespace crepe {
 
@@ -13,5 +14,13 @@ public:
 private:
 	RenderSystem();
 	~RenderSystem();
+
+	void clear_screen();
+	void present_screen();
+	void update_camera();
+	void render_sprites();
+
+private:
+	api::Camera* curr_cam;
 };
 } // namespace crepe

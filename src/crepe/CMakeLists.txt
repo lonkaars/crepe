@@ -14,6 +14,9 @@ target_sources(crepe PUBLIC
 	SDLContext.cpp
 
 	RenderSystem.cpp
+
+	keyCodes.cpp
+	AnimatorSystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -31,6 +34,10 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Collider.h
 	SDLContext.h
 	RenderSystem.h
+
+	keyCodes.h
+
+	AnimatorSystem.h
 )
 
 add_subdirectory(api)

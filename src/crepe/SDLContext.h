@@ -1,12 +1,23 @@
 #pragma once
 
+#include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <cstdint>
 
+#include "AnimatorSystem.h"
+#include "api/Camera.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
 
 #include "RenderSystem.h"
+#include "api/loopManager.h"
+
+
+typedef SDL_Keycode CREPE_KEYCODES;
+
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
 namespace crepe::api {
 class Texture;
@@ -24,10 +35,13 @@ public:
 	SDLContext & operator=(const SDLContext &) = delete;
 	SDLContext & operator=(SDLContext &&) = delete;
 
-	//TODO decide events wouter?
+private:
+	friend class api::LoopManager;
+	void handle_events(bool & running);
 
 private:
-	void handle_events(bool & running);
+	friend class AnimatorSystem;
+	const uint64_t get_ticks() const;
 
 private:
 	SDLContext();
@@ -36,17 +50,18 @@ private:
 private:
 	friend class api::Texture;
 	SDL_Texture * texture_from_path(const char *);
-	//SDL_Texture* setTextureFromPath(const char*, SDL_Rect& clip, const int row, const int col);
 
 private:
 	friend class RenderSystem;
-	void draw(const api::Sprite &, const api::Transform &);
+	void draw(const api::Sprite &, const api::Transform &, const api::Camera&);
 	void clear_screen();
 	void present_screen();
+	void camera(const api::Camera&);
 
 private:
 	SDL_Window * game_window = nullptr;
 	SDL_Renderer * game_renderer = nullptr;
+	SDL_Rect viewport = {0,0,640,480};
 };
 
 } // namespace crepe
