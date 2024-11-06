@@ -277,7 +277,7 @@ that you can click on to open them.
 
   ```cpp
   struct Foo {
-    int bar;
+    int bar = 0;
     std::string baz;
   };
   ```
@@ -285,7 +285,7 @@ that you can click on to open them.
 
   ```cpp
   struct Foo {
-    int bar = 0;
+    int bar;
     std::string baz;
   };
   ```
