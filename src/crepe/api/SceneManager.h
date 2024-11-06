@@ -19,8 +19,8 @@ public:
 
 public:
 	template <typename T>
-	void add_scene(std::string name);
-	void load_scene(std::string name);
+	void add_scene(const std::string & name);
+	void load_scene(const std::string & name);
 	void empty_queue();
 
 private:

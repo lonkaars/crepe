@@ -6,7 +6,7 @@ namespace crepe {
 
 class Scene {
 public:
-	Scene(std::string name);
+	Scene(const std::string & name);
 	virtual ~Scene() = default;
 	virtual void load_scene() = 0;
 
