@@ -6,8 +6,9 @@
 using namespace crepe;
 using namespace std;
 
-GameObject::GameObject(uint32_t id, std::string name, std::string tag,
-					   const Point & position, double rotation, double scale)
+GameObject::GameObject(uint32_t id, const std::string & name,
+					   const std::string & tag, const Point & position,
+					   double rotation, double scale)
 	: id(id) {
 	// Add Transform and Metadata components
 	ComponentManager & mgr = ComponentManager::get_instance();
