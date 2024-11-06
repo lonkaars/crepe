@@ -56,6 +56,9 @@ that you can click on to open them.
   - <details><summary><a href="#documentation">Usage documentation (required)</a></summary>
     > [!NOTE]
     > Constructors/destructors aren't required to have a `\brief` description
+  - Implementation details (if they affect the header)
+  - Design/data structure decisions (if applicable)
+- <details><summary>
   Comments are placed *above* the line(s) they are explaining
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
