@@ -479,7 +479,7 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  File names (.h/.cpp/.hpp) should be written using CamelCase
+  File names (.h, .cpp, .hpp) should be written using CamelCase
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
@@ -491,8 +491,8 @@ that you can click on to open them.
 
   ```cpp
   my_class.h
-  my_class.cpp
-  my_class.hpp
+  myClass.cpp
+  my-class.hpp
   ```
   </td></tr></table></details>
 - <details><summary>
