@@ -13,4 +13,3 @@ Transform::Transform(uint32_t game_id, const Vector2& point, double rot, double 
 }
 
 Transform::~Transform() { dbg_trace(); }
-

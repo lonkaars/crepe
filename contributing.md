@@ -49,11 +49,13 @@ that you can click on to open them.
   class Cars {};
   ```
   </td></tr></table></details>
-- Source files contain the following types of comments:
+- Source files (`.cpp`, `.hpp`) contain the following types of comments:
   - What is the code supposed to do (optional)
   - Implementation details (if applicable)
-- Header files contain the following types of comments:
-  - Usage documentation (required)
+- Header files (`.h`) contain the following types of comments:
+  - [Usage documentation](#documentation) (required)
+    > [!NOTE]
+    > Constructors/destructors aren't required to have a `\brief` description
   - Implementation details (if they affect the header)
   - Design/data structure decisions (if applicable)
 - <details><summary>
@@ -110,7 +112,8 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  <code>using namespace</code> may not be used in header files, only in source files.
+  <code>using namespace</code> may not be used in header files (.h, .hpp), only
+  in source files (.cpp).
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   example.h:
@@ -277,7 +280,7 @@ that you can click on to open them.
 
   ```cpp
   struct Foo {
-    int bar;
+    int bar = 0;
     std::string baz;
   };
   ```
@@ -285,7 +288,7 @@ that you can click on to open them.
 
   ```cpp
   struct Foo {
-    int bar = 0;
+    int bar;
     std::string baz;
   };
   ```
@@ -415,6 +418,127 @@ that you can click on to open them.
   ```cpp
   void foo(Point & p);
   void bar(Point p);
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Follow the rule of five
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    Foo();
+    ~Foo();
+    Foo(Foo &&) noexcept;
+    Foo & operator = (const Foo &);
+    Foo & operator = (Foo &&) noexcept;
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    Foo();
+    ~Foo();
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Ensure const-correctness
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_value() const;
+    void set_value(int new_value);
+    const std::string & get_name() const;
+    void set_name(const std::string & new_name);
+  private:
+    int value;
+    std::string name;
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_value();
+    void set_value(int new_value);
+    std::string get_name();
+    void set_name(std::string new_name);
+  private:
+    int value;
+    std::string name;
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Files should be named after the class/struct/interface they implement
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  MyClass.h
+  MyClass.cpp
+  MyClass.hpp
+  ```
+  </td><td>
+
+  ```cpp
+  my_class.h
+  myClass.cpp
+  my-class.hpp
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Implementations are not allowed in header files, except if the implementation
+
+  - is `= default`
+  - is `= delete`
+  - is `{}` (empty)
+  - only returns a constant literal
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_value() const { return 42; }
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int calculate_value() const {
+      int result = 0;
+      // complex calculation
+      return result;
+    }
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Use angle brackets (<code><></code>) only for including system headers and
+  double quotes (<code>""</code>) for including other engine files.
+
+  > [!NOTE]
+  > Only files in the examples folder should include engine headers with angle
+  > brackets
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  #include <iostream>
+
+  #include "facade/Sound.h"
+  ```
+  </td><td>
+
+  ```cpp
+  #include <iostream>
+  #include <crepe/facade/Sound.h>
   ```
   </td></tr></table></details>
 
