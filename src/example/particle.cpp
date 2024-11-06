@@ -7,9 +7,9 @@
 #include <crepe/Particle.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/ParticleEmitter.h>
+#include <crepe/api/Point.h>
 #include <crepe/facade/SDLApp.h>
 #include <crepe/system/ParticleSystem.h>
-#include <crepe/api/Point.h>
 
 using namespace crepe;
 using namespace std;
