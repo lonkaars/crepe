@@ -9,7 +9,8 @@ namespace crepe {
 
 class Metadata : public Component {
 public:
-	Metadata(uint32_t game_object_id, const std::string & name, const std::string & tag);
+	Metadata(uint32_t game_object_id, const std::string & name,
+			 const std::string & tag);
 	virtual int get_instances_max() const { return 1; }
 
 public:
