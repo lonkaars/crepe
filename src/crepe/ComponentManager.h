@@ -10,35 +10,92 @@
 
 namespace crepe {
 
+/**
+ * \brief Manages all components
+ * 
+ * This class manages all components. It provides methods to add, delete and get
+ * components.
+ */
 class ComponentManager {
 public:
-	// Singleton
+	/**
+	 * \brief Get the instance of the ComponentManager
+	 * 
+	 * \return The instance of the ComponentManager
+	 */
 	static ComponentManager & get_instance();
 	ComponentManager(const ComponentManager &) = delete;
 	ComponentManager(ComponentManager &&) = delete;
 	ComponentManager & operator=(const ComponentManager &) = delete;
 	ComponentManager & operator=(ComponentManager &&) = delete;
 
-public:
-	//! Add a component of a specific type
+	/**
+	 * \brief Add a component to the ComponentManager
+	 * 
+	 * This method adds a component to the ComponentManager. The component is
+	 * created with the given arguments and added to the ComponentManager.
+	 * 
+	 * \tparam T The type of the component
+	 * \tparam Args The types of the arguments
+	 * \param id The id of the GameObject this component belongs to
+	 * \param args The arguments to create the component
+	 * \return The created component
+	 */
 	template <typename T, typename... Args>
 	T & add_component(uint32_t id, Args &&... args);
-	//! Deletes all components of a specific type and id
+	/**
+	 * \brief Delete all components of a specific type and id
+	 * 
+	 * This method deletes all components of a specific type and id.
+	 * 
+	 * \tparam T The type of the component
+	 * \param id The id of the GameObject this component belongs to
+	 */
 	template <typename T>
 	void delete_components_by_id(uint32_t id);
-	//! Deletes all components of a specific type
+	/**
+	 * \brief Delete all components of a specific type
+	 * 
+	 * This method deletes all components of a specific type.
+	 * 
+	 * \tparam T The type of the component
+	 */
 	template <typename T>
 	void delete_components();
-	//! Deletes all components of a specific id
+	/**
+	 * \brief Delete all components of a specific id
+	 * 
+	 * This method deletes all components of a specific id.
+	 * 
+	 * \param id The id of the GameObject this component belongs to
+	 */
 	void delete_all_components_of_id(uint32_t id);
-	//! Deletes all components
+	/**
+	 * \brief Delete all components
+	 * 
+	 * This method deletes all components.
+	 */
 	void delete_all_components();
-
-	//! Get a vector<> of all components at specific type and id
+	/**
+	 * \brief Get all components of a specific type and id
+	 * 
+	 * This method gets all components of a specific type and id.
+	 * 
+	 * \tparam T The type of the component
+	 * \param id The id of the GameObject this component belongs to
+	 * \return A vector of all components of the specific type and id
+	 */
 	template <typename T>
 	std::vector<std::reference_wrapper<T>>
 	get_components_by_id(uint32_t id) const;
-	//! Get a vector<> of all components of a specific type
+	/**
+	 * \brief Get all components of a specific type
+	 * 
+	 * This method gets all components of a specific type.
+	 * 
+	 * \tparam T The type of the component
+	 * \return A vector of all components of the specific type
+	 */
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
 
@@ -46,11 +103,17 @@ private:
 	ComponentManager();
 	virtual ~ComponentManager();
 
-	/*
-	 * The std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>> below might seem a bit strange, let me explain this structure:
-	 * The std::unordered_map<> has a key and value. The key is a std::type_index and the value is a std::vector. So, a new std::vector will be created for each new std::type_index.
-	 * The first std::vector<> stores another vector<>. This first vector<> is to bind the entity's id to a component.
-	 * The second std::vector<> stores unique_ptrs. Each component can be gathered via an unique_ptr. This second vector<> allows multiple components of the same std::type_index for one entity (id).
+private:
+	/**
+	 * \brief The components
+	 * 
+	 * This unordered_map stores all components. The key is the type of the
+	 * component and the value is a vector of vectors of unique pointers to the
+	 * components.
+	 * Every component type has its own vector of vectors of unique pointers to
+	 * the components. The first vector is for the ids of the GameObjects and the
+	 * second vector is for the components (because a GameObject might have multiple
+	 * components).
 	 */
 	std::unordered_map<std::type_index,
 					   std::vector<std::vector<std::unique_ptr<Component>>>>
