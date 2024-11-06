@@ -17,7 +17,7 @@ public:
 
 public:
 	uint32_t game_object_id;
-	bool active;
+	bool active = true;
 };
 
 } // namespace crepe
