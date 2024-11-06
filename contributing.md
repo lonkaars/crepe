@@ -53,7 +53,7 @@ that you can click on to open them.
   - What is the code supposed to do (optional)
   - Implementation details (if applicable)
 - Header files (.h) contain the following types of comments:
-  - <details><summary><a href="#documentation">Usage documentation (required)</a></summary>
+  - <a href="#documentation">Usage documentation (required)</a>
     > [!NOTE]
     > Constructors/destructors aren't required to have a `\brief` description
   - Implementation details (if they affect the header)
