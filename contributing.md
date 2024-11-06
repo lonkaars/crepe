@@ -49,11 +49,11 @@ that you can click on to open them.
   class Cars {};
   ```
   </td></tr></table></details>
-- Source files (<code>.cpp</code>, <code>.hpp</code>) contain the following types of comments:
+- Source files (`.cpp`, `.hpp`) contain the following types of comments:
   - What is the code supposed to do (optional)
   - Implementation details (if applicable)
-- Header files (.h) contain the following types of comments:
-  - <a href="#documentation">Usage documentation</a> (required)
+- Header files (`.h`) contain the following types of comments:
+  - [Usage documentation](#documentation) (required)
     > [!NOTE]
     > Constructors/destructors aren't required to have a `\brief` description
   - Implementation details (if they affect the header)
@@ -421,7 +421,7 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  Follow the rule-of-five
+  Follow the rule of five
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
@@ -429,10 +429,9 @@ that you can click on to open them.
   public:
     Foo();
     ~Foo();
-    Foo(const Foo &);
     Foo(Foo &&) noexcept;
-    Foo & operator=(const Foo &);
-    Foo & operator=(Foo &&) noexcept;
+    Foo & operator = (const Foo &);
+    Foo & operator = (Foo &&) noexcept;
   };
   ```
   </td><td>
@@ -442,7 +441,6 @@ that you can click on to open them.
   public:
     Foo();
     ~Foo();
-    Foo(const Foo &);
   };
   ```
   </td></tr></table></details>
@@ -478,7 +476,7 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  File names (<code>.h</code>, <code>.cpp</code>, <code>.hpp</code>) should be written using CamelCase
+  Files should be named after the class/struct/interface they implement
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
@@ -495,7 +493,12 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  Implementation is not allowed in header files, except if the method only returns a constant value
+  Implementations are not allowed in header files, except if the implementation
+
+  - is `= default`
+  - is `= delete`
+  - is `{}` (empty)
+  - only returns a constant literal
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
@@ -518,18 +521,24 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  Use angle brackets (<code><></code>) for including libraries and double quotes (<code>""</code>) for including local files.
+  Use angle brackets (<code><></code>) only for including system headers and
+  double quotes (<code>""</code>) for including other engine files.
+
+  > [!NOTE]
+  > Only files in the examples folder should include engine headers with angle
+  > brackets
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
   #include <iostream>
-  #include "MyClass.h"
+
+  #include "facade/Sound.h"
   ```
   </td><td>
 
   ```cpp
-  #include "iostream"
-  #include <MyClass.h>
+  #include <iostream>
+  #include <crepe/facade/Sound.h>
   ```
   </td></tr></table></details>
 
