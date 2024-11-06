@@ -122,8 +122,6 @@ ComponentManager::get_components_by_type() const {
 
 	// Create an empty vector<>
 	vector<reference_wrapper<T>> component_vector;
-	// Set the id to 0 (the id will also be stored in the returned vector<>)
-	// uint32_t id = 0;
 
 	// Find the type (in the unordered_map<>)
 	if (components.find(type) == components.end()) return component_vector;
@@ -142,12 +140,9 @@ ComponentManager::get_components_by_type() const {
 			// Ensure that the cast was successful
 			if (casted_component == nullptr) continue;
 
-			// Pair the dereferenced raw pointer and the id and add it to the vector<>
+			// Add the dereferenced raw pointer to the vector<>
 			component_vector.emplace_back(ref(*casted_component));
 		}
-
-		// Increase the id (the id will also be stored in the returned vector<>)
-		//++id;
 	}
 
 	// Return the vector<>
