@@ -3,9 +3,9 @@
 #include <cstdint>
 #include <string>
 
-#include "api/Point.h"
-
 namespace crepe {
+
+class Point;
 
 /**
  * \brief Represents a GameObject
