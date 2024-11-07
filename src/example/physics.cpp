@@ -11,7 +11,7 @@ using namespace std;
 int main(int argc, char * argv[]) {
 	GameObject * game_object;
 	game_object = new GameObject(0, "Name", "Tag", Vector2{0, 0}, 0, 0);
-	game_object->add_component<Rigidbody>(Rigidbody::RigidbodyData{
+	game_object->add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 1,
 		.gravity_scale = 1,
 		.body_type = Rigidbody::BodyType::DYNAMIC,

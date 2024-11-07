@@ -17,10 +17,10 @@ public:
 	/**
 	 * \param id The id of the GameObject this component belongs to
 	 * \param point The position of the GameObject
-	 * \param rot The rotation of the GameObject
+	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	Transform(game_object_id_t id, const Vector2 & point, double rot,
+	Transform(game_object_id_t id, const Vector2 & point, double rotation,
 			  double scale);
 	/**
 	 * \brief Get the maximum number of instances for this component

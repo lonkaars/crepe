@@ -1,13 +1,11 @@
-#include <cstdint>
-
 #include "util/log.h"
 
 #include "Transform.h"
 
 using namespace crepe;
 
-Transform::Transform(game_object_id_t id, const Vector2 & point, double rot,
-					 double scale)
-	: Component(id), position(point), rotation(rot), scale(scale) {
+Transform::Transform(game_object_id_t id, const Vector2 & point,
+					 double rotation, double scale)
+	: Component(id), position(point), rotation(rotation), scale(scale) {
 	dbg_trace();
 }
