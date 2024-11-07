@@ -1,6 +1,6 @@
 #pragma once
 
-#include "api/ParticleEmitter.h"
+#include "../api/ParticleEmitter.h"
 
 namespace crepe {
 

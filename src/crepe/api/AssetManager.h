@@ -5,7 +5,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace crepe::api {
+namespace crepe {
 
 class AssetManager {
 
@@ -30,6 +30,6 @@ public:
 								 bool reload = false);
 };
 
-} // namespace crepe::api
+} // namespace crepe
 
 #include "AssetManager.hpp"

@@ -11,6 +11,8 @@ target_sources(crepe PUBLIC
 	Texture.cpp
 	AssetManager.cpp
 	Sprite.cpp
+	Scene.cpp
+	SceneManager.cpp
 
 	timer.cpp
 	loopManager.cpp
@@ -37,6 +39,9 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Texture.h 
 	AssetManager.h 
 	AssetManager.hpp
+	Scene.h
+	SceneManager.h
+	SceneManager.hpp
 	
 	timer.h 
 	loopManager.h 

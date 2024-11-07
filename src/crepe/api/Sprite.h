@@ -9,7 +9,7 @@
 
 #include "Component.h"
 
-namespace crepe::api {
+namespace crepe {
 
 struct FlipSettings {
 	bool flip_x = 1;
@@ -33,4 +33,4 @@ private:
 	SDL_Rect dst;
 };
 
-} // namespace crepe::api
+} // namespace crepe

@@ -1,10 +1,10 @@
 #include <memory>
 
-#include "../Sound.h"
+#include "../facade/Sound.h"
 
 #include "AudioSource.h"
 
-using namespace crepe::api;
+using namespace crepe;
 
 AudioSource::AudioSource(std::unique_ptr<Asset> audio_clip) {
 	this->sound = std::make_unique<crepe::Sound>(std::move(audio_clip));

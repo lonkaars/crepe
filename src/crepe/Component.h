@@ -13,6 +13,7 @@ protected:
 
 public:
 	virtual ~Component() = default;
+	virtual int get_instances_max() const { return -1; }
 
 public:
 	uint32_t game_object_id;

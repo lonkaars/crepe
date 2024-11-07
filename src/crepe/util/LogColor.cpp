@@ -1,16 +1,17 @@
 #include <cstdarg>
 
 #include "../api/Config.h"
-#include "color.h"
+#include "LogColor.h"
+
 #include "fmt.h"
 
-using namespace crepe::util;
+using namespace crepe;
 using namespace std;
 
 static constexpr const char * RESET_CODE = "\e[0m";
 
 const string LogColor::str(const string & content) {
-	auto & cfg = api::Config::get_instance();
+	auto & cfg = Config::get_instance();
 	string out = content;
 	if (cfg.log.color) out = this->code + out;
 	if (content.size() == 0) return out;

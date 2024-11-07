@@ -1,6 +1,10 @@
 #include "customTypes.h"
 #include "event.h"
+#include "iKeyListener.h"
+#include "iMouseListener.h"
+#include "keyListenerTest.h"
 #include "loopManager.h"
+#include "mouseListenerTest.h"
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <memory>
@@ -44,10 +48,9 @@ void testCollisionEvent() {
 }
 int main(int argc, char * args[]) {
 	LoopManager gameLoop;
-	// Create an event handler for KeyPressedEvent
-	// EventHandler<KeyPressedEvent> callback = [](const KeyPressedEvent& e) {
-	//     onKeyPressed(e);
-	// };
+	int testListenerId = 0;
+	KeyListenerTest keyListener(testListenerId);
+	MouseListenerTest mouseListener(testListenerId);
 	// custom event class poc
 	subscribe<PlayerDamagedEvent>(onPlayerDamaged);
 	triggerEvent(PlayerDamagedEvent(50, 1));

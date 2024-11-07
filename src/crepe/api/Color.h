@@ -42,4 +42,4 @@ private:
 	friend class crepe::SDLContext;
 };
 
-} // namespace crepe::api
+} // namespace crepe

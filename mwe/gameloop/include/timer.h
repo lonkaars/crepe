@@ -25,7 +25,7 @@ private:
 	double maximumDeltaTime = 0.25;
 	double deltaTime;
 	double frameTargetTime = FPS / 1000;
-	double fixedDeltaTime = 0.01;
+	double fixedDeltaTime = 0.02;
 	double elapsedTime;
 	double elapsedFixedTime;
 	double time;

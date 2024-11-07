@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace crepe::util {
+namespace crepe {
 
 class LogColor {
 public:
@@ -48,4 +48,4 @@ private:
 	std::string final = "";
 };
 
-} // namespace crepe::util
+} // namespace crepe

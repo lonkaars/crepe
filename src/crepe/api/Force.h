@@ -4,7 +4,7 @@
 
 #include "../Component.h"
 
-namespace crepe::api {
+namespace crepe {
 
 class Force : public Component {
 public:
@@ -14,4 +14,4 @@ public:
 	int32_t force_y;
 };
 
-} // namespace crepe::api
+} // namespace crepe

@@ -7,7 +7,7 @@
 #include "fmt.h"
 #include "log.h"
 
-using namespace crepe::util;
+using namespace crepe;
 using namespace std;
 
 string log_prefix(LogLevel level) {
@@ -27,25 +27,25 @@ string log_prefix(LogLevel level) {
 }
 
 static void log(LogLevel level, const string msg) {
-	auto & cfg = crepe::api::Config::get_instance();
+	auto & cfg = Config::get_instance();
 	if (level < cfg.log.level) return;
 
 	string out = log_prefix(level) + msg;
 	if (!out.ends_with("\n")) out += "\n";
 
 	// TODO: also log to file or smth
-	printf("%s", out.c_str());
+	fwrite(out.c_str(), 1, out.size(), stdout);
 	fflush(stdout);
 }
 
-void crepe::util::logf(const char * fmt, ...) {
+void crepe::logf(const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	log(LogLevel::DEBUG, va_stringf(args, fmt));
 	va_end(args);
 }
 
-void crepe::util::logf(LogLevel level, const char * fmt, ...) {
+void crepe::logf(LogLevel level, const char * fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	log(level, va_stringf(args, fmt));

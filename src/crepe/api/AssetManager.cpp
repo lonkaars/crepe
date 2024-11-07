@@ -2,7 +2,7 @@
 
 #include "AssetManager.h"
 
-using namespace crepe::api;
+using namespace crepe;
 
 AssetManager & AssetManager::get_instance() {
 	static AssetManager instance;

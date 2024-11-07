@@ -6,7 +6,7 @@
 
 #include "Component.h"
 
-namespace crepe::api {
+namespace crepe {
 
 class Transform : public Component {
 	// FIXME: What's the difference between the `Point` and `Position`
@@ -14,8 +14,9 @@ class Transform : public Component {
 	// works similar (or the same) as those found in GLSL?
 
 public:
-	Transform(uint32_t id, Point &, double, double);
+	Transform(uint32_t id, const Point &, double, double);
 	~Transform();
+	virtual int get_instances_max() const { return 1; }
 	//! Translation (shift)
 	Point position;
 	//! Rotation, in radians
@@ -24,4 +25,4 @@ public:
 	double scale;
 };
 
-} // namespace crepe::api
+} // namespace crepe
