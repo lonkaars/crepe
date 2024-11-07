@@ -48,17 +48,29 @@ public:
 	 * This struct holds the data for the Rigidbody.
 	 */
 	struct RigidbodyData{
+		//! objects mass
 		double mass = 0.0;
+		//! gravtiy scale
 		double gravity_scale = 0.0;
+		//! Changes if physics apply
 		BodyType body_type = BodyType::DYNAMIC;
+		//! linear velocity of object
 		Vector2 linear_velocity;
+		//! maximum linear velocity of object
 		Vector2 max_linear_velocity;
+		//! linear damping of object
 		Vector2 linear_damping;
+		//! angular velocity of object
 		double angular_velocity = 0.0;
+		//! max angular velocity of object
 		double max_angular_velocity = 0.0;
+		//! angular damping of object
 		double angular_damping = 0.0;
+		//! movements constraints of object
 		PhysicsConstraints constraints;
+		//! if gravity applies
 		bool use_gravity = true;
+		//! if object bounces
 		bool bounce = false;
 	};
 public:
