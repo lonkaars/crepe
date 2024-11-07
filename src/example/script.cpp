@@ -36,18 +36,12 @@ class MyScript : public Script {
 
 int main() {
 	// Create game object with Transform and BehaviorScript components
-	auto obj = GameObject(0, "name", "tag", 0);
-	obj.add_component<Transform>(
-		Point{
-			.x = 1.2,
-			.y = 3.4,
-		},
-		0, 0);
+	auto obj = GameObject(0, "name", "tag", Vector2{1.2, 3.4}, 0, 1);
 	obj.add_component<BehaviorScript>().set_script<MyScript>();
 
 	// Get ScriptSystem singleton instance (this would normally be done from the
 	// game loop)
-	auto & sys = ScriptSystem::get_instance();
+	ScriptSystem sys;
 	// Update all scripts. This should result in MyScript::update being called
 	sys.update();
 

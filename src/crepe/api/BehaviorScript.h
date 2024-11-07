@@ -5,12 +5,9 @@
 #include "../Component.h"
 
 namespace crepe {
+
 class ScriptSystem;
 class ComponentManager;
-} // namespace crepe
-
-namespace crepe {
-
 class Script;
 
 class BehaviorScript : public Component {

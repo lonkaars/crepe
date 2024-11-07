@@ -47,6 +47,16 @@ public:
 		 */
 		std::string location = "save.crepe.db";
 	} savemgr;
+
+	//! physics-related settings
+	struct {
+		/**
+		 * \brief gravity value of physics system
+		 *
+		 * Gravity value of game.
+		 */
+		double gravity = 1;
+	} physics;
 };
 
 } // namespace crepe
