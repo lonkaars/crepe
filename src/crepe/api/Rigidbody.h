@@ -46,6 +46,9 @@ public:
 
 public:
 	/** 
+	 * 
+	 * \brief struct for Rigidbody data
+	 * 
 	 * This struct holds the data for the Rigidbody.
 	 */
 	struct RigidbodyData {
