@@ -55,7 +55,7 @@ public:
 
 public:
 	//! The id of the GameObject
-	uint32_t id;
+	const uint32_t ID;
 };
 
 } // namespace crepe
