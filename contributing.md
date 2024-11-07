@@ -49,11 +49,13 @@ that you can click on to open them.
   class Cars {};
   ```
   </td></tr></table></details>
-- Source files contain the following types of comments:
+- Source files (`.cpp`, `.hpp`) contain the following types of comments:
   - What is the code supposed to do (optional)
   - Implementation details (if applicable)
-- Header files contain the following types of comments:
-  - Usage documentation (required)
+- Header files (`.h`) contain the following types of comments:
+  - [Usage documentation](#documentation) (required)
+    > [!NOTE]
+    > Constructors/destructors aren't required to have a `\brief` description
   - Implementation details (if they affect the header)
   - Design/data structure decisions (if applicable)
 - <details><summary>
@@ -76,8 +78,8 @@ that you can click on to open them.
   }
   ```
   </td></tr></table></details>
-- Header includes are split into paragraphs separated by a blank line. The
-  order is:
+- Header includes (at the top of files) are split into paragraphs separated by
+  a blank line. The order is:
   1. system headers (using `<`brackets`>`)
   2. relative headers NOT in the same folder as the current file
   3. relative headers in the same folder as the current file
@@ -110,7 +112,54 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  <code>using namespace</code> may not be used in header files, only in source files.
+  If there is one, the matching template header (<code>.hpp</code>) is included
+  at the bottom of the regular header (<code>.h</code>)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  Foo.h:
+  ```cpp
+  #pragma once
+
+  template <typename T>
+  void foo();
+
+  #include "Foo.hpp"
+  ```
+
+  Foo.hpp:
+  ```cpp
+  #pragma once
+  #include "Foo.h"
+
+  template <typename T>
+  void foo() {
+    // ...
+  }
+  ```
+  </td><td>
+
+  Foo.h:
+  ```cpp
+  #pragma once
+
+  template <typename T>
+  void foo();
+  ```
+
+  Foo.hpp:
+  ```cpp
+  #pragma once
+  #include "Foo.h"
+
+  template <typename T>
+  void foo() {
+    // ...
+  }
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  <code>using namespace</code> may not be used in header files (.h, .hpp), only
+  in source files (.cpp).
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   example.h:
@@ -277,7 +326,7 @@ that you can click on to open them.
 
   ```cpp
   struct Foo {
-    int bar;
+    int bar = 0;
     std::string baz;
   };
   ```
@@ -285,7 +334,7 @@ that you can click on to open them.
 
   ```cpp
   struct Foo {
-    int bar = 0;
+    int bar;
     std::string baz;
   };
   ```
@@ -384,6 +433,223 @@ that you can click on to open them.
   // ...
 
   #endif
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Variables that are being moved always use the fully qualified <code>std::move</code>
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  using namespace std;
+  string foo = "bar";
+  ref_fn(std::move(foo));
+  ```
+  </td><td>
+
+  ```cpp
+  using namespace std;
+  string foo = "bar";
+  ref_fn(move(foo));
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  If possible, classes and structs are passed to functions by (const) reference
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  void foo(const Point & p);
+  ```
+  </td><td>
+
+  ```cpp
+  void foo(Point & p);
+  void bar(Point p);
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Follow the rule of five
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    Foo();
+    ~Foo();
+    Foo(Foo &&) noexcept;
+    Foo & operator = (const Foo &);
+    Foo & operator = (Foo &&) noexcept;
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    Foo();
+    ~Foo();
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Ensure const-correctness
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_value() const;
+    void set_value(int new_value);
+    const std::string & get_name() const;
+    void set_name(const std::string & new_name);
+  private:
+    int value;
+    std::string name;
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_value();
+    void set_value(int new_value);
+    std::string get_name();
+    void set_name(std::string new_name);
+  private:
+    int value;
+    std::string name;
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Files should be named after the class/struct/interface they implement
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  MyClass.h
+  MyClass.cpp
+  MyClass.hpp
+  ```
+  </td><td>
+
+  ```cpp
+  my_class.h
+  myClass.cpp
+  my-class.hpp
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Implementations are not allowed in header files, except if the implementation
+
+  - is `= default`
+  - is `= delete`
+  - is `{}` (empty)
+  - only returns a constant literal
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int get_value() const { return 42; }
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class Foo {
+  public:
+    int calculate_value() const {
+      int result = 0;
+      // complex calculation
+      return result;
+    }
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Use angle brackets (<code><></code>) only for including system headers and
+  double quotes (<code>""</code>) for including other engine files.
+
+  > [!NOTE]
+  > Only files in the examples folder should include engine headers with angle
+  > brackets
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  #include <iostream>
+
+  #include "facade/Sound.h"
+  ```
+  </td><td>
+
+  ```cpp
+  #include <iostream>
+  #include <crepe/facade/Sound.h>
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Ensure exception safety by using RAII classes
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  auto foo = std::make_unique<Foo>();
+  ```
+  </td><td>
+
+  ```cpp
+  Foo* foo = new Foo();
+  // ...
+  delete foo;
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Do not use C-style memory management APIs (<code>malloc</code>,
+  <code>calloc</code>, <code>free</code>)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  Foo * foo = new Foo();
+  delete foo;
+  ```
+  </td><td>
+
+  ```cpp
+  Foo * foo = (Foo *) malloc(sizeof(Foo));
+  free(foo);
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Prefix all class members with <code>this-></code>
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  void Foo::set_value(int value) {
+    this->value = value;
+  }
+  ```
+  </td><td>
+
+  ```cpp
+  void Foo::set_value(int new_value) {
+    value = new_value;
+  }
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Assigning booleans should be done with the
+  <code>true</code>/<code>false</code> literals instead of
+  <code>0</code>/<code>1</code>
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  bool foo = true;
+  bool bar = false;
+  ```
+  </td><td>
+
+  ```cpp
+  bool foo = 1;
+  bool bar = 0;
   ```
   </td></tr></table></details>
 

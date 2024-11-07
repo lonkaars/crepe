@@ -4,7 +4,6 @@ target_sources(crepe PUBLIC
 	Script.cpp
 	GameObject.cpp
 	Rigidbody.cpp
-	Force.cpp
 	ParticleEmitter.cpp
 	Transform.cpp
 	Color.cpp
@@ -13,6 +12,10 @@ target_sources(crepe PUBLIC
 	Sprite.cpp
 	SaveManager.cpp
 	Config.cpp
+	Metadata.cpp
+	Scene.cpp
+	SceneManager.cpp
+	Vector2.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -25,10 +28,14 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	GameObject.hpp
 	Rigidbody.h
 	Sprite.h
-	Point.h
+	Vector2.h
 	Color.h
 	Texture.h 
 	AssetManager.h 
 	AssetManager.hpp
 	SaveManager.h
+	Scene.h
+	Metadata.h
+	SceneManager.h
+	SceneManager.hpp
 )

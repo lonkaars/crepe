@@ -1,23 +1,37 @@
 #pragma once
 
-#include <cstdint>
-
-#include "api/Point.h"
+#include "api/Vector2.h"
 
 #include "Component.h"
 
 namespace crepe {
 
+/**
+ * \brief Transform component
+ * 
+ * This class represents the Transform component. It stores the position,
+ * rotation and scale of a GameObject.
+ */
 class Transform : public Component {
-	// FIXME: What's the difference between the `Point` and `Position`
-	// classes/structs? How about we replace both with a universal `Vec2` that
-	// works similar (or the same) as those found in GLSL?
+public:
+	/**
+	 * \param id The id of the GameObject this component belongs to
+	 * \param point The position of the GameObject
+	 * \param rotation The rotation of the GameObject
+	 * \param scale The scale of the GameObject
+	 */
+	Transform(game_object_id_t id, const Vector2 & point, double rotation,
+			  double scale);
+	/**
+	 * \brief Get the maximum number of instances for this component
+	 *
+	 * \return The maximum number of instances for this component
+	 */
+	virtual int get_instances_max() const { return 1; }
 
 public:
-	Transform(uint32_t id, const Point &, double, double);
-	~Transform();
 	//! Translation (shift)
-	Point position;
+	Vector2 position;
 	//! Rotation, in radians
 	double rotation;
 	//! Multiplication factor
