@@ -523,7 +523,6 @@ that you can click on to open them.
 - <details><summary>
   Use angle brackets (<code><></code>) only for including system headers and
   double quotes (<code>""</code>) for including other engine files.
-
   > [!NOTE]
   > Only files in the examples folder should include engine headers with angle
   > brackets
