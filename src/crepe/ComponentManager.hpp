@@ -30,8 +30,7 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 
 	// Create a new component of type T (arguments directly forwarded). The
 	// constructor must be called by ComponentManager.
-	T * instance_pointer = new T(id, forward<Args>(args)...);
-	unique_ptr<T> instance = unique_ptr<T>(instance_pointer);
+	unique_ptr<T> instance = unique_ptr<T>(new T(id, forward<Args>(args)...));
 
 	// Check if the vector size is not greater than get_instances_max
 	if (instance->get_instances_max() != -1
