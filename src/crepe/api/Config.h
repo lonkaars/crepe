@@ -7,6 +7,7 @@ namespace crepe {
 class Config {
 private:
 	Config() = default;
+
 public:
 	~Config() = default;
 
@@ -16,8 +17,8 @@ public:
 	// singleton
 	Config(const Config &) = delete;
 	Config(Config &&) = delete;
-	Config & operator = (const Config &) = delete;
-	Config & operator = (Config &&) = delete;
+	Config & operator=(const Config &) = delete;
+	Config & operator=(Config &&) = delete;
 
 public:
 	//! Logging-related settings
@@ -60,4 +61,3 @@ public:
 };
 
 } // namespace crepe
-
