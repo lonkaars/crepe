@@ -541,6 +541,53 @@ that you can click on to open them.
   #include <crepe/facade/Sound.h>
   ```
   </td></tr></table></details>
+- <details><summary>
+  Ensure exception safety by using RAII classes
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  std::unique_ptr<Foo> foo = std::make_unique<Foo>();
+  ```
+  </td><td>
+
+  ```cpp
+  Foo* foo = new Foo();
+  // ...
+  delete foo;
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Do not use <code>malloc</code>, <code>calloc</code>, or <code>free</code> (instead use <code>new</code> and <code>delete</code>)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  Foo* foo = new Foo();
+  delete foo;
+  ```
+  </td><td>
+
+  ```cpp
+  Foo* foo = (Foo*)malloc(sizeof(Foo));
+  free(foo);
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Prefix member variables with <code>this-></code>
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  void Foo::set_value(int value) {
+    this->value = value;
+  }
+  ```
+  </td><td>
+
+  ```cpp
+  void Foo::set_value(int value) {
+    value = value;
+  }
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 
