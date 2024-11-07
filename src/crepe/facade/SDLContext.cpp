@@ -88,8 +88,8 @@ void SDLContext::handle_events(bool & running) {
 			running = false;
 			break;
 		case SDL_KEYDOWN:
-			triggerEvent(
-				KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
+			// triggerEvent(
+				// KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
 			this->test_w -= 5;
 			this->test_h -= 5;
 			break;
