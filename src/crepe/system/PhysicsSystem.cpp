@@ -23,12 +23,12 @@ void PhysicsSystem::update() {
 		switch (rigidbody.body_type) {
 			case BodyType::DYNAMIC:
 				for (Transform & transform : transforms) {
-					if (transform.game_object_id == rigidbody.game_object_id) {
+					if (transform.GAME_OBJECT_ID == rigidbody.GAME_OBJECT_ID) {
 						rigidbody.velocity_x = 0;
 						rigidbody.velocity_y = 0;
 						std::vector<std::reference_wrapper<Force>> forces
 							= mgr.get_components_by_id<Force>(
-								rigidbody.game_object_id);
+								rigidbody.GAME_OBJECT_ID);
 						rigidbody.velocity_y
 							+= rigidbody.gravity_scale * 1 * rigidbody.mass;
 
