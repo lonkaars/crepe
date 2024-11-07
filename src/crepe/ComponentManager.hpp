@@ -17,15 +17,15 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	type_index type = typeid(T);
 
 	// Check if this component type is already in the unordered_map<>
-	if (components.find(type) == components.end()) {
+	if (this->components.find(type) == this->components.end()) {
 		//If not, create a new (empty) vector<> of vector<unique_ptr<Component>>
-		components[type] = vector<vector<unique_ptr<Component>>>();
+		this->components[type] = vector<vector<unique_ptr<Component>>>();
 	}
 
 	// Resize the vector<> if the id is greater than the current size
-	if (id >= components[type].size()) {
+	if (id >= this->components[type].size()) {
 		// Initialize new slots to nullptr (resize does automatically init to nullptr)
-		components[type].resize(id + 1);
+		this->components[type].resize(id + 1);
 	}
 
 	// Create a new component of type T (arguments directly forwarded). The
@@ -35,14 +35,14 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 
 	// Check if the vector size is not greater than get_instances_max
 	if (instance->get_instances_max() != -1
-		&& components[type][id].size() >= instance->get_instances_max()) {
+		&& this->components[type][id].size() >= instance->get_instances_max()) {
 		// TODO: Exception
 		throw std::runtime_error(
 			"Exceeded maximum number of instances for this component type");
 	}
 
 	// store its unique_ptr in the vector<>
-	components[type][id].push_back(std::move(instance));
+	this->components[type][id].push_back(std::move(instance));
 
 	return *instance;
 }
@@ -55,10 +55,10 @@ void ComponentManager::delete_components_by_id(uint32_t id) {
 	type_index type = typeid(T);
 
 	// Find the type (in the unordered_map<>)
-	if (components.find(type) != components.end()) {
+	if (this->components.find(type) != this->components.end()) {
 		// Get the correct vector<>
 		vector<vector<unique_ptr<Component>>> & component_array
-			= components[type];
+			= this->components[type];
 
 		// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
 		if (id < component_array.size()) {
@@ -73,9 +73,9 @@ void ComponentManager::delete_components() {
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	std::type_index type = typeid(T);
 
-	if (components.find(type) == components.end()) return;
+	if (this->components.find(type) == this->components.end()) return;
 
-	components[type].clear();
+	this->components[type].clear();
 }
 
 template <typename T>
@@ -89,11 +89,11 @@ ComponentManager::get_components_by_id(uint32_t id) const {
 	// Create an empty vector<>
 	vector<reference_wrapper<T>> component_vector;
 
-	if (components.find(type) == components.end()) return component_vector;
+	if (this->components.find(type) == this->components.end()) return component_vector;
 
 	// Get the correct vector<>
 	const vector<vector<unique_ptr<Component>>> & component_array
-		= components.at(type);
+		= this->components.at(type);
 
 	// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
 	if (id >= component_array.size()) return component_vector;
@@ -124,11 +124,11 @@ ComponentManager::get_components_by_type() const {
 	vector<reference_wrapper<T>> component_vector;
 
 	// Find the type (in the unordered_map<>)
-	if (components.find(type) == components.end()) return component_vector;
+	if (this->components.find(type) == this->components.end()) return component_vector;
 
 	// Get the correct vector<>
 	const vector<vector<unique_ptr<Component>>> & component_array
-		= components.at(type);
+		= this->components.at(type);
 
 	// Loop through the whole vector<>
 	for (const vector<unique_ptr<Component>> & component : component_array) {
