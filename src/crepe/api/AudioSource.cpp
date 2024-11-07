@@ -1,23 +1,22 @@
 #include <memory>
 
-#include "../facade/Sound.h"
-
 #include "AudioSource.h"
 
 using namespace crepe;
+using namespace std;
 
-AudioSource::AudioSource(std::unique_ptr<Asset> audio_clip) {
-	this->sound = std::make_unique<crepe::Sound>(std::move(audio_clip));
-}
-
-void AudioSource::play() { return this->play(false); }
+AudioSource::AudioSource(game_object_id_t id, unique_ptr<Asset> audio_clip) :
+	Component(id),
+	audio_clip(std::move(audio_clip))
+{ }
 
 void AudioSource::play(bool looping) {
-	this->sound->set_looping(looping);
-	this->sound->play();
+	this->loop = looping;
+	this->playing = true;
 }
 
 void AudioSource::stop() {
-	this->sound->pause();
-	this->sound->rewind();
+	this->playing = false;
+	this->rewind = true;
 }
+
