@@ -23,7 +23,6 @@ public:
 	 * \param scale The scale of the GameObject
 	 */
 	Transform(uint32_t id, const Point & point, double rot, double scale);
-	~Transform();
 	/**
 	 * \brief Get the maximum number of instances for this component
 	 *

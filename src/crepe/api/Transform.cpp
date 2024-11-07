@@ -11,5 +11,3 @@ Transform::Transform(uint32_t game_id, const Point & point, double rot,
 	: Component(game_id), position(point), rotation(rot), scale(scale) {
 	dbg_trace();
 }
-
-Transform::~Transform() { dbg_trace(); }
