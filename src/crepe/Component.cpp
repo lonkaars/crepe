@@ -2,4 +2,4 @@
 
 using namespace crepe;
 
-Component::Component(uint32_t id) : game_object_id(id) {}
+Component::Component(uint32_t id) : GAME_OBJECT_ID(id) {}

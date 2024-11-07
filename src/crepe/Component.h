@@ -36,7 +36,7 @@ public:
 
 public:
 	//! The id of the GameObject this component belongs to
-	uint32_t game_object_id;
+	const uint32_t GAME_OBJECT_ID;
 	//! Whether the component is active
 	bool active = true;
 };
