@@ -5,9 +5,9 @@
 #include "Component.h"
 
 namespace crepe {
+
 class ScriptSystem;
 class ComponentManager;
-
 class Script;
 
 class BehaviorScript : public Component {

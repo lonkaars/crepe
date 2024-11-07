@@ -52,18 +52,12 @@ void on_key_pressed(const KeyPressedEvent & e) {
 
 class MyCameraScript : public Script {
 	void update() {
-		/*
 		auto & cam = this->get_component<Camera>();
 		cam.x = cam_x;
 		cam.y = cam_y;
 		cam.zoom = zoom;
-		*/
 	}
 };
-
-//FIXME:
-// auto var = GameObject(); --> will give an exception 
-// eventtouh i only created it once
 
 int main() {
 	LoopManager mgr;
@@ -81,7 +75,7 @@ int main() {
 	}
 	{
 		camera.add_component<Camera>(Color::get_white());
-		//camera.add_component<BehaviorScript>().set_script<MyCameraScript>();
+		camera.add_component<BehaviorScript>().set_script<MyCameraScript>();
 	}
 
 	mgr.setRunning(true);

@@ -45,11 +45,8 @@ void RenderSystem::render_sprites() {
 
 	SDLContext & render = SDLContext::get_instance();
 	for (const Sprite & sprite : sprites) {
-		std::vector<std::reference_wrapper<Transform>> transforms
-			= mgr.get_components_by_id<Transform>(sprite.game_object_id);
-		for (const Transform & transform : transforms) {
-			render.draw(sprite, transform, *curr_cam);
-		}
+		auto transforms = mgr.get_components_by_id<Transform>(sprite.game_object_id);
+		render.draw(sprite, transforms[0] , *curr_cam);
 	}
 }
 

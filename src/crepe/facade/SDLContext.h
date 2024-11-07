@@ -11,6 +11,8 @@
 
 typedef SDL_Keycode CREPE_KEYCODES;
 
+
+//FIXME: this needs to be removed
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
@@ -42,6 +44,7 @@ private:
 
 private:
         friend class Texture;
+        friend class Animator;
         SDL_Texture * texture_from_path(const char *);
 		int get_width(const Texture&);
 		int get_height(const Texture&);

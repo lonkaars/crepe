@@ -93,6 +93,7 @@ LOEK += example/log.cpp
 TODO += example/particle.cpp
 TODO += example/physics.cpp
 NIELS += example/rendering.cpp
+NIELS += example/animator.cpp
 LOEK += example/script.cpp
 LOEK += test/audio.cpp
 LOEK += test/dummy.cpp

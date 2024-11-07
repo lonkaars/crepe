@@ -108,14 +108,10 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
-	int img_width, img_height;
-	SDL_QueryTexture(sprite.sprite_image->texture, NULL, NULL, &img_width,
-					 &img_height);
-
 	double adjusted_x = (transform.position.x - cam.x) * cam.zoom;
 	double adjusted_y = (transform.position.y - cam.y) * cam.zoom;
-	double adjusted_w = img_width * transform.scale * cam.zoom;
-	double adjusted_h = img_height * transform.scale * cam.zoom;
+	double adjusted_w = sprite.sprite_rect.w * transform.scale * cam.zoom;
+	double adjusted_h = sprite.sprite_rect.h * transform.scale * cam.zoom;
 
 	SDL_Rect srcrect = {
 		.x = sprite.sprite_rect.x,
@@ -133,22 +129,23 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 
 	double degrees = transform.rotation * 180 / M_PI;
 
-	SDL_RenderCopyEx(this->game_renderer, sprite.sprite_image->texture, &srcrect,
+	SDL_RenderCopyEx(this->game_renderer, sprite.sprite_image->texture,
+					 &srcrect,
 
 					 &dstrect, degrees, NULL, render_flip);
 }
 
-int SDLContext::get_width(const Texture & obj) {
-	int w;
-	SDL_QueryTexture(obj.texture, NULL, NULL, &w, NULL);
-	return w;
+void SDLContext::camera(const Camera & cam) {
+	this->viewport.w = static_cast<int>(cam.aspect_width);
+	this->viewport.h = static_cast<int>(cam.aspect_height);
+	this->viewport.x = static_cast<int>(cam.x) - (SCREEN_WIDTH / 2);
+	this->viewport.y = static_cast<int>(cam.y) - (SCREEN_HEIGHT / 2);
+
+	SDL_SetRenderDrawColor(this->game_renderer, cam.bg_color.r, cam.bg_color.g,
+						   cam.bg_color.b, cam.bg_color.a);
 }
 
-int SDLContext::get_height(const Texture & obj) {
-	int h;
-	SDL_QueryTexture(obj.texture, NULL, NULL, NULL, &h);
-	return h;
-}
+const uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
 
 SDL_Texture * SDLContext::texture_from_path(const char * path) {
 	dbg_trace();
@@ -168,15 +165,13 @@ SDL_Texture * SDLContext::texture_from_path(const char * path) {
 
 	return created_texture;
 }
-
-void SDLContext::camera(const Camera & cam) {
-	this->viewport.w = static_cast<int>(cam.aspect_width);
-	this->viewport.h = static_cast<int>(cam.aspect_height);
-	this->viewport.x = static_cast<int>(cam.x) - (SCREEN_WIDTH / 2);
-	this->viewport.y = static_cast<int>(cam.y) - (SCREEN_HEIGHT / 2);
-
-	SDL_SetRenderDrawColor(this->game_renderer, cam.bg_color.r, cam.bg_color.g,
-						   cam.bg_color.b, cam.bg_color.a);
+int SDLContext::get_width(const Texture & ctx) {
+	int w;
+	SDL_QueryTexture(ctx.texture, NULL, NULL, &w, NULL);
+	return w;
 }
-
-const uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
+int SDLContext::get_height(const Texture & ctx) {
+	int h;
+	SDL_QueryTexture(ctx.texture, NULL, NULL, NULL, &h);
+	return h;
+}

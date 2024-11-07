@@ -10,10 +10,21 @@
 
 namespace crepe {
 
+struct Rect{
+	int w = 0;
+	int h = 0;
+	int x = 0;
+	int y = 0;
+};
+
 struct FlipSettings {
 	bool flip_x = 1;
 	bool flip_y = 1;
 };
+
+class SDLContext;
+class Animator;
+class AnimatorSystem;
 
 class Sprite : public Component {
 
@@ -31,15 +42,9 @@ public:
 	virtual int get_instances_max() const { return 10; }
 
 private:
-	friend class AnimatorSystem;
 	friend class SDLContext;
 	friend class Animator;
-	struct Rect{
-		int w = 0;
-		int h = 0;
-		int x = 0;
-		int y = 0;
-	};
+	friend class AnimatorSystem;
 	Rect sprite_rect;
 	
 };

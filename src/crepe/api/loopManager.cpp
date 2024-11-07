@@ -71,7 +71,7 @@ void LoopManager::setup() {
 
 void LoopManager::render() {
 	if (gameRunning) {
-		//AnimatorSystem::get_instance().update();
+		AnimatorSystem::get_instance().update();
 		RenderSystem::get_instance().update();
 	}
 }

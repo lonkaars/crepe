@@ -29,8 +29,11 @@ void AnimatorSystem::update() {
 
 	uint64_t tick = SDLContext::get_instance().get_ticks();
 	for(Animator& a : animations){
-		a.curr_row = (tick / 100) % a.COL;
-		a.spritesheet.sprite_rect.x = a.curr_row * a.spritesheet.sprite_rect.w;
+		if (a.active) {
+			a.curr_row = (tick / 100) % a.ROW;
+			a.animator_rect.x = (a.curr_row * a.animator_rect.w) + a.curr_col;
+			a.spritesheet.sprite_rect = a.animator_rect;
+		}
 	}
 }
 
