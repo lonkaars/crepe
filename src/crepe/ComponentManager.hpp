@@ -3,11 +3,12 @@
 #include <type_traits>
 
 #include "ComponentManager.h"
+#include "types.h"
 
 namespace crepe {
 
 template <class T, typename... Args>
-T & ComponentManager::add_component(uint32_t id, Args &&... args) {
+T & ComponentManager::add_component(game_object_id_t id, Args &&... args) {
 	using namespace std;
 
 	static_assert(is_base_of<Component, T>::value,
@@ -51,7 +52,7 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 }
 
 template <typename T>
-void ComponentManager::delete_components_by_id(uint32_t id) {
+void ComponentManager::delete_components_by_id(game_object_id_t id) {
 	using namespace std;
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
@@ -83,7 +84,7 @@ void ComponentManager::delete_components() {
 
 template <typename T>
 std::vector<std::reference_wrapper<T>>
-ComponentManager::get_components_by_id(uint32_t id) const {
+ComponentManager::get_components_by_id(game_object_id_t id) const {
 	using namespace std;
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)

@@ -4,8 +4,7 @@
 
 namespace crepe {
 
-Force::Force(uint32_t game_object_id, uint32_t magnitude, uint32_t direction)
-	: Component(game_object_id) {
+Force::Force(game_object_id_t id, uint32_t magnitude, uint32_t direction) : Component(id) {
 	// TODO: A standard angle unit should be established for the entire engine
 	// and assumed to be the default everywhere. Only conversion functions should
 	// explicitly contain the unit (i.e. `deg_to_rad()` & `rad_to_deg()`)

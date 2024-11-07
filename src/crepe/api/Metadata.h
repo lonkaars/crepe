@@ -20,7 +20,7 @@ public:
 	 * \param name The name of the GameObject
 	 * \param tag The tag of the GameObject
 	 */
-	Metadata(uint32_t game_object_id, const std::string & name,
+	Metadata(game_object_id_t id, const std::string & name,
 			 const std::string & tag);
 	/**
 	 * \brief Get the maximum number of instances for this component
@@ -35,9 +35,9 @@ public:
 	//! The tag of the GameObject
 	const std::string TAG;
 	//! The id of the parent GameObject (-1 if no parent)
-	uint32_t parent = -1;
+	game_object_id_t parent = -1;
 	//! The ids of the children GameObjects
-	std::vector<uint32_t> children;
+	std::vector<game_object_id_t> children;
 };
 
 } // namespace crepe

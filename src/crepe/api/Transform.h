@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #include "api/Point.h"
 
 #include "Component.h"
@@ -22,7 +20,7 @@ public:
 	 * \param rot The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	Transform(uint32_t id, const Point & point, double rot, double scale);
+	Transform(game_object_id_t id, const Point & point, double rot, double scale);
 	/**
 	 * \brief Get the maximum number of instances for this component
 	 *

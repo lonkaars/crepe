@@ -6,7 +6,7 @@
 using namespace crepe;
 using namespace std;
 
-GameObject::GameObject(uint32_t id, const std::string & name,
+GameObject::GameObject(game_object_id_t id, const std::string & name,
 					   const std::string & tag, const Point & position,
 					   double rotation, double scale)
 	: ID(id) {

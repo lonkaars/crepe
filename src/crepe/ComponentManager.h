@@ -43,7 +43,7 @@ public:
 	 * \return The created component
 	 */
 	template <typename T, typename... Args>
-	T & add_component(uint32_t id, Args &&... args);
+	T & add_component(game_object_id_t id, Args &&... args);
 	/**
 	 * \brief Delete all components of a specific type and id
 	 * 
@@ -53,7 +53,7 @@ public:
 	 * \param id The id of the GameObject this component belongs to
 	 */
 	template <typename T>
-	void delete_components_by_id(uint32_t id);
+	void delete_components_by_id(game_object_id_t id);
 	/**
 	 * \brief Delete all components of a specific type
 	 * 
@@ -70,7 +70,7 @@ public:
 	 * 
 	 * \param id The id of the GameObject this component belongs to
 	 */
-	void delete_all_components_of_id(uint32_t id);
+	void delete_all_components_of_id(game_object_id_t id);
 	/**
 	 * \brief Delete all components
 	 * 
@@ -88,7 +88,7 @@ public:
 	 */
 	template <typename T>
 	std::vector<std::reference_wrapper<T>>
-	get_components_by_id(uint32_t id) const;
+	get_components_by_id(game_object_id_t id) const;
 	/**
 	 * \brief Get all components of a specific type
 	 * 

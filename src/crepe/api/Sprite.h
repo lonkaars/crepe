@@ -19,8 +19,7 @@ struct FlipSettings {
 class Sprite : public Component {
 
 public:
-	Sprite(uint32_t game_id, std::shared_ptr<Texture> image,
-		   const Color & color, const FlipSettings & flip);
+	Sprite(game_object_id_t id, std::shared_ptr<Texture> image, const Color & color, const FlipSettings & flip);
 	~Sprite();
 	std::shared_ptr<Texture> sprite_image;
 	Color color;
