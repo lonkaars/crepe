@@ -77,4 +77,5 @@ class LoopTimer {
 		double elapsed_fixed_time = 0;      ///< Total elapsed time for fixed updates
 		uint64_t last_frame_time = 0;       ///< Time of the last frame
 	};
-}
+	
+} // namespace crepe::api

@@ -1,8 +1,10 @@
-#include "loopManager.h"
-#include "LoopTimer.h"
-
+#include "crepe/api/LoopManager.h"
+#include "crepe/api/LoopTimer.h"
+using namespace crepe::api;
+using namespace crepe;
+using namespace std;
 int main(){
-	crepe::LoopManager gameLoop;
+	LoopManager gameLoop;
 	gameLoop.start(); 
 	return 1;
 }

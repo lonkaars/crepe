@@ -1,6 +1,6 @@
-#include "LoopTimer.h"
+#include "api/LoopTimer.h"
 #include "SDLContext.h"
-using namespace crepe::api;
+namespace crepe::api {
 LoopTimer::LoopTimer() {}
 
 LoopTimer & LoopTimer::getInstance() {
@@ -53,3 +53,5 @@ void LoopTimer::enforce_frame_rate() {
 	}
 }
 double LoopTimer::get_lag() const { return elapsed_time - elapsed_fixed_time; }
+
+} // namespace crepe::api

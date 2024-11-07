@@ -9,13 +9,17 @@
 #include "api/LoopTimer.h"
 #include "keyCodes.h"
 
-using namespace crepe::api;
+namespace crepe::api {
 
 LoopManager::LoopManager() {}
+LoopManager::~LoopManager() {}
 void LoopManager::process_input() {
 	SDLContext::get_instance().handle_events(this->gameRunning);
 }
-
+void LoopManager::start(){
+	this->setup();
+	this->loop();
+}
 void LoopManager::set_running(bool running) { this->gameRunning = running; }
 
 void LoopManager::fixed_update() {
@@ -44,6 +48,7 @@ void LoopManager::loop() {
 
 
 void LoopManager::setup() {
+	this->gameRunning = true;
 	LoopTimer::getInstance().start();
 	LoopTimer::getInstance().set_fps(60);
 }
@@ -56,6 +61,7 @@ void LoopManager::render() {
 
 void LoopManager::update() {
 	LoopTimer & timer = LoopTimer::getInstance();
-	float delta = timer.get_delta_time();
 	ScriptSystem::get_instance().update();
 }
+
+} // namespace crepe::api

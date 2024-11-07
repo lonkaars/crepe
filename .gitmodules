@@ -17,4 +17,3 @@
 [submodule "lib/sdl_ttf"]
 	path = lib/sdl_ttf
 	url = https://github.com/libsdl-org/SDL_ttf.git
-	branch = SDL2

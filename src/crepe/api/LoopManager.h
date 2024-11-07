@@ -66,4 +66,4 @@ class LoopManager {
 		bool gameRunning = false;
 	};
 
-}
+} // namespace crepe::api
