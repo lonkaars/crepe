@@ -1,11 +1,6 @@
 #pragma once
 
-#include <cstdint>
-
 namespace crepe {
-	class SDLContext;
-}
-namespace crepe::api {
 
 class Color {
 
@@ -42,4 +37,4 @@ private:
 	friend class crepe::SDLContext;
 };
 
-} // namespace crepe::api
+} // namespace crepe

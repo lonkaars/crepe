@@ -15,7 +15,6 @@
 
 #include <crepe/util/log.h>
 
-using namespace crepe::api;
 using namespace crepe;
 using namespace std;
 
