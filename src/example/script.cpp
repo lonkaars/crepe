@@ -41,7 +41,7 @@ int main() {
 
 	// Get ScriptSystem singleton instance (this would normally be done from the
 	// game loop)
-	auto & sys = ScriptSystem::get_instance();
+	ScriptSystem sys;
 	// Update all scripts. This should result in MyScript::update being called
 	sys.update();
 
