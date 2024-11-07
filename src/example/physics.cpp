@@ -19,5 +19,6 @@ int main(int argc, char * argv[]) {
 		.use_gravity = true,
 		.bounce = false,
 		});
+	delete game_object;
 	return 0;
 }
