@@ -2,4 +2,4 @@
 
 using namespace crepe;
 
-Collider::Collider(uint32_t gameObjectId) : Component(gameObjectId) {}
+Collider::Collider(game_object_id_t id) : Component(id) {}

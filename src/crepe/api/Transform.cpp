@@ -6,8 +6,8 @@
 
 using namespace crepe;
 
-Transform::Transform(uint32_t game_id, const Point & point, double rot,
+Transform::Transform(game_object_id_t id, const Point & point, double rot,
 					 double scale)
-	: Component(game_id), position(point), rotation(rot), scale(scale) {
+	: Component(id), position(point), rotation(rot), scale(scale) {
 	dbg_trace();
 }

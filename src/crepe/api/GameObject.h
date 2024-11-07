@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <string>
 
+#include "types.h"
+
 namespace crepe {
 
 class Point;
@@ -27,7 +29,7 @@ public:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	GameObject(uint32_t id, const std::string & name, const std::string & tag,
+	GameObject(game_object_id_t id, const std::string & name, const std::string & tag,
 			   const Point & position, double rotation, double scale);
 	/**
 	 * \brief Set the parent of this GameObject
@@ -55,7 +57,7 @@ public:
 
 public:
 	//! The id of the GameObject
-	const uint32_t ID;
+	const game_object_id_t ID;
 };
 
 } // namespace crepe

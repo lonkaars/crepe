@@ -1,5 +1,7 @@
 #pragma once
 
+#include "types.h"
+
 #include <cstdint>
 
 namespace crepe {
@@ -19,7 +21,7 @@ protected:
 	/**
 	 * \param id The id of the GameObject this component belongs to
 	 */
-	Component(uint32_t id);
+	Component(game_object_id_t id);
 
 public:
 	virtual ~Component() = default;
@@ -36,7 +38,7 @@ public:
 
 public:
 	//! The id of the GameObject this component belongs to
-	const uint32_t GAME_OBJECT_ID;
+	const game_object_id_t GAME_OBJECT_ID;
 	//! Whether the component is active
 	bool active = true;
 };
