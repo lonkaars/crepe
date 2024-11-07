@@ -7,7 +7,6 @@ target_sources(crepe PUBLIC
 	Metadata.cpp
 
 	keyCodes.cpp
-	AnimatorSystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -19,8 +18,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Metadata.h
 
 	keyCodes.h
-
-	AnimatorSystem.h
 )
 
 add_subdirectory(api)

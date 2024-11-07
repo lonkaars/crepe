@@ -2,16 +2,14 @@
 
 #include <vector>
 
+
 namespace crepe {
+
 class ScriptSystem;
-}
-
-namespace crepe {
-
 class BehaviorScript;
 
 class Script {
-	friend class crepe::ScriptSystem;
+	friend class ScriptSystem;
 
 protected:
 	virtual void init() {}
@@ -29,7 +27,7 @@ protected:
 	std::vector<std::reference_wrapper<T>> get_components();
 
 private:
-	friend class crepe::BehaviorScript;
+	friend class BehaviorScript;
 	BehaviorScript * parent = nullptr;
 };
 

@@ -21,6 +21,6 @@ private:
 	void render_sprites();
 
 private:
-	api::Camera* curr_cam;
+	Camera * curr_cam;
 };
 } // namespace crepe

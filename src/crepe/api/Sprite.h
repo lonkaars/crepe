@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SDL2/SDL_rect.h>
 #include <cstdint>
 #include <memory>
 
@@ -28,9 +27,21 @@ public:
 	uint8_t sorting_in_layer;
 	uint8_t order_in_layer;
 
+public:
+	virtual int get_instances_max() const { return 10; }
+
 private:
-	SDL_Rect src;
-	SDL_Rect dst;
+	friend class AnimatorSystem;
+	friend class SDLContext;
+	friend class Animator;
+	struct Rect{
+		int w = 0;
+		int h = 0;
+		int x = 0;
+		int y = 0;
+	};
+	Rect sprite_rect;
+	
 };
 
 } // namespace crepe

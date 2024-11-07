@@ -3,7 +3,8 @@
 #include "Component.h"
 #include "api/Color.h"
 #include <cstdint>
-namespace crepe::api {
+
+namespace crepe{
 
 class Camera : public Component {
 
@@ -16,5 +17,8 @@ public:
 	double aspect_height, aspect_width; // camera width and height
 	double x,y; // camera position
 	double zoom;
+
+public:	
+	virtual int get_instances_max() const { return 10; }
 };
 } // namespace crepe::api

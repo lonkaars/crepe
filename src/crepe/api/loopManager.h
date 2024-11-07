@@ -1,6 +1,6 @@
 #pragma once
 
-namespace crepe::api {
+namespace crepe{
 
 class LoopManager {
 public:

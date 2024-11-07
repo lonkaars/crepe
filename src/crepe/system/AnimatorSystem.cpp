@@ -2,7 +2,7 @@
 
 #include "AnimatorSystem.h"
 #include "ComponentManager.h"
-#include "SDLContext.h"
+#include "facade/SDLContext.h"
 #include "util/log.h"
 
 #include "api/Animator.h"
@@ -12,7 +12,6 @@
 #include <vector>
 
 using namespace crepe;
-using namespace crepe::api;
 
 AnimatorSystem::AnimatorSystem() { dbg_trace(); }
 
@@ -30,6 +29,8 @@ void AnimatorSystem::update() {
 
 	uint64_t tick = SDLContext::get_instance().get_ticks();
 	for(Animator& a : animations){
-		a.curr_row = (tick / 100) % a.ROW;
+		a.curr_row = (tick / 100) % a.COL;
+		a.spritesheet.sprite_rect.x = a.curr_row * a.spritesheet.sprite_rect.w;
 	}
 }
+

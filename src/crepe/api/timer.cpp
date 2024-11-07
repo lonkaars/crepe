@@ -1,9 +1,10 @@
 #include "timer.h"
 
 
-//TODO remove this include
+//FIXME: remove this include
+//
 #include <SDL2/SDL.h>
-using namespace crepe::api;
+using namespace crepe;
 
 LoopTimer::LoopTimer() {}
 LoopTimer & LoopTimer::getInstance() {

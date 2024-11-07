@@ -24,7 +24,7 @@ int main() {
 		left_leg.set_parent(body);
 
 		// Adding a second Transform component is not allowed and will invoke an exception
-		body.add_component<Transform>(Point{10, 10}, 0, 1);
+		//body.add_component<Transform>(Point{10, 10}, 0, 1);
 	} catch (const exception & e) {
 		cerr << e.what() << endl;
 	}

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+#include <iostream>
 #include <type_traits>
 
 #include "ComponentManager.h"

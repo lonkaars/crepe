@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <variant>
 
-namespace crepe::api {
+namespace crepe{
 
 class UUIDGenerator {
 public:

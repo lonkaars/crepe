@@ -10,9 +10,6 @@
 
 namespace crepe {
 class SDLContext;
-}
-
-namespace crepe {
 
 class Texture {
 
@@ -21,13 +18,16 @@ public:
 	Texture(std::unique_ptr<Asset> res);
 	~Texture();
 
+	int get_width() const;
+	int get_height() const;
+
 private:
 	void load(std::unique_ptr<Asset> res);
 
 private:
 	SDL_Texture * texture = nullptr;
 
-	friend class crepe::SDLContext;
+	friend class SDLContext;
 };
 
 } // namespace crepe

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdexcept>
 #include <type_traits>
 
 #include "../util/log.h"
@@ -11,7 +12,10 @@ namespace crepe {
 
 template <class T>
 BehaviorScript & BehaviorScript::set_script() {
-	static_assert(std::is_base_of<Script, T>::value);
+	if (this == nullptr) {
+		throw std::runtime_error("BehaviorScript instance is NULL");
+	}
+	static_assert(std::is_base_of<Script, T>::value, "T must derive from Script");
 	dbg_trace();
 	Script * s = new T();
 	s->parent = this;

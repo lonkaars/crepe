@@ -2,7 +2,8 @@
 
 #include <cstdint>
 
-namespace crepe::api{
+namespace crepe{
+
 class LoopTimer {
 public:
 	static LoopTimer & getInstance();

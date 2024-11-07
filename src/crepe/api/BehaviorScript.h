@@ -2,20 +2,17 @@
 
 #include <memory>
 
-#include "../Component.h"
+#include "Component.h"
 
 namespace crepe {
 class ScriptSystem;
 class ComponentManager;
-} // namespace crepe
-
-namespace crepe {
 
 class Script;
 
 class BehaviorScript : public Component {
 protected:
-	friend class crepe::ComponentManager;
+	friend class ComponentManager;
 	using Component::Component;
 
 public:
@@ -25,8 +22,11 @@ public:
 	template <class T>
 	BehaviorScript & set_script();
 
+public:
+	virtual int get_instances_max() const { return 10; }
+
 protected:
-	friend class crepe::ScriptSystem;
+	friend class ScriptSystem;
 	std::unique_ptr<Script> script = nullptr;
 };
 

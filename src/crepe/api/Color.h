@@ -2,10 +2,7 @@
 
 #include <cstdint>
 
-namespace crepe {
-	class SDLContext;
-}
-namespace crepe::api {
+namespace crepe{
 
 class Color {
 
@@ -39,7 +36,7 @@ private:
 	static Color black;
 
 private:
-	friend class crepe::SDLContext;
+	friend class SDLContext;
 };
 
 } // namespace crepe
