@@ -12,6 +12,7 @@ target_sources(crepe PUBLIC
 	AssetManager.cpp
 	Sprite.cpp
 	SaveManager.cpp
+	Config.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES

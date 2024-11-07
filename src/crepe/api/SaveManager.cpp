@@ -9,26 +9,26 @@ using namespace std;
 using namespace crepe;
 
 template <>
-string SaveManager::serialize(const string & value) {
+string SaveManager::serialize(const string & value) const noexcept {
 	return value;
 }
 template <typename T>
-string SaveManager::serialize(const T & value) {
+string SaveManager::serialize(const T & value) const noexcept {
 	return to_string(value);
 }
-template string SaveManager::serialize(const uint8_t &);
-template string SaveManager::serialize(const int8_t &);
-template string SaveManager::serialize(const uint16_t &);
-template string SaveManager::serialize(const int16_t &);
-template string SaveManager::serialize(const uint32_t &);
-template string SaveManager::serialize(const int32_t &);
-template string SaveManager::serialize(const uint64_t &);
-template string SaveManager::serialize(const int64_t &);
-template string SaveManager::serialize(const float &);
-template string SaveManager::serialize(const double &);
+template string SaveManager::serialize(const uint8_t &) const noexcept;
+template string SaveManager::serialize(const int8_t &) const noexcept;
+template string SaveManager::serialize(const uint16_t &) const noexcept;
+template string SaveManager::serialize(const int16_t &) const noexcept;
+template string SaveManager::serialize(const uint32_t &) const noexcept;
+template string SaveManager::serialize(const int32_t &) const noexcept;
+template string SaveManager::serialize(const uint64_t &) const noexcept;
+template string SaveManager::serialize(const int64_t &) const noexcept;
+template string SaveManager::serialize(const float &) const noexcept;
+template string SaveManager::serialize(const double &) const noexcept;
 
 template <>
-uint64_t SaveManager::deserialize(const string & value) {
+uint64_t SaveManager::deserialize(const string & value) const noexcept {
 	try {
 		return stoul(value);
 	} catch (std::invalid_argument &) {
@@ -36,7 +36,7 @@ uint64_t SaveManager::deserialize(const string & value) {
 	}
 }
 template <>
-int64_t SaveManager::deserialize(const string & value) {
+int64_t SaveManager::deserialize(const string & value) const noexcept {
 	try {
 		return stol(value);
 	} catch (std::invalid_argument &) {
@@ -44,7 +44,7 @@ int64_t SaveManager::deserialize(const string & value) {
 	}
 }
 template <>
-float SaveManager::deserialize(const string & value) {
+float SaveManager::deserialize(const string & value) const noexcept {
 	try {
 		return stof(value);
 	} catch (std::invalid_argument &) {
@@ -53,7 +53,7 @@ float SaveManager::deserialize(const string & value) {
 	return stof(value);
 }
 template <>
-double SaveManager::deserialize(const string & value) {
+double SaveManager::deserialize(const string & value) const noexcept {
 	try {
 		return stod(value);
 	} catch (std::invalid_argument &) {
@@ -61,16 +61,16 @@ double SaveManager::deserialize(const string & value) {
 	}
 }
 template <>
-string SaveManager::deserialize(const string & value) {
+string SaveManager::deserialize(const string & value) const noexcept {
 	return value;
 }
 
-template <> uint8_t SaveManager::deserialize(const string & value) { return deserialize<uint64_t>(value); }
-template <> int8_t SaveManager::deserialize(const string & value) { return deserialize<int64_t>(value); }
-template <> uint16_t SaveManager::deserialize(const string & value) { return deserialize<uint64_t>(value); }
-template <> int16_t SaveManager::deserialize(const string & value) { return deserialize<int64_t>(value); }
-template <> uint32_t SaveManager::deserialize(const string & value) { return deserialize<uint64_t>(value); }
-template <> int32_t SaveManager::deserialize(const string & value) { return deserialize<int64_t>(value); }
+template <> uint8_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<uint64_t>(value); }
+template <> int8_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<int64_t>(value); }
+template <> uint16_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<uint64_t>(value); }
+template <> int16_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<int64_t>(value); }
+template <> uint32_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<uint64_t>(value); }
+template <> int32_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<int64_t>(value); }
 
 SaveManager::SaveManager() {
 	dbg_trace();
