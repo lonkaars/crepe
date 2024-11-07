@@ -7,7 +7,7 @@
 
 namespace crepe {
 
-class Point;
+class Vector2;
 
 /**
  * \brief Represents a GameObject
@@ -30,7 +30,7 @@ public:
 	 * \param scale The scale of the GameObject
 	 */
 	GameObject(game_object_id_t id, const std::string & name, const std::string & tag,
-			   const Point & position, double rotation, double scale);
+			   const Vector2 & position, double rotation, double scale);
 	/**
 	 * \brief Set the parent of this GameObject
 	 * 

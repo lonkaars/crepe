@@ -35,6 +35,16 @@ public:
 		 */
 		bool color = true;
 	} log;
+
+	//! physics-related settings
+	struct {
+		/**
+		 * \brief gravity value of physics system
+		 *
+		 * Gravity value of game.
+		 */
+		double gravity = 1;
+	} physics;
 };
 
 } // namespace crepe

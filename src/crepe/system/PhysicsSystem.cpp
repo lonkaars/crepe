@@ -1,15 +1,14 @@
-#include <iostream>
+#include <cmath>
 
 #include "../ComponentManager.h"
-#include "../api/Force.h"
 #include "../api/Rigidbody.h"
 #include "../api/Transform.h"
+#include "../api/Vector2.h"
+#include "../api/Config.h"
 
 #include "PhysicsSystem.h"
 
 using namespace crepe;
-
-PhysicsSystem::PhysicsSystem() {}
 
 void PhysicsSystem::update() {
 	ComponentManager & mgr = ComponentManager::get_instance();
@@ -18,41 +17,80 @@ void PhysicsSystem::update() {
 	std::vector<std::reference_wrapper<Transform>> transforms
 		= mgr.get_components_by_type<Transform>();
 
+	double gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
-
-		switch (rigidbody.body_type) {
-			case BodyType::DYNAMIC:
+		if(!rigidbody.active){continue;}
+		switch (rigidbody.data.body_type) {
+			case Rigidbody::BodyType::DYNAMIC:
 				for (Transform & transform : transforms) {
 					if (transform.game_object_id == rigidbody.game_object_id) {
-						rigidbody.velocity_x = 0;
-						rigidbody.velocity_y = 0;
-						std::vector<std::reference_wrapper<Force>> forces
-							= mgr.get_components_by_id<Force>(
-								rigidbody.game_object_id);
-						rigidbody.velocity_y
-							+= rigidbody.gravity_scale * 1 * rigidbody.mass;
-
-						for (Force & force : forces) {
-							rigidbody.velocity_x += force.force_x;
-							rigidbody.velocity_y += force.force_y;
+						
+						// Add gravity 
+						if(rigidbody.data.use_gravity)
+						{
+							rigidbody.data.linear_velocity.y += (rigidbody.data.mass * rigidbody.data.gravity_scale * gravity);
+						}
+						// Add damping
+						if(rigidbody.data.angular_damping != 0)
+						{
+							rigidbody.data.angular_velocity *= rigidbody.data.angular_damping;
+						}
+						if(rigidbody.data.linear_damping != Vector2{0,0})
+						{
+							rigidbody.data.linear_velocity *= rigidbody.data.linear_damping;
 						}
 
-						std::cout << "before transform.postion.x "
-								  << transform.position.x << std::endl;
-						std::cout << "before transform.postion.y "
-								  << transform.position.y << std::endl;
-						transform.position.x += rigidbody.velocity_x;
-						transform.position.y += rigidbody.velocity_y;
-						std::cout << "after transform.postion.x "
-								  << transform.position.x << std::endl;
-						std::cout << "after transform.postion.y "
-								  << transform.position.y << std::endl;
+						// Max velocity check
+						if(rigidbody.data.angular_velocity > rigidbody.data.max_angular_velocity)
+						{
+							rigidbody.data.angular_velocity = rigidbody.data.max_angular_velocity;
+						}
+						else if (rigidbody.data.angular_velocity < -rigidbody.data.max_angular_velocity)
+						{
+							rigidbody.data.angular_velocity = -rigidbody.data.max_angular_velocity;
+						}
+
+						if(rigidbody.data.linear_velocity.x > rigidbody.data.max_linear_velocity.x)
+						{
+							rigidbody.data.linear_velocity.x = rigidbody.data.max_linear_velocity.x;
+						}
+						else if(rigidbody.data.linear_velocity.x < -rigidbody.data.max_linear_velocity.x)
+						{
+							rigidbody.data.linear_velocity.x = -rigidbody.data.max_linear_velocity.x;
+						}
+
+						if(rigidbody.data.linear_velocity.y > rigidbody.data.max_linear_velocity.y)
+						{
+							rigidbody.data.linear_velocity.y = rigidbody.data.max_linear_velocity.y;
+						}
+						else if(rigidbody.data.linear_velocity.y < -rigidbody.data.max_linear_velocity.y)
+						{
+							rigidbody.data.linear_velocity.y = -rigidbody.data.max_linear_velocity.y;
+						}
+
+						// Move object 
+						if(!rigidbody.data.constraints.rotation)
+						{
+							transform.rotation += rigidbody.data.angular_velocity;
+							transform.rotation = std::fmod(transform.rotation, 360.0);
+							if (transform.rotation < 0) {
+								transform.rotation += 360.0;
+							}
+						}
+						if(!rigidbody.data.constraints.x)
+						{
+							transform.position.x += rigidbody.data.linear_velocity.x;
+						}
+						if(!rigidbody.data.constraints.y)
+						{
+							transform.position.y += rigidbody.data.linear_velocity.y;
+						}
 					}
 				}
 				break;
-			case BodyType::KINEMATIC:
+			case Rigidbody::BodyType::KINEMATIC:
 				break; //(scripts)
-			case BodyType::STATIC:
+			case Rigidbody::BodyType::STATIC:
 				break; //(unmoveable objects)
 			default:
 				break;
