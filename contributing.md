@@ -78,8 +78,8 @@ that you can click on to open them.
   }
   ```
   </td></tr></table></details>
-- Header includes are split into paragraphs separated by a blank line. The
-  order is:
+- Header includes (at the top of files) are split into paragraphs separated by
+  a blank line. The order is:
   1. system headers (using `<`brackets`>`)
   2. relative headers NOT in the same folder as the current file
   3. relative headers in the same folder as the current file
@@ -109,6 +109,52 @@ that you can click on to open them.
   #include "util/log.h"
   #include <iostream>
   #include "api/Sprite.h"
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  If there is one, the matching template header (<code>.hpp</code>) is included
+  at the bottom of the regular header (<code>.h</code>)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  Foo.h:
+  ```cpp
+  #pragma once
+
+  template <typename T>
+  void foo();
+
+  #include "Foo.hpp"
+  ```
+
+  Foo.hpp:
+  ```cpp
+  #pragma once
+  #include "Foo.h"
+
+  template <typename T>
+  void foo() {
+    // ...
+  }
+  ```
+  </td><td>
+
+  Foo.h:
+  ```cpp
+  #pragma once
+
+  template <typename T>
+  void foo();
+  ```
+
+  Foo.hpp:
+  ```cpp
+  #pragma once
+  #include "Foo.h"
+
+  template <typename T>
+  void foo() {
+    // ...
+  }
   ```
   </td></tr></table></details>
 - <details><summary>
@@ -539,6 +585,54 @@ that you can click on to open them.
   ```cpp
   #include <iostream>
   #include <crepe/facade/Sound.h>
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Ensure exception safety by using RAII classes
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  auto foo = std::make_unique<Foo>();
+  ```
+  </td><td>
+
+  ```cpp
+  Foo* foo = new Foo();
+  // ...
+  delete foo;
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Do not use C-style memory management APIs (<code>malloc</code>,
+  <code>calloc</code>, <code>free</code>)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  Foo * foo = new Foo();
+  delete foo;
+  ```
+  </td><td>
+
+  ```cpp
+  Foo * foo = (Foo *) malloc(sizeof(Foo));
+  free(foo);
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Prefix all class members with <code>this-></code>
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  void Foo::set_value(int value) {
+    this->value = value;
+  }
+  ```
+  </td><td>
+
+  ```cpp
+  void Foo::set_value(int new_value) {
+    value = new_value;
+  }
   ```
   </td></tr></table></details>
 

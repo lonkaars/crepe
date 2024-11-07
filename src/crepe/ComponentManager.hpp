@@ -30,11 +30,16 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 
 	// Create a new component of type T (arguments directly forwarded). The
 	// constructor must be called by ComponentManager.
-	unique_ptr<T> instance = unique_ptr<T>(new T(id, forward<Args>(args)...));
+	T * instance_ptr = new T(id, forward<Args>(args)...);
+	if (instance_ptr == nullptr)
+		throw std::bad_alloc();
+
+	T & instance_ref = *instance_ptr;
+	unique_ptr<T> instance = unique_ptr<T>(instance_ptr);
 
 	// Check if the vector size is not greater than get_instances_max
-	if (instance->get_instances_max() != -1
-		&& this->components[type][id].size() >= instance->get_instances_max()) {
+	int max_instances = instance->get_instances_max();
+	if (max_instances != -1 && components[type][id].size() >= max_instances) {
 		// TODO: Exception
 		throw std::runtime_error(
 			"Exceeded maximum number of instances for this component type");
@@ -43,7 +48,7 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	// store its unique_ptr in the vector<>
 	this->components[type][id].push_back(std::move(instance));
 
-	return *instance;
+	return instance_ref;
 }
 
 template <typename T>
