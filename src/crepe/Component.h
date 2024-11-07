@@ -2,8 +2,6 @@
 
 #include "types.h"
 
-#include <cstdint>
-
 namespace crepe {
 
 class ComponentManager;

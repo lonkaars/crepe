@@ -22,9 +22,8 @@ void ScriptSystem::update() {
 
 forward_list<Script *> ScriptSystem::get_scripts() {
 	forward_list<Script *> scripts = {};
-	ComponentManager & mgr = ComponentManager::get_instance();
 	vector<reference_wrapper<BehaviorScript>> behavior_scripts
-		= mgr.get_components_by_type<BehaviorScript>();
+		= this->compmgr.get_components_by_type<BehaviorScript>();
 
 	for (auto behavior_script_ref : behavior_scripts) {
 		BehaviorScript & behavior_script = behavior_script_ref.get();
