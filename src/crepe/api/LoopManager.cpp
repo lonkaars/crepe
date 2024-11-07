@@ -7,8 +7,6 @@
 
 namespace crepe {
 
-LoopManager::LoopManager() {}
-LoopManager::~LoopManager() {}
 void LoopManager::process_input() {
 	SDLContext::get_instance().handle_events(this->gameRunning);
 }
