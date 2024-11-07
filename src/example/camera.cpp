@@ -90,7 +90,7 @@ int main() {
 	{
 		Color color(0,0,0,0);
 		Point point = { .x = 0, .y = 0, };
-		bg.add_component<Transform>(point, 0, 1);
+		bg.add_component<Transform>(point, 1, 0.5);
 		bg.add_component<Sprite>(std::make_shared<Texture>("../asset/texture/world.png"), color, FlipSettings{false,false});
 	}
 	{
