@@ -5,11 +5,9 @@
 namespace crepe {
 
 template <typename T>
-ValueBroker<T>::ValueBroker(const setter_t & setter, const getter_t & getter) :
-	setter(setter),
-	getter(getter)
-	{
-}
+ValueBroker<T>::ValueBroker(const setter_t & setter, const getter_t & getter)
+	: setter(setter),
+	  getter(getter) {}
 
 template <typename T>
 const T & ValueBroker<T>::get() {
@@ -21,5 +19,4 @@ void ValueBroker<T>::set(const T & value) {
 	this->setter(value);
 }
 
-}
-
+} // namespace crepe

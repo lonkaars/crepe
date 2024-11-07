@@ -12,7 +12,10 @@ using namespace crepe;
 
 Sprite::Sprite(game_object_id_t id, shared_ptr<Texture> image,
 			   const Color & color, const FlipSettings & flip)
-	: Component(id), color(color), flip(flip), sprite_image(image) {
+	: Component(id),
+	  color(color),
+	  flip(flip),
+	  sprite_image(image) {
 	dbg_trace();
 }
 
