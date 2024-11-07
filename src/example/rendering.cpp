@@ -5,7 +5,7 @@
 
 #include <crepe/api/AssetManager.h>
 #include <crepe/api/Color.h>
-#include <crepe/api/Point.h>
+#include <crepe/api/Vector2.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
@@ -19,9 +19,9 @@ using namespace crepe;
 int main() {
 	dbg_trace();
 
-	auto obj = GameObject(0, "name", "tag", Point{0, 0}, 1, 1);
-	auto obj1 = GameObject(1, "name", "tag", Point{500, 0}, 1, 0.1);
-	auto obj2 = GameObject(2, "name", "tag", Point{800, 0}, 1, 0.1);
+	auto obj = GameObject(0, "name", "tag", Vector2{0, 0}, 1, 1);
+	auto obj1 = GameObject(1, "name", "tag", Vector2{500, 0}, 1, 0.1);
+	auto obj2 = GameObject(2, "name", "tag", Vector2{800, 0}, 1, 0.1);
 
 	auto & mgr = AssetManager::get_instance();
 	// Normal adding components

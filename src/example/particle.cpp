@@ -7,7 +7,7 @@
 #include <crepe/Particle.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/ParticleEmitter.h>
-#include <crepe/api/Point.h>
+#include <crepe/api/Vector2.h>
 #include <crepe/facade/SDLApp.h>
 #include <crepe/system/ParticleSystem.h>
 
@@ -26,7 +26,7 @@ int main(int argc, char * argv[]) {
 	}
 
 	GameObject * game_object[1];
-	game_object[0] = new GameObject(0, "Name", "Tag", Point{0, 0}, 0, 1);
+	game_object[0] = new GameObject(0, "Name", "Tag", Vector2{0, 0}, 0, 1);
 
 	// FIXME: all systems are singletons, so this shouldn't even compile.
 	ParticleSystem particle_system;

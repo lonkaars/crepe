@@ -3,7 +3,7 @@
 #include <crepe/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
-#include <crepe/api/Point.h>
+#include <crepe/api/Vector2.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/SceneManager.h>
 
@@ -15,9 +15,9 @@ public:
 	ConcreteScene1(string name) : Scene(name) {}
 
 	void load_scene() {
-		GameObject object1(0, "scene_1", "tag_scene_1", Point{0, 0}, 0, 1);
-		GameObject object2(1, "scene_1", "tag_scene_1", Point{1, 0}, 0, 1);
-		GameObject object3(2, "scene_1", "tag_scene_1", Point{2, 0}, 0, 1);
+		GameObject object1(0, "scene_1", "tag_scene_1", Vector2{0, 0}, 0, 1);
+		GameObject object2(1, "scene_1", "tag_scene_1", Vector2{1, 0}, 0, 1);
+		GameObject object3(2, "scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
 	}
 };
 
@@ -26,10 +26,10 @@ public:
 	ConcreteScene2(string name) : Scene(name) {}
 
 	void load_scene() {
-		GameObject object1(0, "scene_2", "tag_scene_2", Point{0, 0}, 0, 1);
-		GameObject object2(1, "scene_2", "tag_scene_2", Point{0, 1}, 0, 1);
-		GameObject object3(2, "scene_2", "tag_scene_2", Point{0, 2}, 0, 1);
-		GameObject object4(3, "scene_2", "tag_scene_2", Point{0, 3}, 0, 1);
+		GameObject object1(0, "scene_2", "tag_scene_2", Vector2{0, 0}, 0, 1);
+		GameObject object2(1, "scene_2", "tag_scene_2", Vector2{0, 1}, 0, 1);
+		GameObject object3(2, "scene_2", "tag_scene_2", Vector2{0, 2}, 0, 1);
+		GameObject object4(3, "scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
 	}
 };
 
