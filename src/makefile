@@ -47,6 +47,7 @@ MAX += crepe/api/GameObject.hpp
 TODO += crepe/api/ParticleEmitter.cpp
 TODO += crepe/api/ParticleEmitter.h
 TODO += crepe/api/Vector2.h
+TODO += crepe/api/Vector2.cpp
 JARO += crepe/api/Rigidbody.cpp
 JARO += crepe/api/Rigidbody.h
 LOEK += crepe/api/Script.cpp
