@@ -52,8 +52,8 @@ int main() {
 	cout << "Metadata components of Scene1:" << endl;
 	// Print the Metadata
 	for (auto & m : metadata) {
-		cout << "Id: " << m.get().GAME_OBJECT_ID << " Name: " << m.get().NAME
-			 << " Tag: " << m.get().TAG << endl;
+		cout << "Id: " << m.get().game_object_id << " Name: " << m.get().name
+			 << " Tag: " << m.get().tag << endl;
 	}
 
 	// Set scene2 as the next scene
@@ -67,8 +67,8 @@ int main() {
 	cout << "Metadata components of Scene2:" << endl;
 	// Print the Metadata
 	for (auto & m : metadata) {
-		cout << "Id: " << m.get().GAME_OBJECT_ID << " Name: " << m.get().NAME
-			 << " Tag: " << m.get().TAG << endl;
+		cout << "Id: " << m.get().game_object_id << " Name: " << m.get().name
+			 << " Tag: " << m.get().tag << endl;
 	}
 
 	return 0;

@@ -9,11 +9,11 @@ using namespace std;
 GameObject::GameObject(game_object_id_t id, const std::string & name,
 					   const std::string & tag, const Point & position,
 					   double rotation, double scale)
-	: ID(id) {
+	: id(id) {
 	// Add Transform and Metadata components
 	ComponentManager & mgr = ComponentManager::get_instance();
-	mgr.add_component<Transform>(this->ID, position, rotation, scale);
-	mgr.add_component<Metadata>(this->ID, name, tag);
+	mgr.add_component<Transform>(this->id, position, rotation, scale);
+	mgr.add_component<Metadata>(this->id, name, tag);
 }
 
 void GameObject::set_parent(const GameObject & parent) {
@@ -21,11 +21,11 @@ void GameObject::set_parent(const GameObject & parent) {
 
 	// Set parent on own Metadata component
 	vector<reference_wrapper<Metadata>> this_metadata
-		= mgr.get_components_by_id<Metadata>(this->ID);
-	this_metadata.at(0).get().parent = parent.ID;
+		= mgr.get_components_by_id<Metadata>(this->id);
+	this_metadata.at(0).get().parent = parent.id;
 
 	// Add own id to children list of parent's Metadata component
 	vector<reference_wrapper<Metadata>> parent_metadata
-		= mgr.get_components_by_id<Metadata>(parent.ID);
-	parent_metadata.at(0).get().children.push_back(this->ID);
+		= mgr.get_components_by_id<Metadata>(parent.id);
+	parent_metadata.at(0).get().children.push_back(this->id);
 }

@@ -19,7 +19,7 @@ T & Script::get_component() {
 template <typename T>
 std::vector<std::reference_wrapper<T>> Script::get_components() {
 	ComponentManager & mgr = ComponentManager::get_instance();
-	return mgr.get_components_by_id<T>(this->parent->GAME_OBJECT_ID);
+	return mgr.get_components_by_id<T>(this->parent->game_object_id);
 }
 
 } // namespace crepe
