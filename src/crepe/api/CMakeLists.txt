@@ -17,6 +17,7 @@ target_sources(crepe PUBLIC
 	eventHandler.cpp
 	event.cpp
 	Camera.cpp
+	Metadata.cpp
 	Scene.cpp
 	SceneManager.cpp
 )
@@ -44,6 +45,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	event.h
 	Camera.h
 	Scene.h
+	Metadata.h
 	SceneManager.h
 	SceneManager.hpp
 )

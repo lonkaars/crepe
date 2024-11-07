@@ -13,24 +13,20 @@ SceneManager & SceneManager::get_instance() {
 	return instance;
 }
 
-void SceneManager::set_next_scene(const string & name) {
-	next_scene = name;
-}
+void SceneManager::set_next_scene(const string & name) { next_scene = name; }
 
 void SceneManager::load_next_scene() {
 	// next scene not set
-	if (this->next_scene.empty())
-		return;
+	if (this->next_scene.empty()) return;
 
-	auto it = find_if(this->scenes.begin(), this->scenes.end(),
-		[&next_scene = this->next_scene] (unique_ptr<Scene> & scene) {
-			return scene->name == next_scene;
-		}
-	);
+	auto it
+		= find_if(this->scenes.begin(), this->scenes.end(),
+				  [&next_scene = this->next_scene](unique_ptr<Scene> & scene) {
+					  return scene->name == next_scene;
+				  });
 
 	// next scene not found
-	if (it == this->scenes.end())
-		return;
+	if (it == this->scenes.end()) return;
 	unique_ptr<Scene> & scene = *it;
 
 	// Delete all components of the current scene
@@ -40,4 +36,3 @@ void SceneManager::load_next_scene() {
 	// Load the new scene
 	scene->load_scene();
 }
-

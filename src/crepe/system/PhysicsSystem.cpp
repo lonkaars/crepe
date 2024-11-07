@@ -22,7 +22,7 @@ void PhysicsSystem::update() {
 		switch (rigidbody.data.body_type) {
 			case Rigidbody::BodyType::DYNAMIC:
 				for (Transform & transform : transforms) {
-					if (transform.game_object_id == rigidbody.game_object_id) {
+					if (transform.GAME_OBJECT_ID == rigidbody.GAME_OBJECT_ID) {
 						
 						// Add gravity 
 						if(rigidbody.data.use_gravity)

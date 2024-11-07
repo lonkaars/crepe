@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "../crepe/ComponentManager.h"
-#include "../crepe/Metadata.h"
-#include "../crepe/api/GameObject.h"
-#include "../crepe/api/Transform.h"
+#include <crepe/ComponentManager.h>
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Metadata.h>
+#include <crepe/api/Transform.h>
 
 using namespace crepe;
 using namespace std;
@@ -38,8 +38,8 @@ int main() {
 
 	// Print the Metadata and Transform components
 	for (auto & m : metadata) {
-		cout << "Id: " << m.get().game_object_id << " Name: " << m.get().name
-			 << " Tag: " << m.get().tag << " Parent: " << m.get().parent
+		cout << "Id: " << m.get().GAME_OBJECT_ID << " Name: " << m.get().NAME
+			 << " Tag: " << m.get().TAG << " Parent: " << m.get().parent
 			 << " Children: ";
 		for (auto & c : m.get().children) {
 			cout << c << " ";
@@ -47,7 +47,7 @@ int main() {
 		cout << endl;
 	}
 	for (auto & t : transform) {
-		cout << "Id: " << t.get().game_object_id << " Position: ["
+		cout << "Id: " << t.get().GAME_OBJECT_ID << " Position: ["
 			 << t.get().position.x << ", " << t.get().position.y << "]" << endl;
 	}
 

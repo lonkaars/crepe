@@ -4,8 +4,6 @@ target_sources(crepe PUBLIC
 	ComponentManager.cpp
 	Component.cpp
 	Collider.cpp
-	keyCodes.cpp
-	Metadata.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -14,8 +12,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	ComponentManager.hpp
 	Component.h
 	Collider.h
-	keyCodes.h
-	Metadata.h
 )
 
 add_subdirectory(api)
