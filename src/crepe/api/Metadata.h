@@ -31,9 +31,9 @@ public:
 
 public:
 	//! The name of the GameObject
-	std::string name;
+	const std::string NAME;
 	//! The tag of the GameObject
-	std::string tag;
+	const std::string TAG;
 	//! The id of the parent GameObject (-1 if no parent)
 	uint32_t parent = -1;
 	//! The ids of the children GameObjects
