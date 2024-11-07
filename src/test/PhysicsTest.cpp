@@ -20,7 +20,7 @@ protected:
 			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
 			game_object = new GameObject(0, "", "", Vector2{0, 0}, 0, 0);
-			game_object->add_component<Rigidbody>(Rigidbody::RigidbodyData{
+			game_object->add_component<Rigidbody>(Rigidbody::Data{
 				.mass = 1,
 				.gravity_scale = 1,
 				.body_type = Rigidbody::BodyType::DYNAMIC,
@@ -28,7 +28,8 @@ protected:
 				.max_angular_velocity = 10,
 				.constraints = {0, 0},
 				.use_gravity = true,
-				.bounce = false});
+				.bounce = false,
+			});
 		}
 		transforms = mgr.get_components_by_id<Transform>(0);
 		Transform & transform = transforms.front().get();

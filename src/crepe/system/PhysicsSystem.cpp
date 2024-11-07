@@ -20,7 +20,7 @@ void PhysicsSystem::update() {
 	double gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
 		if (!rigidbody.active) continue;
-		
+
 		switch (rigidbody.data.body_type) {
 			case Rigidbody::BodyType::DYNAMIC:
 				for (Transform & transform : transforms) {

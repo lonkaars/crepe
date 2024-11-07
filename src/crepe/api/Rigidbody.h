@@ -37,21 +37,20 @@ public:
 	 */
 	struct PhysicsConstraints {
 		//! X constraint
-		bool x = 0;
+		bool x = false;
 		//! Y constraint
-		bool y = 0;
+		bool y = false;
 		//! rotation constraint
-		bool rotation = 0;
+		bool rotation = false;
 	};
 
 public:
 	/** 
-	 * 
 	 * \brief struct for Rigidbody data
 	 * 
 	 * This struct holds the data for the Rigidbody.
 	 */
-	struct RigidbodyData {
+	struct Data {
 		//! objects mass
 		double mass = 0.0;
 		//! gravtiy scale
@@ -83,9 +82,9 @@ public:
 	 * \param game_object_id id of the gameobject the rigibody is added to.
 	 * \param data struct to configure the rigidbody.
 	 */
-	Rigidbody(uint32_t game_object_id, const RigidbodyData & data);
+	Rigidbody(uint32_t game_object_id, const Data & data);
 	//! struct to hold data of rigidbody
-	RigidbodyData data;
+	Data data;
 
 public:
 	/** 

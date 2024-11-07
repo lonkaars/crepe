@@ -635,6 +635,23 @@ that you can click on to open them.
   }
   ```
   </td></tr></table></details>
+- <details><summary>
+  Assigning booleans should be done with the
+  <code>true</code>/<code>false</code> literals instead of
+  <code>0</code>/<code>1</code>
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  bool foo = true;
+  bool bar = false;
+  ```
+  </td><td>
+
+  ```cpp
+  bool foo = 1;
+  bool bar = 0;
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 
