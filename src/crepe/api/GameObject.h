@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <string>
 
 #include "types.h"
@@ -29,8 +28,9 @@ public:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	GameObject(game_object_id_t id, const std::string & name, const std::string & tag,
-			   const Vector2 & position, double rotation, double scale);
+	GameObject(game_object_id_t id, const std::string & name,
+			   const std::string & tag, const Vector2 & position,
+			   double rotation, double scale);
 	/**
 	 * \brief Set the parent of this GameObject
 	 * 

@@ -3,9 +3,9 @@
 #include <crepe/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
-#include <crepe/api/Vector2.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/SceneManager.h>
+#include <crepe/api/Vector2.h>
 
 using namespace crepe;
 using namespace std;

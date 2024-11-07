@@ -5,10 +5,10 @@
 
 #include <crepe/api/AssetManager.h>
 #include <crepe/api/Color.h>
-#include <crepe/api/Vector2.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
+#include <crepe/api/Vector2.h>
 
 #include <chrono>
 #include <memory>
