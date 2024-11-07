@@ -7,10 +7,10 @@
 #include <cstddef>
 #include <iostream>
 
-#include "../api/Sprite.h"
-#include "../api/Texture.h"
-#include "../api/Transform.h"
-#include "../util/log.h"
+#include "api/Sprite.h"
+#include "api/Texture.h"
+#include "api/Transform.h"
+#include "util/log.h"
 
 #include "SDLContext.h"
 
@@ -89,7 +89,8 @@ SDLContext::SDLContext() {
 
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer); }
 
-void SDLContext::draw(const Sprite & sprite, const Transform & transform) {
+void SDLContext::draw(const api::Sprite & sprite,
+					  const api::Transform & transform) {
 
 	static SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
