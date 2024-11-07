@@ -95,7 +95,7 @@ LOEK += test/audio.cpp
 LOEK += test/dummy.cpp
 JARO += test/PhysicsTest.cpp
 
-FMT := $(JARO) #<<< CHANGE THIS TO YOUR NAME FOR STEP 2
+FMT := $(LOEK) #<<< CHANGE THIS TO YOUR NAME FOR STEP 2
 format: FORCE
 	clang-tidy -p build/compile_commands.json --fix-errors $(FMT)
 
