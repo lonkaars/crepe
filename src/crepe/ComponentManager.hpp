@@ -31,8 +31,7 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	// Create a new component of type T (arguments directly forwarded). The
 	// constructor must be called by ComponentManager.
 	T * instance_ptr = new T(id, forward<Args>(args)...);
-	if (instance_ptr == nullptr)
-		throw std::bad_alloc();
+	if (instance_ptr == nullptr) throw std::bad_alloc();
 
 	T & instance_ref = *instance_ptr;
 	unique_ptr<T> instance = unique_ptr<T>(instance_ptr);
