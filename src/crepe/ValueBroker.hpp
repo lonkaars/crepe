@@ -1,21 +1,8 @@
 #pragma once
 
-#include <memory>
-
 #include "ValueBroker.h"
 
 namespace crepe {
-
-template <typename T>
-ValueBroker<T>::ValueBroker(T & value) :
-	setter([&value] (const T & target) {
-		value = std::move(target);
-	}),
-	getter([&value] () -> const int & {
-		return value;
-	})
-	{
-}
 
 template <typename T>
 ValueBroker<T>::ValueBroker(const setter_t & setter, const getter_t & getter) :
