@@ -1,15 +1,11 @@
 #include "api/LoopManager.h"
 
-#include "RenderSystem.h"
-#include "SDLContext.h"
-#include "ScriptSystem.h"
-#include "api/event.h"
-#include "api/eventHandler.h"
-#include "api/eventManager.h"
+#include "../system/RenderSystem.h"
+#include "../system/ScriptSystem.h"
 #include "api/LoopTimer.h"
-#include "keyCodes.h"
+#include "../keyCodes.h"
 
-namespace crepe::api {
+namespace crepe {
 
 LoopManager::LoopManager() {}
 LoopManager::~LoopManager() {}
@@ -64,4 +60,4 @@ void LoopManager::update() {
 	ScriptSystem::get_instance().update();
 }
 
-} // namespace crepe::api
+} // namespace crepe

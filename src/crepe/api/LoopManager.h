@@ -1,11 +1,9 @@
 #pragma once
 
-namespace crepe::api {
+namespace crepe {
 
 class LoopManager {
 	public:
-		LoopManager();
-		~LoopManager();
 		void start();
 
 	private:
@@ -66,4 +64,4 @@ class LoopManager {
 		bool gameRunning = false;
 	};
 
-} // namespace crepe::api
+} // namespace crepe

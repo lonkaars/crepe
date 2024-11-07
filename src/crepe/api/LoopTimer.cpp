@@ -1,6 +1,5 @@
 #include "api/LoopTimer.h"
 #include "../facade/SDLContext.h"
-using namespace crepe::api;
 using namespace crepe;
 LoopTimer::LoopTimer() {}
 
