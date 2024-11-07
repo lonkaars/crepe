@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "../crepe/ComponentManager.h"
-#include "../crepe/api/GameObject.h"
-#include "../crepe/api/Metadata.h"
-#include "../crepe/api/Transform.h"
+#include <crepe/ComponentManager.h>
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Metadata.h>
+#include <crepe/api/Transform.h>
 
 using namespace crepe;
 using namespace std;
