@@ -38,7 +38,7 @@ public:
 
 public:
 	//! The id of the GameObject this component belongs to
-	const game_object_id_t GAME_OBJECT_ID;
+	const game_object_id_t game_object_id;
 	//! Whether the component is active
 	bool active = true;
 };

@@ -57,7 +57,7 @@ public:
 
 public:
 	//! The id of the GameObject
-	const game_object_id_t ID;
+	const game_object_id_t id;
 };
 
 } // namespace crepe
