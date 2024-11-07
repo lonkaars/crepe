@@ -88,7 +88,8 @@ ComponentManager::get_components_by_id(uint32_t id) const {
 	// Create an empty vector<>
 	vector<reference_wrapper<T>> component_vector;
 
-	if (this->components.find(type) == this->components.end()) return component_vector;
+	if (this->components.find(type) == this->components.end())
+		return component_vector;
 
 	// Get the correct vector<>
 	const vector<vector<unique_ptr<Component>>> & component_array
@@ -123,7 +124,8 @@ ComponentManager::get_components_by_type() const {
 	vector<reference_wrapper<T>> component_vector;
 
 	// Find the type (in the unordered_map<>)
-	if (this->components.find(type) == this->components.end()) return component_vector;
+	if (this->components.find(type) == this->components.end())
+		return component_vector;
 
 	// Get the correct vector<>
 	const vector<vector<unique_ptr<Component>>> & component_array

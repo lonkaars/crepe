@@ -12,6 +12,8 @@ target_sources(crepe PUBLIC
 	AssetManager.cpp
 	Sprite.cpp
 	Metadata.cpp
+	Scene.cpp
+	SceneManager.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -29,5 +31,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Texture.h 
 	AssetManager.h 
 	AssetManager.hpp
+	Scene.h
 	Metadata.h
+	SceneManager.h
+	SceneManager.hpp
 )
