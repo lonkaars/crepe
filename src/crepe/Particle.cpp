@@ -1,20 +1,29 @@
 #include "Particle.h"
 
+#include "api/Transform.h"
+
 using namespace crepe;
 
-Particle::Particle() { this->active = false; }
-
-void Particle::reset(float lifespan, Position position, Position velocity) {
+void Particle::reset(uint32_t lifespan, Vector2 position, Vector2 velocity, double angle) {
 	this->time_in_life = 0;
 	this->lifespan = lifespan;
 	this->position = position;
 	this->velocity = velocity;
 	this->active = true;
+	this->angle = angle;
 }
 
-void Particle::update(float deltaTime) {
-	time_in_life += deltaTime;
-	position.x += velocity.x * deltaTime;
-	position.y += velocity.y * deltaTime;
-	if (time_in_life >= lifespan) this->active = false;
+void Particle::update() {
+	time_in_life++;
+	if (time_in_life >= lifespan) 
+	{
+		this->active = false;
+		return;
+	}	
+	velocity += force_over_time;
+	position += velocity;
+}
+
+void Particle::stop_movement() {
+	this->velocity = {0,0};
 }
