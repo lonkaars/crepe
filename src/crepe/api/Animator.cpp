@@ -1,10 +1,10 @@
 
 #include <cstdint>
 
-#include "Component.h"
-#include "api/Sprite.h"
 #include "util/log.h"
 
+#include "Component.h"
+#include "Sprite.h"
 #include "Animator.h"
 
 using namespace crepe;

@@ -3,7 +3,7 @@
 #include <cstdint>
 
 #include "Component.h"
-#include "api/Color.h"
+#include "Color.h"
 
 namespace crepe {
 
