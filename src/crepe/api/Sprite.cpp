@@ -1,10 +1,10 @@
 #include <memory>
 
-#include "Component.h"
-#include "Texture.h"
 #include "facade/SDLContext.h"
 #include "../util/log.h"
 
+#include "Component.h"
+#include "Texture.h"
 #include "Sprite.h"
 
 using namespace std;

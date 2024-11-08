@@ -3,7 +3,7 @@
 #include <cstdint>
 
 #include "Component.h"
-#include "api/Sprite.h"
+#include "Sprite.h"
 
 namespace crepe {
 class AnimatorSystem;

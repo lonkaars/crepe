@@ -1,10 +1,10 @@
 
 #include <cstdint>
 
-#include "Component.h"
-#include "api/Color.h"
 #include "util/log.h"
 
+#include "Component.h"
+#include "Color.h"
 #include "Camera.h"
 
 using namespace crepe;

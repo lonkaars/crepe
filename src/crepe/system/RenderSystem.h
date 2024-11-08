@@ -1,7 +1,9 @@
 #pragma once
 
-#include "System.h"
 #include "api/Camera.h"
+
+#include "System.h"
+
 
 namespace crepe {
 

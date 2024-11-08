@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <memory>
 
-#include "api/Color.h"
-#include "api/Texture.h"
+#include "Color.h"
+#include "Texture.h"
 #include "Component.h"
 
 
