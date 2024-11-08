@@ -39,23 +39,11 @@ public:
 	Animator(uint32_t id, Sprite & spritesheet, int row, int col,
 			 int col_animate);
 
-	/**
-	 * \brief Destroys the Animator object and cleans up any resources.
-	 * 
-	 * This destructor will handle any necessary cleanup when the Animator component is no longer needed.
-	 */
+
 	~Animator();
-
-	//! Deleted copy constructor to prevent copying of the Animator instance.
 	Animator(const Animator &) = delete;
-
-	//! Deleted move constructor to prevent moving of the Animator instance.
 	Animator(Animator &&) = delete;
-
-	//! Deleted copy assignment operator to prevent copying the Animator instance.
 	Animator & operator=(const Animator &) = delete;
-
-	//! Deleted move assignment operator to prevent moving the Animator instance.
 	Animator & operator=(Animator &&) = delete;
 
 private:

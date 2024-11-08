@@ -5,16 +5,14 @@
 // API namespace?
 
 #include <SDL2/SDL_render.h>
+#include <functional>
 #include <memory>
 
 #include "Asset.h"
 
 namespace crepe {
 
-//! Forward declaration of SDLContext class.
 class SDLContext;
-
-//! Forward declaration of Animator class.
 class Animator;
 
 /**
@@ -64,11 +62,8 @@ private:
     void load(std::unique_ptr<Asset> res);
 
 private:
-	struct TextureDeleter{
-		void operator()(SDL_Texture* texture) const { SDL_DestroyTexture(texture);}
-	};
 	//! The texture of the class from the library
-	std::unique_ptr<SDL_Texture, TextureDeleter> texture;
+	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> texture;
 
     //! Grants SDLContext access to private members.
     friend class SDLContext;

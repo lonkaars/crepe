@@ -3,6 +3,7 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -15,6 +16,8 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 namespace crepe {
+
+//TODO: Wouter will fix this. cause user cannot this at the moment
 typedef SDL_Keycode CREPE_KEYCODES;
 
 class Texture;
@@ -85,8 +88,7 @@ private:
     * \param path Path to the image file.
     * \return Pointer to the created SDL_Texture.
     */
-	SDL_Texture * texture_from_path(const std::string & path);
-
+	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> texture_from_path(const std::string & path);
 	/**
     * \brief Gets the width of a texture.
     * \param texture Reference to the Texture object.
@@ -131,19 +133,12 @@ private:
 	void camera(const Camera & camera);
 
 private:
-	struct WindowDeleter {
-		void operator()(SDL_Window * window) { SDL_DestroyWindow(window); }
-	};
-
-	struct RendererDeleter {
-		void operator()(SDL_Renderer * renderer) { SDL_DestroyRenderer(renderer); }
-	};
 
 	//! sdl Window
-	std::unique_ptr<SDL_Window, WindowDeleter> game_window;
+	std::unique_ptr<SDL_Window, std::function<void(SDL_Window*) >> game_window;
 
 	//! renderer for the crepe engine
-	std::unique_ptr<SDL_Renderer, RendererDeleter> game_renderer;
+	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer*)>> game_renderer;
 
 	//! viewport for the camera window
 	SDL_Rect viewport = {0, 0, 640, 480};
