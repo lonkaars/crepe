@@ -64,6 +64,7 @@ private:
     void load(std::unique_ptr<Asset> res);
 
 private:
+	//TODO make RAII
 	//! The texture of the class from the library
     SDL_Texture * texture = nullptr; 
 

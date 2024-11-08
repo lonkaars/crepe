@@ -3,18 +3,18 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <string>
 
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "api/Camera.h"
-
-typedef SDL_Keycode CREPE_KEYCODES;
 
 //FIXME: this needs to be removed
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 namespace crepe {
+typedef SDL_Keycode CREPE_KEYCODES;
 
 class Texture;
 class LoopManager;
@@ -35,29 +35,13 @@ public:
     */
 	static SDLContext & get_instance();
 
-	/**
-	* \brief Deleted copy constructor.
-	*/
 	SDLContext(const SDLContext &) = delete;
-
-	/**
-	* \brief Deleted move constructor.
-	*/
 	SDLContext(SDLContext &&) = delete;
-
-	/**
-	* \brief Deleted copy assignment operator.
-	* \return Reference to the SDLContext instance.
-	*/
 	SDLContext & operator=(const SDLContext &) = delete;
-
-	/**
-	* \brief Deleted move assignment operator.
-	* \return Reference to the SDLContext instance.
-	*/
 	SDLContext & operator=(SDLContext &&) = delete;
 
 private:
+	//! will only use handle_events
 	friend class LoopManager;
 	/**
 	* \brief Handles SDL events such as window close and input.
@@ -65,8 +49,8 @@ private:
 	*/
 	void handle_events(bool & running);
 
-
 private:
+	//! Will only use get_ticks
 	friend class AnimatorSystem;
 
 	/**
@@ -74,7 +58,6 @@ private:
 	* \return Current ticks in milliseconds as a constant uint64_t.
 	*/
 	const uint64_t get_ticks() const;
-
 
 private:
 	/**
@@ -87,13 +70,13 @@ private:
 	* \brief Destroys the SDLContext instance.
 	* Cleans up SDL resources, including the window and renderer.
 	*/
-	virtual ~SDLContext();
-
-
+	~SDLContext();
 
 private:
-
+	//! Will use the funtions: texture_from_path, get_width,get_height.
 	friend class Texture;
+
+	//! Will use the funtions: texture_from_path, get_width,get_height.
 	friend class Animator;
 
 	/**
@@ -101,25 +84,24 @@ private:
     * \param path Path to the image file.
     * \return Pointer to the created SDL_Texture.
     */
-	SDL_Texture * texture_from_path(const char * path) const;
+	SDL_Texture * texture_from_path(const std::string & path);
 
 	/**
     * \brief Gets the width of a texture.
     * \param texture Reference to the Texture object.
     * \return Width of the texture as an integer.
     */
-	int get_width(const Texture & ) const ;
+	int get_width(const Texture &) const;
 
 	/**
     * \brief Gets the height of a texture.
     * \param texture Reference to the Texture object.
     * \return Height of the texture as an integer.
     */
-	int get_height(const Texture &) const ;
-
+	int get_height(const Texture &) const;
 
 private:
-
+	//! Will use draw,clear_screen, present_screen, camera.
 	friend class RenderSystem;
 
 	/**
@@ -129,17 +111,17 @@ private:
     * \param camera Reference to the Camera for view adjustments.
     */
 	void draw(const Sprite & sprite, const Transform & transform,
-			  const Camera & camera) const;
+			  const Camera & camera);
 
 	/**
     * \brief Clears the screen, preparing for a new frame.
          */
-	void clear_screen() const ;
+	void clear_screen();
 
 	/**
     * \brief Presents the rendered frame to the screen.
     */
-	void present_screen() const ;
+	void present_screen();
 
 	/**
 	* \brief Sets the current camera for rendering.
@@ -148,6 +130,7 @@ private:
 	void camera(const Camera & camera);
 
 private:
+	//TODO: Make this RAII
 	//! sdl window
 	SDL_Window * game_window = nullptr;
 	//! renderer for the crepe engine

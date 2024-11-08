@@ -3,11 +3,11 @@
 #include <functional>
 #include <vector>
 
-#include "ComponentManager.h"
 #include "facade/SDLContext.h"
 #include "util/log.h"
 #include "api/Animator.h"
 
+#include "ComponentManager.h"
 #include "AnimatorSystem.h"
 
 using namespace crepe;

@@ -2,8 +2,8 @@
 
 #include <cstdint>
 
-#include "Component.h"
 #include "Color.h"
+#include "Component.h"
 
 namespace crepe {
 
@@ -31,34 +31,22 @@ public:
 	~Camera();
 
 public:
-	/**
-     * \brief Background color of the camera view.
-     */
+	//! \brief Background color of the camera view.
 	Color bg_color;
 
-	/**
-     * \brief Aspect ratio height for the camera.
-     */
+	//! \brief Aspect ratio height for the camera.
 	double aspect_height;
 
-	/**
-     * \brief Aspect ratio width for the camera.
-     */
+	//! \brief Aspect ratio width for the camera.
 	double aspect_width;
 
-	/**
-     * \brief X-coordinate of the camera position.
-     */
+	//! \brief X-coordinate of the camera position.
 	double x;
 
-	/**
-     * \brief Y-coordinate of the camera position.
-     */
+	//! \brief Y-coordinate of the camera position.
 	double y;
 
-	/**
-     * \brief Zoom level of the camera view.
-     */
+	//! \brief Zoom level of the camera view.
 	double zoom;
 
 public:
