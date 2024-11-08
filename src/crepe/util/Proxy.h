@@ -16,9 +16,9 @@ template <typename T>
 class Proxy {
 public:
 	//! Set operator
-	Proxy & operator = (const T &);
+	Proxy & operator=(const T &);
 	//! Get operator
-	operator const T & ();
+	operator const T &();
 
 public:
 	Proxy(ValueBroker<T>);
@@ -27,7 +27,6 @@ private:
 	ValueBroker<T> broker;
 };
 
-}
+} // namespace crepe
 
 #include "Proxy.hpp"
-
