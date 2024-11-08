@@ -8,6 +8,11 @@
 
 namespace crepe {
 
+/**
+ * \brief Transform Component that will be present the gameobject position, rotation and scale.
+ *
+ * This transform component will automatically be made with each gameobject
+ */
 class Transform : public Component {
 	// FIXME: What's the difference between the `Point` and `Position`
 	// classes/structs? How about we replace both with a universal `Vec2` that

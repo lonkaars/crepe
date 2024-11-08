@@ -11,7 +11,7 @@ ninja -C build
 
 #ninja -C build events
 
-ninja -C build camera
+#ninja -C build camera
 
-ninja -C build animator
+#ninja -C build animator
 
