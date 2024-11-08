@@ -64,9 +64,11 @@ private:
     void load(std::unique_ptr<Asset> res);
 
 private:
-	//TODO make RAII
+	struct TextureDeleter{
+		void operator()(SDL_Texture* texture) const { SDL_DestroyTexture(texture);}
+	};
 	//! The texture of the class from the library
-    SDL_Texture * texture = nullptr; 
+	std::unique_ptr<SDL_Texture, TextureDeleter> texture;
 
     //! Grants SDLContext access to private members.
     friend class SDLContext;

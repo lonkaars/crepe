@@ -3,6 +3,7 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <memory>
 #include <string>
 
 #include "../api/Sprite.h"
@@ -130,11 +131,19 @@ private:
 	void camera(const Camera & camera);
 
 private:
-	//TODO: Make this RAII
-	//! sdl window
-	SDL_Window * game_window = nullptr;
+	struct WindowDeleter {
+		void operator()(SDL_Window * window) { SDL_DestroyWindow(window); }
+	};
+
+	struct RendererDeleter {
+		void operator()(SDL_Renderer * renderer) { SDL_DestroyRenderer(renderer); }
+	};
+
+	//! sdl Window
+	std::unique_ptr<SDL_Window, WindowDeleter> game_window;
+
 	//! renderer for the crepe engine
-	SDL_Renderer * game_renderer = nullptr;
+	std::unique_ptr<SDL_Renderer, RendererDeleter> game_renderer;
 
 	//! viewport for the camera window
 	SDL_Rect viewport = {0, 0, 640, 480};
