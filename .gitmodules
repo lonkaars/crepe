@@ -14,3 +14,7 @@
 	path = lib/sdl_image
 	url = https://github.com/libsdl-org/SDL_image
 	shallow = true
+[submodule "lib/sdl_ttf"]
+	path = lib/sdl_ttf
+	url = https://github.com/libsdl-org/SDL_ttf.git
+	shallow = true
