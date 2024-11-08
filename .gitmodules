@@ -18,3 +18,7 @@
 	path = lib/sdl_ttf
 	url = https://github.com/libsdl-org/SDL_ttf.git
 	shallow = true
+[submodule "lib/libdb"]
+	path = lib/libdb
+	url = https://github.com/berkeleydb/libdb
+	shallow = true
