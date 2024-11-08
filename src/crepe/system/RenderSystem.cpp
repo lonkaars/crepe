@@ -20,7 +20,23 @@ RenderSystem & RenderSystem::get_instance() {
 	return instance;
 }
 
-void RenderSystem::update() {
+void RenderSystem::clear_screen() const { SDLContext::get_instance().clear_screen(); }
+
+void RenderSystem::present_screen() const {
+	SDLContext::get_instance().present_screen();
+}
+void RenderSystem::update_camera() {
+	ComponentManager & mgr = ComponentManager::get_instance();
+
+	std::vector<std::reference_wrapper<Camera>> cameras
+		= mgr.get_components_by_type<Camera>();
+
+	for (Camera & cam : cameras) {
+		SDLContext::get_instance().camera(cam);
+		this->curr_cam = &cam;
+	}
+}
+void RenderSystem::render_sprites() const {
 
 	ComponentManager & mgr = ComponentManager::get_instance();
 
@@ -28,14 +44,15 @@ void RenderSystem::update() {
 		= mgr.get_components_by_type<Sprite>();
 
 	SDLContext & render = SDLContext::get_instance();
-	render.clear_screen();
-
 	for (const Sprite & sprite : sprites) {
-		std::vector<std::reference_wrapper<Transform>> transforms
-			= mgr.get_components_by_id<Transform>(sprite.game_object_id);
-		for (const Transform & transform : transforms) {
-			render.draw(sprite, transform);
-		}
+		auto transforms = mgr.get_components_by_id<Transform>(sprite.game_object_id);
+		render.draw(sprite, transforms[0] , *curr_cam);
 	}
-	render.present_screen();
+}
+
+void RenderSystem::update() {
+	this->clear_screen();
+	this->update_camera();
+	this->render_sprites();
+	this->present_screen();
 }
