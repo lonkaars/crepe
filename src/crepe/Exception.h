@@ -11,7 +11,7 @@ public:
 	//! printf
 	Exception(const char * fmt, ...);
 	//! Get formatted error message
-	const char * what();
+	const char * what() const noexcept;
 
 protected:
 	Exception() = default;
