@@ -4,7 +4,6 @@
 
 #include "System.h"
 
-
 namespace crepe {
 
 /**
@@ -18,63 +17,48 @@ namespace crepe {
 class RenderSystem : public System {
 
 public:
-    /**
-     * \brief Gets the singleton instance of RenderSystem.
-     * \return Reference to the RenderSystem instance.
-     */
-    static RenderSystem & get_instance();
+	/**
+	 * \brief Gets the singleton instance of RenderSystem.
+	 * \return Reference to the RenderSystem instance.
+	 */
+	static RenderSystem & get_instance();
 
-    /**
-     * \brief Updates the RenderSystem for the current frame.
-     * This method is called to perform all rendering operations for the current game frame.
-     */
-    void update() override;
+	/**
+	 * \brief Updates the RenderSystem for the current frame.
+	 * This method is called to perform all rendering operations for the current game frame.
+	 */
+	void update() override;
 
 private:
-    /**
-     * \brief Constructs a RenderSystem instance.
-     * Private constructor to enforce singleton pattern.
-     */
-    RenderSystem();
+	// Private constructor to enforce singleton pattern.
+	RenderSystem();
+	~RenderSystem();
 
-    /**
-     * \brief Destroys the RenderSystem instance.
-     */
-    ~RenderSystem();
+	//! Clears the screen in preparation for rendering.
+	void clear_screen() const;
 
-    /**
-     * \brief Clears the screen in preparation for rendering.
-     */
-    void clear_screen() const;
+	//! Presents the rendered frame to the display.
+	void present_screen() const;
 
-    /**
-     * \brief Presents the rendered frame to the display.
-     */
-    void present_screen() const;
+	//! Updates the active camera used for rendering.
+	void update_camera();
 
-    /**
-     * \brief Updates the active camera used for rendering.
-     */
-    void update_camera();
+	//! Renders all active sprites to the screen.
+	void render_sprites() const;
 
-    /**
-     * \brief Renders all active sprites to the screen.
-     */
-    void render_sprites() const;
-
-    /**
-     * \todo Include color handling for sprites.
-     * \todo Implement particle emitter rendering with sprites.
-     * \todo Add text rendering using SDL_ttf for text components.
-     * \todo Implement a text component and a button component.
-     * \todo Ensure each sprite is checked for active status before rendering.
-     * \todo Sort all layers by order before rendering.
-     * \todo Consider adding text input functionality.
-     */
+	/**
+	 * \todo Include color handling for sprites.
+	 * \todo Implement particle emitter rendering with sprites.
+	 * \todo Add text rendering using SDL_ttf for text components.
+	 * \todo Implement a text component and a button component.
+	 * \todo Ensure each sprite is checked for active status before rendering.
+	 * \todo Sort all layers by order before rendering.
+	 * \todo Consider adding text input functionality.
+	 */
 
 private:
 	//! Pointer to the current active camera for rendering
-	// \todo needs a better solution
-    Camera * curr_cam; 
+	Camera * curr_cam = nullptr;
+	// TODO: needs a better solution
 };
 } // namespace crepe

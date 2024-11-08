@@ -20,7 +20,9 @@ RenderSystem & RenderSystem::get_instance() {
 	return instance;
 }
 
-void RenderSystem::clear_screen() const { SDLContext::get_instance().clear_screen(); }
+void RenderSystem::clear_screen() const {
+	SDLContext::get_instance().clear_screen();
+}
 
 void RenderSystem::present_screen() const {
 	SDLContext::get_instance().present_screen();
@@ -45,8 +47,9 @@ void RenderSystem::render_sprites() const {
 
 	SDLContext & render = SDLContext::get_instance();
 	for (const Sprite & sprite : sprites) {
-		auto transforms = mgr.get_components_by_id<Transform>(sprite.game_object_id);
-		render.draw(sprite, transforms[0] , *curr_cam);
+		auto transforms
+			= mgr.get_components_by_id<Transform>(sprite.game_object_id);
+		render.draw(sprite, transforms[0], *curr_cam);
 	}
 }
 

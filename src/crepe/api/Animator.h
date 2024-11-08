@@ -9,7 +9,6 @@ namespace crepe {
 class AnimatorSystem;
 class SDLContext;
 
-
 /**
  * \brief The Animator component is used to animate sprites by managing the movement
  *        and frame changes within a sprite sheet.
@@ -39,8 +38,7 @@ public:
 	Animator(uint32_t id, Sprite & spritesheet, int row, int col,
 			 int col_animate);
 
-
-	~Animator();
+	~Animator(); // dbg_trace
 	Animator(const Animator &) = delete;
 	Animator(Animator &&) = delete;
 	Animator & operator=(const Animator &) = delete;
@@ -71,7 +69,7 @@ private:
 	//! AnimatorSystem adjust the private member parameters of Animator;
 	friend class AnimatorSystem;
 
-	//! SDLContext reads the Animator member var's 
+	//! SDLContext reads the Animator member var's
 	friend class SDLContext;
 };
 } // namespace crepe

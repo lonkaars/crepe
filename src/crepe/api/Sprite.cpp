@@ -1,11 +1,11 @@
 #include <memory>
 
-#include "facade/SDLContext.h"
 #include "../util/log.h"
+#include "facade/SDLContext.h"
 
 #include "Component.h"
-#include "Texture.h"
 #include "Sprite.h"
+#include "Texture.h"
 
 using namespace std;
 using namespace crepe;
