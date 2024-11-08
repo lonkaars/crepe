@@ -79,5 +79,5 @@ void LoopManager::render() {
 void LoopManager::update() {
 	LoopTimer & timer = LoopTimer::getInstance();
 	float delta = timer.getDeltaTime();
-	ScriptSystem::get_instance().update();
+	this->script_sys.update();
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "system/ScriptSystem.h"
 namespace crepe{
 
 class LoopManager {
@@ -21,6 +22,9 @@ private:
 	double currentTime;
 	double t = 0.0;
 	double dt = 0.01;
+
+private:
+	ScriptSystem script_sys;
 };
 
 }
