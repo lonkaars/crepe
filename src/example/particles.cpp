@@ -3,7 +3,6 @@
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/api/AssetManager.h>
 #include <crepe/system/PhysicsSystem.h>
-#include <crepe/api/loopManager.h>
 
 #include <crepe/Component.h>
 #include <crepe/api/GameObject.h>
@@ -32,11 +31,11 @@ int main(int argc, char * argv[]) {
 		.max_angle = 0,
 		.begin_lifespan = 0,
 		.end_lifespan = 0,
-		.force_over_time = 0,
+		.force_over_time = Vector2{0,0},
 		.boundary{
 			.boundary_width = 0,
 			.boundary_height = 0,
-			.boundary_offset = {0,0},
+			.boundary_offset = Vector2{0,0},
 			.reset_on_exit = false,
 		},
 		.sprite = nullptr,
