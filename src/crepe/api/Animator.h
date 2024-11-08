@@ -1,8 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 #include "Component.h"
 #include "api/Sprite.h"
-#include <cstdint>
 
 namespace crepe {
 class AnimatorSystem;

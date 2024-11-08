@@ -5,8 +5,8 @@
 
 #include "api/Color.h"
 #include "api/Texture.h"
-
 #include "Component.h"
+
 
 namespace crepe {
 
@@ -62,7 +62,7 @@ public:
 	 * \param color Color tint applied to the sprite.
 	 * \param flip Flip settings for horizontal and vertical orientation.
 	 */
-	Sprite(game_object_id_t id, std::shared_ptr<Texture> image,
+	Sprite(game_object_id_t id, const std::shared_ptr<Texture> image,
 		   const Color & color, const FlipSettings & flip);
 
 	/**
@@ -72,7 +72,7 @@ public:
 
 
 	//! Texture used for the sprite
-	std::shared_ptr<Texture> sprite_image;
+	const std::shared_ptr<Texture> sprite_image;
 	//! Color tint of the sprite 
 	Color color;
 	//! Flip settings for the sprite

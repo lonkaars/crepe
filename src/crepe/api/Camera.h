@@ -1,8 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 #include "Component.h"
 #include "api/Color.h"
-#include <cstdint>
 
 namespace crepe {
 

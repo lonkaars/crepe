@@ -1,15 +1,14 @@
 
-
-#include "AnimatorSystem.h"
-#include "ComponentManager.h"
-#include "facade/SDLContext.h"
-#include "util/log.h"
-
-#include "api/Animator.h"
-
 #include <cstdint>
 #include <functional>
 #include <vector>
+
+#include "ComponentManager.h"
+#include "facade/SDLContext.h"
+#include "util/log.h"
+#include "api/Animator.h"
+
+#include "AnimatorSystem.h"
 
 using namespace crepe;
 

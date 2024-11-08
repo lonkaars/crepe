@@ -101,21 +101,21 @@ private:
     * \param path Path to the image file.
     * \return Pointer to the created SDL_Texture.
     */
-	SDL_Texture * texture_from_path(const char * path);
+	SDL_Texture * texture_from_path(const char * path) const;
 
 	/**
     * \brief Gets the width of a texture.
     * \param texture Reference to the Texture object.
     * \return Width of the texture as an integer.
     */
-	int get_width(const Texture & );
+	int get_width(const Texture & ) const ;
 
 	/**
     * \brief Gets the height of a texture.
     * \param texture Reference to the Texture object.
     * \return Height of the texture as an integer.
     */
-	int get_height(const Texture &);
+	int get_height(const Texture &) const ;
 
 
 private:
@@ -129,17 +129,17 @@ private:
     * \param camera Reference to the Camera for view adjustments.
     */
 	void draw(const Sprite & sprite, const Transform & transform,
-			  const Camera & camera);
+			  const Camera & camera) const;
 
 	/**
     * \brief Clears the screen, preparing for a new frame.
          */
-	void clear_screen();
+	void clear_screen() const ;
 
 	/**
     * \brief Presents the rendered frame to the screen.
     */
-	void present_screen();
+	void present_screen() const ;
 
 	/**
 	* \brief Sets the current camera for rendering.
