@@ -22,7 +22,7 @@ void ParticleSystem::update() {
 	for (ParticleEmitter & emitter : emitters) {
 
 		//	Get transform linked to emitter
-		const Transform& transform = mgr.get_components_by_id<Transform>(emitter.GAME_OBJECT_ID).front().get();
+		const Transform& transform = mgr.get_components_by_id<Transform>(emitter.game_object_id).front().get();
 
 		//	Check if within boundary
 		check_bounds(emitter,transform);
