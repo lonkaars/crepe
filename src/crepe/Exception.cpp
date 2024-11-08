@@ -6,7 +6,7 @@
 using namespace std;
 using namespace crepe;
 
-const char * Exception::what() { return error.c_str(); }
+const char * Exception::what() const noexcept { return error.c_str(); }
 
 Exception::Exception(const char * fmt, ...) {
 	va_list args;
