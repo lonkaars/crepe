@@ -93,8 +93,8 @@ public:
 	static SaveManager & get_instance();
 	SaveManager(const SaveManager &) = delete;
 	SaveManager(SaveManager &&) = delete;
-	SaveManager & operator = (const SaveManager &) = delete;
-	SaveManager & operator = (SaveManager &&) = delete;
+	SaveManager & operator=(const SaveManager &) = delete;
+	SaveManager & operator=(SaveManager &&) = delete;
 
 private:
 	/**
@@ -110,5 +110,4 @@ private:
 	static DB & get_db();
 };
 
-}
-
+} // namespace crepe

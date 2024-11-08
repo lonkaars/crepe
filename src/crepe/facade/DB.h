@@ -1,14 +1,14 @@
 #pragma once
 
-#include <string>
 #include <functional>
 #include <memory>
+#include <string>
 
 namespace libdb {
 extern "C" {
 #include <db.h>
 }
-}
+} // namespace libdb
 
 namespace crepe {
 
@@ -71,5 +71,4 @@ private:
 	libdb::DBT to_thing(const std::string & thing) const noexcept;
 };
 
-}
-
+} // namespace crepe
