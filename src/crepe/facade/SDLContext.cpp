@@ -34,22 +34,22 @@ SDLContext::SDLContext() {
 		return;
 	}
 
-	this->game_window = SDL_CreateWindow(
+	this->game_window.reset(SDL_CreateWindow(
 		"Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		this->viewport.w, this->viewport.h, 0);
+		this->viewport.w, this->viewport.h, 0));
 	if (!this->game_window) {
 		// FIXME: throw exception
 		std::cerr << "Window could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
 	}
 
-	this->game_renderer
-		= SDL_CreateRenderer(this->game_window, -1, SDL_RENDERER_ACCELERATED);
+	this->game_renderer.reset(SDL_CreateRenderer(this->game_window.get(), -1,
+												 SDL_RENDERER_ACCELERATED));
 	if (!this->game_renderer) {
 		// FIXME: throw exception
 		std::cerr << "Renderer could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
-		SDL_DestroyWindow(this->game_window);
+		SDL_DestroyWindow(this->game_window.get());
 		return;
 	}
 
@@ -64,12 +64,8 @@ SDLContext::SDLContext() {
 SDLContext::~SDLContext() {
 	dbg_trace();
 
-	if (this->game_renderer != nullptr)
-		SDL_DestroyRenderer(this->game_renderer);
-
-	if (this->game_window != nullptr) {
-		SDL_DestroyWindow(this->game_window);
-	}
+	this->game_renderer.reset();
+	this->game_window.reset();
 
 	// TODO: how are we going to ensure that these are called from the same
 	// thread that SDL_Init() was called on? This has caused problems for me
@@ -99,9 +95,9 @@ void SDLContext::handle_events(bool & running) {
 	*/
 }
 
-void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
+void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
 void SDLContext::present_screen() {
-	SDL_RenderPresent(this->game_renderer);
+	SDL_RenderPresent(this->game_renderer.get());
 }
 
 void SDLContext::draw(const Sprite & sprite, const Transform & transform,
@@ -130,12 +126,10 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 		.h = static_cast<int>(adjusted_h),
 	};
 
-	double degrees = transform.rotation * 180 / M_PI;
+	SDL_RenderCopyEx(this->game_renderer.get(),
+					 sprite.sprite_image->texture.get(), &srcrect,
 
-	SDL_RenderCopyEx(this->game_renderer, sprite.sprite_image->texture,
-					 &srcrect,
-
-					 &dstrect, degrees, NULL, render_flip);
+					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
 void SDLContext::camera(const Camera & cam) {
@@ -144,8 +138,8 @@ void SDLContext::camera(const Camera & cam) {
 	this->viewport.x = static_cast<int>(cam.x) - (SCREEN_WIDTH / 2);
 	this->viewport.y = static_cast<int>(cam.y) - (SCREEN_HEIGHT / 2);
 
-	SDL_SetRenderDrawColor(this->game_renderer, cam.bg_color.r, cam.bg_color.g,
-						   cam.bg_color.b, cam.bg_color.a);
+	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r,
+						   cam.bg_color.g, cam.bg_color.b, cam.bg_color.a);
 }
 
 const uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
@@ -158,7 +152,7 @@ SDL_Texture * SDLContext::texture_from_path(const std::string & path) {
 		std::cerr << "Error surface " << IMG_GetError << std::endl;
 	}
 	SDL_Texture * created_texture
-		= SDL_CreateTextureFromSurface(this->game_renderer, tmp);
+		= SDL_CreateTextureFromSurface(this->game_renderer.get(), tmp);
 
 	if (!created_texture) {
 		std::cerr << "Error could not create texture " << IMG_GetError
@@ -170,11 +164,11 @@ SDL_Texture * SDLContext::texture_from_path(const std::string & path) {
 }
 int SDLContext::get_width(const Texture & ctx) const {
 	int w;
-	SDL_QueryTexture(ctx.texture, NULL, NULL, &w, NULL);
+	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &w, NULL);
 	return w;
 }
 int SDLContext::get_height(const Texture & ctx) const {
 	int h;
-	SDL_QueryTexture(ctx.texture, NULL, NULL, NULL, &h);
+	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, NULL, &h);
 	return h;
 }

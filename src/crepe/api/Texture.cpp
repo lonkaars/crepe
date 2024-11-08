@@ -21,14 +21,12 @@ Texture::Texture(const char * src) {
 
 Texture::~Texture() {
 	dbg_trace();
-	if (this->texture != nullptr) {
-		SDL_DestroyTexture(this->texture);
-	}
+	this->texture.reset();
 }
 
 void Texture::load(unique_ptr<Asset> res) {
 	SDLContext & ctx = SDLContext::get_instance();
-	this->texture = ctx.texture_from_path(res->canonical());
+	this->texture.reset(ctx.texture_from_path(res->canonical()));
 }
 
 int Texture::get_width() const{
