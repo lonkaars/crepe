@@ -28,11 +28,11 @@ public:
 	/**
 	 * \brief Constructs an Animator object that will control animations for a sprite sheet.
 	 *
-	 * \param[in] id The unique identifier for the component, typically assigned automatically.
-	 * \param[in] spritesheet A reference to the Sprite object which holds the sprite sheet for animation.
-	 * \param[in] row The maximum number of rows in the sprite sheet.
-	 * \param[in] col The maximum number of columns in the sprite sheet.
-	 * \param[in] col__animate The specific col index of the sprite sheet to animate. This allows selecting which col to animate from multiple col in the sheet.
+	 * \param id The unique identifier for the component, typically assigned automatically.
+	 * \param spritesheet A reference to the Sprite object which holds the sprite sheet for animation.
+	 * \param row The maximum number of rows in the sprite sheet.
+	 * \param col The maximum number of columns in the sprite sheet.
+	 * \param col__animate The specific col index of the sprite sheet to animate. This allows selecting which col to animate from multiple col in the sheet.
 	 *
 	 * This constructor sets up the Animator with the given parameters, and initializes the animation system.
 	 */
@@ -80,8 +80,10 @@ private:
 	//int fps;
 
 private:
-	//! Friend class that can directly access the private members of the Animator.
+	//! AnimatorSystem adjust the private member parameters of Animator;
 	friend class AnimatorSystem;
+
+	//! SDLContext reads the Animator member var's 
 	friend class SDLContext;
 };
 } // namespace crepe

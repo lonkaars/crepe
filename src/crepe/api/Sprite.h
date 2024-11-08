@@ -10,13 +10,6 @@
 
 namespace crepe {
 
-/**
- * \struct Rect
- * \brief Represents a rectangle area for rendering.
- *
- * Everything within the defined rectangle will be rendered.
- * The SDLContext will translate this into the library's rectangle structure.
- */
 struct Rect {
 	int w = 0;
 	int h = 0; 
@@ -24,29 +17,16 @@ struct Rect {
 	int y = 0; 
 };
 
-/**
- * \struct FlipSettings
- * \brief Flip settings for the sprite.
- *
- * Defines the horizontal and vertical flip settings for a sprite, which the
- * SDLContext will translate into the corresponding settings for the library.
- */
 struct FlipSettings {
 	bool flip_x = false; 
 	bool flip_y = false; 
 };
 
-//! Forward declaration of the SDLContext facade.
 class SDLContext;
-
-//! Forward declaration of the Animator class.
 class Animator;
-
-//! Forward declaration of the AnimatorSystem class.
 class AnimatorSystem;
 
 /**
- * \class Sprite
  * \brief Represents a renderable sprite component.
  *
  * A renderable sprite that can be displayed in the game. It includes a texture,
@@ -55,6 +35,9 @@ class AnimatorSystem;
 class Sprite : public Component {
 
 public:
+
+	// TODO: Loek comment in github #27 will be looked another time
+	// about shared_ptr Texture
 	/**
 	 * \brief Constructs a Sprite with specified parameters.
 	 * \param game_id Unique identifier for the game object this sprite belongs to.
@@ -78,23 +61,30 @@ public:
 	//! Flip settings for the sprite
 	FlipSettings flip;
 	//! Layer sorting level of the sprite
-	uint8_t sorting_in_layer;
+	uint8_t sorting_in_layer = 0;
 	//! Order within the sorting layer
-	uint8_t order_in_layer;
+	uint8_t order_in_layer = 0;
 
 public:
 	/**
 	 * \brief Gets the maximum number of instances allowed for this sprite.
 	 * \return Maximum instance count as an integer.
+	 *
+	 * For now is this number randomly picked. I think it will eventually be 1. 
 	 */
 	virtual int get_instances_max() const { return 10; }
 
 private:
+	//! Reads the sprite_rect of sprite
 	friend class SDLContext;
+
+	//! Reads the all the variables plus the  sprite_rect
 	friend class Animator;
+
+	//! Reads the all the variables plus the  sprite_rect
 	friend class AnimatorSystem;
 
-	//! Render area of the sprite
+	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator object is present in GameObject
 	Rect sprite_rect;
 };
 

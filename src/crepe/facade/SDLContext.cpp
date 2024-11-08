@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cstddef>
 #include <iostream>
+#include <string>
 
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
@@ -98,13 +99,15 @@ void SDLContext::handle_events(bool & running) {
 	*/
 }
 
-void SDLContext::clear_screen() const { SDL_RenderClear(this->game_renderer); }
-void SDLContext::present_screen() const { SDL_RenderPresent(this->game_renderer); }
+void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
+void SDLContext::present_screen() {
+	SDL_RenderPresent(this->game_renderer);
+}
 
 void SDLContext::draw(const Sprite & sprite, const Transform & transform,
-					  const Camera & cam) const {
+					  const Camera & cam) {
 
-	static SDL_RendererFlip render_flip
+	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
@@ -147,10 +150,10 @@ void SDLContext::camera(const Camera & cam) {
 
 const uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
 
-SDL_Texture * SDLContext::texture_from_path(const char * path) const {
-	dbg_trace();
+//TODO: make this RAII
+SDL_Texture * SDLContext::texture_from_path(const std::string & path) {
 
-	SDL_Surface * tmp = IMG_Load(path);
+	SDL_Surface * tmp = IMG_Load(path.c_str());
 	if (!tmp) {
 		std::cerr << "Error surface " << IMG_GetError << std::endl;
 	}

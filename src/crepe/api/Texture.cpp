@@ -32,18 +32,10 @@ void Texture::load(unique_ptr<Asset> res) {
 }
 
 int Texture::get_width() const{
-	if (this->texture) {
-		return SDLContext::get_instance().get_width(*this);
-	}
-	else {
-		return 0;
-	}
+	if (this->texture == nullptr) return 0;
+	return SDLContext::get_instance().get_width(*this);
 }
 int Texture::get_height() const{
-	if (this->texture) {
-		return SDLContext::get_instance().get_height(*this);
-	}
-	else {
-		return 0;
-	}
+	if (this->texture == nullptr) return 0;
+	return SDLContext::get_instance().get_width(*this);
 }
