@@ -43,12 +43,12 @@ private:
     /**
      * \brief Clears the screen in preparation for rendering.
      */
-    void clear_screen();
+    void clear_screen() const;
 
     /**
      * \brief Presents the rendered frame to the display.
      */
-    void present_screen();
+    void present_screen() const;
 
     /**
      * \brief Updates the active camera used for rendering.
@@ -58,7 +58,7 @@ private:
     /**
      * \brief Renders all active sprites to the screen.
      */
-    void render_sprites();
+    void render_sprites() const;
 
     /**
      * \todo Include color handling for sprites.

@@ -98,11 +98,11 @@ void SDLContext::handle_events(bool & running) {
 	*/
 }
 
-void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
-void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer); }
+void SDLContext::clear_screen() const { SDL_RenderClear(this->game_renderer); }
+void SDLContext::present_screen() const { SDL_RenderPresent(this->game_renderer); }
 
 void SDLContext::draw(const Sprite & sprite, const Transform & transform,
-					  const Camera & cam) {
+					  const Camera & cam) const {
 
 	static SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
@@ -147,7 +147,7 @@ void SDLContext::camera(const Camera & cam) {
 
 const uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
 
-SDL_Texture * SDLContext::texture_from_path(const char * path) {
+SDL_Texture * SDLContext::texture_from_path(const char * path) const {
 	dbg_trace();
 
 	SDL_Surface * tmp = IMG_Load(path);
@@ -165,12 +165,12 @@ SDL_Texture * SDLContext::texture_from_path(const char * path) {
 
 	return created_texture;
 }
-int SDLContext::get_width(const Texture & ctx) {
+int SDLContext::get_width(const Texture & ctx) const {
 	int w;
 	SDL_QueryTexture(ctx.texture, NULL, NULL, &w, NULL);
 	return w;
 }
-int SDLContext::get_height(const Texture & ctx) {
+int SDLContext::get_height(const Texture & ctx) const {
 	int h;
 	SDL_QueryTexture(ctx.texture, NULL, NULL, NULL, &h);
 	return h;

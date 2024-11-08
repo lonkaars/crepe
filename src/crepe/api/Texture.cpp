@@ -2,8 +2,8 @@
 
 #include "../facade/SDLContext.h"
 #include "../util/log.h"
-
 #include "Asset.h"
+
 #include "Texture.h"
 
 using namespace crepe;

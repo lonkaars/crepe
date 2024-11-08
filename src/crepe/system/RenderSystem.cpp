@@ -20,9 +20,9 @@ RenderSystem & RenderSystem::get_instance() {
 	return instance;
 }
 
-void RenderSystem::clear_screen() { SDLContext::get_instance().clear_screen(); }
+void RenderSystem::clear_screen() const { SDLContext::get_instance().clear_screen(); }
 
-void RenderSystem::present_screen() {
+void RenderSystem::present_screen() const {
 	SDLContext::get_instance().present_screen();
 }
 void RenderSystem::update_camera() {
@@ -36,7 +36,7 @@ void RenderSystem::update_camera() {
 		this->curr_cam = &cam;
 	}
 }
-void RenderSystem::render_sprites() {
+void RenderSystem::render_sprites() const {
 
 	ComponentManager & mgr = ComponentManager::get_instance();
 
