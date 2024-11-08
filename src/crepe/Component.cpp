@@ -1,5 +1,6 @@
 #include "Component.h"
+#include "types.h"
 
 using namespace crepe;
 
-Component::Component(uint32_t id) : game_object_id(id), active(true) {}
+Component::Component(game_object_id_t id) : game_object_id(id) {}

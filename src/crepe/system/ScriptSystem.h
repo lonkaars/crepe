@@ -10,12 +10,7 @@ class Script;
 
 class ScriptSystem : public System {
 public:
-	static ScriptSystem & get_instance();
 	void update();
-
-private:
-	ScriptSystem();
-	~ScriptSystem();
 
 private:
 	// TODO: to forward_list<reference_wrapper>

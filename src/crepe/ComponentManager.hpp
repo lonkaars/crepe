@@ -5,11 +5,12 @@
 #include <type_traits>
 
 #include "ComponentManager.h"
+#include "types.h"
 
 namespace crepe {
 
 template <class T, typename... Args>
-T & ComponentManager::add_component(uint32_t id, Args &&... args) {
+T & ComponentManager::add_component(game_object_id_t id, Args &&... args) {
 	using namespace std;
 
 	static_assert(is_base_of<Component, T>::value,
@@ -19,22 +20,21 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	type_index type = typeid(T);
 
 	// Check if this component type is already in the unordered_map<>
-	if (components.find(type) == components.end()) {
+	if (this->components.find(type) == this->components.end()) {
 		//If not, create a new (empty) vector<> of vector<unique_ptr<Component>>
-		components[type] = vector<vector<unique_ptr<Component>>>();
+		this->components[type] = vector<vector<unique_ptr<Component>>>();
 	}
 
 	// Resize the vector<> if the id is greater than the current size
-	if (id >= components[type].size()) {
+	if (id >= this->components[type].size()) {
 		// Initialize new slots to nullptr (resize does automatically init to nullptr)
-		components[type].resize(id + 1);
+		this->components[type].resize(id + 1);
 	}
 
 	// Create a new component of type T (arguments directly forwarded). The
 	// constructor must be called by ComponentManager.
 	T * instance_ptr = new T(id, forward<Args>(args)...);
-	if (instance_ptr == nullptr)
-		throw std::bad_alloc();
+	if (instance_ptr == nullptr) throw std::bad_alloc();
 
 	T & instance_ref = *instance_ptr;
 	unique_ptr<T> instance = unique_ptr<T>(instance_ptr);
@@ -48,23 +48,23 @@ T & ComponentManager::add_component(uint32_t id, Args &&... args) {
 	}
 
 	// store its unique_ptr in the vector<>
-	components[type][id].push_back(std::move(instance));
+	this->components[type][id].push_back(std::move(instance));
 
 	return instance_ref;
 }
 
 template <typename T>
-void ComponentManager::delete_components_by_id(uint32_t id) {
+void ComponentManager::delete_components_by_id(game_object_id_t id) {
 	using namespace std;
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	type_index type = typeid(T);
 
 	// Find the type (in the unordered_map<>)
-	if (components.find(type) != components.end()) {
+	if (this->components.find(type) != this->components.end()) {
 		// Get the correct vector<>
 		vector<vector<unique_ptr<Component>>> & component_array
-			= components[type];
+			= this->components[type];
 
 		// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
 		if (id < component_array.size()) {
@@ -79,14 +79,14 @@ void ComponentManager::delete_components() {
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	std::type_index type = typeid(T);
 
-	if (components.find(type) == components.end()) return;
+	if (this->components.find(type) == this->components.end()) return;
 
-	components[type].clear();
+	this->components[type].clear();
 }
 
 template <typename T>
 std::vector<std::reference_wrapper<T>>
-ComponentManager::get_components_by_id(uint32_t id) const {
+ComponentManager::get_components_by_id(game_object_id_t id) const {
 	using namespace std;
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
@@ -95,11 +95,12 @@ ComponentManager::get_components_by_id(uint32_t id) const {
 	// Create an empty vector<>
 	vector<reference_wrapper<T>> component_vector;
 
-	if (components.find(type) == components.end()) return component_vector;
+	if (this->components.find(type) == this->components.end())
+		return component_vector;
 
 	// Get the correct vector<>
 	const vector<vector<unique_ptr<Component>>> & component_array
-		= components.at(type);
+		= this->components.at(type);
 
 	// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
 	if (id >= component_array.size()) return component_vector;
@@ -128,15 +129,14 @@ ComponentManager::get_components_by_type() const {
 
 	// Create an empty vector<>
 	vector<reference_wrapper<T>> component_vector;
-	// Set the id to 0 (the id will also be stored in the returned vector<>)
-	// uint32_t id = 0;
 
 	// Find the type (in the unordered_map<>)
-	if (components.find(type) == components.end()) return component_vector;
+	if (this->components.find(type) == this->components.end())
+		return component_vector;
 
 	// Get the correct vector<>
 	const vector<vector<unique_ptr<Component>>> & component_array
-		= components.at(type);
+		= this->components.at(type);
 
 	// Loop through the whole vector<>
 	for (const vector<unique_ptr<Component>> & component : component_array) {
@@ -148,12 +148,9 @@ ComponentManager::get_components_by_type() const {
 			// Ensure that the cast was successful
 			if (casted_component == nullptr) continue;
 
-			// Pair the dereferenced raw pointer and the id and add it to the vector<>
+			// Add the dereferenced raw pointer to the vector<>
 			component_vector.emplace_back(ref(*casted_component));
 		}
-
-		// Increase the id (the id will also be stored in the returned vector<>)
-		//++id;
 	}
 
 	// Return the vector<>

@@ -11,6 +11,7 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SoLoud REQUIRED)
 find_package(GTest REQUIRED)
+find_library(BERKELEY_DB db)
 
 add_library(crepe SHARED)
 add_executable(test_main EXCLUDE_FROM_ALL)
@@ -23,6 +24,7 @@ target_link_libraries(crepe
 	PRIVATE soloud
 	PUBLIC SDL2
 	PUBLIC SDL2_image
+	PUBLIC ${BERKELEY_DB}
 )
 
 add_subdirectory(crepe)
