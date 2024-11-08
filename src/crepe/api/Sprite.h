@@ -4,22 +4,21 @@
 #include <memory>
 
 #include "Color.h"
-#include "Texture.h"
 #include "Component.h"
-
+#include "Texture.h"
 
 namespace crepe {
 
 struct Rect {
 	int w = 0;
-	int h = 0; 
-	int x = 0; 
-	int y = 0; 
+	int h = 0;
+	int x = 0;
+	int y = 0;
 };
 
 struct FlipSettings {
-	bool flip_x = false; 
-	bool flip_y = false; 
+	bool flip_x = false;
+	bool flip_y = false;
 };
 
 class SDLContext;
@@ -35,7 +34,6 @@ class AnimatorSystem;
 class Sprite : public Component {
 
 public:
-
 	// TODO: Loek comment in github #27 will be looked another time
 	// about shared_ptr Texture
 	/**
@@ -53,10 +51,9 @@ public:
 	 */
 	~Sprite();
 
-
 	//! Texture used for the sprite
 	const std::shared_ptr<Texture> sprite_image;
-	//! Color tint of the sprite 
+	//! Color tint of the sprite
 	Color color;
 	//! Flip settings for the sprite
 	FlipSettings flip;

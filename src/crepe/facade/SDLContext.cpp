@@ -46,11 +46,11 @@ SDLContext::SDLContext() {
 				  << SDL_GetError() << std::endl;
 		return;
 	}
-	this->game_window = {tmp_window, [](SDL_Window* window) { SDL_DestroyWindow(window); }};
+	this->game_window
+		= {tmp_window, [](SDL_Window * window) { SDL_DestroyWindow(window); }};
 
-	
-	SDL_Renderer* tmp_renderer = SDL_CreateRenderer(this->game_window.get(), -1,
-												 SDL_RENDERER_ACCELERATED);
+	SDL_Renderer * tmp_renderer = SDL_CreateRenderer(
+		this->game_window.get(), -1, SDL_RENDERER_ACCELERATED);
 	if (!tmp_renderer) {
 		// FIXME: throw exception
 		std::cerr << "Renderer could not be created! SDL_Error: "
@@ -59,7 +59,9 @@ SDLContext::SDLContext() {
 		return;
 	}
 
-	this->game_renderer = {tmp_renderer, [](SDL_Renderer* renderer) { SDL_DestroyRenderer(renderer); }};
+	this->game_renderer = {tmp_renderer, [](SDL_Renderer * renderer) {
+							   SDL_DestroyRenderer(renderer);
+						   }};
 
 	int img_flags = IMG_INIT_PNG;
 	if (!(IMG_Init(img_flags) & img_flags)) {
@@ -150,27 +152,32 @@ void SDLContext::camera(const Camera & cam) {
 						   cam.bg_color.g, cam.bg_color.b, cam.bg_color.a);
 }
 
-const uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
+uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
 
-std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> SDLContext::texture_from_path(const std::string & path) {
+std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
+SDLContext::texture_from_path(const std::string & path) {
 
 	SDL_Surface * tmp = IMG_Load(path.c_str());
-	if (tmp == nullptr)  {
+	if (tmp == nullptr) {
 		throw Exception("surface cannot be load from %s", path.c_str());
 	}
 
-	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>> img_surface;
-	img_surface = {tmp, [](SDL_Surface * surface) { SDL_FreeSurface(surface); }};
+	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>>
+		img_surface;
+	img_surface
+		= {tmp, [](SDL_Surface * surface) { SDL_FreeSurface(surface); }};
 
 	SDL_Texture * tmp_texture = SDL_CreateTextureFromSurface(
 		this->game_renderer.get(), img_surface.get());
 
-	if ( tmp_texture == nullptr) {
+	if (tmp_texture == nullptr) {
 		throw Exception("Texture cannot be load from %s", path.c_str());
 	}
 
-	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> img_texture;
-	img_texture = {tmp_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
+	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
+		img_texture;
+	img_texture = {tmp_texture,
+				   [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
 
 	return img_texture;
 }

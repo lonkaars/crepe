@@ -25,51 +25,53 @@ class Animator;
 class Texture {
 
 public:
-    /**
-     * \brief Constructs a Texture from a file path.
-     * \param src Path to the image file to be loaded as a texture.
-     */
-    Texture(const char * src);
+	/**
+	 * \brief Constructs a Texture from a file path.
+	 * \param src Path to the image file to be loaded as a texture.
+	 */
+	Texture(const char * src);
 
-    /**
-     * \brief Constructs a Texture from an Asset resource.
-     * \param res Unique pointer to an Asset resource containing texture data.
-     */
-    Texture(std::unique_ptr<Asset> res);
+	/**
+	 * \brief Constructs a Texture from an Asset resource.
+	 * \param res Unique pointer to an Asset resource containing texture data.
+	 */
+	Texture(std::unique_ptr<Asset> res);
 
-    /**
-     * \brief Destroys the Texture instance, freeing associated resources.
-     */
-    ~Texture();
+	/**
+	 * \brief Destroys the Texture instance, freeing associated resources.
+	 */
+	~Texture();
+	// FIXME: this constructor shouldn't be necessary because this class doesn't
+	// manage memory
 
-    /**
-     * \brief Gets the width of the texture.
-     * \return Width of the texture in pixels.
-     */
-    int get_width() const;
+	/**
+	 * \brief Gets the width of the texture.
+	 * \return Width of the texture in pixels.
+	 */
+	int get_width() const;
 
-    /**
-     * \brief Gets the height of the texture.
-     * \return Height of the texture in pixels.
-     */
-    int get_height() const;
+	/**
+	 * \brief Gets the height of the texture.
+	 * \return Height of the texture in pixels.
+	 */
+	int get_height() const;
 
 private:
-    /**
-     * \brief Loads the texture from an Asset resource.
-     * \param res Unique pointer to an Asset resource to load the texture from.
-     */
-    void load(std::unique_ptr<Asset> res);
+	/**
+	 * \brief Loads the texture from an Asset resource.
+	 * \param res Unique pointer to an Asset resource to load the texture from.
+	 */
+	void load(std::unique_ptr<Asset> res);
 
 private:
 	//! The texture of the class from the library
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> texture;
 
-    //! Grants SDLContext access to private members.
-    friend class SDLContext;
+	//! Grants SDLContext access to private members.
+	friend class SDLContext;
 
-    //! Grants Animator access to private members.
-    friend class Animator;
+	//! Grants Animator access to private members.
+	friend class Animator;
 };
 
 } // namespace crepe
