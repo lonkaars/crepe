@@ -21,7 +21,7 @@ void LoopManager::fixed_update() {
 }
 
 void LoopManager::loop() {
-    LoopTimer & timer = LoopTimer::getInstance();
+    LoopTimer & timer = LoopTimer::get_instance();
     timer.start();
 
     while (game_running) {
@@ -43,8 +43,8 @@ void LoopManager::loop() {
 
 void LoopManager::setup() {
     this->game_running = true;
-    LoopTimer::getInstance().start();
-    LoopTimer::getInstance().set_fps(60);
+    LoopTimer::get_instance().start();
+    LoopTimer::get_instance().set_fps(60);
 }
 
 void LoopManager::render() {
@@ -54,7 +54,7 @@ void LoopManager::render() {
 }
 
 void LoopManager::update() {
-    LoopTimer & timer = LoopTimer::getInstance();
+    LoopTimer & timer = LoopTimer::get_instance();
 }
 
 } // namespace crepe

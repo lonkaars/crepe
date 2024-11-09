@@ -9,7 +9,7 @@
 
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
-#include "api/Camera.h"
+// #include "../api/Camera.h"
 
 // FIXME: this needs to be removed
 const int SCREEN_WIDTH = 640;

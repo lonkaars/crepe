@@ -10,7 +10,7 @@ public:
  *
  * \return A reference to the LoopTimer instance.
  */
-static LoopTimer& getInstance();
+static LoopTimer& get_instance();
 
 /**
  * \brief Get the current delta time for the current frame.
