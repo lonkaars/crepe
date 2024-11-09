@@ -16,8 +16,6 @@ target_sources(crepe PUBLIC
 	Scene.cpp
 	SceneManager.cpp
 	Vector2.cpp
-	LoopManager.cpp
-	LoopTimer.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -40,6 +38,4 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Metadata.h
 	SceneManager.h
 	SceneManager.hpp
-	LoopManager.h
-	LoopTimer.h
 )

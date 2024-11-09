@@ -1,5 +1,4 @@
 
-
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
 

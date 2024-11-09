@@ -94,11 +94,11 @@ LOEK += example/script.cpp
 LOEK += test/audio.cpp
 LOEK += test/dummy.cpp
 JARO += test/PhysicsTest.cpp
-WOUTER += crepe/api/LoopManager.cpp
 WOUTER += crepe/api/LoopManager.h
-WOUTER += crepe/api/LoopTimer.cpp
+WOUTER += crepe/api/LoopManager.cpp
 WOUTER += crepe/api/LoopTimer.h
-FMT := $(JARO) #<<< CHANGE THIS TO YOUR NAME FOR STEP 2
+WOUTER += crepe/api/LoopTimer.cpp
+FMT := $(WOUTER) #<<< CHANGE THIS TO YOUR NAME FOR STEP 2
 format: FORCE
 	clang-tidy -p build/compile_commands.json --fix-errors $(FMT)
 
