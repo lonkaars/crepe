@@ -3,7 +3,6 @@
 
 #include "LoopTimer.h"
 
-
 using namespace crepe;
 LoopTimer::LoopTimer() {}
 
