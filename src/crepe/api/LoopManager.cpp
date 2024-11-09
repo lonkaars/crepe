@@ -3,19 +3,20 @@
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
 
+#include "../facade/SDLContext.h"
 #include "LoopManager.h"
 #include "LoopTimer.h"
 
 namespace crepe {
 
 void LoopManager::process_input() {
-    SDLContext::get_instance().handle_events(this->gameRunning);
+    SDLContext::get_instance().handle_events(this->game_running);
 }
 void LoopManager::start(){
     this->setup();
     this->loop();
 }
-void LoopManager::set_running(bool running) { this->gameRunning = running; }
+void LoopManager::set_running(bool running) { this->game_running = running; }
 
 void LoopManager::fixed_update() {
 }
@@ -24,7 +25,7 @@ void LoopManager::loop() {
     LoopTimer & timer = LoopTimer::getInstance();
     timer.start();
 
-    while (gameRunning) {
+    while (game_running) {
         timer.update();
 
         while (timer.get_lag() >= timer.get_fixed_delta_time()) {
@@ -42,20 +43,19 @@ void LoopManager::loop() {
 
 
 void LoopManager::setup() {
-    this->gameRunning = true;
+    this->game_running = true;
     LoopTimer::getInstance().start();
     LoopTimer::getInstance().set_fps(60);
 }
 
 void LoopManager::render() {
-    if (gameRunning) {
+    if (game_running) {
         RenderSystem::get_instance().update();
     }
 }
 
 void LoopManager::update() {
     LoopTimer & timer = LoopTimer::getInstance();
-    ScriptSystem::get_instance().update();
 }
 
 } // namespace crepe

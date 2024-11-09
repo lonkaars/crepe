@@ -60,7 +60,7 @@ class LoopManager {
          */
         void render();
 
-        bool gameRunning = false;
+        bool game_running = false;
     };
 
 } // namespace crepe
