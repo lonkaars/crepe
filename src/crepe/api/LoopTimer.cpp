@@ -6,7 +6,7 @@
 using namespace crepe;
 LoopTimer::LoopTimer() {}
 
-LoopTimer & LoopTimer::getInstance() {
+LoopTimer & LoopTimer::get_instance() {
     static LoopTimer instance;
     return instance;
 }
