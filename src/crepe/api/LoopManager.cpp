@@ -1,8 +1,8 @@
 
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
-
 #include "../facade/SDLContext.h"
+
 #include "LoopManager.h"
 #include "LoopTimer.h"
 
