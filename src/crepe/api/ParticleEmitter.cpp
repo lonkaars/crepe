@@ -1,5 +1,6 @@
-#include "Particle.h"
 #include "ParticleEmitter.h"
+#include "Particle.h"
+
 
 using namespace crepe;
 

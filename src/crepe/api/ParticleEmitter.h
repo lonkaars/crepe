@@ -6,6 +6,7 @@
 #include "Component.h"
 #include "Particle.h"
 #include "Sprite.h"
+#include "Vector2.h"
 
 // class Sprite;
 
