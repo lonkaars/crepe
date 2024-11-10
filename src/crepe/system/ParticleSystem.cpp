@@ -24,8 +24,6 @@ void ParticleSystem::update() {
 		//	Get transform linked to emitter
 		const Transform& transform = mgr.get_components_by_id<Transform>(emitter.game_object_id).front().get();
 
-		//	Check if within boundary
-		check_bounds(emitter,transform);
 		
 		// Emit particles based on emission_rate
 		int updates = calculate_update(this->update_count,emitter.data.emission_rate);
@@ -40,7 +38,11 @@ void ParticleSystem::update() {
 				emitter.data.particles[j].update();
 			}
 		}
+
+		//	Check if within boundary
+		check_bounds(emitter,transform);
 	}
+
 	update_count++;
 	if(update_count == MAX_UPDATE_COUNT) update_count = 0;
 }
@@ -100,59 +102,62 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter,const Transform& tr
 
 int ParticleSystem::calculate_update(int count, double emission) {
 
-		//get interger part of the emission
-		double integer_part = std::floor(emission);
+	//get interger part of the emission
+	double integer_part = std::floor(emission);
 
-    // Get the fractional part of the emission
-    double fractional_part = emission - integer_part;
+	// Get the fractional part of the emission
+	double fractional_part = emission - integer_part;
 
-    // Convert the fractional part to a denominator value
-    int denominator = static_cast<int>(1.0 / fractional_part);
+	// Convert the fractional part to a denominator value
+	int denominator = static_cast<int>(1.0 / fractional_part);
 
-    // For emissions like 0.01, 0.1, 0.5, etc., calculate the update frequency
-    if (fractional_part > 0) {
-			// Calculate how often the update should be triggered based on the fractional part
-			if (count % denominator == 0) {
-				return 1;
-			} else {
-				return 0;
-			}
-    }
-		
-    // For integer emissions, return the emission directly
-    return static_cast<int>(emission);
+	// For emissions like 0.01, 0.1, 0.5, etc., calculate the update frequency
+	if (fractional_part > 0) {
+		// Calculate how often the update should be triggered based on the fractional part
+		if (count % denominator == 0) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	
+	// For integer emissions, return the emission directly
+	return static_cast<int>(emission);
 }
 
 void ParticleSystem::check_bounds(ParticleEmitter & emitter,const Transform& transform)
 {
-		Vector2 offset = emitter.data.boundary.offset + transform.position + emitter.data.position;
-		double half_width = emitter.data.boundary.width / 2.0;
-		double half_height = emitter.data.boundary.height / 2.0;
+	Vector2 offset = emitter.data.boundary.offset + transform.position + emitter.data.position;
+	double half_width = emitter.data.boundary.width / 2.0;
+	double half_height = emitter.data.boundary.height / 2.0;
 
-		// Define boundary edges
-		const double left = offset.x - half_width;
-		const double right = offset.x + half_width;
-		const double top = offset.y - half_height;
-		const double bottom = offset.y + half_height;
+	// Define boundary edges
+	const double left = offset.x - half_width;
+	const double right = offset.x + half_width;
+	const double top = offset.y - half_height;
+	const double bottom = offset.y + half_height;
 
-		std::vector<Particle>& particles = emitter.data.particles;
-		for (Particle& particle : particles)
+	std::vector<Particle>& particles = emitter.data.particles;
+	for (Particle& particle : particles)
+	{
+		const Vector2& position = particle.position;
+
+		// Check if particle is within bounds
+		bool within_bounds = (position.x >= left && position.x <= right && position.y >= top && position.y <= bottom);
+		if (!within_bounds)
 		{
-				const Vector2& position = particle.position;
-
-				// Check if particle is within bounds
-				bool within_bounds = (position.x >= left && position.x <= right && position.y >= top && position.y <= bottom);
-				if (!within_bounds)
-				{
-						if (emitter.data.boundary.reset_on_exit)
-						{
-								particle.active = false;
-						}
-						else
-						{
-								particle.velocity = {0, 0};
-								//todo add that particle goes back to boundary
-						}
-				}
+			if (emitter.data.boundary.reset_on_exit)
+			{
+				particle.active = false;
+			}
+			else
+			{
+				particle.velocity = {0, 0};
+				if (particle.position.x < left) particle.position.x = left;
+        else if (particle.position.x > right) particle.position.x = right;
+        if (particle.position.y < bottom) particle.position.y = bottom;
+        else if (particle.position.y > top) particle.position.y = top;
+			}
 		}
+	}
 }
