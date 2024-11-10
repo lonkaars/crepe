@@ -12,7 +12,6 @@
 
 namespace crepe {
 
-
 /**
  * \brief Data holder for particle emission parameters.
  *
@@ -28,7 +27,7 @@ public:
 	 * This structure specifies the boundary's size and offset, as well as the
 	 * behavior of particles upon reaching the boundary limits.
 	 */
-	struct Boundary{
+	struct Boundary {
 		//! boundary width (midpoint is emitter location)
 		double width = 0.0;
 		//! boundary height (midpoint is emitter location)
@@ -45,7 +44,7 @@ public:
 	 * Contains settings for the emitter’s position, particle speed, angle, lifespan,
 	 * boundary, and the sprite used for rendering particles.
 	 */
-	struct Data{
+	struct Data {
 		//! position of the emitter
 		Vector2 position;
 		//! maximum number of particles
@@ -71,8 +70,9 @@ public:
 		//! collection of particles
 		std::vector<Particle> particles;
 		//! sprite reference
-		const Sprite& sprite;
-	};	
+		const Sprite & sprite;
+	};
+
 public:
 	/**
 	 * \brief Constructs a ParticleEmitter data holder with specified settings.
@@ -80,8 +80,9 @@ public:
 	 * \param game_object_id  Identifier for the game object using this emitter.
 	 * \param data            Configuration data defining particle properties.
 	 */
-	ParticleEmitter(uint32_t game_object_id, const Data& data);
+	ParticleEmitter(uint32_t game_object_id, const Data & data);
 	~ParticleEmitter();
+
 public:
 	//! Configuration data for particle emission settings.
 	Data data;

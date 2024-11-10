@@ -15,6 +15,7 @@ namespace crepe {
  */
 class Particle {
 	// TODO: add friend particleSsytem and rendersystem. Unit test will fail.
+
 public:
 	//! Position of the particle in 2D space.
 	Vector2 position;
@@ -43,7 +44,8 @@ public:
 	 * \param velocity  The initial velocity of the particle.
 	 * \param angle     The angle of the particle's trajectory or orientation.
 	 */
-	void reset(uint32_t lifespan, Vector2 position, Vector2 velocity, double angle);
+	void reset(uint32_t lifespan, Vector2 position, Vector2 velocity,
+			   double angle);
 	/**
 	 * \brief Updates the particle's state.
 	 *
@@ -58,7 +60,6 @@ public:
 	 * movement.
 	 */
 	void stop_movement();
-	
 };
 
 } // namespace crepe
