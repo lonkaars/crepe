@@ -1,8 +1,5 @@
 #include <crepe/ComponentManager.h>
-#include <crepe/system/RenderSystem.h>
-#include <crepe/system/CollisionSystem.h>
 #include <crepe/api/AssetManager.h>
-#include <crepe/system/PhysicsSystem.h>
 
 #include <crepe/Component.h>
 #include <crepe/api/GameObject.h>
@@ -18,11 +15,14 @@ using namespace crepe;
 using namespace std;
 
 int main(int argc, char * argv[]) {
-	
-	GameObject *game_object = new GameObject(0, "Name", "Tag", Vector2{0,0},0,0);
-	game_object->add_component<ParticleEmitter>(ParticleEmitter::ParticleEmitterData{
+	GameObject game_object(0, "", "", Vector2{0, 0}, 0, 0);
+	Color color(0, 0, 0, 0);
+	Sprite test_sprite = game_object.add_component<Sprite>(
+	make_shared<Texture>("../asset/texture/img.png"), color,
+	FlipSettings{true, true});
+	game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0,0},
-		.max_particles = 0,
+		.max_particles = 100,
 		.emission_rate = 0,
 		.min_speed = 0,
 		.max_speed = 0,
@@ -32,12 +32,12 @@ int main(int argc, char * argv[]) {
 		.end_lifespan = 0,
 		.force_over_time = Vector2{0,0},
 		.boundary{
-			.boundary_width = 0,
-			.boundary_height = 0,
-			.boundary_offset = Vector2{0,0},
+			.width = 0,
+			.height = 0,
+			.offset = Vector2{0,0},
 			.reset_on_exit = false,
 		},
-		.sprite = nullptr,
+		.sprite = test_sprite,
 	});
 
 	return 0;
