@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../api/ParticleEmitter.h"
 
 namespace crepe {
-
+class ParticleEmitter;
+class Transform;
 /**
  	* \brief ParticleSystem class responsible for managing particle emission, updates, and bounds checking.
  	*/

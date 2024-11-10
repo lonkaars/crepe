@@ -4,6 +4,7 @@
 
 #include "api/ParticleEmitter.h"
 #include "api/Vector2.h"
+#include "api/Transform.h"
 
 #include "ComponentManager.h"
 #include "ParticleSystem.h"

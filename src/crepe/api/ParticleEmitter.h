@@ -5,9 +5,9 @@
 
 #include "Component.h"
 #include "Particle.h"
-#include "Transform.h"
+#include "Sprite.h"
 
-class Sprite;
+// class Sprite;
 
 namespace crepe {
 
@@ -70,7 +70,7 @@ public:
 		//! collection of particles
 		std::vector<Particle> particles;
 		//! sprite reference
-		const Sprite* sprite;
+		const Sprite& sprite;
 	};	
 public:
 	/**

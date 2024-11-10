@@ -5,25 +5,36 @@
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Transform.h>
+#include <crepe/api/ParticleEmitter.h>
+#include <crepe/Particle.h>
 #include <crepe/system/ParticleSystem.h>
 #include <gtest/gtest.h>
-
+#include <crepe/api/Sprite.h>
 
 using namespace std;
 using namespace std::chrono_literals;
 using namespace crepe;
 
+
+
 class ParticlesTest : public ::testing::Test {
 protected:
-	GameObject * game_object;
 	ParticleSystem particle_system;
 	void SetUp() override {
 		ComponentManager & mgr = ComponentManager::get_instance();
 		std::vector<std::reference_wrapper<Transform>> transforms
 			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
-			game_object = new GameObject(0, "", "", Vector2{0, 0}, 0, 0);
-			game_object->add_component<ParticleEmitter>(ParticleEmitter::Data{
+		
+			
+			GameObject game_object(0, "", "", Vector2{0, 0}, 0, 0);
+
+			Color color(0, 0, 0, 0);
+			Sprite test_sprite = game_object.add_component<Sprite>(
+			make_shared<Texture>("../asset/texture/img.png"), color,
+			FlipSettings{true, true});
+
+			game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 				.position = {0,0},
 				.max_particles = 100,
 				.emission_rate = 0,
@@ -40,7 +51,7 @@ protected:
 					.offset = Vector2{0,0},
 					.reset_on_exit = false,
 				},
-				.sprite = nullptr,
+				.sprite = test_sprite,
 			});
 		}
 		transforms = mgr.get_components_by_id<Transform>(0);
@@ -61,7 +72,6 @@ protected:
 		emitter.data.end_lifespan = 0;
 		emitter.data.force_over_time = Vector2{0, 0};
 		emitter.data.boundary = {0, 0, Vector2{0, 0}, false};
-		emitter.data.sprite = nullptr;
 		for (auto& particle : emitter.data.particles) {
 			particle.active = false;
 		}
