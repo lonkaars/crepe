@@ -14,6 +14,7 @@ namespace crepe {
  * to simulate movement and can also be reset or stopped.
  */
 class Particle {
+	// TODO: add friend particleSsytem and rendersystem. Unit test will fail.
 public:
 	//! Position of the particle in 2D space.
 	Vector2 position;
