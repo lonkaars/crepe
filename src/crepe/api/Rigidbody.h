@@ -75,6 +75,8 @@ public:
 		bool use_gravity = true;
 		//! if object bounces
 		bool bounce = false;
+		//! offset of all colliders
+		Vector2 offset;
 	};
 
 public:

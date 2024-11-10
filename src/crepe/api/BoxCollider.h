@@ -7,7 +7,7 @@ namespace crepe {
 
 class BoxCollider : public Collider {
 public:
-	BoxCollider(game_object_id_t game_object_id,Vector2 offset, int width, int height);
+	BoxCollider(game_object_id_t game_object_id,Vector2 offset, double width, double height);
 	double width;
 	double height;
 };
