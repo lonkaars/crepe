@@ -1,3 +1,4 @@
+#include "api/Vector2.h"
 #include <math.h>
 #include <crepe/ComponentManager.h>
 #include <crepe/api/Config.h>
@@ -80,17 +81,17 @@ TEST_F(ParticlesTest, spawnParticle) {
 	emitter.data.max_angle = 10;
 	particle_system.update(); 
 	//check if nothing happend
-	EXPECT_EQ(emitter.data.particles[0].active, 0);
+	EXPECT_EQ(emitter.data.particles[0].active, false);
 	emitter.data.emission_rate = 1;
 	//check particle spawnes
 	particle_system.update();
-	EXPECT_EQ(emitter.data.particles[0].active, 1);
+	EXPECT_EQ(emitter.data.particles[0].active, true);
 	particle_system.update();
-	EXPECT_EQ(emitter.data.particles[1].active, 1);
+	EXPECT_EQ(emitter.data.particles[1].active, true);
 	particle_system.update();
-	EXPECT_EQ(emitter.data.particles[2].active, 1);
+	EXPECT_EQ(emitter.data.particles[2].active, true);
 	particle_system.update();
-	EXPECT_EQ(emitter.data.particles[3].active, 1);
+	EXPECT_EQ(emitter.data.particles[3].active, true);
 
 	for (auto& particle : emitter.data.particles) {
         // Check velocity range
@@ -141,3 +142,46 @@ TEST_F(ParticlesTest, moveParticleVertical) {
 		EXPECT_EQ(emitter.data.particles[0].position.y,a);
 	}
 }
+
+TEST_F(ParticlesTest, boundaryParticleReset) {
+	Config::get_instance().physics.gravity = 1;
+	ComponentManager & mgr = ComponentManager::get_instance();
+	ParticleEmitter & emitter = mgr.get_components_by_id<ParticleEmitter>(0).front().get();
+	emitter.data.end_lifespan = 100;
+	emitter.data.boundary.height = 10;
+	emitter.data.boundary.width = 10;
+	emitter.data.boundary.reset_on_exit = true;
+	emitter.data.min_speed = 1;
+	emitter.data.max_speed = 1;
+	emitter.data.min_angle = 90;
+	emitter.data.max_angle = 90;
+	emitter.data.emission_rate = 1;
+	for (int a = 0; a < emitter.data.boundary.width/2+1; a++) {
+		particle_system.update(); 
+	}
+	EXPECT_EQ(emitter.data.particles[0].active,false);
+}
+
+TEST_F(ParticlesTest, boundaryParticleStop) {
+	Config::get_instance().physics.gravity = 1;
+	ComponentManager & mgr = ComponentManager::get_instance();
+	ParticleEmitter & emitter = mgr.get_components_by_id<ParticleEmitter>(0).front().get();
+	emitter.data.end_lifespan = 100;
+	emitter.data.boundary.height = 10;
+	emitter.data.boundary.width = 10;
+	emitter.data.boundary.reset_on_exit = false;
+	emitter.data.min_speed = 1;
+	emitter.data.max_speed = 1;
+	emitter.data.min_angle = 90;
+	emitter.data.max_angle = 90;
+	emitter.data.emission_rate = 1;
+	for (int a = 0; a < emitter.data.boundary.width/2+1; a++) {
+		particle_system.update(); 
+	}
+	const double TOLERANCE = 0.01;
+	EXPECT_NEAR(emitter.data.particles[0].velocity.x, 0, TOLERANCE);
+	EXPECT_NEAR(emitter.data.particles[0].velocity.y, 0, TOLERANCE);
+	if(emitter.data.particles[0].velocity.x != 0)	EXPECT_NEAR(std::abs(emitter.data.particles[0].position.x), emitter.data.boundary.height / 2, TOLERANCE);
+	if(emitter.data.particles[0].velocity.y != 0)	EXPECT_NEAR(std::abs(emitter.data.particles[0].position.y), emitter.data.boundary.width / 2, TOLERANCE);
+}
+
