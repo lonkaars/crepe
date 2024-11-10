@@ -19,7 +19,6 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	
-	Color color(0, 0, 0, 0);
 	GameObject *game_object = new GameObject(0, "Name", "Tag", Vector2{0,0},0,0);
 	game_object->add_component<ParticleEmitter>(ParticleEmitter::ParticleEmitterData{
 		.position = {0,0},
