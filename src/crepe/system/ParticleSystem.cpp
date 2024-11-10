@@ -52,8 +52,10 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter,const Transform& tr
 	double min_angle = emitter.data.min_angle;
 	double max_angle = emitter.data.max_angle;
 	double random_angle;
-	
-	if (min_angle <= max_angle) {
+	if(min_angle == max_angle){
+		random_angle = min_angle;
+	}
+	else if (min_angle <= max_angle) {
 			// Standard range (e.g., 10 to 20 degrees)
 			double angle_offset = max_angle - min_angle;
 			random_angle = min_angle + static_cast<double>(std::rand() % static_cast<uint32_t>(angle_offset));
@@ -70,8 +72,15 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter,const Transform& tr
 
 	// Generate a random speed between min_speed and max_speed
 	double speed_offset = emitter.data.max_speed - emitter.data.min_speed;
-	double random_speed = emitter.data.min_speed + static_cast<double>(std::rand() % static_cast<uint32_t>(speed_offset));
-
+	double random_speed = 0.0;
+	if(emitter.data.max_speed  == emitter.data.min_speed)
+	{
+		random_speed = emitter.data.min_speed;
+	}
+	else {
+		random_speed = emitter.data.min_speed + static_cast<double>(std::rand() % static_cast<uint32_t>(speed_offset));
+	}
+	 
 	// Convert random_angle to radians
 	double angle_radians = random_angle * DEG_TO_RAD;
 
