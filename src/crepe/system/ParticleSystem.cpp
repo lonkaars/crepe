@@ -116,9 +116,9 @@ int ParticleSystem::calculate_update(int count, double emission) {
 
 void ParticleSystem::check_bounds(ParticleEmitter & emitter,const Transform& transform)
 {
-		Vector2 offset = emitter.data.boundary.boundary_offset + transform.position + emitter.data.position;
-		double half_width = emitter.data.boundary.boundary_width / 2.0;
-		double half_height = emitter.data.boundary.boundary_height / 2.0;
+		Vector2 offset = emitter.data.boundary.offset + transform.position + emitter.data.position;
+		double half_width = emitter.data.boundary.width / 2.0;
+		double half_height = emitter.data.boundary.height / 2.0;
 
 		// Define boundary edges
 		const double left = offset.x - half_width;
