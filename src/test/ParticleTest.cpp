@@ -74,8 +74,10 @@ TEST_F(ParticlesTest, spawnParticle) {
 	emitter.data.end_lifespan = 5;
 	emitter.data.boundary.height = 100;
 	emitter.data.boundary.width = 100;
-	emitter.data.max_speed = 1;
-	emitter.data.max_angle = 1;
+	emitter.data.max_speed = 0.1;
+	emitter.data.max_angle = 0.1;
+	emitter.data.max_speed = 10;
+	emitter.data.max_angle = 10;
 	particle_system.update(); 
 	//check if nothing happend
 	EXPECT_EQ(emitter.data.particles[0].active, 0);
@@ -89,7 +91,7 @@ TEST_F(ParticlesTest, spawnParticle) {
 	EXPECT_EQ(emitter.data.particles[2].active, 1);
 	particle_system.update();
 	EXPECT_EQ(emitter.data.particles[3].active, 1);
-	
+
 	for (auto& particle : emitter.data.particles) {
         // Check velocity range
         EXPECT_GE(particle.velocity.x, emitter.data.min_speed);  // Speed should be greater than or equal to min_speed
@@ -102,4 +104,40 @@ TEST_F(ParticlesTest, spawnParticle) {
         EXPECT_LE(particle.angle, emitter.data.max_angle);  // Angle should be less than or equal to max_angle
     }
 
+}
+
+TEST_F(ParticlesTest, moveParticleHorizontal) {
+	Config::get_instance().physics.gravity = 1;
+	ComponentManager & mgr = ComponentManager::get_instance();
+	ParticleEmitter & emitter = mgr.get_components_by_id<ParticleEmitter>(0).front().get();
+	emitter.data.end_lifespan = 100;
+	emitter.data.boundary.height = 100;
+	emitter.data.boundary.width = 100;
+	emitter.data.min_speed = 1;
+	emitter.data.max_speed = 1;
+	emitter.data.max_angle = 0;
+	emitter.data.emission_rate = 1;
+	for (int a = 1; a < emitter.data.boundary.width/2; a++) {
+		particle_system.update(); 
+		EXPECT_EQ(emitter.data.particles[0].position.x,a);
+	}
+}
+
+
+TEST_F(ParticlesTest, moveParticleVertical) {
+	Config::get_instance().physics.gravity = 1;
+	ComponentManager & mgr = ComponentManager::get_instance();
+	ParticleEmitter & emitter = mgr.get_components_by_id<ParticleEmitter>(0).front().get();
+	emitter.data.end_lifespan = 100;
+	emitter.data.boundary.height = 100;
+	emitter.data.boundary.width = 100;
+	emitter.data.min_speed = 1;
+	emitter.data.max_speed = 1;
+	emitter.data.min_angle = 90;
+	emitter.data.max_angle = 90;
+	emitter.data.emission_rate = 1;
+	for (int a = 1; a < emitter.data.boundary.width/2; a++) {
+		particle_system.update(); 
+		EXPECT_EQ(emitter.data.particles[0].position.y,a);
+	}
 }
