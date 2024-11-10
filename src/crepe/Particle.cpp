@@ -1,7 +1,5 @@
 #include "Particle.h"
 
-#include "api/Transform.h"
-
 using namespace crepe;
 
 void Particle::reset(uint32_t lifespan, Vector2 position, Vector2 velocity, double angle) {
