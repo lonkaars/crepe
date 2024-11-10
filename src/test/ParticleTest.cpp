@@ -24,7 +24,7 @@ protected:
 			game_object = new GameObject(0, "", "", Vector2{0, 0}, 0, 0);
 			game_object->add_component<ParticleEmitter>(ParticleEmitter::Data{
 				.position = {0,0},
-				.max_particles = 1,
+				.max_particles = 100,
 				.emission_rate = 0,
 				.min_speed = 0,
 				.max_speed = 0,
@@ -47,12 +47,23 @@ protected:
 		transform.position.x = 0.0;
 		transform.position.y = 0.0;
 		transform.rotation = 0.0;
-		std::vector<std::reference_wrapper<Rigidbody>> rigidbodies
-			= mgr.get_components_by_id<Rigidbody>(0);
-		Rigidbody & rigidbody = rigidbodies.front().get();
-		rigidbody.data.angular_velocity = 0;
-		rigidbody.data.linear_velocity.x = 0;
-		rigidbody.data.linear_velocity.y = 0;
+		std::vector<std::reference_wrapper<ParticleEmitter>> rigidbodies
+			= mgr.get_components_by_id<ParticleEmitter>(0);
+		ParticleEmitter & emitter = rigidbodies.front().get();
+		emitter.data.position = {0, 0};
+		emitter.data.emission_rate = 0;
+		emitter.data.min_speed = 0;
+		emitter.data.max_speed = 0;
+		emitter.data.min_angle = 0;
+		emitter.data.max_angle = 0;
+		emitter.data.begin_lifespan = 0;
+		emitter.data.end_lifespan = 0;
+		emitter.data.force_over_time = Vector2{0, 0};
+		emitter.data.boundary = {0, 0, Vector2{0, 0}, false};
+		emitter.data.sprite = nullptr;
+		for (auto& particle : emitter.data.particles) {
+			particle.active = false;
+		}
 	}
 };
 
@@ -67,11 +78,18 @@ TEST_F(ParticlesTest, spawnParticle) {
 	emitter.data.max_angle = 1;
 	particle_system.update(); 
 	//check if nothing happend
-	EXPECT_EQ(emitter.data.particles.size(), 0);
+	EXPECT_EQ(emitter.data.particles[0].active, 0);
 	emitter.data.emission_rate = 1;
+	//check particle spawnes
 	particle_system.update();
-	//check if particle spawned
-	EXPECT_EQ(emitter.data.particles.size(), 1);
+	EXPECT_EQ(emitter.data.particles[0].active, 1);
+	particle_system.update();
+	EXPECT_EQ(emitter.data.particles[1].active, 1);
+	particle_system.update();
+	EXPECT_EQ(emitter.data.particles[2].active, 1);
+	particle_system.update();
+	EXPECT_EQ(emitter.data.particles[3].active, 1);
+	
 	for (auto& particle : emitter.data.particles) {
         // Check velocity range
         EXPECT_GE(particle.velocity.x, emitter.data.min_speed);  // Speed should be greater than or equal to min_speed
@@ -83,4 +101,5 @@ TEST_F(ParticlesTest, spawnParticle) {
         EXPECT_GE(particle.angle, emitter.data.min_angle);  // Angle should be greater than or equal to min_angle
         EXPECT_LE(particle.angle, emitter.data.max_angle);  // Angle should be less than or equal to max_angle
     }
+
 }
