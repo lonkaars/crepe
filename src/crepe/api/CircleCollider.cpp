@@ -1,5 +1,3 @@
-#pragma once
-
 #include "CircleCollider.h"
 
 using namespace crepe;

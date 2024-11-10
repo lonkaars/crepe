@@ -18,6 +18,8 @@ target_sources(crepe PUBLIC
 	Vector2.cpp
 	Camera.cpp
 	Animator.cpp
+	BoxCollider.cpp
+	CircleCollider.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -42,4 +44,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	SceneManager.hpp
 	Camera.h
 	Animator.h
+	BoxCollider.h
+	CircleCollider.h
 )
