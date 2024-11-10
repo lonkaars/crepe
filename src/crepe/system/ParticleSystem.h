@@ -27,7 +27,7 @@ private:
 		* \param emitter Reference to the ParticleEmitter.
 		* \param transform Const reference to the Transform component associated with the emitter.
 		*/
-	void emit_particle(ParticleEmitter & emitter, const Transform& transform);
+	void emit_particle(ParticleEmitter & emitter, const Transform & transform);
 
 	/**
 		* \brief Calculates the number of times particles should be emitted based on emission rate and update count.
@@ -44,7 +44,7 @@ private:
 		* \param emitter Reference to the ParticleEmitter.
 		* \param transform Const reference to the Transform component associated with the emitter.
 		*/
-	void check_bounds(ParticleEmitter & emitter, const Transform& transform);
+	void check_bounds(ParticleEmitter & emitter, const Transform & transform);
 
 	/**
 		* \brief Generates a random angle for particle emission within the specified range.
