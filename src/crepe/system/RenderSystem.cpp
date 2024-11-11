@@ -6,6 +6,7 @@
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
 #include "../util/log.h"
+#include "api/ParticleEmitter.h"
 
 #include "RenderSystem.h"
 
@@ -42,8 +43,7 @@ void RenderSystem::render_sprites() const {
 
 	ComponentManager & mgr = ComponentManager::get_instance();
 
-	std::vector<std::reference_wrapper<Sprite>> sprites
-		= mgr.get_components_by_type<Sprite>();
+	auto sprites = mgr.get_components_by_type<Sprite>();
 
 	SDLContext & render = SDLContext::get_instance();
 	for (const Sprite & sprite : sprites) {
