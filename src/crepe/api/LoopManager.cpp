@@ -7,6 +7,7 @@
 #include "LoopTimer.h"
 
 using namespace crepe;
+
 LoopManager::LoopManager(
 	const RenderSystem & renderSystem, const SDLContext & sdlContext,
 	const LoopTimer & loopTimer, const ScriptSystem & scriptSystem,
