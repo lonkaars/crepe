@@ -3,7 +3,7 @@
 namespace crepe {
 
 // Constructor with initial values
-Vector2::Vector2(float x, float y) : x(x), y(y) {}
+Vector2::Vector2(double x, double y) : x(x), y(y) {}
 
 // Subtracts another vector from this vector and returns the result.
 Vector2 Vector2::operator-(const Vector2 & other) const {
@@ -16,7 +16,7 @@ Vector2 Vector2::operator+(const Vector2 & other) const {
 }
 
 // Multiplies this vector by a scalar and returns the result.
-Vector2 Vector2::operator*(float scalar) const {
+Vector2 Vector2::operator*(double scalar) const {
 	return {x * scalar, y * scalar};
 }
 
@@ -35,7 +35,7 @@ Vector2 & Vector2::operator+=(const Vector2 & other) {
 }
 
 // Adds a scalar value to both components of this vector and updates this vector.
-Vector2 & Vector2::operator+=(float other) {
+Vector2 & Vector2::operator+=(double other) {
 	x += other;
 	y += other;
 	return *this;
@@ -52,6 +52,10 @@ bool Vector2::operator==(const Vector2 & other) const {
 // Checks if this vector is not equal to another vector.
 bool Vector2::operator!=(const Vector2 & other) const {
 	return !(*this == other);
+}
+
+double Vector2::dot(const Vector2& other) const {
+	return this->x * other.x + this->y * other.y;
 }
 
 } // namespace crepe

@@ -13,7 +13,7 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 
-	GameObject game_object1(0, "Name", "Tag", Vector2{1, 1}, 90, 1);
+	GameObject game_object1(0, "Name", "Tag", Vector2{10, 10}, 0, 1);
 	game_object1.add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 1,
 		.gravity_scale = 1,
@@ -21,11 +21,11 @@ int main(int argc, char * argv[]) {
 		.constraints = {0, 0, 0},
 		.use_gravity = true,
 		.bounce = false,
-		.offset = {3,3}
+		.offset = {0,0}
 	});
-	game_object1.add_component<BoxCollider>(Vector2{5, 5}, 100, 50);
+	game_object1.add_component<BoxCollider>(Vector2{5, 5}, 5, 5);
 
-	GameObject game_object2(1, "Name", "Tag", Vector2{20, 2}, 90, 1);
+	GameObject game_object2(1, "Name", "Tag", Vector2{20, 0}, 90, 1);
 	game_object2.add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 1,
 		.gravity_scale = 1,
@@ -33,9 +33,9 @@ int main(int argc, char * argv[]) {
 		.constraints = {0, 0, 0},
 		.use_gravity = true,
 		.bounce = false,
-		.offset = {4,4}
+		.offset = {0,0}
 	});
-	game_object2.add_component<BoxCollider>(Vector2{6, 6}, 100, 50);
+	game_object2.add_component<BoxCollider>(Vector2{5, 5}, 5, 5);
 	CollisionSystem coltest;
 	coltest.update();
 	return 0;
