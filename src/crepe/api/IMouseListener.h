@@ -5,6 +5,7 @@
 
 class IMouseListener {
 public:
+	IMouseListener();
     virtual ~IMouseListener();
 
     virtual bool on_mouse_clicked(const MouseClickEvent & event) = 0;
