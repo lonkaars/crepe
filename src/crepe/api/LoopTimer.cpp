@@ -1,6 +1,8 @@
-#include "LoopTimer.h"
+
 #include "../facade/SDLContext.h"
 #include "../util/log.h"
+
+#include "LoopTimer.h"
 
 using namespace crepe;
 
