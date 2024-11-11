@@ -29,7 +29,7 @@ This project uses the following libraries
 |`SDL2`|2.30.9|
 |`SDL2_image`|2.8.2|
 |`SDL_ttf`|2.22.0|
-|`SoLoud`|20200207|
+|`SoLoud`|(latest git `master` version)|
 |Google Test (`GTest`)|1.15.2|
 |Berkeley DB (`libdb`)|5.3.21|
 
