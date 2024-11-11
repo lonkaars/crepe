@@ -6,7 +6,7 @@
 #include "LoopManager.h"
 #include "LoopTimer.h"
 
-namespace crepe {
+using namespace crepe;
 LoopManager::LoopManager(const RenderSystem& renderSystem, const SDLContext& sdlContext,
                          const LoopTimer& loopTimer, const ScriptSystem& scriptSystem,
                          const SoundSystem& soundSystem, const ParticleSystem& particleSystem,
@@ -64,4 +64,3 @@ void LoopManager::update() {
     LoopTimer & timer = LoopTimer::get_instance();
 }
 
-} // namespace crepe
