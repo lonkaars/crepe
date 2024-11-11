@@ -3,6 +3,7 @@
 #include <cstdint>
 
 namespace crepe{
+	
 class LoopTimer {
 public:
 /**
@@ -59,23 +60,84 @@ void set_game_scale(double game_scale);
 
 private:
 friend class LoopManager;
+
+/**
+ * \brief Start the loop timer.
+ *
+ * Initializes the timer to begin tracking frame times.
+ */
 void start();
+
+/**
+ * \brief Enforce the frame rate limit.
+ *
+ * Ensures that the game loop does not exceed the target FPS by delaying
+ * frame updates as necessary.
+ */
 void enforce_frame_rate();
+
+/**
+ * \brief Get the fixed delta time for consistent updates.
+ *
+ * Fixed delta time is used for operations that require uniform time steps,
+ * such as physics calculations.
+ *
+ * \return Fixed delta time in seconds.
+ */
 double get_fixed_delta_time() const;
+
+/**
+ * \brief Get the accumulated lag in the game loop.
+ *
+ * Lag represents the difference between the target frame time and the
+ * actual frame time, useful for managing fixed update intervals.
+ *
+ * \return Accumulated lag in seconds.
+ */
 double get_lag() const;
+
+/**
+ * \brief Construct a new LoopTimer object.
+ *
+ * Private constructor for singleton pattern to restrict instantiation
+ * outside the class.
+ */
 LoopTimer();
+
+/**
+ * \brief Update the timer to the current frame.
+ *
+ * Calculates and updates the delta time for the current frame and adds it to
+ * the cumulative game time.
+ */
 void update();
+
+/**
+ * \brief Advance the game loop by a fixed update interval.
+ *
+ * This method progresses the game state by a consistent, fixed time step,
+ * allowing for stable updates independent of frame rate fluctuations.
+ */
 void advance_fixed_update();
 private:
-int fps = 50;                       ///< Current frames per second
-double game_scale = 1;              ///< Current game scale
-double maximum_delta_time = 0.25;   ///< Maximum delta time to avoid large jumps
-double delta_time = 0;              ///< Delta time for the current frame
-double frame_target_time = 1.0 / fps; ///< Target time per frame in seconds
-double fixed_delta_time = 0.02;     ///< Fixed delta time for fixed updates
-double elapsed_time = 0;             ///< Total elapsed game time
-double elapsed_fixed_time = 0;      ///< Total elapsed time for fixed updates
-uint64_t last_frame_time = 0;       ///< Time of the last frame
+//!  Current frames per second
+int fps = 50;
+///< Current game scale                    
+double game_scale = 1;       
+//! Maximum delta time to avoid large jumps       
+double maximum_delta_time = 0.25;  
+//! Delta time for the current frame 
+double delta_time = 0;         
+//! Target time per frame in seconds     
+double frame_target_time = 1.0 / fps; 
+//! Fixed delta time for fixed updates
+double fixed_delta_time = 0.02; 
+//! Total elapsed game time    
+double elapsed_time = 0;    
+//! Total elapsed time for fixed updates         
+double elapsed_fixed_time = 0; 
+//! Time of the last frame     
+uint64_t last_frame_time = 0;      
 };
 
 } // namespace crepe
