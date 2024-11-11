@@ -181,12 +181,12 @@ SDLContext::texture_from_path(const std::string & path) {
 
 	return img_texture;
 }
-int SDLContext::get_width(const Texture & ctx) const {
+int SDLContext::get_width(const Texture & ctx) {
 	int w;
 	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &w, NULL);
 	return w;
 }
-int SDLContext::get_height(const Texture & ctx) const {
+int SDLContext::get_height(const Texture & ctx) {
 	int h;
 	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, NULL, &h);
 	return h;

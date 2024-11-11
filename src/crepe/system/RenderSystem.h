@@ -3,6 +3,8 @@
 #include "api/Camera.h"
 
 #include "System.h"
+#include "api/ParticleEmitter.h"
+#include "api/Transform.h"
 
 namespace crepe {
 
@@ -44,7 +46,9 @@ private:
 	void update_camera();
 
 	//! Renders all active sprites to the screen.
-	void render_sprites() const;
+	void render_sprites() ;
+	
+	void render_particle(const ParticleEmitter& em, Transform & tm);
 
 	/**
 	 * \todo Include color handling for sprites.

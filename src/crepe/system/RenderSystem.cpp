@@ -1,3 +1,4 @@
+#include <cmath>
 #include <functional>
 #include <vector>
 
@@ -6,7 +7,9 @@
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
 #include "../util/log.h"
+#include "Particle.h"
 #include "api/ParticleEmitter.h"
+#include "api/Vector2.h"
 
 #include "RenderSystem.h"
 
@@ -39,17 +42,32 @@ void RenderSystem::update_camera() {
 		this->curr_cam = &cam;
 	}
 }
-void RenderSystem::render_sprites() const {
+
+
+void RenderSystem::render_particle(const ParticleEmitter& em, Transform & tm){
+	if (!em.active) return;
+	
+	SDLContext & render = SDLContext::get_instance();
+	for (const Particle& p  : em.data.particles) {
+		tm.position = p.position;
+		render.draw(em.data.sprite, tm , *curr_cam);
+	}
+}
+void RenderSystem::render_sprites() {
 
 	ComponentManager & mgr = ComponentManager::get_instance();
 
-	auto sprites = mgr.get_components_by_type<Sprite>();
+	auto emitter = mgr.get_components_by_type<ParticleEmitter>();
 
 	SDLContext & render = SDLContext::get_instance();
-	for (const Sprite & sprite : sprites) {
+	Transform test(1, Vector2{0,0},0,0);
+
+	for (const ParticleEmitter & em : emitter) {
 		auto transforms
-			= mgr.get_components_by_id<Transform>(sprite.game_object_id);
-		render.draw(sprite, transforms[0], *curr_cam);
+			= mgr.get_components_by_id<Transform>(em.game_object_id);
+		test.scale = transforms[0].get().scale;
+		test.rotation = transforms[0].get().rotation;
+		this->render_particle(em, test);
 	}
 }
 
