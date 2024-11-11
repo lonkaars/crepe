@@ -10,6 +10,7 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "api/Camera.h"
+#include "api/Vector2.h"
 
 // FIXME: this needs to be removed
 const int SCREEN_WIDTH = 640;
@@ -97,14 +98,14 @@ private:
 	 * \param texture Reference to the Texture object.
 	 * \return Width of the texture as an integer.
 	 */
-	int get_width(const Texture &) const;
+	int get_width(const Texture &) ;
 
 	/**
 	 * \brief Gets the height of a texture.
 	 * \param texture Reference to the Texture object.
 	 * \return Height of the texture as an integer.
 	 */
-	int get_height(const Texture &) const;
+	int get_height(const Texture &) ;
 
 private:
 	//! Will use draw,clear_screen, present_screen, camera.
@@ -118,6 +119,8 @@ private:
 	 */
 	void draw(const Sprite & sprite, const Transform & transform,
 			  const Camera & camera);
+
+	void draw_particle(const Vector2 & pos, const Camera & camera);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
