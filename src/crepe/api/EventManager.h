@@ -78,7 +78,7 @@ void EventManager::trigger_event(const EventType & event, int eventId) {
 template <typename EventType>
 void EventManager::unsubscribe(const EventHandler<EventType> & callback, int channel) {
     std::type_index event_type(typeid(EventType));
-    std::string handler_name(callback.target_type().name());
+    const std::string handler_name = callback.target_type().name();
 	std::cout << "unsubcribe name: " << handler_name << std::endl;
 
     if (channel) {
