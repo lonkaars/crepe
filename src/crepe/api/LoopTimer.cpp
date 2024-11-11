@@ -1,10 +1,14 @@
 
 #include "../facade/SDLContext.h"
+#include "../util/log.h"
 
 #include "LoopTimer.h"
 
 using namespace crepe;
-LoopTimer::LoopTimer() {}
+
+LoopTimer::LoopTimer() {
+	dbg_trace();
+}
 
 LoopTimer & LoopTimer::get_instance() {
     static LoopTimer instance;
@@ -55,4 +59,5 @@ void LoopTimer::enforce_frame_rate() {
         SDLContext::get_instance().delay(delay_time);
     }
 }
+
 double LoopTimer::get_lag() const { return elapsed_time - elapsed_fixed_time; }
