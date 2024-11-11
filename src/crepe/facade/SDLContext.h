@@ -74,6 +74,7 @@ private:
 	 * \param ms Duration of the delay in milliseconds.
 	 */
 	void delay(int ms) const;
+
 private:
 	/**
 	 * \brief Constructs an SDLContext instance.
