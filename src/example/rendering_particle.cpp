@@ -21,7 +21,7 @@ using namespace crepe;
 using namespace std;
 
 int main(int argc, char * argv[]) {
-	GameObject game_object(0, "", "", Vector2{100, 0}, 0, 0.1);
+	GameObject game_object(0, "", "", Vector2{100, 100}, 0, 0.1);
 	Color color(0, 0, 0, 0);
 	Sprite test_sprite = game_object.add_component<Sprite>(
 		make_shared<Texture>("../asset/texture/img.png"), color,
@@ -29,11 +29,11 @@ int main(int argc, char * argv[]) {
 	game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
 		.max_particles = 10,
-		.emission_rate = 0.1,
-		.min_speed = 10,
-		.max_speed = 10,
-		.min_angle = 0,
-		.max_angle = 0,
+		.emission_rate = 0.5,
+		.min_speed = 6,
+		.max_speed = 20,
+		.min_angle = -20,
+		.max_angle = 20,
 		.begin_lifespan = 0,
 		.end_lifespan = 60,
 		.force_over_time = Vector2{0, 0},

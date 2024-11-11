@@ -51,6 +51,7 @@ void RenderSystem::render_particle(const ParticleEmitter& em, Transform & tm){
 	for (const Particle& p  : em.data.particles) {
 		if (!p.active) continue;
 		tm.position = p.position;
+		tm.rotation = p.angle;
 		render.draw(em.data.sprite, tm , *curr_cam);
 	}
 }
@@ -67,7 +68,6 @@ void RenderSystem::render_sprites() {
 		auto transforms
 			= mgr.get_components_by_id<Transform>(em.game_object_id);
 		test.scale = transforms[0].get().scale;
-		test.rotation = transforms[0].get().rotation;
 		this->render_particle(em, test);
 	}
 }
