@@ -20,7 +20,8 @@ public:
 	}
 	template <typename EventType>
 	void subscribe(EventHandler<EventType> && callback, int channel = 0);
-	void unsubscribe(std::type_index eventType, const std::string & handlerName,int channel);
+	template <typename EventType>
+	void unsubscribe(const EventHandler<EventType> &, int eventId);
 	template <typename EventType>
 	void trigger_event(const EventType & event, int channel);
 	void queue_event(std::unique_ptr<Event> && event, int channel);
@@ -71,6 +72,42 @@ void EventManager::trigger_event(const EventType & event, int eventId) {
         auto & handlers = subscribers[event_type];
         for (auto & handler : handlers) {
             handler->exec(event);
+        }
+    }
+}
+template <typename EventType>
+void EventManager::unsubscribe(const EventHandler<EventType> & callback, int channel) {
+    std::type_index event_type(typeid(EventType));
+    std::string handler_name(callback.target_type().name());
+	std::cout << "unsubcribe name: " << handler_name << std::endl;
+
+    if (channel) {
+        auto subscriber_list = subscribers_by_event_id.find(event_type);
+        if (subscriber_list != subscribers_by_event_id.end()) {
+            auto& handlers_map = subscriber_list->second;
+            auto handlers = handlers_map.find(channel);
+            if (handlers != handlers_map.end()) {
+                auto& callbacks = handlers->second;
+                for (auto it = callbacks.begin(); it != callbacks.end(); ++it) {
+                    if ((*it)->get_type() == handler_name) {
+						std::cout << "successfully erased an event" << std::endl;
+                        it = callbacks.erase(it);
+                        return;
+                    }
+                }
+            }
+        }
+    } else {
+        auto handlers_it = subscribers.find(event_type);
+        if (handlers_it != subscribers.end()) {
+            auto& handlers = handlers_it->second;
+            for (auto it = handlers.begin(); it != handlers.end(); ++it) {
+                if ((*it)->get_type() == handler_name) {
+					std::cout << "successfully erased an event" << std::endl;
+                    it = handlers.erase(it);
+                    return;
+                }
+            }
         }
     }
 }

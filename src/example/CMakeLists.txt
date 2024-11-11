@@ -28,4 +28,4 @@ add_example(proxy)
 add_example(db)
 add_example(ecs)
 add_example(scene_manager)
-
+add_example(events)
