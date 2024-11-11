@@ -94,8 +94,16 @@ LOEK += example/script.cpp
 LOEK += test/audio.cpp
 LOEK += test/dummy.cpp
 JARO += test/PhysicsTest.cpp
-
-FMT := $(JARO) #<<< CHANGE THIS TO YOUR NAME FOR STEP 2
+WOUTER += crepe/api/Event.h
+WOUTER += crepe/api/EventHandler.cpp
+WOUTER += crepe/api/EventHandler.h
+WOUTER += crepe/api/EventManager.cpp
+WOUTER += crepe/api/EventManager.h
+WOUTER += crepe/api/IKeyListener.cpp
+WOUTER += crepe/api/IKeyListener.h
+WOUTER += crepe/api/IMouseListener.cpp
+WOUTER += crepe/api/IMouseListener.h
+FMT := $(WOUTER) #<<< CHANGE THIS TO YOUR NAME FOR STEP 2
 format: FORCE
 	clang-tidy -p build/compile_commands.json --fix-errors $(FMT)
 
