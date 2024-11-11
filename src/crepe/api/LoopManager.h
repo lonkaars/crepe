@@ -1,6 +1,6 @@
 #pragma once
 
-namespace crepe {
+#include <memory>
 
 class RenderSystem;
 class SDLContext;
@@ -11,14 +11,14 @@ class ParticleSystem;
 class PhysicsSystem;
 class AnimatorSystem;
 class CollisionSystem;
+namespace crepe {
+
+
 
 class LoopManager {
 public:
 	void start();
-	LoopManager(const RenderSystem &, const SDLContext &, const LoopTimer &,
-				const ScriptSystem &, const SoundSystem &,
-				const ParticleSystem &, const PhysicsSystem &,
-				const AnimatorSystem &, const CollisionSystem &);
+	LoopManager();
 
 private:
 	/**
@@ -75,6 +75,15 @@ private:
 	void render();
 
 	bool game_running = false;
+	// For later if singletons are removed cant make them now because destructors are private.
+    // std::unique_ptr<RenderSystem> render_system;
+    // std::unique_ptr<SDLContext> sdl_context;
+    // std::unique_ptr<LoopTimer> loop_timer;
+    // std::unique_ptr<ScriptSystem> script_system;
+    // std::unique_ptr<ParticleSystem> particle_system;
+    // std::unique_ptr<PhysicsSystem> physics_system;
+    // std::unique_ptr<AnimatorSystem> animator_system;
+    // std::unique_ptr<CollisionSystem> collision_system;
 };
 
 } // namespace crepe

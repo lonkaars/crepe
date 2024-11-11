@@ -8,14 +8,7 @@
 
 using namespace crepe;
 
-LoopManager::LoopManager(
-	const RenderSystem & renderSystem, const SDLContext & sdlContext,
-	const LoopTimer & loopTimer, const ScriptSystem & scriptSystem,
-	const SoundSystem & soundSystem, const ParticleSystem & particleSystem,
-	const PhysicsSystem & physicsSystem, const AnimatorSystem & animatorSystem,
-	const CollisionSystem & collisionSystem) {
-	// Initialize systems if needed
-	// Example: this->renderSystem = renderSystem;
+LoopManager::LoopManager() {
 }
 void LoopManager::process_input() {
 	SDLContext::get_instance().handle_events(this->game_running);
