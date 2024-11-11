@@ -1,11 +1,24 @@
 #pragma once
 
+
 namespace crepe {
+
+class RenderSystem;
+class SDLContext;
+class LoopTimer;
+class ScriptSystem;
+class SoundSystem;
+class ParticleSystem;
+class PhysicsSystem;
+class AnimatorSystem;
+class CollisionSystem;
 
 class LoopManager {
 public:
 	void start();
-
+	LoopManager(const RenderSystem&, const SDLContext&, const LoopTimer&, const ScriptSystem&,
+                const SoundSystem&, const ParticleSystem&, const PhysicsSystem&, const AnimatorSystem&,
+                const CollisionSystem&);
 private:
 	/**
 	 * \brief Setup function for one-time initialization.
