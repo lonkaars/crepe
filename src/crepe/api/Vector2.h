@@ -6,15 +6,15 @@ namespace crepe {
 class Vector2 {
 public:
 	//! X component of the vector
-	float x;
+	double x;
 	//! Y component of the vector
-	float y;
+	double y;
 
 	//! Default constructor
 	Vector2() = default;
 
 	//! Constructor with initial values
-	Vector2(float x, float y);
+	Vector2(double x, double y);
 
 	//! Subtracts another vector from this vector and returns the result.
 	Vector2 operator-(const Vector2 & other) const;
@@ -23,7 +23,7 @@ public:
 	Vector2 operator+(const Vector2 & other) const;
 
 	//! Multiplies this vector by a scalar and returns the result.
-	Vector2 operator*(float scalar) const;
+	Vector2 operator*(double scalar) const;
 
 	//! Multiplies this vector by another vector element-wise and updates this vector.
 	Vector2 & operator*=(const Vector2 & other);
@@ -32,7 +32,7 @@ public:
 	Vector2 & operator+=(const Vector2 & other);
 
 	//! Adds a scalar value to both components of this vector and updates this vector.
-	Vector2 & operator+=(float other);
+	Vector2 & operator+=(double other);
 
 	//! Returns the negation of this vector.
 	Vector2 operator-() const;
@@ -42,6 +42,9 @@ public:
 
 	//! Checks if this vector is not equal to another vector.
 	bool operator!=(const Vector2 & other) const;
+
+	//!
+	double dot(const Vector2& other) const;
 };
 
 } // namespace crepe
