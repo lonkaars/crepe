@@ -2,6 +2,9 @@
 
 #include "System.h"
 
+//TODO:
+// control if flip works with animation system
+
 namespace crepe {
 
 /**
@@ -33,21 +36,9 @@ public:
 	void update() override;
 
 private:
-	/**
-	 * \brief Private constructor for the AnimatorSystem.
-	 *
-	 * The constructor is private to enforce the singleton pattern, ensuring that only
-	 * one instance of this system can exist.
-	 */
-	AnimatorSystem();
-
-	/**
-	 * \brief Private destructor for the AnimatorSystem.
-	 *
-	 * The destructor cleans up any resources used by the AnimatorSystem. It is private
-	 * to maintain the singleton pattern and prevent direct deletion.
-	 */
-	~AnimatorSystem();
+	// private because singleton
+	AnimatorSystem(); // dbg_trace
+	~AnimatorSystem(); // dbg_trace
 };
 
 } // namespace crepe

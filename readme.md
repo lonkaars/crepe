@@ -16,12 +16,32 @@ This repository uses CMake (the makefile in the root of this repository is for
 running auxiliary tasks only). See [src/readme.md](src/readme.md) for detailed
 building instructions.
 
-## Installing libraries
+## Code style
 
-The expected library (source) versions are included in this repository as git
-submodules, which may be used if your distro's package manager does not provide
-(recent enough versions of) them. To build any of the dependencies, make sure
-the submodules are initialized by running:
+Please read [contributing.md](./contributing.md).
+
+## Libraries
+
+This project uses the following libraries
+
+|Name|Version|
+|-|-:|
+|`SDL2`|2.30.9|
+|`SDL2_image`|2.8.2|
+|`SDL_ttf`|2.22.0|
+|`SoLoud`|(latest git `master` version)|
+|Google Test (`GTest`)|1.15.2|
+|Berkeley DB (`libdb`)|5.3.21|
+
+> [!NOTE]
+> Most of these libraries are likely available from your package manager if you
+> are using Linux or MinGW. Make sure your entire distribution is up-to-date if
+> you are not using a rolling release distribution.
+
+The sources for all of the above libraries are also included in this repository
+as git submodules, which may be used if your distro's package manager does not
+provide (recent enough versions of) them. To build any of the libraries
+manually, make sure the submodules are initialized by running:
 
 ```
 $ git submodule update --init --recursive --depth 1
@@ -35,6 +55,7 @@ Then, follow these steps for each library you want to install:
    $ cd lib/sdl2
    $ cd lib/soloud/contrib
    $ cd lib/sdl_image
+   $ cd lib/sdl_ttf
    ```
 2. Use CMake to configure the build, run the build and install (run **all** of
    these):
@@ -44,14 +65,14 @@ Then, follow these steps for each library you want to install:
    # cmake --install build
    ```
 
+## Tooling
+
+- TODO
+
 ## Documentation
 
 API documentation is done using Doxygen. To generate the docs, run
 ```
 $ make doxygen
 ```
-
-## Code style
-
-Please read [contributing.md](./contributing.md).
 

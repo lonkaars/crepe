@@ -16,13 +16,6 @@ target_sources(crepe PUBLIC
 	Scene.cpp
 	SceneManager.cpp
 	Vector2.cpp
-
-	timer.cpp
-	loopManager.cpp
-	eventManager.cpp
-	eventHandler.cpp
-	event.cpp
-
 	Camera.cpp
 	Animator.cpp
 )
@@ -47,14 +40,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Metadata.h
 	SceneManager.h
 	SceneManager.hpp
-	
-	timer.h 
-	loopManager.h 
-	eventManager.h 
-	eventHandler.h 
-	event.h
-
 	Camera.h
 	Animator.h
-
 )

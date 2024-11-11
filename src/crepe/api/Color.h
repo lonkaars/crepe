@@ -2,8 +2,9 @@
 
 #include <cstdint>
 
-namespace crepe{
+namespace crepe {
 
+// TODO: make Color a struct w/o constructors/destructors
 class Color {
 
 	// FIXME: can't these colors be defined as a `static constexpr const Color`
@@ -21,6 +22,7 @@ public:
 	static const Color & get_black();
 
 private:
+	// TODO: why are these private!?
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;

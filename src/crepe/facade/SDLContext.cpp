@@ -6,15 +6,17 @@
 #include <SDL2/SDL_video.h>
 #include <cmath>
 #include <cstddef>
+#include <functional>
 #include <iostream>
+#include <memory>
+#include <string>
+#include <utility>
 
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../api/Transform.h"
 #include "../util/log.h"
-#include "api/event.h"
-#include "api/eventManager.h"
-#include "keyCodes.h"
+#include "Exception.h"
 
 #include "SDLContext.h"
 
@@ -35,25 +37,31 @@ SDLContext::SDLContext() {
 				  << std::endl;
 		return;
 	}
-
-	this->game_window = SDL_CreateWindow(
+	SDL_Window * tmp_window = SDL_CreateWindow(
 		"Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		this->viewport.w, this->viewport.h, 0);
-	if (!this->game_window) {
+	if (!tmp_window) {
 		// FIXME: throw exception
 		std::cerr << "Window could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
+		return;
 	}
+	this->game_window
+		= {tmp_window, [](SDL_Window * window) { SDL_DestroyWindow(window); }};
 
-	this->game_renderer
-		= SDL_CreateRenderer(this->game_window, -1, SDL_RENDERER_ACCELERATED);
-	if (!this->game_renderer) {
+	SDL_Renderer * tmp_renderer = SDL_CreateRenderer(
+		this->game_window.get(), -1, SDL_RENDERER_ACCELERATED);
+	if (!tmp_renderer) {
 		// FIXME: throw exception
 		std::cerr << "Renderer could not be created! SDL_Error: "
 				  << SDL_GetError() << std::endl;
-		SDL_DestroyWindow(this->game_window);
+		SDL_DestroyWindow(this->game_window.get());
 		return;
 	}
+
+	this->game_renderer = {tmp_renderer, [](SDL_Renderer * renderer) {
+							   SDL_DestroyRenderer(renderer);
+						   }};
 
 	int img_flags = IMG_INIT_PNG;
 	if (!(IMG_Init(img_flags) & img_flags)) {
@@ -66,12 +74,8 @@ SDLContext::SDLContext() {
 SDLContext::~SDLContext() {
 	dbg_trace();
 
-	if (this->game_renderer != nullptr)
-		SDL_DestroyRenderer(this->game_renderer);
-
-	if (this->game_window != nullptr) {
-		SDL_DestroyWindow(this->game_window);
-	}
+	this->game_renderer.reset();
+	this->game_window.reset();
 
 	// TODO: how are we going to ensure that these are called from the same
 	// thread that SDL_Init() was called on? This has caused problems for me
@@ -81,6 +85,8 @@ SDLContext::~SDLContext() {
 }
 
 void SDLContext::handle_events(bool & running) {
+	//TODO: wouter i need events
+	/*
 	SDL_Event event;
 	SDL_PollEvent(&event);
 	switch (event.type) {
@@ -96,15 +102,18 @@ void SDLContext::handle_events(bool & running) {
 			triggerEvent(MousePressedEvent(x, y));
 			break;
 	}
+	*/
 }
 
-void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer); }
-void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer); }
+void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
+void SDLContext::present_screen() {
+	SDL_RenderPresent(this->game_renderer.get());
+}
 
 void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 					  const Camera & cam) {
 
-	static SDL_RendererFlip render_flip
+	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
@@ -127,12 +136,10 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 		.h = static_cast<int>(adjusted_h),
 	};
 
-	double degrees = transform.rotation * 180 / M_PI;
+	SDL_RenderCopyEx(this->game_renderer.get(),
+					 sprite.sprite_image->texture.get(), &srcrect,
 
-	SDL_RenderCopyEx(this->game_renderer, sprite.sprite_image->texture,
-					 &srcrect,
-
-					 &dstrect, degrees, NULL, render_flip);
+					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
 void SDLContext::camera(const Camera & cam) {
@@ -141,37 +148,46 @@ void SDLContext::camera(const Camera & cam) {
 	this->viewport.x = static_cast<int>(cam.x) - (SCREEN_WIDTH / 2);
 	this->viewport.y = static_cast<int>(cam.y) - (SCREEN_HEIGHT / 2);
 
-	SDL_SetRenderDrawColor(this->game_renderer, cam.bg_color.r, cam.bg_color.g,
-						   cam.bg_color.b, cam.bg_color.a);
+	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r,
+						   cam.bg_color.g, cam.bg_color.b, cam.bg_color.a);
 }
 
-const uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
+uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
 
-SDL_Texture * SDLContext::texture_from_path(const char * path) {
-	dbg_trace();
+std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
+SDLContext::texture_from_path(const std::string & path) {
 
-	SDL_Surface * tmp = IMG_Load(path);
-	if (!tmp) {
-		std::cerr << "Error surface " << IMG_GetError << std::endl;
+	SDL_Surface * tmp = IMG_Load(path.c_str());
+	if (tmp == nullptr) {
+		throw Exception("surface cannot be load from %s", path.c_str());
 	}
-	SDL_Texture * created_texture
-		= SDL_CreateTextureFromSurface(this->game_renderer, tmp);
 
-	if (!created_texture) {
-		std::cerr << "Error could not create texture " << IMG_GetError
-				  << std::endl;
+	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>>
+		img_surface;
+	img_surface
+		= {tmp, [](SDL_Surface * surface) { SDL_FreeSurface(surface); }};
+
+	SDL_Texture * tmp_texture = SDL_CreateTextureFromSurface(
+		this->game_renderer.get(), img_surface.get());
+
+	if (tmp_texture == nullptr) {
+		throw Exception("Texture cannot be load from %s", path.c_str());
 	}
-	SDL_FreeSurface(tmp);
 
-	return created_texture;
+	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
+		img_texture;
+	img_texture = {tmp_texture,
+				   [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
+
+	return img_texture;
 }
-int SDLContext::get_width(const Texture & ctx) {
+int SDLContext::get_width(const Texture & ctx) const {
 	int w;
-	SDL_QueryTexture(ctx.texture, NULL, NULL, &w, NULL);
+	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &w, NULL);
 	return w;
 }
-int SDLContext::get_height(const Texture & ctx) {
+int SDLContext::get_height(const Texture & ctx) const {
 	int h;
-	SDL_QueryTexture(ctx.texture, NULL, NULL, NULL, &h);
+	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, NULL, &h);
 	return h;
 }

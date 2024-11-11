@@ -6,4 +6,3 @@ Config & Config::get_instance() {
 	static Config instance;
 	return instance;
 }
-

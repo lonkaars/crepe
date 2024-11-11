@@ -4,21 +4,21 @@
  */
 
 #include <cassert>
-#include <crepe/util/log.h>
-#include <crepe/util/Proxy.h>
-#include <crepe/api/SaveManager.h>
 #include <crepe/api/Config.h>
+#include <crepe/api/SaveManager.h>
+#include <crepe/util/Proxy.h>
+#include <crepe/util/log.h>
 
 using namespace crepe;
 
 // unrelated setup code
-int _ = [] () {
+int _ = []() {
 	// make sure all log messages get printed
 	auto & cfg = Config::get_instance();
 	cfg.log.level = LogLevel::TRACE;
 
 	return 0; // satisfy compiler
-} ();
+}();
 
 int main() {
 	const char * key = "mygame.test";
@@ -27,7 +27,7 @@ int main() {
 
 	dbg_logf("has key = %s", mgr.has(key) ? "true" : "false");
 	ValueBroker<int> prop = mgr.get<int>(key, 0);
-	Proxy<int> val        = mgr.get<int>(key, 0);
+	Proxy<int> val = mgr.get<int>(key, 0);
 
 	dbg_logf("val = %d", mgr.get<int>(key).get());
 	prop.set(1);
@@ -42,4 +42,3 @@ int main() {
 
 	return 0;
 }
-

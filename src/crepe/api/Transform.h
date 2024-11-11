@@ -32,7 +32,7 @@ public:
 public:
 	//! Translation (shift)
 	Vector2 position;
-	//! Rotation, in radians
+	//! Rotation, in degrees
 	double rotation;
 	//! Multiplication factor
 	double scale;

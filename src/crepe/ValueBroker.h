@@ -23,10 +23,12 @@ public:
 	virtual const T & get();
 
 	typedef std::function<void(const T & target)> setter_t;
-	typedef std::function<const T & ()> getter_t;
+	typedef std::function<const T &()> getter_t;
+
 private:
 	setter_t setter;
 	getter_t getter;
+
 public:
 	/**
 	 * \param setter  Function that sets the variable
@@ -35,7 +37,6 @@ public:
 	ValueBroker(const setter_t & setter, const getter_t & getter);
 };
 
-}
+} // namespace crepe
 
 #include "ValueBroker.hpp"
-
