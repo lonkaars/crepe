@@ -49,6 +49,7 @@ void RenderSystem::render_particle(const ParticleEmitter& em, Transform & tm){
 	
 	SDLContext & render = SDLContext::get_instance();
 	for (const Particle& p  : em.data.particles) {
+		if (!p.active) continue;
 		tm.position = p.position;
 		render.draw(em.data.sprite, tm , *curr_cam);
 	}
