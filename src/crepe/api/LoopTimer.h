@@ -122,7 +122,7 @@ public:
 private:
 	//!  Current frames per second
 	int fps = 50;
-	///< Current game scale                    
+	//! Current game scale                    
 	double game_scale = 1;       
 	//! Maximum delta time to avoid large jumps       
 	double maximum_delta_time = 0.25;  

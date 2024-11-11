@@ -7,7 +7,14 @@
 #include "LoopTimer.h"
 
 namespace crepe {
-
+LoopManager::LoopManager(const RenderSystem& renderSystem, const SDLContext& sdlContext,
+                         const LoopTimer& loopTimer, const ScriptSystem& scriptSystem,
+                         const SoundSystem& soundSystem, const ParticleSystem& particleSystem,
+                         const PhysicsSystem& physicsSystem, const AnimatorSystem& animatorSystem,
+                         const CollisionSystem& collisionSystem) {
+    // Initialize systems if needed
+    // Example: this->renderSystem = renderSystem;
+}
 void LoopManager::process_input() {
     SDLContext::get_instance().handle_events(this->game_running);
 }
@@ -28,13 +35,13 @@ void LoopManager::loop() {
         timer.update();
 
         while (timer.get_lag() >= timer.get_fixed_delta_time()) {
-            process_input();
-            fixed_update();
+            this->process_input();
+            this->fixed_update();
             timer.advance_fixed_update();
         }
 
-        update();
-        render();
+        this->update();
+        this->render();
 
         timer.enforce_frame_rate();
     }
@@ -48,7 +55,7 @@ void LoopManager::setup() {
 }
 
 void LoopManager::render() {
-    if (game_running) {
+    if (this->game_running) {
         RenderSystem::get_instance().update();
     }
 }
