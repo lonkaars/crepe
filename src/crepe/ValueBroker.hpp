@@ -6,8 +6,7 @@ namespace crepe {
 
 template <typename T>
 ValueBroker<T>::ValueBroker(const setter_t & setter, const getter_t & getter)
-	: setter(setter),
-	  getter(getter) {}
+	: setter(setter), getter(getter) {}
 
 template <typename T>
 const T & ValueBroker<T>::get() {

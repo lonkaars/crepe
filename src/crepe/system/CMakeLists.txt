@@ -4,6 +4,7 @@ target_sources(crepe PUBLIC
 	PhysicsSystem.cpp
 	CollisionSystem.cpp
 	RenderSystem.cpp
+	AnimatorSystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -12,4 +13,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	PhysicsSystem.h
 	CollisionSystem.h
 	RenderSystem.h
+	AnimatorSystem.h
 )
