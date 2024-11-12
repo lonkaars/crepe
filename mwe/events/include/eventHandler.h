@@ -24,7 +24,8 @@ class EventHandlerWrapper : public IEventHandlerWrapper {
 public:
 	explicit EventHandlerWrapper(const EventHandler<EventType> & handler,
 								 const bool destroyOnSuccess = false)
-		: m_handler(handler), m_handlerType(m_handler.target_type().name()),
+		: m_handler(handler),
+		  m_handlerType(m_handler.target_type().name()),
 		  m_destroyOnSuccess(destroyOnSuccess) {
 		// std::cout << m_handlerType << std::endl;
 	}
