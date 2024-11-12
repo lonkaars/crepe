@@ -652,6 +652,20 @@ that you can click on to open them.
   bool bar = 0;
   ```
   </td></tr></table></details>
+- <details><summary>
+  The reason for <code>friend</code> relations are documented
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  //! ComponentManager calls the private constructor of this class
+  friend class ComponentManager;
+  ```
+  </td><td>
+
+  ```cpp
+  friend class ComponentManager;
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 
