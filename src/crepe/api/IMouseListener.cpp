@@ -8,16 +8,16 @@ IMouseListener::~IMouseListener() {
 
 void IMouseListener::subscribe_events(int listenerId) {
     // Define handler lambdas and subscribe them
-    auto mouse_click_handler = [this](const MouseClickEvent& event) {
+    mouse_click_handler = [this](const MouseClickEvent& event) {
         return this->on_mouse_clicked(event);
     };
-    auto mouse_press_handler = [this](const MousePressEvent& event) {
+    mouse_press_handler = [this](const MousePressEvent& event) {
         return this->on_mouse_pressed(event);
     };
-    auto mouse_release_handler = [this](const MouseReleaseEvent& event) {
+    mouse_release_handler = [this](const MouseReleaseEvent& event) {
         return this->on_mouse_released(event);
     };
-    auto mouse_move_handler = [this](const MouseMoveEvent& event) {
+    mouse_move_handler = [this](const MouseMoveEvent& event) {
         return this->on_mouse_moved(event);
     };
     EventManager::get_instance().subscribe<MouseClickEvent>(std::move(mouse_click_handler), listenerId);

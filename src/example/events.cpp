@@ -31,19 +31,19 @@ class MyScript : public Script, public IKeyListener,public IMouseListener{
 		std::cout << "KeyRelease function" << std::endl;
 		return false;
 	}
-	bool on_mouse_clicked(const MouseClickEvent & event){
+	bool on_mouse_clicked(const MouseClickEvent & event) override{
 		std::cout << "MouseClick function" << std::endl;
 		return false;
 	}
-    bool on_mouse_pressed(const MousePressEvent & event){
+    bool on_mouse_pressed(const MousePressEvent & event) override {
 		std::cout << "MousePress function" << std::endl;
 		return false;
 	}
-    bool on_mouse_released(const MouseReleaseEvent & event){
+    bool on_mouse_released(const MouseReleaseEvent & event) override {
 		std::cout << "MouseRelease function" << std::endl;
 		return false;
 	}
-    bool on_mouse_moved(const MouseMoveEvent & event){
+    bool on_mouse_moved(const MouseMoveEvent & event) override {
 		std::cout << "MouseMove function" << std::endl;
 		return false;
 	}
@@ -61,6 +61,17 @@ public:
     }
 };
 int main() {
+	// two events to trigger
+	KeyPressEvent key_press;
+    key_press.key = 1;
+    key_press.repeat = 0;
+	MouseClickEvent click_event;
+    click_event.button = MouseButton::LEFT_MOUSE;
+    click_event.mouse_x = 100;
+    click_event.mouse_y = 200;
+	// queue events to test queue
+	EventManager::get_instance().queue_event<KeyPressEvent>(std::move(key_press), 0);
+	EventManager::get_instance().queue_event<MouseClickEvent>(std::move(click_event), 0);
     {
         // Instantiate TestKeyListener, which subscribes to key events
         TestKeyListener testListener;
@@ -73,32 +84,24 @@ int main() {
         ScriptSystem sys;
         sys.update();
 
-        // Trigger some events
-        KeyPressEvent key_press;
-        key_press.key = 1;
-        key_press.repeat = 0;
-
-        MouseClickEvent click_event;
-        click_event.button = MouseButton::LEFT_MOUSE;
-        click_event.mouse_x = 100;
-        click_event.mouse_y = 200;
-		std::cout << "testing custom listener:" << std::endl;
         // Trigger the events while `testListener` is in scope
         EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 0);
         EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);
-    } // End of scope - triggers destruction of obj, MyScript, and `testListener`, unsubscribing from events
-    // After `testListener` is destroyed, triggering events again should have no output if unsubscription worked
-    KeyPressEvent key_press;
-    key_press.key = 1;
-    key_press.repeat = 0;
+    } 
+	// custom lambda event handler
+	EventHandler<KeyPressEvent> event_handler = [](const KeyPressEvent& e) {
+   	 	std::cout << "lambda test" << std::endl;
+		return false;
+	};
+	EventManager::get_instance().subscribe<KeyPressEvent>(std::move(event_handler),0);
+	//
+
     EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 0);
-
-    MouseClickEvent click_event;
-    click_event.button = MouseButton::LEFT_MOUSE;
-    click_event.mouse_x = 100;
-    click_event.mouse_y = 200;
+	
     EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);
+	EventManager::get_instance().dispatch_events();
 
+	EventManager::get_instance().unsubscribe<KeyPressEvent>(event_handler,0);
     return EXIT_SUCCESS;
 }
 

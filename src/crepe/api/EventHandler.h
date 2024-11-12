@@ -24,7 +24,6 @@ class EventHandlerWrapper : public IEventHandlerWrapper {
 public:
     explicit EventHandlerWrapper(const EventHandler<EventType> & handler)
         : m_handler(handler), m_handler_type(m_handler.target_type().name()) {
-			std::cout << "subscribe name: " << m_handler_type << std::endl;
     }
 
 private:
