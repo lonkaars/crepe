@@ -11,9 +11,11 @@ using namespace std::chrono_literals;
 using namespace crepe;
 
 class PhysicsTest : public ::testing::Test {
-protected:
+public:
 	GameObject * game_object;
+	ComponentManager component_manager;
 	PhysicsSystem physics_system;
+
 	void SetUp() override {
 		ComponentManager & mgr = ComponentManager::get_instance();
 		std::vector<std::reference_wrapper<Transform>> transforms

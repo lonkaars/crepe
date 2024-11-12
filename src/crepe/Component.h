@@ -2,8 +2,6 @@
 
 #include "types.h"
 
-#include <cstdint>
-
 namespace crepe {
 
 class ComponentManager;
@@ -15,13 +13,21 @@ class ComponentManager;
  * interface for all components.
  */
 class Component {
+public:
+	struct Data {
+		//! The ID of the GameObject this component belongs to
+		const game_object_id_t id;
+		//! The manager of this component
+		ComponentManager & component_manager;
+	};
+
 protected:
+	/**
+	 * \param base Data
+	 */
+	Component(const Data & base);
 	//! Only the ComponentManager can create components
 	friend class crepe::ComponentManager;
-	/**
-	 * \param id The id of the GameObject this component belongs to
-	 */
-	Component(game_object_id_t id);
 
 public:
 	virtual ~Component() = default;
@@ -37,8 +43,7 @@ public:
 	virtual int get_instances_max() const { return -1; }
 
 public:
-	//! The id of the GameObject this component belongs to
-	const game_object_id_t game_object_id;
+	Data data;
 	//! Whether the component is active
 	bool active = true;
 };

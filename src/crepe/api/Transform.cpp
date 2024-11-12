@@ -4,9 +4,9 @@
 
 using namespace crepe;
 
-Transform::Transform(game_object_id_t id, const Vector2 & point,
+Transform::Transform(const Component::Data & data, const Vector2 & point,
 					 double rotation, double scale)
-	: Component(id),
+	: Component(data),
 	  position(point),
 	  rotation(rotation),
 	  scale(scale) {

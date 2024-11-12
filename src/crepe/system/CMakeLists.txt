@@ -1,17 +1,18 @@
 target_sources(crepe PUBLIC
-	ParticleSystem.cpp
+	System.cpp
+	# ParticleSystem.cpp
 	ScriptSystem.cpp
-	PhysicsSystem.cpp
-	CollisionSystem.cpp
-	RenderSystem.cpp
-	AnimatorSystem.cpp
+	# PhysicsSystem.cpp
+	# CollisionSystem.cpp
+	# RenderSystem.cpp
+	# AnimatorSystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	System.h
 	ScriptSystem.h
-	PhysicsSystem.h
-	CollisionSystem.h
-	RenderSystem.h
-	AnimatorSystem.h
+	# PhysicsSystem.h
+	# CollisionSystem.h
+	# RenderSystem.h
+	# AnimatorSystem.h
 )
