@@ -1,10 +1,10 @@
 #pragma once
 
 #include "api/Camera.h"
+#include "api/Sprite.h"
+#include "api/Transform.h"
 
 #include "System.h"
-#include "api/ParticleEmitter.h"
-#include "api/Transform.h"
 
 namespace crepe {
 
@@ -45,14 +45,22 @@ private:
 	//! Updates the active camera used for rendering.
 	void update_camera();
 
-	//! Renders all active sprites to the screen.
-	void render_sprites() ;
-	
-	void render_particle(const ParticleEmitter& em, Transform & tm);
+	//! Renders the whole screen
+	void render();
+
+	/**
+	 * \brief Renders all the particles on the screen from a given sprite.
+	 *
+	 * \param sprite renders the particles with given texture
+	 * \param tm the Transform component for scale
+	 * \return true if particles have been rendered
+	 */
+	bool render_particle(const Sprite &, const Transform & tm);
+
+	void render_normal(const Sprite &, const Transform & tm);
 
 	/**
 	 * \todo Include color handling for sprites.
-	 * \todo Implement particle emitter rendering with sprites.
 	 * \todo Add text rendering using SDL_ttf for text components.
 	 * \todo Implement a text component and a button component.
 	 * \todo Ensure each sprite is checked for active status before rendering.
