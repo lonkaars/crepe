@@ -7,6 +7,9 @@ void EventManager::dispatch_events() {
         auto& event = std::get<0>(*event_it);
         int channel = std::get<1>(*event_it); 
         std::type_index event_type = std::get<2>(*event_it); 
+
+        bool event_handled = false;
+
         if (channel) {
             auto handlers_it = subscribers_by_event_id.find(event_type);
             if (handlers_it != subscribers_by_event_id.end()) {
@@ -15,25 +18,33 @@ void EventManager::dispatch_events() {
                 if (handlers != handlers_map.end()) {
                     auto& callbacks = handlers->second;
                     for (auto& handler : callbacks) {
-                        handler->exec(*event);
+                        if (handler->exec(*event)) {
+                            event_it = events_queue.erase(event_it);
+                            event_handled = true;
+                            break;
+                        }
                     }
                 }
             }
         } else {
+            // Handle event for all channels
             auto handlers_it = subscribers.find(event_type);
             if (handlers_it != subscribers.end()) {
                 auto& handlers = handlers_it->second;
                 for (auto& handler : handlers) {
-                    handler->exec(*event);
+                    if (handler->exec(*event)) {
+                        event_it = events_queue.erase(event_it);
+                        event_handled = true;
+                        break;
+                    }
                 }
             }
         }
 
-        if (event->handled) {
-            event_it = events_queue.erase(event_it);
-        } else {
+        if (!event_handled) {
             ++event_it;
         }
     }
 }
+
 
