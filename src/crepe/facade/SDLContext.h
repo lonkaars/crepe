@@ -58,7 +58,7 @@ private:
 private:
 	//! Will only use get_ticks
 	friend class AnimatorSystem;
-	//! Will use the funtions: get_ticks, delay
+	//! Will only use delay
 	friend class LoopTimer;
 	/**
 	 * \brief Gets the current SDL ticks since the program started.
