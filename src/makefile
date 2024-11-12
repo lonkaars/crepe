@@ -103,10 +103,9 @@ WOUTER += crepe/api/IKeyListener.cpp
 WOUTER += crepe/api/IKeyListener.h
 WOUTER += crepe/api/IMouseListener.cpp
 WOUTER += crepe/api/IMouseListener.h
-FMT := $(WOUTER) #<<< CHANGE THIS TO YOUR NAME FOR STEP 2
+FMT := $(shell git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
 format: FORCE
 	clang-tidy -p build/compile_commands.json --fix-errors $(FMT)
 
-# FMT += $(shell git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
 # TODO: re-enable linter after all corrections
 
