@@ -19,6 +19,7 @@ enum class MouseButton {
 };
 class Event {
 public:
+bool handled = false;
 };
 
 class KeyPressEvent : public Event {

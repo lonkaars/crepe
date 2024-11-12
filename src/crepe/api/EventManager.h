@@ -24,12 +24,13 @@ public:
 	void unsubscribe(const EventHandler<EventType> &, int eventId);
 	template <typename EventType>
 	void trigger_event(const EventType & event, int channel);
-	void queue_event(std::unique_ptr<Event> && event, int channel);
+	template <typename EventType>
+	void queue_event(EventType&& event, int channel);
 	void dispatch_events();
 
 private:
 	EventManager() = default;
-	std::vector<std::pair<std::unique_ptr<Event>, int>> events_queue;
+	std::vector<std::tuple<std::unique_ptr<Event>, int, std::type_index>> events_queue;
 	std::unordered_map<std::type_index, std::vector<std::unique_ptr<IEventHandlerWrapper>>> subscribers;
 	std::unordered_map<std::type_index, std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>> subscribers_by_event_id;
 };
@@ -50,6 +51,19 @@ void EventManager::subscribe(EventHandler<EventType> && callback, int channel){
     } else {
         subscribers[event_type].emplace_back(std::move(handler));
     }
+}
+template <typename EventType>
+void EventManager::queue_event(EventType&& event, int channel) {
+    std::type_index event_type = std::type_index(typeid(EventType));
+    
+    std::unique_ptr<EventType> event_ptr = std::make_unique<EventType>(std::forward<EventType>(event));
+
+    std::tuple<std::unique_ptr<Event>, int, std::type_index> tuple(
+        std::move(event_ptr),
+        channel,
+        event_type
+    );
+    events_queue.push_back(std::move(tuple));
 }
 
 template <typename EventType>
@@ -79,7 +93,6 @@ template <typename EventType>
 void EventManager::unsubscribe(const EventHandler<EventType> & callback, int channel) {
     std::type_index event_type(typeid(EventType));
     const std::string handler_name = callback.target_type().name();
-	std::cout << "unsubcribe name: " << handler_name << std::endl;
 
     if (channel) {
         auto subscriber_list = subscribers_by_event_id.find(event_type);
@@ -90,7 +103,6 @@ void EventManager::unsubscribe(const EventHandler<EventType> & callback, int cha
                 auto& callbacks = handlers->second;
                 for (auto it = callbacks.begin(); it != callbacks.end(); ++it) {
                     if ((*it)->get_type() == handler_name) {
-						std::cout << "successfully erased an event" << std::endl;
                         it = callbacks.erase(it);
                         return;
                     }
@@ -103,7 +115,6 @@ void EventManager::unsubscribe(const EventHandler<EventType> & callback, int cha
             auto& handlers = handlers_it->second;
             for (auto it = handlers.begin(); it != handlers.end(); ++it) {
                 if ((*it)->get_type() == handler_name) {
-					std::cout << "successfully erased an event" << std::endl;
                     it = handlers.erase(it);
                     return;
                 }
