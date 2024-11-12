@@ -94,11 +94,10 @@ LOEK += example/script.cpp
 LOEK += test/audio.cpp
 LOEK += test/dummy.cpp
 JARO += test/PhysicsTest.cpp
-
-FMT := $(JARO) #<<< CHANGE THIS TO YOUR NAME FOR STEP 2
+FMT := $(shell git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
 format: FORCE
 	clang-tidy -p build/compile_commands.json --fix-errors $(FMT)
 
-# FMT += $(shell git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
+# FMT := $(shell git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
 # TODO: re-enable linter after all corrections
 
