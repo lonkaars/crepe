@@ -22,11 +22,18 @@ void CollisionSystem::update() {
 	ComponentManager & mgr = ComponentManager::get_instance();
 	std::vector<std::reference_wrapper<BoxCollider>> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
 	std::vector<std::reference_wrapper<CircleCollider>> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
-	check_collisions(boxcolliders,circlecolliders);
+	std::vector<std::pair<int, int>> collided = check_collisions(boxcolliders,circlecolliders);
+	for (const auto& collision : collided) {
+    std::cout << "Object " << collision.first << " collided with Object " << collision.second << std::endl;
+	}
+	if(collided.empty()) {
+		std::cout << "No objects collided" << std::endl;
+	}
 }
 
-void CollisionSystem::check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders) {
-		ComponentManager & mgr = ComponentManager::get_instance();
+std::vector<std::pair<int, int>> CollisionSystem::check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders) {
+	ComponentManager & mgr = ComponentManager::get_instance();
+	std::vector<std::pair<int, int>> collisions_ret;
 	//if no colliders skip
 	//check if colliders has rigibocdy if not skip
 
@@ -34,35 +41,71 @@ void CollisionSystem::check_collisions(const std::vector<std::reference_wrapper<
 	//quadtree code
 	//quadtree is placed over the input vector
 
-	//check collision
+	// Check collisions
 	for (size_t i = 0; i < boxcolliders.size(); ++i) {
+		// Fetch components for the first box collider
+		int game_object_id_1 = boxcolliders[i].get().game_object_id;
+		Transform& transform1 = mgr.get_components_by_id<Transform>(game_object_id_1).front().get();
+		Rigidbody& rigidbody1 = mgr.get_components_by_id<Rigidbody>(game_object_id_1).front().get();
+
+		// Check CircleCollider vs CircleCollider
 		for (size_t j = i + 1; j < boxcolliders.size(); ++j) {
-			if(boxcolliders[i].get().game_object_id == boxcolliders[j].get().game_object_id){continue;}
-			Transform & transform1 = mgr.get_components_by_id<Transform>(boxcolliders[i].get().game_object_id).front().get();
-			Rigidbody & rigidbody1 = mgr.get_components_by_id<Rigidbody>(boxcolliders[i].get().game_object_id).front().get();
+
+			// Skip self collision
+			int game_object_id_2 = boxcolliders[j].get().game_object_id;
+			if (game_object_id_1 == game_object_id_2) continue;
+
+			// Fetch components for the second box collider
 			Transform & transform2 = mgr.get_components_by_id<Transform>(boxcolliders[j].get().game_object_id).front().get();
 			Rigidbody & rigidbody2 = mgr.get_components_by_id<Rigidbody>(boxcolliders[j].get().game_object_id).front().get();
-			check_box_box_collision(boxcolliders[i], boxcolliders[j], transform1, transform2, rigidbody1, rigidbody2);
+
+			// Check collision
+			if (check_box_box_collision(boxcolliders[i], boxcolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
+				collisions_ret.emplace_back(game_object_id_1, game_object_id_2);
+			}
 		}
+
+		// Check BoxCollider vs CircleCollider
 		for (size_t j = 0; j < circlecolliders.size(); ++j) {
-			if(boxcolliders[i].get().game_object_id == circlecolliders[j].get().game_object_id){continue;}
-			Transform & transform1 = mgr.get_components_by_id<Transform>(boxcolliders[i].get().game_object_id).front().get();
-			Rigidbody & rigidbody1 = mgr.get_components_by_id<Rigidbody>(boxcolliders[i].get().game_object_id).front().get();
+
+			// Skip self collision
+			int game_object_id_2 = boxcolliders[j].get().game_object_id;
+			if (game_object_id_1 == game_object_id_2) continue;
+
+			// Fetch components for the second collider (circle)
 			Transform & transform2 = mgr.get_components_by_id<Transform>(circlecolliders[j].get().game_object_id).front().get();
 			Rigidbody & rigidbody2 = mgr.get_components_by_id<Rigidbody>(circlecolliders[j].get().game_object_id).front().get();
-			check_box_circle_collision(boxcolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2);
+
+			// Check collision
+			if (check_box_circle_collision(boxcolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
+				collisions_ret.emplace_back(game_object_id_1, game_object_id_2);
+			}
 		}
 	}
+	// Check CircleCollider vs CircleCollider
 	for (size_t i = 0; i < circlecolliders.size(); ++i) {
+
+		// Fetch components for the first circle collider
+		int game_object_id_1 = boxcolliders[i].get().game_object_id;
+		Transform & transform1 = mgr.get_components_by_id<Transform>(circlecolliders[i].get().game_object_id).front().get();
+		Rigidbody & rigidbody1 = mgr.get_components_by_id<Rigidbody>(circlecolliders[i].get().game_object_id).front().get();
 		for (size_t j = i + 1; j < circlecolliders.size(); ++j) {
-			if(circlecolliders[i].get().game_object_id == circlecolliders[j].get().game_object_id){continue;}
-			Transform & transform1 = mgr.get_components_by_id<Transform>(circlecolliders[i].get().game_object_id).front().get();
-			Rigidbody & rigidbody1 = mgr.get_components_by_id<Rigidbody>(circlecolliders[i].get().game_object_id).front().get();
+
+			// Skip self collision
+			int game_object_id_2 = boxcolliders[j].get().game_object_id;
+			if (game_object_id_1 == game_object_id_2) continue;
+
+			// Fetch components for the second circle collider
 			Transform & transform2 = mgr.get_components_by_id<Transform>(circlecolliders[j].get().game_object_id).front().get();
 			Rigidbody & rigidbody2 = mgr.get_components_by_id<Rigidbody>(circlecolliders[j].get().game_object_id).front().get();
-			check_circle_circle_collision(circlecolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2);
+
+			// Check collision
+			if (check_circle_circle_collision(circlecolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
+				collisions_ret.emplace_back(game_object_id_1, game_object_id_2);
+			}
 		}
 	}
+	return collisions_ret;
 }
 
 bool CollisionSystem::check_box_box_collision(const BoxCollider& box1, const BoxCollider& box2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2)
@@ -107,8 +150,9 @@ bool CollisionSystem::check_box_circle_collision(const BoxCollider& box1, const 
 	double half_height = box1.height / 2.0;
 
 	// Find the closest point on the box to the circle's center
-	double closest_x = std::clamp(final_position2.x, final_position1.x - half_width, final_position1.x + half_width);
-	double closest_y = std::clamp(final_position2.y, final_position1.y - half_height, final_position1.y + half_height);
+	double closest_x = std::max(final_position1.x - half_width, std::min(final_position2.x, final_position1.x + half_width));
+	double closest_y = std::max(final_position1.y - half_height, std::min(final_position2.y, final_position1.y + half_height));
+
 
 	// Calculate the distance squared between the circle's center and the closest point on the box
 	double distance_x = final_position2.x - closest_x;
