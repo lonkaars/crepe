@@ -54,8 +54,6 @@ that you can click on to open them.
   - Implementation details (if applicable)
 - Header files (`.h`) contain the following types of comments:
   - [Usage documentation](#documentation) (required)
-    > [!NOTE]
-    > Constructors/destructors aren't required to have a `\brief` description
   - Implementation details (if they affect the header)
   - Design/data structure decisions (if applicable)
 - <details><summary>
@@ -436,7 +434,8 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  Variables that are being moved always use the fully qualified <code>std::move</code>
+  Variables that are being moved always use the fully qualified
+  <code>std::move</code>
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
@@ -666,6 +665,19 @@ that you can click on to open them.
   friend class ComponentManager;
   ```
   </td></tr></table></details>
+- <details><summary>
+  Do not <i>pick</i> fixed-width integer types (unless required)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  unsigned long long foo();
+  ```
+  </td><td>
+
+  ```cpp
+  uint64_t foo();
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 
@@ -714,6 +726,67 @@ that you can click on to open them.
    * @param bar  Magic number
    */
   void foo();
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  The default constructor and destructor aren't required to have a
+  <code>\brief</code> description
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  Foo();
+  virtual ~Foo();
+  ```
+  </td><td>
+
+  ```cpp
+  //! Create instance of Foo
+  Foo();
+  //! Destroy instance of Foo
+  virtual ~Foo();
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Parameter direction shouldn't be specified using Doxygen
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  /**
+   * \param bar  Reference to Bar
+   */
+  void foo(const Bar & bar);
+  ```
+  </td><td>
+
+  ```cpp
+  /**
+   * \param[in] bar  Reference to Bar
+   */
+  void foo(const Bar & bar);
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Deleted functions shouldn't have Doxygen comments
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  // singleton
+  Foo(const Foo &) = delete;
+  Foo(Foo &&) = delete;
+  Foo & operator=(const Foo &) = delete;
+  Foo & operator=(Foo &&) = delete;
+  ```
+  </td><td>
+
+  ```cpp
+  //! Deleted copy constructor
+  Foo(const Foo &) = delete;
+  //! Deleted move constructor
+  Foo(Foo &&) = delete;
+  //! Deleted copy assignment operator
+  Foo & operator=(const Foo &) = delete;
+  //! Deleted move assignment operator
+  Foo & operator=(Foo &&) = delete;
   ```
   </td></tr></table></details>
 
