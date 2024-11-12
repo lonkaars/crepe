@@ -7,14 +7,15 @@
 namespace crepe {
 
 class Script;
+class BehaviorScript;
 
 class ScriptSystem : public System {
 public:
+	using System::System;
 	void update();
 
 private:
-	// TODO: to forward_list<reference_wrapper>
-	std::forward_list<Script *> get_scripts();
+	std::forward_list<std::reference_wrapper<Script>> get_scripts();
 };
 
 } // namespace crepe

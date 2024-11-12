@@ -7,19 +7,18 @@
 namespace crepe {
 
 class SoundContext {
-private:
+public:
 	SoundContext();
 	virtual ~SoundContext();
 
-	// singleton
-	static SoundContext & get_instance();
-	SoundContext(const SoundContext &) = delete;
-	SoundContext(SoundContext &&) = delete;
-	SoundContext & operator=(const SoundContext &) = delete;
-	SoundContext & operator=(SoundContext &&) = delete;
+  SoundContext(const SoundContext &) = delete;
+  SoundContext(SoundContext &&) = delete;
+  SoundContext & operator=(const SoundContext &) = delete;
+  SoundContext & operator=(SoundContext &&) = delete;
 
 private:
 	SoLoud::Soloud engine;
+	//! Sound directly calls methods on \c engine
 	friend class Sound;
 };
 

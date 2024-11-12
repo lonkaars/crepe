@@ -11,10 +11,10 @@ namespace crepe {
 
 template <class T>
 BehaviorScript & BehaviorScript::set_script() {
-	static_assert(std::is_base_of<Script, T>::value);
 	dbg_trace();
+	static_assert(std::is_base_of<Script, T>::value);
 	Script * s = new T();
-	s->parent = this;
+	s->parent_ref = this;
 	this->script = std::unique_ptr<Script>(s);
 	return *this;
 }

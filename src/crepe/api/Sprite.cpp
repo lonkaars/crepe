@@ -10,9 +10,9 @@
 using namespace std;
 using namespace crepe;
 
-Sprite::Sprite(game_object_id_t id, const shared_ptr<Texture> image,
+Sprite::Sprite(const Component::Data & data, const shared_ptr<Texture> image,
 			   const Color & color, const FlipSettings & flip)
-	: Component(id),
+	: Component(data),
 	  color(color),
 	  flip(flip),
 	  sprite_image(image) {

@@ -9,8 +9,8 @@
 
 using namespace crepe;
 
-Animator::Animator(uint32_t id, Sprite & ss, int row, int col, int col_animator)
-	: Component(id),
+Animator::Animator(const Component::Data & data, Sprite & ss, int row, int col, int col_animator)
+	: Component(data),
 	  spritesheet(ss),
 	  row(row),
 	  col(col) {

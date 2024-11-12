@@ -6,12 +6,12 @@
 
 using namespace crepe;
 
-ParticleEmitter::ParticleEmitter(game_object_id_t id, uint32_t max_particles,
+ParticleEmitter::ParticleEmitter(const Component::Data & data, uint32_t max_particles,
 								 uint32_t emission_rate, uint32_t speed,
 								 uint32_t speed_offset, uint32_t angle,
 								 uint32_t angleOffset, float begin_lifespan,
 								 float end_lifespan)
-	: Component(id),
+	: Component(data),
 	  max_particles(max_particles),
 	  emission_rate(emission_rate),
 	  speed(speed),

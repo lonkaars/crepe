@@ -1,6 +1,3 @@
-
-#include <cstdint>
-
 #include "util/log.h"
 
 #include "Camera.h"
@@ -9,8 +6,8 @@
 
 using namespace crepe;
 
-Camera::Camera(uint32_t id, const Color & bg_color)
-	: Component(id),
+Camera::Camera(const Component::Data & data, const Color & bg_color)
+	: Component(data),
 	  bg_color(bg_color) {
 	dbg_trace();
 }

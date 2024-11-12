@@ -1,13 +1,10 @@
+#include "api/GameObject.h"
 #include "util/log.h"
 
 #include "ComponentManager.h"
 
 using namespace crepe;
-
-ComponentManager & ComponentManager::get_instance() {
-	static ComponentManager instance;
-	return instance;
-}
+using namespace std;
 
 void ComponentManager::delete_all_components_of_id(game_object_id_t id) {
 	// Loop through all the types (in the unordered_map<>)
@@ -26,5 +23,12 @@ void ComponentManager::delete_all_components() {
 }
 
 ComponentManager::ComponentManager() { dbg_trace(); }
-
 ComponentManager::~ComponentManager() { dbg_trace(); }
+
+GameObject & ComponentManager::new_object(const string & name, const string & tag, const Vector2 & position, double rotation, double scale) {
+	GameObject * object = new GameObject(*this, this->next_id, name, tag, position, rotation, scale);
+	this->objects.push_front(unique_ptr<GameObject>(object));
+	this->next_id++;
+	return *object;
+}
+

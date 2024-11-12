@@ -3,10 +3,11 @@
 #include <string>
 
 #include "types.h"
+#include "Vector2.h"
 
 namespace crepe {
 
-class Vector2;
+class ComponentManager;
 
 /**
  * \brief Represents a GameObject
@@ -16,11 +17,12 @@ class Vector2;
  * done in the ComponentManager.
  */
 class GameObject {
-public:
+private:
 	/**
 	 * This constructor creates a new GameObject. It creates a new
 	 * Transform and Metadata component and adds them to the ComponentManager.
 	 * 
+	 * \param component_manager Reference to component_manager
 	 * \param id The id of the GameObject
 	 * \param name The name of the GameObject
 	 * \param tag The tag of the GameObject
@@ -28,9 +30,11 @@ public:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	GameObject(game_object_id_t id, const std::string & name,
-			   const std::string & tag, const Vector2 & position,
-			   double rotation, double scale);
+	GameObject(ComponentManager & component_manager, game_object_id_t id, const std::string & name, const std::string & tag, const Vector2 & position, double rotation, double scale);
+	//! ComponentManager instances GameObject
+	friend class ComponentManager;
+
+public:
 	/**
 	 * \brief Set the parent of this GameObject
 	 * 
@@ -58,6 +62,9 @@ public:
 public:
 	//! The id of the GameObject
 	const game_object_id_t id;
+
+protected:
+	ComponentManager & component_manager;
 };
 
 } // namespace crepe
