@@ -63,3 +63,4 @@ bool DB::has(const std::string & key) noexcept {
 	}
 	return true;
 }
+
