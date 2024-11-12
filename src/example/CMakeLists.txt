@@ -30,4 +30,5 @@ add_example(ecs)
 add_example(scene_manager)
 add_example(particles)
 add_example(rendering_particle)
+add_example(gameloop)
 

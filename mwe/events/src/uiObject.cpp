@@ -7,7 +7,9 @@ UIObject::UIObject(int width, int height) : width(width), height(height) {}
 Button::Button(int width, int height) : UIObject(width, height) {}
 
 Text::Text(int width, int height)
-	: UIObject(width, height), size(12), font(nullptr),
+	: UIObject(width, height),
+	  size(12),
+	  font(nullptr),
 	  color{255, 255, 255} { // Default size and color
 	alignment.horizontal = Alignment::Horizontal::CENTER;
 	alignment.vertical = Alignment::Vertical::MIDDLE;
@@ -15,8 +17,13 @@ Text::Text(int width, int height)
 }
 
 TextInput::TextInput(int width, int height)
-	: UIObject(width, height), textBuffer(""), placeholder(""), isActive(false),
-	  textColor{255, 255, 255}, backgroundColor{0, 0, 0}, maxLength(100),
+	: UIObject(width, height),
+	  textBuffer(""),
+	  placeholder(""),
+	  isActive(false),
+	  textColor{255, 255, 255},
+	  backgroundColor{0, 0, 0},
+	  maxLength(100),
 	  font(nullptr) {
 	alignment.horizontal = Alignment::Horizontal::LEFT;
 	alignment.vertical = Alignment::Vertical::TOP;

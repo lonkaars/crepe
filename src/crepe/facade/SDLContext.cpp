@@ -191,3 +191,4 @@ int SDLContext::get_height(const Texture & ctx) {
 	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, NULL, &h);
 	return h;
 }
+void SDLContext::delay(int ms) const { SDL_Delay(ms); }
