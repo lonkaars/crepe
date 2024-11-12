@@ -59,12 +59,23 @@ private:
 private:
 	//! Will only use get_ticks
 	friend class AnimatorSystem;
-
+	//! Will only use delay
+	friend class LoopTimer;
 	/**
 	 * \brief Gets the current SDL ticks since the program started.
 	 * \return Current ticks in milliseconds as a constant uint64_t.
 	 */
 	uint64_t get_ticks() const;
+	/**
+	 * \brief Pauses the execution for a specified duration.
+	 *
+	 * This function uses SDL's delay function to halt the program execution
+	 * for a given number of milliseconds, allowing for frame rate control
+	 * or other timing-related functionality.
+	 *
+	 * \param ms Duration of the delay in milliseconds.
+	 */
+	void delay(int ms) const;
 
 private:
 	/**

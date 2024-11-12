@@ -26,5 +26,10 @@ void GameObject::setVelY(float value) { velY = value; }
 
 GameObject::GameObject(std::string name, float x, float y, float width,
 					   float height, float velX, float velY)
-	: name(name), x(x), y(y), width(width), height(height), velX(velX),
+	: name(name),
+	  x(x),
+	  y(y),
+	  width(width),
+	  height(height),
+	  velX(velX),
 	  velY(velY) {}
