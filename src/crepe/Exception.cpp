@@ -14,4 +14,3 @@ Exception::Exception(const char * fmt, ...) {
 	this->error = va_stringf(args, fmt);
 	va_end(args);
 }
-
