@@ -20,7 +20,7 @@ void ScriptSystem::update() {
 	for (Script * script : scripts) script->update();
 }
 
-forward_list<Script *> ScriptSystem::get_scripts() {
+forward_list<Script *> ScriptSystem::get_scripts() const {
 	forward_list<Script *> scripts = {};
 	ComponentManager & mgr = ComponentManager::get_instance();
 	vector<reference_wrapper<BehaviorScript>> behavior_scripts

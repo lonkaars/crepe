@@ -3,14 +3,15 @@
 #include "Asset.h"
 
 using namespace crepe;
+using namespace std;
 
-Asset::Asset(const std::string & src) {
-	// FIXME: restore this
-	// this->src = std::filesystem::canonical(src);
-	this->src = src;
+// FIXME: restore this
+// src(std::filesystem::canonical(src))
+Asset::Asset(const std::string & src) : src(src) {
 	this->file = std::ifstream(this->src, std::ios::in | std::ios::binary);
 }
 
-const std::istream & Asset::read() { return this->file; }
+istream & Asset::get_stream() { return this->file; }
 
-const char * Asset::canonical() { return this->src.c_str(); }
+const string & Asset::get_canonical() const { return this->src; }
+
