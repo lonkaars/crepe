@@ -4,13 +4,11 @@
 #include <soloud/soloud.h>
 #include <soloud/soloud_wav.h>
 
-#include "../Resource.h"
+#include "../Asset.h"
 
 namespace crepe {
 
-class SoundContext;
-
-class Sound : public Resource {
+class Sound {
 public:
 	/**
 	 * \brief Pause this sample
@@ -66,13 +64,15 @@ public:
 	bool get_looping() const { return this->looping; }
 
 public:
-	Sound(SoundContext & ctx);
-	std::unique_ptr<Resource> clone(const Asset & src) const override;
+	Sound(const char * src);
+	Sound(std::unique_ptr<Asset> res);
+
+private:
+	void load(std::unique_ptr<Asset> res);
 
 private:
 	SoLoud::Wav sample;
 	SoLoud::handle handle;
-	SoundContext & context;
 
 	float volume = 1.0f;
 	bool looping = false;
