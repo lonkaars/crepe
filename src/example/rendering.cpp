@@ -23,9 +23,9 @@ int main() {
 	ComponentManager mgr{};
 	RenderSystem sys{mgr};
 
-	auto & obj = mgr.new_object("name", "tag", Vector2{0, 0}, 1, 1);
-	auto & obj1 = mgr.new_object("name", "tag", Vector2{500, 0}, 1, 0.1);
-	auto & obj2 = mgr.new_object("name", "tag", Vector2{800, 0}, 1, 0.1);
+	GameObject obj = mgr.new_object("name", "tag", Vector2{0, 0}, 1, 1);
+	GameObject obj1 = mgr.new_object("name", "tag", Vector2{500, 0}, 1, 0.1);
+	GameObject obj2 = mgr.new_object("name", "tag", Vector2{800, 0}, 1, 0.1);
 
 	// Normal adding components
 	{
