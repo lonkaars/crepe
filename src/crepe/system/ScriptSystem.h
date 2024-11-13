@@ -14,7 +14,7 @@ public:
 
 private:
 	// TODO: to forward_list<reference_wrapper>
-	std::forward_list<Script *> get_scripts();
+	std::forward_list<Script *> get_scripts() const;
 };
 
 } // namespace crepe

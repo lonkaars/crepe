@@ -16,7 +16,7 @@ protected:
 	using Component::Component;
 
 public:
-	virtual ~BehaviorScript() = default;
+	~BehaviorScript() = default;
 
 public:
 	template <class T>
