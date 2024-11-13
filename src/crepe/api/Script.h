@@ -32,7 +32,7 @@ protected:
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components();
 
-private:
+protected:
 	// NOTE: Script must have a constructor without arguments so the game
 	// programmer doesn't need to manually add `using Script::Script` to their
 	// concrete script class.
@@ -40,6 +40,7 @@ private:
 	//! Only \c BehaviorScript instantiates Script
 	friend class BehaviorScript;
 
+private:
 	// These references are set by BehaviorScript immediately after calling the
 	// constructor of Script.
 	BehaviorScript * parent_ref = nullptr;

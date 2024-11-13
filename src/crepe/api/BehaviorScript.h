@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "../Component.h"
+#include "GameObject.h"
 
 namespace crepe {
 
@@ -43,6 +44,18 @@ private:
 	// (BehaviorScript) reference
 	friend class Script;
 };
+
+/**
+ * \brief Add a BehaviorScript component to this game object
+ *
+ * The \c BehaviorScript class is the only exception to the ECS harmony, and
+ * requires a reference to the component manager passed to its constructor in
+ * order to function normally. This is because the \c BehaviorScript (and \c
+ * Script) classes are the only component-related classes that store
+ * implemented member functions as data.
+ */
+template <>
+BehaviorScript & GameObject::add_component<BehaviorScript>();
 
 } // namespace crepe
 
