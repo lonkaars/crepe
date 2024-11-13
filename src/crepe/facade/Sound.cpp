@@ -1,26 +1,24 @@
+#include <memory>
+
+#include "../Asset.h"
 #include "../util/log.h"
 
 #include "Sound.h"
 #include "SoundContext.h"
 
 using namespace crepe;
+using namespace std;
 
-Sound::Sound(std::unique_ptr<Asset> res) {
-	dbg_trace();
-	this->load(std::move(res));
-}
+Sound::Sound(SoundContext & ctx) : context(ctx) { dbg_trace(); }
 
-Sound::Sound(const char * src) {
-	dbg_trace();
-	this->load(std::make_unique<Asset>(src));
-}
-
-void Sound::load(std::unique_ptr<Asset> res) {
-	this->sample.load(res->canonical());
+unique_ptr<Resource> Sound::clone(const Asset & src) const {
+	auto instance = make_unique<Sound>(*this);
+	instance->sample.load(src.canonical());
+	return instance;
 }
 
 void Sound::play() {
-	SoundContext & ctx = SoundContext::get_instance();
+	SoundContext & ctx = this->context;
 	if (ctx.engine.getPause(this->handle)) {
 		// resume if paused
 		ctx.engine.setPause(this->handle, false);
@@ -32,13 +30,13 @@ void Sound::play() {
 }
 
 void Sound::pause() {
-	SoundContext & ctx = SoundContext::get_instance();
+	SoundContext & ctx = this->context;
 	if (ctx.engine.getPause(this->handle)) return;
 	ctx.engine.setPause(this->handle, true);
 }
 
 void Sound::rewind() {
-	SoundContext & ctx = SoundContext::get_instance();
+	SoundContext & ctx = this->context;
 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 	ctx.engine.seek(this->handle, 0);
 }
@@ -46,7 +44,7 @@ void Sound::rewind() {
 void Sound::set_volume(float volume) {
 	this->volume = volume;
 
-	SoundContext & ctx = SoundContext::get_instance();
+	SoundContext & ctx = this->context;
 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 	ctx.engine.setVolume(this->handle, this->volume);
 }
@@ -54,7 +52,7 @@ void Sound::set_volume(float volume) {
 void Sound::set_looping(bool looping) {
 	this->looping = looping;
 
-	SoundContext & ctx = SoundContext::get_instance();
+	SoundContext & ctx = this->context;
 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 	ctx.engine.setLooping(this->handle, this->looping);
 }
