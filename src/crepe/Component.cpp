@@ -2,5 +2,5 @@
 
 using namespace crepe;
 
-Component::Component(const Data & data) : data(data) {}
+Component::Component(game_object_id_t id) : game_object_id(id) {}
 

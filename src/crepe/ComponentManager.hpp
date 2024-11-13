@@ -31,10 +31,7 @@ T & ComponentManager::add_component(game_object_id_t id, Args &&... args) {
 
 	// Create a new component of type T (arguments directly forwarded). The
 	// constructor must be called by ComponentManager.
-	T * instance_ptr = new T(Component::Data {
-		.id = id,
-		.component_manager = *this,
-	}, forward<Args>(args)...);
+	T * instance_ptr = new T(id, forward<Args>(args)...);
 	if (instance_ptr == nullptr) throw std::bad_alloc();
 
 	T & instance_ref = *instance_ptr;

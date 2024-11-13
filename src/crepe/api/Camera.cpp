@@ -6,8 +6,8 @@
 
 using namespace crepe;
 
-Camera::Camera(const Component::Data & data, const Color & bg_color)
-	: Component(data),
+Camera::Camera(game_object_id_t id, const Color & bg_color)
+	: Component(id),
 	  bg_color(bg_color) {
 	dbg_trace();
 }

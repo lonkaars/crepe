@@ -8,10 +8,8 @@
 
 using namespace crepe;
 
-ParticleSystem::ParticleSystem() : elapsed_time(0.0f) {}
-
 void ParticleSystem::update() {
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	std::vector<std::reference_wrapper<ParticleEmitter>> emitters
 		= mgr.get_components_by_type<ParticleEmitter>();
 	float delta_time = 0.10;
@@ -60,3 +58,4 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter) {
 		}
 	}
 }
+

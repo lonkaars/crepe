@@ -19,9 +19,9 @@ T & Script::get_component() {
 template <typename T>
 std::vector<std::reference_wrapper<T>> Script::get_components() {
 	auto & parent = *this->parent_ref;
-	auto & mgr = parent.data.component_manager;
+	auto & mgr = *this->component_manager_ref;
 
-	return mgr.get_components_by_id<T>(parent.data.id);
+	return mgr.get_components_by_id<T>(parent.game_object_id);
 }
 
 } // namespace crepe

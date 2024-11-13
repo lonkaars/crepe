@@ -14,7 +14,7 @@ target_sources(crepe PUBLIC
 	Config.cpp
 	Metadata.cpp
 	Scene.cpp
-	# SceneManager.cpp
+	SceneManager.cpp
 	Vector2.cpp
 	Camera.cpp
 	Animator.cpp
@@ -40,8 +40,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	SaveManager.h
 	Scene.h
 	Metadata.h
-	# SceneManager.h
-	# SceneManager.hpp
+	SceneManager.h
+	SceneManager.hpp
 	Camera.h
 	Animator.h
 	# LoopManager.h

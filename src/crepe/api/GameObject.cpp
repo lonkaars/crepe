@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "Metadata.h"
+#include "BehaviorScript.h"
 
 using namespace crepe;
 using namespace std;
@@ -30,3 +31,10 @@ void GameObject::set_parent(const GameObject & parent) {
 		= mgr.get_components_by_id<Metadata>(parent.id);
 	parent_metadata.at(0).get().children.push_back(this->id);
 }
+
+template <>
+BehaviorScript & GameObject::add_component<BehaviorScript>() {
+	ComponentManager & mgr = this->component_manager;
+	return mgr.add_component<BehaviorScript>(this->id, mgr);
+}
+

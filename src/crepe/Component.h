@@ -14,23 +14,20 @@ class ComponentManager;
  */
 class Component {
 public:
-	struct Data {
-		//! The ID of the GameObject this component belongs to
-		const game_object_id_t id;
-		//! The manager of this component
-		ComponentManager & component_manager;
-	};
+	//! Whether the component is active
+	bool active = true;
+	//! The id of the GameObject this component belongs to
+	const game_object_id_t game_object_id;
 
 protected:
 	/**
-	 * \param base Data
+	 * \param id The id of the GameObject this component belongs to
 	 */
-	Component(const Data & base);
+	Component(game_object_id_t id);
 	//! Only the ComponentManager can create components
-	friend class crepe::ComponentManager;
+	friend class ComponentManager;
 
 public:
-	virtual ~Component() = default;
 	/**
 	 * \brief Get the maximum number of instances for this component
 	 *
@@ -41,11 +38,6 @@ public:
 	 * \return The maximum number of instances for this component
 	 */
 	virtual int get_instances_max() const { return -1; }
-
-public:
-	Data data;
-	//! Whether the component is active
-	bool active = true;
 };
 
 } // namespace crepe

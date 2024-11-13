@@ -23,7 +23,7 @@ public:
 	 * \param id Unique identifier for the camera component.
 	 * \param bg_color Background color for the camera view.
 	 */
-	Camera(const Component::Data & data, const Color & bg_color);
+	Camera(game_object_id_t id, const Color & bg_color);
 	~Camera(); // dbg_trace only
 
 public:

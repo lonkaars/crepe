@@ -2,8 +2,8 @@
 
 using namespace crepe;
 
-crepe::Rigidbody::Rigidbody(const Component::Data & component_data, const Data & data)
-	: Component(component_data),
+crepe::Rigidbody::Rigidbody(game_object_id_t id, const Data & data)
+	: Component(id),
 	  data(data) {}
 
 void crepe::Rigidbody::add_force_linear(const Vector2 & force) {
