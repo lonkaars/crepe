@@ -14,10 +14,14 @@ int main() {
 	// Create a few GameObjects
 	try {
 		GameObject body = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
-		GameObject right_leg = mgr.new_object("rightLeg", "person", Vector2{1, 1}, 0, 1);
-		GameObject left_leg = mgr.new_object("leftLeg", "person", Vector2{1, 1}, 0, 1);
-		GameObject right_foot = mgr.new_object("rightFoot", "person", Vector2{2, 2}, 0, 1);
-		GameObject left_foot = mgr.new_object("leftFoot", "person", Vector2{2, 2}, 0, 1);
+		GameObject right_leg
+			= mgr.new_object("rightLeg", "person", Vector2{1, 1}, 0, 1);
+		GameObject left_leg
+			= mgr.new_object("leftLeg", "person", Vector2{1, 1}, 0, 1);
+		GameObject right_foot
+			= mgr.new_object("rightFoot", "person", Vector2{2, 2}, 0, 1);
+		GameObject left_foot
+			= mgr.new_object("leftFoot", "person", Vector2{2, 2}, 0, 1);
 
 		// Set the parent of each GameObject
 		right_foot.set_parent(right_leg);
