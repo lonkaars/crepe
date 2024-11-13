@@ -30,7 +30,7 @@ int main() {
 	GameObject * game_object[OBJ_COUNT];
 
 	for (int i = 0; i < OBJ_COUNT; ++i) {
-		GameObject & obj = mgr.new_object("Name", "Tag");
+		GameObject obj = mgr.new_object("Name", "Tag");
 		obj.add_component<Sprite>("test");
 		obj.add_component<Rigidbody>(0, 0, i);
 	}

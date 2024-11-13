@@ -39,7 +39,7 @@ int main() {
 	ScriptSystem system{component_manager};
 
 	// Create game object with Transform and BehaviorScript components
-	auto & obj = component_manager.new_object("name");
+	GameObject obj = component_manager.new_object("name");
 	obj.add_component<BehaviorScript>().set_script<MyScript>();
 
 	// Update all scripts. This should result in MyScript::update being called

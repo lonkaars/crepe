@@ -11,8 +11,7 @@ using namespace std;
 int main(int argc, char * argv[]) {
 	ComponentManager mgr{};
 
-	GameObject & game_object
-		= mgr.new_object("Name", "Tag", Vector2{0, 0}, 0, 0);
+	GameObject game_object = mgr.new_object("Name", "Tag", Vector2{0, 0}, 0, 0);
 	game_object.add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 1,
 		.gravity_scale = 1,
