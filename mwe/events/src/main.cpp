@@ -11,7 +11,9 @@
 class PlayerDamagedEvent : public Event {
 public:
 	PlayerDamagedEvent(int damage, int playerID)
-		: Event("PlayerDamaged"), damage(damage), playerID(playerID) {}
+		: Event("PlayerDamaged"),
+		  damage(damage),
+		  playerID(playerID) {}
 
 	REGISTER_EVENT_TYPE(PlayerDamagedEvent);
 

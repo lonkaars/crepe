@@ -33,6 +33,8 @@ struct Collision {
 	// Constructor to initialize a Collision
 	Collision(int idA, int idB, const Vector2 & point, const Vector2 & normal,
 			  float depth)
-		: objectIdA(idA), objectIdB(idB), contactPoint(point),
+		: objectIdA(idA),
+		  objectIdB(idB),
+		  contactPoint(point),
 		  contactNormal(normal) {}
 };
