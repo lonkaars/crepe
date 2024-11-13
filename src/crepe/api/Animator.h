@@ -6,6 +6,7 @@
 #include "Sprite.h"
 
 namespace crepe {
+
 class AnimatorSystem;
 class SDLContext;
 
@@ -35,7 +36,7 @@ public:
 	 *
 	 * This constructor sets up the Animator with the given parameters, and initializes the animation system.
 	 */
-	Animator(uint32_t id, Sprite & spritesheet, int row, int col,
+	Animator(game_object_id_t id, Sprite & spritesheet, int row, int col,
 			 int col_animate);
 
 	~Animator(); // dbg_trace

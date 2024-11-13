@@ -1,4 +1,5 @@
 target_sources(crepe PUBLIC
+	System.cpp
 	ParticleSystem.cpp
 	ScriptSystem.cpp
 	PhysicsSystem.cpp
