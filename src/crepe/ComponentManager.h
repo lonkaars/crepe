@@ -102,9 +102,9 @@ public:
 
 	// TODO: doxygen
 	GameObject new_object(const std::string & name,
-							const std::string & tag = "",
-							const Vector2 & position = {0, 0},
-							double rotation = 0, double scale = 0);
+						  const std::string & tag = "",
+						  const Vector2 & position = {0, 0},
+						  double rotation = 0, double scale = 0);
 
 private:
 	/**

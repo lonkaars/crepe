@@ -25,11 +25,11 @@ void ComponentManager::delete_all_components() {
 ComponentManager::ComponentManager() { dbg_trace(); }
 ComponentManager::~ComponentManager() { dbg_trace(); }
 
-GameObject ComponentManager::new_object(const string & name,
-										  const string & tag,
-										  const Vector2 & position,
-										  double rotation, double scale) {
-	GameObject object{*this, this->next_id, name, tag, position, rotation, scale};
+GameObject ComponentManager::new_object(const string & name, const string & tag,
+										const Vector2 & position,
+										double rotation, double scale) {
+	GameObject object{*this,	this->next_id, name, tag,
+					  position, rotation,	   scale};
 	this->next_id++;
 	return object;
 }
