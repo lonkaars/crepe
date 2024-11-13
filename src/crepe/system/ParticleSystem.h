@@ -2,13 +2,15 @@
 
 #include <cstdint>
 
+#include "System.h"
+
 namespace crepe {
 class ParticleEmitter;
 class Transform;
 /**
  	* \brief ParticleSystem class responsible for managing particle emission, updates, and bounds checking.
  	*/
-class ParticleSystem {
+class ParticleSystem : public System{
 public:
 	/**
 		* \brief Default constructor.
@@ -18,7 +20,7 @@ public:
 	/**
 		* \brief Updates all particle emitters by emitting particles, updating particle states, and checking bounds.
 		*/
-	void update();
+	void update() override;
 
 private:
 	/**
@@ -68,7 +70,7 @@ private:
 	//! Counter to count updates to determine how many times emit_particle is called.
 	uint32_t update_count = 0;
 	//! Determines the lowest amount of emission rate (1000 = 0.001 = 1 particle per 1000 updates).
-	static constexpr uint32_t MAX_UPDATE_COUNT = 100;
+	static constexpr unsigned int MAX_UPDATE_COUNT = 100;
 };
 
 } // namespace crepe
