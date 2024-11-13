@@ -25,6 +25,7 @@ class MyScript : public Script, public IKeyListener,public IMouseListener{
 
 	bool on_key_pressed(const KeyPressEvent & event) override{
 		std::cout << "KeyPressed function" << std::endl;
+		this->deactivate_keys();
 		return false;
 	}
 	bool on_key_released(const KeyReleaseEvent & event) override{
@@ -74,7 +75,7 @@ int main() {
 	EventManager::get_instance().queue_event<MouseClickEvent>(std::move(click_event), 0);
     {
         TestKeyListener testListener;
-
+		testListener.set_channel(1);
         auto obj = GameObject(0, "name", "tag", Vector2{1.2, 3.4}, 0, 1);
         obj.add_component<BehaviorScript>().set_script<MyScript>();
 
@@ -82,8 +83,8 @@ int main() {
         sys.update();
 
         // Trigger the events while `testListener` is in scope
-        EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 0);
-        EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);
+        EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 1);
+        EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 1);
     } 
 	// custom lambda event handler
 	EventHandler<KeyPressEvent> event_handler = [](const KeyPressEvent& e) {
@@ -96,7 +97,7 @@ int main() {
     EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);
 	// dispatching queued events
 	EventManager::get_instance().dispatch_events();
-	
+
 	EventManager::get_instance().unsubscribe<KeyPressEvent>(event_handler,0);
     return EXIT_SUCCESS;
 }

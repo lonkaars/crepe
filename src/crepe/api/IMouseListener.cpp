@@ -35,18 +35,20 @@ void IMouseListener::unsubscribe_events() {
     EventManager::get_instance().unsubscribe<MouseReleaseEvent>(this->mouse_release_handler, this->channel);
     EventManager::get_instance().unsubscribe<MouseMoveEvent>(this->mouse_move_handler, this->channel);
 }
-void IMouseListener::activate_keys() { 
+void IMouseListener::activate_mouse() { 
 	if(this->active){
 		return;
 	}
 	this->subscribe_events(); 
 }
-void IMouseListener::deactivate_keys() { 
+void IMouseListener::deactivate_mouse() { 
 	if(!this->active){
 		return;
 	}
 	this->unsubscribe_events(); 
 }
 void IMouseListener::set_channel(int channel){
+	this->unsubscribe_events(); 
 	this->channel = channel;
+	this->subscribe_events(); 
 }
