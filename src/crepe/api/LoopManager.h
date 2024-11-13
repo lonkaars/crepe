@@ -2,15 +2,9 @@
 
 #include <memory>
 
-class RenderSystem;
-class SDLContext;
-class LoopTimer;
-class ScriptSystem;
-class SoundSystem;
-class ParticleSystem;
-class PhysicsSystem;
-class AnimatorSystem;
-class CollisionSystem;
+#include "../system/System.h"
+#include "../ComponentManager.h"
+
 namespace crepe {
 
 class LoopManager {
@@ -73,7 +67,22 @@ private:
 	void render();
 
 	bool game_running = false;
-	//#TODO add system instances
+
+protected:
+	ComponentManager & get_component_manager();
+	template <class T>
+	T & get_system();
+
+private:
+	ComponentManager component_manager;
+	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
+
+private:
+	template <class T>
+	void load_system();
 };
 
 } // namespace crepe
+
+#include "LoopManager.hpp"
+

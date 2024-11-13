@@ -15,14 +15,8 @@ namespace crepe {
  * rendering services for the application.
  */
 class RenderSystem : public System {
-
 public:
-	/**
-	 * \brief Gets the singleton instance of RenderSystem.
-	 * \return Reference to the RenderSystem instance.
-	 */
-	static RenderSystem & get_instance();
-
+	using System::System;
 	/**
 	 * \brief Updates the RenderSystem for the current frame.
 	 * This method is called to perform all rendering operations for the current game frame.
@@ -30,10 +24,6 @@ public:
 	void update() override;
 
 private:
-	// Private constructor to enforce singleton pattern.
-	RenderSystem();
-	~RenderSystem();
-
 	//! Clears the screen in preparation for rendering.
 	void clear_screen() const;
 
@@ -61,4 +51,5 @@ private:
 	Camera * curr_cam = nullptr;
 	// TODO: needs a better solution
 };
+
 } // namespace crepe
