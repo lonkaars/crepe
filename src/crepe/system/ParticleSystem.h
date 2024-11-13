@@ -10,7 +10,7 @@ class Transform;
 /**
  	* \brief ParticleSystem class responsible for managing particle emission, updates, and bounds checking.
  	*/
-class ParticleSystem : public System{
+class ParticleSystem : public System {
 public:
 	/**
 		* \brief Updates all particle emitters by emitting particles, updating particle states, and checking bounds.
