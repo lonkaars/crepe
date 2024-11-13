@@ -36,7 +36,7 @@ public:
 
 	void SetUp() override {
 		auto & mgr = this->component_manager;
-		GameObject & entity = mgr.new_object("name");
+		GameObject entity = mgr.new_object("name");
 		BehaviorScript & component = entity.add_component<BehaviorScript>();
 
 		this->behaviorscript_ref = &component;
