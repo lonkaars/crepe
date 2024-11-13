@@ -1,7 +1,7 @@
 #include <cstring>
 
 #include "Exception.h"
-#include "util/log.h"
+#include "util/Log.h"
 
 #include "DB.h"
 

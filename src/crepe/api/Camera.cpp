@@ -1,7 +1,7 @@
 
 #include <cstdint>
 
-#include "util/log.h"
+#include "util/Log.h"
 
 #include "Camera.h"
 #include "Color.h"

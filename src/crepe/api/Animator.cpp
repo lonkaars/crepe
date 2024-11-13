@@ -1,7 +1,7 @@
 
 #include <cstdint>
 
-#include "util/log.h"
+#include "util/Log.h"
 
 #include "Animator.h"
 #include "Component.h"

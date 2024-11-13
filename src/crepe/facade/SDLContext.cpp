@@ -15,7 +15,7 @@
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../api/Transform.h"
-#include "../util/log.h"
+#include "../util/Log.h"
 #include "Exception.h"
 
 #include "SDLContext.h"

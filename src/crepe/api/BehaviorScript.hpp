@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-#include "../util/log.h"
+#include "../util/Log.h"
 
 #include "BehaviorScript.h"
 #include "Script.h"

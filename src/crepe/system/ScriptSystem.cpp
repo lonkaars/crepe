@@ -5,7 +5,7 @@
 #include "../ComponentManager.h"
 #include "../api/BehaviorScript.h"
 #include "../api/Script.h"
-#include "../util/log.h"
+#include "../util/Log.h"
 
 #include "ScriptSystem.h"
 

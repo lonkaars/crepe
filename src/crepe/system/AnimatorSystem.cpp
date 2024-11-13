@@ -5,7 +5,7 @@
 
 #include "api/Animator.h"
 #include "facade/SDLContext.h"
-#include "util/log.h"
+#include "util/Log.h"
 
 #include "AnimatorSystem.h"
 #include "ComponentManager.h"

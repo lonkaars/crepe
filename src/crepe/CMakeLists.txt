@@ -16,6 +16,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	ValueBroker.h
 	ValueBroker.hpp
 	Exception.h
+	Exception.hpp
 )
 
 add_subdirectory(api)
