@@ -2,6 +2,8 @@
 
 namespace crepe {
 
+class ComponentManager;
+
 /**
  * \brief Base ECS system class
  *
@@ -17,8 +19,11 @@ public:
 	virtual void update() = 0;
 
 public:
-	System() = default;
+	System(ComponentManager &);
 	virtual ~System() = default;
+
+protected:
+	ComponentManager & component_manager;
 };
 
 } // namespace crepe

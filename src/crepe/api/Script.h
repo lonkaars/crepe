@@ -6,6 +6,7 @@ namespace crepe {
 
 class ScriptSystem;
 class BehaviorScript;
+class ComponentManager;
 
 /**
  * \brief Script interface
@@ -14,6 +15,7 @@ class BehaviorScript;
  * added to game objects using the \c BehaviorScript component.
  */
 class Script {
+	//! ScriptSystem calls \c update()
 	friend class crepe::ScriptSystem;
 
 protected:
@@ -61,9 +63,19 @@ protected:
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components() const;
 
+protected:
+	// NOTE: Script must have a constructor without arguments so the game
+	// programmer doesn't need to manually add `using Script::Script` to their
+	// concrete script class.
+	Script() = default;
+	//! Only \c BehaviorScript instantiates Script
+	friend class BehaviorScript;
+
 private:
-	friend class crepe::BehaviorScript;
-	BehaviorScript * parent = nullptr;
+	// These references are set by BehaviorScript immediately after calling the
+	// constructor of Script.
+	BehaviorScript * parent_ref = nullptr;
+	ComponentManager * component_manager_ref = nullptr;
 };
 
 } // namespace crepe

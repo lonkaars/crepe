@@ -2,17 +2,22 @@
 
 #include "../api/ParticleEmitter.h"
 
+#include "System.h"
+
 namespace crepe {
 
-class ParticleSystem {
+class ParticleSystem : public System {
 public:
-	ParticleSystem();
-	void update();
+	using System::System;
+	void update() override;
 
 private:
-	void emit_particle(ParticleEmitter & emitter); //emits a new particle
+	//! Emits a new particle
+	void emit_particle(ParticleEmitter & emitter);
 
-	float elapsed_time; //elapsed time since the last emission
+	//! Elapsed time since the last emission
+	float elapsed_time = 0.0;
+	// TODO: to std::chrono::duration
 };
 
 } // namespace crepe

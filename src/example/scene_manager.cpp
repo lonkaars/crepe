@@ -34,7 +34,8 @@ public:
 };
 
 int main() {
-	SceneManager & scene_mgr = SceneManager::get_instance();
+	ComponentManager component_mgr{};
+	SceneManager scene_mgr{component_mgr};
 
 	// Add the scenes to the scene manager
 	scene_mgr.add_scene<ConcreteScene1>("scene1");
@@ -45,7 +46,6 @@ int main() {
 	scene_mgr.load_next_scene();
 
 	// Get the Metadata components of each GameObject of Scene1
-	ComponentManager & component_mgr = ComponentManager::get_instance();
 	vector<reference_wrapper<Metadata>> metadata
 		= component_mgr.get_components_by_type<Metadata>();
 

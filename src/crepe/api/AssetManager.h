@@ -56,7 +56,8 @@ public:
 	 * cache.
 	 */
 	template <typename T>
-	std::shared_ptr<T> cache(const std::string & file_path, bool reload = false);
+	std::shared_ptr<T> cache(const std::string & file_path,
+							 bool reload = false);
 };
 
 } // namespace crepe
