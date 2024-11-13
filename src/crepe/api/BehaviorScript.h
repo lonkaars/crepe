@@ -12,7 +12,7 @@ class Script;
 
 class BehaviorScript : public Component {
 protected:
-	using Component::Component;
+	BehaviorScript(game_object_id_t id, ComponentManager & component_manager);
 	//! Only ComponentManager is allowed to instantiate BehaviorScript
 	friend class ComponentManager;
 
@@ -36,6 +36,7 @@ protected:
 	//! Flag to indicate if script->init() has been called already
 	bool initialized = false;
 	std::unique_ptr<Script> script = nullptr;
+	ComponentManager & component_manager;
 
 private:
 	//! Script accesses the component manager directly via its parent

@@ -24,7 +24,7 @@ public:
 	ComponentManager(); // dbg_trace
 	~ComponentManager(); // dbg_trace
 
-public:
+protected:
 	/**
 	 * \brief Add a component to the ComponentManager
 	 * 
@@ -39,6 +39,11 @@ public:
 	 */
 	template <typename T, typename... Args>
 	T & add_component(game_object_id_t id, Args &&... args);
+	//! GameObject is used as an interface to add components instead of the
+	// component manager directly
+	friend class GameObject;
+
+public:
 	/**
 	 * \brief Delete all components of a specific type and id
 	 * 

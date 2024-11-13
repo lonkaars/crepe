@@ -43,7 +43,7 @@ public:
 	 * \param color Color tint applied to the sprite.
 	 * \param flip Flip settings for horizontal and vertical orientation.
 	 */
-	Sprite(const Component::Data & data, const std::shared_ptr<Texture> image,
+	Sprite(game_object_id_t id, const std::shared_ptr<Texture> image,
 		   const Color & color, const FlipSettings & flip);
 
 	/**

@@ -14,28 +14,26 @@ namespace crepe {
  */
 class Transform : public Component {
 public:
+	//! Translation (shift)
+	Vector2 position = { 0, 0 };
+	//! Rotation, in degrees
+	double rotation = 0;
+	//! Multiplication factor
+	double scale = 0;
+
+protected:
 	/**
 	 * \param id The id of the GameObject this component belongs to
 	 * \param point The position of the GameObject
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	Transform(const Component::Data & data, const Vector2 & point, double rotation,
-			  double scale);
-	/**
-	 * \brief Get the maximum number of instances for this component
-	 *
-	 * \return The maximum number of instances for this component
-	 */
+	Transform(game_object_id_t id, const Vector2 & point, double rotation = 0,
+			  double scale = 0);
+	//! There is always exactly one transform component per entity
 	virtual int get_instances_max() const { return 1; }
-
-public:
-	//! Translation (shift)
-	Vector2 position;
-	//! Rotation, in degrees
-	double rotation;
-	//! Multiplication factor
-	double scale;
+	//! ComponentManager instantiates all components
+	friend class ComponentManager;
 };
 
 } // namespace crepe
