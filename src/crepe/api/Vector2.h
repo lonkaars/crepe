@@ -5,9 +5,9 @@ namespace crepe {
 //! 2D vector
 struct Vector2 {
 	//! X component of the vector
-	float x = 0;
+	double x = 0;
 	//! Y component of the vector
-	float y = 0;
+	double y = 0;
 
 	//! Subtracts another vector from this vector and returns the result.
 	Vector2 operator-(const Vector2 & other) const;
@@ -16,7 +16,7 @@ struct Vector2 {
 	Vector2 operator+(const Vector2 & other) const;
 
 	//! Multiplies this vector by a scalar and returns the result.
-	Vector2 operator*(float scalar) const;
+	Vector2 operator*(double scalar) const;
 
 	//! Multiplies this vector by another vector element-wise and updates this vector.
 	Vector2 & operator*=(const Vector2 & other);
@@ -25,7 +25,7 @@ struct Vector2 {
 	Vector2 & operator+=(const Vector2 & other);
 
 	//! Adds a scalar value to both components of this vector and updates this vector.
-	Vector2 & operator+=(float other);
+	Vector2 & operator+=(double other);
 
 	//! Returns the negation of this vector.
 	Vector2 operator-() const;
