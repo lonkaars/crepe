@@ -13,11 +13,6 @@ class Transform;
 class ParticleSystem : public System{
 public:
 	/**
-		* \brief Default constructor.
-		*/
-	ParticleSystem();
-
-	/**
 		* \brief Updates all particle emitters by emitting particles, updating particle states, and checking bounds.
 		*/
 	void update() override;
@@ -68,7 +63,7 @@ private:
 
 private:
 	//! Counter to count updates to determine how many times emit_particle is called.
-	uint32_t update_count = 0;
+	unsigned int update_count = 0;
 	//! Determines the lowest amount of emission rate (1000 = 0.001 = 1 particle per 1000 updates).
 	static constexpr unsigned int MAX_UPDATE_COUNT = 100;
 };

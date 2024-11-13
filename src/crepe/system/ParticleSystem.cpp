@@ -11,8 +11,6 @@
 
 using namespace crepe;
 
-ParticleSystem::ParticleSystem() {}
-
 void ParticleSystem::update() {
 	// Get all emitters
 	ComponentManager & mgr = ComponentManager::get_instance();
