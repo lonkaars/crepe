@@ -41,5 +41,8 @@ void IKeyListener::deactivate_keys() {
 	this->unsubscribe_events(); 
 }
 void IKeyListener::set_channel(int channel){
+	this->unsubscribe_events(); 
 	this->channel = channel;
+	this->subscribe_events(); 
+	
 }

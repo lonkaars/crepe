@@ -77,12 +77,12 @@ public:
     /**
      * \brief Activates mouse listening.
      */
-    void activate_keys();
+    void activate_mouse();
 
     /**
      * \brief Deactivates mouse listening.
      */
-    void deactivate_keys();
+    void deactivate_mouse();
 
     /**
      * \brief Sets the channel ID for event handling.
