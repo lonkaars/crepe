@@ -9,13 +9,14 @@
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Transform.h>
-
 #include "crepe/api/Event.h"
 #include "crepe/api/EventManager.h"
 #include "crepe/api/IKeyListener.h"
 #include "crepe/api/IMouseListener.h"
+
 using namespace crepe;
 using namespace std;
+
 class MyScript : public Script, public IKeyListener,public IMouseListener{
 	void update() {
 		// Retrieve component from the same GameObject this script is on

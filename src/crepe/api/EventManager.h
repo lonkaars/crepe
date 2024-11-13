@@ -34,10 +34,7 @@ public:
      * 
      * \return Reference to the EventManager instance.
      */
-    static EventManager & get_instance() {
-        static EventManager instance;
-        return instance;
-    }
+    static EventManager & get_instance();
 
     /**
      * \brief Subscribe to an event.
@@ -150,7 +147,7 @@ void EventManager::trigger_event(const EventType & event, int channel) {
     std::type_index event_type = std::type_index(typeid(EventType));
     
     if (channel > 0) {
-        std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>& handlers_map = subscribers_by_event_id[event_type];
+        std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>& handlers_map = this->subscribers_by_event_id[event_type];
         std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>::iterator handlers_it = handlers_map.find(channel);
         
         if (handlers_it != handlers_map.end()) {
@@ -165,7 +162,7 @@ void EventManager::trigger_event(const EventType & event, int channel) {
             }
         }
     } else {
-        std::vector<std::unique_ptr<IEventHandlerWrapper>>& handlers = subscribers[event_type];
+        std::vector<std::unique_ptr<IEventHandlerWrapper>>& handlers = this->subscribers[event_type];
         for (std::vector<std::unique_ptr<IEventHandlerWrapper>>::iterator it = handlers.begin(); it != handlers.end();) {
 			// erases callback if callback function returns true
              if ((*it)->exec(event)) {

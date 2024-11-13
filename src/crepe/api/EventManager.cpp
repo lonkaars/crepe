@@ -1,5 +1,10 @@
 #include "EventManager.h"
 
+EventManager & EventManager::get_instance() {
+	static EventManager instance;
+	return instance;
+}
+
 void EventManager::dispatch_events() {
     for (std::vector<std::tuple<std::unique_ptr<Event>, int, std::type_index>>::iterator event_it = this->events_queue.begin(); event_it != this->events_queue.end();) {
         std::unique_ptr<Event>& event = std::get<0>(*event_it);
