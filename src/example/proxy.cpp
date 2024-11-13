@@ -6,7 +6,7 @@
 #include <crepe/ValueBroker.h>
 #include <crepe/api/Config.h>
 #include <crepe/util/Proxy.h>
-#include <crepe/util/log.h>
+#include <crepe/util/Log.h>
 
 using namespace std;
 using namespace crepe;
@@ -17,18 +17,17 @@ void test_ro_val(int val) {}
 
 int main() {
 	auto & cfg = Config::get_instance();
-	cfg.log.level = LogLevel::DEBUG;
+	cfg.log.level = Log::Level::DEBUG;
 
 	int real_value = 0;
 
 	ValueBroker<int> broker{
 		[&real_value](const int & target) {
-			dbg_logf("set %s to %s", to_string(real_value).c_str(),
-					 to_string(target).c_str());
+			dbg_logf("set {} to {}", real_value, target);
 			real_value = target;
 		},
 		[&real_value]() -> const int & {
-			dbg_logf("get %s", to_string(real_value).c_str());
+			dbg_logf("get {}", real_value);
 			return real_value;
 		},
 	};

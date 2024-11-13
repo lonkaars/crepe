@@ -4,19 +4,20 @@
 #include "SoundContext.h"
 
 using namespace crepe;
+using namespace std;
 
-Sound::Sound(std::unique_ptr<Asset> res) {
+Sound::Sound(unique_ptr<Asset> res) {
 	dbg_trace();
 	this->load(std::move(res));
 }
 
 Sound::Sound(const char * src) {
 	dbg_trace();
-	this->load(std::make_unique<Asset>(src));
+	this->load(make_unique<Asset>(src));
 }
 
-void Sound::load(std::unique_ptr<Asset> res) {
-	this->sample.load(res->canonical());
+void Sound::load(unique_ptr<Asset> res) {
+	this->sample.load(res->get_canonical().c_str());
 }
 
 void Sound::play() {
