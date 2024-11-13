@@ -10,7 +10,10 @@
 using namespace crepe;
 
 Animator::Animator(uint32_t id, Sprite & ss, int row, int col, int col_animator)
-	: Component(id), spritesheet(ss), row(row), col(col) {
+	: Component(id),
+	  spritesheet(ss),
+	  row(row),
+	  col(col) {
 	dbg_trace();
 
 	animator_rect = spritesheet.sprite_rect;
