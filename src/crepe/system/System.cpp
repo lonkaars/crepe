@@ -4,7 +4,4 @@
 
 using namespace crepe;
 
-System::System(ComponentManager & mgr) : component_manager(mgr) {
-	dbg_trace();
-}
-
+System::System(ComponentManager & mgr) : component_manager(mgr) { dbg_trace(); }

@@ -15,7 +15,7 @@ namespace crepe {
 class Transform : public Component {
 public:
 	//! Translation (shift)
-	Vector2 position = { 0, 0 };
+	Vector2 position = {0, 0};
 	//! Rotation, in degrees
 	double rotation = 0;
 	//! Multiplication factor

@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "../system/System.h"
 #include "../ComponentManager.h"
+#include "../system/System.h"
 
 namespace crepe {
 
@@ -74,7 +74,7 @@ protected:
 	T & get_system();
 
 private:
-	ComponentManager component_manager;
+	ComponentManager component_manager{};
 	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
 
 private:
@@ -85,4 +85,3 @@ private:
 } // namespace crepe
 
 #include "LoopManager.hpp"
-

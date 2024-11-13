@@ -1,16 +1,18 @@
 #include "api/Transform.h"
 
+#include "BehaviorScript.h"
 #include "GameObject.h"
 #include "Metadata.h"
-#include "BehaviorScript.h"
 
 using namespace crepe;
 using namespace std;
 
-GameObject::GameObject(ComponentManager & component_manager, game_object_id_t id, const std::string & name,
+GameObject::GameObject(ComponentManager & component_manager,
+					   game_object_id_t id, const std::string & name,
 					   const std::string & tag, const Vector2 & position,
 					   double rotation, double scale)
-	: id(id), component_manager(component_manager) {
+	: id(id),
+	  component_manager(component_manager) {
 
 	// Add Transform and Metadata components
 	ComponentManager & mgr = this->component_manager;
@@ -37,4 +39,3 @@ BehaviorScript & GameObject::add_component<BehaviorScript>() {
 	ComponentManager & mgr = this->component_manager;
 	return mgr.add_component<BehaviorScript>(this->id, mgr);
 }
-
