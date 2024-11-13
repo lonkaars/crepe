@@ -1,5 +1,5 @@
 #include "../facade/DB.h"
-#include "../util/log.h"
+#include "../util/Log.h"
 
 #include "Config.h"
 #include "SaveManager.h"

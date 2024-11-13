@@ -3,11 +3,8 @@
 #include <vector>
 
 namespace crepe {
+
 class ScriptSystem;
-}
-
-namespace crepe {
-
 class BehaviorScript;
 
 class Script {

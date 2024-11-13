@@ -5,7 +5,7 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
-#include "../util/log.h"
+#include "../util/Log.h"
 
 #include "RenderSystem.h"
 
