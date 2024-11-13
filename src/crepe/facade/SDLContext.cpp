@@ -159,7 +159,7 @@ SDLContext::texture_from_path(const std::string & path) {
 
 	SDL_Surface * tmp = IMG_Load(path.c_str());
 	if (tmp == nullptr) {
-		throw Exception("surface cannot be load from %s", path.c_str());
+		throw Exception("surface cannot be load from {}", path);
 	}
 
 	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>>
@@ -171,7 +171,7 @@ SDLContext::texture_from_path(const std::string & path) {
 		this->game_renderer.get(), img_surface.get());
 
 	if (tmp_texture == nullptr) {
-		throw Exception("Texture cannot be load from %s", path.c_str());
+		throw Exception("Texture cannot be load from {}", path);
 	}
 
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
