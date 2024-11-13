@@ -254,4 +254,3 @@ void EventManager::unsubscribe(const EventHandler<EventType> & callback,
 		}
 	}
 }
-

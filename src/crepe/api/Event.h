@@ -1,8 +1,8 @@
 #pragma once
-#include <typeindex>
+#include "KeyCodes.h"
 #include <iostream>
 #include <string>
-#include "KeyCodes.h"
+#include <typeindex>
 
 class Event {
 public:
