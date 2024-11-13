@@ -13,4 +13,3 @@ SoundContext::~SoundContext() {
 	dbg_trace();
 	engine.deinit();
 }
-

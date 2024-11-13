@@ -11,10 +11,10 @@ public:
 	SoundContext();
 	virtual ~SoundContext();
 
-  SoundContext(const SoundContext &) = delete;
-  SoundContext(SoundContext &&) = delete;
-  SoundContext & operator=(const SoundContext &) = delete;
-  SoundContext & operator=(SoundContext &&) = delete;
+	SoundContext(const SoundContext &) = delete;
+	SoundContext(SoundContext &&) = delete;
+	SoundContext & operator=(const SoundContext &) = delete;
+	SoundContext & operator=(SoundContext &&) = delete;
 
 private:
 	SoLoud::Soloud engine;

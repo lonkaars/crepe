@@ -5,11 +5,11 @@
 #define protected public
 
 #include <crepe/ComponentManager.h>
-#include <crepe/system/ScriptSystem.h>
 #include <crepe/api/BehaviorScript.h>
-#include <crepe/api/Script.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/Script.h>
 #include <crepe/api/Vector2.h>
+#include <crepe/system/ScriptSystem.h>
 
 using namespace std;
 using namespace crepe;
@@ -17,8 +17,8 @@ using namespace testing;
 
 class ScriptTest : public Test {
 public:
-	ComponentManager component_manager {};
-	ScriptSystem system { component_manager };
+	ComponentManager component_manager{};
+	ScriptSystem system{component_manager};
 
 	class MyScript : public Script {
 		// NOTE: default (private) visibility of init and update shouldn't cause
@@ -70,4 +70,3 @@ TEST_F(ScriptTest, ListScripts) {
 	}
 	ASSERT_EQ(1, script_count);
 }
-

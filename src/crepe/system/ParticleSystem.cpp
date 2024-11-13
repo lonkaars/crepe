@@ -58,4 +58,3 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter) {
 		}
 	}
 }
-

@@ -35,8 +35,8 @@ class MyScript : public Script {
 };
 
 int main() {
-	ComponentManager component_manager {};
-	ScriptSystem system { component_manager };
+	ComponentManager component_manager{};
+	ScriptSystem system{component_manager};
 
 	// Create game object with Transform and BehaviorScript components
 	auto & obj = component_manager.new_object("name");

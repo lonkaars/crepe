@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "types.h"
 #include "Vector2.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -31,7 +31,9 @@ private:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	GameObject(ComponentManager & component_manager, game_object_id_t id, const std::string & name, const std::string & tag, const Vector2 & position, double rotation, double scale);
+	GameObject(ComponentManager & component_manager, game_object_id_t id,
+			   const std::string & name, const std::string & tag,
+			   const Vector2 & position, double rotation, double scale);
 	//! ComponentManager instances GameObject
 	friend class ComponentManager;
 

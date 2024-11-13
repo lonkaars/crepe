@@ -1,7 +1,7 @@
 #include <memory>
 
-#include "../util/log.h"
 #include "../Asset.h"
+#include "../util/log.h"
 
 #include "Sound.h"
 #include "SoundContext.h"
@@ -56,4 +56,3 @@ void Sound::set_looping(bool looping) {
 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 	ctx.engine.setLooping(this->handle, this->looping);
 }
-

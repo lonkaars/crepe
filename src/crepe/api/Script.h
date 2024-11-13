@@ -49,4 +49,3 @@ private:
 } // namespace crepe
 
 #include "Script.hpp"
-

@@ -34,7 +34,9 @@ int main() {
 	}
 	{
 		Color color(0, 0, 0, 0);
-		obj1.add_component<Sprite>(make_shared<Texture>("../asset/texture/second.png"), color, FlipSettings{true, true});
+		obj1.add_component<Sprite>(
+			make_shared<Texture>("../asset/texture/second.png"), color,
+			FlipSettings{true, true});
 	}
 
 	/*
@@ -45,7 +47,7 @@ int main() {
 	}
 	*/
 
-	auto & sys = crepe::RenderSystem::get_instance();
+	auto & sys = crepe::AssetManager::get_instance();
 	auto start = std::chrono::steady_clock::now();
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
 		sys.update();

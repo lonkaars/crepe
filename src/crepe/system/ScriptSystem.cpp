@@ -44,4 +44,3 @@ forward_list<reference_wrapper<Script>> ScriptSystem::get_scripts() {
 
 	return scripts;
 }
-

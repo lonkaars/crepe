@@ -1,10 +1,10 @@
 #pragma once
 
+#include <forward_list>
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
-#include <forward_list>
 
 #include "Component.h"
 #include "api/Vector2.h"
@@ -101,7 +101,10 @@ public:
 	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
 
 	// TODO: doxygen
-	GameObject & new_object(const std::string & name, const std::string & tag = "", const Vector2 & position = { 0, 0 }, double rotation = 0, double scale = 0);
+	GameObject & new_object(const std::string & name,
+							const std::string & tag = "",
+							const Vector2 & position = {0, 0},
+							double rotation = 0, double scale = 0);
 
 private:
 	/**
