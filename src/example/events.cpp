@@ -4,16 +4,16 @@
 #include <crepe/system/ScriptSystem.h>
 #include <crepe/util/log.h>
 
-#include <crepe/api/Event.h>
-#include <crepe/api/EventManager.h>
-#include <crepe/api/IKeyListener.h>
-#include <crepe/api/IMouseListener.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Config.h>
+#include <crepe/api/Event.h>
+#include <crepe/api/EventManager.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/IKeyListener.h>
+#include <crepe/api/IMouseListener.h>
+#include <crepe/api/KeyCodes.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Transform.h>
-#include <crepe/api/KeyCodes.h>
 
 using namespace crepe;
 using namespace std;
@@ -54,13 +54,13 @@ class MyScript : public Script, public IKeyListener, public IMouseListener {
 class TestKeyListener : public IKeyListener {
 public:
 	bool on_key_pressed(const KeyPressEvent & event) override {
-		std::cout << "TestKeyListener: Key Pressed - Code: " << static_cast<int>(event.key)
-				  << std::endl;
+		std::cout << "TestKeyListener: Key Pressed - Code: "
+				  << static_cast<int>(event.key) << std::endl;
 		return true; // Return true if the listener should remain active
 	}
 	bool on_key_released(const KeyReleaseEvent & event) override {
-		std::cout << "TestKeyListener: Key Released - Code: " << static_cast<int>(event.key)
-				  << std::endl;
+		std::cout << "TestKeyListener: Key Released - Code: "
+				  << static_cast<int>(event.key) << std::endl;
 		return true;
 	}
 };
