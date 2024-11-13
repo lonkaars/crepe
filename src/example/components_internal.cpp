@@ -13,7 +13,7 @@
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
 
-#include <crepe/util/log.h>
+#include <crepe/util/Log.h>
 
 using namespace crepe;
 using namespace std;

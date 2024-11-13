@@ -5,7 +5,7 @@
 
 #include <crepe/api/Config.h>
 #include <crepe/facade/Sound.h>
-#include <crepe/util/log.h>
+#include <crepe/util/Log.h>
 
 #include <thread>
 
@@ -18,7 +18,7 @@ using std::make_unique;
 int _ = []() {
 	// Show dbg_trace() output
 	auto & cfg = Config::get_instance();
-	cfg.log.level = LogLevel::TRACE;
+	cfg.log.level = Log::Level::TRACE;
 
 	return 0; // satisfy compiler
 }();

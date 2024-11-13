@@ -1,7 +1,7 @@
 #include <crepe/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/system/RenderSystem.h>
-#include <crepe/util/log.h>
+#include <crepe/util/Log.h>
 
 #include <crepe/api/AssetManager.h>
 #include <crepe/api/Color.h>

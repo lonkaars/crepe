@@ -7,7 +7,6 @@ namespace crepe {
 class Config {
 private:
 	Config() = default;
-
 public:
 	~Config() = default;
 
@@ -26,7 +25,7 @@ public:
 		/**
 		 * \brief Log level
 		 *
-		 * Only messages with equal or higher priority than this value will be
+		 * Only messages with equal or higher severity than this value will be
 		 * logged.
 		 */
 		Log::Level level = Log::Level::INFO;

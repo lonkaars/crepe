@@ -1,6 +1,7 @@
 #pragma once
 
 namespace crepe {
+
 /**
  * \brief System that controls all physics
  * 
