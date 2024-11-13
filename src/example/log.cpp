@@ -23,7 +23,6 @@ int main() {
 	Log::logf("info message with variable: {}", 3);
 	Log::logf(Log::Level::WARNING, "warning");
 	Log::logf(Log::Level::ERROR, "error");
-	
 
 	return 0;
 }

@@ -8,7 +8,12 @@
 #include "LogColor.h"
 
 // utility macros
-#define _crepe_logf_here(level, fmt, ...) crepe::Log::logf(level, "{}" fmt, crepe::LogColor().fg_white(false).str(std::format("{} ({}:{})", __PRETTY_FUNCTION__, __FILE_NAME__, __LINE__)), __VA_ARGS__)
+#define _crepe_logf_here(level, fmt, ...) \
+	crepe::Log::logf( \
+		level, "{}" fmt, \
+		crepe::LogColor().fg_white(false).str(std::format( \
+			"{} ({}:{})", __PRETTY_FUNCTION__, __FILE_NAME__, __LINE__)), \
+		__VA_ARGS__)
 
 // very illegal global function-style macros
 // NOLINTBEGIN
@@ -53,8 +58,9 @@ public:
 	 * \param fmt Message format
 	 * \param args Format arguments
 	 */
-	template<class... Args>
-	static void logf(const Level & level, std::format_string<Args...> fmt, Args&&... args);
+	template <class... Args>
+	static void logf(const Level & level, std::format_string<Args...> fmt,
+					 Args &&... args);
 
 	/**
 	 * \brief Format a message and log it (with default severity \c INFO)
@@ -62,8 +68,8 @@ public:
 	 * \param fmt Message format
 	 * \param args Format arguments
 	 */
-	template<class... Args>
-	static void logf(std::format_string<Args...> fmt, Args&&... args);
+	template <class... Args>
+	static void logf(std::format_string<Args...> fmt, Args &&... args);
 
 private:
 	/**
@@ -77,4 +83,3 @@ private:
 } // namespace crepe
 
 #include "Log.hpp"
-

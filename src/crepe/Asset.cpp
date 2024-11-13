@@ -14,4 +14,3 @@ Asset::Asset(const std::string & src) : src(src) {
 istream & Asset::get_stream() { return this->file; }
 
 const string & Asset::get_canonical() const { return this->src; }
-

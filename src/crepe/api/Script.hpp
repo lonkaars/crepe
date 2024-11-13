@@ -13,7 +13,8 @@ T & Script::get_component() const {
 	std::vector<std::reference_wrapper<T>> all_components
 		= this->get_components<T>();
 	if (all_components.size() < 1)
-		throw Exception("Script: no component found with type = %s", typeid(T).name());
+		throw Exception("Script: no component found with type = %s",
+						typeid(T).name());
 
 	return all_components.back().get();
 }

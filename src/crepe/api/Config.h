@@ -7,6 +7,7 @@ namespace crepe {
 class Config {
 private:
 	Config() = default;
+
 public:
 	~Config() = default;
 
