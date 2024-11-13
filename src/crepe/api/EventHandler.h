@@ -8,7 +8,7 @@
  * \brief A type alias for an event handler function.
  * 
  * The EventHandler is a std::function that takes an EventType reference and returns a boolean value 
- * indicating whether the event was successfully handled.
+ * indicating whether the event is handled.
  * 
  * \tparam EventType The type of event this handler will handle.
  */
