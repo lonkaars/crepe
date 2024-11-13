@@ -1,5 +1,9 @@
-
 #include "../facade/SDLContext.h"
+
+#include "../system/AnimatorSystem.h"
+#include "../system/CollisionSystem.h"
+#include "../system/ParticleSystem.h"
+#include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
 
@@ -7,11 +11,25 @@
 #include "LoopTimer.h"
 
 using namespace crepe;
+using namespace std;
 
-LoopManager::LoopManager() {}
+LoopManager::LoopManager() {
+	this->load_system<AnimatorSystem>();
+	this->load_system<CollisionSystem>();
+	this->load_system<ParticleSystem>();
+	this->load_system<PhysicsSystem>();
+	this->load_system<RenderSystem>();
+	this->load_system<ScriptSystem>();
+}
+
+ComponentManager & LoopManager::get_component_manager() {
+	return this->component_manager;
+}
+
 void LoopManager::process_input() {
 	SDLContext::get_instance().handle_events(this->game_running);
 }
+
 void LoopManager::start() {
 	this->setup();
 	this->loop();
@@ -48,7 +66,7 @@ void LoopManager::setup() {
 
 void LoopManager::render() {
 	if (this->game_running) {
-		RenderSystem::get_instance().update();
+		this->get_system<RenderSystem>().update();
 	}
 }
 

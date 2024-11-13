@@ -1,11 +1,13 @@
 #pragma once
 
+#include "System.h"
+
 namespace crepe {
 
-class CollisionSystem {
+class CollisionSystem : public System {
 public:
-	CollisionSystem();
-	void update();
+	using System::System;
+	void update() override;
 };
 
 } // namespace crepe
