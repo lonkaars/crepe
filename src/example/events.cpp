@@ -91,13 +91,12 @@ int main() {
 		return false;
 	};
 	EventManager::get_instance().subscribe<KeyPressEvent>(std::move(event_handler),0);
-	//
-
+	// testing trigger with testListener not in scope (unsubscribed)
     EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 0);
-	
     EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);
+	// dispatching queued events
 	EventManager::get_instance().dispatch_events();
-
+	
 	EventManager::get_instance().unsubscribe<KeyPressEvent>(event_handler,0);
     return EXIT_SUCCESS;
 }
