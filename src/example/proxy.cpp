@@ -5,8 +5,8 @@
 
 #include <crepe/ValueBroker.h>
 #include <crepe/api/Config.h>
-#include <crepe/util/Proxy.h>
 #include <crepe/util/Log.h>
+#include <crepe/util/Proxy.h>
 
 using namespace std;
 using namespace crepe;

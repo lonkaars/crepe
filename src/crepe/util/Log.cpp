@@ -36,4 +36,3 @@ void Log::log(const Level & level, const string & msg) {
 	fwrite(out.c_str(), 1, out.size(), stdout);
 	fflush(stdout);
 }
-

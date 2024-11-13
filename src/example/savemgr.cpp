@@ -6,8 +6,8 @@
 #include <cassert>
 #include <crepe/api/Config.h>
 #include <crepe/api/SaveManager.h>
-#include <crepe/util/Proxy.h>
 #include <crepe/util/Log.h>
+#include <crepe/util/Proxy.h>
 
 using namespace crepe;
 

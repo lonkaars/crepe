@@ -1,8 +1,8 @@
 #pragma once
 
 #include <exception>
-#include <string>
 #include <format>
+#include <string>
 
 namespace crepe {
 
@@ -13,8 +13,8 @@ public:
 	Exception(const std::string & msg);
 
 	//! Exception with \c std::format message
-	template<class... Args>
-	Exception(std::format_string<Args...> fmt, Args&&... args);
+	template <class... Args>
+	Exception(std::format_string<Args...> fmt, Args &&... args);
 
 	//! Get formatted error message
 	const char * what() const noexcept;
@@ -29,4 +29,3 @@ protected:
 } // namespace crepe
 
 #include "Exception.hpp"
-
