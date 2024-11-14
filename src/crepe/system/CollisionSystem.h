@@ -17,8 +17,10 @@ private:
 	using collider_stor = std::variant<BoxCollider, CircleCollider>;
 private:
 	struct CollidedInfoStor {
-	std::tuple<collider_stor,Transform,Rigidbody> collider_info;
-};
+		collider_stor collider;  // Store either BoxCollider or CircleCollider
+		Transform transform;      // Transform data
+		Rigidbody rigidbody;      // Rigidbody data
+	};
 public:
 	CollisionSystem();
 	void update();
