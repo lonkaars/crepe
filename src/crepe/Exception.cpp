@@ -6,9 +6,7 @@
 using namespace std;
 using namespace crepe;
 
-const char * Exception::what() {
-	return error.c_str();
-}
+const char * Exception::what() { return error.c_str(); }
 
 Exception::Exception(const char * fmt, ...) {
 	va_list args;
@@ -16,4 +14,3 @@ Exception::Exception(const char * fmt, ...) {
 	this->error = va_stringf(args, fmt);
 	va_end(args);
 }
-

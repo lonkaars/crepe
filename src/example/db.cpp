@@ -1,12 +1,12 @@
-#include <crepe/facade/DB.h>
 #include <crepe/api/Config.h>
+#include <crepe/facade/DB.h>
 #include <crepe/util/log.h>
 
 using namespace crepe;
 using namespace std;
 
 // run before main
-static auto _ = [] () {
+static auto _ = []() {
 	auto & cfg = Config::get_instance();
 	cfg.log.level = LogLevel::TRACE;
 	return 0;

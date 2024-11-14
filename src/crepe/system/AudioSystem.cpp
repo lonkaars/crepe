@@ -1,5 +1,3 @@
-#pragma once
-
 #include "AudioSystem.h"
 #include "ComponentManager.h"
 

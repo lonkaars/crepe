@@ -17,7 +17,6 @@ protected:
 	Exception() = default;
 	//! Formatted error message
 	std::string error;
-
 };
 
-}
+} // namespace crepe

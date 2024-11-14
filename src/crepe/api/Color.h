@@ -1,14 +1,17 @@
 #pragma once
 
+#include <cstdint>
+
 namespace crepe {
 
+// TODO: make Color a struct w/o constructors/destructors
 class Color {
 
 	// FIXME: can't these colors be defined as a `static constexpr const Color`
 	// instead?
 
 public:
-	Color(double red, double green, double blue, double alpha);
+	Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 	static const Color & get_white();
 	static const Color & get_red();
 	static const Color & get_green();
@@ -19,10 +22,11 @@ public:
 	static const Color & get_black();
 
 private:
-	double r;
-	double g;
-	double b;
-	double a;
+	// TODO: why are these private!?
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+	uint8_t a;
 
 	static Color white;
 	static Color red;
@@ -32,6 +36,9 @@ private:
 	static Color magenta;
 	static Color yellow;
 	static Color black;
+
+private:
+	friend class SDLContext;
 };
 
 } // namespace crepe

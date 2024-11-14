@@ -23,6 +23,7 @@ ReflowComments: false
 AlignEscapedNewlines: DontAlign
 BreakBeforeBinaryOperators: All
 AlwaysBreakTemplateDeclarations: Yes
+PackConstructorInitializers: CurrentLine
 ...
 
 # vim: ft=yaml
