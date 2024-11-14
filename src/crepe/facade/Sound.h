@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <soloud/soloud.h>
 #include <soloud/soloud_wav.h>
 
@@ -20,6 +19,7 @@ class SoundContext;
 class Sound : public Resource {
 public:
 	Sound(const Asset & src);
+	~Sound(); // dbg_trace
 	/**
 	 * \brief Pause this sample
 	 *

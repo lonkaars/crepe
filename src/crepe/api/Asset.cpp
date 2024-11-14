@@ -48,6 +48,10 @@ string Asset::whereami() const noexcept {
 	return path;
 }
 
+bool Asset::operator==(const Asset & other) const noexcept {
+	return this->src == other.src;
+}
+
 size_t std::hash<const Asset>::operator()(const Asset & asset) const noexcept {
 	return std::hash<string>{}(asset.get_path());
 };
