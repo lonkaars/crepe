@@ -3,6 +3,9 @@
 #include "api/Camera.h"
 
 #include "System.h"
+#include "api/Sprite.h"
+#include <functional>
+#include <vector>
 
 namespace crepe {
 
@@ -44,7 +47,10 @@ private:
 	void update_camera();
 
 	//! Renders all active sprites to the screen.
-	void render_sprites() const;
+	void render_sprites() ;
+
+	std::vector<std::reference_wrapper<Sprite>>
+	sort(std::vector<std::reference_wrapper<Sprite>> & objs);
 
 	/**
 	 * \todo Include color handling for sprites.
