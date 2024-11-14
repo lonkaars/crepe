@@ -23,6 +23,7 @@ void CollisionSystem::update() {
 	std::vector<std::reference_wrapper<BoxCollider>> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
 	std::vector<std::reference_wrapper<CircleCollider>> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
 	std::vector<std::pair<int, int>> collided = check_collisions(boxcolliders,circlecolliders);
+	 std::cout << "DEBUG INFO" << std::endl;
 	for (const auto& collision : collided) {
     std::cout << "Object " << collision.first << " collided with Object " << collision.second << std::endl;
 	}
