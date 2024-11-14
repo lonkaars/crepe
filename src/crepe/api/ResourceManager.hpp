@@ -1,24 +1,27 @@
 #pragma once
 
+#include <stdexcept>
+#include <format>
+
 #include "ResourceManager.h"
 
 namespace crepe {
 
-template <typename asset>
-std::shared_ptr<asset> ResourceManager::cache(const std::string & file_path,
-										   bool reload) {
-	auto it = asset_cache.find(file_path);
+template <typename T>
+T & ResourceManager::cache(const Asset & asset) {
+	using namespace std;
+	static_assert(is_base_of<Resource, T>::value, "cache must recieve a derivative class of Resource");
 
-	if (!reload && it != asset_cache.end()) {
-		return std::any_cast<std::shared_ptr<asset>>(it->second);
-	}
+	if (!this->resources.contains(asset))
+		this->resources[asset] = make_unique<T>(asset);
 
-	std::shared_ptr<asset> new_asset
-		= std::make_shared<asset>(file_path.c_str());
+	Resource * resource = this->resources.at(asset).get();
+	T * concrete_resource = dynamic_cast<T *>(resource);
 
-	asset_cache[file_path] = new_asset;
+	if (concrete_resource == nullptr)
+		throw runtime_error(format("ResourceManager: mismatch between requested type and actual type of resource ({})", asset.get_path()));
 
-	return new_asset;
+	return *concrete_resource;
 }
 
 } // namespace crepe

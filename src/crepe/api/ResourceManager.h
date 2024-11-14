@@ -1,11 +1,14 @@
 #pragma once
 
-#include <any>
 #include <memory>
-#include <string>
 #include <unordered_map>
 
+#include "Asset.h"
+#include "Resource.h"
+
 namespace crepe {
+
+class Sound;
 
 /**
  * \brief The ResourceManager is responsible for storing and managing assets over
@@ -20,18 +23,18 @@ class ResourceManager {
 
 private:
 	//! A cache that holds all the assets, accessible by their file path, over multiple scenes.
-	std::unordered_map<std::string, std::any> asset_cache;
+	std::unordered_map<const Asset, std::unique_ptr<Resource>> resources;
 
 private:
-	ResourceManager();
-	virtual ~ResourceManager();
+	ResourceManager(); // dbg_trace
+	virtual ~ResourceManager(); // dbg_trace
 
-public:
 	ResourceManager(const ResourceManager &) = delete;
 	ResourceManager(ResourceManager &&) = delete;
 	ResourceManager & operator=(const ResourceManager &) = delete;
 	ResourceManager & operator=(ResourceManager &&) = delete;
 
+public:
 	/**
 	 * \brief Retrieves the singleton instance of the ResourceManager.
 	 *
@@ -56,8 +59,12 @@ public:
 	 * cache.
 	 */
 	template <typename T>
-	std::shared_ptr<T> cache(const std::string & file_path,
-							 bool reload = false);
+	T & cache(const Asset & asset);
+
+	/**
+	 * \brief Clear the resource cache
+	 */
+	void clear();
 };
 
 } // namespace crepe
