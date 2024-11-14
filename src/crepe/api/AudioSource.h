@@ -7,10 +7,19 @@
 
 namespace crepe {
 
+class AudioSystem;
+
 //! Audio source component
 class AudioSource : public Component {
-public:
+	//! AudioSource components are handled by AudioSystem
+	friend class AudioSystem;
+
+protected:
 	AudioSource(game_object_id_t id, const Asset & source);
+	//! Only ComponentManager can create components
+	friend class ComponentManager;
+public:
+	// But std::unique_ptr needs to be able to destoy this component again
 	virtual ~AudioSource() = default;
 
 public:

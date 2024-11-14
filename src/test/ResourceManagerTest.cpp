@@ -14,12 +14,17 @@ public:
 	Config & cfg = Config::get_instance();
 
 	void SetUp() override {
-		cfg.log.level = Log::Level::TRACE;
 		resman.clear();
 	}
 };
 
 TEST_F(ResourceManagerTest, Main) {
+	// NOTE: there is no way (that I know of) to ensure the last cache call
+	// allocates the new Sound instance in a different location than the first,
+	// so this test should be verified manually using these print statements and
+	// debug trace messages.
+	cfg.log.level = Log::Level::TRACE;
+
 	Asset path1 = "mwe/audio/sfx1.wav";
 	Asset path2 = "mwe/audio/sfx1.wav";
 	ASSERT_EQ(path1, path2);
@@ -43,9 +48,5 @@ TEST_F(ResourceManagerTest, Main) {
 
 	Log::logf(Log::Level::DEBUG, "Get first sound again (constructor call)");
 	Sound & sound = resman.cache<Sound>(path1);
-
-	// NOTE: there is no way (that I know of) to ensure the above statement
-	// allocates the new Sound instance in a different location than the first,
-	// so this test was verified using the above print statements.
 }
 
