@@ -2,19 +2,32 @@
 
 using namespace crepe;
 
-Particle::Particle() { this->active = false; }
-
-void Particle::reset(float lifespan, Position position, Position velocity) {
+void Particle::reset(uint32_t lifespan, const Vector2 & position,
+					 const Vector2 & velocity, double angle) {
+	// Initialize the particle state
 	this->time_in_life = 0;
 	this->lifespan = lifespan;
 	this->position = position;
 	this->velocity = velocity;
+	this->angle = angle;
 	this->active = true;
+	// Reset force accumulation
+	this->force_over_time = {0, 0};
 }
 
-void Particle::update(float deltaTime) {
-	time_in_life += deltaTime;
-	position.x += velocity.x * deltaTime;
-	position.y += velocity.y * deltaTime;
-	if (time_in_life >= lifespan) this->active = false;
+void Particle::update() {
+	// Deactivate particle if it has exceeded its lifespan
+	if (++time_in_life >= lifespan) {
+		this->active = false;
+		return;
+	}
+
+	// Update velocity based on accumulated force and update position
+	this->velocity += force_over_time;
+	this->position += velocity;
+}
+
+void Particle::stop_movement() {
+	// Reset velocity to halt movement
+	this->velocity = {0, 0};
 }

@@ -34,7 +34,9 @@ int main() {
 	}
 	{
 		Color color(0, 0, 0, 0);
-		obj1.add_component<Sprite>(make_shared<Texture>("../asset/texture/second.png"), color, FlipSettings{true, true});
+		obj1.add_component<Sprite>(
+			make_shared<Texture>("../asset/texture/second.png"), color,
+			FlipSettings{true, true});
 	}
 
 	/*
