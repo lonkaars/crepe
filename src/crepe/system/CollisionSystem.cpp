@@ -1,6 +1,8 @@
 #include <cmath>
 #include <algorithm>
 #include <cstddef>
+#include <tuple>
+#include <utility>
 #include <variant>
 
 #include "CollisionSystem.h"
@@ -23,39 +25,57 @@ void CollisionSystem::update() {
 	ComponentManager & mgr = ComponentManager::get_instance();
 	std::vector<std::reference_wrapper<BoxCollider>> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
 	std::vector<std::reference_wrapper<CircleCollider>> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
-	std::vector<std::pair<CollisionSystem::collider_stor, CollisionSystem::collider_stor>> collided = check_collisions(boxcolliders,circlecolliders);
+	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> collided = check_collisions(boxcolliders,circlecolliders);
 	std::cout << "DEBUG INFO" << std::endl;
-	for (const std::pair<CollisionSystem::collider_stor, CollisionSystem::collider_stor>& collision : collided) {
-		
-		if (const BoxCollider* box_collider1 = std::get_if<BoxCollider>(&collision.first)) {
-			std::cout << "Processing a BoxCollider\n";
-			if (const BoxCollider* box_collider2 = std::get_if<BoxCollider>(&collision.second)) {
-			std::cout << "Processing a BoxCollider\n";
-			} else if (const CircleCollider* circle_collider2 = std::get_if<CircleCollider>(&collision.first)) {
-				std::cout << "Processing a CircleCollider\n";
-			}
-		} else if (const CircleCollider* circle_collider1 = std::get_if<CircleCollider>(&collision.first)) {
-			std::cout << "Processing a CircleCollider\n";
-			if (const BoxCollider* box_collider2 = std::get_if<BoxCollider>(&collision.first)) {
-				std::cout << "Processing a BoxCollider\n";
-			} else if (const CircleCollider* circle_collider2 = std::get_if<CircleCollider>(&collision.first)) {
-				std::cout << "Processing a CircleCollider\n";
-			}
-		}
-
+	for (const auto& collision_pair : collided) {
+		call_collision_handler(collision_pair.first,collision_pair.second); // First collider
+		call_collision_handler(collision_pair.second,collision_pair.first); // First collider
 	}
+
 	if(collided.empty()) {
 		std::cout << "No objects collided" << std::endl;
 	}
 }
 
-void CollisionSystem::call_collision_handler(const Rigidbody& rigidbody1,const Rigidbody& rigidbody2){
+void CollisionSystem::call_collision_handler(const CollidedInfoStor& data1,const CollidedInfoStor& data2){
+	game_object_id_t first = 0,second = 0;
+	// if (std::holds_alternative<BoxCollider>(collider1)) {
+	// 		if (std::holds_alternative<BoxCollider>(collider2)) {
+	// 			const BoxCollider& box_collider1 = std::get<BoxCollider>(collider1);
+	// 			const BoxCollider& box_collider2 = std::get<BoxCollider>(collider2);
+	// 			first = box_collider1.game_object_id;
+	// 			second = box_collider2.game_object_id;
+	// 		}
+	// 		else {
+	// 			const BoxCollider& box_collider = std::get<BoxCollider>(collider1);
+	// 			const CircleCollider& circle_collider = std::get<CircleCollider>(collider2);
+	// 			first = box_collider.game_object_id;
+	// 			second = circle_collider.game_object_id;
+	// 		}
+	// 	}
+	// 	else {
+	// 		if (std::holds_alternative<CircleCollider>(collider2)) {
+	// 			const CircleCollider& circle_collider1 = std::get<CircleCollider>(collider1);
+	// 			const CircleCollider& circle_collider2 = std::get<CircleCollider>(collider2);
+	// 			first = circle_collider1.game_object_id;
+	// 			second = circle_collider2.game_object_id;
+	// 		}
+	// 		else {
+	// 			const CircleCollider& circle_collider = std::get<CircleCollider>(collider1);
+	// 			const BoxCollider& box_collider = std::get<BoxCollider>(collider2);
+	// 			first = circle_collider.game_object_id;
+	// 			second = box_collider.game_object_id;
+	// 		}
+	// 	}
 
+	// 	Rigidbody rigidbody1 = mgr.get_components_by_id<Rigidbody>(first).front().get();
+	// 	Rigidbody rigidbody2 = mgr.get_components_by_id<Rigidbody>(second).front().get();
+		
 }
 
-std::vector<std::pair<CollisionSystem::collider_stor, CollisionSystem::collider_stor>> CollisionSystem::check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders) {
+std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::CollidedInfoStor>> CollisionSystem::check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders) {
 	ComponentManager & mgr = ComponentManager::get_instance();
-	std::vector<std::pair<collider_stor, collider_stor>> collisions_ret;
+	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> collisions_ret;
 	//if no colliders skip
 	//check if colliders has rigibocdy if not skip
 
@@ -84,7 +104,9 @@ std::vector<std::pair<CollisionSystem::collider_stor, CollisionSystem::collider_
 
 			// Check collision
 			if (check_box_box_collision(boxcolliders[i], boxcolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
-				collisions_ret.emplace_back(boxcolliders[i], boxcolliders[j]);
+				collisions_ret.emplace_back(std::make_pair(
+					std::make_tuple(boxcolliders[i], transform1,rigidbody1),
+					std::make_tuple(boxcolliders[j], transform2,rigidbody2)));
 			}
 		}
 
@@ -101,7 +123,9 @@ std::vector<std::pair<CollisionSystem::collider_stor, CollisionSystem::collider_
 
 			// Check collision
 			if (check_box_circle_collision(boxcolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
-				collisions_ret.emplace_back(boxcolliders[i], circlecolliders[j]);
+				collisions_ret.emplace_back(std::make_pair(
+					std::make_tuple(boxcolliders[i], transform1,rigidbody1),
+					std::make_tuple(circlecolliders[j], transform2,rigidbody2)));
 			}
 		}
 	}
@@ -124,7 +148,9 @@ std::vector<std::pair<CollisionSystem::collider_stor, CollisionSystem::collider_
 
 			// Check collision
 			if (check_circle_circle_collision(circlecolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
-				collisions_ret.emplace_back(circlecolliders[i], circlecolliders[j]);
+				collisions_ret.emplace_back(std::make_pair(
+					std::make_tuple(circlecolliders[i], transform1,rigidbody1),
+					std::make_tuple(circlecolliders[j], transform2,rigidbody2)));
 			}
 		}
 	}
