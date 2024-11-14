@@ -1,10 +1,9 @@
 #pragma once
 
-#include <memory>
-
-#include "../Asset.h"
 #include "../Component.h"
 #include "../types.h"
+
+#include "Asset.h"
 
 namespace crepe {
 

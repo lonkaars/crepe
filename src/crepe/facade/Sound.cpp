@@ -1,6 +1,6 @@
 #include <memory>
 
-#include "../Asset.h"
+#include "../api/Asset.h"
 #include "../util/Log.h"
 
 #include "Sound.h"
