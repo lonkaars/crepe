@@ -30,9 +30,8 @@ public:
 	//! The time the particle has been alive, in milliseconds.
 	uint32_t time_in_life = 0;
 	//! The angle at which the particle is oriented or moving.
-	double angle;
+	double angle = 0;
 
-	Particle() = default;
 	/**
 	 * \brief Resets the particle with new properties.
 	 *
@@ -44,8 +43,8 @@ public:
 	 * \param velocity  The initial velocity of the particle.
 	 * \param angle     The angle of the particle's trajectory or orientation.
 	 */
-	void reset(uint32_t lifespan, Vector2 position, Vector2 velocity,
-			   double angle);
+	void reset(uint32_t lifespan, const Vector2 & position,
+			   const Vector2 & velocity, double angle);
 	/**
 	 * \brief Updates the particle's state.
 	 *

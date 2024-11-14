@@ -1,16 +1,14 @@
 #pragma once
 
-#include <cstdint>
 #include <vector>
 
 #include "Component.h"
 #include "Particle.h"
-#include "Sprite.h"
 #include "Vector2.h"
 
-// class Sprite;
-
 namespace crepe {
+
+class Sprite;
 
 /**
  * \brief Data holder for particle emission parameters.
@@ -18,7 +16,6 @@ namespace crepe {
  * The ParticleEmitter class stores configuration data for particle properties,
  * defining the characteristics and boundaries of particle emissions.
  */
-
 class ParticleEmitter : public Component {
 public:
 	/**
@@ -48,7 +45,7 @@ public:
 		//! position of the emitter
 		Vector2 position;
 		//! maximum number of particles
-		const uint32_t max_particles = 0;
+		const unsigned int max_particles = 0;
 		//! rate of particle emission per update (Lowest value = 0.001 any lower is ignored)
 		double emission_rate = 0;
 		//! min speed of the particles
@@ -75,13 +72,10 @@ public:
 
 public:
 	/**
-	 * \brief Constructs a ParticleEmitter data holder with specified settings.
-	 *
 	 * \param game_object_id  Identifier for the game object using this emitter.
 	 * \param data            Configuration data defining particle properties.
 	 */
-	ParticleEmitter(uint32_t game_object_id, const Data & data);
-	~ParticleEmitter();
+	ParticleEmitter(game_object_id_t game_object_id, const Data & data);
 
 public:
 	//! Configuration data for particle emission settings.

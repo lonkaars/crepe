@@ -33,9 +33,10 @@ int main() {
 		obj.add_component<Camera>(Color::get_red());
 	}
 	{
-		Color color(255, 0, 0, 0);
-		obj1.add_component<Sprite>(make_shared<Texture>("../asset/texture/second.png"), color, FlipSettings{true, true});
-		obj1.add_component<Sprite>(make_shared<Texture>("../asset/texture/second.png"), color, FlipSettings{true, true});
+		Color color(0, 0, 0, 0);
+		obj1.add_component<Sprite>(
+			make_shared<Texture>("../asset/texture/second.png"), color,
+			FlipSettings{true, true});
 	}
 
 	/*
