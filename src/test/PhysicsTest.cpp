@@ -16,6 +16,7 @@ protected:
 	PhysicsSystem physics_system;
 	void SetUp() override {
 		ComponentManager & mgr = ComponentManager::get_instance();
+		mgr.delete_all_components();
 		std::vector<std::reference_wrapper<Transform>> transforms
 			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
