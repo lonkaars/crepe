@@ -52,7 +52,7 @@ protected:
 			.use_gravity = false,
 			.bounce = false,
 		});
-		game_object2->add_component<BoxCollider>(Vector2{0,0},10,10);
+		game_object2->add_component<CircleCollider>(Vector2{0,0},5);
 	}
 };
 
@@ -67,11 +67,17 @@ TEST_F(CollisionTest, box_box_collision) {
 	collision_system.update();
 	transform.position = {40,50};
 	collision_system.update();
-	transform.position = {41,50};
+	transform.position = {50,39};
 	collision_system.update();
-	transform.position = {44,50};
+	transform.position = {50,40};
 	collision_system.update();
-	transform.position = {50,50};
+	transform.position = {50,60};
+	collision_system.update();
+	transform.position = {50,61};
+	collision_system.update();
+	transform.position = {60,50};
+	collision_system.update();
+	transform.position = {61,50};
 	collision_system.update();
 }
 

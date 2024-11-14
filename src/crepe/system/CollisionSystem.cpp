@@ -70,7 +70,7 @@ std::vector<std::pair<int, int>> CollisionSystem::check_collisions(const std::ve
 		for (size_t j = 0; j < circlecolliders.size(); ++j) {
 
 			// Skip self collision
-			int game_object_id_2 = boxcolliders[j].get().game_object_id;
+			int game_object_id_2 = circlecolliders[j].get().game_object_id;
 			if (game_object_id_1 == game_object_id_2) continue;
 
 			// Fetch components for the second collider (circle)
@@ -87,13 +87,13 @@ std::vector<std::pair<int, int>> CollisionSystem::check_collisions(const std::ve
 	for (size_t i = 0; i < circlecolliders.size(); ++i) {
 
 		// Fetch components for the first circle collider
-		int game_object_id_1 = boxcolliders[i].get().game_object_id;
+		int game_object_id_1 = circlecolliders[i].get().game_object_id;
 		Transform & transform1 = mgr.get_components_by_id<Transform>(circlecolliders[i].get().game_object_id).front().get();
 		Rigidbody & rigidbody1 = mgr.get_components_by_id<Rigidbody>(circlecolliders[i].get().game_object_id).front().get();
 		for (size_t j = i + 1; j < circlecolliders.size(); ++j) {
 
 			// Skip self collision
-			int game_object_id_2 = boxcolliders[j].get().game_object_id;
+			int game_object_id_2 = circlecolliders[j].get().game_object_id;
 			if (game_object_id_1 == game_object_id_2) continue;
 
 			// Fetch components for the second circle collider
