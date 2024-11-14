@@ -6,6 +6,12 @@
 
 namespace crepe {
 
+/**
+ * \brief Sound engine facade
+ *
+ * This class is a wrapper around a \c SoLoud::Soloud instance, which provides
+ * the methods for playing \c Sound instances. It is part of the sound facade.
+ */
 class SoundContext {
 public:
 	SoundContext();

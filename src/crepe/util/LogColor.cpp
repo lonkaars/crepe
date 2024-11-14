@@ -3,14 +3,12 @@
 #include "../api/Config.h"
 #include "LogColor.h"
 
-#include "fmt.h"
-
 using namespace crepe;
 using namespace std;
 
 static constexpr const char * RESET_CODE = "\e[0m";
 
-const string LogColor::str(const string & content) {
+const string LogColor::str(const string & content) const {
 	auto & cfg = Config::get_instance();
 	string out = content;
 	if (cfg.log.color) out = this->code + out;
@@ -19,21 +17,8 @@ const string LogColor::str(const string & content) {
 	return out;
 }
 
-const char * LogColor::c_str(const char * content) {
-	this->final = this->str(content == NULL ? "" : content);
-	return this->final.c_str();
-}
-
-const char * LogColor::fmt(const char * fmt, ...) {
-	va_list args;
-	va_start(args, fmt);
-	string content = va_stringf(args, fmt);
-	va_end(args);
-	return this->c_str(content.c_str());
-}
-
 LogColor & LogColor::add_code(unsigned int code) {
-	this->code += stringf("\e[%dm", code);
+	this->code += format("\e[{}m", code);
 	return *this;
 }
 

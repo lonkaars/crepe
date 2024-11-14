@@ -6,10 +6,9 @@
 using namespace crepe;
 using namespace std;
 
-AudioSystem::AudioSystem(SoundContext & ctx) : ctx(ctx) {}
-
 void AudioSystem::update() {
-	vector<reference_wrapper<AudioSource>> components = this->compmgr.get_components_by_type<AudioSource>();
+	ComponentManager & mgr = this->component_manager;
+	vector<reference_wrapper<AudioSource>> components = mgr.get_components_by_type<AudioSource>();
 
 	for (auto component_ref : components) {
 		AudioSource & component = component_ref.get();

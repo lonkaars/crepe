@@ -1,7 +1,7 @@
 #include <memory>
 
 #include "../Asset.h"
-#include "../util/log.h"
+#include "../util/Log.h"
 
 #include "Sound.h"
 #include "SoundContext.h"
@@ -13,7 +13,7 @@ Sound::Sound(SoundContext & ctx) : context(ctx) { dbg_trace(); }
 
 unique_ptr<Resource> Sound::clone(const Asset & src) const {
 	auto instance = make_unique<Sound>(*this);
-	instance->sample.load(src.canonical());
+	instance->sample.load(src.get_canonical().c_str());
 	return instance;
 }
 

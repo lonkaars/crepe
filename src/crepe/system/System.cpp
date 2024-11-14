@@ -1,7 +1,7 @@
+#include "../util/Log.h"
+
 #include "System.h"
 
 using namespace crepe;
 
-// TODO: ComponentManager shouldn't be a singleton
-System::System() : compmgr(ComponentManager::get_instance()) {}
-
+System::System(ComponentManager & mgr) : component_manager(mgr) { dbg_trace(); }

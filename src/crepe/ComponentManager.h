@@ -1,14 +1,17 @@
 #pragma once
 
-#include <cstdint>
+#include <forward_list>
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
 
 #include "Component.h"
+#include "api/Vector2.h"
 
 namespace crepe {
+
+class GameObject;
 
 /**
  * \brief Manages all components
@@ -18,18 +21,10 @@ namespace crepe {
  */
 class ComponentManager {
 public:
-	/**
-	 * \brief Get the instance of the ComponentManager
-	 * 
-	 * \return The instance of the ComponentManager
-	 */
-	static ComponentManager & get_instance();
-	ComponentManager(const ComponentManager &) = delete;
-	ComponentManager(ComponentManager &&) = delete;
-	ComponentManager & operator=(const ComponentManager &) = delete;
-	ComponentManager & operator=(ComponentManager &&) = delete;
-	~ComponentManager();
+	ComponentManager(); // dbg_trace
+	~ComponentManager(); // dbg_trace
 
+protected:
 	/**
 	 * \brief Add a component to the ComponentManager
 	 * 
@@ -44,6 +39,11 @@ public:
 	 */
 	template <typename T, typename... Args>
 	T & add_component(game_object_id_t id, Args &&... args);
+	//! GameObject is used as an interface to add components instead of the
+	// component manager directly
+	friend class GameObject;
+
+public:
 	/**
 	 * \brief Delete all components of a specific type and id
 	 * 
@@ -100,8 +100,11 @@ public:
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
 
-private:
-	ComponentManager();
+	// TODO: doxygen
+	GameObject new_object(const std::string & name,
+						  const std::string & tag = "",
+						  const Vector2 & position = {0, 0},
+						  double rotation = 0, double scale = 0);
 
 private:
 	/**
@@ -118,6 +121,10 @@ private:
 	std::unordered_map<std::type_index,
 					   std::vector<std::vector<std::unique_ptr<Component>>>>
 		components;
+
+	//! ID of next GameObject
+	game_object_id_t next_id = 0;
+	std::forward_list<std::unique_ptr<GameObject>> objects;
 };
 
 } // namespace crepe

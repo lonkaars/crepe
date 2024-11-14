@@ -1,7 +1,7 @@
 #include <chrono>
 
 #include "../facade/SDLContext.h"
-#include "../util/log.h"
+#include "../util/Log.h"
 
 #include "LoopTimer.h"
 

@@ -1,6 +1,8 @@
 target_sources(test_main PUBLIC
-	# PhysicsTest.cpp
-	# ParticleTest.cpp
+	main.cpp
+	PhysicsTest.cpp
+	ScriptTest.cpp
+	ParticleTest.cpp
 	AudioTest.cpp
 )
 

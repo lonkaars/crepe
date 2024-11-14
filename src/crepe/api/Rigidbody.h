@@ -82,7 +82,7 @@ public:
 	 * \param game_object_id id of the gameobject the rigibody is added to.
 	 * \param data struct to configure the rigidbody.
 	 */
-	Rigidbody(uint32_t game_object_id, const Data & data);
+	Rigidbody(game_object_id_t id, const Data & data);
 	//! struct to hold data of rigidbody
 	Data data;
 

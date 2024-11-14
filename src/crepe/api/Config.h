@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../util/log.h"
+#include "../util/Log.h"
 
 namespace crepe {
 
@@ -26,10 +26,10 @@ public:
 		/**
 		 * \brief Log level
 		 *
-		 * Only messages with equal or higher priority than this value will be
+		 * Only messages with equal or higher severity than this value will be
 		 * logged.
 		 */
-		LogLevel level = LogLevel::INFO;
+		Log::Level level = Log::Level::INFO;
 		/**
 		 * \brief Colored log output
 		 *
