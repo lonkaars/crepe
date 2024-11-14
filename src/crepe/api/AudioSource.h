@@ -21,8 +21,6 @@ public:
 	void stop();
 
 public:
-	//! Sample file location
-	const std::unique_ptr<Asset> audio_clip;
 	//! Play when this component becomes active
 	bool play_on_awake = false;
 	//! Repeat the current audio clip during playback
@@ -31,6 +29,9 @@ public:
 	float volume = 1.0;
 
 private:
+	//! This audio source's clip
+	const Asset source;
+
 	//! If this source is playing audio
 	bool playing = false;
 	//! Rewind the sample location

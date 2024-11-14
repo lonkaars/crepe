@@ -4,5 +4,6 @@ target_sources(test_main PUBLIC
 	ScriptTest.cpp
 	ParticleTest.cpp
 	AudioTest.cpp
+	AssetTest.cpp
 )
 

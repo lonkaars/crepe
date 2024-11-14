@@ -13,7 +13,7 @@ Sound::Sound(SoundContext & ctx) : context(ctx) { dbg_trace(); }
 
 unique_ptr<Resource> Sound::clone(const Asset & src) const {
 	auto instance = make_unique<Sound>(*this);
-	instance->sample.load(src.get_canonical().c_str());
+	instance->sample.load(src.get_path().c_str());
 	return instance;
 }
 
