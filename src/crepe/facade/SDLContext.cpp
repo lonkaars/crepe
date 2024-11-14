@@ -6,10 +6,12 @@
 #include <SDL2/SDL_video.h>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <sys/types.h>
 #include <utility>
 
 #include "../api/Sprite.h"
@@ -110,12 +112,24 @@ void SDLContext::present_screen() {
 	SDL_RenderPresent(this->game_renderer.get());
 }
 
+void SDLContext::set_rbg_texture(const std::shared_ptr<Texture>& texture, const uint8_t& r, const uint8_t& g, const uint8_t& b){
+	SDL_SetTextureColorMod(texture->texture.get(), r, g, b);
+}
+void SDLContext::set_alpha_texture(const std::shared_ptr<Texture>& texture, const uint8_t& alpha){
+	SDL_SetTextureAlphaMod(texture->texture.get(), alpha	);
+}
+
 void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 					  const Camera & cam) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
+
+	sprite.sprite_image->texture.get();
+
+	this->set_rbg_texture(sprite.sprite_image, sprite.color.r, sprite.color.g, sprite.color.b);
+	this->set_alpha_texture(sprite.sprite_image, sprite.color.a);
 
 	double adjusted_x = (transform.position.x - cam.x) * cam.zoom;
 	double adjusted_y = (transform.position.y - cam.y) * cam.zoom;
@@ -128,6 +142,7 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 		.w = sprite.sprite_rect.w,
 		.h = sprite.sprite_rect.h,
 	};
+
 
 	SDL_Rect dstrect = {
 		.x = static_cast<int>(adjusted_x),

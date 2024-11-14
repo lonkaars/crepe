@@ -3,6 +3,7 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>
@@ -144,6 +145,28 @@ private:
 	 * \param camera Reference to the Camera object.
 	 */
 	void camera(const Camera & camera);
+
+	/**
+	 * \brief changes the texture rbg values with the given parameters
+	 *  it sets the allowed color inside a image. So if all the colors are 255 (MAXIMUM)
+	 *  it will show the given texture. however if the one of the colors is reduced it will reduce the 
+	 *
+	 *
+	 * \param  texture the given texture to adjust 
+	 * \param  r Red color 
+	 * \param  g Green color
+	 * \param  b Blue color
+	 */
+	void set_rbg_texture(const std::shared_ptr<Texture>& texture, const uint8_t& r, const uint8_t& g, const uint8_t& b);
+
+
+	/**
+	 * \brief Modifies the transparency of the given texture
+	 *
+	 * \param texture modify the given texture alpha channel
+	 * \param  alpha alpha channel
+	 */
+	void set_alpha_texture(const std::shared_ptr<Texture>& texture, const uint8_t& alpha);
 
 private:
 	//! sdl Window
