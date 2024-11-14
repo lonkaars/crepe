@@ -31,6 +31,12 @@ public:
 	 */
 	void update() override;
 
+
+	RenderSystem(const RenderSystem &) = delete;
+	RenderSystem(RenderSystem &&) = delete;
+	RenderSystem & operator=(const RenderSystem &) = delete;
+	RenderSystem & operator=(RenderSystem &&) = delete;
+
 private:
 	// Private constructor to enforce singleton pattern.
 	RenderSystem();

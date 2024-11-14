@@ -10,11 +10,6 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "api/Camera.h"
-#include "api/Vector2.h"
-
-// FIXME: this needs to be removed
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
 
 namespace crepe {
 
@@ -109,14 +104,14 @@ private:
 	 * \param texture Reference to the Texture object.
 	 * \return Width of the texture as an integer.
 	 */
-	int get_width(const Texture &) ;
+	int get_width(const Texture &) const;
 
 	/**
 	 * \brief Gets the height of a texture.
 	 * \param texture Reference to the Texture object.
 	 * \return Height of the texture as an integer.
 	 */
-	int get_height(const Texture &) ;
+	int get_height(const Texture &) const;
 
 private:
 	//! Will use draw,clear_screen, present_screen, camera.
