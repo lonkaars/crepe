@@ -22,9 +22,9 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	GameObject game_object(0, "", "", Vector2{100, 100}, 0, 0.1);
-	Color color(0, 0, 0, 0);
+	Color color(255, 255, 255, 0);
 	Sprite test_sprite = game_object.add_component<Sprite>(
-		make_shared<Texture>("../asset/texture/img.png"), color,
+		make_shared<Texture>("../asset/texture/img.png"), Color::get_red(),
 		FlipSettings{false, false});
 	game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},

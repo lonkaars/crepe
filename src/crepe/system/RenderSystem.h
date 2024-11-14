@@ -59,6 +59,7 @@ private:
 
 	void render_normal(const Sprite &, const Transform & tm);
 
+
 	/**
 	 * \todo Include color handling for sprites.
 	 * \todo Add text rendering using SDL_ttf for text components.
