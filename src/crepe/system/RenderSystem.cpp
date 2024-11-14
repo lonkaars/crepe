@@ -85,13 +85,13 @@ void RenderSystem::render() {
 	auto sprites = mgr.get_components_by_type<Sprite>();
 	for (const Sprite & sprite : sprites) {
 		if (!sprite.active) continue;
-		auto transform = mgr.get_components_by_id<Transform>(sprite.game_object_id);
+		auto transform = mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
-		bool rendered_particles = this->render_particle(sprite, transform[0].get());
+		bool rendered_particles = this->render_particle(sprite, transform);
 
 		if (rendered_particles) continue;
 
-		this->render_normal(sprite, transform[0].get());
+		this->render_normal(sprite, transform);
 	}
 }
 

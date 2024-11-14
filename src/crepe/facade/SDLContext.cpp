@@ -7,10 +7,9 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
-#include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
-#include <utility>
 
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
@@ -32,31 +31,23 @@ SDLContext::SDLContext() {
 	// FIXME: read window defaults from config manager
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		// FIXME: throw exception
-		std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError()
-				  << std::endl;
-		return;
+		throw std::runtime_error("SDL could not initialize!");
 	}
+
 	SDL_Window * tmp_window = SDL_CreateWindow(
 		"Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		this->viewport.w, this->viewport.h, 0);
 	if (!tmp_window) {
-		// FIXME: throw exception
-		std::cerr << "Window could not be created! SDL_Error: "
-				  << SDL_GetError() << std::endl;
-		return;
+		throw std::runtime_error("Window could not be created!");
 	}
+
 	this->game_window
 		= {tmp_window, [](SDL_Window * window) { SDL_DestroyWindow(window); }};
 
 	SDL_Renderer * tmp_renderer = SDL_CreateRenderer(
 		this->game_window.get(), -1, SDL_RENDERER_ACCELERATED);
 	if (!tmp_renderer) {
-		// FIXME: throw exception
-		std::cerr << "Renderer could not be created! SDL_Error: "
-				  << SDL_GetError() << std::endl;
-		SDL_DestroyWindow(this->game_window.get());
-		return;
+		throw std::runtime_error("Renderer could not be created!");
 	}
 
 	this->game_renderer = {tmp_renderer, [](SDL_Renderer * renderer) {
@@ -65,9 +56,7 @@ SDLContext::SDLContext() {
 
 	int img_flags = IMG_INIT_PNG;
 	if (!(IMG_Init(img_flags) & img_flags)) {
-		// FIXME: throw exception
-		std::cout << "SDL_image could not initialize! SDL_image Error: "
-				  << IMG_GetError() << std::endl;
+		throw std::runtime_error("SDL_image could not initialize!");
 	}
 }
 
@@ -145,8 +134,8 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 void SDLContext::camera(const Camera & cam) {
 	this->viewport.w = static_cast<int>(cam.aspect_width);
 	this->viewport.h = static_cast<int>(cam.aspect_height);
-	this->viewport.x = static_cast<int>(cam.x) - (SCREEN_WIDTH / 2);
-	this->viewport.y = static_cast<int>(cam.y) - (SCREEN_HEIGHT / 2);
+	this->viewport.x = static_cast<int>(cam.x) - (this->viewport.w / 2);
+	this->viewport.y = static_cast<int>(cam.y) - (this->viewport.h / 2);
 
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r,
 						   cam.bg_color.g, cam.bg_color.b, cam.bg_color.a);
@@ -181,12 +170,12 @@ SDLContext::texture_from_path(const std::string & path) {
 
 	return img_texture;
 }
-int SDLContext::get_width(const Texture & ctx) {
+int SDLContext::get_width(const Texture & ctx) const {
 	int w;
 	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &w, NULL);
 	return w;
 }
-int SDLContext::get_height(const Texture & ctx) {
+int SDLContext::get_height(const Texture & ctx) const {
 	int h;
 	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, NULL, &h);
 	return h;
