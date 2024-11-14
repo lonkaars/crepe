@@ -1,5 +1,5 @@
 target_sources(crepe PUBLIC
-	# AudioSource.cpp
+	AudioSource.cpp
 	BehaviorScript.cpp
 	Script.cpp
 	GameObject.cpp
@@ -23,7 +23,7 @@ target_sources(crepe PUBLIC
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
-	# AudioSource.h
+	AudioSource.h
 	BehaviorScript.h
 	Config.h
 	Script.h
