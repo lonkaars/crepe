@@ -20,13 +20,21 @@ public:
 	Asset(const std::string & src);
 
 public:
-	//! Get an input stream to the contents of this resource
-	const std::istream & read();
-	//! Get the canonical path to this resource
-	const char * canonical() const;
+	/**
+	 * \brief Get an input stream to the contents of this asset
+	 * \return Input stream with file contents
+	 */
+	std::istream & get_stream();
+	/**
+	 * \brief Get the canonical path to this asset
+	 * \return Canonical path to this asset
+	 */
+	const std::string & get_canonical() const;
 
 private:
-	std::string src;
+	//! Canonical path to asset
+	const std::string src;
+	//! File handle (stream)
 	std::ifstream file;
 };
 

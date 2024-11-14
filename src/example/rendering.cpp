@@ -2,7 +2,7 @@
 #include <crepe/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/system/RenderSystem.h>
-#include <crepe/util/log.h>
+#include <crepe/util/Log.h>
 
 #include <crepe/api/AssetManager.h>
 #include <crepe/api/Color.h>
@@ -20,9 +20,12 @@ using namespace crepe;
 int main() {
 	dbg_trace();
 
-	auto obj = GameObject(0, "name", "tag", Vector2{0, 0}, 1, 1);
-	auto obj1 = GameObject(1, "name", "tag", Vector2{500, 0}, 1, 0.1);
-	auto obj2 = GameObject(2, "name", "tag", Vector2{800, 0}, 1, 0.1);
+	ComponentManager mgr{};
+	RenderSystem sys{mgr};
+
+	GameObject obj = mgr.new_object("name", "tag", Vector2{0, 0}, 1, 1);
+	GameObject obj1 = mgr.new_object("name", "tag", Vector2{500, 0}, 1, 0.1);
+	GameObject obj2 = mgr.new_object("name", "tag", Vector2{800, 0}, 1, 0.1);
 
 	// Normal adding components
 	{
@@ -47,7 +50,6 @@ int main() {
 	}
 	*/
 
-	auto & sys = crepe::RenderSystem::get_instance();
 	auto start = std::chrono::steady_clock::now();
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
 		sys.update();

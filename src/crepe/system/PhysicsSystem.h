@@ -3,6 +3,7 @@
 #include "System.h"
 
 namespace crepe {
+
 /**
  * \brief System that controls all physics
  * 
@@ -11,6 +12,7 @@ namespace crepe {
  */
 class PhysicsSystem : public System {
 public:
+	using System::System;
 	/**
 	 * \brief updates the physics system.
 	 * 

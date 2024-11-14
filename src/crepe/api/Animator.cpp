@@ -1,7 +1,7 @@
 
 #include <cstdint>
 
-#include "util/log.h"
+#include "util/Log.h"
 
 #include "Animator.h"
 #include "Component.h"
@@ -9,7 +9,8 @@
 
 using namespace crepe;
 
-Animator::Animator(uint32_t id, Sprite & ss, int row, int col, int col_animator)
+Animator::Animator(game_object_id_t id, Sprite & ss, int row, int col,
+				   int col_animator)
 	: Component(id),
 	  spritesheet(ss),
 	  row(row),

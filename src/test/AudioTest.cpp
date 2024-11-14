@@ -3,6 +3,7 @@
 
 #include <crepe/ComponentManager.h>
 #include <crepe/api/AudioSource.h>
+#include <crepe/api/GameObject.h>
 
 using namespace std;
 using namespace crepe;
@@ -16,6 +17,7 @@ public:
 	void SetUp() override {
 		auto & mgr = this->component_manager;
 		GameObject entity = mgr.new_object("name");
+		entity.add_component<AudioSource>("../mwe/audio/sfx1.wav");
 	}
 };
 

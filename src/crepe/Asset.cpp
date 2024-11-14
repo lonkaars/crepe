@@ -1,20 +1,16 @@
 #include <filesystem>
 
 #include "Asset.h"
-#include "Exception.h"
 
 using namespace crepe;
 using namespace std;
 
-Asset::Asset(const string & src) : src(src) {
-	try {
-		this->src = filesystem::canonical(src);
-	} catch (filesystem::filesystem_error & e) {
-		throw Exception("Asset error: %s", e.what());
-	}
-	this->file = ifstream(this->src, ios::in | ios::binary);
+// FIXME: restore this
+// src(std::filesystem::canonical(src))
+Asset::Asset(const std::string & src) : src(src) {
+	this->file = std::ifstream(this->src, std::ios::in | std::ios::binary);
 }
 
-const istream & Asset::read() { return this->file; }
+istream & Asset::get_stream() { return this->file; }
 
-const char * Asset::canonical() const { return this->src.c_str(); }
+const string & Asset::get_canonical() const { return this->src; }

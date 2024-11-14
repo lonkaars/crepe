@@ -10,6 +10,12 @@ namespace crepe {
 
 class SoundContext;
 
+/**
+ * \brief Sound resource facade
+ *
+ * This class is a wrapper around a \c SoLoud::Wav instance, which holds a
+ * single sample. It is part of the sound facade.
+ */
 class Sound : public Resource {
 public:
 	/**

@@ -5,20 +5,11 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
-#include "../util/log.h"
+#include "../util/Log.h"
 
 #include "RenderSystem.h"
 
 using namespace crepe;
-
-RenderSystem::RenderSystem() { dbg_trace(); }
-
-RenderSystem::~RenderSystem() { dbg_trace(); }
-
-RenderSystem & RenderSystem::get_instance() {
-	static RenderSystem instance;
-	return instance;
-}
 
 void RenderSystem::clear_screen() const {
 	SDLContext::get_instance().clear_screen();
@@ -28,7 +19,7 @@ void RenderSystem::present_screen() const {
 	SDLContext::get_instance().present_screen();
 }
 void RenderSystem::update_camera() {
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 
 	std::vector<std::reference_wrapper<Camera>> cameras
 		= mgr.get_components_by_type<Camera>();
@@ -39,8 +30,7 @@ void RenderSystem::update_camera() {
 	}
 }
 void RenderSystem::render_sprites() const {
-
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 
 	std::vector<std::reference_wrapper<Sprite>> sprites
 		= mgr.get_components_by_type<Sprite>();
