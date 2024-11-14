@@ -61,10 +61,8 @@ private:
 
 
 	/**
-	 * \todo Include color handling for sprites.
 	 * \todo Add text rendering using SDL_ttf for text components.
 	 * \todo Implement a text component and a button component.
-	 * \todo Ensure each sprite is checked for active status before rendering.
 	 * \todo Sort all layers by order before rendering.
 	 * \todo Consider adding text input functionality.
 	 */
