@@ -1,11 +1,11 @@
 #pragma once
 
-#include "AssetManager.h"
+#include "ResourceManager.h"
 
 namespace crepe {
 
 template <typename asset>
-std::shared_ptr<asset> AssetManager::cache(const std::string & file_path,
+std::shared_ptr<asset> ResourceManager::cache(const std::string & file_path,
 										   bool reload) {
 	auto it = asset_cache.find(file_path);
 

@@ -8,7 +8,7 @@ target_sources(crepe PUBLIC
 	Transform.cpp
 	Color.cpp
 	Texture.cpp
-	AssetManager.cpp
+	ResourceManager.cpp
 	Sprite.cpp
 	SaveManager.cpp
 	Config.cpp
@@ -20,6 +20,7 @@ target_sources(crepe PUBLIC
 	Animator.cpp
 	LoopManager.cpp
 	LoopTimer.cpp
+	Asset.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -35,8 +36,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.h
 	Color.h
 	Texture.h 
-	AssetManager.h 
-	AssetManager.hpp
+	ResourceManager.h 
+	ResourceManager.hpp
 	SaveManager.h
 	Scene.h
 	Metadata.h
@@ -46,4 +47,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Animator.h
 	LoopManager.h
 	LoopTimer.h
+	Asset.h
 )

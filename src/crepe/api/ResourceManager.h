@@ -8,36 +8,36 @@
 namespace crepe {
 
 /**
- * \brief The AssetManager is responsible for storing and managing assets over
+ * \brief The ResourceManager is responsible for storing and managing assets over
  * multiple scenes.
  * 
- * The AssetManager ensures that assets are loaded once and can be accessed
+ * The ResourceManager ensures that assets are loaded once and can be accessed
  * across different scenes. It caches assets to avoid reloading them every time
- * a scene is loaded. Assets are retained in memory until the AssetManager is
+ * a scene is loaded. Assets are retained in memory until the ResourceManager is
  * destroyed, at which point the cached assets are cleared.
  */
-class AssetManager {
+class ResourceManager {
 
 private:
 	//! A cache that holds all the assets, accessible by their file path, over multiple scenes.
 	std::unordered_map<std::string, std::any> asset_cache;
 
 private:
-	AssetManager();
-	virtual ~AssetManager();
+	ResourceManager();
+	virtual ~ResourceManager();
 
 public:
-	AssetManager(const AssetManager &) = delete;
-	AssetManager(AssetManager &&) = delete;
-	AssetManager & operator=(const AssetManager &) = delete;
-	AssetManager & operator=(AssetManager &&) = delete;
+	ResourceManager(const ResourceManager &) = delete;
+	ResourceManager(ResourceManager &&) = delete;
+	ResourceManager & operator=(const ResourceManager &) = delete;
+	ResourceManager & operator=(ResourceManager &&) = delete;
 
 	/**
-	 * \brief Retrieves the singleton instance of the AssetManager.
+	 * \brief Retrieves the singleton instance of the ResourceManager.
 	 *
-	 * \return A reference to the single instance of the AssetManager.
+	 * \return A reference to the single instance of the ResourceManager.
 	 */
-	static AssetManager & get_instance();
+	static ResourceManager & get_instance();
 
 public:
 	/**
@@ -62,4 +62,4 @@ public:
 
 } // namespace crepe
 
-#include "AssetManager.hpp"
+#include "ResourceManager.hpp"
