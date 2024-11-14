@@ -29,6 +29,13 @@ public:
 	 */
 	const std::string & get_path() const noexcept;
 
+	/**
+	 * \brief Comparison operator
+	 * \param other Possibly different instance of \c Asset to test equality against
+	 * \return True if \c this and \c other are equal
+	 */
+	bool operator == (const Asset & other) const noexcept;
+
 private:
 	//! path to asset
 	const std::string src;

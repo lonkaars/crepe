@@ -37,7 +37,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Color.h
 	Texture.h 
 	ResourceManager.h 
-	ResourceManager.hpp
 	SaveManager.h
 	Scene.h
 	Metadata.h

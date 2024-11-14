@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 namespace crepe {
 
 class ResourceManager;
@@ -14,6 +12,7 @@ class Asset;
 class Resource {
 public:
 	Resource(const Asset & src);
+	virtual ~Resource() = default;
 
 private:
 	/**

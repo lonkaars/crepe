@@ -60,7 +60,7 @@ OptionalRef<T> & OptionalRef<T>::operator=(T & ref) {
 
 template <typename T>
 OptionalRef<T>::operator bool() const noexcept {
-	return this->ref == nullptr;
+	return this->ref != nullptr;
 }
 
 }

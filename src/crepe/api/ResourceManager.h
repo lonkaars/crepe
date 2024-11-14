@@ -65,9 +65,5 @@ public:
 	void clear();
 };
 
-template <>
-Sound & ResourceManager::cache<Sound>(const Asset & asset);
-
 } // namespace crepe
 
-#include "ResourceManager.hpp"

@@ -11,6 +11,7 @@ Sound::Sound(const Asset & src) : Resource(src) {
 	this->sample.load(src.get_path().c_str());
 	dbg_trace();
 }
+Sound::~Sound() { dbg_trace(); }
 
 void Sound::play() {
 	SoundContext & ctx = this->context.get();
@@ -50,5 +51,9 @@ void Sound::set_looping(bool looping) {
 	SoundContext & ctx = this->context.get();
 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 	ctx.engine.setLooping(this->handle, this->looping);
+}
+
+void Sound::set_context(SoundContext & ctx) {
+	this->context = ctx;
 }
 
