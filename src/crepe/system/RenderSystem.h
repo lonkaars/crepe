@@ -57,6 +57,12 @@ private:
 	 */
 	bool render_particle(const Sprite &, const Transform & tm);
 
+	/**
+	 * \brief renders a sprite with a Transform component on the screen 
+	 *
+	 * \param sprite  the sprite component that holds all the data
+	 * \param tm the Transform component that holds the position,rotation and scale 
+	 */
 	void render_normal(const Sprite &, const Transform & tm);
 
 	/**
