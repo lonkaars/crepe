@@ -12,16 +12,10 @@ class Asset;
  * resource (e.g. textures, sounds).
  */
 class Resource {
+public:
+	Resource(const Asset & src);
+
 private:
-	/**
-	 * \brief Prototype pattern clone function.
-	 *
-	 * \param src Source file of new resource (abstraction for file saved on
-	 * disk)
-	 *
-	 * \returns New instance of concrete resource
-	 */
-	virtual std::unique_ptr<Resource> clone(const Asset & src) const = 0;
 	/**
 	 * The resource manager uses \c clone to create new instances of the concrete
 	 * resource class. This may be used to inherit references to classes that

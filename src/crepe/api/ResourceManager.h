@@ -51,21 +51,22 @@ public:
 	 * it is already cached.
 	 * \tparam T The type of asset to cache (e.g., texture, sound, etc.).
 	 * 
-	 * \return A shared pointer to the cached asset.
+	 * \return A reference to the resource
 	 * 
 	 * This template function caches the asset at the given file path. If the
-	 * asset is already cached and `reload` is false, the existing cached version
-	 * will be returned. Otherwise, the asset will be reloaded and added to the
+	 * asset is already cached, the existing instance will be returned.
+	 * Otherwise, the concrete resource will be instantiated and added to the
 	 * cache.
 	 */
 	template <typename T>
 	T & cache(const Asset & asset);
 
-	/**
-	 * \brief Clear the resource cache
-	 */
+	//! Clear the resource cache
 	void clear();
 };
+
+template <>
+Sound & ResourceManager::cache<Sound>(const Asset & asset);
 
 } // namespace crepe
 
