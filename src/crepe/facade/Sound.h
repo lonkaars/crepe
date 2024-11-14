@@ -4,6 +4,7 @@
 #include <soloud/soloud.h>
 #include <soloud/soloud_wav.h>
 
+#include "../util/OptionalRef.h"
 #include "../Resource.h"
 
 namespace crepe {
@@ -18,6 +19,7 @@ class SoundContext;
  */
 class Sound : public Resource {
 public:
+	Sound(const Asset & src);
 	/**
 	 * \brief Pause this sample
 	 *
@@ -72,13 +74,12 @@ public:
 	bool get_looping() const { return this->looping; }
 
 public:
-	Sound(SoundContext & ctx);
-	std::unique_ptr<Resource> clone(const Asset & src) const override;
+	void set_context(SoundContext & ctx);
 
 private:
 	SoLoud::Wav sample;
 	SoLoud::handle handle;
-	SoundContext & context;
+	OptionalRef<SoundContext> context;
 
 	float volume = 1.0f;
 	bool looping = false;

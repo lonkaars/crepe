@@ -9,5 +9,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Log.hpp
 	Proxy.h
 	Proxy.hpp
+	OptionalRef.h
+	OptionalRef.hpp
 )
 
