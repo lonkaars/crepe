@@ -16,7 +16,12 @@ class Component {
 public:
 	//! Whether the component is active
 	bool active = true;
-	//! The id of the GameObject this component belongs to
+	/**
+	 * \brief The id of the GameObject this component belongs to
+	 *
+	 * \note Only systems are supposed to use this member, but since friend
+	 * relations aren't inherited this needs to be public.
+	 */
 	const game_object_id_t game_object_id;
 
 protected:
@@ -24,10 +29,9 @@ protected:
 	 * \param id The id of the GameObject this component belongs to
 	 */
 	Component(game_object_id_t id);
-	//! Only the ComponentManager can create components
+	//! Only ComponentManager can create components
 	friend class ComponentManager;
 
-public:
 	/**
 	 * \brief Get the maximum number of instances for this component
 	 *
@@ -38,6 +42,8 @@ public:
 	 * \return The maximum number of instances for this component
 	 */
 	virtual int get_instances_max() const { return -1; }
+	//! Only ComponentManager needs to know the max instance count
+	friend class ComponentManager;
 };
 
 } // namespace crepe
