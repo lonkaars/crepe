@@ -2,6 +2,7 @@
 
 #include "Collider.h"
 #include <vector>
+#include <variant>
 
 namespace crepe {
 
@@ -16,7 +17,10 @@ public:
 	CollisionSystem();
 	void update();
 private:
-  std::vector<std::pair<int, int>> check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders) ;
+	using collider_stor = std::variant<BoxCollider, CircleCollider>;
+private:
+	void call_collision_handler(const Rigidbody& rigidbody1,const Rigidbody& rigidbody2);
+  std::vector<std::pair<collider_stor, collider_stor>> check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders);
 	bool check_box_box_collision(const BoxCollider& box1, const BoxCollider& box2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2);
 	bool check_box_circle_collision(const BoxCollider& box1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2);
 	bool check_circle_circle_collision(const CircleCollider& circle1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2);
