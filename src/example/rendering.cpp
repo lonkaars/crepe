@@ -1,3 +1,4 @@
+#include "api/Camera.h"
 #include <crepe/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/system/RenderSystem.h>
@@ -23,26 +24,28 @@ int main() {
 	auto obj1 = GameObject(1, "name", "tag", Vector2{500, 0}, 1, 0.1);
 	auto obj2 = GameObject(2, "name", "tag", Vector2{800, 0}, 1, 0.1);
 
-	auto & mgr = AssetManager::get_instance();
 	// Normal adding components
 	{
 		Color color(0, 0, 0, 0);
 		obj.add_component<Sprite>(
 			make_shared<Texture>("../asset/texture/img.png"), color,
+			FlipSettings{false, false});
+		obj.add_component<Camera>(Color::get_red());
+	}
+	{
+		Color color(0, 0, 0, 0);
+		obj1.add_component<Sprite>(
+			make_shared<Texture>("../asset/texture/second.png"), color,
 			FlipSettings{true, true});
 	}
 
-	{
-		Color color(0, 0, 0, 0);
-		auto img = mgr.cache<Texture>("../asset/texture/second.png");
-		obj1.add_component<Sprite>(img, color, FlipSettings{true, true});
-	}
-
+	/*
 	{
 		Color color(0, 0, 0, 0);
 		auto img = mgr.cache<Texture>("../asset/texture/second.png");
 		obj2.add_component<Sprite>(img, color, FlipSettings{true, true});
 	}
+	*/
 
 	auto & sys = crepe::RenderSystem::get_instance();
 	auto start = std::chrono::steady_clock::now();

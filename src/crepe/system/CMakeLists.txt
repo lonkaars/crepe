@@ -6,6 +6,7 @@ target_sources(crepe PUBLIC
 	CollisionSystem.cpp
 	RenderSystem.cpp
 	AudioSystem.cpp
+	AnimatorSystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -15,4 +16,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	CollisionSystem.h
 	RenderSystem.h
 	AudioSystem.h
+	AnimatorSystem.h
 )

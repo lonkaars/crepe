@@ -11,7 +11,7 @@ namespace crepe {
 //! Audio source component
 class AudioSource : public Component {
 public:
-	AudioSource(game_object_id_t id, std::unique_ptr<Asset> audio_clip);
+	AudioSource(game_object_id_t id, const Asset & source);
 	virtual ~AudioSource() = default;
 
 public:

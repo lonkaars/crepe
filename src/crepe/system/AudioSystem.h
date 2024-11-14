@@ -8,13 +8,11 @@ namespace crepe {
 
 class AudioSystem : public System {
 public:
-	AudioSystem(SoundContext & ctx);
-
-public:
-	void update();
+	using System::System;
+	void update() override;
 
 private:
-	SoundContext & ctx;
+	SoundContext context {};
 };
 
 } // namespace crepe

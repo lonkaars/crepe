@@ -2,8 +2,8 @@
 #include "../util/log.h"
 
 #include "Config.h"
-#include "ValueBroker.h"
 #include "SaveManager.h"
+#include "ValueBroker.h"
 
 using namespace std;
 using namespace crepe;
@@ -65,16 +65,32 @@ string SaveManager::deserialize(const string & value) const noexcept {
 	return value;
 }
 
-template <> uint8_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<uint64_t>(value); }
-template <> int8_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<int64_t>(value); }
-template <> uint16_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<uint64_t>(value); }
-template <> int16_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<int64_t>(value); }
-template <> uint32_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<uint64_t>(value); }
-template <> int32_t SaveManager::deserialize(const string & value) const noexcept { return deserialize<int64_t>(value); }
-
-SaveManager::SaveManager() {
-	dbg_trace();
+template <>
+uint8_t SaveManager::deserialize(const string & value) const noexcept {
+	return deserialize<uint64_t>(value);
 }
+template <>
+int8_t SaveManager::deserialize(const string & value) const noexcept {
+	return deserialize<int64_t>(value);
+}
+template <>
+uint16_t SaveManager::deserialize(const string & value) const noexcept {
+	return deserialize<uint64_t>(value);
+}
+template <>
+int16_t SaveManager::deserialize(const string & value) const noexcept {
+	return deserialize<int64_t>(value);
+}
+template <>
+uint32_t SaveManager::deserialize(const string & value) const noexcept {
+	return deserialize<uint64_t>(value);
+}
+template <>
+int32_t SaveManager::deserialize(const string & value) const noexcept {
+	return deserialize<int64_t>(value);
+}
+
+SaveManager::SaveManager() { dbg_trace(); }
 
 SaveManager & SaveManager::get_instance() {
 	dbg_trace();
@@ -118,17 +134,19 @@ template void SaveManager::set(const string &, const double &);
 
 template <typename T>
 ValueBroker<T> SaveManager::get(const string & key, const T & default_value) {
-	if (!this->has(key))
-		this->set<T>(key, default_value);
+	if (!this->has(key)) this->set<T>(key, default_value);
 	return this->get<T>(key);
 }
 template ValueBroker<uint8_t> SaveManager::get(const string &, const uint8_t &);
 template ValueBroker<int8_t> SaveManager::get(const string &, const int8_t &);
-template ValueBroker<uint16_t> SaveManager::get(const string &, const uint16_t &);
+template ValueBroker<uint16_t> SaveManager::get(const string &,
+												const uint16_t &);
 template ValueBroker<int16_t> SaveManager::get(const string &, const int16_t &);
-template ValueBroker<uint32_t> SaveManager::get(const string &, const uint32_t &);
+template ValueBroker<uint32_t> SaveManager::get(const string &,
+												const uint32_t &);
 template ValueBroker<int32_t> SaveManager::get(const string &, const int32_t &);
-template ValueBroker<uint64_t> SaveManager::get(const string &, const uint64_t &);
+template ValueBroker<uint64_t> SaveManager::get(const string &,
+												const uint64_t &);
 template ValueBroker<int64_t> SaveManager::get(const string &, const int64_t &);
 template ValueBroker<float> SaveManager::get(const string &, const float &);
 template ValueBroker<double> SaveManager::get(const string &, const double &);
@@ -138,8 +156,8 @@ template <typename T>
 ValueBroker<T> SaveManager::get(const string & key) {
 	T value;
 	return {
-		[this, key] (const T & target) { this->set<T>(key, target); },
-		[this, key, value] () mutable -> const T & {
+		[this, key](const T & target) { this->set<T>(key, target); },
+		[this, key, value]() mutable -> const T & {
 			value = this->deserialize<T>(this->get_db().get(key));
 			return value;
 		},
@@ -156,4 +174,3 @@ template ValueBroker<int64_t> SaveManager::get(const string &);
 template ValueBroker<float> SaveManager::get(const string &);
 template ValueBroker<double> SaveManager::get(const string &);
 template ValueBroker<string> SaveManager::get(const string &);
-
