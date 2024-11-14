@@ -38,39 +38,47 @@ void CollisionSystem::update() {
 }
 
 void CollisionSystem::call_collision_handler(const CollidedInfoStor& data1,const CollidedInfoStor& data2){
-	game_object_id_t first = 0,second = 0;
-	// if (std::holds_alternative<BoxCollider>(collider1)) {
-	// 		if (std::holds_alternative<BoxCollider>(collider2)) {
-	// 			const BoxCollider& box_collider1 = std::get<BoxCollider>(collider1);
-	// 			const BoxCollider& box_collider2 = std::get<BoxCollider>(collider2);
-	// 			first = box_collider1.game_object_id;
-	// 			second = box_collider2.game_object_id;
-	// 		}
-	// 		else {
-	// 			const BoxCollider& box_collider = std::get<BoxCollider>(collider1);
-	// 			const CircleCollider& circle_collider = std::get<CircleCollider>(collider2);
-	// 			first = box_collider.game_object_id;
-	// 			second = circle_collider.game_object_id;
-	// 		}
-	// 	}
-	// 	else {
-	// 		if (std::holds_alternative<CircleCollider>(collider2)) {
-	// 			const CircleCollider& circle_collider1 = std::get<CircleCollider>(collider1);
-	// 			const CircleCollider& circle_collider2 = std::get<CircleCollider>(collider2);
-	// 			first = circle_collider1.game_object_id;
-	// 			second = circle_collider2.game_object_id;
-	// 		}
-	// 		else {
-	// 			const CircleCollider& circle_collider = std::get<CircleCollider>(collider1);
-	// 			const BoxCollider& box_collider = std::get<BoxCollider>(collider2);
-	// 			first = circle_collider.game_object_id;
-	// 			second = box_collider.game_object_id;
-	// 		}
-	// 	}
 
-	// 	Rigidbody rigidbody1 = mgr.get_components_by_id<Rigidbody>(first).front().get();
-	// 	Rigidbody rigidbody2 = mgr.get_components_by_id<Rigidbody>(second).front().get();
-		
+	// Check collision type and get values for handler
+	game_object_id_t first = 0,second = 0;
+	if (std::holds_alternative<BoxCollider>(data1.collider)) {
+		if (std::holds_alternative<BoxCollider>(data2.collider)) {
+			const BoxCollider& box_collider1 = std::get<BoxCollider>(data1.collider);
+			const BoxCollider& box_collider2 = std::get<BoxCollider>(data2.collider);
+			first = box_collider1.game_object_id;
+			second = box_collider2.game_object_id;
+		}
+		else {
+			const BoxCollider& box_collider = std::get<BoxCollider>(data1.collider);
+			const CircleCollider& circle_collider = std::get<CircleCollider>(data2.collider);
+			first = box_collider.game_object_id;
+			second = circle_collider.game_object_id;
+		}
+	}
+	else {
+		if (std::holds_alternative<CircleCollider>(data2.collider)) {
+			const CircleCollider& circle_collider1 = std::get<CircleCollider>(data1.collider);
+			const CircleCollider& circle_collider2 = std::get<CircleCollider>(data2.collider);
+			first = circle_collider1.game_object_id;
+			second = circle_collider2.game_object_id;
+		}
+		else {
+			const CircleCollider& circle_collider = std::get<CircleCollider>(data1.collider);
+			const BoxCollider& box_collider = std::get<BoxCollider>(data2.collider);
+			first = circle_collider.game_object_id;
+			second = box_collider.game_object_id;
+		}
+	}
+
+	// check rigidbody type
+	if(data1.rigidbody.data.body_type != Rigidbody::BodyType::STATIC)
+	{
+		// If second body is static move back
+		if(data2.rigidbody.data.body_type == Rigidbody::BodyType::STATIC) return; 
+		//call static handler (is bounce true?)
+
+		// call script handler
+	}		
 }
 
 std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::CollidedInfoStor>> CollisionSystem::check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders) {
@@ -89,8 +97,10 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 		if(!boxcolliders[i].get().active) continue;
 		int game_object_id_1 = boxcolliders[i].get().game_object_id;
 		Transform& transform1 = mgr.get_components_by_id<Transform>(game_object_id_1).front().get();
+		if(!transform1.active) continue;
 		Rigidbody& rigidbody1 = mgr.get_components_by_id<Rigidbody>(game_object_id_1).front().get();
-
+		if(!rigidbody1.active) continue;
+		
 		// Check CircleCollider vs CircleCollider
 		for (size_t j = i + 1; j < boxcolliders.size(); ++j) {
 			if(!boxcolliders[j].get().active) continue;
@@ -100,13 +110,15 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 
 			// Fetch components for the second box collider
 			Transform & transform2 = mgr.get_components_by_id<Transform>(boxcolliders[j].get().game_object_id).front().get();
+			if(!transform2.active) continue;
 			Rigidbody & rigidbody2 = mgr.get_components_by_id<Rigidbody>(boxcolliders[j].get().game_object_id).front().get();
-
+			if(!rigidbody2.active) continue;
 			// Check collision
 			if (check_box_box_collision(boxcolliders[i], boxcolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
 				collisions_ret.emplace_back(std::make_pair(
-					std::make_tuple(boxcolliders[i], transform1,rigidbody1),
-					std::make_tuple(boxcolliders[j], transform2,rigidbody2)));
+				CollidedInfoStor{boxcolliders[i], transform1, rigidbody1}, 
+				CollidedInfoStor{boxcolliders[j], transform2, rigidbody2}
+				));
 			}
 		}
 
@@ -119,13 +131,17 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 
 			// Fetch components for the second collider (circle)
 			Transform & transform2 = mgr.get_components_by_id<Transform>(circlecolliders[j].get().game_object_id).front().get();
+			if(!transform2.active) continue;
 			Rigidbody & rigidbody2 = mgr.get_components_by_id<Rigidbody>(circlecolliders[j].get().game_object_id).front().get();
+			if(!rigidbody2.active) continue;
 
 			// Check collision
 			if (check_box_circle_collision(boxcolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
+				
 				collisions_ret.emplace_back(std::make_pair(
-					std::make_tuple(boxcolliders[i], transform1,rigidbody1),
-					std::make_tuple(circlecolliders[j], transform2,rigidbody2)));
+				CollidedInfoStor{boxcolliders[i], transform1, rigidbody1}, 
+				CollidedInfoStor{circlecolliders[j], transform2, rigidbody2}
+				));
 			}
 		}
 	}
@@ -135,7 +151,10 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 		// Fetch components for the first circle collider
 		int game_object_id_1 = circlecolliders[i].get().game_object_id;
 		Transform & transform1 = mgr.get_components_by_id<Transform>(circlecolliders[i].get().game_object_id).front().get();
+		if(!transform1.active) continue;
 		Rigidbody & rigidbody1 = mgr.get_components_by_id<Rigidbody>(circlecolliders[i].get().game_object_id).front().get();
+		if(!rigidbody1.active) continue;
+
 		for (size_t j = i + 1; j < circlecolliders.size(); ++j) {
 			if(!circlecolliders[j].get().active) continue;
 			// Skip self collision
@@ -144,13 +163,16 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 
 			// Fetch components for the second circle collider
 			Transform & transform2 = mgr.get_components_by_id<Transform>(circlecolliders[j].get().game_object_id).front().get();
+			if(!transform2.active) continue;
 			Rigidbody & rigidbody2 = mgr.get_components_by_id<Rigidbody>(circlecolliders[j].get().game_object_id).front().get();
+			if(!rigidbody2.active) continue;
 
 			// Check collision
 			if (check_circle_circle_collision(circlecolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
 				collisions_ret.emplace_back(std::make_pair(
-					std::make_tuple(circlecolliders[i], transform1,rigidbody1),
-					std::make_tuple(circlecolliders[j], transform2,rigidbody2)));
+				CollidedInfoStor{circlecolliders[i], transform1, rigidbody1}, 
+				CollidedInfoStor{circlecolliders[j], transform2, rigidbody2}
+				));
 			}
 		}
 	}
