@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 
 namespace crepe {
 
@@ -41,3 +42,12 @@ private:
 };
 
 } // namespace crepe
+
+namespace std {
+
+template<> struct hash<const crepe::Asset> {
+	size_t operator()(const crepe::Asset & asset) const noexcept;
+};
+
+}
+

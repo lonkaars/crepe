@@ -9,9 +9,5 @@ ResourceManager & ResourceManager::get_instance() {
 	return instance;
 }
 
-ResourceManager::~ResourceManager() {
-	dbg_trace();
-	this->asset_cache.clear();
-}
-
+ResourceManager::~ResourceManager() { dbg_trace(); }
 ResourceManager::ResourceManager() { dbg_trace(); }
