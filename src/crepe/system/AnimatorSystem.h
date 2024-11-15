@@ -22,7 +22,8 @@ public:
 	 * \brief Updates the Animator components.
 	 *
 	 * This method is called periodically (likely every frame) to update the state of all
-	 * Animator components, moving the animations forward and managing their behavior (e.g., looping).
+	 * Animator components, moving the animations forward and managing their behavior (e.g.,
+	 * looping).
 	 */
 	void update() override;
 	// FIXME: never say "likely" in the documentation lmao
