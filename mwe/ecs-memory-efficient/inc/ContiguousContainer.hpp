@@ -1,5 +1,6 @@
 template <typename T>
-ContiguousContainer<T>::ContiguousContainer() : mSize(0), mCapacity(10) {
+ContiguousContainer<T>::ContiguousContainer() : mSize(0),
+												mCapacity(10) {
 	// Allocate memory for 10 objects initially
 	mData = static_cast<T *>(malloc(mCapacity * sizeof(T)));
 	if (!mData) {
