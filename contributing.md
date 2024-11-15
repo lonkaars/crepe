@@ -678,6 +678,86 @@ that you can click on to open them.
   uint64_t foo();
   ```
   </td></tr></table></details>
+- <details><summary>
+  Throw exceptions using standard C++ exceptions (such as <code>std::runtime_error</code>)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  if (error) {
+    throw std::runtime_error("An error occurred");
+  }
+  ```
+  </td><td>
+
+  ```cpp
+  if (error) {
+    throw "An error occurred";
+  }
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Constructors of classes derived from <code>Component</code> should be protected and <code>ComponentManager</code> should be declared as a friend class.
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class MyComponent : public Component {
+  protected:
+    MyComponent() = default;
+    friend class ComponentManager;
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class MyComponent : public Component {
+  public:
+    MyComponent() = default;
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Use of format specifiers (like <code>%s</code> and <code>%n</code>) are not allowed (use <code>{}</code> with <code>std::format</code> instead)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  std::string message = std::format("Hello, {}", name);
+  ```
+  </td><td>
+
+  ```cpp
+  char message[50];
+  sprintf(message, "Hello, %s", name);
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Argument names should be added in <code>.h</code> files (not only in <code>.cpp</code> and <code>.hpp</code> files)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  Foo.h:
+  ```cpp
+  void foo(int bar);
+  ```
+
+  Foo.cpp:
+  ```cpp
+  void foo(int bar) {
+    // ...
+  }
+  ```
+  </td><td>
+
+  Foo.h:
+  ```cpp
+  void foo(int);
+  ```
+
+  Foo.cpp:
+  ```cpp
+  void foo(int bar) {
+    // ...
+  }
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 
