@@ -20,7 +20,8 @@ protected:
 	ParticleSystem particle_system;
 	void SetUp() override {
 		ComponentManager & mgr = ComponentManager::get_instance();
-		std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(0);
+		std::vector<std::reference_wrapper<Transform>> transforms
+			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
 
 			GameObject game_object(0, "", "", Vector2{0, 0}, 0, 0);
