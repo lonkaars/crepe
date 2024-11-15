@@ -26,6 +26,7 @@ protected:
 	Component(game_object_id_t id);
 	//! Only the ComponentManager can create components
 	friend class ComponentManager;
+
 public:
 	virtual ~Component() = default;
 

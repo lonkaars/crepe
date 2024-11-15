@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cassert>
-#include <memory>
 #include <format>
+#include <memory>
 
 #include "../system/System.h"
 

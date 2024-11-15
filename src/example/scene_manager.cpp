@@ -16,12 +16,9 @@ public:
 
 	void load_scene() {
 		auto & mgr = this->component_manager;
-		GameObject object1
-			= mgr.new_object("scene_1", "tag_scene_1", Vector2{0, 0}, 0, 1);
-		GameObject object2
-			= mgr.new_object("scene_1", "tag_scene_1", Vector2{1, 0}, 0, 1);
-		GameObject object3
-			= mgr.new_object("scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
+		GameObject object1 = mgr.new_object("scene_1", "tag_scene_1", Vector2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("scene_1", "tag_scene_1", Vector2{1, 0}, 0, 1);
+		GameObject object3 = mgr.new_object("scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
 	}
 };
 
@@ -31,14 +28,10 @@ public:
 
 	void load_scene() {
 		auto & mgr = this->component_manager;
-		GameObject object1
-			= mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 0}, 0, 1);
-		GameObject object2
-			= mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 1}, 0, 1);
-		GameObject object3
-			= mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 2}, 0, 1);
-		GameObject object4
-			= mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
+		GameObject object1 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 1}, 0, 1);
+		GameObject object3 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 2}, 0, 1);
+		GameObject object4 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
 	}
 };
 
