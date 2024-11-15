@@ -12,8 +12,10 @@ using namespace crepe;
 
 void PhysicsSystem::update() {
 	ComponentManager & mgr = ComponentManager::get_instance();
-	std::vector<std::reference_wrapper<Rigidbody>> rigidbodies = mgr.get_components_by_type<Rigidbody>();
-	std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_type<Transform>();
+	std::vector<std::reference_wrapper<Rigidbody>> rigidbodies
+		= mgr.get_components_by_type<Rigidbody>();
+	std::vector<std::reference_wrapper<Transform>> transforms
+		= mgr.get_components_by_type<Transform>();
 
 	double gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
@@ -26,7 +28,9 @@ void PhysicsSystem::update() {
 
 						// Add gravity
 						if (rigidbody.data.use_gravity) {
-							rigidbody.data.linear_velocity.y += (rigidbody.data.mass * rigidbody.data.gravity_scale * gravity);
+							rigidbody.data.linear_velocity.y
+								+= (rigidbody.data.mass * rigidbody.data.gravity_scale
+									* gravity);
 						}
 						// Add damping
 						if (rigidbody.data.angular_damping != 0) {
@@ -37,22 +41,34 @@ void PhysicsSystem::update() {
 						}
 
 						// Max velocity check
-						if (rigidbody.data.angular_velocity > rigidbody.data.max_angular_velocity) {
-							rigidbody.data.angular_velocity = rigidbody.data.max_angular_velocity;
-						} else if (rigidbody.data.angular_velocity < -rigidbody.data.max_angular_velocity) {
-							rigidbody.data.angular_velocity = -rigidbody.data.max_angular_velocity;
+						if (rigidbody.data.angular_velocity
+							> rigidbody.data.max_angular_velocity) {
+							rigidbody.data.angular_velocity
+								= rigidbody.data.max_angular_velocity;
+						} else if (rigidbody.data.angular_velocity
+								   < -rigidbody.data.max_angular_velocity) {
+							rigidbody.data.angular_velocity
+								= -rigidbody.data.max_angular_velocity;
 						}
 
-						if (rigidbody.data.linear_velocity.x > rigidbody.data.max_linear_velocity.x) {
-							rigidbody.data.linear_velocity.x = rigidbody.data.max_linear_velocity.x;
-						} else if (rigidbody.data.linear_velocity.x < -rigidbody.data.max_linear_velocity.x) {
-							rigidbody.data.linear_velocity.x = -rigidbody.data.max_linear_velocity.x;
+						if (rigidbody.data.linear_velocity.x
+							> rigidbody.data.max_linear_velocity.x) {
+							rigidbody.data.linear_velocity.x
+								= rigidbody.data.max_linear_velocity.x;
+						} else if (rigidbody.data.linear_velocity.x
+								   < -rigidbody.data.max_linear_velocity.x) {
+							rigidbody.data.linear_velocity.x
+								= -rigidbody.data.max_linear_velocity.x;
 						}
 
-						if (rigidbody.data.linear_velocity.y > rigidbody.data.max_linear_velocity.y) {
-							rigidbody.data.linear_velocity.y = rigidbody.data.max_linear_velocity.y;
-						} else if (rigidbody.data.linear_velocity.y < -rigidbody.data.max_linear_velocity.y) {
-							rigidbody.data.linear_velocity.y = -rigidbody.data.max_linear_velocity.y;
+						if (rigidbody.data.linear_velocity.y
+							> rigidbody.data.max_linear_velocity.y) {
+							rigidbody.data.linear_velocity.y
+								= rigidbody.data.max_linear_velocity.y;
+						} else if (rigidbody.data.linear_velocity.y
+								   < -rigidbody.data.max_linear_velocity.y) {
+							rigidbody.data.linear_velocity.y
+								= -rigidbody.data.max_linear_velocity.y;
 						}
 
 						// Move object
