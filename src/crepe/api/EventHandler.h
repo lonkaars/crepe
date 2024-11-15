@@ -12,6 +12,7 @@
  * 
  * \tparam EventType The type of event this handler will handle.
  */
+// TODO: typedef
 template <typename EventType>
 using EventHandler = std::function<bool(const EventType & e)>;
 

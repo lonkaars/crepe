@@ -70,7 +70,7 @@ int main() {
 	key_press.key = Keycode::A;
 	key_press.repeat = 0;
 	MouseClickEvent click_event;
-	click_event.button = MouseButton::Left_Mouse;
+	click_event.button = MouseButton::LEFT_MOUSE;
 	click_event.mouse_x = 100;
 	click_event.mouse_y = 200;
 	// queue events to test queue
@@ -89,8 +89,12 @@ int main() {
 
 		// Trigger the events while `testListener` is in scope
 		EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 1);
-		EventManager::get_instance().trigger_event<MouseClickEvent>(click_event,
-																	1);
+		// EventManager::get_instance().trigger_event<MouseClickEvent>(MouseClickEvent{
+		// 	.button = MouseButton::LEFT_MOUSE,
+		// 	.mouse_y = 100,
+		// 	.mouse_x = 100,
+			
+		// },1);
 	}
 	// custom lambda event handler
 	EventHandler<KeyPressEvent> event_handler = [](const KeyPressEvent & e) {
