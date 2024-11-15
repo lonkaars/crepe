@@ -12,7 +12,6 @@ enum class MouseButton {
 };
 
 enum class Keycode : int {
-	// From glfw3.h
 	NONE = 0,
 	SPACE = 32,
 	APOSTROPHE = 39, /* ' */

@@ -1,5 +1,7 @@
 #include "EventManager.h"
 
+using namespace crepe;
+
 EventManager & EventManager::get_instance() {
 	static EventManager instance;
 	return instance;
@@ -62,6 +64,7 @@ void EventManager::dispatch_events() {
 						 iterator handler_it
 					 = handlers.begin();
 					 handler_it != handlers.end(); ++handler_it) {
+					// remove event from queue since and continue when callback returns true
 					if ((*handler_it)->exec(*event)) {
 						event_it = this->events_queue.erase(event_it);
 						event_handled = true;

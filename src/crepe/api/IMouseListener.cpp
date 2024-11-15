@@ -1,6 +1,11 @@
 #include "IMouseListener.h"
+
+using namespace crepe;
+
 IMouseListener::IMouseListener(int channel) { this->channel = channel; }
+
 IMouseListener::IMouseListener() { this->subscribe_events(); }
+
 IMouseListener::~IMouseListener() { this->unsubscribe_events(); }
 
 void IMouseListener::subscribe_events() {
@@ -26,7 +31,7 @@ void IMouseListener::subscribe_events() {
 	EventManager::get_instance().subscribe<MouseMoveEvent>(
 		std::move(this->mouse_move_handler), this->channel);
 }
-
+// TODO: reference voor singleton
 void IMouseListener::unsubscribe_events() {
 	EventManager::get_instance().unsubscribe<MouseClickEvent>(
 		this->mouse_click_handler, this->channel);
@@ -37,18 +42,21 @@ void IMouseListener::unsubscribe_events() {
 	EventManager::get_instance().unsubscribe<MouseMoveEvent>(
 		this->mouse_move_handler, this->channel);
 }
+
 void IMouseListener::activate_mouse() {
 	if (this->active) {
 		return;
 	}
 	this->subscribe_events();
 }
+
 void IMouseListener::deactivate_mouse() {
 	if (!this->active) {
 		return;
 	}
 	this->unsubscribe_events();
 }
+
 void IMouseListener::set_channel(int channel) {
 	this->unsubscribe_events();
 	this->channel = channel;

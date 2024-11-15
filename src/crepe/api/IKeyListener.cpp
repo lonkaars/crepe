@@ -1,5 +1,7 @@
 #include "IKeyListener.h"
-#include <iostream>
+
+using namespace crepe;
+
 IKeyListener::IKeyListener() {
 	this->channel = channel;
 	this->subscribe_events();
