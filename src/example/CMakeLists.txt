@@ -28,10 +28,8 @@ add_example(proxy)
 add_example(db)
 add_example(ecs)
 add_example(scene_manager)
-<<<<<<< HEAD
 add_example(collision)
-=======
+add_example(events)
 add_example(particles)
 add_example(gameloop)
->>>>>>> be1e97bc7a494963ab1567492fafcda99e36f683
 
