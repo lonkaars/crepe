@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <cstdint>
 
 #include "../Component.h"
@@ -60,13 +61,13 @@ public:
 		//! linear velocity of object
 		Vector2 linear_velocity;
 		//! maximum linear velocity of object
-		Vector2 max_linear_velocity;
+		Vector2 max_linear_velocity = {INFINITY ,INFINITY};
 		//! linear damping of object
 		Vector2 linear_damping;
 		//! angular velocity of object
 		double angular_velocity = 0.0;
 		//! max angular velocity of object
-		double max_angular_velocity = 0.0;
+		double max_angular_velocity = INFINITY;
 		//! angular damping of object
 		double angular_damping = 0.0;
 		//! movements constraints of object

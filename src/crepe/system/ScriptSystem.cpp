@@ -17,7 +17,11 @@ void ScriptSystem::update() {
 	dbg_trace();
 
 	forward_list<Script *> scripts = this->get_scripts();
-	for (Script * script : scripts) script->update();
+	for (Script * script : scripts) 
+	{
+		script->init();
+		script->update();
+	};
 }
 
 forward_list<Script *> ScriptSystem::get_scripts() {

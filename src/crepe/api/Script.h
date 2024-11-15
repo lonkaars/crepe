@@ -28,7 +28,7 @@ protected:
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components();
 
-private:
+public:
 	friend class crepe::BehaviorScript;
 	BehaviorScript * parent = nullptr;
 };
