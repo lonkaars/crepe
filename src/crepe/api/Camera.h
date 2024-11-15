@@ -9,9 +9,8 @@ namespace crepe {
  * \class Camera
  * \brief Represents a camera component for rendering in the game.
  *
- * The Camera class defines the view parameters, including background color, 
- * aspect ratio, position, and zoom level. It controls what part of the game 
- * world is visible on the screen.
+ * The Camera class defines the view parameters, including background color, aspect ratio,
+ * position, and zoom level. It controls what part of the game world is visible on the screen.
  */
 class Camera : public Component {
 

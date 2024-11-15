@@ -9,8 +9,8 @@ namespace crepe {
 /**
  * \brief Transform component
  * 
- * This class represents the Transform component. It stores the position,
- * rotation and scale of a GameObject.
+ * This class represents the Transform component. It stores the position, rotation and scale of
+ * a GameObject.
  */
 class Transform : public Component {
 public:

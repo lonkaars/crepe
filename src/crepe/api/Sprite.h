@@ -27,8 +27,8 @@ class AnimatorSystem;
 /**
  * \brief Represents a renderable sprite component.
  *
- * A renderable sprite that can be displayed in the game. It includes a texture,
- * color, and flip settings, and is managed in layers with defined sorting orders.
+ * A renderable sprite that can be displayed in the game. It includes a texture, color, and
+ * flip settings, and is managed in layers with defined sorting orders.
  */
 class Sprite : public Component {
 
@@ -42,8 +42,8 @@ public:
 	 * \param color Color tint applied to the sprite.
 	 * \param flip Flip settings for horizontal and vertical orientation.
 	 */
-	Sprite(game_object_id_t id, const std::shared_ptr<Texture> image,
-		   const Color & color, const FlipSettings & flip);
+	Sprite(game_object_id_t id, const std::shared_ptr<Texture> image, const Color & color,
+		   const FlipSettings & flip);
 
 	/**
 	 * \brief Destroys the Sprite instance.
@@ -80,7 +80,8 @@ private:
 	//! Reads the all the variables plus the  sprite_rect
 	friend class AnimatorSystem;
 
-	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator object is present in GameObject
+	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator
+	// object is present in GameObject
 	Rect sprite_rect;
 };
 

@@ -9,8 +9,8 @@ namespace crepe {
 /**
  * \brief Asset location helper
  *
- * This class is used to locate and canonicalize paths to game asset files, and
- * should *always* be used when retrieving files from disk.
+ * This class is used to locate and canonicalize paths to game asset files, and should *always*
+ * be used when retrieving files from disk.
  */
 class Asset {
 public:

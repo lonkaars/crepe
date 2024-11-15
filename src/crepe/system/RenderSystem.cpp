@@ -15,14 +15,11 @@ void RenderSystem::clear_screen() const {
 	SDLContext::get_instance().clear_screen();
 }
 
-void RenderSystem::present_screen() const {
-	SDLContext::get_instance().present_screen();
-}
+void RenderSystem::present_screen() const { SDLContext::get_instance().present_screen(); }
 void RenderSystem::update_camera() {
 	ComponentManager & mgr = this->component_manager;
 
-	std::vector<std::reference_wrapper<Camera>> cameras
-		= mgr.get_components_by_type<Camera>();
+	std::vector<std::reference_wrapper<Camera>> cameras = mgr.get_components_by_type<Camera>();
 
 	for (Camera & cam : cameras) {
 		SDLContext::get_instance().camera(cam);
@@ -32,13 +29,11 @@ void RenderSystem::update_camera() {
 void RenderSystem::render_sprites() const {
 	ComponentManager & mgr = this->component_manager;
 
-	std::vector<std::reference_wrapper<Sprite>> sprites
-		= mgr.get_components_by_type<Sprite>();
+	std::vector<std::reference_wrapper<Sprite>> sprites = mgr.get_components_by_type<Sprite>();
 
 	SDLContext & render = SDLContext::get_instance();
 	for (const Sprite & sprite : sprites) {
-		auto transforms
-			= mgr.get_components_by_id<Transform>(sprite.game_object_id);
+		auto transforms = mgr.get_components_by_id<Transform>(sprite.game_object_id);
 		render.draw(sprite, transforms[0], *curr_cam);
 	}
 }

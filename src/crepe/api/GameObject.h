@@ -12,15 +12,14 @@ class ComponentManager;
 /**
  * \brief Represents a GameObject
  * 
- * This class represents a GameObject. The GameObject class is only used
- * as an interface for the game programmer. The actual implementation is
- * done in the ComponentManager.
+ * This class represents a GameObject. The GameObject class is only used as an interface for
+ * the game programmer. The actual implementation is done in the ComponentManager.
  */
 class GameObject {
 private:
 	/**
-	 * This constructor creates a new GameObject. It creates a new
-	 * Transform and Metadata component and adds them to the ComponentManager.
+	 * This constructor creates a new GameObject. It creates a new Transform and Metadata
+	 * component and adds them to the ComponentManager.
 	 * 
 	 * \param component_manager Reference to component_manager
 	 * \param id The id of the GameObject
@@ -30,9 +29,7 @@ private:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	GameObject(ComponentManager & component_manager, game_object_id_t id,
-			   const std::string & name, const std::string & tag,
-			   const Vector2 & position, double rotation, double scale);
+	GameObject(ComponentManager & component_manager, game_object_id_t id, const std::string & name, const std::string & tag, const Vector2 & position, double rotation, double scale);
 	//! ComponentManager instances GameObject
 	friend class ComponentManager;
 
@@ -40,9 +37,9 @@ public:
 	/**
 	 * \brief Set the parent of this GameObject
 	 * 
-	 * This method sets the parent of this GameObject. It sets the parent
-	 * in the Metadata component of this GameObject and adds this GameObject
-	 * to the children list of the parent GameObject.
+	 * This method sets the parent of this GameObject. It sets the parent in the Metadata
+	 * component of this GameObject and adds this GameObject to the children list of the parent
+	 * GameObject.
 	 * 
 	 * \param parent The parent GameObject
 	 */
@@ -50,8 +47,8 @@ public:
 	/**
 	 * \brief Add a component to the GameObject
 	 * 
-	 * This method adds a component to the GameObject. It forwards the
-	 * arguments to the ComponentManager.
+	 * This method adds a component to the GameObject. It forwards the arguments to the
+	 * ComponentManager.
 	 * 
 	 * \tparam T The type of the component
 	 * \tparam Args The types of the arguments
