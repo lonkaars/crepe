@@ -6,8 +6,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Component.h"
 #include "api/Vector2.h"
+
+#include "Component.h"
 
 namespace crepe {
 

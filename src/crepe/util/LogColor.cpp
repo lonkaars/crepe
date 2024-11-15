@@ -1,6 +1,7 @@
 #include <cstdarg>
 
 #include "../api/Config.h"
+
 #include "LogColor.h"
 
 using namespace crepe;
