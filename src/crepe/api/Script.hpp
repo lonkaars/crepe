@@ -9,8 +9,7 @@ namespace crepe {
 
 template <typename T>
 T & Script::get_component() {
-	std::vector<std::reference_wrapper<T>> all_components
-		= this->get_components<T>();
+	std::vector<std::reference_wrapper<T>> all_components = this->get_components<T>();
 	if (all_components.size() < 1) throw nullptr; // TODO
 
 	return all_components.back().get();

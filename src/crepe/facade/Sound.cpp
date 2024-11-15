@@ -15,9 +15,7 @@ Sound::Sound(const char * src) {
 	this->load(std::make_unique<Asset>(src));
 }
 
-void Sound::load(std::unique_ptr<Asset> res) {
-	this->sample.load(res->canonical());
-}
+void Sound::load(std::unique_ptr<Asset> res) { this->sample.load(res->canonical()); }
 
 void Sound::play() {
 	SoundContext & ctx = SoundContext::get_instance();

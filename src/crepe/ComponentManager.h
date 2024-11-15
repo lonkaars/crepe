@@ -13,8 +13,7 @@ namespace crepe {
 /**
  * \brief Manages all components
  * 
- * This class manages all components. It provides methods to add, delete and get
- * components.
+ * This class manages all components. It provides methods to add, delete and get components.
  */
 class ComponentManager {
 public:
@@ -33,8 +32,8 @@ public:
 	/**
 	 * \brief Add a component to the ComponentManager
 	 * 
-	 * This method adds a component to the ComponentManager. The component is
-	 * created with the given arguments and added to the ComponentManager.
+	 * This method adds a component to the ComponentManager. The component is created with the
+	 * given arguments and added to the ComponentManager.
 	 * 
 	 * \tparam T The type of the component
 	 * \tparam Args The types of the arguments
@@ -87,8 +86,7 @@ public:
 	 * \return A vector of all components of the specific type and id
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>>
-	get_components_by_id(game_object_id_t id) const;
+	std::vector<std::reference_wrapper<T>> get_components_by_id(game_object_id_t id) const;
 	/**
 	 * \brief Get all components of a specific type
 	 * 
@@ -107,16 +105,14 @@ private:
 	/**
 	 * \brief The components
 	 * 
-	 * This unordered_map stores all components. The key is the type of the
-	 * component and the value is a vector of vectors of unique pointers to the
-	 * components.
-	 * Every component type has its own vector of vectors of unique pointers to
-	 * the components. The first vector is for the ids of the GameObjects and the
-	 * second vector is for the components (because a GameObject might have multiple
-	 * components).
+	 * This unordered_map stores all components. The key is the type of the component and the
+	 * value is a vector of vectors of unique pointers to the components.
+	 *
+	 * Every component type has its own vector of vectors of unique pointers to the components.
+	 * The first vector is for the ids of the GameObjects and the second vector is for the
+	 * components (because a GameObject might have multiple components).
 	 */
-	std::unordered_map<std::type_index,
-					   std::vector<std::vector<std::unique_ptr<Component>>>>
+	std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>>
 		components;
 };
 

@@ -39,8 +39,7 @@ int main() {
 	auto obj = GameObject(0, "name", "tag", Vector2{1.2, 3.4}, 0, 1);
 	obj.add_component<BehaviorScript>().set_script<MyScript>();
 
-	// Get ScriptSystem singleton instance (this would normally be done from the
-	// game loop)
+	// Get ScriptSystem singleton instance (this would normally be done from the game loop)
 	ScriptSystem sys;
 	// Update all scripts. This should result in MyScript::update being called
 	sys.update();
