@@ -49,8 +49,7 @@ void TiledMap::SetMapTextures() {
 
 	for (const auto & ts : tileSets) {
 		m_MapTextures.emplace_back(new TextureMap);
-		if (!m_MapTextures.back()->loadFromFile(ts.getImagePath(),
-												m_Renderer)) {
+		if (!m_MapTextures.back()->loadFromFile(ts.getImagePath(), m_Renderer)) {
 			std::cerr << "Failed opening " << ts.getImagePath() << "\n";
 		}
 	}
@@ -63,8 +62,7 @@ void TiledMap::SetMapLayers() {
 	for (auto i = 0u; i < mapLayers.size(); ++i) {
 		if (mapLayers[i]->getType() == tmx::Layer::Type::Tile) {
 			m_RenderLayers.emplace_back(new MapLayer);
-			m_RenderLayers.back()->create(this->m_TmxMap, i,
-										  this->m_MapTextures);
+			m_RenderLayers.back()->create(this->m_TmxMap, i, this->m_MapTextures);
 		}
 	}
 }

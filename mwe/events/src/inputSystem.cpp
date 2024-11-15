@@ -3,9 +3,7 @@
 InputSystem::InputSystem() {}
 
 void InputSystem::registerButton(Button * button) { buttons.push_back(button); }
-void InputSystem::registerTextInput(TextInput * input) {
-	textInputs.push_back(input);
-}
+void InputSystem::registerTextInput(TextInput * input) { textInputs.push_back(input); }
 void InputSystem::registerText(Text * label) { texts.push_back(label); }
 
 void InputSystem::processInput() {
@@ -16,8 +14,7 @@ void InputSystem::processInput() {
 				triggerEvent(ShutDownEvent());
 				break;
 			case SDL_KEYDOWN:
-				triggerEvent(
-					KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
+				triggerEvent(KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
 				processKeyPress(event.key.keysym.sym);
 				break;
 			case SDL_TEXTINPUT:
@@ -37,15 +34,14 @@ void InputSystem::processInput() {
 
 void InputSystem::processMouseClick(int mouseX, int mouseY) {
 	for (auto * button : buttons) {
-		if (mouseX >= button->x && mouseX <= (button->x + button->width)
-			&& mouseY >= button->y && mouseY <= (button->y + button->height)) {
+		if (mouseX >= button->x && mouseX <= (button->x + button->width) && mouseY >= button->y
+			&& mouseY <= (button->y + button->height)) {
 			button->onClick();
 		}
 	}
 	for (auto * textInput : textInputs) {
 		if (mouseX >= textInput->x && mouseX <= textInput->x + textInput->width
-			&& mouseY >= textInput->y
-			&& mouseY <= textInput->y + textInput->height) {
+			&& mouseY >= textInput->y && mouseY <= textInput->y + textInput->height) {
 			textInput->isActive = true;
 		} else {
 			textInput->isActive = false;
