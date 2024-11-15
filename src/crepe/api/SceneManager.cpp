@@ -19,11 +19,10 @@ void SceneManager::load_next_scene() {
 	// next scene not set
 	if (this->next_scene.empty()) return;
 
-	auto it
-		= find_if(this->scenes.begin(), this->scenes.end(),
-				  [&next_scene = this->next_scene](unique_ptr<Scene> & scene) {
-					  return scene->name == next_scene;
-				  });
+	auto it = find_if(this->scenes.begin(), this->scenes.end(),
+					  [&next_scene = this->next_scene](unique_ptr<Scene> & scene) {
+						  return scene->name == next_scene;
+					  });
 
 	// next scene not found
 	if (it == this->scenes.end()) return;

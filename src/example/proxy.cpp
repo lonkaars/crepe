@@ -23,8 +23,7 @@ int main() {
 
 	ValueBroker<int> broker{
 		[&real_value](const int & target) {
-			dbg_logf("set %s to %s", to_string(real_value).c_str(),
-					 to_string(target).c_str());
+			dbg_logf("set %s to %s", to_string(real_value).c_str(), to_string(target).c_str());
 			real_value = target;
 		},
 		[&real_value]() -> const int & {

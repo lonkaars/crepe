@@ -10,9 +10,9 @@ namespace crepe {
  * \class RenderSystem
  * \brief Manages rendering operations for all game objects.
  *
- * RenderSystem is responsible for rendering sprites, clearing and presenting the screen, 
- * and managing the active camera. It functions as a singleton, providing centralized 
- * rendering services for the application.
+ * RenderSystem is responsible for rendering sprites, clearing and presenting the screen, and
+ * managing the active camera. It functions as a singleton, providing centralized rendering
+ * services for the application.
  */
 class RenderSystem : public System {
 

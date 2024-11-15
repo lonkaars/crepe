@@ -13,16 +13,16 @@ class Sprite;
 /**
  * \brief Data holder for particle emission parameters.
  *
- * The ParticleEmitter class stores configuration data for particle properties,
- * defining the characteristics and boundaries of particle emissions.
+ * The ParticleEmitter class stores configuration data for particle properties, defining the
+ * characteristics and boundaries of particle emissions.
  */
 class ParticleEmitter : public Component {
 public:
 	/**
 	 * \brief Defines the boundary within which particles are constrained.
 	 *
-	 * This structure specifies the boundary's size and offset, as well as the
-	 * behavior of particles upon reaching the boundary limits.
+	 * This structure specifies the boundary's size and offset, as well as the behavior of
+	 * particles upon reaching the boundary limits.
 	 */
 	struct Boundary {
 		//! boundary width (midpoint is emitter location)
@@ -38,8 +38,8 @@ public:
 	/**
 	 * \brief Holds parameters that control particle emission.
 	 *
-	 * Contains settings for the emitter’s position, particle speed, angle, lifespan,
-	 * boundary, and the sprite used for rendering particles.
+	 * Contains settings for the emitter’s position, particle speed, angle, lifespan, boundary,
+	 * and the sprite used for rendering particles.
 	 */
 	struct Data {
 		//! position of the emitter

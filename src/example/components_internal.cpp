@@ -49,10 +49,8 @@ int main() {
 		delete game_object[i];
 	}
 
-	auto add_time = chrono::duration_cast<chrono::microseconds>(stop_adding
-																- start_adding);
-	auto loop_time = chrono::duration_cast<chrono::microseconds>(stop_looping
-																 - stop_adding);
+	auto add_time = chrono::duration_cast<chrono::microseconds>(stop_adding - start_adding);
+	auto loop_time = chrono::duration_cast<chrono::microseconds>(stop_looping - stop_adding);
 	printf("add time:  %ldus\n", add_time.count());
 	printf("loop time: %ldus\n", loop_time.count());
 

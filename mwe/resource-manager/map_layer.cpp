@@ -20,8 +20,7 @@ bool MapLayer::create(const tmx::Map & map, std::uint32_t layerIndex,
 	const auto & tileSets = map.getTilesets();
 
 	const auto tintColour = layer.getTintColour();
-	const SDL_Colour vertColour
-		= {tintColour.r, tintColour.g, tintColour.b, tintColour.a};
+	const SDL_Colour vertColour = {tintColour.r, tintColour.g, tintColour.b, tintColour.a};
 
 	for (auto i = 0u; i < tileSets.size(); ++i) {
 		//check tile ID to see if it falls within the current tile set
@@ -40,8 +39,7 @@ bool MapLayer::create(const tmx::Map & map, std::uint32_t layerIndex,
 			for (auto x = 0u; x < mapSize.x; ++x) {
 				const auto idx = y * mapSize.x + x;
 				if (idx < tileIDs.size() && tileIDs[idx].ID >= ts.getFirstGID()
-					&& tileIDs[idx].ID
-						   < (ts.getFirstGID() + ts.getTileCount())) {
+					&& tileIDs[idx].ID < (ts.getFirstGID() + ts.getTileCount())) {
 					//tex coords
 					auto idIndex = (tileIDs[idx].ID - ts.getFirstGID());
 					float u = static_cast<float>(idIndex % tileCountX);
@@ -55,36 +53,24 @@ bool MapLayer::create(const tmx::Map & map, std::uint32_t layerIndex,
 					v /= textures[i]->getSize().y;
 
 					//vert pos
-					const float tilePosX
-						= static_cast<float>(x) * mapTileSize.x;
-					const float tilePosY
-						= (static_cast<float>(y) * mapTileSize.y);
+					const float tilePosX = static_cast<float>(x) * mapTileSize.x;
+					const float tilePosY = (static_cast<float>(y) * mapTileSize.y);
 
 					//push back to vert array
-					SDL_Vertex vert
-						= {{tilePosX, tilePosY}, vertColour, {u, v}};
+					SDL_Vertex vert = {{tilePosX, tilePosY}, vertColour, {u, v}};
 					verts.emplace_back(vert);
-					vert = {{tilePosX + mapTileSize.x, tilePosY},
-							vertColour,
-							{u + uNorm, v}};
+					vert = {{tilePosX + mapTileSize.x, tilePosY}, vertColour, {u + uNorm, v}};
 					verts.emplace_back(vert);
-					vert = {{tilePosX, tilePosY + mapTileSize.y},
-							vertColour,
-							{u, v + vNorm}};
+					vert = {{tilePosX, tilePosY + mapTileSize.y}, vertColour, {u, v + vNorm}};
 					verts.emplace_back(vert);
 
-					vert = {{tilePosX, tilePosY + mapTileSize.y},
-							vertColour,
-							{u, v + vNorm}};
+					vert = {{tilePosX, tilePosY + mapTileSize.y}, vertColour, {u, v + vNorm}};
 					verts.emplace_back(vert);
-					vert = {{tilePosX + mapTileSize.x, tilePosY},
-							vertColour,
-							{u + uNorm, v}};
+					vert = {{tilePosX + mapTileSize.x, tilePosY}, vertColour, {u + uNorm, v}};
 					verts.emplace_back(vert);
-					vert
-						= {{tilePosX + mapTileSize.x, tilePosY + mapTileSize.y},
-						   vertColour,
-						   {u + uNorm, v + vNorm}};
+					vert = {{tilePosX + mapTileSize.x, tilePosY + mapTileSize.y},
+							vertColour,
+							{u + uNorm, v + vNorm}};
 					verts.emplace_back(vert);
 				}
 			}
@@ -104,7 +90,6 @@ void MapLayer::draw(SDL_Renderer * renderer) const {
 	assert(renderer);
 	for (const auto & s : m_subsets) {
 		SDL_RenderGeometry(renderer, s.texture, s.vertexData.data(),
-						   static_cast<std::int32_t>(s.vertexData.size()),
-						   nullptr, 0);
+						   static_cast<std::int32_t>(s.vertexData.size()), nullptr, 0);
 	}
 }

@@ -26,8 +26,7 @@ public:
 		/**
 		 * \brief Log level
 		 *
-		 * Only messages with equal or higher priority than this value will be
-		 * logged.
+		 * Only messages with equal or higher priority than this value will be logged.
 		 */
 		LogLevel level = LogLevel::INFO;
 		/**
@@ -43,8 +42,8 @@ public:
 		/**
 		 * \brief Save file location
 		 *
-		 * This location is used by the constructor of SaveManager, and should be
-		 * set before save manager functionality is attempted to be used.
+		 * This location is used by the constructor of SaveManager, and should be set before save
+		 * manager functionality is attempted to be used.
 		 */
 		std::string location = "save.crepe.db";
 	} savemgr;

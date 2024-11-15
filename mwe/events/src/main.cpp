@@ -25,8 +25,8 @@ private:
 	int playerID;
 };
 void onPlayerDamaged(const PlayerDamagedEvent & e) {
-	std::cout << "Player " << e.getPlayerID() << " took " << e.getDamage()
-			  << " damage." << std::endl;
+	std::cout << "Player " << e.getPlayerID() << " took " << e.getDamage() << " damage."
+			  << std::endl;
 }
 
 void onKeyPressed1(const KeyPressedEvent & e) {
@@ -38,8 +38,7 @@ void onKeyPressed(const KeyPressedEvent & e) {
 	fprintf(stderr, "second function KeyCode %d\n", keyCode);
 }
 void CollisionHandler(const CollisionEvent & e) {
-	std::cout << "collision betwee object id: "
-			  << e.getCollisionData().objectIdA
+	std::cout << "collision betwee object id: " << e.getCollisionData().objectIdA
 			  << " and id: " << e.getCollisionData().objectIdB << std::endl;
 }
 void testCollisionEvent() {
