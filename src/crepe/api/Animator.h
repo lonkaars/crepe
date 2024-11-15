@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #include "Component.h"
 #include "Sprite.h"
 

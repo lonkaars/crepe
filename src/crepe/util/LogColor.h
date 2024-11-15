@@ -12,7 +12,13 @@ namespace crepe {
  */
 class LogColor {
 public:
-	//! Get color code as stl string (or color content string)
+	/**
+	 * \brief Get color code as STL string
+	 *
+	 * \param content If given, color this string and append a color reset escape sequence.
+	 *
+	 * \returns Color escape sequence
+	 */
 	const std::string str(const std::string & content = "") const;
 
 public:
@@ -20,6 +26,13 @@ public:
 	LogColor & reset();
 
 public:
+	/**
+	 * \name Foreground colors
+	 *
+	 * These functions set the foreground (text) color. The \c bright parameter
+	 * makes the color brighter, or bold on some terminals.
+	 * \{
+	 */
 	LogColor & fg_black(bool bright = false);
 	LogColor & fg_red(bool bright = false);
 	LogColor & fg_green(bool bright = false);
@@ -28,8 +41,16 @@ public:
 	LogColor & fg_magenta(bool bright = false);
 	LogColor & fg_cyan(bool bright = false);
 	LogColor & fg_white(bool bright = false);
+	/// \}
 
 public:
+	/**
+	 * \name Background colors
+	 *
+	 * These functions set the background color. The \c bright parameter makes
+	 * the color brighter.
+	 * \{
+	 */
 	LogColor & bg_black(bool bright = false);
 	LogColor & bg_red(bool bright = false);
 	LogColor & bg_green(bool bright = false);
@@ -38,6 +59,7 @@ public:
 	LogColor & bg_magenta(bool bright = false);
 	LogColor & bg_cyan(bool bright = false);
 	LogColor & bg_white(bool bright = false);
+	/// \}
 
 private:
 	/**

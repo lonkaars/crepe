@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "../Component.h"
+
 #include "GameObject.h"
 
 namespace crepe {
@@ -47,8 +48,6 @@ protected:
 	std::unique_ptr<Script> script = nullptr;
 	//! Reference to component manager
 	ComponentManager & component_manager;
-
-private:
 	//! Script accesses the component manager directly via its parent
 	// (BehaviorScript) reference
 	friend class Script;

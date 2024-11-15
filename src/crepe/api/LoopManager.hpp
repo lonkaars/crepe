@@ -2,8 +2,8 @@
 
 #include <cassert>
 #include <memory>
+#include <format>
 
-#include "../Exception.h"
 #include "../system/System.h"
 
 #include "LoopManager.h"
@@ -18,7 +18,7 @@ T & LoopManager::get_system() {
 
 	const type_info & type = typeid(T);
 	if (!this->systems.contains(type))
-		throw Exception("LoopManager: %s is not initialized", type.name());
+		throw runtime_error(format("LoopManager: {} is not initialized", type.name()));
 
 	System * system = this->systems.at(type).get();
 	T * concrete_system = dynamic_cast<T *>(system);

@@ -1,6 +1,4 @@
 
-#include <cstdint>
-
 #include "util/Log.h"
 
 #include "Animator.h"

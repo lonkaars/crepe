@@ -76,6 +76,8 @@ private:
 	 * \brief Output a message prefix depending on the log level
 	 *
 	 * \param level Message severity
+	 *
+	 * \return Colored message severity prefix string
 	 */
 	static std::string prefix(const Level & level);
 };
