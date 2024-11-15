@@ -89,12 +89,11 @@ int main() {
 
 		// Trigger the events while `testListener` is in scope
 		EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 1);
-		// EventManager::get_instance().trigger_event<MouseClickEvent>(MouseClickEvent{
-		// 	.button = MouseButton::LEFT_MOUSE,
-		// 	.mouse_y = 100,
-		// 	.mouse_x = 100,
-			
-		// },1);
+		EventManager::get_instance().trigger_event(MouseClickEvent{
+    		.mouse_x = 100,
+    		.mouse_y = 100,
+    		.button = MouseButton::LEFT_MOUSE,
+			},1);
 	}
 	// custom lambda event handler
 	EventHandler<KeyPressEvent> event_handler = [](const KeyPressEvent & e) {
