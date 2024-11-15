@@ -18,7 +18,8 @@ DB::DB(const string & path) {
 	this->db = {db, [](libdb::DB * db) { db->close(db, 0); }};
 
 	// load or create database file
-	ret = this->db->open(this->db.get(), NULL, path.c_str(), NULL, libdb::DB_BTREE, DB_CREATE, 0);
+	ret = this->db->open(this->db.get(), NULL, path.c_str(), NULL, libdb::DB_BTREE, DB_CREATE,
+						 0);
 	if (ret != 0) throw runtime_error(format("db->open: {}", libdb::db_strerror(ret)));
 
 	// create cursor
@@ -42,22 +43,18 @@ string DB::get(const string & key) {
 	memset(&db_val, 0, sizeof(libdb::DBT));
 
 	int ret = this->cursor->get(this->cursor.get(), &db_key, &db_val, DB_FIRST);
-	if (ret == 0)
-		return {static_cast<char *>(db_val.data), db_val.size};
+	if (ret == 0) return {static_cast<char *>(db_val.data), db_val.size};
 
 	string err = format("cursor->get: {}", libdb::db_strerror(ret));
-	if (ret == DB_NOTFOUND)
-		throw out_of_range(err);
-	else
-		throw runtime_error(err);
+	if (ret == DB_NOTFOUND) throw out_of_range(err);
+	else throw runtime_error(err);
 }
 
 void DB::set(const string & key, const string & value) {
 	libdb::DBT db_key = this->to_thing(key);
 	libdb::DBT db_val = this->to_thing(value);
 	int ret = this->db->put(this->db.get(), NULL, &db_key, &db_val, 0);
-	if (ret != 0)
-		throw runtime_error(format("cursor->get: {}", libdb::db_strerror(ret)));
+	if (ret != 0) throw runtime_error(format("cursor->get: {}", libdb::db_strerror(ret)));
 }
 
 bool DB::has(const std::string & key) {

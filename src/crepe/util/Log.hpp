@@ -10,8 +10,7 @@ void Log::logf(std::format_string<Args...> fmt, Args &&... args) {
 }
 
 template <class... Args>
-void Log::logf(const Level & level, std::format_string<Args...> fmt,
-			   Args &&... args) {
+void Log::logf(const Level & level, std::format_string<Args...> fmt, Args &&... args) {
 	Log::log(level, std::format(fmt, std::forward<Args>(args)...));
 }
 

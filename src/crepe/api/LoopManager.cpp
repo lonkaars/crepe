@@ -22,9 +22,7 @@ LoopManager::LoopManager() {
 	this->load_system<ScriptSystem>();
 }
 
-ComponentManager & LoopManager::get_component_manager() {
-	return this->component_manager;
-}
+ComponentManager & LoopManager::get_component_manager() { return this->component_manager; }
 
 void LoopManager::process_input() {
 	SDLContext::get_instance().handle_events(this->game_running);
