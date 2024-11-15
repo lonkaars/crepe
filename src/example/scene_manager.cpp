@@ -40,7 +40,9 @@ int main() {
 	scene_mgr.add_scene<ConcreteScene1>("scene1");
 	scene_mgr.add_scene<ConcreteScene2>("scene2");
 
-	// There is no need to call set_next_scene() at the beginnen, because the first scene will be automatically set as the next scene
+	// There is no need to call set_next_scene() at the beginnen, because the first scene will be
+	// automatically set as the next scene
+
 	// Load scene1 (the first scene added)
 	scene_mgr.load_next_scene();
 

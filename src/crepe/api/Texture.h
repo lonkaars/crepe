@@ -1,8 +1,7 @@
 #pragma once
 
-// FIXME: this header can't be included because this is an API header, and SDL2
-// development headers won't be bundled with crepe. Why is this facade in the
-// API namespace?
+// FIXME: this header can't be included because this is an API header, and SDL2 development
+// headers won't be bundled with crepe. Why is this facade in the API namespace?
 
 #include <SDL2/SDL_render.h>
 #include <functional>
@@ -19,8 +18,8 @@ class Animator;
  * \class Texture
  * \brief Manages texture loading and properties.
  *
- * The Texture class is responsible for loading an image from a source
- * and providing access to its dimensions. Textures can be used for rendering.
+ * The Texture class is responsible for loading an image from a source and providing access to
+ * its dimensions. Textures can be used for rendering.
  */
 class Texture {
 
@@ -41,8 +40,7 @@ public:
 	 * \brief Destroys the Texture instance, freeing associated resources.
 	 */
 	~Texture();
-	// FIXME: this constructor shouldn't be necessary because this class doesn't
-	// manage memory
+	// FIXME: this constructor shouldn't be necessary because this class doesn't manage memory
 
 	/**
 	 * \brief Gets the width of the texture.

@@ -15,8 +15,8 @@ namespace crepe {
 /**
  * \brief Berkeley DB facade
  *
- * Berkeley DB is a simple key-value database that stores arbitrary data as
- * both key and value. This facade uses STL strings as keys/values.
+ * Berkeley DB is a simple key-value database that stores arbitrary data as both key and value.
+ * This facade uses STL strings as keys/values.
  */
 class DB {
 public:
