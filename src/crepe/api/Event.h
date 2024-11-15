@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <typeindex>
+#include "system/CollisionSystem.h"
 
 class Event {
 public:
@@ -45,7 +46,10 @@ public:
 };
 class CollisionEvent : public Event {
 public:
-	//Collision collisionData;
+	crepe::CollisionSystem::CollisionInfo info;
+	CollisionEvent(const crepe::CollisionSystem::CollisionInfo& collisionInfo)
+        : info(collisionInfo) {}
+
 };
 class TextSubmitEvent : public Event {
 public:

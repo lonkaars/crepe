@@ -1,11 +1,12 @@
 #include <cmath>
 #include <algorithm>
 #include <cstddef>
-#include <tuple>
 #include <utility>
 #include <variant>
 
 #include "CollisionSystem.h"
+#include "../api/Event.h"
+#include "../api/EventManager.h"
 
 #include "../ComponentManager.h"
 #include "../api/BoxCollider.h"
@@ -38,19 +39,24 @@ void CollisionSystem::update() {
 }
 
 void CollisionSystem::call_collision_handler(const CollidedInfoStor& data1,const CollidedInfoStor& data2){
-
+	const Collider* collider1 = nullptr;
+	const Collider* collider2 = nullptr;
 	// Check collision type and get values for handler
 	game_object_id_t first = 0,second = 0;
 	if (std::holds_alternative<BoxCollider>(data1.collider)) {
 		if (std::holds_alternative<BoxCollider>(data2.collider)) {
 			const BoxCollider& box_collider1 = std::get<BoxCollider>(data1.collider);
 			const BoxCollider& box_collider2 = std::get<BoxCollider>(data2.collider);
+			collider1 = &box_collider1;
+			collider2 = &box_collider2;
 			first = box_collider1.game_object_id;
 			second = box_collider2.game_object_id;
 		}
 		else {
 			const BoxCollider& box_collider = std::get<BoxCollider>(data1.collider);
 			const CircleCollider& circle_collider = std::get<CircleCollider>(data2.collider);
+			collider1 = &box_collider;
+			collider2 = &circle_collider;
 			first = box_collider.game_object_id;
 			second = circle_collider.game_object_id;
 		}
@@ -59,12 +65,16 @@ void CollisionSystem::call_collision_handler(const CollidedInfoStor& data1,const
 		if (std::holds_alternative<CircleCollider>(data2.collider)) {
 			const CircleCollider& circle_collider1 = std::get<CircleCollider>(data1.collider);
 			const CircleCollider& circle_collider2 = std::get<CircleCollider>(data2.collider);
+			collider1 = &circle_collider1;
+			collider2 = &circle_collider2;
 			first = circle_collider1.game_object_id;
 			second = circle_collider2.game_object_id;
 		}
 		else {
 			const CircleCollider& circle_collider = std::get<CircleCollider>(data1.collider);
 			const BoxCollider& box_collider = std::get<BoxCollider>(data2.collider);
+			collider1 = &circle_collider;
+			collider2 = &box_collider;
 			first = circle_collider.game_object_id;
 			second = box_collider.game_object_id;
 		}
@@ -74,10 +84,16 @@ void CollisionSystem::call_collision_handler(const CollidedInfoStor& data1,const
 	if(data1.rigidbody.data.body_type != Rigidbody::BodyType::STATIC)
 	{
 		// If second body is static move back
-		if(data2.rigidbody.data.body_type == Rigidbody::BodyType::STATIC) return; 
-		//call static handler (is bounce true?)
-
-		// call script handler
+		if(data2.rigidbody.data.body_type == Rigidbody::BodyType::STATIC){
+			//call static handler (is bounce true?)
+		}; 
+		
+		crepe::CollisionSystem::CollisionInfo collision_info{
+            { *collider1, data1.transform, data1.rigidbody },
+            { *collider2, data2.transform, data2.rigidbody }
+        };
+		CollisionEvent data(collision_info);
+		EventManager::get_instance().trigger_event<CollisionEvent>(data, 0);
 	}		
 }
 
