@@ -17,8 +17,9 @@ private:
 	using collider_stor = std::variant<BoxCollider, CircleCollider>;
 private:
 	struct CollidedInfoStor {
-		collider_stor collider;  // Store either BoxCollider or CircleCollider
-		Transform transform;      // Transform data
+		//! Store either BoxCollider or CircleCollider
+		collider_stor collider; 
+		Transform transform;
 		Rigidbody rigidbody;      // Rigidbody data
 	};
 public:
@@ -31,6 +32,16 @@ private:
 	bool check_box_circle_collision(const BoxCollider& box1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2);
 	bool check_circle_circle_collision(const CircleCollider& circle1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2);
 	Vector2 current_position(const Collider& collider, const Transform& transform, const Rigidbody& rigidbody);
+public:
+	struct ColliderInfo {
+		Collider collider;
+		Transform transform;
+		Rigidbody rigidbody;
+	};
+	struct CollisionInfo{
+    ColliderInfo first;
+    ColliderInfo second;
+	};
 };
 
 } // namespace crepe
