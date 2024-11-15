@@ -93,7 +93,7 @@ void CollisionSystem::call_collision_handler(const CollidedInfoStor& data1,const
             { *collider2, data2.transform, data2.rigidbody }
         };
 		CollisionEvent data(collision_info);
-		EventManager::get_instance().trigger_event<CollisionEvent>(data, 0);
+		EventManager::get_instance().trigger_event<CollisionEvent>(data, first);
 	}		
 }
 

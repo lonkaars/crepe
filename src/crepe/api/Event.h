@@ -49,7 +49,6 @@ public:
 	crepe::CollisionSystem::CollisionInfo info;
 	CollisionEvent(const crepe::CollisionSystem::CollisionInfo& collisionInfo)
         : info(collisionInfo) {}
-
 };
 class TextSubmitEvent : public Event {
 public:
