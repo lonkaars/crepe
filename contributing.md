@@ -679,30 +679,57 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  Throw exceptions using standard C++ exceptions (such as <code>std::runtime_error</code>)
+  Utilize standard exceptions where appropriate (those found in <code>&lt;stdexcept&gt;</code>)
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
-  if (error) {
-    throw std::runtime_error("An error occurred");
+  #include <stdexcept>
+
+  // ...
+
+  if (foo == nullptr) {
+    throw std::runtime_error("What is wrong");
   }
   ```
   </td><td>
 
   ```cpp
-  if (error) {
-    throw "An error occurred";
+  if (foo == nullptr) {
+    std::cout << "What is wrong" << std::endl;
+    exit(1);
   }
   ```
   </td></tr></table></details>
 - <details><summary>
-  Constructors of classes derived from <code>Component</code> should be protected and <code>ComponentManager</code> should be declared as a friend class.
+  Mention the name of the class when throwing an exception
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  Foo::bar() {
+    if (...)
+      throw std::runtime_error("Foo: big error!");
+  }
+  ```
+  </td><td>
+
+  ```cpp
+  Foo::bar() {
+    if (...)
+      throw std::runtime_error("big error!");
+  }
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Constructors of classes derived from <code>Component</code> should be
+  protected and <code>ComponentManager</code> should be declared as a friend
+  class.
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
   class MyComponent : public Component {
   protected:
-    MyComponent() = default;
+    MyComponent(...);
+    //! Only ComponentManager is allowed to create components
     friend class ComponentManager;
   };
   ```
@@ -711,16 +738,20 @@ that you can click on to open them.
   ```cpp
   class MyComponent : public Component {
   public:
-    MyComponent() = default;
+    MyComponent(...);
   };
   ```
   </td></tr></table></details>
 - <details><summary>
-  Use of format specifiers (like <code>%s</code> and <code>%n</code>) are not allowed (use <code>{}</code> with <code>std::format</code> instead)
+  C++ <code>std::format</code> should be used instead of C-style format specifiers
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
   std::string message = std::format("Hello, {}", name);
+
+  dbg_logf("Here too: {}", 3);
+
+  throw std::runtime_error(std::format("Or here: {}", 5));
   ```
   </td><td>
 
@@ -730,7 +761,8 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  Argument names should be added in <code>.h</code> files (not only in <code>.cpp</code> and <code>.hpp</code> files)
+  Argument names should be added in <code>.h</code> files (not only in
+  <code>.cpp</code> and <code>.hpp</code> files)
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   Foo.h:
