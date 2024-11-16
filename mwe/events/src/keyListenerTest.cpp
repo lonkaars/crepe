@@ -1,8 +1,6 @@
 #include "keyListenerTest.h"
 
-KeyListenerTest::KeyListenerTest(int listenerId) {
-	subscribeEvents(listenerId);
-}
+KeyListenerTest::KeyListenerTest(int listenerId) { subscribeEvents(listenerId); }
 
 KeyListenerTest::~KeyListenerTest() { unsubscribeEvents(); }
 

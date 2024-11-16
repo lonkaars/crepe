@@ -18,11 +18,11 @@ void LoopManager::processInput() {
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				gameRunning = false;
 			} else if (event.key.keysym.sym == SDLK_i) {
-				LoopTimer::getInstance().setGameScale(
-					LoopTimer::getInstance().getGameScale() + 0.1);
+				LoopTimer::getInstance().setGameScale(LoopTimer::getInstance().getGameScale()
+													  + 0.1);
 			} else if (event.key.keysym.sym == SDLK_k) {
-				LoopTimer::getInstance().setGameScale(
-					LoopTimer::getInstance().getGameScale() - 0.1);
+				LoopTimer::getInstance().setGameScale(LoopTimer::getInstance().getGameScale()
+													  - 0.1);
 			}
 
 			break;
@@ -57,8 +57,7 @@ void LoopManager::setup() {
 	LoopTimer::getInstance().setFPS(10);
 	this->gameRunning = true;
 	for (int i = 1; i < 3; i++) {
-		GameObject * square
-			= new GameObject("square2", i * 60, i * 60, 20, 20, 0, 0);
+		GameObject * square = new GameObject("square2", i * 60, i * 60, 20, 20, 0, 0);
 		objectList.push_back(square);
 	}
 }

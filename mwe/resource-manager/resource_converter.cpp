@@ -17,8 +17,7 @@ SDL_Surface * ResourceConverter::FromStringToImage(const Texture & resource) {
 	const std::string & content = resource.getContent();
 	SDL_RWops * rw = SDL_RWFromConstMem(content.data(), content.size());
 	if (!rw) {
-		std::cerr << "Failed to create SDL_RWops: " << SDL_GetError()
-				  << std::endl;
+		std::cerr << "Failed to create SDL_RWops: " << SDL_GetError() << std::endl;
 		return nullptr;
 	}
 
