@@ -45,8 +45,7 @@ void LoopTimer::enforceFrameRate() {
 	double frameDuration = (currentFrameTime - lastFrameTime) / 1000.0;
 
 	if (frameDuration < frameTargetTime) {
-		uint32_t delayTime
-			= (uint32_t) ((frameTargetTime - frameDuration) * 1000.0);
+		uint32_t delayTime = (uint32_t) ((frameTargetTime - frameDuration) * 1000.0);
 		SDL_Delay(delayTime);
 	}
 }

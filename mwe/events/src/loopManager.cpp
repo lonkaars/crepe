@@ -1,8 +1,7 @@
 #include "loopManager.h"
 
 LoopManager::LoopManager() : inputSystem(std::make_unique<InputSystem>()) {
-	shutdownHandler
-		= [this](const ShutDownEvent & event) { this->onShutdown(event); };
+	shutdownHandler = [this](const ShutDownEvent & event) { this->onShutdown(event); };
 	subscribe(shutdownHandler);
 }
 void LoopManager::processInput() {
@@ -63,17 +62,15 @@ void LoopManager::setup() {
 	subscribe<KeyPressedEvent>(callback, false);
 	EventHandler<MousePressedEvent> mouseCallback = onMouse;
 	subscribe<MousePressedEvent>(mouseCallback, false);
-	EventHandler<KeyPressedEvent> closeWindowCallback
-		= [this](const KeyPressedEvent & e) {
-			  if (e.getKeyCode() == Escape) {
-				  this->setRunning(false);
-			  }
-		  };
+	EventHandler<KeyPressedEvent> closeWindowCallback = [this](const KeyPressedEvent & e) {
+		if (e.getKeyCode() == Escape) {
+			this->setRunning(false);
+		}
+	};
 	subscribe<KeyPressedEvent>(closeWindowCallback, false);
 	Button * testButton = new Button(200, 200);
 	testButton->color = {100, 0, 100};
-	testButton->onClick
-		= []() { std::cout << "Button was clicked" << std::endl; };
+	testButton->onClick = []() { std::cout << "Button was clicked" << std::endl; };
 	testButton->x = 200;
 	testButton->y = 200;
 	inputSystem->registerButton(testButton);
@@ -93,9 +90,7 @@ void LoopManager::render() {
 		window.renderUIObjects();
 	}
 }
-void LoopManager::onShutdown(const ShutDownEvent & e) {
-	this->gameRunning = false;
-}
+void LoopManager::onShutdown(const ShutDownEvent & e) { this->gameRunning = false; }
 void LoopManager::update() {
 	//fprintf(stderr, "**********normal update********** \n");
 	LoopTimer & timer = LoopTimer::getInstance();

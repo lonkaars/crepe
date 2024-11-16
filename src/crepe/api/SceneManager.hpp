@@ -4,8 +4,7 @@ namespace crepe {
 
 template <typename T>
 void SceneManager::add_scene(const std::string & name) {
-	static_assert(std::is_base_of<Scene, T>::value,
-				  "T must be derived from Scene");
+	static_assert(std::is_base_of<Scene, T>::value, "T must be derived from Scene");
 
 	scenes.emplace_back(make_unique<T>(name));
 

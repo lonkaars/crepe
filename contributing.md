@@ -678,6 +678,118 @@ that you can click on to open them.
   uint64_t foo();
   ```
   </td></tr></table></details>
+- <details><summary>
+  Utilize standard exceptions where appropriate (those found in <code>&lt;stdexcept&gt;</code>)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  #include <stdexcept>
+
+  // ...
+
+  if (foo == nullptr) {
+    throw std::runtime_error("What is wrong");
+  }
+  ```
+  </td><td>
+
+  ```cpp
+  if (foo == nullptr) {
+    std::cout << "What is wrong" << std::endl;
+    exit(1);
+  }
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Mention the name of the class when throwing an exception
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  Foo::bar() {
+    if (...)
+      throw std::runtime_error("Foo: big error!");
+  }
+  ```
+  </td><td>
+
+  ```cpp
+  Foo::bar() {
+    if (...)
+      throw std::runtime_error("big error!");
+  }
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Constructors of classes derived from <code>Component</code> should be
+  protected and <code>ComponentManager</code> should be declared as a friend
+  class.
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  class MyComponent : public Component {
+  protected:
+    MyComponent(...);
+    //! Only ComponentManager is allowed to create components
+    friend class ComponentManager;
+  };
+  ```
+  </td><td>
+
+  ```cpp
+  class MyComponent : public Component {
+  public:
+    MyComponent(...);
+  };
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  C++ <code>std::format</code> should be used instead of C-style format specifiers
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  std::string message = std::format("Hello, {}", name);
+
+  dbg_logf("Here too: {}", 3);
+
+  throw std::runtime_error(std::format("Or here: {}", 5));
+  ```
+  </td><td>
+
+  ```cpp
+  char message[50];
+  sprintf(message, "Hello, %s", name);
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Argument names should be added in <code>.h</code> files (not only in
+  <code>.cpp</code> and <code>.hpp</code> files)
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  Foo.h:
+  ```cpp
+  void foo(int bar);
+  ```
+
+  Foo.cpp:
+  ```cpp
+  void foo(int bar) {
+    // ...
+  }
+  ```
+  </td><td>
+
+  Foo.h:
+  ```cpp
+  void foo(int);
+  ```
+
+  Foo.cpp:
+  ```cpp
+  void foo(int bar) {
+    // ...
+  }
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 

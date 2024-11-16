@@ -2,33 +2,27 @@
 
 void EventManager::shutdown() { subscribers.clear(); }
 
-void EventManager::subscribe(int eventType,
-							 std::unique_ptr<IEventHandlerWrapper> && handler,
+void EventManager::subscribe(int eventType, std::unique_ptr<IEventHandlerWrapper> && handler,
 							 int eventId) {
 	if (eventId) {
 		std::unordered_map<
-			int, std::unordered_map<
-					 int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>::
+			int, std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>::
 			iterator subscribers
 			= subscribersByEventId.find(eventType);
 
 		if (subscribers != subscribersByEventId.end()) {
-			std::unordered_map<
-				int, std::vector<std::unique_ptr<IEventHandlerWrapper>>> &
+			std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>> &
 				handlersMap
 				= subscribers->second;
 			std::unordered_map<
-				int,
-				std::vector<std::unique_ptr<IEventHandlerWrapper>>>::iterator
-				handlers
+				int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>::iterator handlers
 				= handlersMap.find(eventId);
 			if (handlers != handlersMap.end()) {
 				handlers->second.emplace_back(std::move(handler));
 				return;
 			}
 		}
-		subscribersByEventId[eventType][eventId].emplace_back(
-			std::move(handler));
+		subscribersByEventId[eventType][eventId].emplace_back(std::move(handler));
 
 	} else {
 		auto & handlers = subscribers[eventType];
@@ -36,29 +30,23 @@ void EventManager::subscribe(int eventType,
 	}
 }
 
-void EventManager::unsubscribe(int eventType, const std::string & handlerName,
-							   int eventId) {
+void EventManager::unsubscribe(int eventType, const std::string & handlerName, int eventId) {
 	if (eventId) {
 		std::unordered_map<
-			int, std::unordered_map<
-					 int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>::
+			int, std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>::
 			iterator subscriberList
 			= subscribersByEventId.find(eventType);
 		if (subscriberList != subscribersByEventId.end()) {
-			std::unordered_map<
-				int, std::vector<std::unique_ptr<IEventHandlerWrapper>>> &
+			std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>> &
 				handlersMap
 				= subscriberList->second;
 			std::unordered_map<
-				int,
-				std::vector<std::unique_ptr<IEventHandlerWrapper>>>::iterator
-				handlers
+				int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>::iterator handlers
 				= handlersMap.find(eventId);
 			if (handlers != handlersMap.end()) {
 				std::vector<std::unique_ptr<IEventHandlerWrapper>> & callbacks
 					= handlers->second;
-				for (std::vector<
-						 std::unique_ptr<IEventHandlerWrapper>>::iterator it
+				for (std::vector<std::unique_ptr<IEventHandlerWrapper>>::iterator it
 					 = callbacks.begin();
 					 it != callbacks.end(); ++it) {
 					if (it->get()->getType() == handlerName) {
@@ -69,13 +57,11 @@ void EventManager::unsubscribe(int eventType, const std::string & handlerName,
 			}
 		}
 	} else {
-		std::unordered_map<
-			int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>::iterator
+		std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>::iterator
 			handlersIt
 			= subscribers.find(eventType);
 		if (handlersIt != subscribers.end()) {
-			std::vector<std::unique_ptr<IEventHandlerWrapper>> & handlers
-				= handlersIt->second;
+			std::vector<std::unique_ptr<IEventHandlerWrapper>> & handlers = handlersIt->second;
 			for (std::vector<std::unique_ptr<IEventHandlerWrapper>>::iterator it
 				 = handlers.begin();
 				 it != handlers.end(); ++it) {
@@ -90,8 +76,7 @@ void EventManager::unsubscribe(int eventType, const std::string & handlerName,
 
 void EventManager::triggerEvent(const Event & event_, int eventId) {
 	if (eventId > 0) {
-		auto handlersIt
-			= subscribersByEventId[event_.getEventType()].find(eventId);
+		auto handlersIt = subscribersByEventId[event_.getEventType()].find(eventId);
 		if (handlersIt != subscribersByEventId[event_.getEventType()].end()) {
 			std::vector<std::unique_ptr<IEventHandlerWrapper>> & callbacks
 				= handlersIt->second;

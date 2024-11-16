@@ -7,8 +7,7 @@ T & ComponentManager::AddComponent(std::uint32_t id, Args &&... args) {
 	//Check if this component type is already in the unordered_map<>
 	if (mComponents.find(type) == mComponents.end()) {
 		//If not, create a new (empty) vector<> of vector<unique_ptr<Component>>
-		mComponents[type]
-			= std::vector<std::vector<std::unique_ptr<Component>>>();
+		mComponents[type] = std::vector<std::vector<std::unique_ptr<Component>>>();
 	}
 
 	//Resize the vector<> if the id is greater than the current size
@@ -18,8 +17,7 @@ T & ComponentManager::AddComponent(std::uint32_t id, Args &&... args) {
 	}
 
 	//Create a new component of type T using perfect forwarding and store its unique_ptr in the vector<>
-	mComponents[type][id].push_back(
-		std::make_unique<T>(std::forward<Args>(args)...));
+	mComponents[type][id].push_back(std::make_unique<T>(std::forward<Args>(args)...));
 
 	return static_cast<T &>(*mComponents[type][id].back().get());
 }
@@ -68,15 +66,13 @@ ComponentManager::GetComponentsByID(std::uint32_t id) const {
 	if (mComponents.find(type) != mComponents.end()) {
 
 		//Get the correct vector<>
-		const std::vector<std::vector<std::unique_ptr<Component>>> &
-			componentArray
+		const std::vector<std::vector<std::unique_ptr<Component>>> & componentArray
 			= mComponents.at(type);
 
 		//Make sure that the id (that we are looking for) is within the boundaries of the vector<>
 		if (id < componentArray.size()) {
 			//Loop trough the whole vector<>
-			for (const std::unique_ptr<Component> & componentPtr :
-				 componentArray[id]) {
+			for (const std::unique_ptr<Component> & componentPtr : componentArray[id]) {
 				//Cast the unique_ptr to a raw pointer
 				T * castedComponent = static_cast<T *>(componentPtr.get());
 
@@ -94,8 +90,7 @@ ComponentManager::GetComponentsByID(std::uint32_t id) const {
 }
 
 template <typename T>
-std::vector<std::reference_wrapper<T>>
-ComponentManager::GetComponentsByType() const {
+std::vector<std::reference_wrapper<T>> ComponentManager::GetComponentsByType() const {
 	//Determine the type of T (this is used as the key of the unordered_map<>)
 	std::type_index type = typeid(T);
 
@@ -107,13 +102,11 @@ ComponentManager::GetComponentsByType() const {
 	if (mComponents.find(type) != mComponents.end()) {
 
 		//Get the correct vector<>
-		const std::vector<std::vector<std::unique_ptr<Component>>> &
-			componentArray
+		const std::vector<std::vector<std::unique_ptr<Component>>> & componentArray
 			= mComponents.at(type);
 
 		//Loop through the whole vector<>
-		for (const std::vector<std::unique_ptr<Component>> & component :
-			 componentArray) {
+		for (const std::vector<std::unique_ptr<Component>> & component : componentArray) {
 			//Loop trough the whole vector<>
 			for (const std::unique_ptr<Component> & componentPtr : component) {
 				//Cast the unique_ptr to a raw pointer
