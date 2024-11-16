@@ -11,6 +11,7 @@ class Scene {
 protected:
 	Scene(ComponentManager & mgr, const std::string & name);
 	friend class SceneManager;
+
 public:
 	virtual ~Scene() = default;
 
