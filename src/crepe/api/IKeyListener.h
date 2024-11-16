@@ -3,6 +3,7 @@
 #include "EventHandler.h"
 #include "EventManager.h"
 
+namespace crepe {
 /**
  * \class IKeyListener
  * \brief Interface for keyboard event handling in the application.
@@ -76,3 +77,5 @@ private:
 	//!< Key release event handler.
 	EventHandler<KeyReleaseEvent> key_released_handler;
 };
+
+} // namespace crepe

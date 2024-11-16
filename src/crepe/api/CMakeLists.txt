@@ -19,11 +19,11 @@ target_sources(crepe PUBLIC
 	Camera.cpp
 	Animator.cpp
 	EventManager.cpp
-	EventHandler.cpp
 	IKeyListener.cpp
 	IMouseListener.cpp
 	LoopManager.cpp
 	LoopTimer.cpp
+	EventHandler.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -51,6 +51,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	EventManager.h
 	EventManager.hpp
 	EventHandler.h
+	EventHandler.hpp
 	Event.h
 	IKeyListener.h
 	IMouseListener.h
