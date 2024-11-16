@@ -68,18 +68,32 @@ private:
 
 	bool game_running = false;
 
-protected:
-	ComponentManager & get_component_manager();
-	template <class T>
-	T & get_system();
-
 private:
+	//! Component manager instance
 	ComponentManager component_manager{};
-	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
 
 private:
+	/**
+	 * \brief Collection of System instances
+	 *
+	 * This map holds System instances indexed by the system's class typeid. It is filled in the
+	 * constructor of \c LoopManager using LoopManager::load_system.
+	 */
+	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
+	/**
+	 * \brief Initialize a system
+	 * \tparam T System type (must be derivative of \c System)
+	 */
 	template <class T>
 	void load_system();
+	/**
+	 * \brief Retrieve a reference to ECS system
+	 * \tparam T System type
+	 * \returns Reference to system instance
+	 * \throws std::runtime_error if the System is not initialized
+	 */
+	template <class T>
+	T & get_system();
 };
 
 } // namespace crepe

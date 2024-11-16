@@ -9,8 +9,8 @@ namespace crepe {
 /**
  * \brief Transform component
  * 
- * This class represents the Transform component. It stores the position,
- * rotation and scale of a GameObject.
+ * This class represents the Transform component. It stores the position, rotation and scale of
+ * a GameObject.
  */
 class Transform : public Component {
 public:
@@ -28,9 +28,11 @@ protected:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	Transform(game_object_id_t id, const Vector2 & point, double rotation = 0,
-			  double scale = 0);
-	//! There is always exactly one transform component per entity
+	Transform(game_object_id_t id, const Vector2 & point, double rotation, double scale);
+	/**
+	 * There is always exactly one transform component per entity
+	 * \return 1
+	 */
 	virtual int get_instances_max() const { return 1; }
 	//! ComponentManager instantiates all components
 	friend class ComponentManager;

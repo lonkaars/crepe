@@ -9,16 +9,14 @@
 
 // utility macros
 #define _crepe_logf_here(level, fmt, ...) \
-	crepe::Log::logf( \
-		level, "{}" fmt, \
-		crepe::LogColor().fg_white(false).str(std::format( \
-			"{} ({}:{})", __PRETTY_FUNCTION__, __FILE_NAME__, __LINE__)), \
-		__VA_ARGS__)
+	crepe::Log::logf(level, "{}" fmt, \
+					 crepe::LogColor().fg_white(false).str(std::format( \
+						 "{} ({}:{})", __PRETTY_FUNCTION__, __FILE_NAME__, __LINE__)), \
+					 __VA_ARGS__)
 
 // very illegal global function-style macros
 // NOLINTBEGIN
-#define dbg_logf(fmt, ...) \
-	_crepe_logf_here(crepe::Log::Level::DEBUG, ": " fmt, __VA_ARGS__)
+#define dbg_logf(fmt, ...) _crepe_logf_here(crepe::Log::Level::DEBUG, ": " fmt, __VA_ARGS__)
 #define dbg_log(str) _crepe_logf_here(crepe::Log::Level::DEBUG, ": {}", str)
 #define dbg_trace() _crepe_logf_here(crepe::Log::Level::TRACE, "", "")
 // NOLINTEND
@@ -59,8 +57,7 @@ public:
 	 * \param args Format arguments
 	 */
 	template <class... Args>
-	static void logf(const Level & level, std::format_string<Args...> fmt,
-					 Args &&... args);
+	static void logf(const Level & level, std::format_string<Args...> fmt, Args &&... args);
 
 	/**
 	 * \brief Format a message and log it (with default severity \c INFO)
@@ -76,6 +73,8 @@ private:
 	 * \brief Output a message prefix depending on the log level
 	 *
 	 * \param level Message severity
+	 *
+	 * \return Colored message severity prefix string
 	 */
 	static std::string prefix(const Level & level);
 };

@@ -53,8 +53,7 @@ int main() {
 	}
 
 	std::vector<std::reference_wrapper<BehaviourScript>> scripts
-		= ComponentManager::GetInstance()
-			  .GetComponentsByType<BehaviourScript>();
+		= ComponentManager::GetInstance().GetComponentsByType<BehaviourScript>();
 	for (BehaviourScript & script : scripts) {
 		//script.onStart();
 		//script.onUpdate();
@@ -66,10 +65,10 @@ int main() {
 		delete gameObject[i];
 	}
 
-	auto Addtime = std::chrono::duration_cast<std::chrono::microseconds>(
-		stopAdding - startAdding);
-	auto LoopTime = std::chrono::duration_cast<std::chrono::microseconds>(
-		stopLooping - stopAdding);
+	auto Addtime
+		= std::chrono::duration_cast<std::chrono::microseconds>(stopAdding - startAdding);
+	auto LoopTime
+		= std::chrono::duration_cast<std::chrono::microseconds>(stopLooping - stopAdding);
 	std::cout << "AddTime: " << Addtime.count() << " us" << std::endl;
 	std::cout << "LoopTime: " << LoopTime.count() << " us" << std::endl;
 }

@@ -7,10 +7,9 @@ namespace crepe {
 /**
  * \brief Give reference to value through custom set/get functions
  *
- * This class can be used to abstract direct access to any arbitrary value
- * through a custom get and set function passed to its constructor. Consumers
- * of this type may want to wrap it in a \c Proxy so it behaves like a regular
- * variable.
+ * This class can be used to abstract direct access to any arbitrary value through a custom get
+ * and set function passed to its constructor. Consumers of this type may want to wrap it in a
+ * \c Proxy so it behaves like a regular variable.
  *
  * \tparam T  Type of the underlying variable
  */

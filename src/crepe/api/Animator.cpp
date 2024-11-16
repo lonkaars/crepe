@@ -1,6 +1,4 @@
 
-#include <cstdint>
-
 #include "util/Log.h"
 
 #include "Animator.h"
@@ -9,8 +7,7 @@
 
 using namespace crepe;
 
-Animator::Animator(game_object_id_t id, Sprite & ss, int row, int col,
-				   int col_animator)
+Animator::Animator(game_object_id_t id, Sprite & ss, int row, int col, int col_animator)
 	: Component(id),
 	  spritesheet(ss),
 	  row(row),

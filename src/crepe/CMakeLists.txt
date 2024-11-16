@@ -3,7 +3,6 @@ target_sources(crepe PUBLIC
 	ComponentManager.cpp
 	Component.cpp
 	Collider.cpp
-	Exception.cpp
 	Resource.cpp
 )
 
@@ -14,8 +13,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Collider.h
 	ValueBroker.h
 	ValueBroker.hpp
-	Exception.h
-	Exception.hpp
 	Resource.h
 )
 

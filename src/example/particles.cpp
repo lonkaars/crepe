@@ -14,12 +14,11 @@ using namespace crepe;
 using namespace std;
 
 int main(int argc, char * argv[]) {
-	ComponentManager mgr;
+	ComponentManager mgr{};
 	GameObject game_object = mgr.new_object("", "", Vector2{0, 0}, 0, 0);
 	Color color(0, 0, 0, 0);
 	Sprite test_sprite = game_object.add_component<Sprite>(
-		make_shared<Texture>("asset/texture/img.png"), color,
-		FlipSettings{true, true});
+		make_shared<Texture>("asset/texture/img.png"), color, FlipSettings{true, true});
 	game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
 		.max_particles = 100,

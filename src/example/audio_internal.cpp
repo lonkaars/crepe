@@ -42,8 +42,7 @@ int main() {
 	// Start the background track
 	bgm.play();
 
-	// Play each sample sequentially while pausing and resuming the background
-	// track
+	// Play each sample sequentially while pausing and resuming the background track
 	this_thread::sleep_for(500ms);
 	sfx1.play();
 	this_thread::sleep_for(500ms);

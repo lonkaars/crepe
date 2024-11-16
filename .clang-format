@@ -4,7 +4,7 @@ AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 AllowShortLoopsOnASingleLine: true
 BasedOnStyle: LLVM
 BreakBeforeBraces: Attach
-ColumnLimit: 80
+ColumnLimit: 95
 EmptyLineBeforeAccessModifier: Always
 IndentAccessModifiers: false
 IndentCaseLabels: true

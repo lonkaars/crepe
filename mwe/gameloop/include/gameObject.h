@@ -3,8 +3,8 @@
 class GameObject {
 public:
 	GameObject();
-	GameObject(std::string name, float x, float y, float width, float height,
-			   float velX, float velY);
+	GameObject(std::string name, float x, float y, float width, float height, float velX,
+			   float velY);
 	std::string getName() const;
 	float getX() const;
 	float getY() const;
