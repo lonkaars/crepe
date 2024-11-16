@@ -9,8 +9,8 @@ class ComponentManager;
 /**
  * \brief Base class for all components
  * 
- * This class is the base class for all components. It provides a common
- * interface for all components.
+ * This class is the base class for all components. It provides a common interface for all
+ * components.
  */
 class Component {
 public:
@@ -32,12 +32,15 @@ protected:
 	//! Only ComponentManager can create components
 	friend class ComponentManager;
 
+public:
+	virtual ~Component() = default;
+
+public:
 	/**
 	 * \brief Get the maximum number of instances for this component
 	 *
-	 * This method returns -1 by default, which means that there is no limit
-	 * for the number of instances. Concrete components can override this method
-	 * to set a limit.
+	 * This method returns -1 by default, which means that there is no limit for the number of
+	 * instances. Concrete components can override this method to set a limit.
 	 *
 	 * \return The maximum number of instances for this component
 	 */

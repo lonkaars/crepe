@@ -49,8 +49,7 @@ public:
 TEST_F(PhysicsTest, gravity) {
 	Config::get_instance().physics.gravity = 1;
 	ComponentManager & mgr = this->component_manager;
-	vector<reference_wrapper<Transform>> transforms
-		= mgr.get_components_by_id<Transform>(0);
+	vector<reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(0);
 	const Transform & transform = transforms.front().get();
 	ASSERT_FALSE(transforms.empty());
 	EXPECT_EQ(transform.position.y, 0);
@@ -64,8 +63,7 @@ TEST_F(PhysicsTest, gravity) {
 
 TEST_F(PhysicsTest, max_velocity) {
 	ComponentManager & mgr = this->component_manager;
-	vector<reference_wrapper<Rigidbody>> rigidbodies
-		= mgr.get_components_by_id<Rigidbody>(0);
+	vector<reference_wrapper<Rigidbody>> rigidbodies = mgr.get_components_by_id<Rigidbody>(0);
 	Rigidbody & rigidbody = rigidbodies.front().get();
 	ASSERT_FALSE(rigidbodies.empty());
 	EXPECT_EQ(rigidbody.data.linear_velocity.y, 0);
@@ -88,11 +86,9 @@ TEST_F(PhysicsTest, max_velocity) {
 TEST_F(PhysicsTest, movement) {
 	Config::get_instance().physics.gravity = 0;
 	ComponentManager & mgr = this->component_manager;
-	vector<reference_wrapper<Rigidbody>> rigidbodies
-		= mgr.get_components_by_id<Rigidbody>(0);
+	vector<reference_wrapper<Rigidbody>> rigidbodies = mgr.get_components_by_id<Rigidbody>(0);
 	Rigidbody & rigidbody = rigidbodies.front().get();
-	vector<reference_wrapper<Transform>> transforms
-		= mgr.get_components_by_id<Transform>(0);
+	vector<reference_wrapper<Transform>> transforms = mgr.get_components_by_id<Transform>(0);
 	const Transform & transform = transforms.front().get();
 	ASSERT_FALSE(rigidbodies.empty());
 	ASSERT_FALSE(transforms.empty());

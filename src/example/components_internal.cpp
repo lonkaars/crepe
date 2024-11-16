@@ -27,8 +27,6 @@ int main() {
 
 	auto start_adding = chrono::high_resolution_clock::now();
 
-	GameObject * game_object[OBJ_COUNT];
-
 	for (int i = 0; i < OBJ_COUNT; ++i) {
 		GameObject obj = mgr.new_object("Name", "Tag");
 		obj.add_component<Sprite>("test");
@@ -44,10 +42,8 @@ int main() {
 
 	auto stop_looping = chrono::high_resolution_clock::now();
 
-	auto add_time = chrono::duration_cast<chrono::microseconds>(stop_adding
-																- start_adding);
-	auto loop_time = chrono::duration_cast<chrono::microseconds>(stop_looping
-																 - stop_adding);
+	auto add_time = chrono::duration_cast<chrono::microseconds>(stop_adding - start_adding);
+	auto loop_time = chrono::duration_cast<chrono::microseconds>(stop_looping - stop_adding);
 	printf("add time:  %ldus\n", add_time.count());
 	printf("loop time: %ldus\n", loop_time.count());
 

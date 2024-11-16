@@ -2,17 +2,11 @@
 
 using namespace crepe;
 
-Vector2 Vector2::operator-(const Vector2 & other) const {
-	return {x - other.x, y - other.y};
-}
+Vector2 Vector2::operator-(const Vector2 & other) const { return {x - other.x, y - other.y}; }
 
-Vector2 Vector2::operator+(const Vector2 & other) const {
-	return {x + other.x, y + other.y};
-}
+Vector2 Vector2::operator+(const Vector2 & other) const { return {x + other.x, y + other.y}; }
 
-Vector2 Vector2::operator*(double scalar) const {
-	return {x * scalar, y * scalar};
-}
+Vector2 Vector2::operator*(double scalar) const { return {x * scalar, y * scalar}; }
 
 Vector2 & Vector2::operator*=(const Vector2 & other) {
 	x *= other.x;
@@ -34,10 +28,6 @@ Vector2 & Vector2::operator+=(double other) {
 
 Vector2 Vector2::operator-() const { return {-x, -y}; }
 
-bool Vector2::operator==(const Vector2 & other) const {
-	return x == other.x && y == other.y;
-}
+bool Vector2::operator==(const Vector2 & other) const { return x == other.x && y == other.y; }
 
-bool Vector2::operator!=(const Vector2 & other) const {
-	return !(*this == other);
-}
+bool Vector2::operator!=(const Vector2 & other) const { return !(*this == other); }

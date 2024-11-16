@@ -13,7 +13,6 @@ class ComponentManager;
 class SceneManager {
 public:
 	SceneManager(ComponentManager & mgr);
-	virtual ~SceneManager() = default;
 
 public:
 	/**
@@ -38,8 +37,6 @@ public:
 private:
 	std::vector<std::unique_ptr<Scene>> scenes;
 	std::string next_scene;
-
-protected:
 	ComponentManager & component_manager;
 };
 

@@ -4,16 +4,21 @@
 
 namespace crepe {
 
+/**
+ * \brief Global configuration interface
+ *
+ * This class stores engine default settings. Properties on this class are only supposed to be
+ * modified *before* execution is handed over from the game programmer to the engine (i.e. the
+ * main loop is started).
+ */
 class Config {
-private:
-	Config() = default;
-
-public:
-	~Config() = default;
-
 public:
 	//! Retrieve handle to global Config instance
 	static Config & get_instance();
+
+private:
+	Config() = default;
+
 	// singleton
 	Config(const Config &) = delete;
 	Config(Config &&) = delete;
@@ -26,8 +31,7 @@ public:
 		/**
 		 * \brief Log level
 		 *
-		 * Only messages with equal or higher severity than this value will be
-		 * logged.
+		 * Only messages with equal or higher priority than this value will be logged.
 		 */
 		Log::Level level = Log::Level::INFO;
 		/**
@@ -43,8 +47,8 @@ public:
 		/**
 		 * \brief Save file location
 		 *
-		 * This location is used by the constructor of SaveManager, and should be
-		 * set before save manager functionality is attempted to be used.
+		 * This location is used by the constructor of SaveManager, and should be set before save
+		 * manager functionality is attempted to be used.
 		 */
 		std::string location = "save.crepe.db";
 	} savemgr;

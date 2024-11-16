@@ -33,8 +33,7 @@ public:
 
 	//Get a vector<> of all components at specific type and id
 	template <typename T>
-	std::vector<std::reference_wrapper<T>>
-	GetComponentsByID(std::uint32_t id) const;
+	std::vector<std::reference_wrapper<T>> GetComponentsByID(std::uint32_t id) const;
 	//Get a vector<> of all components of a specific type
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> GetComponentsByType() const;
@@ -50,8 +49,7 @@ private:
 	 * The first std::vector<> stores another vector<>. This first vector<> is to bind the entity's id to a component.
 	 * The second std::vector<> stores unique_ptrs. Each component can be gathered via an unique_ptr. This second vector<> allows multiple components of the same std::type_index for one entity (id).
 	 */
-	std::unordered_map<std::type_index,
-					   std::vector<std::vector<std::unique_ptr<Component>>>>
+	std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>>
 		mComponents;
 };
 

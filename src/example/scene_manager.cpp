@@ -16,12 +16,9 @@ public:
 
 	void load_scene() {
 		auto & mgr = this->component_manager;
-		GameObject object1
-			= mgr.new_object("scene_1", "tag_scene_1", Vector2{0, 0}, 0, 1);
-		GameObject object2
-			= mgr.new_object("scene_1", "tag_scene_1", Vector2{1, 0}, 0, 1);
-		GameObject object3
-			= mgr.new_object("scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
+		GameObject object1 = mgr.new_object("scene_1", "tag_scene_1", Vector2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("scene_1", "tag_scene_1", Vector2{1, 0}, 0, 1);
+		GameObject object3 = mgr.new_object("scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
 	}
 };
 
@@ -31,14 +28,10 @@ public:
 
 	void load_scene() {
 		auto & mgr = this->component_manager;
-		GameObject object1
-			= mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 0}, 0, 1);
-		GameObject object2
-			= mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 1}, 0, 1);
-		GameObject object3
-			= mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 2}, 0, 1);
-		GameObject object4
-			= mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
+		GameObject object1 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 1}, 0, 1);
+		GameObject object3 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 2}, 0, 1);
+		GameObject object4 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
 	}
 };
 
@@ -50,8 +43,8 @@ int main() {
 	scene_mgr.add_scene<ConcreteScene1>("scene1");
 	scene_mgr.add_scene<ConcreteScene2>("scene2");
 
-	// There is no need to call set_next_scene() at the beginning because the
-	// first scene will be automatically set as the next scene
+	// There is no need to call set_next_scene() at the beginnen, because the first scene will be
+	// automatically set as the next scene
 
 	// Load scene1 (the first scene added)
 	scene_mgr.load_next_scene();

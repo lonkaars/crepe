@@ -1,9 +1,8 @@
-#include <cstdarg>
-#include <cstdio>
-#include <cstdlib>
+#include <iostream>
 #include <string>
 
 #include "../api/Config.h"
+
 #include "Log.h"
 
 using namespace crepe;
@@ -33,6 +32,6 @@ void Log::log(const Level & level, const string & msg) {
 	if (!out.ends_with("\n")) out += "\n";
 
 	// TODO: also log to file or smth
-	fwrite(out.c_str(), 1, out.size(), stdout);
-	fflush(stdout);
+	cout.write(out.data(), out.size());
+	cout.flush();
 }
