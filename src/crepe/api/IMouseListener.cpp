@@ -2,11 +2,19 @@
 
 using namespace crepe;
 
-IMouseListener::IMouseListener(int channel) { this->channel = channel; }
+IMouseListener::IMouseListener(int channel) 
+	: event_manager(EventManager::get_instance()), channel(channel) {
+	this->subscribe_events(); 
+}
 
-IMouseListener::IMouseListener() { this->subscribe_events(); }
+IMouseListener::IMouseListener() 
+	: event_manager(EventManager::get_instance()) {
+	this->subscribe_events(); 
+}
 
-IMouseListener::~IMouseListener() { this->unsubscribe_events(); }
+IMouseListener::~IMouseListener() { 
+	this->unsubscribe_events(); 
+}
 
 void IMouseListener::subscribe_events() {
 	// Define handler lambdas and subscribe them
@@ -22,25 +30,20 @@ void IMouseListener::subscribe_events() {
 	mouse_move_handler = [this](const MouseMoveEvent & event) {
 		return this->on_mouse_moved(event);
 	};
-	EventManager::get_instance().subscribe<MouseClickEvent>(
-		std::move(this->mouse_click_handler), this->channel);
-	EventManager::get_instance().subscribe<MousePressEvent>(
-		std::move(this->mouse_press_handler), this->channel);
-	EventManager::get_instance().subscribe<MouseReleaseEvent>(
-		std::move(this->mouse_release_handler), this->channel);
-	EventManager::get_instance().subscribe<MouseMoveEvent>(
-		std::move(this->mouse_move_handler), this->channel);
+
+	// Subscribe event handlers (no need for std::move)
+	event_manager.subscribe<MouseClickEvent>(std::move(mouse_click_handler), this->channel);
+	event_manager.subscribe<MousePressEvent>(std::move(mouse_press_handler), this->channel);
+	event_manager.subscribe<MouseReleaseEvent>(std::move(mouse_release_handler), this->channel);
+	event_manager.subscribe<MouseMoveEvent>(std::move(mouse_move_handler), this->channel);
 }
-// TODO: reference voor singleton
+
 void IMouseListener::unsubscribe_events() {
-	EventManager::get_instance().unsubscribe<MouseClickEvent>(
-		this->mouse_click_handler, this->channel);
-	EventManager::get_instance().unsubscribe<MousePressEvent>(
-		this->mouse_press_handler, this->channel);
-	EventManager::get_instance().unsubscribe<MouseReleaseEvent>(
-		this->mouse_release_handler, this->channel);
-	EventManager::get_instance().unsubscribe<MouseMoveEvent>(
-		this->mouse_move_handler, this->channel);
+	// Unsubscribe event handlers
+	event_manager.unsubscribe<MouseClickEvent>(mouse_click_handler, this->channel);
+	event_manager.unsubscribe<MousePressEvent>(mouse_press_handler, this->channel);
+	event_manager.unsubscribe<MouseReleaseEvent>(mouse_release_handler, this->channel);
+	event_manager.unsubscribe<MouseMoveEvent>(mouse_move_handler, this->channel);
 }
 
 void IMouseListener::activate_mouse() {
@@ -48,6 +51,7 @@ void IMouseListener::activate_mouse() {
 		return;
 	}
 	this->subscribe_events();
+	this->active = true;
 }
 
 void IMouseListener::deactivate_mouse() {
@@ -55,6 +59,7 @@ void IMouseListener::deactivate_mouse() {
 		return;
 	}
 	this->unsubscribe_events();
+	this->active = false;
 }
 
 void IMouseListener::set_channel(int channel) {
