@@ -11,7 +11,7 @@
 #include "EventHandler.h"
 
 namespace crepe {
-	
+
 /**
  * \class EventManager
  * \brief The EventManager class is responsible for managing the subscription, triggering, 
