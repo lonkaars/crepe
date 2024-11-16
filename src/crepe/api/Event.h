@@ -1,10 +1,9 @@
 #pragma once
 
-#include <iostream>
 #include <string>
-#include <typeindex>
 
 #include "KeyCodes.h"
+
 /**
  * \brief Base class for all event types in the system.
  */
@@ -17,11 +16,11 @@ public:
  */
 class KeyPressEvent : public Event {
 public:
-    //! Number of times the key press is repeated (e.g., for long presses).
-    int repeat = 0;
+	//! Number of times the key press is repeated (e.g., for long presses).
+	int repeat = 0;
 
-    //! The key that was pressed.
-    Keycode key = Keycode::NONE;
+	//! The key that was pressed.
+	Keycode key = Keycode::NONE;
 };
 
 /**
@@ -29,8 +28,8 @@ public:
  */
 class KeyReleaseEvent : public Event {
 public:
-    //! The key that was released.
-    Keycode key = Keycode::NONE;
+	//! The key that was released.
+	Keycode key = Keycode::NONE;
 };
 
 /**
@@ -38,14 +37,14 @@ public:
  */
 class MousePressEvent : public Event {
 public:
-    //! X-coordinate of the mouse position at the time of the event.
-    int mouse_x = 0;
+	//! X-coordinate of the mouse position at the time of the event.
+	int mouse_x = 0;
 
-    //! Y-coordinate of the mouse position at the time of the event.
-    int mouse_y = 0;
+	//! Y-coordinate of the mouse position at the time of the event.
+	int mouse_y = 0;
 
-    //! The mouse button that was pressed.
-    MouseButton button = MouseButton::NONE;
+	//! The mouse button that was pressed.
+	MouseButton button = MouseButton::NONE;
 };
 
 /**
@@ -53,14 +52,14 @@ public:
  */
 class MouseClickEvent : public Event {
 public:
-    //! X-coordinate of the mouse position at the time of the event.
-    int mouse_x = 0;
+	//! X-coordinate of the mouse position at the time of the event.
+	int mouse_x = 0;
 
-    //! Y-coordinate of the mouse position at the time of the event.
-    int mouse_y = 0;
+	//! Y-coordinate of the mouse position at the time of the event.
+	int mouse_y = 0;
 
-    //! The mouse button that was clicked.
-    MouseButton button = MouseButton::NONE;
+	//! The mouse button that was clicked.
+	MouseButton button = MouseButton::NONE;
 };
 
 /**
@@ -68,14 +67,14 @@ public:
  */
 class MouseReleaseEvent : public Event {
 public:
-    //! X-coordinate of the mouse position at the time of the event.
-    int mouse_x = 0;
+	//! X-coordinate of the mouse position at the time of the event.
+	int mouse_x = 0;
 
-    //! Y-coordinate of the mouse position at the time of the event.
-    int mouse_y = 0;
+	//! Y-coordinate of the mouse position at the time of the event.
+	int mouse_y = 0;
 
-    //! The mouse button that was released.
-    MouseButton button = MouseButton::NONE;
+	//! The mouse button that was released.
+	MouseButton button = MouseButton::NONE;
 };
 
 /**
@@ -83,11 +82,11 @@ public:
  */
 class MouseMoveEvent : public Event {
 public:
-    //! X-coordinate of the mouse position at the time of the event.
-    int mouse_x = 0;
+	//! X-coordinate of the mouse position at the time of the event.
+	int mouse_x = 0;
 
-    //! Y-coordinate of the mouse position at the time of the event.
-    int mouse_y = 0;
+	//! Y-coordinate of the mouse position at the time of the event.
+	int mouse_y = 0;
 };
 
 /**
@@ -95,8 +94,8 @@ public:
  */
 class CollisionEvent : public Event {
 public:
-    //! Data describing the collision (currently not implemented).
-    // Collision collisionData;
+	//! Data describing the collision (currently not implemented).
+	// Collision collisionData;
 };
 
 /**
@@ -104,8 +103,8 @@ public:
  */
 class TextSubmitEvent : public Event {
 public:
-    //! The submitted text.
-    std::string text = "";
+	//! The submitted text.
+	std::string text = "";
 };
 
 /**

@@ -5,6 +5,7 @@
 #include "EventManager.h"
 
 namespace crepe {
+	
 /**
  * \class IMouseListener
  * \brief Interface for mouse event handling in the application.
@@ -115,6 +116,7 @@ private:
 	EventHandler<MouseReleaseEvent> mouse_release_handler;
 	//! Mouse move event handler.
 	EventHandler<MouseMoveEvent> mouse_move_handler;
+	EventManager& event_manager;
 };
 
 } //namespace crepe

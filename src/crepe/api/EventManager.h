@@ -10,8 +10,8 @@
 #include "Event.h"
 #include "EventHandler.h"
 
-
 namespace crepe {
+	
 /**
  * \class EventManager
  * \brief The EventManager class is responsible for managing the subscription, triggering, 
@@ -19,16 +19,6 @@ namespace crepe {
  */
 class EventManager {
 public:
-	/**
-     * \brief Deleted copy constructor to prevent copying of the EventManager instance.
-     */
-	EventManager(const EventManager &) = delete;
-
-	/**
-     * \brief Deleted copy assignment operator to prevent assignment of the EventManager instance.
-     */
-	const EventManager & operator=(const EventManager &) = delete;
-
 	/**
      * \brief Get the singleton instance of the EventManager.
      * 
