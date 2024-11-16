@@ -26,9 +26,6 @@ protected:
 	friend class ComponentManager;
 
 public:
-	~BehaviorScript() = default;
-
-public:
 	/**
 	 * \brief Set the concrete script of this component
 	 *
