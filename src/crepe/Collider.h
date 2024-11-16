@@ -6,7 +6,7 @@ namespace crepe {
 
 class Collider : public Component {
 public:
-	using Component::Component;
+	Collider(game_object_id_t id);
 
 	int size;
 };
