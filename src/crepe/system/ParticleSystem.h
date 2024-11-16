@@ -4,8 +4,6 @@
 
 #include "System.h"
 
-#include "System.h"
-
 namespace crepe {
 
 class ParticleEmitter;

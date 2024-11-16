@@ -4,16 +4,18 @@
 
 namespace crepe {
 
+class SceneManager;
 class ComponentManager;
 
 class Scene {
-public:
+protected:
 	Scene(ComponentManager & mgr, const std::string & name);
+	friend class SceneManager;
+public:
 	virtual ~Scene() = default;
 
-	virtual void load_scene() = 0;
-
 public:
+	virtual void load_scene() = 0;
 	const std::string name;
 
 protected:

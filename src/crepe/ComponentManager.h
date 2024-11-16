@@ -1,6 +1,5 @@
 #pragma once
 
-#include <forward_list>
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
@@ -20,11 +19,40 @@ class GameObject;
  * This class manages all components. It provides methods to add, delete and get components.
  */
 class ComponentManager {
+	// TODO: This relation should be removed! I (loek) believe that the scene manager should
+	// create/destroy components because the GameObject's are stored in concrete Scene classes,
+	// which will in turn call GameObject's destructor, which will in turn call
+	// ComponentManager::delete_components_by_id or something. This is a pretty major change, so
+	// here is a comment and temporary fix instead :tada:
+	friend class SceneManager;
+
 public:
 	ComponentManager(); // dbg_trace
 	~ComponentManager(); // dbg_trace
 
+	/**
+	 * \brief Create a new game object using the component manager
+	 *
+	 * \param name Metadata::name (required)
+	 * \param tag Metadata::tag (optional, empty by default)
+	 * \param position Transform::position (optional, origin by default)
+	 * \param rotation Transform::rotation (optional, 0 by default)
+	 * \param scale Transform::scale (optional, 1 by default)
+	 *
+	 * \returns GameObject interface
+	 *
+	 * \note This method automatically assigns a new entity ID
+	 */
+	GameObject new_object(const std::string & name, const std::string & tag = "",
+						  const Vector2 & position = {0, 0}, double rotation = 0,
+						  double scale = 1);
+
 protected:
+	/**
+	 * GameObject is used as an interface to add/remove components, and the game programmer is
+	 * supposed to use it instead of interfacing with the component manager directly.
+	 */
+	friend class GameObject;
 	/**
 	 * \brief Add a component to the ComponentManager
 	 * 
@@ -39,11 +67,6 @@ protected:
 	 */
 	template <typename T, typename... Args>
 	T & add_component(game_object_id_t id, Args &&... args);
-	//! GameObject is used as an interface to add components instead of the
-	// component manager directly
-	friend class GameObject;
-
-public:
 	/**
 	 * \brief Delete all components of a specific type and id
 	 * 
@@ -77,6 +100,8 @@ public:
 	 * This method deletes all components.
 	 */
 	void delete_all_components();
+
+public:
 	/**
 	 * \brief Get all components of a specific type and id
 	 * 
@@ -99,11 +124,6 @@ public:
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
 
-	// TODO: doxygen
-	GameObject new_object(const std::string & name, const std::string & tag = "",
-						  const Vector2 & position = {0, 0}, double rotation = 0,
-						  double scale = 0);
-
 private:
 	/**
 	 * \brief The components
@@ -118,9 +138,8 @@ private:
 	std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>>
 		components;
 
-	//! ID of next GameObject
+	//! ID of next GameObject allocated by \c ComponentManager::new_object
 	game_object_id_t next_id = 0;
-	std::forward_list<std::unique_ptr<GameObject>> objects;
 };
 
 } // namespace crepe

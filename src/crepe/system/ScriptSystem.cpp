@@ -18,10 +18,9 @@ void ScriptSystem::update() {
 
 	for (auto & script_ref : scripts) {
 		Script & script = script_ref.get();
-		BehaviorScript & component = *script.parent_ref;
-		if (!component.initialized) {
+		if (!script.initialized) {
 			script.init();
-			component.initialized = true;
+			script.initialized = true;
 		}
 		script.update();
 	}
