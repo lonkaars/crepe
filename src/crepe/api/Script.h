@@ -51,6 +51,8 @@ protected:
 	 */
 	template <typename T>
 	T & get_component() const;
+	// TODO: make get_component calls for component types that can have more than 1 instance
+	// cause compile-time errors
 
 	/**
 	 * \brief Get all components of type \c T on this game object (utility)
