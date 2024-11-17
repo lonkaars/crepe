@@ -20,6 +20,7 @@
 #include <crepe/api/Vector2.h>
 #include <crepe/api/Event.h>
 #include <crepe/api/EventManager.h>
+#include <crepe/api/LoopManager.h>
 
 #include <chrono>
 #include <memory>
@@ -44,55 +45,72 @@ class MyScript : public Script {
 };
 
 int main(int argc, char * argv[]) {
+	//setup
+	LoopManager gameloop;
 	Color color(0, 0, 0, 0);
 
-	GameObject game_object1(0, "Name", "Tag", Vector2{10, 10}, 0, 1);
+	//define playable world 
+	GameObject World(0, "Name", "Tag", Vector2{0, 0}, 0, 1);
+	World.add_component<Rigidbody>(Rigidbody::Data{
+		.mass = 0,
+		.gravity_scale = 0,
+		.body_type = Rigidbody::BodyType::STATIC,
+		.constraints = {0, 0, 0},
+		.use_gravity = false,
+		.bounce = false,
+		.offset = {320,240}
+	});
+	World.add_component<BoxCollider>(Vector2{0, -740}, 1000, 1000);	// Top
+	World.add_component<BoxCollider>(Vector2{0, 740}, 1000, 1000); // Bottom
+	World.add_component<BoxCollider>(Vector2{-820, 0}, 1000, 1000); // Left
+	World.add_component<BoxCollider>(Vector2{820, 0}, 1000, 1000); // right
+
+
+	GameObject game_object1(1, "Name", "Tag", Vector2{320, 240}, 0, 1);
 	game_object1.add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 1,
 		.gravity_scale = 1,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.constraints = {0, 0, 0},
-		.use_gravity = true,
-		.bounce = true,
+		.use_gravity = false,
+		.bounce = false,
 		.offset = {0,0}
 	});
 	game_object1.add_component<BoxCollider>(Vector2{5, 5}, 5, 5);
 	game_object1.add_component<BehaviorScript>().set_script<MyScript>();
-	game_object1.add_component<BehaviorScript>().set_script<MyScript>();
-
-	// game_object1.add_component<Sprite>(
-	// make_shared<Texture>("/home/jaro/crepe/asset/texture/img.png"), color,
-	// FlipSettings{true, true});
+	game_object1.add_component<Sprite>(
+	make_shared<Texture>("/home/jaro/crepe/asset/texture/img.png"), color,
+	FlipSettings{true, true});
+	game_object1.add_component<Camera>(Color::get_white());
 	
 
-	GameObject game_object2(1, "Name", "Tag", Vector2{10, 10}, 0, 1);
-	game_object2.add_component<Rigidbody>(Rigidbody::Data{
-		.mass = 1,
-		.gravity_scale = 1,
-		.body_type = Rigidbody::BodyType::DYNAMIC,
-		.constraints = {0, 0, 0},
-		.use_gravity = true,
-		.bounce = false,
-		.offset = {0,0}
-	});
-	game_object2.add_component<BoxCollider>(Vector2{5, 5}, 5, 5);
-	game_object2.add_component<BehaviorScript>().set_script<MyScript>();
+	// GameObject game_object2(2, "Name", "Tag", Vector2{10, 10}, 0, 1);
+	// game_object2.add_component<Rigidbody>(Rigidbody::Data{
+	// 	.mass = 1,
+	// 	.gravity_scale = 1,
+	// 	.body_type = Rigidbody::BodyType::DYNAMIC,
+	// 	.constraints = {0, 0, 0},
+	// 	.use_gravity = false,
+	// 	.bounce = false,
+	// 	.offset = {0,0}
+	// });
+	// game_object2.add_component<BoxCollider>(Vector2{5, 5}, 5, 5);
+	// game_object2.add_component<BehaviorScript>().set_script<MyScript>();
 	// game_object2.add_component<Sprite>(
 	// make_shared<Texture>("/home/jaro/crepe/asset/texture/img.png"), color,
 	// FlipSettings{true, true});
-
 	
-	ScriptSystem sys;
+	
+	crepe::ScriptSystem sys;
 	// Update all scripts. This should result in MyScript::update being called
 	sys.update();
-	// auto & sys = crepe::RenderSystem::get_instance();
+	
+	gameloop.start();
+	// auto & render = crepe::RenderSystem::get_instance();
 	// auto start = std::chrono::steady_clock::now();
 	// while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
-	// 	sys.update();
+	//	 render.update();
 	// }
-	CollisionSystem coltest;
-	coltest.update();
-
 
 
 	return 0;
