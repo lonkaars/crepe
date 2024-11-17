@@ -153,7 +153,12 @@ void CollisionSystem::static_collision_handler(CollisionInfo& info){
 	std::cout << "INFO: x:" << info.first.transform.position.x << "y:" << info.first.transform.position.y << std::endl;
 	info.first.transform.position += info.move_back_value;
 	if(info.first.rigidbody.data.bounce) {
-		info.first.rigidbody.data.linear_velocity = -info.first.rigidbody.data.linear_velocity * info.first.rigidbody.data.bouncie_factor;
+		if(info.move_back_value.x != 0) {
+			info.first.rigidbody.data.linear_velocity.x = -info.first.rigidbody.data.linear_velocity.x * info.first.rigidbody.data.bouncie_factor;
+		}
+		if(info.move_back_value.y != 0) {
+			info.first.rigidbody.data.linear_velocity.y = -info.first.rigidbody.data.linear_velocity.y * info.first.rigidbody.data.bouncie_factor;
+		}
 	}
 	else {
 		info.first.rigidbody.data.linear_velocity = {0,0};
