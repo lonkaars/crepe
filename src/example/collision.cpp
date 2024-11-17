@@ -49,8 +49,11 @@ int main(int argc, char * argv[]) {
 	LoopManager gameloop;
 	Color color(0, 0, 0, 0);
 
+	double screen_size_width = 1280;
+	double screen_size_height = 960;
+	double world_collider = 1000;
 	//define playable world 
-	GameObject World(0, "Name", "Tag", Vector2{0, 0}, 0, 1);
+	GameObject World(0, "Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2}, 0, 1);
 	World.add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 0,
 		.gravity_scale = 0,
@@ -58,46 +61,48 @@ int main(int argc, char * argv[]) {
 		.constraints = {0, 0, 0},
 		.use_gravity = false,
 		.bounce = false,
-		.offset = {320,240}
+		.offset = {0,0}
 	});
-	World.add_component<BoxCollider>(Vector2{0, -740}, 1000, 1000);	// Top
-	World.add_component<BoxCollider>(Vector2{0, 740}, 1000, 1000); // Bottom
-	World.add_component<BoxCollider>(Vector2{-820, 0}, 1000, 1000); // Left
-	World.add_component<BoxCollider>(Vector2{820, 0}, 1000, 1000); // right
+	// World.add_component<BoxCollider>(Vector2{0, -740}, 1000, 1000);	// Top
+	World.add_component<BoxCollider>(Vector2{0, screen_size_height/2+world_collider/2}, world_collider, world_collider); // Bottom
+	// World.add_component<BoxCollider>(Vector2{-820, 0}, 1000, 1000); // Left
+	// World.add_component<BoxCollider>(Vector2{820, 0}, 1000, 1000); // right
 
 
-	GameObject game_object1(1, "Name", "Tag", Vector2{320, 240}, 0, 1);
+	GameObject game_object1(1, "Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2}, 0, 1);
 	game_object1.add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 1,
 		.gravity_scale = 1,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
+		.linear_velocity = {0,1},
 		.constraints = {0, 0, 0},
 		.use_gravity = false,
 		.bounce = false,
-		.offset = {0,0}
+		.offset = {0,0},
 	});
-	game_object1.add_component<BoxCollider>(Vector2{5, 5}, 5, 5);
+	game_object1.add_component<BoxCollider>(Vector2{0, 0}, 40, 40);
 	game_object1.add_component<BehaviorScript>().set_script<MyScript>();
 	game_object1.add_component<Sprite>(
-	make_shared<Texture>("/home/jaro/crepe/asset/texture/img.png"), color,
+	make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
 	FlipSettings{true, true});
 	game_object1.add_component<Camera>(Color::get_white());
 	
 
-	// GameObject game_object2(2, "Name", "Tag", Vector2{10, 10}, 0, 1);
+	// GameObject game_object2(2, "Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2+100}, 0, 1);
 	// game_object2.add_component<Rigidbody>(Rigidbody::Data{
 	// 	.mass = 1,
 	// 	.gravity_scale = 1,
 	// 	.body_type = Rigidbody::BodyType::DYNAMIC,
+	// 	.linear_velocity = {0,0},
 	// 	.constraints = {0, 0, 0},
 	// 	.use_gravity = false,
 	// 	.bounce = false,
-	// 	.offset = {0,0}
+	// 	.offset = {0,0},
 	// });
-	// game_object2.add_component<BoxCollider>(Vector2{5, 5}, 5, 5);
+	// game_object2.add_component<BoxCollider>(Vector2{0, 0}, 40, 40);
 	// game_object2.add_component<BehaviorScript>().set_script<MyScript>();
 	// game_object2.add_component<Sprite>(
-	// make_shared<Texture>("/home/jaro/crepe/asset/texture/img.png"), color,
+	// make_shared<Texture>("/home/jaro/crepe/asset/texture/red_square.png"), color,
 	// FlipSettings{true, true});
 	
 	
