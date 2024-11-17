@@ -117,8 +117,8 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
-	double adjusted_x = (transform.position.x - cam.x) * cam.zoom;
-	double adjusted_y = (transform.position.y - cam.y) * cam.zoom;
+	double adjusted_x = (transform.position.x - cam.x -(sprite.sprite_rect.w/2)) * cam.zoom;
+	double adjusted_y = (transform.position.y - cam.y -(sprite.sprite_rect.h/2)) * cam.zoom;
 	double adjusted_w = sprite.sprite_rect.w * transform.scale * cam.zoom;
 	double adjusted_h = sprite.sprite_rect.h * transform.scale * cam.zoom;
 
@@ -130,8 +130,8 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 	};
 
 	SDL_Rect dstrect = {
-		.x = static_cast<int>(adjusted_x/2),
-		.y = static_cast<int>(adjusted_y/2),
+		.x = static_cast<int>(adjusted_x),
+		.y = static_cast<int>(adjusted_y),
 		.w = static_cast<int>(adjusted_w),
 		.h = static_cast<int>(adjusted_h),
 	};

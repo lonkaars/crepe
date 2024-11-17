@@ -152,7 +152,13 @@ void CollisionSystem::call_collision_handler(CollidedInfoStor& data1,CollidedInf
 void CollisionSystem::static_collision_handler(CollisionInfo& info){
 	std::cout << "INFO: x:" << info.first.transform.position.x << "y:" << info.first.transform.position.y << std::endl;
 	info.first.transform.position += info.move_back_value;
-	info.first.rigidbody.data.linear_velocity = {0,0};
+	if(info.first.rigidbody.data.bounce) {
+		info.first.rigidbody.data.linear_velocity = -info.first.rigidbody.data.linear_velocity * info.first.rigidbody.data.bouncie_factor;
+	}
+	else {
+		info.first.rigidbody.data.linear_velocity = {0,0};
+	}
+	
 }
 
 std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::CollidedInfoStor>> CollisionSystem::check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders) {
