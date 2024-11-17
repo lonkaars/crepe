@@ -2,6 +2,8 @@
 #include "../facade/SDLContext.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
+#include "..//system/PhysicsSystem.h"
+#include "..//system/CollisionSystem.h"
 
 #include "LoopManager.h"
 #include "LoopTimer.h"
@@ -18,7 +20,12 @@ void LoopManager::start() {
 }
 void LoopManager::set_running(bool running) { this->game_running = running; }
 
-void LoopManager::fixed_update() {}
+void LoopManager::fixed_update() {
+	PhysicsSystem phys;
+	phys.update();
+	CollisionSystem col;
+	col.update();
+}
 
 void LoopManager::loop() {
 	LoopTimer & timer = LoopTimer::get_instance();
@@ -27,11 +34,11 @@ void LoopManager::loop() {
 	while (game_running) {
 		timer.update();
 
-		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
+		//while (timer.get_lag() >= timer.get_fixed_delta_time()) {
 			this->process_input();
 			this->fixed_update();
 			timer.advance_fixed_update();
-		}
+		//}
 
 		this->update();
 		this->render();

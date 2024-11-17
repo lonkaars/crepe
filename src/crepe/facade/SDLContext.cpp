@@ -130,8 +130,8 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 	};
 
 	SDL_Rect dstrect = {
-		.x = static_cast<int>(adjusted_x),
-		.y = static_cast<int>(adjusted_y),
+		.x = static_cast<int>(adjusted_x/2),
+		.y = static_cast<int>(adjusted_y/2),
 		.w = static_cast<int>(adjusted_w),
 		.h = static_cast<int>(adjusted_h),
 	};

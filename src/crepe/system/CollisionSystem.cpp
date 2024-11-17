@@ -27,7 +27,7 @@ void CollisionSystem::update() {
 	std::vector<std::reference_wrapper<BoxCollider>> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
 	std::vector<std::reference_wrapper<CircleCollider>> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
 	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> collided = check_collisions(boxcolliders,circlecolliders);
-	std::cout << "DEBUG INFO" << std::endl;
+	// std::cout << "DEBUG INFO" << std::endl;
 	for (const auto& collision_pair : collided) {
 		call_collision_handler(collision_pair.first,collision_pair.second); // First collider
 		call_collision_handler(collision_pair.second,collision_pair.first); // First collider
@@ -202,12 +202,12 @@ bool CollisionSystem::check_box_box_collision(const BoxCollider& box1, const Box
 	Vector2 final_position2 = current_position(box2,transform2,rigidbody2);
 
 	 // Log final positions for debugging purposes
-	std::cout << "Final Position of Box 1: (" << final_position1.x << ", " << final_position1.y << ")" << std::endl;
-	std::cout << "Final Position of Box 2: (" << final_position2.x << ", " << final_position2.y << ")" << std::endl;
+	// std::cout << "Final Position of Box 1: (" << final_position1.x << ", " << final_position1.y << ")" << std::endl;
+	// std::cout << "Final Position of Box 2: (" << final_position2.x << ", " << final_position2.y << ")" << std::endl;
 
 	// Log rotation values for debugging
-	std::cout << "Rotation of Box 1: " << transform1.rotation << " degrees" << std::endl;
-	std::cout << "Rotation of Box 2: " << transform2.rotation << " degrees" << std::endl;
+	// std::cout << "Rotation of Box 1: " << transform1.rotation << " degrees" << std::endl;
+	// std::cout << "Rotation of Box 2: " << transform2.rotation << " degrees" << std::endl;
 
 
 	// Calculate half-extents (half width and half height)
@@ -229,8 +229,8 @@ bool CollisionSystem::check_box_circle_collision(const BoxCollider& box1, const 
 	Vector2 final_position2 = current_position(circle2, transform2, rigidbody2);
 
 	// Log final positions for debugging purposes
-	std::cout << "Final Position of Box: (" << final_position1.x << ", " << final_position1.y << ")" << std::endl;
-	std::cout << "Final Position of Circle: (" << final_position2.x << ", " << final_position2.y << ")" << std::endl;
+	// std::cout << "Final Position of Box: (" << final_position1.x << ", " << final_position1.y << ")" << std::endl;
+	// std::cout << "Final Position of Circle: (" << final_position2.x << ", " << final_position2.y << ")" << std::endl;
 
 	// Calculate box half-extents
 	double half_width = box1.width / 2.0;
@@ -256,12 +256,12 @@ bool CollisionSystem::check_circle_circle_collision(const CircleCollider& circle
 	Vector2 final_position2 = current_position(circle2,transform2,rigidbody2);
 
 	// Log final positions for debugging purposes
-	std::cout << "Final Position of Circle 1: (" << final_position1.x << ", " << final_position1.y << ")" << std::endl;
-	std::cout << "Final Position of Circle 2: (" << final_position2.x << ", " << final_position2.y << ")" << std::endl;
+	// std::cout << "Final Position of Circle 1: (" << final_position1.x << ", " << final_position1.y << ")" << std::endl;
+	// std::cout << "Final Position of Circle 2: (" << final_position2.x << ", " << final_position2.y << ")" << std::endl;
 
 	// Log rotation values for debugging (circles do not rotate, so this might not be needed for circles)
-	std::cout << "Rotation of Circle 1: " << transform1.rotation << " degrees" << std::endl;
-	std::cout << "Rotation of Circle 2: " << transform2.rotation << " degrees" << std::endl;
+	// std::cout << "Rotation of Circle 1: " << transform1.rotation << " degrees" << std::endl;
+	// std::cout << "Rotation of Circle 2: " << transform2.rotation << " degrees" << std::endl;
 
 	double distance_x = final_position1.x - final_position2.x;
 	double distance_y = final_position1.y - final_position2.y;
