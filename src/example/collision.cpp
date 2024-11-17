@@ -63,10 +63,10 @@ int main(int argc, char * argv[]) {
 		.bounce = false,
 		.offset = {0,0}
 	});
-	// World.add_component<BoxCollider>(Vector2{0, -740}, 1000, 1000);	// Top
+	World.add_component<BoxCollider>(Vector2{0, 0-(screen_size_height/2+world_collider/2)}, world_collider, world_collider);;	// Top
 	World.add_component<BoxCollider>(Vector2{0, screen_size_height/2+world_collider/2}, world_collider, world_collider); // Bottom
-	// World.add_component<BoxCollider>(Vector2{-820, 0}, 1000, 1000); // Left
-	// World.add_component<BoxCollider>(Vector2{820, 0}, 1000, 1000); // right
+	World.add_component<BoxCollider>(Vector2{0-(screen_size_width/2+world_collider/2), 0}, world_collider, world_collider); // Left
+	World.add_component<BoxCollider>(Vector2{screen_size_width/2+world_collider/2, 0}, world_collider, world_collider); // right
 
 
 	GameObject game_object1(1, "Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2}, 0, 1);
@@ -74,7 +74,7 @@ int main(int argc, char * argv[]) {
 		.mass = 1,
 		.gravity_scale = 0.01,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
-		.linear_velocity = {0,0},
+		.linear_velocity = {1,0},
 		.constraints = {0, 0, 0},
 		.use_gravity = true,
 		.bounce = true,
