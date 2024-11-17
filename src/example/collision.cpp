@@ -49,8 +49,8 @@ int main(int argc, char * argv[]) {
 	LoopManager gameloop;
 	Color color(0, 0, 0, 0);
 
-	double screen_size_width = 1280;
-	double screen_size_height = 960;
+	double screen_size_width = 640;
+	double screen_size_height = 480;
 	double world_collider = 1000;
 	//define playable world 
 	GameObject World(0, "Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2}, 0, 1);
@@ -72,15 +72,16 @@ int main(int argc, char * argv[]) {
 	GameObject game_object1(1, "Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2}, 0, 1);
 	game_object1.add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 1,
-		.gravity_scale = 1,
+		.gravity_scale = 0.01,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
-		.linear_velocity = {0,1},
+		.linear_velocity = {0,0},
 		.constraints = {0, 0, 0},
-		.use_gravity = false,
-		.bounce = false,
+		.use_gravity = true,
+		.bounce = true,
+		.bouncie_factor = 1,
 		.offset = {0,0},
 	});
-	game_object1.add_component<BoxCollider>(Vector2{0, 0}, 40, 40);
+	game_object1.add_component<BoxCollider>(Vector2{0, 0}, 20, 20);
 	game_object1.add_component<BehaviorScript>().set_script<MyScript>();
 	game_object1.add_component<Sprite>(
 	make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
@@ -88,7 +89,7 @@ int main(int argc, char * argv[]) {
 	game_object1.add_component<Camera>(Color::get_white());
 	
 
-	// GameObject game_object2(2, "Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2+100}, 0, 1);
+	// GameObject game_object2(2, "Name", "Tag", Vector2{20, 470}, 0, 1);
 	// game_object2.add_component<Rigidbody>(Rigidbody::Data{
 	// 	.mass = 1,
 	// 	.gravity_scale = 1,
@@ -99,7 +100,7 @@ int main(int argc, char * argv[]) {
 	// 	.bounce = false,
 	// 	.offset = {0,0},
 	// });
-	// game_object2.add_component<BoxCollider>(Vector2{0, 0}, 40, 40);
+	// game_object2.add_component<BoxCollider>(Vector2{0, 0}, 0, 0);
 	// game_object2.add_component<BehaviorScript>().set_script<MyScript>();
 	// game_object2.add_component<Sprite>(
 	// make_shared<Texture>("/home/jaro/crepe/asset/texture/red_square.png"), color,
