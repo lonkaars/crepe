@@ -1,5 +1,4 @@
 #include <cmath>
-#include <functional>
 #include <vector>
 
 #include "../ComponentManager.h"
@@ -19,7 +18,7 @@ void RenderSystem::present_screen() const { SDLContext::get_instance().present_s
 void RenderSystem::update_camera() {
 	ComponentManager & mgr = this->component_manager;
 
-	std::vector<std::reference_wrapper<Camera>> cameras = mgr.get_components_by_type<Camera>();
+	auto cameras = mgr.get_components_by_type<Camera>();
 
 	for (Camera & cam : cameras) {
 		SDLContext::get_instance().camera(cam);
