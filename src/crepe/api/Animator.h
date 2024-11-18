@@ -1,20 +1,19 @@
 #pragma once
 
-#include <cstdint>
-
 #include "Component.h"
 #include "Sprite.h"
 
 namespace crepe {
+
 class AnimatorSystem;
 class SDLContext;
 
 /**
- * \brief The Animator component is used to animate sprites by managing the movement
- *        and frame changes within a sprite sheet.
+ * \brief The Animator component is used to animate sprites by managing the movement and frame
+ * changes within a sprite sheet.
  *
- * This component allows for controlling sprite animation through rows and columns of a sprite sheet.
- * It can be used to play animations, loop them, or stop them.
+ * This component allows for controlling sprite animation through rows and columns of a sprite
+ * sheet. It can be used to play animations, loop them, or stop them.
  */
 class Animator : public Component {
 
@@ -28,15 +27,17 @@ public:
 	 * \brief Constructs an Animator object that will control animations for a sprite sheet.
 	 *
 	 * \param id The unique identifier for the component, typically assigned automatically.
-	 * \param spritesheet A reference to the Sprite object which holds the sprite sheet for animation.
+	 * \param spritesheet A reference to the Sprite object which holds the sprite sheet for
+	 * animation.
 	 * \param row The maximum number of rows in the sprite sheet.
 	 * \param col The maximum number of columns in the sprite sheet.
-	 * \param col__animate The specific col index of the sprite sheet to animate. This allows selecting which col to animate from multiple col in the sheet.
+	 * \param col_animate The specific col index of the sprite sheet to animate. This allows
+	 * selecting which col to animate from multiple col in the sheet.
 	 *
-	 * This constructor sets up the Animator with the given parameters, and initializes the animation system.
+	 * This constructor sets up the Animator with the given parameters, and initializes the
+	 * animation system.
 	 */
-	Animator(uint32_t id, Sprite & spritesheet, int row, int col,
-			 int col_animate);
+	Animator(uint32_t id, Sprite & spritesheet, int row, int col, int col_animate);
 
 	~Animator(); // dbg_trace
 	Animator(const Animator &) = delete;

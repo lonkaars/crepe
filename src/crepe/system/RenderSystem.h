@@ -12,19 +12,13 @@ namespace crepe {
  * \class RenderSystem
  * \brief Manages rendering operations for all game objects.
  *
- * RenderSystem is responsible for rendering sprites, clearing and presenting the screen, 
- * and managing the active camera. It functions as a singleton, providing centralized 
- * rendering services for the application.
+ * RenderSystem is responsible for rendering sprites, clearing and presenting the screen, and
+ * managing the active camera. It functions as a singleton, providing centralized rendering
+ * services for the application.
  */
 class RenderSystem : public System {
-
 public:
-	/**
-	 * \brief Gets the singleton instance of RenderSystem.
-	 * \return Reference to the RenderSystem instance.
-	 */
-	static RenderSystem & get_instance();
-
+	using System::System;
 	/**
 	 * \brief Updates the RenderSystem for the current frame.
 	 * This method is called to perform all rendering operations for the current game frame.
@@ -32,10 +26,6 @@ public:
 	void update() override;
 
 private:
-	// Private constructor to enforce singleton pattern.
-	RenderSystem();
-	~RenderSystem();
-
 	//! Clears the screen in preparation for rendering.
 	void clear_screen() const;
 
@@ -72,4 +62,5 @@ private:
 	Camera * curr_cam = nullptr;
 	// TODO: needs a better solution
 };
+
 } // namespace crepe

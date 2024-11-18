@@ -12,8 +12,7 @@ void ComponentManager::DeleteAllComponentsOfId(std::uint32_t id) {
 		if (id
 			< componentArray
 				  .size()) { //Make sure that the id (that we are looking for) is within the boundaries of the vector<>
-			componentArray[id]
-				.clear(); //Clear the components at this specific id
+			componentArray[id].clear(); //Clear the components at this specific id
 		}
 	}
 }

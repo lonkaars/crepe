@@ -1,7 +1,6 @@
 target_sources(crepe PUBLIC
 	# AudioSource.cpp
 	BehaviorScript.cpp
-	Script.cpp
 	GameObject.cpp
 	Rigidbody.cpp
 	ParticleEmitter.cpp

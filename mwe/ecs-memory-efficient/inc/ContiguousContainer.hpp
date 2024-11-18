@@ -54,8 +54,7 @@ size_t ContiguousContainer<T>::getSize() const {
 
 // Function that returns a vector of references to all stored objects
 template <typename T>
-std::vector<std::reference_wrapper<T>>
-ContiguousContainer<T>::getAllReferences() {
+std::vector<std::reference_wrapper<T>> ContiguousContainer<T>::getAllReferences() {
 	std::vector<std::reference_wrapper<T>> references;
 	references.reserve(mSize); // Reserve space to avoid reallocation
 	for (size_t i = 0; i < mSize; ++i) {
