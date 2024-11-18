@@ -7,33 +7,19 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
-#include "../util/log.h"
-#include "Asset.h"
+#include "../util/Log.h"
 
 #include "RenderSystem.h"
 
 using namespace crepe;
 
-RenderSystem::RenderSystem() { dbg_trace(); }
+void RenderSystem::clear_screen() const { SDLContext::get_instance().clear_screen(); }
 
-RenderSystem::~RenderSystem() { dbg_trace(); }
-
-RenderSystem & RenderSystem::get_instance() {
-	static RenderSystem instance;
-	return instance;
-}
-
-void RenderSystem::clear_screen() const {
-	SDLContext::get_instance().clear_screen();
-}
-
-void RenderSystem::present_screen() const {
-	SDLContext::get_instance().present_screen();
-}
+void RenderSystem::present_screen() const { SDLContext::get_instance().present_screen(); }
 void RenderSystem::update_camera() {
-	ComponentManager & mgr = ComponentManager::get_instance();
-	std::vector<std::reference_wrapper<Camera>> cameras
-		= mgr.get_components_by_type<Camera>();
+	ComponentManager & mgr = this->component_manager;
+
+	std::vector<std::reference_wrapper<Camera>> cameras = mgr.get_components_by_type<Camera>();
 
 	for (Camera & cam : cameras) {
 		SDLContext::get_instance().camera(cam);
@@ -63,6 +49,7 @@ RenderSystem::sort(std::vector<std::reference_wrapper<Sprite>> & objs) {
 }
 
 void RenderSystem::render_sprites() {
+	ComponentManager & mgr = this->component_manager;
 
 	ComponentManager & mgr = ComponentManager::get_instance();
 
@@ -72,8 +59,7 @@ void RenderSystem::render_sprites() {
 	
 	SDLContext & render = SDLContext::get_instance();
 	for (const Sprite & sprite : sorted_sprites) {
-		auto transforms
-			= mgr.get_components_by_id<Transform>(sprite.game_object_id);
+		auto transforms = mgr.get_components_by_id<Transform>(sprite.game_object_id);
 		render.draw(sprite, transforms[0], *curr_cam);
 	}
 }

@@ -2,4 +2,6 @@
 
 using namespace crepe;
 
-Scene::Scene(const std::string & name) : name(name) {}
+Scene::Scene(ComponentManager & mgr, const std::string & name)
+	: component_manager(mgr),
+	  name(name) {}

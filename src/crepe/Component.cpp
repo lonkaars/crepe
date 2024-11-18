@@ -1,5 +1,4 @@
 #include "Component.h"
-#include "types.h"
 
 using namespace crepe;
 

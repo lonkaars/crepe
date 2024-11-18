@@ -8,14 +8,11 @@
 
 namespace crepe {
 
+class ComponentManager;
+
 class SceneManager {
 public:
-	// Singleton
-	static SceneManager & get_instance();
-	SceneManager(const SceneManager &) = delete;
-	SceneManager(SceneManager &&) = delete;
-	SceneManager & operator=(const SceneManager &) = delete;
-	SceneManager & operator=(SceneManager &&) = delete;
+	SceneManager(ComponentManager & mgr);
 
 public:
 	/**
@@ -38,11 +35,9 @@ public:
 	void load_next_scene();
 
 private:
-	SceneManager() = default;
-
-private:
 	std::vector<std::unique_ptr<Scene>> scenes;
 	std::string next_scene;
+	ComponentManager & component_manager;
 };
 
 } // namespace crepe
