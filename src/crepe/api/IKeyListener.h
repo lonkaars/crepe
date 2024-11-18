@@ -17,17 +17,12 @@ public:
      * \param channel The channel ID for event handling.
      */
 	IKeyListener(int channel);
-
-	/**
-     * \brief Default constructor for IKeyListener.
-     */
 	IKeyListener();
-
-	/**
-     * \brief Destructor.
-     */
 	virtual ~IKeyListener();
-
+	IKeyListener(const IKeyListener &) = delete;
+	IKeyListener & operator=(const IKeyListener &) = delete;
+	IKeyListener(IKeyListener &&) = delete;
+	
 	/**
      * \brief Pure virtual function to handle key press events.
      * \param event The key press event to handle.
