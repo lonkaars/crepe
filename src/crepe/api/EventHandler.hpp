@@ -7,8 +7,7 @@ namespace crepe {
 
 // Implementation of EventHandlerWrapper constructor
 template <typename EventType>
-EventHandlerWrapper<EventType>::EventHandlerWrapper(
-	const EventHandler<EventType> & handler)
+EventHandlerWrapper<EventType>::EventHandlerWrapper(const EventHandler<EventType> & handler)
 	: m_handler(handler),
 	  m_handler_type(m_handler.target_type().name()) {}
 

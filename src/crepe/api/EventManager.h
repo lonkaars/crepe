@@ -94,17 +94,14 @@ private:
 	EventManager() = default;
 
 	//! The queue of events to be processed.
-	std::vector<std::tuple<std::unique_ptr<Event>, int, std::type_index>>
-		events_queue;
+	std::vector<std::tuple<std::unique_ptr<Event>, int, std::type_index>> events_queue;
 	//! Registered event handlers.
-	std::unordered_map<std::type_index,
-					   std::vector<std::unique_ptr<IEventHandlerWrapper>>>
+	std::unordered_map<std::type_index, std::vector<std::unique_ptr<IEventHandlerWrapper>>>
 		subscribers;
 	//! Event handlers indexed by event ID.
 	std::unordered_map<
 		std::type_index,
-		std::unordered_map<int,
-						   std::vector<std::unique_ptr<IEventHandlerWrapper>>>>
+		std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>
 		subscribers_by_event_id;
 };
 
