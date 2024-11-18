@@ -32,8 +32,7 @@ void LoopManager::setup() {
 	LoopTimer::getInstance().setFPS(210);
 
 	for (int i = 0; i < 2; i++) {
-		GameObject * square2
-			= new GameObject("square2", i * 40, i * 40, 20, 20, 0, 0);
+		GameObject * square2 = new GameObject("square2", i * 40, i * 40, 20, 20, 0, 0);
 		objectList.push_back(square2);
 	}
 }

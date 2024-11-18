@@ -50,10 +50,10 @@ int main() {
 		delete gameObject[i];
 	}
 
-	auto Addtime = std::chrono::duration_cast<std::chrono::microseconds>(
-		stopAdding - startAdding);
-	auto LoopTime = std::chrono::duration_cast<std::chrono::microseconds>(
-		stopLooping - stopAdding);
+	auto Addtime
+		= std::chrono::duration_cast<std::chrono::microseconds>(stopAdding - startAdding);
+	auto LoopTime
+		= std::chrono::duration_cast<std::chrono::microseconds>(stopLooping - stopAdding);
 	std::cout << "AddTime: " << Addtime.count() << " us" << std::endl;
 	std::cout << "LoopTime: " << LoopTime.count() << " us" << std::endl;
 }

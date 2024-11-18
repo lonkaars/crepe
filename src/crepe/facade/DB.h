@@ -15,8 +15,8 @@ namespace crepe {
 /**
  * \brief Berkeley DB facade
  *
- * Berkeley DB is a simple key-value database that stores arbitrary data as
- * both key and value. This facade uses STL strings as keys/values.
+ * Berkeley DB is a simple key-value database that stores arbitrary data as both key and value.
+ * This facade uses STL strings as keys/values.
  */
 class DB {
 public:
@@ -34,7 +34,8 @@ public:
 	 *
 	 * \return The value
 	 *
-	 * \throws Exception if value is not found in DB or other error occurs
+	 * \throws std::out_of_range if value is not found in DB
+	 * \throws std::runtime_error if other error occurs
 	 */
 	std::string get(const std::string & key);
 	/**
@@ -43,7 +44,7 @@ public:
 	 * \param key  The value key
 	 * \param value  The value to store
 	 *
-	 * \throws Exception if an error occurs
+	 * \throws std::runtime_error if an error occurs
 	 */
 	void set(const std::string & key, const std::string & value);
 	/**
@@ -53,7 +54,7 @@ public:
 	 *
 	 * \returns True if the key exists, or false if it does not
 	 */
-	bool has(const std::string & key) noexcept;
+	bool has(const std::string & key);
 
 private:
 	//! RAII wrapper around \c DB struct

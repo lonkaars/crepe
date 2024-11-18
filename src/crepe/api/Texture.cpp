@@ -1,7 +1,7 @@
 #include <SDL2/SDL_render.h>
 
 #include "../facade/SDLContext.h"
-#include "../util/log.h"
+#include "../util/Log.h"
 
 #include "Asset.h"
 #include "Texture.h"
@@ -26,7 +26,7 @@ Texture::~Texture() {
 
 void Texture::load(unique_ptr<Asset> res) {
 	SDLContext & ctx = SDLContext::get_instance();
-	this->texture = std::move(ctx.texture_from_path(res->canonical()));
+	this->texture = std::move(ctx.texture_from_path(res->get_canonical()));
 }
 
 int Texture::get_width() const {
