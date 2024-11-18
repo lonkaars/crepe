@@ -12,7 +12,6 @@ namespace crepe {
  */
 class IMouseListener {
 public:
-
 	IMouseListener();
 	/**
      * \brief Constructs an IMouseListener with a specified channel.

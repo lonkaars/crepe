@@ -54,13 +54,13 @@ class MyScript : public Script, public IKeyListener, public IMouseListener {
 class TestKeyListener : public IKeyListener {
 public:
 	bool on_key_pressed(const KeyPressEvent & event) override {
-		std::cout << "TestKeyListener: Key Pressed - Code: "
-				  << static_cast<int>(event.key) << std::endl;
+		std::cout << "TestKeyListener: Key Pressed - Code: " << static_cast<int>(event.key)
+				  << std::endl;
 		return true; // Return true if the listener should remain active
 	}
 	bool on_key_released(const KeyReleaseEvent & event) override {
-		std::cout << "TestKeyListener: Key Released - Code: "
-				  << static_cast<int>(event.key) << std::endl;
+		std::cout << "TestKeyListener: Key Released - Code: " << static_cast<int>(event.key)
+				  << std::endl;
 		return true;
 	}
 };
@@ -74,10 +74,8 @@ int main() {
 	click_event.mouse_x = 100;
 	click_event.mouse_y = 200;
 	// queue events to test queue
-	EventManager::get_instance().queue_event<KeyPressEvent>(
-		std::move(key_press), 0);
-	EventManager::get_instance().queue_event<MouseClickEvent>(
-		std::move(click_event), 0);
+	EventManager::get_instance().queue_event<KeyPressEvent>(std::move(key_press), 0);
+	EventManager::get_instance().queue_event<MouseClickEvent>(std::move(click_event), 0);
 	{
 		TestKeyListener test_listener;
 		test_listener.set_channel(1);
@@ -102,8 +100,7 @@ int main() {
 		std::cout << "lambda test" << std::endl;
 		return false;
 	};
-	EventManager::get_instance().subscribe<KeyPressEvent>(
-		std::move(event_handler), 0);
+	EventManager::get_instance().subscribe<KeyPressEvent>(std::move(event_handler), 0);
 	// testing trigger with testListener not in scope (unsubscribed)
 	EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 0);
 	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);

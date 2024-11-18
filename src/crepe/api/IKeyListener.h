@@ -22,7 +22,7 @@ public:
 	IKeyListener(const IKeyListener &) = delete;
 	IKeyListener & operator=(const IKeyListener &) = delete;
 	IKeyListener(IKeyListener &&) = delete;
-	
+
 	/**
      * \brief Pure virtual function to handle key press events.
      * \param event The key press event to handle.

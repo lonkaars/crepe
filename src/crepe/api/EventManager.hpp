@@ -4,8 +4,8 @@ namespace crepe {
 
 template <typename EventType>
 void EventManager::subscribe(EventHandler<EventType> && callback, int channel) {
-	using HandlersMap = std::unordered_map<
-		int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
+	using HandlersMap
+		= std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
 	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
 
 	std::type_index event_type = typeid(EventType);
@@ -30,18 +30,17 @@ template <typename EventType>
 void EventManager::queue_event(EventType && event, int channel) {
 	std::type_index event_type = std::type_index(typeid(EventType));
 
-	auto event_ptr
-		= std::make_unique<EventType>(std::forward<EventType>(event));
+	auto event_ptr = std::make_unique<EventType>(std::forward<EventType>(event));
 
-	std::tuple<std::unique_ptr<Event>, int, std::type_index> tuple(
-		std::move(event_ptr), channel, event_type);
+	std::tuple<std::unique_ptr<Event>, int, std::type_index> tuple(std::move(event_ptr),
+																   channel, event_type);
 	this->events_queue.push_back(std::move(tuple));
 }
 
 template <typename EventType>
 void EventManager::trigger_event(const EventType & event, int channel) {
-	using HandlersMap = std::unordered_map<
-		int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
+	using HandlersMap
+		= std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
 	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
 
 	std::type_index event_type = std::type_index(typeid(EventType));
@@ -71,10 +70,9 @@ void EventManager::trigger_event(const EventType & event, int channel) {
 }
 
 template <typename EventType>
-void EventManager::unsubscribe(const EventHandler<EventType> & callback,
-							   int channel) {
-	using HandlersMap = std::unordered_map<
-		int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
+void EventManager::unsubscribe(const EventHandler<EventType> & callback, int channel) {
+	using HandlersMap
+		= std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
 	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
 
 	std::type_index event_type(typeid(EventType));

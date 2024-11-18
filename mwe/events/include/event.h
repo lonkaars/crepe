@@ -20,9 +20,7 @@ public: \
 		static std::uint32_t typeID = UUIDGenerator::getUniqueID(); \
 		return typeID; \
 	} \
-	virtual std::uint32_t getEventType() const override { \
-		return getStaticEventType(); \
-	}
+	virtual std::uint32_t getEventType() const override { return getStaticEventType(); }
 class Event {
 public:
 	Event(std::string eventType);
@@ -32,16 +30,14 @@ public:
 	void addArgument(const std::string & key,
 					 const std::variant<int, std::string, float> & value);
 
-	std::variant<int, std::string, float>
-	getArgument(const std::string & key) const;
+	std::variant<int, std::string, float> getArgument(const std::string & key) const;
 
 	std::string getType() const;
 	bool getHandled() const;
 	void markHandled();
 
 private:
-	std::unordered_map<std::string, std::variant<int, std::string, float>>
-		eventData;
+	std::unordered_map<std::string, std::variant<int, std::string, float>> eventData;
 	bool isHandled = false;
 };
 
@@ -152,7 +148,7 @@ private:
 };
 class ShutDownEvent : public Event {
 public:
-	ShutDownEvent() : Event("ShutDownEvent") {};
+	ShutDownEvent() : Event("ShutDownEvent"){};
 
 	REGISTER_EVENT_TYPE(ShutDownEvent)
 
