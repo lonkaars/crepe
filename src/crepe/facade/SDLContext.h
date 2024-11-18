@@ -137,7 +137,7 @@ private:
 	 * \brief Sets the current camera for rendering.
 	 * \param camera Reference to the Camera object.
 	 */
-	void camera(const Camera & camera);
+	void camera(Camera & camera);
 
 private:
 	//! sdl Window

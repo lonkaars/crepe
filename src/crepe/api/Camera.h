@@ -28,32 +28,25 @@ public:
 	//! Background color of the camera view.
 	Color bg_color;
 
-	Vector2 pos = {0,0};
+	/**
+	 * \pos The position of the camera in world units 
+	 */
+	Vector2 pos = {0, 0};
 
-	Vector2 screen = {640,480};
+	/**
+	 * \screen the display size in pixels ( output resolution )
+	 */
+	Vector2 screen = {640, 480};
 
-	Vector2 viewport = {500,500};
+	/**
+	 * \viewport is the area of the world visible through the camera (in world units)
+	 */
+	Vector2 viewport = {500, 500};
 
-	/*
-	//! screen width in pixel coordinates
-	double screen_w = 480;
-
-	//! screen height in pixel coordinates
-	double screen_h = 640;
-
-	//! screen widht in world units
-	double viewport_w = 500.0f;
-	
-	//! screen height in world units 
-	double viewport_h = 500.0f;
-
-	//! X-coordinate of the camera position. in world space
-	double x = 0.0;
-
-	//! Y-coordinate of the camera position. in world space
-	double y = 0.0;
-
-	*/
+	/**
+	 * \scale scaling factor from world units to pixel coordinates
+	 */
+	Vector2 scale = {0,0};
 
 	//! Zoom level of the camera view.
 	double zoom = 1.0f;
