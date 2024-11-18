@@ -3,11 +3,11 @@
 #include <vector>
 
 #include "../ComponentManager.h"
+#include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
-#include "../facade/SDLContext.h"
-#include "../api/ParticleEmitter.h"
 #include "../api/Vector2.h"
+#include "../facade/SDLContext.h"
 
 #include "RenderSystem.h"
 
@@ -27,8 +27,7 @@ void RenderSystem::update_camera() {
 	}
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite,
-								   Transform tm) {
+bool RenderSystem::render_particle(const Sprite & sprite, Transform tm) {
 
 	ComponentManager & mgr = this->component_manager;
 	SDLContext & render = SDLContext::get_instance();
@@ -56,7 +55,7 @@ void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 
 	ComponentManager & mgr = this->component_manager;
 	SDLContext & render = SDLContext::get_instance();
-	
+
 	render.draw(sprite, tm, *curr_cam);
 }
 
