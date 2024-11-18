@@ -118,8 +118,6 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
-	sprite.sprite_image->texture.get();
-
 	this->set_rbg_texture(sprite.sprite_image, sprite.color.r, sprite.color.g, sprite.color.b);
 	this->set_alpha_texture(sprite.sprite_image, sprite.color.a);
 
@@ -134,7 +132,6 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 		.w = sprite.sprite_rect.w,
 		.h = sprite.sprite_rect.h,
 	};
-
 
 	SDL_Rect dstrect = {
 		.x = static_cast<int>(adjusted_x),
