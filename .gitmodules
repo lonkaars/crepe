@@ -22,3 +22,7 @@
 	path = lib/libdb
 	url = https://github.com/berkeleydb/libdb
 	shallow = true
+[submodule "lib/whereami/whereami"]
+	path = lib/whereami/lib
+	url = https://github.com/gpakosz/whereami
+	shallow = true

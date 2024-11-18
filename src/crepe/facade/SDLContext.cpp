@@ -149,7 +149,7 @@ SDLContext::texture_from_path(const std::string & path) {
 
 	SDL_Surface * tmp = IMG_Load(path.c_str());
 	if (tmp == nullptr) {
-		tmp = IMG_Load("../asset/texture/ERROR.png");
+		tmp = IMG_Load("asset/texture/ERROR.png");
 	}
 
 	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>> img_surface;

@@ -25,11 +25,11 @@ int _ = []() {
 
 int main() {
 	// Load a background track (Ogg Vorbis)
-	auto bgm = Sound("../mwe/audio/bgm.ogg");
+	auto bgm = Sound("mwe/audio/bgm.ogg");
 	// Load three short samples (WAV)
-	auto sfx1 = Sound("../mwe/audio/sfx1.wav");
-	auto sfx2 = Sound("../mwe/audio/sfx2.wav");
-	auto sfx3 = Sound("../mwe/audio/sfx3.wav");
+	auto sfx1 = Sound("mwe/audio/sfx1.wav");
+	auto sfx2 = Sound("mwe/audio/sfx2.wav");
+	auto sfx3 = Sound("mwe/audio/sfx3.wav");
 
 	// Start the background track
 	bgm.play();

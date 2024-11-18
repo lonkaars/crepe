@@ -19,6 +19,7 @@ target_sources(crepe PUBLIC
 	Animator.cpp
 	LoopManager.cpp
 	LoopTimer.cpp
+	Asset.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -45,4 +46,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Animator.h
 	LoopManager.h
 	LoopTimer.h
+	Asset.h
 )
