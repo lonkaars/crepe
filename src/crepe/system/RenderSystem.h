@@ -42,10 +42,13 @@ private:
 	 * \brief Renders all the particles on the screen from a given sprite.
 	 *
 	 * \param sprite renders the particles with given texture
-	 * \param tm the Transform component for scale
+	 * \param tm the Transform component for scale. This is not a const reference because each
+	 *  particle has a position and rotation that needs to overwrite the transform position and
+	 *  rotation without overwriting the current transform. and because the transform
+	 *  constructor is now protected i cannot make tmp inside
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite &, const Transform & tm);
+	bool render_particle(const Sprite &, Transform tm);
 
 	void render_normal(const Sprite &, const Transform & tm);
 
