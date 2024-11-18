@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <cassert>
 #include <functional>
-#include <iostream>
 #include <vector>
 
 #include "../ComponentManager.h"
@@ -48,18 +47,10 @@ void RenderSystem::render_sprites() {
 	ComponentManager & mgr = this->component_manager;
 
 	auto sprites = mgr.get_components_by_type<Sprite>();
-
-	for (const Sprite & s : sprites) {
-		std::cout << s.game_object_id << " " << unsigned(s.sorting_in_layer) << " "
-				  << unsigned(s.order_in_layer) << std::endl;
-	}
-
 	auto sorted_sprites = this->sort(sprites);
 
 	SDLContext & render = SDLContext::get_instance();
 	for (const Sprite & sprite : sorted_sprites) {
-		std::cout << sprite.game_object_id << " " << unsigned(sprite.sorting_in_layer) << " "
-				  << unsigned(sprite.order_in_layer) << std::endl;
 		auto transforms = mgr.get_components_by_id<Transform>(sprite.game_object_id);
 		render.draw(sprite, transforms[0], *curr_cam);
 	}
