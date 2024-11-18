@@ -12,35 +12,16 @@ namespace crepe {
  */
 class IMouseListener {
 public:
-	/**
-     * \brief Default constructor.
-     */
-	IMouseListener();
 
+	IMouseListener();
 	/**
      * \brief Constructs an IMouseListener with a specified channel.
      * \param channel The channel ID for event handling.
      */
 	IMouseListener(int channel);
-
-	/**
-     * \brief Destructor.
-     */
 	virtual ~IMouseListener();
-
-	/**
-     * \brief Copy constructor (deleted).
-     */
 	IMouseListener(const IMouseListener &) = delete;
-
-	/**
-     * \brief Copy assignment operator (deleted).
-     */
 	IMouseListener & operator=(const IMouseListener &) = delete;
-
-	/**
-     * \brief Move constructor (deleted).
-     */
 	IMouseListener(IMouseListener &&) = delete;
 
 	/**
