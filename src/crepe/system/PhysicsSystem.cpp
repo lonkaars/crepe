@@ -11,7 +11,7 @@
 using namespace crepe;
 
 void PhysicsSystem::update() {
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	std::vector<std::reference_wrapper<Rigidbody>> rigidbodies
 		= mgr.get_components_by_type<Rigidbody>();
 	std::vector<std::reference_wrapper<Transform>> transforms
@@ -29,17 +29,15 @@ void PhysicsSystem::update() {
 						// Add gravity
 						if (rigidbody.data.use_gravity) {
 							rigidbody.data.linear_velocity.y
-								+= (rigidbody.data.mass
-									* rigidbody.data.gravity_scale * gravity);
+								+= (rigidbody.data.mass * rigidbody.data.gravity_scale
+									* gravity);
 						}
 						// Add damping
 						if (rigidbody.data.angular_damping != 0) {
-							rigidbody.data.angular_velocity
-								*= rigidbody.data.angular_damping;
+							rigidbody.data.angular_velocity *= rigidbody.data.angular_damping;
 						}
 						if (rigidbody.data.linear_damping != Vector2{0, 0}) {
-							rigidbody.data.linear_velocity
-								*= rigidbody.data.linear_damping;
+							rigidbody.data.linear_velocity *= rigidbody.data.linear_damping;
 						}
 
 						// Max velocity check
@@ -75,21 +73,17 @@ void PhysicsSystem::update() {
 
 						// Move object
 						if (!rigidbody.data.constraints.rotation) {
-							transform.rotation
-								+= rigidbody.data.angular_velocity;
-							transform.rotation
-								= std::fmod(transform.rotation, 360.0);
+							transform.rotation += rigidbody.data.angular_velocity;
+							transform.rotation = std::fmod(transform.rotation, 360.0);
 							if (transform.rotation < 0) {
 								transform.rotation += 360.0;
 							}
 						}
 						if (!rigidbody.data.constraints.x) {
-							transform.position.x
-								+= rigidbody.data.linear_velocity.x;
+							transform.position.x += rigidbody.data.linear_velocity.x;
 						}
 						if (!rigidbody.data.constraints.y) {
-							transform.position.y
-								+= rigidbody.data.linear_velocity.y;
+							transform.position.y += rigidbody.data.linear_velocity.y;
 						}
 					}
 				}

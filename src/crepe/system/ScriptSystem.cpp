@@ -5,7 +5,6 @@
 #include "../ComponentManager.h"
 #include "../api/BehaviorScript.h"
 #include "../api/Script.h"
-#include "../util/log.h"
 
 #include "ScriptSystem.h"
 
@@ -13,16 +12,23 @@ using namespace std;
 using namespace crepe;
 
 void ScriptSystem::update() {
-	using namespace std;
 	dbg_trace();
 
-	forward_list<Script *> scripts = this->get_scripts();
-	for (Script * script : scripts) script->update();
+	forward_list<reference_wrapper<Script>> scripts = this->get_scripts();
+
+	for (auto & script_ref : scripts) {
+		Script & script = script_ref.get();
+		if (!script.initialized) {
+			script.init();
+			script.initialized = true;
+		}
+		script.update();
+	}
 }
 
-forward_list<Script *> ScriptSystem::get_scripts() {
-	forward_list<Script *> scripts = {};
-	ComponentManager & mgr = ComponentManager::get_instance();
+forward_list<reference_wrapper<Script>> ScriptSystem::get_scripts() const {
+	forward_list<reference_wrapper<Script>> scripts = {};
+	ComponentManager & mgr = this->component_manager;
 	vector<reference_wrapper<BehaviorScript>> behavior_scripts
 		= mgr.get_components_by_type<BehaviorScript>();
 
@@ -31,7 +37,7 @@ forward_list<Script *> ScriptSystem::get_scripts() {
 		if (!behavior_script.active) continue;
 		Script * script = behavior_script.script.get();
 		if (script == nullptr) continue;
-		scripts.push_front(script);
+		scripts.push_front(*script);
 	}
 
 	return scripts;

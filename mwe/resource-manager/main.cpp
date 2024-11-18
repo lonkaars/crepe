@@ -23,9 +23,8 @@ int main() {
 
 	SDL_Event event;
 
-	SDL_Window * window
-		= SDL_CreateWindow("Tessting resources", SDL_WINDOWPOS_UNDEFINED,
-						   SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
+	SDL_Window * window = SDL_CreateWindow("Tessting resources", SDL_WINDOWPOS_UNDEFINED,
+										   SDL_WINDOWPOS_UNDEFINED, 640, 480, 0);
 
 	SDL_Renderer * renderer = SDL_CreateRenderer(window, -1, 0);
 
