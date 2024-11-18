@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../ComponentManager.h"
+
 namespace crepe {
 
 class ComponentManager;

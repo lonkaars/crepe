@@ -62,6 +62,20 @@ public:
 		 */
 		double gravity = 1;
 	} physics;
+
+	//! Asset loading options
+	struct {
+		/**
+		 * \brief Pattern to match for Asset base directory
+		 *
+		 * All non-absolute paths resolved using \c Asset will be made relative to
+		 * the first parent directory relative to the calling executable where
+		 * appending this pattern results in a path that exists. If this string is
+		 * empty, path resolution is disabled, and Asset will return all paths
+		 * as-is.
+		 */
+		std::string root_pattern = ".crepe-root";
+	} asset;
 };
 
 } // namespace crepe
