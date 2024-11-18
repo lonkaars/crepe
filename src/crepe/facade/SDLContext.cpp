@@ -15,6 +15,7 @@
 #include "../api/Texture.h"
 #include "../api/Transform.h"
 #include "../util/Log.h"
+#include "api/Vector2.h"
 
 #include "SDLContext.h"
 
@@ -37,7 +38,7 @@ SDLContext::SDLContext() {
 	}
 	SDL_Window * tmp_window
 		= SDL_CreateWindow("Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-						   this->viewport.w, this->viewport.h, 0);
+						   this->viewport.w, this->viewport.h, SDL_WINDOW_RESIZABLE);
 	if (!tmp_window) {
 		// FIXME: throw exception
 		std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
@@ -103,17 +104,30 @@ void SDLContext::handle_events(bool & running) {
 void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
 
+
 void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Camera & cam) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
+	
+	double screen_aspect = cam.screen.x / cam.screen.y;
+	double viewport_aspect = cam.viewport.x / cam.viewport.y;
+	Vector2 scale;
 
-	double adjusted_x = (transform.position.x - cam.x) * cam.zoom;
-	double adjusted_y = (transform.position.y - cam.y) * cam.zoom;
-	double adjusted_w = sprite.sprite_rect.w * transform.scale * cam.zoom;
-	double adjusted_h = sprite.sprite_rect.h * transform.scale * cam.zoom;
+	if (screen_aspect > viewport_aspect) {
+		scale.x = scale.y = cam.screen.x / cam.viewport.x;
+	} else {
+		scale.y = scale.x = cam.screen.y / cam.viewport.y;
+	}
 
+	Vector2 zoomed_viewport = cam.viewport * cam.zoom;
+	Vector2 pixel_coord = (transform.position - cam.pos) * scale;
+
+	double pixel_w = sprite.sprite_rect.w * transform.scale * scale.x;
+	double pixel_h = sprite.sprite_rect.h * transform.scale * scale.y;
+
+	// decides which part of the sprite will be drawn
 	SDL_Rect srcrect = {
 		.x = sprite.sprite_rect.x,
 		.y = sprite.sprite_rect.y,
@@ -121,11 +135,12 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 		.h = sprite.sprite_rect.h,
 	};
 
+	// decides where the clipped image is drawn
 	SDL_Rect dstrect = {
-		.x = static_cast<int>(adjusted_x),
-		.y = static_cast<int>(adjusted_y),
-		.w = static_cast<int>(adjusted_w),
-		.h = static_cast<int>(adjusted_h),
+		.x = static_cast<int>(pixel_coord.x),
+		.y = static_cast<int>(pixel_coord.y),
+		.w = static_cast<int>(pixel_w),
+		.h = static_cast<int>(pixel_h),
 	};
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
@@ -133,10 +148,18 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 }
 
 void SDLContext::camera(const Camera & cam) {
-	this->viewport.w = static_cast<int>(cam.aspect_width);
-	this->viewport.h = static_cast<int>(cam.aspect_height);
+
+	if (this->viewport.w != cam.screen.x && this->viewport.h != cam.screen.y) {
+		this->viewport.w = cam.screen.x;
+		this->viewport.h = cam.screen.y;
+		SDL_SetWindowSize(this->game_window.get(), cam.screen.x	, cam.screen.y);
+	}
+
+	/*
 	this->viewport.x = static_cast<int>(cam.x) - (SCREEN_WIDTH / 2);
 	this->viewport.y = static_cast<int>(cam.y) - (SCREEN_HEIGHT / 2);
+
+	*/
 
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
 						   cam.bg_color.b, cam.bg_color.a);
