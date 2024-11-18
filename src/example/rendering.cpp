@@ -23,7 +23,7 @@ int main() {
 	ComponentManager mgr{};
 	RenderSystem sys{mgr};
 
-	GameObject obj = mgr.new_object("name", "tag", Vector2{0, 0}, 1, 1);
+	GameObject obj = mgr.new_object("name", "tag", Vector2{250, 0}, 0, 1);
 	GameObject obj1 = mgr.new_object("name", "tag", Vector2{500, 0}, 1, 0.1);
 	GameObject obj2 = mgr.new_object("name", "tag", Vector2{800, 0}, 1, 0.1);
 
@@ -32,13 +32,16 @@ int main() {
 		Color color(0, 0, 0, 0);
 		obj.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"), color,
 								  FlipSettings{false, false});
-		obj.add_component<Camera>(Color::get_red());
+		Camera & cam = obj.add_component<Camera>(Color::get_red());
+
 	}
+	/*
 	{
 		Color color(0, 0, 0, 0);
 		obj1.add_component<Sprite>(make_shared<Texture>("../asset/texture/second.png"), color,
 								   FlipSettings{true, true});
 	}
+	*/
 
 	/*
 	{

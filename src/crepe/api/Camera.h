@@ -2,6 +2,7 @@
 
 #include "Color.h"
 #include "Component.h"
+#include "api/Vector2.h"
 
 namespace crepe {
 
@@ -27,20 +28,35 @@ public:
 	//! Background color of the camera view.
 	Color bg_color;
 
-	//! Aspect ratio height for the camera.
-	double aspect_height = 480;
+	Vector2 pos = {0,0};
 
-	//! Aspect ratio width for the camera.
-	double aspect_width = 640;
+	Vector2 screen = {640,480};
 
-	//! X-coordinate of the camera position.
+	Vector2 viewport = {500,500};
+
+	/*
+	//! screen width in pixel coordinates
+	double screen_w = 480;
+
+	//! screen height in pixel coordinates
+	double screen_h = 640;
+
+	//! screen widht in world units
+	double viewport_w = 500.0f;
+	
+	//! screen height in world units 
+	double viewport_h = 500.0f;
+
+	//! X-coordinate of the camera position. in world space
 	double x = 0.0;
 
-	//! Y-coordinate of the camera position.
+	//! Y-coordinate of the camera position. in world space
 	double y = 0.0;
 
+	*/
+
 	//! Zoom level of the camera view.
-	double zoom = 1.0;
+	double zoom = 1.0f;
 
 public:
 	/**
