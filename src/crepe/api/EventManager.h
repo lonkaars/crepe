@@ -50,7 +50,7 @@ public:
      * \param channel The event ID to unsubscribe from.
      */
 	template <typename EventType>
-	void unsubscribe(const EventHandler<EventType> &, int channel);
+	void unsubscribe(const EventHandler<EventType> &, int channel = 0);
 
 	/**
      * \brief Trigger an event.
@@ -62,7 +62,7 @@ public:
      * \param channel The channel from which to trigger the event (default is 0).
      */
 	template <typename EventType>
-	void trigger_event(const EventType & event, int channel);
+	void trigger_event(const EventType & event, int channel = 0);
 
 	/**
      * \brief Queue an event for later processing.
@@ -75,7 +75,7 @@ public:
      * \param channel The channel number for the event (default is 0).
      */
 	template <typename EventType>
-	void queue_event(EventType && event, int channel);
+	void queue_event(EventType && event, int channel = 0);
 
 	/**
      * \brief Dispatch all queued events.
