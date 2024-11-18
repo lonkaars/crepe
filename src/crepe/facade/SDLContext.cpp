@@ -148,7 +148,6 @@ void SDLContext::handle_events(bool &running) {
                 });
                 break;
 
-            // Add more events as needed for your application.
         }
     }
 }
