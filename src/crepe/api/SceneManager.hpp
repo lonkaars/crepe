@@ -1,12 +1,16 @@
+#pragma once
+
 #include "SceneManager.h"
 
 namespace crepe {
 
 template <typename T>
 void SceneManager::add_scene(const std::string & name) {
-	static_assert(std::is_base_of<Scene, T>::value, "T must be derived from Scene");
+	using namespace std;
+	static_assert(is_base_of<Scene, T>::value, "T must be derived from Scene");
 
-	scenes.emplace_back(make_unique<T>(name));
+	Scene * scene = new T(this->component_manager, name);
+	this->scenes.emplace_back(unique_ptr<Scene>(scene));
 
 	// The first scene added, is the one that will be loaded at the beginning
 	if (next_scene.empty()) {

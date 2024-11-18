@@ -15,6 +15,7 @@ class Transform;
  */
 class ParticleSystem : public System {
 public:
+	using System::System;
 	/**
 	 * \brief Updates all particle emitters by emitting particles, updating particle states, and
 	 * checking bounds.
@@ -68,7 +69,8 @@ private:
 	double generate_random_speed(double min_speed, double max_speed) const;
 
 private:
-	//! Counter to count updates to determine how many times emit_particle is called.
+	//! Counter to count updates to determine how many times emit_particle is
+	// called.
 	unsigned int update_count = 0;
 	//! Determines the lowest amount of emission rate (1000 = 0.001 = 1 particle per 1000
 	// updates).

@@ -13,7 +13,7 @@
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
 
-#include <crepe/util/log.h>
+#include <crepe/util/Log.h>
 
 using namespace crepe;
 using namespace std;
@@ -23,17 +23,14 @@ using namespace std;
 int main() {
 	dbg_trace();
 
-	auto & mgr = ComponentManager::get_instance();
+	ComponentManager mgr{};
 
 	auto start_adding = chrono::high_resolution_clock::now();
 
-	GameObject * game_object[OBJ_COUNT];
-
 	for (int i = 0; i < OBJ_COUNT; ++i) {
-		game_object[i] = new GameObject(i, "Name", "Tag", 0);
-
-		game_object[i]->add_component<Sprite>("test");
-		game_object[i]->add_component<Rigidbody>(0, 0, i);
+		GameObject obj = mgr.new_object("Name", "Tag");
+		obj.add_component<Sprite>("test");
+		obj.add_component<Rigidbody>(0, 0, i);
 	}
 
 	auto stop_adding = chrono::high_resolution_clock::now();
@@ -44,10 +41,6 @@ int main() {
 	}
 
 	auto stop_looping = chrono::high_resolution_clock::now();
-
-	for (int i = 0; i < OBJ_COUNT; ++i) {
-		delete game_object[i];
-	}
 
 	auto add_time = chrono::duration_cast<chrono::microseconds>(stop_adding - start_adding);
 	auto loop_time = chrono::duration_cast<chrono::microseconds>(stop_looping - stop_adding);

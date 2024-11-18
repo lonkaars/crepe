@@ -1,6 +1,6 @@
 #include <memory>
 
-#include "../util/log.h"
+#include "../util/Log.h"
 #include "facade/SDLContext.h"
 
 #include "Component.h"

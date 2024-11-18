@@ -11,7 +11,7 @@
 using namespace crepe;
 
 void PhysicsSystem::update() {
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	std::vector<std::reference_wrapper<Rigidbody>> rigidbodies
 		= mgr.get_components_by_type<Rigidbody>();
 	std::vector<std::reference_wrapper<Transform>> transforms

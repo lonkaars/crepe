@@ -17,16 +17,7 @@ namespace crepe {
 class AnimatorSystem : public System {
 
 public:
-	/**
-	 * \brief Retrieves the singleton instance of the AnimatorSystem.
-	 *
-	 * \return A reference to the single instance of the AnimatorSystem.
-	 *
-	 * This method ensures that there is only one instance of the AnimatorSystem, following the
-	 * singleton design pattern. It can be used to access the system globally.
-	 */
-	static AnimatorSystem & get_instance();
-
+	using System::System;
 	/**
 	 * \brief Updates the Animator components.
 	 *
@@ -35,11 +26,7 @@ public:
 	 * looping).
 	 */
 	void update() override;
-
-private:
-	// private because singleton
-	AnimatorSystem(); // dbg_trace
-	~AnimatorSystem(); // dbg_trace
+	// FIXME: never say "likely" in the documentation lmao
 };
 
 } // namespace crepe

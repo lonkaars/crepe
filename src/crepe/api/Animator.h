@@ -1,11 +1,10 @@
 #pragma once
 
-#include <cstdint>
-
 #include "Component.h"
 #include "Sprite.h"
 
 namespace crepe {
+
 class AnimatorSystem;
 class SDLContext;
 
