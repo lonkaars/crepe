@@ -10,6 +10,12 @@ namespace crepe {
 class LoopManager {
 public:
 	void start();
+	/**
+	 * \brief Set game running variable
+	 *
+	 * \param running running (false = game shutdown, true = game running)
+	 */
+	void set_running(bool running);
 	LoopManager();
 
 private:
@@ -53,12 +59,7 @@ private:
 	 * This function updates physics and game logic based on LoopTimer's fixed_delta_time.
 	 */
 	void fixed_update();
-	/**
-	 * \brief Set game running variable
-	 *
-	 * \param running running (false = game shutdown, true = game running)
-	 */
-	void set_running(bool running);
+	
 	/**
 	 * \brief Function for executing render-related systems.
 	 *

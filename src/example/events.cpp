@@ -56,12 +56,12 @@ public:
 	bool on_key_pressed(const KeyPressEvent & event) override {
 		std::cout << "TestKeyListener: Key Pressed - Code: " << static_cast<int>(event.key)
 				  << std::endl;
-		return true; // Return true if the listener should remain active
+		return false;
 	}
 	bool on_key_released(const KeyReleaseEvent & event) override {
 		std::cout << "TestKeyListener: Key Released - Code: " << static_cast<int>(event.key)
 				  << std::endl;
-		return true;
+		return false;
 	}
 };
 int main() {

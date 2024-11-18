@@ -55,6 +55,7 @@ private:
 	 */
 	void handle_events(bool & running);
 	Keycode sdl_to_keycode(SDL_Keycode sdlKey);
+	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
 
 private:
 	//! Will only use get_ticks
