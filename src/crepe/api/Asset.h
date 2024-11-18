@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
 
 namespace crepe {
 
@@ -52,7 +51,16 @@ private:
 
 namespace std {
 
+//! Hash helper struct
 template<> struct hash<const crepe::Asset> {
+	/**
+	 * \brief Hash operator for crepe::Asset
+	 *
+	 * This function hashes a crepe::Asset instance, allowing it to be used as a key in an \c
+	 * std::unordered_map.
+	 *
+	 * \returns Hash value
+	 */
 	size_t operator()(const crepe::Asset & asset) const noexcept;
 };
 
