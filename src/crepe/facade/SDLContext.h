@@ -21,8 +21,6 @@ namespace crepe {
 // typedef is unusable when crepe is packaged. Wouter will fix this later.
 typedef SDL_Keycode CREPE_KEYCODES;
 
-class Texture;
-class LoopManager;
 
 /**
  * \class SDLContext
@@ -90,9 +88,6 @@ private:
 private:
 	//! Will use the funtions: texture_from_path, get_width,get_height.
 	friend class Texture;
-
-	//! Will use the funtions: texture_from_path, get_width,get_height.
-	friend class Animator;
 
 	/**
 	 * \brief Loads a texture from a file path.
