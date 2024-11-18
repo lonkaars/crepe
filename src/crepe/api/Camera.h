@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #include "Color.h"
 #include "Component.h"
 
@@ -11,9 +9,8 @@ namespace crepe {
  * \class Camera
  * \brief Represents a camera component for rendering in the game.
  *
- * The Camera class defines the view parameters, including background color, 
- * aspect ratio, position, and zoom level. It controls what part of the game 
- * world is visible on the screen.
+ * The Camera class defines the view parameters, including background color, aspect ratio,
+ * position, and zoom level. It controls what part of the game world is visible on the screen.
  */
 class Camera : public Component {
 
@@ -23,7 +20,7 @@ public:
 	 * \param id Unique identifier for the camera component.
 	 * \param bg_color Background color for the camera view.
 	 */
-	Camera(uint32_t id, const Color & bg_color);
+	Camera(game_object_id_t id, const Color & bg_color);
 	~Camera(); // dbg_trace only
 
 public:

@@ -4,7 +4,6 @@ target_sources(crepe PUBLIC
 	ComponentManager.cpp
 	Component.cpp
 	Collider.cpp
-	Exception.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -15,7 +14,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Collider.h
 	ValueBroker.h
 	ValueBroker.hpp
-	Exception.h
 )
 
 add_subdirectory(api)
