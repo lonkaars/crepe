@@ -51,7 +51,7 @@ private:
 	 * \param tm the Transform component for scale
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite &, const Transform & tm);
+	bool render_particle(const Sprite &, Transform tm);
 
 	/**
 	 * \brief renders a sprite with a Transform component on the screen 

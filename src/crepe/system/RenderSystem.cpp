@@ -6,11 +6,9 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
-#include "../util/log.h"
 #include "../api/ParticleEmitter.h"
 #include "../api/Vector2.h"
 
-#include "Particle.h"
 #include "RenderSystem.h"
 
 using namespace crepe;
@@ -30,17 +28,15 @@ void RenderSystem::update_camera() {
 }
 
 bool RenderSystem::render_particle(const Sprite & sprite,
-								   const Transform & tm) {
+								   Transform tm) {
 
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	SDLContext & render = SDLContext::get_instance();
 
 	auto emitters = mgr.get_components_by_id<ParticleEmitter>(sprite.game_object_id);
 
 	bool rendering_particles = false;
 
-	Transform tmp(0, Vector2{0, 0}, 0, 0);
-	tmp.scale = tm.scale;
 	for (const ParticleEmitter & em : emitters) {
 		if (!em.active) continue;
 		if (!(em.data.sprite.game_object_id == sprite.game_object_id)) continue;
@@ -49,16 +45,16 @@ bool RenderSystem::render_particle(const Sprite & sprite,
 
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
-			tmp.position = p.position;
-			tmp.rotation = p.angle;
-			render.draw(em.data.sprite, tmp, *curr_cam);
+			tm.position = p.position;
+			tm.rotation = p.angle;
+			render.draw(em.data.sprite, tm, *curr_cam);
 		}
 	}
 	return rendering_particles;
 }
 void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	SDLContext & render = SDLContext::get_instance();
 	
 	render.draw(sprite, tm, *curr_cam);
@@ -66,7 +62,7 @@ void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 
 void RenderSystem::render() {
 
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 
 	auto sprites = mgr.get_components_by_type<Sprite>();
 	for (const Sprite & sprite : sprites) {
