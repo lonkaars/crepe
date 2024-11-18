@@ -1,4 +1,6 @@
+#include "api/Animator.h"
 #include "api/Camera.h"
+#include "system/AnimatorSystem.h"
 #include <crepe/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/system/RenderSystem.h>
@@ -22,6 +24,7 @@ int main() {
 
 	ComponentManager mgr{};
 	RenderSystem sys{mgr};
+	AnimatorSystem anim_sys {mgr};
 
 	GameObject obj = mgr.new_object("name", "tag", Vector2{250, 0}, 0, 1);
 	GameObject obj1 = mgr.new_object("name", "tag", Vector2{500, 0}, 1, 0.1);
@@ -30,10 +33,10 @@ int main() {
 	// Normal adding components
 	{
 		Color color(0, 0, 0, 0);
-		obj.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"), color,
+		Sprite & sprite = obj.add_component<Sprite>(make_shared<Texture>("../asset/spritesheet/spritesheet_test.png"), color,
 								  FlipSettings{false, false});
 		Camera & cam = obj.add_component<Camera>(Color::get_red());
-
+		obj.add_component<Animator>(sprite, 4,1,1).active = true;
 	}
 	/*
 	{
@@ -51,8 +54,10 @@ int main() {
 	}
 	*/
 
+
 	auto start = std::chrono::steady_clock::now();
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
+		anim_sys.update();
 		sys.update();
 	}
 }

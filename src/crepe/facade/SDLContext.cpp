@@ -111,21 +111,10 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 	
-	double screen_aspect = cam.screen.x / cam.screen.y;
-	double viewport_aspect = cam.viewport.x / cam.viewport.y;
-	Vector2 scale;
 
-	if (screen_aspect > viewport_aspect) {
-		scale.x = scale.y = cam.screen.x / cam.viewport.x;
-	} else {
-		scale.y = scale.x = cam.screen.y / cam.viewport.y;
-	}
-
-	Vector2 zoomed_viewport = cam.viewport * cam.zoom;
-	Vector2 pixel_coord = (transform.position - cam.pos) * scale;
-
-	double pixel_w = sprite.sprite_rect.w * transform.scale * scale.x;
-	double pixel_h = sprite.sprite_rect.h * transform.scale * scale.y;
+	Vector2 pixel_coord = (transform.position - cam.pos) * cam.scale;
+	double pixel_w = sprite.sprite_rect.w * transform.scale * cam.scale.x;
+	double pixel_h = sprite.sprite_rect.h * transform.scale * cam.scale.y;
 
 	// decides which part of the sprite will be drawn
 	SDL_Rect srcrect = {
@@ -147,19 +136,24 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
-void SDLContext::camera(const Camera & cam) {
+void SDLContext::camera(Camera & cam) {
+
+	double screen_aspect = cam.screen.x / cam.screen.y;
+	double viewport_aspect = cam.viewport.x / cam.viewport.y;
+	Vector2 zoomed_viewport = cam.viewport * cam.zoom;
+
+	if (screen_aspect > viewport_aspect) {
+		cam.scale.x = cam.scale.y = cam.screen.x / zoomed_viewport.x;
+	} else {
+		cam.scale.y = cam.scale.x = cam.screen.y / zoomed_viewport.y;
+	}
+
 
 	if (this->viewport.w != cam.screen.x && this->viewport.h != cam.screen.y) {
 		this->viewport.w = cam.screen.x;
 		this->viewport.h = cam.screen.y;
 		SDL_SetWindowSize(this->game_window.get(), cam.screen.x	, cam.screen.y);
 	}
-
-	/*
-	this->viewport.x = static_cast<int>(cam.x) - (SCREEN_WIDTH / 2);
-	this->viewport.y = static_cast<int>(cam.y) - (SCREEN_HEIGHT / 2);
-
-	*/
 
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
 						   cam.bg_color.b, cam.bg_color.a);
