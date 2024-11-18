@@ -22,7 +22,7 @@ void RenderSystem::update_camera() {
 
 	for (Camera & cam : cameras) {
 		SDLContext::get_instance().camera(cam);
-		this->curr_cam = &cam;
+		this->curr_cam_ref = &cam;
 	}
 }
 
@@ -35,7 +35,6 @@ bool sorting_comparison(const Sprite & a, const Sprite & b) {
 
 std::vector<std::reference_wrapper<Sprite>>
 RenderSystem::sort(std::vector<std::reference_wrapper<Sprite>> & objs) {
-	if (objs.empty()) return {};
 
 	std::vector<std::reference_wrapper<Sprite>> sorted_objs(objs);
 	std::sort(sorted_objs.begin(), sorted_objs.end(), sorting_comparison);
@@ -52,7 +51,7 @@ void RenderSystem::render_sprites() {
 	SDLContext & render = SDLContext::get_instance();
 	for (const Sprite & sprite : sorted_sprites) {
 		auto transforms = mgr.get_components_by_id<Transform>(sprite.game_object_id);
-		render.draw(sprite, transforms[0], *curr_cam);
+		render.draw(sprite, transforms[0], *this->curr_cam_ref);
 	}
 }
 

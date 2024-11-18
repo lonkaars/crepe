@@ -1,11 +1,13 @@
 #pragma once
 
+
+#include <functional>
+#include <vector>
+
+#include "api/Sprite.h"
 #include "api/Camera.h"
 
 #include "System.h"
-#include "api/Sprite.h"
-#include <functional>
-#include <vector>
 
 namespace crepe {
 
@@ -54,7 +56,7 @@ private:
 
 private:
 	//! Pointer to the current active camera for rendering
-	Camera * curr_cam = nullptr;
+	Camera * curr_cam_ref = nullptr;
 	// TODO: needs a better solution
 };
 
