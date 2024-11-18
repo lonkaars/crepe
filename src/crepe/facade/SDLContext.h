@@ -8,6 +8,7 @@
 #include <string>
 
 #include "../api/Sprite.h"
+#include "../api/KeyCodes.h"
 #include "../api/Transform.h"
 #include "api/Camera.h"
 
@@ -53,6 +54,7 @@ private:
 	 * \param running Reference to a boolean flag that controls the main loop.
 	 */
 	void handle_events(bool & running);
+	Keycode sdl_to_keycode(SDL_Keycode sdlKey);
 
 private:
 	//! Will only use get_ticks
