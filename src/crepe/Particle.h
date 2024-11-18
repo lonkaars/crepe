@@ -9,9 +9,9 @@ namespace crepe {
 /**
  * \brief Represents a particle in the particle emitter.
  *
- * This class stores information about a single particle, including its position,
- * velocity, lifespan, and other properties. Particles can be updated over time
- * to simulate movement and can also be reset or stopped.
+ * This class stores information about a single particle, including its position, velocity,
+ * lifespan, and other properties. Particles can be updated over time to simulate movement and
+ * can also be reset or stopped.
  */
 class Particle {
 	// TODO: add friend particleSsytem and rendersystem. Unit test will fail.
@@ -35,20 +35,20 @@ public:
 	/**
 	 * \brief Resets the particle with new properties.
 	 *
-	 * This method initializes the particle with a specific lifespan, position,
-	 * velocity, and angle, marking it as active and resetting its life counter.
+	 * This method initializes the particle with a specific lifespan, position, velocity, and
+	 * angle, marking it as active and resetting its life counter.
 	 *
 	 * \param lifespan  The lifespan of the particle in amount of updates.
 	 * \param position  The starting position of the particle.
 	 * \param velocity  The initial velocity of the particle.
 	 * \param angle     The angle of the particle's trajectory or orientation.
 	 */
-	void reset(uint32_t lifespan, const Vector2 & position,
-			   const Vector2 & velocity, double angle);
+	void reset(uint32_t lifespan, const Vector2 & position, const Vector2 & velocity,
+			   double angle);
 	/**
 	 * \brief Updates the particle's state.
 	 *
-	 * Advances the particle's position based on its velocity and applies accumulated forces. 
+	 * Advances the particle's position based on its velocity and applies accumulated forces.
 	 * Deactivates the particle if its lifespan has expired.
 	 */
 	void update();

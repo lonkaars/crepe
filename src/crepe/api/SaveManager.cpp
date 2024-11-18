@@ -1,5 +1,5 @@
 #include "../facade/DB.h"
-#include "../util/log.h"
+#include "../util/Log.h"
 
 #include "Config.h"
 #include "SaveManager.h"
@@ -139,14 +139,11 @@ ValueBroker<T> SaveManager::get(const string & key, const T & default_value) {
 }
 template ValueBroker<uint8_t> SaveManager::get(const string &, const uint8_t &);
 template ValueBroker<int8_t> SaveManager::get(const string &, const int8_t &);
-template ValueBroker<uint16_t> SaveManager::get(const string &,
-												const uint16_t &);
+template ValueBroker<uint16_t> SaveManager::get(const string &, const uint16_t &);
 template ValueBroker<int16_t> SaveManager::get(const string &, const int16_t &);
-template ValueBroker<uint32_t> SaveManager::get(const string &,
-												const uint32_t &);
+template ValueBroker<uint32_t> SaveManager::get(const string &, const uint32_t &);
 template ValueBroker<int32_t> SaveManager::get(const string &, const int32_t &);
-template ValueBroker<uint64_t> SaveManager::get(const string &,
-												const uint64_t &);
+template ValueBroker<uint64_t> SaveManager::get(const string &, const uint64_t &);
 template ValueBroker<int64_t> SaveManager::get(const string &, const int64_t &);
 template ValueBroker<float> SaveManager::get(const string &, const float &);
 template ValueBroker<double> SaveManager::get(const string &, const double &);

@@ -15,27 +15,13 @@
 
 using namespace crepe;
 
-RenderSystem::RenderSystem() { dbg_trace(); }
+void RenderSystem::clear_screen() const { SDLContext::get_instance().clear_screen(); }
 
-RenderSystem::~RenderSystem() { dbg_trace(); }
-
-RenderSystem & RenderSystem::get_instance() {
-	static RenderSystem instance;
-	return instance;
-}
-
-void RenderSystem::clear_screen() const {
-	SDLContext::get_instance().clear_screen();
-}
-
-void RenderSystem::present_screen() const {
-	SDLContext::get_instance().present_screen();
-}
+void RenderSystem::present_screen() const { SDLContext::get_instance().present_screen(); }
 void RenderSystem::update_camera() {
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 
-	std::vector<std::reference_wrapper<Camera>> cameras
-		= mgr.get_components_by_type<Camera>();
+	std::vector<std::reference_wrapper<Camera>> cameras = mgr.get_components_by_type<Camera>();
 
 	for (Camera & cam : cameras) {
 		SDLContext::get_instance().camera(cam);

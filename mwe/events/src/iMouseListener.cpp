@@ -2,17 +2,12 @@
 IMouseListener::~IMouseListener() { unsubscribeEvents(); }
 
 void IMouseListener::subscribeEvents(int listenerId) {
-	mouseClickHandler = [this](const MouseClickEvent & event) {
-		this->onMouseClicked(event);
-	};
-	mousePressHandler = [this](const MousePressedEvent & event) {
-		this->onMousePressed(event);
-	};
-	mouseReleaseHandler = [this](const MouseReleasedEvent & event) {
-		this->onMouseReleased(event);
-	};
-	mouseMoveHandler
-		= [this](const MouseMovedEvent & event) { this->onMouseMoved(event); };
+	mouseClickHandler = [this](const MouseClickEvent & event) { this->onMouseClicked(event); };
+	mousePressHandler
+		= [this](const MousePressedEvent & event) { this->onMousePressed(event); };
+	mouseReleaseHandler
+		= [this](const MouseReleasedEvent & event) { this->onMouseReleased(event); };
+	mouseMoveHandler = [this](const MouseMovedEvent & event) { this->onMouseMoved(event); };
 
 	subscribe<MouseClickEvent>(mouseClickHandler, listenerId);
 	subscribe<MousePressedEvent>(mousePressHandler, listenerId);
