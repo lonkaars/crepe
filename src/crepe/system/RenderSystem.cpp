@@ -1,13 +1,13 @@
 #include <algorithm>
 #include <cassert>
 #include <functional>
+#include <iostream>
 #include <vector>
 
 #include "../ComponentManager.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
-#include "../util/Log.h"
 
 #include "RenderSystem.h"
 
@@ -27,38 +27,39 @@ void RenderSystem::update_camera() {
 	}
 }
 
+bool sorting_comparison(const Sprite & a, const Sprite & b) {
+	if (a.sorting_in_layer > b.sorting_in_layer) return true;
+	if (a.sorting_in_layer == b.sorting_in_layer) return a.order_in_layer > b.order_in_layer;
+
+	return false;
+}
+
 std::vector<std::reference_wrapper<Sprite>>
 RenderSystem::sort(std::vector<std::reference_wrapper<Sprite>> & objs) {
 	if (objs.empty()) return {};
 
-	std::vector<std::reference_wrapper<Sprite>> sorted_objs;
-	sorted_objs.insert(sorted_objs.end(), objs.begin(), objs.end());
-	assert(sorted_objs.size() != objs.size());
+	std::vector<std::reference_wrapper<Sprite>> sorted_objs(objs);
+	std::sort(sorted_objs.begin(), sorted_objs.end(), sorting_comparison);
 
-	std::sort(sorted_objs.begin(), sorted_objs.end(),
-			  [](const std::reference_wrapper<Sprite> & a,
-				 const std::reference_wrapper<Sprite> & b) {
-				  const Sprite & sprite_a = a.get();
-				  const Sprite & sprite_b = b.get();
-				  if (sprite_a.sorting_in_layer == sprite_b.sorting_in_layer) {
-					  return sprite_a.order_in_layer < sprite_b.order_in_layer;
-				  }
-				  return sprite_a.sorting_in_layer < sprite_b.sorting_in_layer;
-			  });
 	return sorted_objs;
 }
 
 void RenderSystem::render_sprites() {
 	ComponentManager & mgr = this->component_manager;
 
-	ComponentManager & mgr = ComponentManager::get_instance();
-
 	auto sprites = mgr.get_components_by_type<Sprite>();
 
+	for (const Sprite & s : sprites) {
+		std::cout << s.game_object_id << " " << unsigned(s.sorting_in_layer) << " "
+				  << unsigned(s.order_in_layer) << std::endl;
+	}
+
 	auto sorted_sprites = this->sort(sprites);
-	
+
 	SDLContext & render = SDLContext::get_instance();
 	for (const Sprite & sprite : sorted_sprites) {
+		std::cout << sprite.game_object_id << " " << unsigned(sprite.sorting_in_layer) << " "
+				  << unsigned(sprite.order_in_layer) << std::endl;
 		auto transforms = mgr.get_components_by_id<Transform>(sprite.game_object_id);
 		render.draw(sprite, transforms[0], *curr_cam);
 	}
