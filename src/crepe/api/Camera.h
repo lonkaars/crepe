@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #include "Color.h"
 #include "Component.h"
 
@@ -22,7 +20,7 @@ public:
 	 * \param id Unique identifier for the camera component.
 	 * \param bg_color Background color for the camera view.
 	 */
-	Camera(uint32_t id, const Color & bg_color);
+	Camera(game_object_id_t id, const Color & bg_color);
 	~Camera(); // dbg_trace only
 
 public:

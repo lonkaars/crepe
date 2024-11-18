@@ -10,17 +10,16 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <utility>
 
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../api/Transform.h"
-#include "../util/log.h"
-#include "Exception.h"
+#include "../util/Log.h"
 
 #include "SDLContext.h"
 
 using namespace crepe;
+using namespace std;
 
 SDLContext & SDLContext::get_instance() {
 	static SDLContext instance;
@@ -160,7 +159,7 @@ SDLContext::texture_from_path(const std::string & path) {
 		= SDL_CreateTextureFromSurface(this->game_renderer.get(), img_surface.get());
 
 	if (tmp_texture == nullptr) {
-		throw Exception("Texture cannot be load from %s", path.c_str());
+		throw runtime_error(format("Texture cannot be load from {}", path));
 	}
 
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> img_texture;

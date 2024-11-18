@@ -16,15 +16,16 @@ using namespace std::chrono_literals;
 using namespace crepe;
 
 class ParticlesTest : public ::testing::Test {
-protected:
-	ParticleSystem particle_system;
+public:
+	ComponentManager component_manager;
+	ParticleSystem particle_system{component_manager};
+
 	void SetUp() override {
-		ComponentManager & mgr = ComponentManager::get_instance();
+		ComponentManager & mgr = this->component_manager;
 		std::vector<std::reference_wrapper<Transform>> transforms
 			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
-
-			GameObject game_object(0, "", "", Vector2{0, 0}, 0, 0);
+			GameObject game_object = mgr.new_object("", "", Vector2{0, 0}, 0, 0);
 
 			Color color(0, 0, 0, 0);
 			Sprite test_sprite = game_object.add_component<Sprite>(
@@ -77,7 +78,7 @@ protected:
 
 TEST_F(ParticlesTest, spawnParticle) {
 	Config::get_instance().physics.gravity = 1;
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	ParticleEmitter & emitter = mgr.get_components_by_id<ParticleEmitter>(0).front().get();
 	emitter.data.end_lifespan = 5;
 	emitter.data.boundary.height = 100;
@@ -121,7 +122,7 @@ TEST_F(ParticlesTest, spawnParticle) {
 
 TEST_F(ParticlesTest, moveParticleHorizontal) {
 	Config::get_instance().physics.gravity = 1;
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	ParticleEmitter & emitter = mgr.get_components_by_id<ParticleEmitter>(0).front().get();
 	emitter.data.end_lifespan = 100;
 	emitter.data.boundary.height = 100;
@@ -138,7 +139,7 @@ TEST_F(ParticlesTest, moveParticleHorizontal) {
 
 TEST_F(ParticlesTest, moveParticleVertical) {
 	Config::get_instance().physics.gravity = 1;
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	ParticleEmitter & emitter = mgr.get_components_by_id<ParticleEmitter>(0).front().get();
 	emitter.data.end_lifespan = 100;
 	emitter.data.boundary.height = 100;
@@ -156,7 +157,7 @@ TEST_F(ParticlesTest, moveParticleVertical) {
 
 TEST_F(ParticlesTest, boundaryParticleReset) {
 	Config::get_instance().physics.gravity = 1;
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	ParticleEmitter & emitter = mgr.get_components_by_id<ParticleEmitter>(0).front().get();
 	emitter.data.end_lifespan = 100;
 	emitter.data.boundary.height = 10;
@@ -175,7 +176,7 @@ TEST_F(ParticlesTest, boundaryParticleReset) {
 
 TEST_F(ParticlesTest, boundaryParticleStop) {
 	Config::get_instance().physics.gravity = 1;
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	ParticleEmitter & emitter = mgr.get_components_by_id<ParticleEmitter>(0).front().get();
 	emitter.data.end_lifespan = 100;
 	emitter.data.boundary.height = 10;

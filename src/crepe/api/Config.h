@@ -1,19 +1,24 @@
 #pragma once
 
-#include "../util/log.h"
+#include "../util/Log.h"
 
 namespace crepe {
 
+/**
+ * \brief Global configuration interface
+ *
+ * This class stores engine default settings. Properties on this class are only supposed to be
+ * modified *before* execution is handed over from the game programmer to the engine (i.e. the
+ * main loop is started).
+ */
 class Config {
-private:
-	Config() = default;
-
-public:
-	~Config() = default;
-
 public:
 	//! Retrieve handle to global Config instance
 	static Config & get_instance();
+
+private:
+	Config() = default;
+
 	// singleton
 	Config(const Config &) = delete;
 	Config(Config &&) = delete;
@@ -28,7 +33,7 @@ public:
 		 *
 		 * Only messages with equal or higher priority than this value will be logged.
 		 */
-		LogLevel level = LogLevel::INFO;
+		Log::Level level = Log::Level::INFO;
 		/**
 		 * \brief Colored log output
 		 *

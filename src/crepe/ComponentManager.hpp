@@ -40,7 +40,6 @@ T & ComponentManager::add_component(game_object_id_t id, Args &&... args) {
 	// Check if the vector size is not greater than get_instances_max
 	int max_instances = instance->get_instances_max();
 	if (max_instances != -1 && components[type][id].size() >= max_instances) {
-		// TODO: Exception
 		throw std::runtime_error(
 			"Exceeded maximum number of instances for this component type");
 	}
