@@ -7,8 +7,8 @@ namespace crepe {
 /**
  * \brief Utility wrapper for \c ValueBroker
  *
- * This class can be used to to wrap a ValueBroker instance so it behaves like
- * a regular variable.
+ * This class can be used to to wrap a ValueBroker instance so it behaves like a regular
+ * variable.
  *
  * \tparam T  Type of the underlying variable
  */

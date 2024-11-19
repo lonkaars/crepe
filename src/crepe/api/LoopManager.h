@@ -2,15 +2,9 @@
 
 #include <memory>
 
-class RenderSystem;
-class SDLContext;
-class LoopTimer;
-class ScriptSystem;
-class SoundSystem;
-class ParticleSystem;
-class PhysicsSystem;
-class AnimatorSystem;
-class CollisionSystem;
+#include "../ComponentManager.h"
+#include "../system/System.h"
+
 namespace crepe {
 
 class LoopManager {
@@ -73,7 +67,35 @@ private:
 	void render();
 
 	bool game_running = false;
-	//#TODO add system instances
+
+private:
+	//! Component manager instance
+	ComponentManager component_manager{};
+
+private:
+	/**
+	 * \brief Collection of System instances
+	 *
+	 * This map holds System instances indexed by the system's class typeid. It is filled in the
+	 * constructor of \c LoopManager using LoopManager::load_system.
+	 */
+	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
+	/**
+	 * \brief Initialize a system
+	 * \tparam T System type (must be derivative of \c System)
+	 */
+	template <class T>
+	void load_system();
+	/**
+	 * \brief Retrieve a reference to ECS system
+	 * \tparam T System type
+	 * \returns Reference to system instance
+	 * \throws std::runtime_error if the System is not initialized
+	 */
+	template <class T>
+	T & get_system();
 };
 
 } // namespace crepe
+
+#include "LoopManager.hpp"

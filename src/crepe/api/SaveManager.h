@@ -24,7 +24,8 @@ public:
 	 * \brief Get a read/write reference to a value and initialize it if it does not yet exist
 	 *
 	 * \param key  The value key
-	 * \param default_value  Value to initialize \c key with if it does not already exist in the database
+	 * \param default_value  Value to initialize \c key with if it does not already exist in the
+	 * database
 	 *
 	 * \return Read/write reference to the value
 	 */
@@ -38,8 +39,8 @@ public:
 	 *
 	 * \return Read/write reference to the value
 	 *
-	 * \note Attempting to read this value before it is initialized (i.e. set)
-	 * will result in an exception
+	 * \note Attempting to read this value before it is initialized (i.e. set) will result in an
+	 * exception
 	 */
 	template <typename T>
 	ValueBroker<T> get(const std::string & key);
@@ -102,8 +103,8 @@ private:
 	 *
 	 * \returns DB instance
 	 *
-	 * This function exists because DB is a facade class, which can't directly be
-	 * used in the API without workarounds
+	 * This function exists because DB is a facade class, which can't directly be used in the API
+	 * without workarounds
 	 *
 	 * TODO: better solution
 	 */
