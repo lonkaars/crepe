@@ -10,12 +10,15 @@
 #include "api/Vector2.h"
 
 #include "Collider.h"
+#include "System.h"
 
 namespace crepe {
 
 
 //! A system responsible for detecting and handling collisions between colliders.
-class CollisionSystem {
+class CollisionSystem : public System {
+public:
+	using System::System;
 private:
 	
 	//! A variant type that can hold either a BoxCollider or a CircleCollider.
@@ -70,7 +73,7 @@ public:
 	CollisionSystem();
 
 	//! Updates the collision system by checking for collisions between colliders and handling them.
-	void update();
+	void update() override;
 
 private:
 	/**
