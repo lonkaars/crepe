@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cassert>
 #include <functional>
+#include <stdexcept>
 #include <vector>
 
 #include "../ComponentManager.h"
@@ -20,6 +21,8 @@ void RenderSystem::update_camera() {
 
 	std::vector<std::reference_wrapper<Camera>> cameras = mgr.get_components_by_type<Camera>();
 
+	if (cameras.size() == 0) throw std::runtime_error("No cameras in current scene");
+
 	for (Camera & cam : cameras) {
 		SDLContext::get_instance().camera(cam);
 		this->curr_cam_ref = &cam;
@@ -27,8 +30,8 @@ void RenderSystem::update_camera() {
 }
 
 bool sorting_comparison(const Sprite & a, const Sprite & b) {
-	if (a.sorting_in_layer > b.sorting_in_layer) return true;
-	if (a.sorting_in_layer == b.sorting_in_layer) return a.order_in_layer > b.order_in_layer;
+	if (a.sorting_in_layer < b.sorting_in_layer) return true;
+	if (a.sorting_in_layer == b.sorting_in_layer) return a.order_in_layer < b.order_in_layer;
 
 	return false;
 }

@@ -21,13 +21,13 @@ public:
 	static const Color & get_yellow();
 	static const Color & get_black();
 
-private:
-	// TODO: why are these private!?
+public:
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
 	uint8_t a;
 
+private:
 	static Color white;
 	static Color red;
 	static Color green;
