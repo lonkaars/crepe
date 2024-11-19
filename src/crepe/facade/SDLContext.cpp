@@ -94,7 +94,6 @@ void SDLContext::handle_events(bool &running) {
                 break;
 
             case SDL_KEYDOWN:
-                std::cout << "keyDown: " << event.key.keysym.sym << std::endl;
                 event_manager.trigger_event<KeyPressEvent>(KeyPressEvent{
                     .repeat = event.key.repeat,
                     .key = this->sdl_to_keycode(event.key.keysym.scancode)
@@ -157,7 +156,6 @@ void SDLContext::handle_events(bool &running) {
 Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
     static const std::array<Keycode, SDL_NUM_SCANCODES> LOOKUP_TABLE = [] {
         std::array<Keycode, SDL_NUM_SCANCODES> table{};
-		 // Default to NONE for unmapped keys
         table.fill(Keycode::NONE);
 
         table[SDL_SCANCODE_SPACE] = Keycode::SPACE;
@@ -271,7 +269,7 @@ Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
     static const std::array<MouseButton, 8> MOUSE_BUTTON_LOOKUP_TABLE = [] {
         std::array<MouseButton, 8> table{};
-        table.fill(MouseButton::NONE); // Default to NONE for unmapped buttons
+        table.fill(MouseButton::NONE);
 
         table[SDL_BUTTON_LEFT] = MouseButton::LEFT_MOUSE;
         table[SDL_BUTTON_RIGHT] = MouseButton::RIGHT_MOUSE;
@@ -287,7 +285,7 @@ MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
         return MouseButton::NONE; 
     }
 
-    return MOUSE_BUTTON_LOOKUP_TABLE[sdl_button];  // Return mapped button
+    return MOUSE_BUTTON_LOOKUP_TABLE[sdl_button];
 }
 void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
