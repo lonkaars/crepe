@@ -15,7 +15,11 @@ that you can click on to open them.
   `name/feature` (i.e. `loek/dll-so-poc` or `jaro/class2`)
 - The master branch is considered stable, and should always contain a
   working/compiling version of the project
+- Pull requests for new code include either automated tests for the new code or
+  an explanation as to why the code can not (reliably) be tested
+<!--
 - TODO: tagging / versions
+-->
 
 # Code style
 
@@ -790,6 +794,7 @@ that you can click on to open them.
   }
   ```
   </td></tr></table></details>
+- Do not implement new classes as singletons
 
 ## CMakeLists-specific
 
