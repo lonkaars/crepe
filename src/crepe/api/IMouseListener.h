@@ -19,8 +19,9 @@ public:
      */
 	IMouseListener(int channel);
 	virtual ~IMouseListener();
-	IMouseListener(const IMouseListener &) = delete;
 	IMouseListener & operator=(const IMouseListener &) = delete;
+	IMouseListener(const IMouseListener &) = delete;
+	IMouseListener && operator=(const IMouseListener &&) = delete;
 	IMouseListener(IMouseListener &&) = delete;
 
 	/**
