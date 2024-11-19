@@ -78,7 +78,7 @@ int main(int argc, char * argv[]) {
 		.constraints = {0, 0, 0},
 		.use_gravity = true,
 		.bounce = true,
-		.bouncie_factor = 1,
+		.elastisity = 1,
 		.offset = {0,0},
 	});
 	game_object1.add_component<BoxCollider>(Vector2{0, 0}, 20, 20);

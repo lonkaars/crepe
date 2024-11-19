@@ -77,7 +77,7 @@ public:
 		//! if object bounces
 		bool bounce = false;
 		//! bounce factor of material
-		double bouncie_factor = 0.0;
+		double elastisity = 0.0;
 		//! offset of all colliders
 		Vector2 offset;
 	};
