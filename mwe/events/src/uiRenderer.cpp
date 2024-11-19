@@ -24,21 +24,18 @@ void UIRenderer::renderButton(Button * button) {
 // Private helper function to render a Text
 void UIRenderer::renderText(Text * text) {
 	if (text->font != nullptr) {
-		SDL_Color sdlColor
-			= {text->color.red, text->color.green, text->color.blue, 255};
+		SDL_Color sdlColor = {text->color.red, text->color.green, text->color.blue, 255};
 		SDL_Surface * textSurface
 			= TTF_RenderText_Blended(text->font, text->text.c_str(), sdlColor);
 		if (!textSurface) {
-			std::cerr << "Error creating text surface: " << TTF_GetError()
-					  << std::endl;
+			std::cerr << "Error creating text surface: " << TTF_GetError() << std::endl;
 			return;
 		}
 
-		SDL_Texture * textTexture
-			= SDL_CreateTextureFromSurface(renderer, textSurface);
+		SDL_Texture * textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 		if (!textTexture) {
-			std::cerr << "Error creating texture from surface: "
-					  << SDL_GetError() << std::endl;
+			std::cerr << "Error creating texture from surface: " << SDL_GetError()
+					  << std::endl;
 			SDL_FreeSurface(textSurface);
 			return;
 		}

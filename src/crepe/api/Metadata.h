@@ -10,8 +10,8 @@ namespace crepe {
 /**
  * \brief Metadata component
  * 
- * This class represents the Metadata component. It stores the name, tag, parent
- * and children of a GameObject.
+ * This class represents the Metadata component. It stores the name, tag, parent and children
+ * of a GameObject.
  */
 class Metadata : public Component {
 public:
@@ -20,8 +20,7 @@ public:
 	 * \param name The name of the GameObject
 	 * \param tag The tag of the GameObject
 	 */
-	Metadata(game_object_id_t id, const std::string & name,
-			 const std::string & tag);
+	Metadata(game_object_id_t id, const std::string & name, const std::string & tag);
 	/**
 	 * \brief Get the maximum number of instances for this component
 	 *

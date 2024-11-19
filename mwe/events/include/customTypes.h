@@ -5,14 +5,10 @@ struct Vector2 {
 	float y; // Y component of the vector
 
 	// Vector subtraction
-	Vector2 operator-(const Vector2 & other) const {
-		return {x - other.x, y - other.y};
-	}
+	Vector2 operator-(const Vector2 & other) const { return {x - other.x, y - other.y}; }
 
 	// Vector addition
-	Vector2 operator+(const Vector2 & other) const {
-		return {x + other.x, y + other.y};
-	}
+	Vector2 operator+(const Vector2 & other) const { return {x + other.x, y + other.y}; }
 
 	// Scalar multiplication
 	Vector2 operator*(float scalar) const { return {x * scalar, y * scalar}; }
@@ -31,8 +27,7 @@ struct Collision {
 	Vector2 contactNormal; // Normal vector at the contact point
 
 	// Constructor to initialize a Collision
-	Collision(int idA, int idB, const Vector2 & point, const Vector2 & normal,
-			  float depth)
+	Collision(int idA, int idB, const Vector2 & point, const Vector2 & normal, float depth)
 		: objectIdA(idA),
 		  objectIdB(idB),
 		  contactPoint(point),

@@ -40,7 +40,6 @@ T & ComponentManager::add_component(game_object_id_t id, Args &&... args) {
 	// Check if the vector size is not greater than get_instances_max
 	int max_instances = instance->get_instances_max();
 	if (max_instances != -1 && components[type][id].size() >= max_instances) {
-		// TODO: Exception
 		throw std::runtime_error(
 			"Exceeded maximum number of instances for this component type");
 	}
@@ -61,8 +60,7 @@ void ComponentManager::delete_components_by_id(game_object_id_t id) {
 	// Find the type (in the unordered_map<>)
 	if (this->components.find(type) != this->components.end()) {
 		// Get the correct vector<>
-		vector<vector<unique_ptr<Component>>> & component_array
-			= this->components[type];
+		vector<vector<unique_ptr<Component>>> & component_array = this->components[type];
 
 		// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
 		if (id < component_array.size()) {
@@ -93,12 +91,10 @@ ComponentManager::get_components_by_id(game_object_id_t id) const {
 	// Create an empty vector<>
 	vector<reference_wrapper<T>> component_vector;
 
-	if (this->components.find(type) == this->components.end())
-		return component_vector;
+	if (this->components.find(type) == this->components.end()) return component_vector;
 
 	// Get the correct vector<>
-	const vector<vector<unique_ptr<Component>>> & component_array
-		= this->components.at(type);
+	const vector<vector<unique_ptr<Component>>> & component_array = this->components.at(type);
 
 	// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
 	if (id >= component_array.size()) return component_vector;
@@ -118,8 +114,7 @@ ComponentManager::get_components_by_id(game_object_id_t id) const {
 }
 
 template <typename T>
-std::vector<std::reference_wrapper<T>>
-ComponentManager::get_components_by_type() const {
+std::vector<std::reference_wrapper<T>> ComponentManager::get_components_by_type() const {
 	using namespace std;
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
@@ -129,12 +124,10 @@ ComponentManager::get_components_by_type() const {
 	vector<reference_wrapper<T>> component_vector;
 
 	// Find the type (in the unordered_map<>)
-	if (this->components.find(type) == this->components.end())
-		return component_vector;
+	if (this->components.find(type) == this->components.end()) return component_vector;
 
 	// Get the correct vector<>
-	const vector<vector<unique_ptr<Component>>> & component_array
-		= this->components.at(type);
+	const vector<vector<unique_ptr<Component>>> & component_array = this->components.at(type);
 
 	// Loop through the whole vector<>
 	for (const vector<unique_ptr<Component>> & component : component_array) {

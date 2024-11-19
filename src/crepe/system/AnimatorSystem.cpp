@@ -1,27 +1,17 @@
-
 #include <cstdint>
 #include <functional>
 #include <vector>
 
 #include "api/Animator.h"
 #include "facade/SDLContext.h"
-#include "util/log.h"
 
 #include "AnimatorSystem.h"
 #include "ComponentManager.h"
 
 using namespace crepe;
 
-AnimatorSystem::AnimatorSystem() { dbg_trace(); }
-AnimatorSystem::~AnimatorSystem() { dbg_trace(); }
-
-AnimatorSystem & AnimatorSystem::get_instance() {
-	static AnimatorSystem instance;
-	return instance;
-}
-
 void AnimatorSystem::update() {
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 
 	std::vector<std::reference_wrapper<Animator>> animations
 		= mgr.get_components_by_type<Animator>();

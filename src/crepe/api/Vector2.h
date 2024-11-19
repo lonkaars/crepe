@@ -2,19 +2,12 @@
 
 namespace crepe {
 
-//! Vector2 class
-class Vector2 {
-public:
+//! 2D vector
+struct Vector2 {
 	//! X component of the vector
-	double x;
+	double x = 0;
 	//! Y component of the vector
-	double y;
-
-	//! Default constructor
-	Vector2() = default;
-
-	//! Constructor with initial values
-	Vector2(double x, double y);
+	double y = 0;
 
 	//! Subtracts another vector from this vector and returns the result.
 	Vector2 operator-(const Vector2 & other) const;

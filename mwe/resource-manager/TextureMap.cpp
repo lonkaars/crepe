@@ -15,8 +15,7 @@ TextureMap::~TextureMap() {
 }
 
 //public
-bool TextureMap::loadFromFile(const std::string & path,
-							  SDL_Renderer * renderer) {
+bool TextureMap::loadFromFile(const std::string & path, SDL_Renderer * renderer) {
 	assert(renderer != nullptr);
 	assert(!path.empty());
 
@@ -34,12 +33,11 @@ bool TextureMap::loadFromFile(const std::string & path,
 		constexpr std::int32_t bmask = 0x00ff0000;
 		const std::int32_t amask = c == 4 ? 0xff000000 : 0;
 
-		auto * surface = SDL_CreateRGBSurfaceFrom(data, x, y, c * 8, pitch,
-												  rmask, gmask, bmask, amask);
+		auto * surface
+			= SDL_CreateRGBSurfaceFrom(data, x, y, c * 8, pitch, rmask, gmask, bmask, amask);
 
 		if (!surface) {
-			std::cerr << "Unable to create texture surface: " << SDL_GetError()
-					  << "\n";
+			std::cerr << "Unable to create texture surface: " << SDL_GetError() << "\n";
 			stbi_image_free(data);
 			return false;
 		}

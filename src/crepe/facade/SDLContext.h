@@ -17,9 +17,8 @@ const int SCREEN_HEIGHT = 480;
 
 namespace crepe {
 
-// TODO: SDL_Keycode is defined in a header not distributed with crepe, which
-// means this typedef is unusable when crepe is packaged. Wouter will fix this
-// later.
+// TODO: SDL_Keycode is defined in a header not distributed with crepe, which means this
+// typedef is unusable when crepe is packaged. Wouter will fix this later.
 typedef SDL_Keycode CREPE_KEYCODES;
 
 class Texture;
@@ -29,8 +28,8 @@ class LoopManager;
  * \class SDLContext
  * \brief Facade for the SDL library
  * 
- * SDLContext is a singleton that handles the SDL window and renderer, provides methods
- * for event handling, and rendering to the screen. It is never used directly by the user
+ * SDLContext is a singleton that handles the SDL window and renderer, provides methods for
+ * event handling, and rendering to the screen. It is never used directly by the user
  */
 class SDLContext {
 
@@ -68,9 +67,8 @@ private:
 	/**
 	 * \brief Pauses the execution for a specified duration.
 	 *
-	 * This function uses SDL's delay function to halt the program execution
-	 * for a given number of milliseconds, allowing for frame rate control
-	 * or other timing-related functionality.
+	 * This function uses SDL's delay function to halt the program execution for a given number
+	 * of milliseconds, allowing for frame rate control or other timing-related functionality.
 	 *
 	 * \param ms Duration of the delay in milliseconds.
 	 */
@@ -127,8 +125,7 @@ private:
 	 * \param transform Reference to the Transform for positioning.
 	 * \param camera Reference to the Camera for view adjustments.
 	 */
-	void draw(const Sprite & sprite, const Transform & transform,
-			  const Camera & camera);
+	void draw(const Sprite & sprite, const Transform & transform, const Camera & camera);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
@@ -147,8 +144,7 @@ private:
 	std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> game_window;
 
 	//! renderer for the crepe engine
-	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>>
-		game_renderer;
+	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
 
 	//! viewport for the camera window
 	SDL_Rect viewport = {0, 0, 640, 480};
