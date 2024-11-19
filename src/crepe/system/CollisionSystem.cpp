@@ -4,179 +4,200 @@
 #include <utility>
 #include <variant>
 
+#include "api/Event.h"
+#include "api/EventManager.h"
+#include "api/BoxCollider.h"
+#include "api/CircleCollider.h"
+#include "api/Vector2.h"
+#include "api/Rigidbody.h"
+#include "api/Transform.h"
+
+#include "ComponentManager.h"
 #include "CollisionSystem.h"
-#include "../api/Event.h"
-#include "../api/EventManager.h"
-
-#include "../ComponentManager.h"
-#include "../api/BoxCollider.h"
-#include "../api/CircleCollider.h"
-#include "../api/Vector2.h"
-#include "../api/Rigidbody.h"
-#include "../api/Transform.h"
-
 #include "Collider.h"
-#include "iostream"
 
 using namespace crepe;
 
 CollisionSystem::CollisionSystem() {}
 
 void CollisionSystem::update() {
+	// Get collider components and keep them seperate
 	ComponentManager & mgr = ComponentManager::get_instance();
 	std::vector<std::reference_wrapper<BoxCollider>> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
 	std::vector<std::reference_wrapper<CircleCollider>> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
+	
+	// Check between all colliders if there is a collision
 	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> collided = check_collisions(boxcolliders,circlecolliders);
-	// std::cout << "DEBUG INFO" << std::endl;
-	for (auto& collision_pair : collided) {
-		call_collision_handler(collision_pair.first,collision_pair.second); // First collider
-		call_collision_handler(collision_pair.second,collision_pair.first); // First collider
-	}
 
-	if(collided.empty()) {
-		std::cout << "No objects collided" << std::endl;
+	// For both objects call the collision handler 
+	for (auto& collision_pair : collided) {
+		collision_handler(collision_pair.first,collision_pair.second);
+		collision_handler(collision_pair.second,collision_pair.first);
 	}
 }
 
-void CollisionSystem::call_collision_handler(CollidedInfoStor& data1,CollidedInfoStor& data2){
+void CollisionSystem::collision_handler(CollidedInfoStor& data1,CollidedInfoStor& data2){
+
+	// Data needed for collision handler info
 	const Collider* collider1 = nullptr;
 	const Collider* collider2 = nullptr;
-	double height1 = 0,width1 = 0;
-	double height2 = 0,width2 = 0;
-	Vector2 final_position1;
-	Vector2 final_position2;
-	Vector2 temp;
+	Vector2 move_back;
+
 	// Check collision type and get values for handler
-	game_object_id_t first = 0,second = 0;
 	if (std::holds_alternative<BoxCollider>(data1.collider)) {
 		if (std::holds_alternative<BoxCollider>(data2.collider)) {
+			
+			// Get colliders from variant to be used to determine collision handler info
 			const BoxCollider& box_collider1 = std::get<BoxCollider>(data1.collider);
 			const BoxCollider& box_collider2 = std::get<BoxCollider>(data2.collider);
 			collider1 = &box_collider1;
 			collider2 = &box_collider2;
-			first = box_collider1.game_object_id;
-			second = box_collider2.game_object_id;
-			height1 = box_collider1.height;
-			height2 = box_collider2.height;
-			width1 = box_collider1.width;
-			width2 = box_collider2.width;
-			final_position1 = current_position(box_collider1,data1.transform,data1.rigidbody);
-			final_position2 = current_position(box_collider2,data2.transform,data2.rigidbody);
 
-			Vector2 delta = final_position2 - final_position1;
+			// TODO: send with the collider info to this function because this is calculated previously
+			// Get the current position of the collider
+			Vector2 final_position1 = current_position(box_collider1,data1.transform,data1.rigidbody);
+			Vector2 final_position2 = current_position(box_collider2,data2.transform,data2.rigidbody);
 
-			double half_width1 = width1 / 2.0;
-			double half_height1 = height1 / 2.0;
-			double half_width2 = width2 / 2.0;
-			double half_height2 = height2 / 2.0;
-
-			// Compute overlap in X and Y directions
-			double overlap_x = (half_width1 + half_width2) - std::abs(delta.x);
-			double overlap_y = (half_height1 + half_height2) - std::abs(delta.y);
-
-			// Check if there is actually a collision
-			if (overlap_x > 0 && overlap_y > 0) {
-					// Resolve in the smallest overlap direction
-					if (overlap_x < overlap_y) {
-							// Resolve along X-axis
-							temp = {delta.x > 0 ? -overlap_x : overlap_x, 0};
-					} else {
-							// Resolve along Y-axis
-							temp = {0, delta.y > 0 ? -overlap_y : overlap_y};
-					}
-			}
-
-
-
+			// Determine move_back value for smallest overlap (x or y)
+			move_back = box_box_collision_move_back(box_collider1,box_collider2,final_position1,final_position2);
+			
 		}
 		else {
+			// TODO: calcualte Box - Circle collision info
 			const BoxCollider& box_collider = std::get<BoxCollider>(data1.collider);
 			const CircleCollider& circle_collider = std::get<CircleCollider>(data2.collider);
 			collider1 = &box_collider;
 			collider2 = &circle_collider;
-			first = box_collider.game_object_id;
-			second = circle_collider.game_object_id;
-			height1 = box_collider.height;
-			height2 = circle_collider.radius + circle_collider.radius;
-			width1 = box_collider.width;
-			width2 = circle_collider.radius + circle_collider.radius;
 		}
 	}
 	else {
 		if (std::holds_alternative<CircleCollider>(data2.collider)) {
+			// TODO: calcualte Circle - Circle collision info
 			const CircleCollider& circle_collider1 = std::get<CircleCollider>(data1.collider);
 			const CircleCollider& circle_collider2 = std::get<CircleCollider>(data2.collider);
 			collider1 = &circle_collider1;
 			collider2 = &circle_collider2;
-			first = circle_collider1.game_object_id;
-			second = circle_collider2.game_object_id;
-			height1 = circle_collider1.radius + circle_collider1.radius;
-			height2 = circle_collider2.radius + circle_collider2.radius;
-			width1 = circle_collider1.radius + circle_collider1.radius;
-			width2 = circle_collider2.radius + circle_collider2.radius;
 		}
 		else {
+			// TODO: calcualte Circle - Box collision info
 			const CircleCollider& circle_collider = std::get<CircleCollider>(data1.collider);
 			const BoxCollider& box_collider = std::get<BoxCollider>(data2.collider);
 			collider1 = &circle_collider;
 			collider2 = &box_collider;
-			first = circle_collider.game_object_id;
-			second = box_collider.game_object_id;
-			height1 = circle_collider.radius + circle_collider.radius;
-			height2 = box_collider.height;
-			width1 = circle_collider.radius + circle_collider.radius;
-			width2 = box_collider.width;
 		}
 	}
+
+	// One vaue is calculated for moving back. Calculate the other value (x or y) relateive to the move_back value.
+	Direction move_back_direction = Direction::NONE;
+	if(move_back.x != 0 && move_back.y > 0) {
+		move_back_direction = Direction::BOTH;
+	} else if (move_back.x != 0) {
+		move_back_direction = Direction::X_DIRECTION;
+		move_back.y = data1.rigidbody.data.linear_velocity.y * (move_back.x/data1.rigidbody.data.linear_velocity.x);
+	} else if (move_back.y != 0) {
+		move_back_direction = Direction::Y_DIRECTION;
+		move_back.x = data1.rigidbody.data.linear_velocity.x * (move_back.y/data1.rigidbody.data.linear_velocity.y);
+	}
+
+	// collision info
 	crepe::CollisionSystem::CollisionInfo collision_info{
             .first={ *collider1, data1.transform, data1.rigidbody },
             .second={ *collider2, data2.transform, data2.rigidbody },
-						.move_back_value = temp,
+						.move_back_value = move_back,
+						.move_back_direction = move_back_direction,
         };
 
-	// check rigidbody type
-	if(data1.rigidbody.data.body_type != Rigidbody::BodyType::STATIC)
+	// Determine if static needs to be called
+	determine_collision_handler(collision_info);	
+}
+
+
+Vector2 CollisionSystem::box_box_collision_move_back(const BoxCollider& box_collider1,const BoxCollider& box_collider2,Vector2 final_position1,Vector2 final_position2)
+{
+	Vector2 resolution; // Default resolution vector
+	Vector2 delta = final_position2 - final_position1;
+
+	// Compute half-dimensions of the boxes
+	double half_width1 = box_collider1.width / 2.0;
+	double half_height1 = box_collider1.height / 2.0;
+	double half_width2 = box_collider2.width / 2.0;
+	double half_height2 = box_collider2.height / 2.0;
+
+	// Calculate overlaps along X and Y axes
+	double overlap_x = (half_width1 + half_width2) - std::abs(delta.x);
+	double overlap_y = (half_height1 + half_height2) - std::abs(delta.y);
+
+	// Check if there is a collision
+	if (overlap_x > 0 && overlap_y > 0) {//should always be true check if this can be removed
+		// Determine the direction of resolution
+		if (overlap_x < overlap_y) {
+			// Resolve along the X-axis (smallest overlap)
+			resolution.x = (delta.x > 0) ? -overlap_x : overlap_x;
+		} else if (overlap_y < overlap_x) {
+			// Resolve along the Y-axis (smallest overlap)
+			resolution.y = (delta.y > 0) ? -overlap_y : overlap_y;
+		} else {
+			// Equal overlap, resolve both directions with preference
+			resolution.x = (delta.x > 0) ? -overlap_x : overlap_x;
+			resolution.y = (delta.y > 0) ? -overlap_y : overlap_y;
+		}
+	}
+
+	return resolution;
+}
+
+void CollisionSystem::determine_collision_handler(CollisionInfo& info){
+	// Check rigidbody type for static
+	if(info.first.rigidbody.data.body_type != Rigidbody::BodyType::STATIC)
 	{
-		// If second body is static move back
-		if(data2.rigidbody.data.body_type == Rigidbody::BodyType::STATIC){
-			//call static handler (is bounce true?)
-			static_collision_handler(collision_info);
+		// If second body is static perform the static collision handler in this system
+		if(info.second.rigidbody.data.body_type == Rigidbody::BodyType::STATIC){
+			static_collision_handler(info);
 		}; 
-		
-		
-		CollisionEvent data(collision_info);
-		EventManager::get_instance().trigger_event<CollisionEvent>(data, first);
+		// Call collision event for user
+		CollisionEvent data(info);
+		EventManager::get_instance().trigger_event<CollisionEvent>(data, info.first.collider.game_object_id);
 	}		
 }
 
 void CollisionSystem::static_collision_handler(CollisionInfo& info){
-	std::cout << "INFO: x:" << info.first.transform.position.x << "y:" << info.first.transform.position.y << std::endl;
+	// Move object back using calculate move back value 
 	info.first.transform.position += info.move_back_value;
+
+	// If bounce is enabled mirror velocity
 	if(info.first.rigidbody.data.bounce) {
-		if(info.move_back_value.x != 0) {
-			info.first.rigidbody.data.linear_velocity.x = -info.first.rigidbody.data.linear_velocity.x * info.first.rigidbody.data.bouncie_factor;
+		if(info.move_back_direction == Direction::BOTH)
+		{
+			info.first.rigidbody.data.linear_velocity.y = -info.first.rigidbody.data.linear_velocity.y * info.first.rigidbody.data.elastisity;
+			info.first.rigidbody.data.linear_velocity.x = -info.first.rigidbody.data.linear_velocity.x * info.first.rigidbody.data.elastisity;
 		}
-		if(info.move_back_value.y != 0) {
-			info.first.rigidbody.data.linear_velocity.y = -info.first.rigidbody.data.linear_velocity.y * info.first.rigidbody.data.bouncie_factor;
+		else if(info.move_back_direction == Direction::Y_DIRECTION) {
+			info.first.rigidbody.data.linear_velocity.y = -info.first.rigidbody.data.linear_velocity.y * info.first.rigidbody.data.elastisity;
+		}
+		else if(info.move_back_direction == Direction::X_DIRECTION){
+			info.first.rigidbody.data.linear_velocity.x = -info.first.rigidbody.data.linear_velocity.x * info.first.rigidbody.data.elastisity;
 		}
 	}
+	// Stop movement if bounce is disabled
 	else {
 		info.first.rigidbody.data.linear_velocity = {0,0};
 	}
-	
 }
 
 std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::CollidedInfoStor>> CollisionSystem::check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders) {
 	ComponentManager & mgr = ComponentManager::get_instance();
 	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> collisions_ret;
-	//if no colliders skip
-	//check if colliders has rigibocdy if not skip
 
-	//if amount is higer than lets say 16 for now use quadtree otwerwise skip
-	//quadtree code
-	//quadtree is placed over the input vector
+	// TODO:
+	// If no colliders skip
+	// Check if colliders has rigidbody if not skip
 
-	// Check collisions
+	// TODO:
+	// If amount is higer than lets say 16 for now use quadtree otwerwise skip
+	// Quadtree code
+	// Quadtree is placed over the input vector
+
+	// Check collisions for each collider
 	for (size_t i = 0; i < boxcolliders.size(); ++i) {
 		// Fetch components for the first box collider
 		if(!boxcolliders[i].get().active) continue;
@@ -270,31 +291,11 @@ bool CollisionSystem::check_box_box_collision(const BoxCollider& box1, const Box
 	Vector2 final_position1 = current_position(box1,transform1,rigidbody1);
 	Vector2 final_position2 = current_position(box2,transform2,rigidbody2);
 
-	 // Log final positions for debugging purposes
-	std::cout << "Final Position of Box 1: (" << final_position1.x << ", " << final_position1.y << ")" << std::endl;
-	std::cout << "Final Position of Box 2: (" << final_position2.x << ", " << final_position2.y << ")" << std::endl;
-
-	// Log rotation values for debugging
-	std::cout << "Rotation of Box 1: " << transform1.rotation << " degrees" << std::endl;
-	std::cout << "Rotation of Box 2: " << transform2.rotation << " degrees" << std::endl;
-
-
 	// Calculate half-extents (half width and half height)
 	double half_width1 = box1.width / 2.0;
 	double half_height1 = box1.height / 2.0;
 	double half_width2 = box2.width / 2.0;
 	double half_height2 = box2.height / 2.0;
-
-	std::cout << "half_width of Box 1: " << half_width1 << std::endl;
-	std::cout << "half_height of Box 2: " << half_height1 << std::endl;
-	std::cout << "half_width of Box 1: " << half_width2 << std::endl;
-	std::cout << "half_height of Box 2: " << half_height2 << std::endl;
-
-
-	std::cout << "final_position1.x + half_width1 < final_position2.x - half_width2 " << (final_position1.x + half_width1 < final_position2.x - half_width2) << std::endl;
-	std::cout << "final_position1.x - half_width1 > final_position2.x + half_width2 " << (final_position1.x - half_width1 > final_position2.x + half_width2) << std::endl;
-	std::cout << "final_position1.y + half_height1 < final_position2.y - half_height2 " << (final_position1.y + half_height1 < final_position2.y - half_height2) << std::endl;
-	std::cout << "final_position1.y - half_height1 > final_position2.y + half_height2 " << (final_position1.y - half_height1 > final_position2.y + half_height2) << std::endl;
 
 	// Check if the boxes overlap along the X and Y axes
 	return !(final_position1.x + half_width1 <= final_position2.x - half_width2 ||  // box1 is left of box2
@@ -308,10 +309,6 @@ bool CollisionSystem::check_box_circle_collision(const BoxCollider& box1, const 
 	Vector2 final_position1 = current_position(box1, transform1, rigidbody1);
 	Vector2 final_position2 = current_position(circle2, transform2, rigidbody2);
 
-	// Log final positions for debugging purposes
-	// std::cout << "Final Position of Box: (" << final_position1.x << ", " << final_position1.y << ")" << std::endl;
-	// std::cout << "Final Position of Circle: (" << final_position2.x << ", " << final_position2.y << ")" << std::endl;
-
 	// Calculate box half-extents
 	double half_width = box1.width / 2.0;
 	double half_height = box1.height / 2.0;
@@ -319,7 +316,6 @@ bool CollisionSystem::check_box_circle_collision(const BoxCollider& box1, const 
 	// Find the closest point on the box to the circle's center
 	double closest_x = std::max(final_position1.x - half_width, std::min(final_position2.x, final_position1.x + half_width));
 	double closest_y = std::max(final_position1.y - half_height, std::min(final_position2.y, final_position1.y + half_height));
-
 
 	// Calculate the distance squared between the circle's center and the closest point on the box
 	double distance_x = final_position2.x - closest_x;
@@ -334,14 +330,6 @@ bool CollisionSystem::check_circle_circle_collision(const CircleCollider& circle
 	// Get current positions of colliders
 	Vector2 final_position1 = current_position(circle1,transform1,rigidbody1);
 	Vector2 final_position2 = current_position(circle2,transform2,rigidbody2);
-
-	// Log final positions for debugging purposes
-	// std::cout << "Final Position of Circle 1: (" << final_position1.x << ", " << final_position1.y << ")" << std::endl;
-	// std::cout << "Final Position of Circle 2: (" << final_position2.x << ", " << final_position2.y << ")" << std::endl;
-
-	// Log rotation values for debugging (circles do not rotate, so this might not be needed for circles)
-	// std::cout << "Rotation of Circle 1: " << transform1.rotation << " degrees" << std::endl;
-	// std::cout << "Rotation of Circle 2: " << transform2.rotation << " degrees" << std::endl;
 
 	double distance_x = final_position1.x - final_position2.x;
 	double distance_y = final_position1.y - final_position2.y;
