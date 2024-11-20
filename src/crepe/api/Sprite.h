@@ -2,8 +2,9 @@
 
 #include <memory>
 
+#include "../Component.h"
+
 #include "Color.h"
-#include "Component.h"
 #include "Texture.h"
 
 namespace crepe {

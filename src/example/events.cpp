@@ -2,7 +2,7 @@
 
 #include <crepe/ComponentManager.h>
 #include <crepe/system/ScriptSystem.h>
-#include <crepe/util/log.h>
+#include <crepe/util/Log.h>
 
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Config.h>
@@ -65,6 +65,10 @@ public:
 	}
 };
 int main() {
+	EventManager & evmgr = EventManager::get_instance();
+	ComponentManager mgr{};
+	ScriptSystem sys{mgr};
+
 	// two events to trigger
 	KeyPressEvent key_press;
 	key_press.key = Keycode::A;
@@ -74,22 +78,19 @@ int main() {
 	click_event.mouse_x = 100;
 	click_event.mouse_y = 200;
 	// queue events to test queue
-	EventManager::get_instance().queue_event<KeyPressEvent>(
-		std::move(key_press), 0);
-	EventManager::get_instance().queue_event<MouseClickEvent>(
-		std::move(click_event), 0);
+	evmgr.queue_event<KeyPressEvent>(std::move(key_press), 0);
+	evmgr.queue_event<MouseClickEvent>(std::move(click_event), 0);
 	{
 		TestKeyListener test_listener;
 		test_listener.set_channel(1);
-		auto obj = GameObject(0, "name", "tag", Vector2{1.2, 3.4}, 0, 1);
+		auto obj = mgr.new_object("name", "tag", Vector2{1.2, 3.4}, 0, 1);
 		obj.add_component<BehaviorScript>().set_script<MyScript>();
 
-		ScriptSystem sys;
 		sys.update();
 
 		// Trigger the events while `testListener` is in scope
-		EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 1);
-		EventManager::get_instance().trigger_event(MouseClickEvent{
+		evmgr.trigger_event<KeyPressEvent>(key_press, 1);
+		evmgr.trigger_event(MouseClickEvent{
     		.mouse_x = 100,
     		.mouse_y = 100,
     		.button = MouseButton::LEFT_MOUSE,
@@ -100,14 +101,13 @@ int main() {
 		std::cout << "lambda test" << std::endl;
 		return false;
 	};
-	EventManager::get_instance().subscribe<KeyPressEvent>(
-		std::move(event_handler), 0);
+	evmgr.subscribe<KeyPressEvent>(std::move(event_handler), 0);
 	// testing trigger with testListener not in scope (unsubscribed)
-	EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 0);
-	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);
+	evmgr.trigger_event<KeyPressEvent>(key_press, 0);
+	evmgr.trigger_event<MouseClickEvent>(click_event, 0);
 	// dispatching queued events
-	EventManager::get_instance().dispatch_events();
+	evmgr.dispatch_events();
 
-	EventManager::get_instance().unsubscribe<KeyPressEvent>(event_handler, 0);
+	evmgr.unsubscribe<KeyPressEvent>(event_handler, 0);
 	return EXIT_SUCCESS;
 }

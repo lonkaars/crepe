@@ -2,32 +2,11 @@
 
 using namespace crepe;
 
-Color Color::white = Color(255, 255, 255, 0);
-Color Color::red = Color(255, 0, 0, 0);
-Color Color::green = Color(0, 255, 0, 0);
-Color Color::blue = Color(0, 0, 255, 0);
-Color Color::black = Color(0, 0, 0, 0);
-Color Color::cyan = Color(0, 255, 255, 0);
-Color Color::yellow = Color(255, 255, 0, 0);
-Color Color::magenta = Color(255, 0, 255, 0);
-
-Color::Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) {
-	this->a = alpha;
-	this->r = red;
-	this->g = green;
-	this->b = blue;
-};
-
-const Color & Color::get_white() { return Color::white; };
-
-const Color & Color::get_red() { return Color::red; };
-const Color & Color::get_green() { return Color::green; };
-const Color & Color::get_blue() { return Color::blue; };
-
-const Color & Color::get_black() { return Color::black; };
-
-const Color & Color::get_cyan() { return Color::cyan; };
-
-const Color & Color::get_yellow() { return Color::yellow; };
-
-const Color & Color::get_magenta() { return Color::magenta; };
+const Color Color::WHITE{0xff, 0xff, 0xff};
+const Color Color::RED{0xff, 0x00, 0x00};
+const Color Color::GREEN{0x00, 0xff, 0x00};
+const Color Color::BLUE{0x00, 0x00, 0xff};
+const Color Color::BLACK{0x00, 0x00, 0x00};
+const Color Color::CYAN{0x00, 0xff, 0xff};
+const Color Color::YELLOW{0xff, 0xff, 0x00};
+const Color Color::MAGENTA{0xff, 0x00, 0xff};
