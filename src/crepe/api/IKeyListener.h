@@ -36,6 +36,7 @@ public:
      * \return True if the event was handled, false otherwise.
      */
 	virtual bool on_key_released(const KeyReleaseEvent & event) = 0;
+
 protected:
 	/**
      * \brief Subscribes to key events.

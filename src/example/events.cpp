@@ -63,9 +63,9 @@ public:
 	}
 };
 int main() {
-	
+
 	{
-			// two events to trigger
+		// two events to trigger
 		KeyPressEvent key_press;
 		key_press.key = Keycode::A;
 		key_press.repeat = 0;
@@ -106,10 +106,8 @@ int main() {
 	EventManager::get_instance().subscribe<KeyPressEvent>(event_handler, CHANNEL_ALL);
 	EventManager::get_instance().subscribe<KeyPressEvent>(event_handler, CHANNEL_ALL);
 	EventManager::get_instance().subscribe<MouseClickEvent>(event_handler2, CHANNEL_ALL);
-	EventManager::get_instance().trigger_event<KeyPressEvent>(KeyPressEvent{
-		.repeat = false,
-		.key = Keycode::A
-	});
+	EventManager::get_instance().trigger_event<KeyPressEvent>(
+		KeyPressEvent{.repeat = false, .key = Keycode::A});
 	//EventManager::get_instance().unsubscribe<KeyPressEvent>(event_handler, 0);
 	// testing trigger with testListener not in scope (unsubscribed)
 	// EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 0);

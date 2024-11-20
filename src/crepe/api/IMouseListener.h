@@ -55,6 +55,7 @@ public:
      * \return True if the event was handled, false otherwise.
      */
 	virtual bool on_mouse_moved(const MouseMoveEvent & event) = 0;
+
 protected:
 	/**
      * \brief Subscribes to mouse events on the specified channel.
