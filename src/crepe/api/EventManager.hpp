@@ -3,9 +3,8 @@
 namespace crepe {
 
 template <typename EventType>
-void EventManager::subscribe(const EventHandler<EventType> & callback, int channel,
-							 int priority) {
-
+subscription_t EventManager::subscribe(const EventHandler<EventType> & callback, int channel) {
+	subscription_counter++;
 	std::type_index event_type = typeid(EventType);
 	std::unique_ptr<EventHandlerWrapper<EventType>> handler
 		= std::make_unique<EventHandlerWrapper<EventType>>(callback);
@@ -13,17 +12,13 @@ void EventManager::subscribe(const EventHandler<EventType> & callback, int chann
 	handlers.emplace_back(CallbackEntry{
 		.callback = std::move(handler),
 		.channel = channel,
-		.priority = priority,
+		.id = subscription_counter
 	});
-	// Sort handlers by priority (highest first)
-	std::sort(handlers.begin(), handlers.end(),
-			  [](const CallbackEntry & a, const CallbackEntry & b) {
-				  return a.priority > b.priority;
-			  });
+	return subscription_counter;
 }
 
 template <typename EventType>
-void EventManager::queue_event(const EventType & event, int channel, int priority) {
+void EventManager::queue_event(const EventType & event, int channel) {
 	static_assert(std::is_base_of<Event, EventType>::value,
 				  "EventType must derive from Event");
 	std::type_index event_type = typeid(EventType);
@@ -32,8 +27,7 @@ void EventManager::queue_event(const EventType & event, int channel, int priorit
 
 	this->events_queue.push_back(QueueEntry{.event = std::move(event_ptr),
 											.channel = channel,
-											.type = event_type,
-											.priority = priority});
+											.type = event_type});
 }
 
 template <typename EventType>
@@ -55,25 +49,5 @@ void EventManager::trigger_event(const EventType & event, int channel) {
 	}
 }
 
-template <typename EventType>
-void EventManager::unsubscribe(const EventHandler<EventType> & callback, int channel) {
-	std::type_index event_type = typeid(EventType);
-	std::string handler_name = callback.target_type().name();
-
-	// Find the list of handlers for this event type
-	auto handlers_it = this->subscribers.find(event_type);
-	if (handlers_it != this->subscribers.end()) {
-		std::vector<CallbackEntry> & handlers = handlers_it->second;
-
-		for (auto it = handlers.begin(); it != handlers.end();) {
-			// Match based on handler type and channel
-			if (it->callback->get_type() == handler_name && it->channel == channel) {
-				it = handlers.erase(it);
-				return;
-			}
-			++it;
-		}
-	}
-}
 
 } // namespace crepe

@@ -24,7 +24,7 @@ using EventHandler = std::function<bool(const EventType & e)>;
  * \brief An abstract base class for event handler wrappers.
  * 
  * This class provides the interface for handling events. Derived classes must implement the
- * `call()` method to process events and the `get_type()` method to return the handler's type.
+ * `call()` method to process events
  */
 class IEventHandlerWrapper {
 public:
@@ -42,15 +42,6 @@ public:
      * \return A boolean value indicating whether the event is handled.
      */
 	bool exec(const Event & e);
-
-	/**
-     * \brief Get the type of the event handler.
-     * 
-     * This method returns the type of the event handler as a string.
-     * 
-     * \return A string representing the handler's type.
-     */
-	virtual std::string get_type() const = 0;
 
 private:
 	/**
@@ -96,20 +87,8 @@ private:
      * \return A boolean value indicating whether the event is handled.
      */
 	bool call(const Event & e) override;
-
-	/**
-     * \brief Returns the type of the handler.
-     * 
-     * This method returns a string representing the type of the event handler.
-     * 
-     * \return The handler type as a string.
-     */
-	std::string get_type() const override;
-
 	//! The event handler function.
 	EventHandler<EventType> handler;
-	//! The type name of the handler function.
-	const std::string handler_type;
 };
 
 } // namespace crepe

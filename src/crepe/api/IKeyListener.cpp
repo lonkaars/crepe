@@ -3,29 +3,15 @@
 using namespace crepe;
 
 // Constructor with specified channel
-IKeyListener::IKeyListener(int channel)
-	: channel(channel),
-	  active(true),
+IKeyListener::IKeyListener(int channel) :
 	  event_manager(EventManager::get_instance()) {
-	this->subscribe_events();
+	press_id = event_manager.subscribe<KeyPressEvent>([this](const KeyPressEvent & event) { return this->on_key_pressed(event); }, channel);
+	release_id = event_manager.subscribe<KeyReleaseEvent>([this](const KeyReleaseEvent & event) { return this->on_key_released(event); }, channel);
 }
 
 // Destructor, unsubscribe events
-IKeyListener::~IKeyListener() { this->unsubscribe_events(); }
-
-// Subscribe to key events
-void IKeyListener::subscribe_events() {
-	key_pressed_handler
-		= [this](const KeyPressEvent & event) { return this->on_key_pressed(event); };
-	key_released_handler
-		= [this](const KeyReleaseEvent & event) { return this->on_key_released(event); };
-
-	event_manager.subscribe<KeyPressEvent>(this->key_pressed_handler, this->channel);
-	event_manager.subscribe<KeyReleaseEvent>(this->key_released_handler, this->channel);
+IKeyListener::~IKeyListener() { 
+	event_manager.unsubscribe(press_id);
+	event_manager.unsubscribe(release_id);
 }
 
-// Unsubscribe from key events
-void IKeyListener::unsubscribe_events() {
-	event_manager.unsubscribe<KeyPressEvent>(this->key_pressed_handler, this->channel);
-	event_manager.unsubscribe<KeyReleaseEvent>(this->key_released_handler, this->channel);
-}
