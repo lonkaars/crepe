@@ -205,7 +205,7 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 		Rigidbody& rigidbody1 = mgr.get_components_by_id<Rigidbody>(game_object_id_1).front().get();
 		if(!rigidbody1.active) continue;
 		
-		// Check CircleCollider vs CircleCollider
+		// Check BoxCollider vs BoxCollider
 		for (size_t j = i + 1; j < boxcolliders.size(); ++j) {
 			if(!boxcolliders[j].get().active) continue;
 			// Skip self collision
