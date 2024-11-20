@@ -63,5 +63,4 @@ OptionalRef<T>::operator bool() const noexcept {
 	return this->ref != nullptr;
 }
 
-}
-
+} // namespace crepe

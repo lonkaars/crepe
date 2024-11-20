@@ -23,7 +23,7 @@ public:
 	 *
 	 * \return Reference to this (required for operator)
 	 */
-  OptionalRef<T> & operator=(T & ref);
+	OptionalRef<T> & operator=(T & ref);
 	/**
 	 * \brief Check if this reference is not empty
 	 *
@@ -51,13 +51,13 @@ public:
 	void clear() noexcept;
 
 	//! Copy constructor
-  OptionalRef(const OptionalRef<T> &);
+	OptionalRef(const OptionalRef<T> &);
 	//! Move constructor
-  OptionalRef(OptionalRef<T> &&);
+	OptionalRef(OptionalRef<T> &&);
 	//! Copy assignment
-  OptionalRef<T> & operator=(const OptionalRef<T> &);
+	OptionalRef<T> & operator=(const OptionalRef<T> &);
 	//! Move assignment
-  OptionalRef<T> & operator=(OptionalRef<T> &&);
+	OptionalRef<T> & operator=(OptionalRef<T> &&);
 
 private:
 	/**
@@ -68,7 +68,6 @@ private:
 	T * ref = nullptr;
 };
 
-}
+} // namespace crepe
 
 #include "OptionalRef.hpp"
-

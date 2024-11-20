@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cstdint>
-#include <vector>
 #include <functional>
+#include <vector>
 
 namespace crepe {
 
@@ -13,4 +13,4 @@ typedef uint32_t game_object_id_t;
 template <typename T>
 using RefVector = std::vector<std::reference_wrapper<T>>;
 
-}
+} // namespace crepe

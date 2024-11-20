@@ -30,9 +30,8 @@ int main() {
 	// Normal adding components
 	{
 		Color color(0, 0, 0, 0);
-		Sprite & sprite
-			= obj.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"),
-										color, FlipSettings{false, false});
+		Sprite & sprite = obj.add_component<Sprite>(
+			make_shared<Texture>("asset/texture/img.png"), color, FlipSettings{false, false});
 		sprite.sorting_in_layer = 2;
 		sprite.order_in_layer = 1;
 		obj.add_component<Camera>(Color::RED);

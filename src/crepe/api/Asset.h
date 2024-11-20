@@ -33,7 +33,7 @@ public:
 	 * \param other Possibly different instance of \c Asset to test equality against
 	 * \return True if \c this and \c other are equal
 	 */
-	bool operator == (const Asset & other) const noexcept;
+	bool operator==(const Asset & other) const noexcept;
 
 private:
 	//! path to asset
@@ -52,7 +52,8 @@ private:
 namespace std {
 
 //! Hash helper struct
-template<> struct hash<const crepe::Asset> {
+template <>
+struct hash<const crepe::Asset> {
 	/**
 	 * \brief Hash operator for crepe::Asset
 	 *
@@ -64,5 +65,4 @@ template<> struct hash<const crepe::Asset> {
 	size_t operator()(const crepe::Asset & asset) const noexcept;
 };
 
-}
-
+} // namespace std
