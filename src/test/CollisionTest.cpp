@@ -22,6 +22,8 @@ using namespace crepe;
 class UnitTestBoxBoxCollision1 : public Script {
 	static bool oncollision(const CollisionEvent& test) {
 		std::cout << "collision event 1" << std::endl;
+		std::cout << "collision event 1 x" << test.info.move_back_value.x << std::endl;
+		std::cout << "collision event 1 y" << test.info.move_back_value.y << std::endl;
 		return true;
 	}
 	void init() {
