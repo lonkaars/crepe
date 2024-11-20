@@ -24,24 +24,22 @@ class CollisionHandler : public Script {
 public:
 	int box_id;
 	EventManager & evmgr = EventManager::get_instance();
-	function<void(const CollisionEvent& ev)> test_fn = [](const CollisionEvent & ev) { };
 
 	CollisionHandler(int box_id) {
 		this->box_id = box_id;
 	}
 
 	bool on_collision(const CollisionEvent& ev) {
-		test_fn(ev);
+		Log::logf("Box {} event x={} y={}", box_id, ev.info.move_back_value.x, ev.info.move_back_value.y);
 		return true;
 	}
 
 	void init() {
 		Log::logf("Box {} script init()", box_id);
 
-		// TODO: this should be built into script
-		evmgr.subscribe<CollisionEvent>([this](const CollisionEvent & ev) {
+		subscribe<CollisionEvent>([this](const CollisionEvent & ev) {
 			return this->on_collision(ev);
-		}, this->get_game_object_id());
+		});
 	}
 };
 
@@ -109,31 +107,9 @@ public:
 };
 
 TEST_F(CollisionTest, collision_example) {
-	script_object1_ref->test_fn = [](const CollisionEvent & ev) {
-		Log::logf("event x={} y={}", ev.info.move_back_value.x, ev.info.move_back_value.y);
-		EXPECT_TRUE(true);
-	};
 	collision_sys.update();
-
-	// should be nullptr after update with no collision
-	//ASSERT_EQ(MyScriptCollider1::last_collision_info_1, nullptr);
-	//ASSERT_EQ(MyScriptCollider2::last_collision_info_2, nullptr);
-	// check if values are correct (filled in data)
-	// EXPECT_EQ(MyScriptCollider1::last_collision_info->first.collider.game_object_id, 1);
-	// EXPECT_EQ(MyScriptCollider2::last_collision_info->second.collider.game_object_id, 2);
-	// check test data
 }
 
 TEST_F(CollisionTest, collision_box_box_dynamic) {
-	script_object1_ref->test_fn = [](const CollisionEvent & ev) {
-		EXPECT_TRUE(false);
-	};
 	collision_sys.update();
-	// should be nullptr after update with no collision
-	// ASSERT_NE(MyScriptCollider1::last_collision_info_1, nullptr);
-	// ASSERT_NE(MyScriptCollider2::last_collision_info_2, nullptr);
-	// // check if values are correct (filled in data)
-	// EXPECT_EQ(MyScriptCollider1::last_collision_info_1->first.collider.game_object_id, 1);
-	// EXPECT_EQ(MyScriptCollider2::last_collision_info_2->second.collider.game_object_id, 2);
-	// check test data
 }

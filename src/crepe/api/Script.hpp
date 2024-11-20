@@ -31,10 +31,20 @@ void Script::logf(Args &&... args) {
 }
 
 template <typename EventType>
-void Script::subscribe(const EventHandler<EventType> & callback, event_channel_t channel) {
+void Script::subscribe_internal(const EventHandler<EventType> & callback, event_channel_t channel) {
 	EventManager & mgr = *this->event_manager_ref;
 	subscription_t listener = mgr.subscribe<EventType>(callback, channel);
 	this->listeners.push_back(listener);
+}
+
+template <typename EventType>
+void Script::subscribe(const EventHandler<EventType> & callback, event_channel_t channel) {
+	this->subscribe_internal(callback, channel);
+}
+
+template <typename EventType>
+void Script::subscribe(const EventHandler<EventType> & callback) {
+	this->subscribe_internal(callback, EventManager::CHANNEL_ALL);
 }
 
 } // namespace crepe

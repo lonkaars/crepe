@@ -87,17 +87,21 @@ protected:
 	template <typename... Args>
 	void logf(Args &&... args);
 
-	game_object_id_t get_game_object_id() const { return this->game_object_id; };
-
 	/**
 	 * \brief Subscribe to an event
 	 *
 	 * \see EventManager::subscribe
 	 */
 	template <typename EventType>
-	void subscribe(const EventHandler<EventType> & callback, event_channel_t channel = EventManager::CHANNEL_ALL);
+	void subscribe(const EventHandler<EventType> & callback, event_channel_t channel);
+	template <typename EventType>
+	void subscribe(const EventHandler<EventType> & callback);
 
 	//! \}
+
+private:
+	template <typename EventType>
+	void subscribe_internal(const EventHandler<EventType> & callback, event_channel_t channel);
 
 protected:
 	// NOTE: Script must have a constructor without arguments so the game programmer doesn't need
@@ -137,6 +141,11 @@ private:
 	//! List of subscribed events
 	std::vector<subscription_t> listeners;
 };
+
+template <>
+void Script::subscribe(const EventHandler<CollisionEvent> & callback);
+template <>
+void Script::subscribe(const EventHandler<CollisionEvent> & callback, event_channel_t) = delete;
 
 } // namespace crepe
 

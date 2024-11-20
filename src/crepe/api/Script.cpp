@@ -9,3 +9,7 @@ Script::~Script() {
 	}
 }
 
+template <>
+void Script::subscribe(const EventHandler<CollisionEvent> & callback) {
+	this->subscribe_internal(callback, this->game_object_id);
+}
