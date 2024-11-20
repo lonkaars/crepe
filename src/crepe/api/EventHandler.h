@@ -13,6 +13,8 @@ namespace crepe {
  * indicating whether the event is handled.
  * 
  * \tparam EventType The type of event this handler will handle.
+ * 
+ * Returning \c false from an event handler results in the event being propogated to other listeners for the same event type, while returning \c true stops propogation altogether.
  */
 template <typename EventType>
 using EventHandler = std::function<bool(const EventType & e)>;
@@ -105,9 +107,9 @@ private:
 	std::string get_type() const override;
 
 	//! The event handler function.
-	EventHandler<EventType> m_handler;
+	EventHandler<EventType> handler;
 	//! The type name of the handler function.
-	const std::string m_handler_type;
+	const std::string handler_type;
 };
 
 } // namespace crepe

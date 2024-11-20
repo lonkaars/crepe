@@ -2,7 +2,6 @@
 
 #include <crepe/ComponentManager.h>
 #include <crepe/system/ScriptSystem.h>
-#include <crepe/util/log.h>
 
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Config.h>
@@ -27,7 +26,6 @@ class MyScript : public Script, public IKeyListener, public IMouseListener {
 
 	bool on_key_pressed(const KeyPressEvent & event) override {
 		std::cout << "KeyPressed function" << std::endl;
-		this->deactivate_keys();
 		return false;
 	}
 	bool on_key_released(const KeyReleaseEvent & event) override {
@@ -65,48 +63,60 @@ public:
 	}
 };
 int main() {
-	// two events to trigger
-	KeyPressEvent key_press;
-	key_press.key = Keycode::A;
-	key_press.repeat = 0;
-	MouseClickEvent click_event;
-	click_event.button = MouseButton::LEFT_MOUSE;
-	click_event.mouse_x = 100;
-	click_event.mouse_y = 200;
-	// queue events to test queue
-	EventManager::get_instance().queue_event<KeyPressEvent>(std::move(key_press), 0);
-	EventManager::get_instance().queue_event<MouseClickEvent>(std::move(click_event), 0);
+	
 	{
+			// two events to trigger
+		KeyPressEvent key_press;
+		key_press.key = Keycode::A;
+		key_press.repeat = 0;
+		MouseClickEvent click_event;
+		click_event.button = MouseButton::LEFT_MOUSE;
+		click_event.mouse_x = 100;
+		click_event.mouse_y = 200;
+		// queue events to test queue
+		EventManager::get_instance().queue_event<KeyPressEvent>(key_press);
+		EventManager::get_instance().queue_event<MouseClickEvent>(click_event);
 		TestKeyListener test_listener;
-		test_listener.set_channel(1);
-		auto obj = GameObject(0, "name", "tag", Vector2{1.2, 3.4}, 0, 1);
-		obj.add_component<BehaviorScript>().set_script<MyScript>();
+		//auto obj = GameObject(0, "name", "tag", Vector2{1.2, 3.4}, 0, 1);
+		//obj.add_component<BehaviorScript>().set_script<MyScript>();
 
-		ScriptSystem sys;
-		sys.update();
+		//ScriptSystem sys;
+		//sys.update();
 
 		// Trigger the events while `testListener` is in scope
-		EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 1);
-		EventManager::get_instance().trigger_event(
-			MouseClickEvent{
-				.mouse_x = 100,
-				.mouse_y = 100,
-				.button = MouseButton::LEFT_MOUSE,
-			},
-			1);
+		//EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 1);
+		// EventManager::get_instance().trigger_event(
+		// 	MouseClickEvent{
+		// 		.mouse_x = 100,
+		// 		.mouse_y = 100,
+		// 		.button = MouseButton::LEFT_MOUSE,
+		// 	},
+		// 	1);
+		//EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);
 	}
 	// custom lambda event handler
 	EventHandler<KeyPressEvent> event_handler = [](const KeyPressEvent & e) {
-		std::cout << "lambda test" << std::endl;
+		std::cout << "key lambda test" << std::endl;
+		return true;
+	};
+	EventHandler<MouseClickEvent> event_handler2 = [](const MouseClickEvent & e) {
+		std::cout << "mouse lambda test" << std::endl;
 		return false;
 	};
-	EventManager::get_instance().subscribe<KeyPressEvent>(std::move(event_handler), 0);
+	EventManager::get_instance().subscribe<KeyPressEvent>(event_handler, CHANNEL_ALL);
+	EventManager::get_instance().subscribe<KeyPressEvent>(event_handler, CHANNEL_ALL);
+	EventManager::get_instance().subscribe<MouseClickEvent>(event_handler2, CHANNEL_ALL);
+	EventManager::get_instance().trigger_event<KeyPressEvent>(KeyPressEvent{
+		.repeat = false,
+		.key = Keycode::A
+	});
+	//EventManager::get_instance().unsubscribe<KeyPressEvent>(event_handler, 0);
 	// testing trigger with testListener not in scope (unsubscribed)
-	EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 0);
-	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);
+	// EventManager::get_instance().trigger_event<KeyPressEvent>(key_press, 0);
+	// EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, 0);
 	// dispatching queued events
-	EventManager::get_instance().dispatch_events();
+	//EventManager::get_instance().dispatch_events();
 
-	EventManager::get_instance().unsubscribe<KeyPressEvent>(event_handler, 0);
+	EventManager::get_instance().unsubscribe<KeyPressEvent>(event_handler);
 	return EXIT_SUCCESS;
 }

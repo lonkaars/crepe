@@ -78,7 +78,6 @@ SDLContext::~SDLContext() {
 	IMG_Quit();
 	SDL_Quit();
 }
-
 void SDLContext::handle_events(bool & running) {
 	//TODO: wouter i need events
 	/*

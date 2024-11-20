@@ -12,16 +12,15 @@ namespace crepe {
  */
 class IMouseListener {
 public:
-	IMouseListener();
 	/**
      * \brief Constructs an IMouseListener with a specified channel.
      * \param channel The channel ID for event handling.
      */
-	IMouseListener(int channel);
+	IMouseListener(int channel = CHANNEL_ALL);
 	virtual ~IMouseListener();
 	IMouseListener & operator=(const IMouseListener &) = delete;
 	IMouseListener(const IMouseListener &) = delete;
-	IMouseListener && operator=(const IMouseListener &&) = delete;
+	IMouseListener & operator=(const IMouseListener &&) = delete;
 	IMouseListener(IMouseListener &&) = delete;
 
 	/**
@@ -56,23 +55,6 @@ public:
      * \return True if the event was handled, false otherwise.
      */
 	virtual bool on_mouse_moved(const MouseMoveEvent & event) = 0;
-
-	/**
-     * \brief Activates mouse listening.
-     */
-	void activate_mouse();
-
-	/**
-     * \brief Deactivates mouse listening.
-     */
-	void deactivate_mouse();
-
-	/**
-     * \brief Sets the channel ID for event handling.
-     * \param channel The channel ID to set.
-     */
-	void set_channel(int channel);
-
 protected:
 	/**
      * \brief Subscribes to mouse events on the specified channel.

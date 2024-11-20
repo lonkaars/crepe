@@ -3,7 +3,7 @@
 namespace crepe {
 
 template <typename EventType>
-void EventManager::subscribe(EventHandler<EventType> && callback, int channel) {
+void EventManager::subscribe(const EventHandler<EventType> & callback, int channel, int priority) {
 	using HandlersMap
 		= std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
 	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
@@ -27,14 +27,20 @@ void EventManager::subscribe(EventHandler<EventType> && callback, int channel) {
 }
 
 template <typename EventType>
-void EventManager::queue_event(EventType && event, int channel) {
-	std::type_index event_type = std::type_index(typeid(EventType));
+void EventManager::queue_event(const EventType & event, int channel,int priority) {
+	static_assert(std::is_base_of<Event, EventType>::value, "EventType must derive from Event");
+	std::type_index event_type = typeid(EventType);
 
-	auto event_ptr = std::make_unique<EventType>(std::forward<EventType>(event));
+	auto event_ptr = std::make_unique<EventType>(event);
 
-	std::tuple<std::unique_ptr<Event>, int, std::type_index> tuple(std::move(event_ptr),
-																   channel, event_type);
-	this->events_queue.push_back(std::move(tuple));
+	
+	this->events_queue.push_back(
+		QueueEntry{
+			.event = std::move(event_ptr),
+			.channel = channel,
+			.type = event_type
+		}
+	);
 }
 
 template <typename EventType>
@@ -43,7 +49,7 @@ void EventManager::trigger_event(const EventType & event, int channel) {
 		= std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
 	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
 
-	std::type_index event_type = std::type_index(typeid(EventType));
+	std::type_index event_type = typeid(EventType);
 
 	if (channel > 0) {
 		HandlersMap & handlers_map = this->subscribers_by_event_id[event_type];
@@ -75,7 +81,7 @@ void EventManager::unsubscribe(const EventHandler<EventType> & callback, int cha
 		= std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
 	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
 
-	std::type_index event_type(typeid(EventType));
+	std::type_index event_type = typeid(EventType);
 	std::string handler_name = callback.target_type().name();
 
 	if (channel) {
