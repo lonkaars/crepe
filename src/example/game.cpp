@@ -26,7 +26,6 @@ class MyScript : public Script {
 	}
 	void update() {
 		// Retrieve component from the same GameObject this script is on
-		
 	}
 };
 
@@ -35,8 +34,8 @@ public:
 	using Scene::Scene;
 
 	void load_scene() {
-		ComponentManager & mgr = this->component_manager;
-		Color color(0, 0, 0, 0);
+	ComponentManager & mgr = this->component_manager;
+	Color color(0, 0, 0, 0);
 
 	double screen_size_width = 640;
 	double screen_size_height = 480;
