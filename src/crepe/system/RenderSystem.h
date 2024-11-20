@@ -6,6 +6,7 @@
 #include "facade/SDLContext.h"
 
 #include "System.h"
+#include <cmath>
 
 namespace crepe {
 
@@ -38,8 +39,25 @@ private:
 	//! Updates the active camera used for rendering.
 	void update_camera();
 
-	//! Renders all active sprites to the screen.
-	void render_sprites();
+	//! Renders the whole screen
+	void render();
+
+	/**
+	 * \brief Renders all the particles on the screen from a given sprite.
+	 *
+	 * \param sprite renders the particles with given texture
+	 * \param tm the Transform component for scale
+	 * \return true if particles have been rendered
+	 */
+	bool render_particle(const Sprite & sprite, const double & scale);
+
+	/**
+	 * \brief renders a sprite with a Transform component on the screen 
+	 *
+	 * \param sprite  the sprite component that holds all the data
+	 * \param tm the Transform component that holds the position,rotation and scale 
+	 */
+	void render_normal(const Sprite & sprite, const Transform & tm);
 
 	/**
 	 * \brief sort a vector sprite objects with
@@ -48,11 +66,10 @@ private:
 	 * \return returns a sorted reference vector
 	 */
 	std::vector<std::reference_wrapper<Sprite>>
-	sort(std::vector<std::reference_wrapper<Sprite>> & objs);
+	sort(std::vector<std::reference_wrapper<Sprite>> & objs) const;
 
 	/**
 	 * \todo Include color handling for sprites.
-	 * \todo Implement particle emitter rendering with sprites.
 	 * \todo Add text rendering using SDL_ttf for text components.
 	 * \todo Implement a text component and a button component.
 	 * \todo Ensure each sprite is checked for active status before rendering.
