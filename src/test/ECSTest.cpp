@@ -1,5 +1,3 @@
-#include <climits>
-#include <cstdint>
 #define protected public
 
 #include <crepe/ComponentManager.h>
@@ -7,7 +5,6 @@
 #include <crepe/api/Metadata.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
-#include <crepe/api/Rigidbody.h>
 #include <gtest/gtest.h>
 
 using namespace std;
