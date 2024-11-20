@@ -6,5 +6,7 @@ target_sources(test_main PUBLIC
 	AssetTest.cpp
 	OptionalRefTest.cpp
 	RenderSystemTest.cpp
+	ECSTest.cpp
+	SceneManagerTest.cpp
 )
 
