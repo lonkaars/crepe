@@ -135,8 +135,7 @@ void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
 					 &dstrect, angle, NULL, render_flip);
 }
 
-void SDLContext::draw(const Sprite & sprite, const Transform & transform,
-					  const Camera & cam) {
+void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Camera & cam) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
