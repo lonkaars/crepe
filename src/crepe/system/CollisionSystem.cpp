@@ -91,9 +91,11 @@ void CollisionSystem::collision_handler(CollidedInfoStor& data1,CollidedInfoStor
 		move_back_direction = Direction::BOTH;
 	} else if (move_back.x != 0) {
 		move_back_direction = Direction::X_DIRECTION;
+		if(data1.rigidbody.data.linear_velocity.y != 0)	
 		move_back.y = data1.rigidbody.data.linear_velocity.y * (move_back.x/data1.rigidbody.data.linear_velocity.x);
 	} else if (move_back.y != 0) {
 		move_back_direction = Direction::Y_DIRECTION;
+		if(data1.rigidbody.data.linear_velocity.x != 0) 
 		move_back.x = data1.rigidbody.data.linear_velocity.x * (move_back.y/data1.rigidbody.data.linear_velocity.y);
 	}
 
@@ -341,13 +343,8 @@ bool CollisionSystem::check_circle_circle_collision(const CircleCollider& circle
 }
 
 Vector2 CollisionSystem::current_position(const Collider& collider, const Transform& transform, const Rigidbody& rigidbody) {
-	// Function to convert degrees to radians
-	auto degrees_to_radians = [](double degrees) {
-			return degrees * (M_PI / 180.0);
-	};
-
 	// Get the rotation in radians
-	double radians1 = degrees_to_radians(transform.rotation);
+	double radians1 = transform.rotation * (M_PI / 180.0);
 
 	// Calculate total offset with scale
 	Vector2 total_offset = (rigidbody.data.offset + collider.offset) * transform.scale;
