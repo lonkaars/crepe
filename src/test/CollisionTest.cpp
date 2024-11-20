@@ -24,13 +24,14 @@ class CollisionHandler : public Script {
 public:
 	int box_id;
 	EventManager & evmgr = EventManager::get_instance();
+	function<void(const CollisionEvent& ev)> test_fn = [](const CollisionEvent & ev) { };
 
 	CollisionHandler(int box_id) {
 		this->box_id = box_id;
 	}
 
 	bool on_collision(const CollisionEvent& ev) {
-		Log::logf("Box {} event x={} y={}", box_id, ev.info.move_back_value.x, ev.info.move_back_value.y);
+		test_fn(ev);
 		return true;
 	}
 
@@ -54,8 +55,8 @@ public:
 	GameObject game_object1 = mgr.new_object("object1", "", { 0, 0 });
 	GameObject game_object2 = mgr.new_object("object2", "", { 0, 0 });
 
-	Script * script_object1_ref = nullptr;
-	Script * script_object2_ref = nullptr;
+	CollisionHandler * script_object1_ref = nullptr;
+	CollisionHandler * script_object2_ref = nullptr;
 	
 	void SetUp() override {
 		world.add_component<Rigidbody>(Rigidbody::Data{
@@ -87,7 +88,7 @@ public:
 		});
 		game_object1.add_component<BoxCollider>(Vector2{0, 0}, 20, 20);
 		BehaviorScript & script_object1 = game_object1.add_component<BehaviorScript>().set_script<CollisionHandler>(1);
-		script_object1_ref = script_object1.script.get();
+		script_object1_ref = static_cast<CollisionHandler*>(script_object1.script.get());
 		ASSERT_NE(script_object1_ref, nullptr);
 		
 		game_object2.add_component<Rigidbody>(Rigidbody::Data{
@@ -103,7 +104,7 @@ public:
 		});
 		game_object2.add_component<BoxCollider>(Vector2{0, 0}, 20, 20);
 		BehaviorScript & script_object2 = game_object2.add_component<BehaviorScript>().set_script<CollisionHandler>(2);
-		script_object2_ref = script_object2.script.get();
+		script_object2_ref = static_cast<CollisionHandler*>(script_object2.script.get());
 		ASSERT_NE(script_object2_ref, nullptr);
 
 		// Ensure Script::init() is called on all BehaviorScript instances
@@ -112,7 +113,12 @@ public:
 };
 
 TEST_F(CollisionTest, collision_example) {
+	script_object1_ref->test_fn = [](const CollisionEvent & ev) {
+		Log::logf("event x={} y={}", ev.info.move_back_value.x, ev.info.move_back_value.y);
+		EXPECT_TRUE(true);
+	};
 	collision_sys.update();
+
 	// should be nullptr after update with no collision
 	//ASSERT_EQ(MyScriptCollider1::last_collision_info_1, nullptr);
 	//ASSERT_EQ(MyScriptCollider2::last_collision_info_2, nullptr);
@@ -123,9 +129,9 @@ TEST_F(CollisionTest, collision_example) {
 }
 
 TEST_F(CollisionTest, collision_box_box_dynamic) {
-	// change object data before calling update
-	Transform & test = mgr.get_components_by_id<Transform>(game_object1.id).front().get();
-	// call collision collision_sys update
+	script_object1_ref->test_fn = [](const CollisionEvent & ev) {
+		EXPECT_TRUE(false);
+	};
 	collision_sys.update();
 	// should be nullptr after update with no collision
 	// ASSERT_NE(MyScriptCollider1::last_collision_info_1, nullptr);
