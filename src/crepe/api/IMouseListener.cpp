@@ -24,8 +24,7 @@ void IMouseListener::subscribe_events() {
 	// Subscribe event handlers (no need for std::move)
 	event_manager.subscribe<MouseClickEvent>(mouse_click_handler, this->channel);
 	event_manager.subscribe<MousePressEvent>(mouse_press_handler, this->channel);
-	event_manager.subscribe<MouseReleaseEvent>(mouse_release_handler,
-											   this->channel);
+	event_manager.subscribe<MouseReleaseEvent>(mouse_release_handler, this->channel);
 	event_manager.subscribe<MouseMoveEvent>(mouse_move_handler, this->channel);
 }
 

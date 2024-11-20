@@ -8,37 +8,39 @@ EventManager & EventManager::get_instance() {
 }
 
 void EventManager::dispatch_events() {
-    for (auto event_it = this->events_queue.begin(); event_it != this->events_queue.end();) {
-        std::unique_ptr<Event>& event = (*event_it).event;
-        int channel = (*event_it).channel;
-        std::type_index event_type = (*event_it).type;
+	for (auto event_it = this->events_queue.begin(); event_it != this->events_queue.end();) {
+		std::unique_ptr<Event> & event = (*event_it).event;
+		int channel = (*event_it).channel;
+		std::type_index event_type = (*event_it).type;
 
-        bool event_handled = false;
-        auto handlers_it = this->subscribers.find(event_type);
-        if (handlers_it != this->subscribers.end()) {
-            std::vector<CallbackEntry>& handlers = handlers_it->second;
-            
-            std::sort(handlers.begin(), handlers.end(), [](const CallbackEntry& a, const CallbackEntry& b) {
-                return a.priority > b.priority;
-            });
+		bool event_handled = false;
+		auto handlers_it = this->subscribers.find(event_type);
+		if (handlers_it != this->subscribers.end()) {
+			std::vector<CallbackEntry> & handlers = handlers_it->second;
 
-            for (auto handler_it = handlers.begin(); handler_it != handlers.end(); ++handler_it) {
-                // If callback is executed and returns true, remove the event from the queue
-                if ((*handler_it).callback->exec(*event)) {
-                    event_it = this->events_queue.erase(event_it);
-                    event_handled = true;
-                    break;
-                }
-            }
-        }
+			std::sort(handlers.begin(), handlers.end(),
+					  [](const CallbackEntry & a, const CallbackEntry & b) {
+						  return a.priority > b.priority;
+					  });
 
-        if (!event_handled) {
-            ++event_it;
-        }
-    }
+			for (auto handler_it = handlers.begin(); handler_it != handlers.end();
+				 ++handler_it) {
+				// If callback is executed and returns true, remove the event from the queue
+				if ((*handler_it).callback->exec(*event)) {
+					event_it = this->events_queue.erase(event_it);
+					event_handled = true;
+					break;
+				}
+			}
+		}
+
+		if (!event_handled) {
+			++event_it;
+		}
+	}
 }
 
-void EventManager::clear(){
+void EventManager::clear() {
 	this->subscribers.clear();
 	this->events_queue.clear();
 }

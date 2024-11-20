@@ -19,7 +19,6 @@ static constexpr int CHANNEL_ALL = -1;
  */
 class EventManager {
 public:
-
 	/**
      * \brief Get the singleton instance of the EventManager.
      * 
@@ -39,7 +38,8 @@ public:
      * \param channel The channel number to subscribe to (default is 0).
      */
 	template <typename EventType>
-	void subscribe(const EventHandler<EventType> & callback, int channel = CHANNEL_ALL, int priority = 0);
+	void subscribe(const EventHandler<EventType> & callback, int channel = CHANNEL_ALL,
+				   int priority = 0);
 
 	/**
      * \brief Unsubscribe from an event.
@@ -76,7 +76,7 @@ public:
      * \param channel The channel number for the event (default is 0).
      */
 	template <typename EventType>
-	void queue_event(const EventType & event, int channel = CHANNEL_ALL,int priority = 0);
+	void queue_event(const EventType & event, int channel = CHANNEL_ALL, int priority = 0);
 
 	/**
      * \brief Dispatch all queued events.
@@ -90,8 +90,8 @@ public:
      * 
      */
 	void clear();
+
 private:
-	
 	/**
      * \brief Default constructor for the EventManager.
      * 
@@ -99,21 +99,20 @@ private:
      */
 	EventManager() = default;
 	struct QueueEntry {
-        	std::unique_ptr<Event> event;
+		std::unique_ptr<Event> event;
 		int channel = CHANNEL_ALL;
 		std::type_index type;
 		int priority = 0;
-    	};
+	};
 	struct CallbackEntry {
-        	std::unique_ptr<IEventHandlerWrapper> callback;
+		std::unique_ptr<IEventHandlerWrapper> callback;
 		int channel = CHANNEL_ALL;
 		int priority = 0;
-    	};
+	};
 	//! The queue of events to be processed.
 	std::vector<QueueEntry> events_queue;
 	//! Registered event handlers.
-	std::unordered_map<std::type_index,std::vector<CallbackEntry>> subscribers;
-	
+	std::unordered_map<std::type_index, std::vector<CallbackEntry>> subscribers;
 };
 
 } // namespace crepe
