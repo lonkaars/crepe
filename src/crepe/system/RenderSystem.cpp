@@ -18,9 +18,9 @@
 using namespace crepe;
 using namespace std;
 
-void RenderSystem::clear_screen() const { this->context.clear_screen(); }
+void RenderSystem::clear_screen() { this->context.clear_screen(); }
 
-void RenderSystem::present_screen() const { this->context.present_screen(); }
+void RenderSystem::present_screen() { this->context.present_screen(); }
 void RenderSystem::update_camera() {
 	ComponentManager & mgr = this->component_manager;
 
@@ -29,6 +29,7 @@ void RenderSystem::update_camera() {
 	if (cameras.size() == 0) throw std::runtime_error("No cameras in current scene");
 
 	for (Camera & cam : cameras) {
+		if (!cam.active) continue;
 		this->context.set_camera(cam);
 		this->curr_cam_ref = &cam;
 	}
@@ -57,7 +58,7 @@ void RenderSystem::update() {
 	this->present_screen();
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) const {
+bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
 
 	ComponentManager & mgr = this->component_manager;
 
@@ -79,11 +80,11 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) const {
+void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 	this->context.draw(sprite, tm, *this->curr_cam_ref);
 }
 
-void RenderSystem::render() const {
+void RenderSystem::render() {
 
 	ComponentManager & mgr = this->component_manager;
 	vector<reference_wrapper<Sprite>> sprites = mgr.get_components_by_type<Sprite>();
