@@ -4,15 +4,15 @@
 #include <crepe/ComponentManager.h>
 
 #include <crepe/Component.h>
+#include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
+#include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
-#include <crepe/system/RenderSystem.h>
-#include <crepe/api/Color.h>
-#include <crepe/api/Sprite.h>
 #include <crepe/api/Vector2.h>
+#include <crepe/system/RenderSystem.h>
 
 #include <chrono>
 
@@ -20,15 +20,14 @@ using namespace crepe;
 using namespace std;
 
 int main(int argc, char * argv[]) {
-	ComponentManager mgr;	
+	ComponentManager mgr;
 	GameObject game_object = mgr.new_object("", "", Vector2{100, 100}, 0, 0.1);
 	RenderSystem sys{mgr};
 	ParticleSystem psys{mgr};
 
 	Color color(255, 255, 255, 255);
 	Sprite test_sprite = game_object.add_component<Sprite>(
-		make_shared<Texture>("../asset/texture/img.png"), color,
-		FlipSettings{false, false});
+		make_shared<Texture>("../asset/texture/img.png"), color, FlipSettings{false, false});
 	game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
 		.max_particles = 10,
@@ -54,9 +53,8 @@ int main(int argc, char * argv[]) {
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
 		psys.update();
 		sys.update();
-		SDL_Delay(10 );
+		SDL_Delay(10);
 	}
 
 	return 0;
 }
-
