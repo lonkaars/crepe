@@ -4,6 +4,8 @@
 
 #include "../types.h"
 
+#include "EventManager.h"
+
 namespace crepe {
 
 class ScriptSystem;
@@ -85,6 +87,14 @@ protected:
 	template <typename... Args>
 	void logf(Args &&... args);
 
+	/**
+	 * \brief Subscribe to an event
+	 *
+	 * \see EventManager::subscribe
+	 */
+	template <typename EventType>
+	void subscribe(const EventHandler<EventType> & callback, event_channel_t channel = EventManager::CHANNEL_ALL);
+
 	//! \}
 
 protected:
@@ -93,17 +103,37 @@ protected:
 	Script() = default;
 	//! Only \c BehaviorScript instantiates Script
 	friend class BehaviorScript;
+public:
+	// std::unique_ptr destroys script
+	virtual ~Script();
+
+	Script(const Script &) = delete;
+	Script(Script &&) = delete;
+	Script & operator=(const Script &) = delete;
+	Script & operator=(Script &&) = delete;
 
 private:
-	// These references are set by BehaviorScript immediately after calling the constructor of
-	// Script.
+	/**
+	 * \name Late references
+	 *
+	 * These references are set by BehaviorScript immediately after calling the constructor of
+	 * Script.
+	 *
+	 * \{
+	 */
+	//! Game object ID of game object parent BehaviorScript is attached to
 	game_object_id_t game_object_id = -1;
+	//! Reference to component manager instance
 	ComponentManager * component_manager_ref = nullptr;
-	// TODO: use OptionalRef instead of pointer
+	//! Reference to event manager instance
+	EventManager * event_manager_ref = nullptr;
+	//! \}
 
 private:
 	//! Flag to indicate if \c init() has been called already
 	bool initialized = false;
+	//! List of subscribed events
+	std::vector<subscription_t> listeners;
 };
 
 } // namespace crepe
