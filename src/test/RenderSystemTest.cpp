@@ -121,7 +121,7 @@ TEST_F(RenderSystemTest, sorting_sprites) {
 }
 
 TEST_F(RenderSystemTest, Update) {
-	entity1.add_component<Camera>(Color::get_white());
+	entity1.add_component<Camera>(Color::WHITE);
 	{
 		vector<reference_wrapper<Sprite>> sprites = this->mgr.get_components_by_type<Sprite>();
 		ASSERT_EQ(sprites.size(), 4);
@@ -149,7 +149,7 @@ TEST_F(RenderSystemTest, Camera) {
 		EXPECT_NE(cameras.size(), 1);
 	}
 	{
-		entity1.add_component<Camera>(Color::get_white());
+		entity1.add_component<Camera>(Color::WHITE);
 		auto cameras = this->mgr.get_components_by_type<Camera>();
 		EXPECT_EQ(cameras.size(), 1);
 	}
@@ -157,18 +157,18 @@ TEST_F(RenderSystemTest, Camera) {
 	//TODO improve with newer version
 }
 TEST_F(RenderSystemTest, Color) {
-	entity1.add_component<Camera>(Color::get_white());
+	entity1.add_component<Camera>(Color::WHITE);
 	auto & sprite = this->mgr.get_components_by_id<Sprite>(entity1.id).front().get();
 	ASSERT_NE(sprite.sprite_image.get(), nullptr);
 
-	sprite.color = Color::get_green();
-	EXPECT_EQ(sprite.color.r, Color::get_green().r);
-	EXPECT_EQ(sprite.color.g, Color::get_green().g);
-	EXPECT_EQ(sprite.color.b, Color::get_green().b);
-	EXPECT_EQ(sprite.color.a, Color::get_green().a);
+	sprite.color = Color::GREEN;
+	EXPECT_EQ(sprite.color.r, Color::GREEN.r);
+	EXPECT_EQ(sprite.color.g, Color::GREEN.g);
+	EXPECT_EQ(sprite.color.b, Color::GREEN.b);
+	EXPECT_EQ(sprite.color.a, Color::GREEN.a);
 	this->sys.update();
-	EXPECT_EQ(sprite.color.r, Color::get_green().r);
-	EXPECT_EQ(sprite.color.g, Color::get_green().g);
-	EXPECT_EQ(sprite.color.b, Color::get_green().b);
-	EXPECT_EQ(sprite.color.a, Color::get_green().a);
+	EXPECT_EQ(sprite.color.r, Color::GREEN.r);
+	EXPECT_EQ(sprite.color.g, Color::GREEN.g);
+	EXPECT_EQ(sprite.color.b, Color::GREEN.b);
+	EXPECT_EQ(sprite.color.a, Color::GREEN.a);
 }
