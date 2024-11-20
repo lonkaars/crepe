@@ -36,12 +36,14 @@ public:
      * \return True if the event was handled, false otherwise.
      */
 	virtual bool on_key_released(const KeyReleaseEvent & event) = 0;
+
 private:
 	//! Key press event id
 	subscription_t press_id = -1;
-	//!< Key release event id
+	//! Key release event id
 	subscription_t release_id = -1;
-	EventManager & event_manager;
+	//! EventManager reference
+	EventManager & event_manager;;
 };
 
 } // namespace crepe

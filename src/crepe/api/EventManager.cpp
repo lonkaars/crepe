@@ -20,8 +20,7 @@ void EventManager::dispatch_events() {
 		}
 		std::vector<CallbackEntry> & handlers = handlers_it->second;
 
-		for (auto handler_it = handlers.begin(); handler_it != handlers.end();
-				++handler_it) {
+		for (auto handler_it = handlers.begin(); handler_it != handlers.end(); ++handler_it) {
 			// If callback is executed and returns true, remove the event from the queue
 			if ((*handler_it).callback->exec(*event)) {
 				event_it = this->events_queue.erase(event_it);
@@ -42,15 +41,14 @@ void EventManager::clear() {
 }
 
 void EventManager::unsubscribe(subscription_t event_id) {
-    for (auto& [event_type, handlers] : this->subscribers) {
-        for (auto it = handlers.begin(); it != handlers.end();) {
-            if (it->id == event_id) {
-                it = handlers.erase(it);
-                return;
-            } else {
-                ++it;
-            }
-        }
-    }
+	for (auto & [event_type, handlers] : this->subscribers) {
+		for (auto it = handlers.begin(); it != handlers.end();) {
+			if (it->id == event_id) {
+				it = handlers.erase(it);
+				return;
+			} else {
+				++it;
+			}
+		}
+	}
 }
-
