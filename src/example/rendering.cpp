@@ -30,13 +30,13 @@ int main() {
 	// Normal adding components
 	{
 		Color color(0, 0, 0, 0);
-		obj.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"), color,
+		obj.add_component<Sprite>(make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
 								  FlipSettings{false, false});
 		obj.add_component<Camera>(Color::get_red());
 	}
 	{
 		Color color(0, 0, 0, 0);
-		obj1.add_component<Sprite>(make_shared<Texture>("../asset/texture/second.png"), color,
+		obj1.add_component<Sprite>(make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
 								   FlipSettings{true, true});
 	}
 

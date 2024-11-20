@@ -18,11 +18,9 @@
 
 using namespace crepe;
 
-CollisionSystem::CollisionSystem() {}
-
 void CollisionSystem::update() {
 	// Get collider components and keep them seperate
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	std::vector<std::reference_wrapper<BoxCollider>> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
 	std::vector<std::reference_wrapper<CircleCollider>> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
 	
@@ -185,7 +183,7 @@ void CollisionSystem::static_collision_handler(CollisionInfo& info){
 }
 
 std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::CollidedInfoStor>> CollisionSystem::check_collisions(const std::vector<std::reference_wrapper<BoxCollider>>& boxcolliders, const std::vector<std::reference_wrapper<CircleCollider>>& circlecolliders) {
-	ComponentManager & mgr = ComponentManager::get_instance();
+	ComponentManager & mgr = this->component_manager;
 	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> collisions_ret;
 
 	// TODO:
