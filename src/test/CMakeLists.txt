@@ -6,5 +6,6 @@ target_sources(test_main PUBLIC
 	ECSTest.cpp
 	SceneManagerTest.cpp
 	ValueBrokerTest.cpp
+	DBTest.cpp
 )
 
