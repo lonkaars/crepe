@@ -105,8 +105,8 @@ TEST_F(EventManagerTest, EventManagerTest_priority_order) {
 
     // Subscribe handlers with different priorities
     event_manager.subscribe<MouseClickEvent>(handler_priority_1, CHANNEL_ALL, 1);
-    event_manager.subscribe<MouseClickEvent>(handler_priority_2, CHANNEL_ALL, 2);
     event_manager.subscribe<MouseClickEvent>(handler_priority_3, CHANNEL_ALL, 3);
+	event_manager.subscribe<MouseClickEvent>(handler_priority_2, CHANNEL_ALL, 2);
 
     // Trigger the event
     event_manager.trigger_event<MouseClickEvent>(MouseClickEvent{
@@ -242,9 +242,9 @@ TEST_F(EventManagerTest, EventManagerTest_dispatch_priority) {
         EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
         return false;  // Allows propagation
     };
-	event_manager.subscribe<MouseClickEvent>(mouse_handler1,CHANNEL_ALL,1);
 	event_manager.subscribe<MouseClickEvent>(mouse_handler2,CHANNEL_ALL,2);
-	event_manager.subscribe<MouseClickEvent>(mouse_handler2,CHANNEL_ALL,3);
+	event_manager.subscribe<MouseClickEvent>(mouse_handler1,CHANNEL_ALL,1);
+	event_manager.subscribe<MouseClickEvent>(mouse_handler3,CHANNEL_ALL,3);
 	event_manager.queue_event<MouseClickEvent>(MouseClickEvent{
 		.mouse_x = 100,
 		.mouse_y = 200,
@@ -278,7 +278,6 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
         EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
         return false;  // Allows propagation
     };
-    
     // Subscribe handlers
     event_manager.subscribe<MouseClickEvent>(mouse_handler1);
     event_manager.subscribe<MouseClickEvent>(mouse_handler2);
@@ -333,138 +332,3 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
     EXPECT_FALSE(triggered2);  // Handler 2 should NOT be triggered
 }
 
-// TEST_F(EventManagerTest, OnKeyPressedTest) {
-//     MockKeyListener mock_key_listener;
-//     EventManager& event_manager = EventManager::get_instance();
-
-//     // Create the KeyPressEvent object
-//     KeyPressEvent key_event = KeyPressEvent{
-//         .key = Keycode::A,
-//         .repeat = false
-//     };
-
-//     // Set up the mock expectation with direct object passing
-//     EXPECT_CALL(mock_key_listener, on_key_pressed(key_event))
-//         .Times(1)  // Expect it to be called exactly once
-//         .WillOnce(::testing::Return(true));  // Return value (can be true/false)
-
-
-//     // Queue the event
-//     event_manager.queue_event<KeyPressEvent>(key_event);
-
-//     // Dispatch the event to trigger the mock
-//     event_manager.dispatch_events();  // Trigger event dispatch
-
-//     // The mock will ensure the on_key_pressed method is called
-// }
-
-
-
-// TEST_F(EventManagerTest, OnKeyReleaseTest) {
-//     MockKeyListener mock_key_listener;
-//     EventManager& event_manager = EventManager::get_instance();
-
-//     // Create the KeyPressEvent object
-//     KeyReleaseEvent key_event = KeyReleaseEvent{
-//         .key = Keycode::A,
-//     };
-
-//     // Set up the mock expectation with direct object passing
-//     EXPECT_CALL(mock_key_listener, on_key_released(key_event))
-//         .Times(1)  // Expect it to be called exactly once
-//         .WillOnce(::testing::Return(true));  // Return value (can be true/false)
-
-
-//     // Queue the event
-//     event_manager.queue_event<KeyReleaseEvent>(key_event);
-
-//     // Dispatch the event to trigger the mock
-//     event_manager.dispatch_events();  // Trigger event dispatch
-
-//     // The mock will ensure the on_key_pressed method is called
-// }
-
-// TEST_F(EventManagerTest, UnsubscribeEventsTest) {
-//     EventManager& event_manager = EventManager::get_instance();
-//     KeyPressEvent key_event{
-//         .key = Keycode::A,
-//         .repeat = false
-//     };
-
-//     // Create the mock listener
-//     MockKeyListener mock_key_listener;
-
-//     // Set up the mock expectation that on_key_pressed will be called once initially
-//     EXPECT_CALL(mock_key_listener, on_key_pressed(key_event))
-//         .Times(1)  // Expect it to be called exactly once
-//         .WillOnce(::testing::Return(true));  // Return value (can be true/false)
-
-//     event_manager.queue_event<KeyPressEvent>(key_event);
-//     event_manager.dispatch_events();  // Should trigger on_key_pressed once
-
-//     // Now unsubscribe the listener
-//     event_manager.unsubscribe<KeyPressEvent>(std::bind(&MockKeyListener::on_key_pressed, &mock_key_listener, std::placeholders::_1));
-
-//     // Set up the expectation that on_key_pressed will NOT be called after unsubscribing
-//     EXPECT_CALL(mock_key_listener, on_key_pressed(key_event))
-//         .Times(0);  // Should not be called after unsubscribe
-
-//     // Queue and dispatch the event again (after unsubscribe)
-//     event_manager.queue_event<KeyPressEvent>(key_event);
-//     event_manager.dispatch_events();  // Should NOT trigger on_key_pressed after unsubscribe
-// }
-
-// TEST_F(EventManagerTest, OnMouseButtonPressedTest) {
-//     MockMouseListener mock_mouse_listener;
-//     EventManager& event_manager = EventManager::get_instance();
-
-//     // Create the MouseButtonPressEvent object
-//     MousePressEvent mouse_event{
-//         .mouse_x = 100,
-//         .mouse_y = 150,
-//         .button = MouseButton::LEFT_MOUSE
-//     };
-
-//     // Set up the mock expectation with direct object passing
-//     EXPECT_CALL(mock_mouse_listener, on_mouse_pressed(mouse_event))
-//         .Times(1)  // Expect it to be called exactly once
-//         .WillOnce(::testing::Return(true));  // Return value (can be true/false)
-
-//     // Queue the event
-//     event_manager.queue_event<MousePressEvent>(mouse_event);
-
-//     // Dispatch the event to trigger the mock
-//     event_manager.dispatch_events();  // Should trigger on_mouse_button_pressed once
-// }
-
-// TEST_F(EventManagerTest, UnsubscribeMouseEventsTest) {
-//     EventManager& event_manager = EventManager::get_instance();
-//     MousePressEvent mouse_event{
-//         .mouse_x = 100,
-//         .mouse_y = 150,
-//         .button = MouseButton::LEFT_MOUSE
-//     };
-
-//     // Create the mock listener
-//     MockMouseListener mock_mouse_listener;
-
-//     // Set up the mock expectation that on_mouse_button_pressed will be called once initially
-//     EXPECT_CALL(mock_mouse_listener, on_mouse_pressed(mouse_event))
-//         .Times(1)  // Expect it to be called exactly once
-//         .WillOnce(::testing::Return(true));  // Return value (can be true/false)
-
-//     // Queue and dispatch the event (should trigger on_mouse_button_pressed)
-//     event_manager.queue_event<MousePressEvent>(mouse_event);
-//     event_manager.dispatch_events();  // Should trigger on_mouse_button_pressed once
-
-//     // Now unsubscribe the listener
-//     event_manager.unsubscribe<MousePressEvent>(std::bind(&MockMouseListener::on_mouse_pressed, &mock_mouse_listener, std::placeholders::_1));
-
-//     // Set up the expectation that on_mouse_button_pressed will NOT be called after unsubscribing
-//     EXPECT_CALL(mock_mouse_listener, on_mouse_pressed(mouse_event))
-//         .Times(0);  // Should not be called after unsubscribe
-
-//     // Queue and dispatch the event again (after unsubscribe)
-//     event_manager.queue_event<MousePressEvent>(mouse_event);
-//     event_manager.dispatch_events();  // Should NOT trigger on_mouse_button_pressed after unsubscribe
-// }
