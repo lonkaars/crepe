@@ -35,4 +35,3 @@ TEST(OptionalRefTest, Implicit) {
 	EXPECT_TRUE(ref);
 	ASSERT_NO_THROW(ref.get());
 }
-
