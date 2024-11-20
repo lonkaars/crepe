@@ -1,0 +1,60 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_scene Scenes
+\ingroup feature
+\brief User-defined scenes
+
+Scenes can be used to implement game environments, and allow arbitrary game objects to be organized
+as part of the game structure. Scenes are implemented as derivative classes of Scene, which are
+added to the game using the SceneManager. Scenes describe the start of a Scene and cannot modify
+GameObject during runtime of a Scene (use Scripting for this purpose).
+
+\see SceneManager
+\see GameObject
+\see Script
+\see Scene
+
+\par Example
+
+This example demonstrates how to define and add scenes to a scene manager in the `crepe` framework.
+Two concrete scene classes, `ConcreteScene1` and `ConcreteScene2`, are derived from the base `Scene` class.
+Each scene class overrides the `load_scene` method to create and initialize game objects specific to the scene.
+Finally, the scenes are added to the scene manager.
+
+```cpp
+using namespace crepe;
+
+class ConcreteScene1 : public Scene {
+public:
+	using Scene::Scene;
+
+	void load_scene() {
+		auto & mgr = this->component_manager;
+		GameObject object1 = mgr.new_object("scene_1", "tag_scene_1", Vector2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("scene_1", "tag_scene_1", Vector2{1, 0}, 0, 1);
+		GameObject object3 = mgr.new_object("scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
+	}
+};
+
+class ConcreteScene2 : public Scene {
+public:
+	using Scene::Scene;
+
+	void load_scene() {
+		auto & mgr = this->component_manager;
+		GameObject object1 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 1}, 0, 1);
+		GameObject object3 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 2}, 0, 1);
+		GameObject object4 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
+	}
+};
+
+// Add the scenes to the scene manager
+scene_mgr.add_scene<ConcreteScene1>("scene1");
+scene_mgr.add_scene<ConcreteScene2>("scene2");
+```
+
+*/
+}
