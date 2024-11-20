@@ -8,5 +8,7 @@ target_sources(test_main PUBLIC
 	RenderSystemTest.cpp
 	ECSTest.cpp
 	SceneManagerTest.cpp
+	ValueBrokerTest.cpp
+	DBTest.cpp
 )
 
