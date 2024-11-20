@@ -28,19 +28,19 @@ public:
 	 * This method is called to perform all rendering operations for the current game frame.
 	 */
 	void update() override;
-	
+
 private:
 	//! Clears the screen in preparation for rendering.
-	void clear_screen() ;
+	void clear_screen() const;
 
 	//! Presents the rendered frame to the display.
-	void present_screen() ;
+	void present_screen() const;
 
 	//! Updates the active camera used for rendering.
 	void update_camera();
 
 	//! Renders the whole screen
-	void render() ;
+	void render() const;
 
 	/**
 	 * \brief Renders all the particles on the screen from a given sprite.
@@ -49,7 +49,7 @@ private:
 	 * \param tm the Transform component for scale
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite & sprite, const double & scale) ;
+	bool render_particle(const Sprite & sprite, const double & scale) const;
 
 	/**
 	 * \brief renders a sprite with a Transform component on the screen 
@@ -57,7 +57,7 @@ private:
 	 * \param sprite  the sprite component that holds all the data
 	 * \param tm the Transform component that holds the position,rotation and scale 
 	 */
-	void render_normal(const Sprite & sprite, const Transform & tm) ;
+	void render_normal(const Sprite & sprite, const Transform & tm) const;
 
 	/**
 	 * \brief sort a vector sprite objects with
@@ -66,7 +66,7 @@ private:
 	 * \return returns a sorted reference vector
 	 */
 	std::vector<std::reference_wrapper<Sprite>>
-	sort(std::vector<std::reference_wrapper<Sprite>> & objs) ;
+	sort(std::vector<std::reference_wrapper<Sprite>> & objs) const;
 
 	/**
 	 * \todo Include color handling for sprites.

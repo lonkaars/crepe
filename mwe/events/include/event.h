@@ -148,7 +148,7 @@ private:
 };
 class ShutDownEvent : public Event {
 public:
-	ShutDownEvent() : Event("ShutDownEvent") {};
+	ShutDownEvent() : Event("ShutDownEvent"){};
 
 	REGISTER_EVENT_TYPE(ShutDownEvent)
 

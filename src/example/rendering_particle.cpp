@@ -15,6 +15,7 @@
 #include <crepe/system/RenderSystem.h>
 
 #include <chrono>
+#include <iostream>
 #include <memory>
 
 using namespace crepe;
@@ -27,11 +28,11 @@ int main(int argc, char * argv[]) {
 	ParticleSystem psys{mgr};
 
 	Color color(255, 255, 255, 255);
-	//game_object.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"), color, FlipSettings{false,false});
 
-	Sprite test_sprite = game_object.add_component<Sprite>(
+	Sprite & test_sprite = game_object.add_component<Sprite>(
 		make_shared<Texture>("../asset/texture/img.png"), color, FlipSettings{false, false});
-	game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
+	test_sprite.order_in_layer = 5;
+	auto test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
 		.max_particles = 10,
 		.emission_rate = 0.1,
@@ -52,6 +53,11 @@ int main(int argc, char * argv[]) {
 	});
 	game_object.add_component<Camera>(Color::WHITE);
 
+	game_object
+		.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"), color,
+							   FlipSettings{false, false})
+		.order_in_layer
+		= 6;
 
 	auto start = std::chrono::steady_clock::now();
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
