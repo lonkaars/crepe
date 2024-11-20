@@ -1,80 +1,65 @@
-#include "system/ScriptSystem.h"
-#include "types.h"
 #include <gtest/gtest.h>
 
-#include <crepe/api/Config.h>
-#include <crepe/api/GameObject.h>
-#include <crepe/api/Rigidbody.h>
-#include <crepe/api/Transform.h>
-#include <crepe/api/Event.h>
-#include <crepe/api/EventManager.h>
-#include <crepe/api/Script.h>
+#define private public
+#define protected public
 
 #include <crepe/ComponentManager.h>
+#include <crepe/api/Event.h>
+#include <crepe/api/EventManager.h>
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Rigidbody.h>
+#include <crepe/api/Script.h>
+#include <crepe/api/Transform.h>
 #include <crepe/system/CollisionSystem.h>
-#include "iostream"
+#include <crepe/system/ScriptSystem.h>
+#include <crepe/types.h>
+#include <crepe/util/Log.h>
 
 using namespace std;
 using namespace std::chrono_literals;
 using namespace crepe;
+using namespace testing;
 
-//scripts for object 1 collision test
-class UnitTestBoxBoxCollision1 : public Script {
-	static bool oncollision(const CollisionEvent& test) {
-		std::cout << "collision event 1" << std::endl;
-		std::cout << "collision event 1 x" << test.info.move_back_value.x << std::endl;
-		std::cout << "collision event 1 y" << test.info.move_back_value.y << std::endl;
-		return true;
-	}
-	void init() {
-		EventManager::get_instance().subscribe<CollisionEvent>(oncollision, this->get_game_object_id());
-	}
-	void update() {
-		// Retrieve component from the same GameObject this script is on
-		
-	}
-};
-
-//scripts for object 1 collision test
-class UnitTestBoxBoxCollision2 : public Script {
-	static bool oncollision(const CollisionEvent& test) {
-		std::cout << "collision event 1" << std::endl;
-		return true;
-	}
-	void init() {
-		EventManager::get_instance().subscribe<CollisionEvent>(oncollision, this->get_game_object_id());
-	}
-	void update() {
-		// Retrieve component from the same GameObject this script is on
-		
-	}
-};
-
-class CollisionTest : public ::testing::Test {
+class CollisionHandler : public Script {
 public:
-	ComponentManager component_manager;
-	CollisionSystem system{component_manager};
-	ScriptSystem sr{component_manager};
-	const double screen_size_width = 640;
-	const double screen_size_height = 480;
-	const double world_collider = 1000;
+	int box_id;
+	EventManager & evmgr = EventManager::get_instance();
+
+	CollisionHandler(int box_id) {
+		this->box_id = box_id;
+	}
+
+	bool on_collision(const CollisionEvent& ev) {
+		Log::logf("Box {} event x={} y={}", box_id, ev.info.move_back_value.x, ev.info.move_back_value.y);
+		return true;
+	}
+
+	void init() {
+		Log::logf("Box {} script init()", box_id);
+
+		// TODO: this should be built into script
+		evmgr.subscribe<CollisionEvent>([this](const CollisionEvent & ev) {
+			return this->on_collision(ev);
+		}, this->get_game_object_id());
+	}
+};
+
+class CollisionTest : public Test {
+public:
+	ComponentManager mgr;
+	CollisionSystem collision_sys{mgr};
+	ScriptSystem script_sys{mgr};
+
+	GameObject world = mgr.new_object("world");
+	GameObject game_object1 = mgr.new_object("object1", "", { 0, 0 });
+	GameObject game_object2 = mgr.new_object("object2", "", { 0, 0 });
+
+	Script * script_object1_ref = nullptr;
+	Script * script_object2_ref = nullptr;
 	
 	void SetUp() override {
-		ComponentManager & mgr = this->component_manager;
-		if(mgr.get_components_by_id<Transform>(0).empty())
-		{
-			create_test_world();
-			create_test_components();
-		}
-		reset_test_components();
-		sr.update();
-	}
-
-	void create_test_world() {
-		
-		ComponentManager & mgr = this->component_manager;
-		GameObject world = mgr.new_object("Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2}, 0, 1);
 		world.add_component<Rigidbody>(Rigidbody::Data{
+			// TODO: remove unrelated properties:
 			.mass = 0,
 			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::STATIC,
@@ -83,98 +68,51 @@ public:
 			.bounce = false,
 			.offset = {0,0}
 		});
-		world.add_component<BoxCollider>(Vector2{0, 0-(screen_size_height/2+world_collider/2)}, world_collider, world_collider);;	// Top
-		world.add_component<BoxCollider>(Vector2{0, screen_size_height/2+world_collider/2}, world_collider, world_collider); // Bottom
-		world.add_component<BoxCollider>(Vector2{0-(screen_size_width/2+world_collider/2), 0}, world_collider, world_collider); // Left
-		world.add_component<BoxCollider>(Vector2{screen_size_width/2+world_collider/2, 0}, world_collider, world_collider); // right
-	}
+		// Create a box with an inner size of 10x10 units
+		world.add_component<BoxCollider>(Vector2{5, 11}, 10, 2); // Top
+		world.add_component<BoxCollider>(Vector2{5, -1}, 10, 2); // Bottom
+		world.add_component<BoxCollider>(Vector2{-1, 5}, 2, 10); // Left
+		world.add_component<BoxCollider>(Vector2{11, 5}, 2, 10); // right
 
-	void create_test_components()
-	{
-		ComponentManager & mgr = this->component_manager;
-		GameObject game_object1 = mgr.new_object("Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
-		.mass = 1,
-		.gravity_scale = 0.01,
-		.body_type = Rigidbody::BodyType::DYNAMIC,
-		.linear_velocity = {1,0},
-		.constraints = {0, 0, 0},
-		.use_gravity = true,
-		.bounce = true,
-		.elastisity = 1,
-		.offset = {0,0},
+			.mass = 1,
+			.gravity_scale = 0.01,
+			.body_type = Rigidbody::BodyType::DYNAMIC,
+			.linear_velocity = {1,0},
+			.constraints = {0, 0, 0},
+			.use_gravity = true,
+			.bounce = true,
+			.elastisity = 1,
+			.offset = {0,0},
 		});
 		game_object1.add_component<BoxCollider>(Vector2{0, 0}, 20, 20);
-		game_object1.add_component<BehaviorScript>().set_script<UnitTestBoxBoxCollision1>();
-
+		BehaviorScript & script_object1 = game_object1.add_component<BehaviorScript>().set_script<CollisionHandler>(1);
+		script_object1_ref = script_object1.script.get();
+		ASSERT_NE(script_object1_ref, nullptr);
 		
-		GameObject game_object2 = mgr.new_object("Name", "Tag", Vector2{screen_size_width/2, screen_size_height/2-100}, 0, 1);
 		game_object2.add_component<Rigidbody>(Rigidbody::Data{
-		.mass = 1,
-		.gravity_scale = 0.01,
-		.body_type = Rigidbody::BodyType::DYNAMIC,
-		.linear_velocity = {1,0},
-		.constraints = {0, 0, 0},
-		.use_gravity = true,
-		.bounce = true,
-		.elastisity = 1,
-		.offset = {0,0},
+			.mass = 1,
+			.gravity_scale = 0.01,
+			.body_type = Rigidbody::BodyType::DYNAMIC,
+			.linear_velocity = {1,0},
+			.constraints = {0, 0, 0},
+			.use_gravity = true,
+			.bounce = true,
+			.elastisity = 1,
+			.offset = {0,0},
 		});
 		game_object2.add_component<BoxCollider>(Vector2{0, 0}, 20, 20);
-		game_object2.add_component<BehaviorScript>().set_script<UnitTestBoxBoxCollision2>();
-	}
+		BehaviorScript & script_object2 = game_object2.add_component<BehaviorScript>().set_script<CollisionHandler>(2);
+		script_object2_ref = script_object2.script.get();
+		ASSERT_NE(script_object2_ref, nullptr);
 
-	void reset_test_components()
-	{
-		ComponentManager & mgr = this->component_manager;
-		//game object 1
-		{
-			game_object_id_t id = 1;
-			Transform & tf = mgr.get_components_by_id<Transform>(id).front().get();
-			tf.position = Vector2{screen_size_width/2, screen_size_height/2};
-			tf.rotation = 0;
-			tf.scale = 1;
-			tf.active = 1;
-			Rigidbody & rg = mgr.get_components_by_id<Rigidbody>(id).front().get();
-			rg.data.angular_damping = 0;
-			rg.data.angular_velocity = 0;
-			rg.data.max_angular_velocity = 100;
-			rg.data.linear_velocity = {0,0};
-			rg.data.linear_damping = {0,0};
-			rg.data.max_linear_velocity = {100,100};
-			rg.data.bounce = false;
-			rg.data.elastisity = 0;
-			rg.data.offset = {0,0};
-			rg.data.constraints = {0,0,0};
-		}
-
-		{
-			game_object_id_t id = 2;
-			Transform & tf = mgr.get_components_by_id<Transform>(id).front().get();
-			tf.position = Vector2{screen_size_width/2, screen_size_height/2-100};
-			tf.rotation = 0;
-			tf.scale = 1;
-			tf.active = 1;
-			Rigidbody & rg = mgr.get_components_by_id<Rigidbody>(id).front().get();
-			rg.data.angular_damping = 0;
-			rg.data.angular_velocity = 0;
-			rg.data.max_angular_velocity = 100;
-			rg.data.linear_velocity = {0,0};
-			rg.data.linear_damping = {0,0};
-			rg.data.max_linear_velocity = {100,100};
-			rg.data.bounce = false;
-			rg.data.elastisity = 0;
-			rg.data.offset = {0,0};
-			rg.data.constraints = {0,0,0};
-		}
+		// Ensure Script::init() is called on all BehaviorScript instances
+		script_sys.update();
 	}
 };
 
 TEST_F(CollisionTest, collision_example) {
-	// change object data before calling update
-
-	// call collision system update
-	system.update();
+	collision_sys.update();
 	// should be nullptr after update with no collision
 	//ASSERT_EQ(MyScriptCollider1::last_collision_info_1, nullptr);
 	//ASSERT_EQ(MyScriptCollider2::last_collision_info_2, nullptr);
@@ -186,11 +124,9 @@ TEST_F(CollisionTest, collision_example) {
 
 TEST_F(CollisionTest, collision_box_box_dynamic) {
 	// change object data before calling update
-	ComponentManager & mgr = this->component_manager;
-	Transform & test = mgr.get_components_by_id<Transform>(2).front().get();
-	test.position = {screen_size_width/2,screen_size_height/2};
-	// call collision system update
-	system.update();
+	Transform & test = mgr.get_components_by_id<Transform>(game_object1.id).front().get();
+	// call collision collision_sys update
+	collision_sys.update();
 	// should be nullptr after update with no collision
 	// ASSERT_NE(MyScriptCollider1::last_collision_info_1, nullptr);
 	// ASSERT_NE(MyScriptCollider2::last_collision_info_2, nullptr);
