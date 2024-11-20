@@ -10,7 +10,6 @@
 #include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
 #include <crepe/system/RenderSystem.h>
-#include <crepe/util/log.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Vector2.h>
@@ -21,7 +20,11 @@ using namespace crepe;
 using namespace std;
 
 int main(int argc, char * argv[]) {
-	GameObject game_object(0, "", "", Vector2{100, 100}, 0, 0.1);
+	ComponentManager mgr;	
+	GameObject game_object = mgr.new_object("", "", Vector2{100, 100}, 0, 0.1);
+	RenderSystem sys{mgr};
+	ParticleSystem psys{mgr};
+
 	Color color(255, 255, 255, 255);
 	Sprite test_sprite = game_object.add_component<Sprite>(
 		make_shared<Texture>("../asset/texture/img.png"), color,
@@ -47,11 +50,9 @@ int main(int argc, char * argv[]) {
 	});
 	game_object.add_component<Camera>(Color::get_white());
 
-	auto & sys = crepe::RenderSystem::get_instance();
-	auto sys_part = crepe::ParticleSystem();
 	auto start = std::chrono::steady_clock::now();
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
-		sys_part.update();
+		psys.update();
 		sys.update();
 		SDL_Delay(10 );
 	}
