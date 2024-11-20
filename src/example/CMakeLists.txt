@@ -16,12 +16,7 @@ function(add_example target_name)
 	add_dependencies(examples ${target_name})
 endfunction()
 
-add_example(audio_internal)
-add_example(rendering)
 add_example(asset_manager)
-add_example(physics)
 add_example(savemgr)
-add_example(db)
-add_example(particles)
 add_example(gameloop)
 
