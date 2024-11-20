@@ -220,8 +220,8 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 			// Check collision
 			if (check_box_box_collision(boxcolliders[i], boxcolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
 				collisions_ret.emplace_back(std::make_pair(
-				CollidedInfoStor{boxcolliders[i], transform1, rigidbody1}, 
-				CollidedInfoStor{boxcolliders[j], transform2, rigidbody2}
+					CollidedInfoStor{boxcolliders[i], transform1, rigidbody1}, 
+					CollidedInfoStor{boxcolliders[j], transform2, rigidbody2}
 				));
 			}
 		}

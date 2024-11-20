@@ -1,8 +1,10 @@
 #pragma once
 
 #include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <cmath>
 #include <functional>
 #include <memory>
 #include <string>
@@ -10,10 +12,7 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "api/Camera.h"
-
-// FIXME: this needs to be removed
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+#include "api/Vector2.h"
 
 namespace crepe {
 
@@ -121,6 +120,9 @@ private:
 	 */
 	void draw(const Sprite & sprite, const Transform & transform, const Camera & camera);
 
+	void draw_particle(const Sprite & sprite, const Vector2 & pos, const double & angle,
+					   const double & scale, const Camera & camera);
+
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
 
@@ -128,10 +130,31 @@ private:
 	void present_screen();
 
 	/**
-	 * \brief Sets the current camera for rendering.
+	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	void camera(const Camera & camera);
+	void set_camera(const Camera & camera);
+
+private:
+	/**
+	 * \brief calculates the sqaure size of the image
+	 *
+	 * \param sprite Reference to the sprite to calculate the rectangle
+	 * \return sdl rectangle to draw a src image
+	 */
+	SDL_Rect get_src_rect(const Sprite & sprite) const;
+	/**
+	 * \brief calculates the sqaure size of the image for an destination
+	 *
+	 * \param sprite Reference to the sprite to calculate the rectangle
+	 * \param pos the pos in pixel positions
+	 * \param scale the multiplier to increase of decrease for the specified sprite 
+	 * \param cam Reference to the current camera in the scene to calculate the position based
+	 * on the camera 
+	 * \return sdl rectangle to draw a dst image to draw on the screen
+	 */
+	SDL_Rect get_dst_rect(const Sprite & sprite, const Vector2 & pos, const double & scale,
+						  const Camera & cam) const;
 
 private:
 	//! sdl Window

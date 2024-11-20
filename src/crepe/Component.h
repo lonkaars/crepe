@@ -27,6 +27,12 @@ protected:
 	//! Only the ComponentManager can create components
 	friend class ComponentManager;
 
+	// TODO: this breaks the CollisionSystem but should be uncommented:
+	// Component(const Component &) = delete;
+	// Component(Component &&) = delete;
+	// virtual Component & operator=(const Component &) = delete;
+	// virtual Component & operator=(Component &&) = delete;
+
 public:
 	virtual ~Component() = default;
 

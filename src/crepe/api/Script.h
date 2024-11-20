@@ -4,6 +4,8 @@
 
 #include "../types.h"
 
+#include "EventManager.h"
+
 namespace crepe {
 
 class ScriptSystem;
@@ -22,7 +24,11 @@ class ComponentManager;
 class Script {
 protected:
 	/**
-	 * \brief Script initialization function
+	 * \name Interface functions
+	 * \{
+	 */
+	/**
+	 * \brief Script initialization function (empty by default)
 	 *
 	 * This function is called during the ScriptSystem::update() routine *before*
 	 * Script::update() if it (a) has not yet been called and (b) the \c BehaviorScript component
@@ -30,24 +36,32 @@ protected:
 	 */
 	virtual void init() {}
 	/**
-	 * \brief Script update function
+	 * \brief Script update function (empty by default)
 	 *
 	 * This function is called during the ScriptSystem::update() routine if the \c BehaviorScript
 	 * component holding this script instance is active.
 	 */
 	virtual void update() {}
+	//! \}
+
 	//! ScriptSystem calls \c init() and \c update()
 	friend class crepe::ScriptSystem;
 
 protected:
 	/**
-	 * \brief Get single component of type \c T on this game object (utility)
+	 * \name Utility functions
+	 * \{
+	 */
+
+	/**
+	 * \brief Get single component of type \c T on this game object
 	 *
 	 * \tparam T Type of component
 	 *
 	 * \returns Reference to component
 	 *
-	 * \throws nullptr if this game object does not have a component matching type \c T
+	 * \throws std::runtime_error if this game object does not have a component matching type \c
+	 * T
 	 */
 	template <typename T>
 	T & get_component() const;
@@ -55,7 +69,7 @@ protected:
 	// cause compile-time errors
 
 	/**
-	 * \brief Get all components of type \c T on this game object (utility)
+	 * \brief Get all components of type \c T on this game object
 	 *
 	 * \tparam T Type of component
 	 *
@@ -63,31 +77,65 @@ protected:
 	 */
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components() const;
-	
+
 	/**
-	 * \brief Gets game object id this script is attached to
+	 * \brief Log a message using Log::logf
 	 *
-	 * \returns game object id
+	 * \tparam Args Log::logf parameters
+	 * \param args  Log::logf parameters
 	 */
-	game_object_id_t get_game_object_id() const {return this->game_object_id;};
-	
+	template <typename... Args>
+	void logf(Args &&... args);
+
+	game_object_id_t get_game_object_id() const { return this->game_object_id; };
+
+	/**
+	 * \brief Subscribe to an event
+	 *
+	 * \see EventManager::subscribe
+	 */
+	template <typename EventType>
+	void subscribe(const EventHandler<EventType> & callback, event_channel_t channel = EventManager::CHANNEL_ALL);
+
+	//! \}
+
 protected:
 	// NOTE: Script must have a constructor without arguments so the game programmer doesn't need
 	// to manually add `using Script::Script` to their concrete script class.
 	Script() = default;
 	//! Only \c BehaviorScript instantiates Script
 	friend class BehaviorScript;
+public:
+	// std::unique_ptr destroys script
+	virtual ~Script();
+
+	Script(const Script &) = delete;
+	Script(Script &&) = delete;
+	Script & operator=(const Script &) = delete;
+	Script & operator=(Script &&) = delete;
 
 private:
-	// These references are set by BehaviorScript immediately after calling the constructor of
-	// Script.
+	/**
+	 * \name Late references
+	 *
+	 * These references are set by BehaviorScript immediately after calling the constructor of
+	 * Script.
+	 *
+	 * \{
+	 */
+	//! Game object ID of game object parent BehaviorScript is attached to
 	game_object_id_t game_object_id = -1;
+	//! Reference to component manager instance
 	ComponentManager * component_manager_ref = nullptr;
-	// TODO: use OptionalRef instead of pointer
+	//! Reference to event manager instance
+	EventManager * event_manager_ref = nullptr;
+	//! \}
 
 private:
 	//! Flag to indicate if \c init() has been called already
 	bool initialized = false;
+	//! List of subscribed events
+	std::vector<subscription_t> listeners;
 };
 
 } // namespace crepe

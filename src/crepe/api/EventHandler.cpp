@@ -1,2 +1,5 @@
 #include "EventHandler.h"
-bool IEventHandlerWrapper::exec(const Event & e) { return call(e); }
+
+using namespace crepe;
+
+bool IEventHandlerWrapper::exec(const Event & e) { return this->call(e); }
