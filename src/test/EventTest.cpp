@@ -34,6 +34,7 @@ public:
 	MOCK_METHOD(bool, on_mouse_released, (const MouseReleaseEvent & event), (override));
 	MOCK_METHOD(bool, on_mouse_moved, (const MouseMoveEvent & event), (override));
 };
+
 TEST_F(EventManagerTest, EventSubscription) {
 	EventHandler<KeyPressEvent> key_handler = [](const KeyPressEvent & e) {
 		std::cout << "Key Event Triggered" << std::endl;
@@ -57,64 +58,46 @@ TEST_F(EventManagerTest, EventSubscription) {
 			.key = Keycode::A,
 
 		},
-		CHANNEL_ALL);
+		EventManager::CHANNEL_ALL);
 }
 TEST_F(EventManagerTest, EventManagerTest_trigger_all_channels) {
 	bool triggered = false;
 
 	EventHandler<MouseClickEvent> mouse_handler = [&](const MouseClickEvent & e) {
 		triggered = true;
-		std::cout << "mouse handled" << std::endl;
 		EXPECT_EQ(e.mouse_x, 100);
 		EXPECT_EQ(e.mouse_y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
-	EventManager::get_instance().subscribe<MouseClickEvent>(mouse_handler, CHANNEL_ALL);
+	EventManager::get_instance().subscribe<MouseClickEvent>(mouse_handler, EventManager::CHANNEL_ALL);
 
 	MouseClickEvent click_event{
 		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
-	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, CHANNEL_ALL);
+	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
 	EXPECT_TRUE(triggered);
 }
-
-TEST_F(EventManagerTest, EventManagerTest_priority_order) {
-	EventManager & event_manager = EventManager::get_instance();
-
-	// Vector to track call order
-	std::vector<int> call_order;
-
-	// Handlers with different priorities
-	EventHandler<MouseClickEvent> handler_priority_3 = [&](const MouseClickEvent & e) {
-		call_order.push_back(3);
-		return false; // Allow propagation
+TEST_F(EventManagerTest, EventManagerTest_trigger_one_channel) {
+	bool triggered = false;
+	int test_channel = 1;
+	EventHandler<MouseClickEvent> mouse_handler = [&](const MouseClickEvent & e) {
+		triggered = true;
+		EXPECT_EQ(e.mouse_x, 100);
+		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
+		return false;
 	};
+	EventManager::get_instance().subscribe<MouseClickEvent>(mouse_handler, test_channel);
 
-	EventHandler<MouseClickEvent> handler_priority_1 = [&](const MouseClickEvent & e) {
-		call_order.push_back(1);
-		return false; // Allow propagation
-	};
+	MouseClickEvent click_event{
+		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
+	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
-	EventHandler<MouseClickEvent> handler_priority_2 = [&](const MouseClickEvent & e) {
-		call_order.push_back(2);
-		return false; // Allow propagation
-	};
-
-	// Subscribe handlers with different priorities
-	event_manager.subscribe<MouseClickEvent>(handler_priority_1, CHANNEL_ALL, 1);
-	event_manager.subscribe<MouseClickEvent>(handler_priority_3, CHANNEL_ALL, 3);
-	event_manager.subscribe<MouseClickEvent>(handler_priority_2, CHANNEL_ALL, 2);
-
-	// Trigger the event
-	event_manager.trigger_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE},
-		CHANNEL_ALL);
-
-	// Check the call order matches the expected priority order
-	std::vector<int> expected_order = {3, 2, 1};
-	EXPECT_EQ(call_order, expected_order);
+	EXPECT_FALSE(triggered);
+	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, test_channel);
 }
+
 
 TEST_F(EventManagerTest, EventManagerTest_callback_propagation) {
 	EventManager & event_manager = EventManager::get_instance();
@@ -143,13 +126,13 @@ TEST_F(EventManagerTest, EventManagerTest_callback_propagation) {
 	// Test event
 	MouseClickEvent click_event{
 		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
-
-	// First Scenario: True handler has higher priority
-	event_manager.subscribe<MouseClickEvent>(mouse_handler_true, CHANNEL_ALL, 1);
-	event_manager.subscribe<MouseClickEvent>(mouse_handler_false, CHANNEL_ALL, 0);
+	event_manager.subscribe<MouseClickEvent>(mouse_handler_true, EventManager::CHANNEL_ALL);
+	event_manager.subscribe<MouseClickEvent>(mouse_handler_false, EventManager::CHANNEL_ALL);
+	
+	
 
 	// Trigger event
-	event_manager.trigger_event<MouseClickEvent>(click_event, CHANNEL_ALL);
+	event_manager.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
 	// Check that only the true handler was triggered
 	EXPECT_TRUE(triggered_true);
@@ -159,13 +142,12 @@ TEST_F(EventManagerTest, EventManagerTest_callback_propagation) {
 	triggered_true = false;
 	triggered_false = false;
 	event_manager.clear();
-
-	// Second Scenario: False handler has higher priority
-	event_manager.subscribe<MouseClickEvent>(mouse_handler_true, CHANNEL_ALL, 0);
-	event_manager.subscribe<MouseClickEvent>(mouse_handler_false, CHANNEL_ALL, 1);
+	event_manager.subscribe<MouseClickEvent>(mouse_handler_false, EventManager::CHANNEL_ALL);
+	event_manager.subscribe<MouseClickEvent>(mouse_handler_true, EventManager::CHANNEL_ALL);
+	
 
 	// Trigger event again
-	event_manager.trigger_event<MouseClickEvent>(click_event, CHANNEL_ALL);
+	event_manager.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
 	// Check that both handlers were triggered
 	EXPECT_TRUE(triggered_true);
@@ -204,40 +186,6 @@ TEST_F(EventManagerTest, EventManagerTest_queue_dispatch) {
 	EXPECT_TRUE(triggered2);
 }
 
-TEST_F(EventManagerTest, EventManagerTest_dispatch_priority) {
-	EventManager & event_manager = EventManager::get_instance();
-	std::vector<int> call_order;
-	int test_channel = 1;
-	EventHandler<MouseClickEvent> mouse_handler1 = [&](const MouseClickEvent & e) {
-		call_order.push_back(1);
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
-		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
-		return false; // Allows propagation
-	};
-	EventHandler<MouseClickEvent> mouse_handler2 = [&](const MouseClickEvent & e) {
-		call_order.push_back(2);
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
-		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
-		return false; // Allows propagation
-	};
-	EventHandler<MouseClickEvent> mouse_handler3 = [&](const MouseClickEvent & e) {
-		call_order.push_back(3);
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
-		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
-		return false; // Allows propagation
-	};
-	event_manager.subscribe<MouseClickEvent>(mouse_handler2, CHANNEL_ALL, 2);
-	event_manager.subscribe<MouseClickEvent>(mouse_handler1, CHANNEL_ALL, 1);
-	event_manager.subscribe<MouseClickEvent>(mouse_handler3, CHANNEL_ALL, 3);
-	event_manager.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE});
-	event_manager.dispatch_events();
-	std::vector<int> expected_order = {3, 2, 1};
-	EXPECT_EQ(call_order, expected_order);
-}
 
 TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 	EventManager & event_manager = EventManager::get_instance();
@@ -263,8 +211,8 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 		return false; // Allows propagation
 	};
 	// Subscribe handlers
-	event_manager.subscribe<MouseClickEvent>(mouse_handler1);
-	event_manager.subscribe<MouseClickEvent>(mouse_handler2);
+	subscription_t handler1_id = event_manager.subscribe<MouseClickEvent>(mouse_handler1);
+	subscription_t handler2_id = event_manager.subscribe<MouseClickEvent>(mouse_handler2);
 
 	// Queue events
 	event_manager.queue_event<MouseClickEvent>(
@@ -280,7 +228,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 	triggered2 = false;
 
 	// Unsubscribe handler1
-	event_manager.unsubscribe<MouseClickEvent>(mouse_handler1);
+	event_manager.unsubscribe(handler1_id);
 
 	// Queue the same event again
 	event_manager.queue_event<MouseClickEvent>(
@@ -295,7 +243,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 	triggered2 = false;
 
 	// Unsubscribe handler2
-	event_manager.unsubscribe<MouseClickEvent>(mouse_handler2);
+	event_manager.unsubscribe(handler2_id);
 
 	// Queue the event again
 	event_manager.queue_event<MouseClickEvent>(
