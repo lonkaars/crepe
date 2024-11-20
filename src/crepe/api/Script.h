@@ -62,7 +62,7 @@ protected:
 	 * \returns List of component references
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>> get_components() const;
+	RefVector<T> get_components() const;
 
 protected:
 	// NOTE: Script must have a constructor without arguments so the game programmer doesn't need

@@ -14,8 +14,7 @@ using namespace crepe;
 void ParticleSystem::update() {
 	// Get all emitters
 	ComponentManager & mgr = this->component_manager;
-	std::vector<std::reference_wrapper<ParticleEmitter>> emitters
-		= mgr.get_components_by_type<ParticleEmitter>();
+	RefVector<ParticleEmitter> emitters = mgr.get_components_by_type<ParticleEmitter>();
 
 	for (ParticleEmitter & emitter : emitters) {
 		// Get transform linked to emitter
