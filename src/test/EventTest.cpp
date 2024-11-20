@@ -70,11 +70,13 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_all_channels) {
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
-	EventManager::get_instance().subscribe<MouseClickEvent>(mouse_handler, EventManager::CHANNEL_ALL);
+	EventManager::get_instance().subscribe<MouseClickEvent>(mouse_handler,
+															EventManager::CHANNEL_ALL);
 
 	MouseClickEvent click_event{
 		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
-	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
+	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event,
+																EventManager::CHANNEL_ALL);
 
 	EXPECT_TRUE(triggered);
 }
@@ -92,12 +94,12 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_one_channel) {
 
 	MouseClickEvent click_event{
 		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
-	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
+	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event,
+																EventManager::CHANNEL_ALL);
 
 	EXPECT_FALSE(triggered);
 	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event, test_channel);
 }
-
 
 TEST_F(EventManagerTest, EventManagerTest_callback_propagation) {
 	EventManager & event_manager = EventManager::get_instance();
@@ -128,8 +130,6 @@ TEST_F(EventManagerTest, EventManagerTest_callback_propagation) {
 		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
 	event_manager.subscribe<MouseClickEvent>(mouse_handler_true, EventManager::CHANNEL_ALL);
 	event_manager.subscribe<MouseClickEvent>(mouse_handler_false, EventManager::CHANNEL_ALL);
-	
-	
 
 	// Trigger event
 	event_manager.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
@@ -144,7 +144,6 @@ TEST_F(EventManagerTest, EventManagerTest_callback_propagation) {
 	event_manager.clear();
 	event_manager.subscribe<MouseClickEvent>(mouse_handler_false, EventManager::CHANNEL_ALL);
 	event_manager.subscribe<MouseClickEvent>(mouse_handler_true, EventManager::CHANNEL_ALL);
-	
 
 	// Trigger event again
 	event_manager.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
@@ -185,7 +184,6 @@ TEST_F(EventManagerTest, EventManagerTest_queue_dispatch) {
 	EXPECT_TRUE(triggered1);
 	EXPECT_TRUE(triggered2);
 }
-
 
 TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 	EventManager & event_manager = EventManager::get_instance();

@@ -10,10 +10,7 @@ subscription_t EventManager::subscribe(const EventHandler<EventType> & callback,
 		= std::make_unique<EventHandlerWrapper<EventType>>(callback);
 	std::vector<CallbackEntry> & handlers = this->subscribers[event_type];
 	handlers.emplace_back(CallbackEntry{
-		.callback = std::move(handler),
-		.channel = channel,
-		.id = subscription_counter
-	});
+		.callback = std::move(handler), .channel = channel, .id = subscription_counter});
 	return subscription_counter;
 }
 
@@ -25,9 +22,8 @@ void EventManager::queue_event(const EventType & event, int channel) {
 
 	auto event_ptr = std::make_unique<EventType>(event);
 
-	this->events_queue.push_back(QueueEntry{.event = std::move(event_ptr),
-											.channel = channel,
-											.type = event_type});
+	this->events_queue.push_back(
+		QueueEntry{.event = std::move(event_ptr), .channel = channel, .type = event_type});
 }
 
 template <typename EventType>
@@ -48,6 +44,5 @@ void EventManager::trigger_event(const EventType & event, int channel) {
 		}
 	}
 }
-
 
 } // namespace crepe

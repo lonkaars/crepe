@@ -48,7 +48,8 @@ public:
 	 * \return A unique subscription ID associated with the registered callback.
 	 */
 	template <typename EventType>
-	subscription_t subscribe(const EventHandler<EventType> & callback, int channel = CHANNEL_ALL);
+	subscription_t subscribe(const EventHandler<EventType> & callback,
+							 int channel = CHANNEL_ALL);
 
 	/**
 	 * \brief Unsubscribe a previously registered callback.
@@ -112,8 +113,8 @@ private:
 	 */
 	struct QueueEntry {
 		std::unique_ptr<Event> event; ///< The event instance.
-		int channel = CHANNEL_ALL;    ///< The channel associated with the event.
-		std::type_index type;         ///< The type of the event.
+		int channel = CHANNEL_ALL; ///< The channel associated with the event.
+		std::type_index type; ///< The type of the event.
 	};
 
 	/**
@@ -122,8 +123,8 @@ private:
 	 */
 	struct CallbackEntry {
 		std::unique_ptr<IEventHandlerWrapper> callback; ///< The callback function wrapper.
-		int channel = CHANNEL_ALL;                      ///< The channel this callback listens to.
-		subscription_t id = -1;                         ///< Unique subscription ID.
+		int channel = CHANNEL_ALL; ///< The channel this callback listens to.
+		subscription_t id = -1; ///< Unique subscription ID.
 	};
 
 	//! The queue of events to be processed during dispatch.
