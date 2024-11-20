@@ -33,21 +33,21 @@ SDLContext::SDLContext() {
 	dbg_trace();
 	// FIXME: read window defaults from config manager
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		throw std::runtime_error("SDL could not initialize!");
+	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
 	SDL_Window * tmp_window
 		= SDL_CreateWindow("Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 						   this->viewport.w, this->viewport.h, 0);
 	if (!tmp_window) {
-		throw std::runtime_error("Window could not be created!");
+		throw runtime_error(format("SDLContext: SDL_Window error: {}", SDL_GetError()));
 	}
 	this->game_window = {tmp_window, [](SDL_Window * window) { SDL_DestroyWindow(window); }};
 
 	SDL_Renderer * tmp_renderer
 		= SDL_CreateRenderer(this->game_window.get(), -1, SDL_RENDERER_ACCELERATED);
 	if (!tmp_renderer) {
-		throw std::runtime_error("Renderer could not be created!");
+		throw runtime_error(format("SDLContext: SDL_CreateRenderer error: {}", SDL_GetError()));
 	}
 
 	this->game_renderer
@@ -55,7 +55,7 @@ SDLContext::SDLContext() {
 
 	int img_flags = IMG_INIT_PNG;
 	if (!(IMG_Init(img_flags) & img_flags)) {
-		throw std::runtime_error("SDL_image could not initialize!");
+		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
 }
 
@@ -164,10 +164,8 @@ std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
 SDLContext::texture_from_path(const std::string & path) {
 
 	SDL_Surface * tmp = IMG_Load(path.c_str());
-	if (tmp == nullptr) {
-		tmp = IMG_Load("../asset/texture/ERROR.png");
-		if (tmp == nullptr) throw runtime_error("cannot load image");
-	}
+	if (tmp == nullptr)
+		throw runtime_error(format("SDLContext: IMG_Load error: {}", SDL_GetError()));
 
 	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>> img_surface;
 	img_surface = {tmp, [](SDL_Surface * surface) { SDL_FreeSurface(surface); }};
@@ -176,7 +174,7 @@ SDLContext::texture_from_path(const std::string & path) {
 		= SDL_CreateTextureFromSurface(this->game_renderer.get(), img_surface.get());
 
 	if (tmp_texture == nullptr) {
-		throw runtime_error(format("Texture cannot be load from {}", path));
+		throw runtime_error(format("SDLContext: Texture cannot be load from {}", path));
 	}
 
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> img_texture;
