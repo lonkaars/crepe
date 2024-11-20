@@ -14,6 +14,12 @@ Proxy<T> & Proxy<T>::operator=(const T & val) {
 }
 
 template <typename T>
+Proxy<T> & Proxy<T>::operator=(Proxy & proxy) {
+	this->broker.set(T(proxy));
+	return *this;
+}
+
+template <typename T>
 Proxy<T>::operator const T &() {
 	return this->broker.get();
 }
