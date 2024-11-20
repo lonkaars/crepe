@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <crepe/facade/DB.h>
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace crepe;
@@ -26,4 +26,3 @@ TEST_F(DBTest, Has) {
 	db.set("foo", "bar");
 	EXPECT_EQ(db.has("foo"), true);
 }
-

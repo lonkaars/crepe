@@ -16,7 +16,7 @@ public:
      * \brief Constructs an IMouseListener with a specified channel.
      * \param channel The channel ID for event handling.
      */
-	IMouseListener(int channel = EventManager::CHANNEL_ALL);
+	IMouseListener(event_channel_t channel = EventManager::CHANNEL_ALL);
 	virtual ~IMouseListener();
 	IMouseListener & operator=(const IMouseListener &) = delete;
 	IMouseListener(const IMouseListener &) = delete;

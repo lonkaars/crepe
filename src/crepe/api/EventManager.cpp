@@ -1,6 +1,7 @@
 #include "EventManager.h"
 
 using namespace crepe;
+using namespace std;
 
 EventManager & EventManager::get_instance() {
 	static EventManager instance;
@@ -8,30 +9,23 @@ EventManager & EventManager::get_instance() {
 }
 
 void EventManager::dispatch_events() {
-	for (auto event_it = this->events_queue.begin(); event_it != this->events_queue.end();) {
-		std::unique_ptr<Event> & event = (*event_it).event;
-		int channel = (*event_it).channel;
-		std::type_index event_type = (*event_it).type;
+	for (auto & event : this->events_queue) {
+		this->handle_event(event.type, event.channel, *event.event.get());
+	}
+	this->events_queue.clear();
+}
 
-		bool event_handled = false;
-		auto handlers_it = this->subscribers.find(event_type);
-		if (handlers_it == this->subscribers.end()) {
-			continue;
-		}
-		std::vector<CallbackEntry> & handlers = handlers_it->second;
+void EventManager::handle_event(type_index type, event_channel_t channel, const Event & data) {
+	auto handlers_it = this->subscribers.find(type);
+	if (handlers_it == this->subscribers.end()) return;
 
-		for (auto handler_it = handlers.begin(); handler_it != handlers.end(); ++handler_it) {
-			// If callback is executed and returns true, remove the event from the queue
-			if ((*handler_it).callback->exec(*event)) {
-				event_it = this->events_queue.erase(event_it);
-				event_handled = true;
-				break;
-			}
-		}
+	vector<CallbackEntry> & handlers = handlers_it->second;
+	for (auto & handler : handlers) {
+		bool check_channel = handler.channel != CHANNEL_ALL || channel != CHANNEL_ALL;
+		if (check_channel && handler.channel != channel) continue;
 
-		if (!event_handled) {
-			++event_it;
-		}
+		bool handled = handler.callback->exec(data);
+		if (handled) return;
 	}
 }
 
@@ -40,15 +34,13 @@ void EventManager::clear() {
 	this->events_queue.clear();
 }
 
-void EventManager::unsubscribe(subscription_t event_id) {
+void EventManager::unsubscribe(subscription_t id) {
 	for (auto & [event_type, handlers] : this->subscribers) {
-		for (auto it = handlers.begin(); it != handlers.end();) {
-			if (it->id == event_id) {
-				it = handlers.erase(it);
-				return;
-			} else {
-				++it;
-			}
+		for (auto it = handlers.begin(); it != handlers.end(); it++) {
+			// find listener with subscription id
+			if ((*it).id != id) continue;
+			it = handlers.erase(it);
+			return;
 		}
 	}
 }
