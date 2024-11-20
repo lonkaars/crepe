@@ -16,6 +16,7 @@ BehaviorScript & BehaviorScript::set_script() {
 	Script * s = new T();
 	s->game_object_id = this->game_object_id;
 	s->component_manager_ref = &this->component_manager;
+	s->event_manager_ref = &EventManager::get_instance();
 	this->script = std::unique_ptr<Script>(s);
 	return *this;
 }

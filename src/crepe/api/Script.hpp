@@ -20,7 +20,7 @@ T & Script::get_component() const {
 
 template <typename T>
 std::vector<std::reference_wrapper<T>> Script::get_components() const {
-	auto & mgr = *this->component_manager_ref;
+	ComponentManager & mgr = *this->component_manager_ref;
 
 	return mgr.get_components_by_id<T>(this->game_object_id);
 }
@@ -28,6 +28,13 @@ std::vector<std::reference_wrapper<T>> Script::get_components() const {
 template <typename... Args>
 void Script::logf(Args &&... args) {
 	Log::logf(std::forward<Args>(args)...);
+}
+
+template <typename EventType>
+void Script::subscribe(const EventHandler<EventType> & callback, event_channel_t channel) {
+	EventManager & mgr = *this->event_manager_ref;
+	subscription_t listener = mgr.subscribe<EventType>(callback, channel);
+	this->listeners.push_back(listener);
 }
 
 } // namespace crepe
