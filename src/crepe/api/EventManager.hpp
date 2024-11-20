@@ -4,26 +4,17 @@ namespace crepe {
 
 template <typename EventType>
 void EventManager::subscribe(const EventHandler<EventType> & callback, int channel, int priority) {
-	using HandlersMap
-		= std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
-	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
+	using HandlersVec = std::vector<CallbackEntry>;
 
 	std::type_index event_type = typeid(EventType);
 	std::unique_ptr<EventHandlerWrapper<EventType>> handler
 		= std::make_unique<EventHandlerWrapper<EventType>>(callback);
-
-	if (channel) {
-		HandlersMap & handlers_map = this->subscribers_by_event_id[event_type];
-		auto handlers = handlers_map.find(channel);
-		if (handlers != handlers_map.end()) {
-			handlers->second.emplace_back(std::move(handler));
-		} else {
-			handlers_map[channel].emplace_back(std::move(handler));
-		}
-	} else {
-		HandlersVec & handlers = this->subscribers[event_type];
-		handlers.emplace_back(std::move(handler));
-	}
+	HandlersVec & handlers = this->subscribers[event_type];
+	handlers.emplace_back(CallbackEntry{
+		.callback = std::move(handler),
+		.channel = channel,
+		.priority = priority,
+	});
 }
 
 template <typename EventType>
@@ -33,12 +24,12 @@ void EventManager::queue_event(const EventType & event, int channel,int priority
 
 	auto event_ptr = std::make_unique<EventType>(event);
 
-	
 	this->events_queue.push_back(
 		QueueEntry{
 			.event = std::move(event_ptr),
 			.channel = channel,
-			.type = event_type
+			.type = event_type,
+			.priority = priority
 		}
 	);
 }
@@ -51,7 +42,7 @@ void EventManager::trigger_event(const EventType & event, int channel) {
 
 	std::type_index event_type = typeid(EventType);
 
-	if (channel > 0) {
+	if (channel == CHANNEL_ALL) {
 		HandlersMap & handlers_map = this->subscribers_by_event_id[event_type];
 		auto handlers_it = handlers_map.find(channel);
 

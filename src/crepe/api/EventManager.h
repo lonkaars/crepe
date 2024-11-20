@@ -91,35 +91,28 @@ public:
      */
 	void clear();
 private:
-	struct QueueEntry {
-        	std::unique_ptr<Event> event;
-		int channel = 0;
-		std::type_index type;
-		int priority = 0;
-    	};
-	struct CallbackEntry {
-        	std::unique_ptr<IEventHandlerWrapper> callback;
-		int channel = 0;
-		std::type_index type;
-		int priority = 0;
-    	};
+	
 	/**
      * \brief Default constructor for the EventManager.
      * 
      * This constructor is private to enforce the singleton pattern.
      */
 	EventManager() = default;
-
+	struct QueueEntry {
+        	std::unique_ptr<Event> event;
+		int channel = CHANNEL_ALL;
+		std::type_index type;
+		int priority = 0;
+    	};
+	struct CallbackEntry {
+        	std::unique_ptr<IEventHandlerWrapper> callback;
+		int channel = CHANNEL_ALL;
+		int priority = 0;
+    	};
 	//! The queue of events to be processed.
 	std::vector<QueueEntry> events_queue;
 	//! Registered event handlers.
-	std::unordered_map<std::type_index, std::vector<std::unique_ptr<IEventHandlerWrapper>>>
-		subscribers;
-	//! Event handlers indexed by event ID.
-	std::unordered_map<
-		std::type_index,
-		std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>
-		subscribers_by_event_id;
+	std::unordered_map<std::type_index,std::vector<CallbackEntry>> subscribers;
 	
 };
 
