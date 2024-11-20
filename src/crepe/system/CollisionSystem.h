@@ -70,8 +70,6 @@ public:
 
 public:
 
-	CollisionSystem();
-
 	//! Updates the collision system by checking for collisions between colliders and handling them.
 	void update() override;
 

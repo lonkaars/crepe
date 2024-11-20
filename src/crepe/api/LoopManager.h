@@ -4,6 +4,7 @@
 
 #include "../ComponentManager.h"
 #include "../system/System.h"
+#include "api/SceneManager.h"
 
 namespace crepe {
 
@@ -71,7 +72,9 @@ private:
 private:
 	//! Component manager instance
 	ComponentManager component_manager{};
-
+public:
+	//! Scene manager instance
+	SceneManager scene_manager{component_manager};
 private:
 	/**
 	 * \brief Collection of System instances

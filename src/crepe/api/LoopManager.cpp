@@ -35,10 +35,8 @@ void LoopManager::start() {
 void LoopManager::set_running(bool running) { this->game_running = running; }
 
 void LoopManager::fixed_update() {
-	PhysicsSystem phys;
-	phys.update();
-	CollisionSystem col;
-	col.update();
+	this->get_system<PhysicsSystem>().update();
+	this->get_system<CollisionSystem>().update();
 }
 
 void LoopManager::loop() {
