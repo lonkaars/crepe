@@ -10,8 +10,15 @@ namespace crepe {
 
 class ComponentManager;
 
+/**
+ * \brief Manages scenes
+ *
+ * This class manages scenes. It can add new scenes and load them. It also manages the current scene
+ * and the next scene.
+ */
 class SceneManager {
 public:
+	//! \param mgr  Reference to the ComponentManager
 	SceneManager(ComponentManager & mgr);
 
 public:
@@ -35,8 +42,11 @@ public:
 	void load_next_scene();
 
 private:
+	//! Vector of scenes
 	std::vector<std::unique_ptr<Scene>> scenes;
+	//! Next scene to load
 	std::string next_scene;
+	//! Reference to the ComponentManager
 	ComponentManager & component_manager;
 };
 
