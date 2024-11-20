@@ -61,13 +61,9 @@ public:
 	void SetUp() override {
 		world.add_component<Rigidbody>(Rigidbody::Data{
 			// TODO: remove unrelated properties:
-			.mass = 0,
-			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::STATIC,
-			.constraints = {0, 0, 0},
-			.use_gravity = false,
 			.bounce = false,
-			.offset = {0,0}
+			.offset = {0,0},
 		});
 		// Create a box with an inner size of 10x10 units
 		world.add_component<BoxCollider>(Vector2{5, 11}, 10, 2); // Top
