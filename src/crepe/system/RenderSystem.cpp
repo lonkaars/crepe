@@ -36,10 +36,10 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 	bool rendering_particles = false;
 
 	for (const ParticleEmitter & em : emitters) {
-		if (!em.active) continue;
-		if (!(em.data.sprite.game_object_id == sprite.game_object_id)) continue;
-
+		if (!(&em.data.sprite == &sprite)) continue;
 		rendering_particles = true;
+		if (!em.active) continue;
+
 
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
