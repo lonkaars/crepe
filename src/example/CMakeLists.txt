@@ -16,14 +16,5 @@ function(add_example target_name)
 	add_dependencies(examples ${target_name})
 endfunction()
 
-add_example(asset_manager)
-add_example(savemgr)
-add_example(proxy)
-add_example(db)
-add_example(ecs)
-add_example(scene_manager)
-add_example(events)
-add_example(particles)
-add_example(rendering_particle)
-add_example(gameloop)
+
 

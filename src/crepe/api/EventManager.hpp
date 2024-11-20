@@ -35,7 +35,7 @@ void EventManager::trigger_event(const EventType & event, int channel) {
 		const std::vector<CallbackEntry> & handlers = handlers_it->second;
 
 		for (const CallbackEntry & handler : handlers) {
-			if (handler.channel != channel && handler.channel != CHANNEL_ALL) {
+			if (handler.channel != channel) {
 				continue;
 			}
 			if (handler.callback->exec(event)) {
