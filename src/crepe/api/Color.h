@@ -4,41 +4,20 @@
 
 namespace crepe {
 
-// TODO: make Color a struct w/o constructors/destructors
-class Color {
+struct Color {
+	uint8_t r = 0x00;
+	uint8_t g = 0x00;
+	uint8_t b = 0x00;
+	uint8_t a = 0xff;
 
-	// FIXME: can't these colors be defined as a `static constexpr const Color`
-	// instead?
-
-public:
-	Color(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
-	static const Color & get_white();
-	static const Color & get_red();
-	static const Color & get_green();
-	static const Color & get_blue();
-	static const Color & get_cyan();
-	static const Color & get_magenta();
-	static const Color & get_yellow();
-	static const Color & get_black();
-
-public:
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
-	uint8_t a;
-
-private:
-	static Color white;
-	static Color red;
-	static Color green;
-	static Color blue;
-	static Color cyan;
-	static Color magenta;
-	static Color yellow;
-	static Color black;
-
-private:
-	friend class SDLContext;
+	static const Color WHITE;
+	static const Color RED;
+	static const Color GREEN;
+	static const Color BLUE;
+	static const Color CYAN;
+	static const Color MAGENTA;
+	static const Color YELLOW;
+	static const Color BLACK;
 };
 
 } // namespace crepe

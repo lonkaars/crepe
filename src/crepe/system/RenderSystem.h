@@ -41,6 +41,12 @@ private:
 	//! Renders all active sprites to the screen.
 	void render_sprites();
 
+	/**
+	 * \brief sort a vector sprite objects with
+	 *
+	 * \param objs the vector that will do a sorting algorithm on 
+	 * \return returns a sorted reference vector
+	 */
 	std::vector<std::reference_wrapper<Sprite>>
 	sort(std::vector<std::reference_wrapper<Sprite>> & objs);
 
