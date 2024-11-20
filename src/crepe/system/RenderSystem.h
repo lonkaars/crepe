@@ -5,6 +5,7 @@
 #include "api/Transform.h"
 
 #include "System.h"
+#include <cmath>
 
 namespace crepe {
 
@@ -51,7 +52,7 @@ private:
 	 * \param tm the Transform component for scale
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite &, Transform tm);
+	bool render_particle(const Sprite &, const double & scale);
 
 	/**
 	 * \brief renders a sprite with a Transform component on the screen 

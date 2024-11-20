@@ -27,7 +27,7 @@ void RenderSystem::update_camera() {
 }
 
 bool RenderSystem::render_particle(const Sprite & sprite,
-								   Transform tm) {
+								   const double & scale) {
 
 	ComponentManager & mgr = this->component_manager;
 	SDLContext & render = SDLContext::get_instance();
@@ -44,9 +44,7 @@ bool RenderSystem::render_particle(const Sprite & sprite,
 
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
-			tm.position = p.position;
-			tm.rotation = p.angle;
-			render.draw(em.data.sprite, tm, *curr_cam);
+			render.draw_particle(sprite, p.position, p.angle, scale, *this->curr_cam);
 		}
 	}
 	return rendering_particles;
@@ -68,7 +66,7 @@ void RenderSystem::render() {
 		if (!sprite.active) continue;
 		auto transform = mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
-		bool rendered_particles = this->render_particle(sprite, transform);
+		bool rendered_particles = this->render_particle(sprite, transform.scale);
 
 		if (rendered_particles) continue;
 
