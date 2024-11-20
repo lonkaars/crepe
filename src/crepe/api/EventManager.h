@@ -11,7 +11,7 @@
 #include "EventHandler.h"
 
 namespace crepe {
-
+static constexpr int CHANNEL_ALL = -1;
 /**
  * \class EventManager
  * \brief The EventManager class is responsible for managing the subscription, triggering, 
@@ -19,6 +19,7 @@ namespace crepe {
  */
 class EventManager {
 public:
+
 	/**
      * \brief Get the singleton instance of the EventManager.
      * 
@@ -38,7 +39,7 @@ public:
      * \param channel The channel number to subscribe to (default is 0).
      */
 	template <typename EventType>
-	void subscribe(EventHandler<EventType> && callback, int channel = 0);
+	void subscribe(const EventHandler<EventType> & callback, int channel = CHANNEL_ALL, int priority = 0);
 
 	/**
      * \brief Unsubscribe from an event.
@@ -50,7 +51,7 @@ public:
      * \param channel The event ID to unsubscribe from.
      */
 	template <typename EventType>
-	void unsubscribe(const EventHandler<EventType> &, int channel = 0);
+	void unsubscribe(const EventHandler<EventType> &, int channel = CHANNEL_ALL);
 
 	/**
      * \brief Trigger an event.
@@ -62,7 +63,7 @@ public:
      * \param channel The channel from which to trigger the event (default is 0).
      */
 	template <typename EventType>
-	void trigger_event(const EventType & event, int channel = 0);
+	void trigger_event(const EventType & event, int channel = CHANNEL_ALL);
 
 	/**
      * \brief Queue an event for later processing.
@@ -75,7 +76,7 @@ public:
      * \param channel The channel number for the event (default is 0).
      */
 	template <typename EventType>
-	void queue_event(EventType && event, int channel = 0);
+	void queue_event(const EventType & event, int channel = CHANNEL_ALL,int priority = 0);
 
 	/**
      * \brief Dispatch all queued events.
@@ -84,8 +85,24 @@ public:
      * callbacks for each event.
      */
 	void dispatch_events();
-
+	/**
+     * \brief clears all subscribers
+     * 
+     */
+	void clear();
 private:
+	struct QueueEntry {
+        	std::unique_ptr<Event> event;
+		int channel = 0;
+		std::type_index type;
+		int priority = 0;
+    	};
+	struct CallbackEntry {
+        	std::unique_ptr<IEventHandlerWrapper> callback;
+		int channel = 0;
+		std::type_index type;
+		int priority = 0;
+    	};
 	/**
      * \brief Default constructor for the EventManager.
      * 
@@ -94,7 +111,7 @@ private:
 	EventManager() = default;
 
 	//! The queue of events to be processed.
-	std::vector<std::tuple<std::unique_ptr<Event>, int, std::type_index>> events_queue;
+	std::vector<QueueEntry> events_queue;
 	//! Registered event handlers.
 	std::unordered_map<std::type_index, std::vector<std::unique_ptr<IEventHandlerWrapper>>>
 		subscribers;
@@ -103,6 +120,7 @@ private:
 		std::type_index,
 		std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>
 		subscribers_by_event_id;
+	
 };
 
 } // namespace crepe

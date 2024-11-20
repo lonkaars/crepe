@@ -13,9 +13,9 @@ void EventManager::dispatch_events() {
 	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
 
 	for (auto event_it = this->events_queue.begin(); event_it != this->events_queue.end();) {
-		std::unique_ptr<Event> & event = std::get<0>(*event_it);
-		int channel = std::get<1>(*event_it);
-		std::type_index event_type = std::get<2>(*event_it);
+		std::unique_ptr<Event> & event = (*event_it).event;
+		int channel = (*event_it).channel;
+		std::type_index event_type = (*event_it).type;
 
 		bool event_handled = false;
 
@@ -57,4 +57,9 @@ void EventManager::dispatch_events() {
 			++event_it;
 		}
 	}
+}
+void EventManager::clear(){
+	this->subscribers.clear();
+	this->events_queue.clear();
+	this->subscribers_by_event_id.clear();
 }
