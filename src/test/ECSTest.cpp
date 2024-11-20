@@ -1,3 +1,5 @@
+#include <gtest/gtest.h>
+
 #define protected public
 
 #include <crepe/ComponentManager.h>
@@ -5,7 +7,6 @@
 #include <crepe/api/Metadata.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
-#include <gtest/gtest.h>
 
 using namespace std;
 using namespace crepe;
@@ -94,7 +95,7 @@ TEST_F(ECSTest, deleteGameObject) {
 }
 
 TEST_F(ECSTest, manyGameObjects) {
-	for(int i = 0; i < 5000; i++) {
+	for (int i = 0; i < 5000; i++) {
 		GameObject obj = mgr.new_object("body", "person", Vector2{0, 0}, 0, i);
 	}
 
@@ -103,7 +104,7 @@ TEST_F(ECSTest, manyGameObjects) {
 
 	EXPECT_EQ(metadata.size(), 5000);
 	EXPECT_EQ(transform.size(), 5000);
-	for(int i = 0; i < 5000; i++) {
+	for (int i = 0; i < 5000; i++) {
 		EXPECT_EQ(metadata[i].get().game_object_id, i);
 		EXPECT_EQ(metadata[i].get().name, "body");
 		EXPECT_EQ(metadata[i].get().tag, "person");
@@ -125,7 +126,7 @@ TEST_F(ECSTest, manyGameObjects) {
 	EXPECT_EQ(metadata.size(), 0);
 	EXPECT_EQ(transform.size(), 5000);
 
-	for(int i = 0; i < 10000 - 5000; i++) {
+	for (int i = 0; i < 10000 - 5000; i++) {
 		string tag = "person" + to_string(i);
 		GameObject obj = mgr.new_object("body", tag, Vector2{0, 0}, i, 0);
 	}
@@ -165,14 +166,16 @@ TEST_F(ECSTest, tooMuchComponents) {
 		GameObject obj0 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
 		obj0.add_component<Transform>(Vector2{10, 10}, 0, 1);
 	} catch (const exception & e) {
-		EXPECT_EQ(e.what(), string("Exceeded maximum number of instances for this component type"));
+		EXPECT_EQ(e.what(),
+				  string("Exceeded maximum number of instances for this component type"));
 	}
 
 	try {
 		GameObject obj1 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
 		obj1.add_component<Metadata>("body", "person");
 	} catch (const exception & e) {
-		EXPECT_EQ(e.what(), string("Exceeded maximum number of instances for this component type"));
+		EXPECT_EQ(e.what(),
+				  string("Exceeded maximum number of instances for this component type"));
 	}
 
 	vector<reference_wrapper<Metadata>> metadata = mgr.get_components_by_type<Metadata>();
