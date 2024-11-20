@@ -18,8 +18,8 @@ DB::DB(const string & path) {
 	this->db = {db, [](libdb::DB * db) { db->close(db, 0); }};
 
 	// load or create database file
-	ret = this->db->open(this->db.get(), NULL, path.c_str(), NULL, libdb::DB_BTREE, DB_CREATE,
-						 0);
+	const char * file = path.empty() ? NULL : path.c_str();
+	ret = this->db->open(this->db.get(), NULL, file, NULL, libdb::DB_BTREE, DB_CREATE, 0);
 	if (ret != 0) throw runtime_error(format("db->open: {}", libdb::db_strerror(ret)));
 
 	// create cursor
