@@ -8,14 +8,16 @@ Vector2 Vector2::operator+(const Vector2 & other) const { return {x + other.x, y
 
 Vector2 Vector2::operator*(double scalar) const { return {x * scalar, y * scalar}; }
 
-Vector2 Vector2::operator*(const Vector2 & other) const{
+Vector2 Vector2::operator*(const Vector2 & other) const {
 	return {this->x * other.x, this->y * other.y};
 }
+
 Vector2 & Vector2::operator*=(const Vector2 & other) {
 	x *= other.x;
 	y *= other.y;
 	return *this;
 }
+
 Vector2 & Vector2::operator*=(const double & other) {
 	x *= other;
 	y *= other;

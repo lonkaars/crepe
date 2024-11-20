@@ -13,6 +13,7 @@ using namespace crepe;
 void RenderSystem::clear_screen() const { SDLContext::get_instance().clear_screen(); }
 
 void RenderSystem::present_screen() const { SDLContext::get_instance().present_screen(); }
+
 void RenderSystem::update_camera() {
 	ComponentManager & mgr = this->component_manager;
 
