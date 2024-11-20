@@ -18,9 +18,9 @@
 using namespace crepe;
 using namespace std;
 
-void RenderSystem::clear_screen() { this->context.clear_screen(); }
+void RenderSystem::clear_screen() const { this->context.clear_screen(); }
 
-void RenderSystem::present_screen() { this->context.present_screen(); }
+void RenderSystem::present_screen() const { this->context.present_screen(); }
 void RenderSystem::update_camera() {
 	ComponentManager & mgr = this->component_manager;
 
@@ -42,7 +42,7 @@ bool sorting_comparison(const Sprite & a, const Sprite & b) {
 }
 
 std::vector<std::reference_wrapper<Sprite>>
-RenderSystem::sort(std::vector<std::reference_wrapper<Sprite>> & objs) {
+RenderSystem::sort(std::vector<std::reference_wrapper<Sprite>> & objs) const {
 
 	std::vector<std::reference_wrapper<Sprite>> sorted_objs(objs);
 	std::sort(sorted_objs.begin(), sorted_objs.end(), sorting_comparison);
@@ -57,7 +57,7 @@ void RenderSystem::update() {
 	this->present_screen();
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
+bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) const {
 
 	ComponentManager & mgr = this->component_manager;
 
@@ -67,7 +67,6 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 	bool rendering_particles = false;
 
 	for (const ParticleEmitter & em : emitters) {
-		cout << &em.data.sprite << " " << &sprite << endl;
 		if (!(&em.data.sprite == &sprite)) continue;
 		rendering_particles = true;
 		if (!em.active) continue;
@@ -80,19 +79,19 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
+void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) const {
 	this->context.draw(sprite, tm, *this->curr_cam_ref);
 }
 
-void RenderSystem::render() {
+void RenderSystem::render() const {
 
 	ComponentManager & mgr = this->component_manager;
 	vector<reference_wrapper<Sprite>> sprites = mgr.get_components_by_type<Sprite>();
-	//vector<reference_wrapper<Sprite>> sorted_sprites = this->sort(sprites);
+	vector<reference_wrapper<Sprite>> sorted_sprites = this->sort(sprites);
 
-	for (const Sprite & sprite : sprites) {
+	for (const Sprite & sprite : sorted_sprites) {
 		if (!sprite.active) continue;
-		Transform & transform
+		const Transform & transform
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
 		bool rendered_particles = this->render_particle(sprite, transform.scale);
