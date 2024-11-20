@@ -30,14 +30,27 @@ int main() {
 	// Normal adding components
 	{
 		Color color(0, 0, 0, 0);
-		obj.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"), color,
-								  FlipSettings{false, false});
+		Sprite & sprite
+			= obj.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"),
+										color, FlipSettings{false, false});
+		sprite.sorting_in_layer = 2;
+		sprite.order_in_layer = 1;
 		obj.add_component<Camera>(Color::get_red());
 	}
 	{
 		Color color(0, 0, 0, 0);
-		obj1.add_component<Sprite>(make_shared<Texture>("../asset/texture/second.png"), color,
-								   FlipSettings{true, true});
+		Sprite & sprite = obj1.add_component<Sprite>(
+			make_shared<Texture>("../asset/texture/img.png"), color, FlipSettings{true, true});
+		sprite.sorting_in_layer = 2;
+		sprite.order_in_layer = 2;
+	}
+
+	{
+		Color color(0, 0, 0, 0);
+		Sprite & sprite = obj2.add_component<Sprite>(
+			make_shared<Texture>("../asset/texture/img.png"), color, FlipSettings{true, true});
+		sprite.sorting_in_layer = 1;
+		sprite.order_in_layer = 2;
 	}
 
 	/*
@@ -48,8 +61,12 @@ int main() {
 	}
 	*/
 
+	sys.update();
+	/*
+
 	auto start = std::chrono::steady_clock::now();
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
 		sys.update();
 	}
+	*/
 }

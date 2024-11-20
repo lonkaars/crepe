@@ -1,4 +1,7 @@
+#include <algorithm>
+#include <cassert>
 #include <cmath>
+#include <stdexcept>
 #include <vector>
 
 #include "../ComponentManager.h"
@@ -11,25 +14,52 @@
 #include "RenderSystem.h"
 
 using namespace crepe;
+using namespace std;
 
-void RenderSystem::clear_screen() const { SDLContext::get_instance().clear_screen(); }
+void RenderSystem::clear_screen() { this->context.clear_screen(); }
 
-void RenderSystem::present_screen() const { SDLContext::get_instance().present_screen(); }
+void RenderSystem::present_screen() { this->context.present_screen(); }
 void RenderSystem::update_camera() {
 	ComponentManager & mgr = this->component_manager;
 
-	auto cameras = mgr.get_components_by_type<Camera>();
+	std::vector<std::reference_wrapper<Camera>> cameras = mgr.get_components_by_type<Camera>();
+
+	if (cameras.size() == 0) throw std::runtime_error("No cameras in current scene");
 
 	for (Camera & cam : cameras) {
-		SDLContext::get_instance().set_camera(cam);
-		this->curr_cam = &cam;
+		this->context.set_camera(cam);
+		this->curr_cam_ref = &cam;
 	}
+}
+
+bool sorting_comparison(const Sprite & a, const Sprite & b) {
+	if (a.sorting_in_layer < b.sorting_in_layer) return true;
+	if (a.sorting_in_layer == b.sorting_in_layer) return a.order_in_layer < b.order_in_layer;
+
+	return false;
+}
+
+std::vector<std::reference_wrapper<Sprite>>
+RenderSystem::sort(std::vector<std::reference_wrapper<Sprite>> & objs) {
+
+	std::vector<std::reference_wrapper<Sprite>> sorted_objs(objs);
+	std::sort(sorted_objs.begin(), sorted_objs.end(), sorting_comparison);
+
+	return sorted_objs;
+}
+
+
+
+void RenderSystem::update() {
+	this->clear_screen();
+	this->update_camera();
+	this->render();
+	this->present_screen();
 }
 
 bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) const {
 
 	ComponentManager & mgr = this->component_manager;
-	SDLContext & render = SDLContext::get_instance();
 
 	auto emitters = mgr.get_components_by_id<ParticleEmitter>(sprite.game_object_id);
 
@@ -43,7 +73,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
-			render.draw_particle(sprite, p.position, p.angle, scale, *this->curr_cam);
+			this->context.draw_particle(sprite, p.position, p.angle, scale, *this->curr_cam);
 		}
 	}
 	return rendering_particles;
@@ -51,17 +81,17 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) const {
 
 	ComponentManager & mgr = this->component_manager;
-	SDLContext & render = SDLContext::get_instance();
 
-	render.draw(sprite, tm, *curr_cam);
+	this->context.draw(sprite, tm, *this->curr_cam);
 }
 
 void RenderSystem::render() const {
 
 	ComponentManager & mgr = this->component_manager;
+	vector<reference_wrapper<Sprite>> sprites = mgr.get_components_by_type<Sprite>();
+	vector<reference_wrapper<Sprite>> sorted_sprites = this->sort(sprites);
 
-	auto sprites = mgr.get_components_by_type<Sprite>();
-	for (const Sprite & sprite : sprites) {
+	for (const Sprite & sprite : sorted_sprites) {
 		if (!sprite.active) continue;
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
@@ -72,11 +102,4 @@ void RenderSystem::render() const {
 
 		this->render_normal(sprite, transform);
 	}
-}
-
-void RenderSystem::update() {
-	this->clear_screen();
-	this->update_camera();
-	this->render();
-	this->present_screen();
 }
