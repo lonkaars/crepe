@@ -27,10 +27,10 @@ protected:
 	//! Only the ComponentManager can create components
 	friend class ComponentManager;
 
-  Component(const Component &) = delete;
-  Component(Component &&) = delete;
-  virtual Component & operator=(const Component &) = delete;
-  virtual Component & operator=(Component &&) = delete;
+	Component(const Component &) = delete;
+	Component(Component &&) = delete;
+	virtual Component & operator=(const Component &) = delete;
+	virtual Component & operator=(Component &&) = delete;
 
 public:
 	virtual ~Component() = default;
