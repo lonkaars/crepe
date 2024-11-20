@@ -1,0 +1,10 @@
+// vim:ft=doxygen
+/**
+
+\defgroup feature Features
+\brief Engine components
+
+This page lists engine features and contains usage instructions for each
+feature.
+
+*/
