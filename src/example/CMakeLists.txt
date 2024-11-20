@@ -25,7 +25,6 @@ add_example(physics)
 add_example(savemgr)
 add_example(proxy)
 add_example(db)
-add_example(scene_manager)
 add_example(particles)
 add_example(gameloop)
 
