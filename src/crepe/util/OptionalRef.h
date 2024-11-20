@@ -36,7 +36,7 @@ public:
 	 *
 	 * \param ref Reference to assign
 	 */
-	void set(T &) noexcept;
+	void set(T & ref) noexcept;
 	/**
 	 * \brief Retrieve this reference
 	 *
@@ -49,15 +49,6 @@ public:
 	 * \brief Make this reference empty
 	 */
 	void clear() noexcept;
-
-	//! Copy constructor
-	OptionalRef(const OptionalRef<T> &);
-	//! Move constructor
-	OptionalRef(OptionalRef<T> &&);
-	//! Copy assignment
-	OptionalRef<T> & operator=(const OptionalRef<T> &);
-	//! Move assignment
-	OptionalRef<T> & operator=(OptionalRef<T> &&);
 
 private:
 	/**

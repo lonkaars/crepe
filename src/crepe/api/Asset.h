@@ -40,6 +40,22 @@ private:
 	const std::string src;
 
 private:
+	/**
+	 * \brief Locate asset path, or throw exception if it cannot be found
+	 *
+	 * This function resolves asset locations relative to crepe::Config::root_pattern if it is
+	 * set and \p src is a relative path. If \p src is an absolute path, it is canonicalized.
+	 * This function only returns if the file can be found.
+	 *
+	 * \param src Arbitrary path to resource file
+	 *
+	 * \returns \p src if crepe::Config::root_pattern is empty
+	 * \returns Canonical path to \p src
+	 *
+	 * \throws std::runtime_error if root_pattern cannot be found
+	 * \throws std::filesystem::filesystem_error if the resolved path does not exist
+	 * \throws std::filesystem::filesystem_error if the path cannot be canonicalized
+	 */
 	std::string find_asset(const std::string & src) const;
 	/**
 	 * \returns The path to the current executable
