@@ -4,5 +4,9 @@ target_sources(test_main PUBLIC
 	ScriptTest.cpp
 	ParticleTest.cpp
 	EventTest.cpp
+	ECSTest.cpp
+	SceneManagerTest.cpp
+	ValueBrokerTest.cpp
+	DBTest.cpp
 )
 
