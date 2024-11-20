@@ -2,11 +2,11 @@
 #include <vector>
 
 #include "../ComponentManager.h"
+#include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
-#include "../facade/SDLContext.h"
-#include "../api/ParticleEmitter.h"
 #include "../api/Vector2.h"
+#include "../facade/SDLContext.h"
 
 #include "RenderSystem.h"
 
@@ -21,13 +21,12 @@ void RenderSystem::update_camera() {
 	auto cameras = mgr.get_components_by_type<Camera>();
 
 	for (Camera & cam : cameras) {
-		SDLContext::get_instance().camera(cam);
+		SDLContext::get_instance().set_camera(cam);
 		this->curr_cam = &cam;
 	}
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite,
-								   const double & scale) {
+bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) const {
 
 	ComponentManager & mgr = this->component_manager;
 	SDLContext & render = SDLContext::get_instance();
@@ -49,22 +48,23 @@ bool RenderSystem::render_particle(const Sprite & sprite,
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
+void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) const {
 
 	ComponentManager & mgr = this->component_manager;
 	SDLContext & render = SDLContext::get_instance();
-	
+
 	render.draw(sprite, tm, *curr_cam);
 }
 
-void RenderSystem::render() {
+void RenderSystem::render() const {
 
 	ComponentManager & mgr = this->component_manager;
 
 	auto sprites = mgr.get_components_by_type<Sprite>();
 	for (const Sprite & sprite : sprites) {
 		if (!sprite.active) continue;
-		auto transform = mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
+		const Transform & transform
+			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
 		bool rendered_particles = this->render_particle(sprite, transform.scale);
 

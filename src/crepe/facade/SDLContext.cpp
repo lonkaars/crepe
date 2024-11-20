@@ -12,12 +12,12 @@
 #include <stdexcept>
 #include <string>
 
+#include "../api/Camera.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../api/Transform.h"
+#include "../api/Vector2.h"
 #include "../util/Log.h"
-#include "api/Camera.h"
-#include "api/Vector2.h"
 
 #include "SDLContext.h"
 
@@ -96,8 +96,7 @@ void SDLContext::handle_events(bool & running) {
 void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
 
-
-SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) {
+SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 	return SDL_Rect{
 		.x = sprite.sprite_rect.x,
 		.y = sprite.sprite_rect.y,
@@ -106,7 +105,7 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) {
 	};
 }
 SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
-								  const double & scale, const Camera & cam) {
+								  const double & scale, const Camera & cam) const {
 
 	double adjusted_x = (pos.x - cam.x) * cam.zoom;
 	double adjusted_y = (pos.y - cam.y) * cam.zoom;
@@ -123,20 +122,21 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
 
 void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
 							   const double & angle, const double & scale,
-							   const Camera & camera) {
+							   const Camera & camera) const {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
-						| (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
+							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(sprite);
 	SDL_Rect dstrect = this->get_dst_rect(sprite, pos, scale, camera);
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
-				  &dstrect, angle, NULL, render_flip);
+					 &dstrect, angle, NULL, render_flip);
 }
 
-void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Camera & cam) {
+void SDLContext::draw(const Sprite & sprite, const Transform & transform,
+					  const Camera & cam) const {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
