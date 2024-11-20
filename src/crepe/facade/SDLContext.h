@@ -118,10 +118,10 @@ private:
 	 * \param transform Reference to the Transform for positioning.
 	 * \param camera Reference to the Camera for view adjustments.
 	 */
-	void draw(const Sprite & sprite, const Transform & transform, const Camera & camera) ;
+	void draw(const Sprite & sprite, const Transform & transform, const Camera & camera);
 
 	void draw_particle(const Sprite & sprite, const Vector2 & pos, const double & angle,
-					   const double & scale, const Camera & camera) ;
+					   const double & scale, const Camera & camera);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();

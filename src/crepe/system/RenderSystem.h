@@ -31,10 +31,10 @@ public:
 
 private:
 	//! Clears the screen in preparation for rendering.
-	void clear_screen() ;
+	void clear_screen();
 
 	//! Presents the rendered frame to the display.
-	void present_screen() ;
+	void present_screen();
 
 	//! Updates the active camera used for rendering.
 	void update_camera();
