@@ -1,18 +1,23 @@
 #pragma once
 
-#include "api/Camera.h"
+#include <functional>
+#include <vector>
+
+#include "facade/SDLContext.h"
 
 #include "System.h"
 
 namespace crepe {
 
+class Camera;
+class Sprite;
+
 /**
  * \class RenderSystem
  * \brief Manages rendering operations for all game objects.
  *
- * RenderSystem is responsible for rendering sprites, clearing and presenting the screen, and
- * managing the active camera. It functions as a singleton, providing centralized rendering
- * services for the application.
+ * RenderSystem is responsible for rendering, clearing and presenting the screen, and
+ * managing the active camera. 
  */
 class RenderSystem : public System {
 public:
@@ -25,16 +30,25 @@ public:
 
 private:
 	//! Clears the screen in preparation for rendering.
-	void clear_screen() const;
+	void clear_screen();
 
 	//! Presents the rendered frame to the display.
-	void present_screen() const;
+	void present_screen();
 
 	//! Updates the active camera used for rendering.
 	void update_camera();
 
 	//! Renders all active sprites to the screen.
-	void render_sprites() const;
+	void render_sprites();
+
+	/**
+	 * \brief sort a vector sprite objects with
+	 *
+	 * \param objs the vector that will do a sorting algorithm on 
+	 * \return returns a sorted reference vector
+	 */
+	std::vector<std::reference_wrapper<Sprite>>
+	sort(std::vector<std::reference_wrapper<Sprite>> & objs);
 
 	/**
 	 * \todo Include color handling for sprites.
@@ -48,8 +62,10 @@ private:
 
 private:
 	//! Pointer to the current active camera for rendering
-	Camera * curr_cam = nullptr;
+	Camera * curr_cam_ref = nullptr;
 	// TODO: needs a better solution
+
+	SDLContext & context = SDLContext::get_instance();
 };
 
 } // namespace crepe
