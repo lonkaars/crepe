@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <functional>
+#include <iostream>
 #include <stdexcept>
 #include <vector>
 
@@ -48,8 +50,6 @@ RenderSystem::sort(std::vector<std::reference_wrapper<Sprite>> & objs) {
 	return sorted_objs;
 }
 
-
-
 void RenderSystem::update() {
 	this->clear_screen();
 	this->update_camera();
@@ -57,43 +57,42 @@ void RenderSystem::update() {
 	this->present_screen();
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) const {
+bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
 
 	ComponentManager & mgr = this->component_manager;
 
-	auto emitters = mgr.get_components_by_id<ParticleEmitter>(sprite.game_object_id);
+	vector<reference_wrapper<ParticleEmitter>> emitters
+		= mgr.get_components_by_id<ParticleEmitter>(sprite.game_object_id);
 
 	bool rendering_particles = false;
 
 	for (const ParticleEmitter & em : emitters) {
+		cout << &em.data.sprite << " " << &sprite << endl;
 		if (!(&em.data.sprite == &sprite)) continue;
 		rendering_particles = true;
 		if (!em.active) continue;
 
-
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
-			this->context.draw_particle(sprite, p.position, p.angle, scale, *this->curr_cam);
+			this->context.draw_particle(sprite, p.position, p.angle, scale,
+										*this->curr_cam_ref);
 		}
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) const {
-
-	ComponentManager & mgr = this->component_manager;
-
-	this->context.draw(sprite, tm, *this->curr_cam);
+void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
+	this->context.draw(sprite, tm, *this->curr_cam_ref);
 }
 
-void RenderSystem::render() const {
+void RenderSystem::render() {
 
 	ComponentManager & mgr = this->component_manager;
 	vector<reference_wrapper<Sprite>> sprites = mgr.get_components_by_type<Sprite>();
-	vector<reference_wrapper<Sprite>> sorted_sprites = this->sort(sprites);
+	//vector<reference_wrapper<Sprite>> sorted_sprites = this->sort(sprites);
 
-	for (const Sprite & sprite : sorted_sprites) {
+	for (const Sprite & sprite : sprites) {
 		if (!sprite.active) continue;
-		const Transform & transform
+		Transform & transform
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
 		bool rendered_particles = this->render_particle(sprite, transform.scale);
