@@ -12,10 +12,11 @@
 #include "RenderSystem.h"
 
 using namespace crepe;
+using namespace std;
 
-void RenderSystem::clear_screen() const { SDLContext::get_instance().clear_screen(); }
+void RenderSystem::clear_screen() { this->context.clear_screen(); }
 
-void RenderSystem::present_screen() const { SDLContext::get_instance().present_screen(); }
+void RenderSystem::present_screen() { this->context.present_screen(); }
 void RenderSystem::update_camera() {
 	ComponentManager & mgr = this->component_manager;
 
@@ -24,7 +25,7 @@ void RenderSystem::update_camera() {
 	if (cameras.size() == 0) throw std::runtime_error("No cameras in current scene");
 
 	for (Camera & cam : cameras) {
-		SDLContext::get_instance().camera(cam);
+		this->context.camera(cam);
 		this->curr_cam_ref = &cam;
 	}
 }
@@ -47,14 +48,12 @@ RenderSystem::sort(std::vector<std::reference_wrapper<Sprite>> & objs) {
 
 void RenderSystem::render_sprites() {
 	ComponentManager & mgr = this->component_manager;
+	vector<reference_wrapper<Sprite>> sprites = mgr.get_components_by_type<Sprite>();
+	vector<reference_wrapper<Sprite>> sorted_sprites = this->sort(sprites);
 
-	auto sprites = mgr.get_components_by_type<Sprite>();
-	auto sorted_sprites = this->sort(sprites);
-
-	SDLContext & render = SDLContext::get_instance();
 	for (const Sprite & sprite : sorted_sprites) {
 		auto transforms = mgr.get_components_by_id<Transform>(sprite.game_object_id);
-		render.draw(sprite, transforms[0], *this->curr_cam_ref);
+		this->context.draw(sprite, transforms[0], *this->curr_cam_ref);
 	}
 }
 
