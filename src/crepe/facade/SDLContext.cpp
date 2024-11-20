@@ -122,7 +122,7 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
 
 void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
 							   const double & angle, const double & scale,
-							   const Camera & camera) const {
+							   const Camera & camera) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
@@ -136,7 +136,7 @@ void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
 }
 
 void SDLContext::draw(const Sprite & sprite, const Transform & transform,
-					  const Camera & cam) const {
+					  const Camera & cam) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)

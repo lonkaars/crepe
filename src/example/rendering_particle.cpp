@@ -32,7 +32,8 @@ int main(int argc, char * argv[]) {
 	Sprite & test_sprite = game_object.add_component<Sprite>(
 		make_shared<Texture>("../asset/texture/img.png"), color, FlipSettings{false, false});
 	test_sprite.order_in_layer = 5;
-	auto test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
+
+	auto & test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
 		.max_particles = 10,
 		.emission_rate = 0.1,
