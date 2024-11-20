@@ -1,6 +1,9 @@
 .PHONY: FORCE
 
-FMT := $(shell git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
 format: FORCE
-	clang-tidy -p build/compile_commands.json --fix-errors $(FMT)
+	$(MAKE) -C .. $@
+
+LINT := $(shell git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
+lint: FORCE
+	clang-tidy -p build/compile_commands.json --fix-errors $(LINT)
 
