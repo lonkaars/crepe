@@ -31,16 +31,16 @@ public:
 	
 private:
 	//! Clears the screen in preparation for rendering.
-	void clear_screen();
+	void clear_screen() ;
 
 	//! Presents the rendered frame to the display.
-	void present_screen();
+	void present_screen() ;
 
 	//! Updates the active camera used for rendering.
 	void update_camera();
 
 	//! Renders the whole screen
-	void render() const;
+	void render() ;
 
 	/**
 	 * \brief Renders all the particles on the screen from a given sprite.
@@ -49,7 +49,7 @@ private:
 	 * \param tm the Transform component for scale
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite & sprite, const double & scale) const;
+	bool render_particle(const Sprite & sprite, const double & scale) ;
 
 	/**
 	 * \brief renders a sprite with a Transform component on the screen 
@@ -57,7 +57,7 @@ private:
 	 * \param sprite  the sprite component that holds all the data
 	 * \param tm the Transform component that holds the position,rotation and scale 
 	 */
-	void render_normal(const Sprite & sprite, const Transform & tm);
+	void render_normal(const Sprite & sprite, const Transform & tm) ;
 
 	/**
 	 * \brief sort a vector sprite objects with
@@ -66,7 +66,7 @@ private:
 	 * \return returns a sorted reference vector
 	 */
 	std::vector<std::reference_wrapper<Sprite>>
-	sort(std::vector<std::reference_wrapper<Sprite>> & objs);
+	sort(std::vector<std::reference_wrapper<Sprite>> & objs) ;
 
 	/**
 	 * \todo Include color handling for sprites.
