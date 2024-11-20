@@ -125,6 +125,7 @@ private:
 	 * \param camera Reference to the Camera for view adjustments.
 	 */
 	void draw(const Sprite & sprite, const Transform & transform, const Camera & camera);
+
 	void draw_particle(const Sprite & sprite, const Vector2 & pos, const double & angle, const double & scale, const Camera & camera);
 
 	//! Clears the screen, preparing for a new frame.
@@ -134,10 +135,10 @@ private:
 	void present_screen();
 
 	/**
-	 * \brief Sets the current camera for rendering.
+	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	void camera(const Camera & camera);
+	void set_camera(const Camera & camera);
 
 private:
 	/**

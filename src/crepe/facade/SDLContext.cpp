@@ -149,7 +149,7 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
-void SDLContext::camera(const Camera & cam) {
+void SDLContext::set_camera(const Camera & cam) {
 	this->viewport.w = static_cast<int>(cam.aspect_width);
 	this->viewport.h = static_cast<int>(cam.aspect_height);
 	this->viewport.x = static_cast<int>(cam.x) - (this->viewport.w / 2);
@@ -167,6 +167,7 @@ SDLContext::texture_from_path(const std::string & path) {
 	SDL_Surface * tmp = IMG_Load(path.c_str());
 	if (tmp == nullptr) {
 		tmp = IMG_Load("../asset/texture/ERROR.png");
+		if (tmp == nullptr) throw runtime_error("cannot load image");
 	}
 
 	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>> img_surface;
