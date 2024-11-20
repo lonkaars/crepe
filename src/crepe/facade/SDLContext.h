@@ -21,7 +21,6 @@ namespace crepe {
 // typedef is unusable when crepe is packaged. Wouter will fix this later.
 typedef SDL_Keycode CREPE_KEYCODES;
 
-
 /**
  * \class SDLContext
  * \brief Facade for the SDL library
