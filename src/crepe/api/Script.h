@@ -22,7 +22,11 @@ class ComponentManager;
 class Script {
 protected:
 	/**
-	 * \brief Script initialization function
+	 * \name Interface functions
+	 * \{
+	 */
+	/**
+	 * \brief Script initialization function (empty by default)
 	 *
 	 * This function is called during the ScriptSystem::update() routine *before*
 	 * Script::update() if it (a) has not yet been called and (b) the \c BehaviorScript component
@@ -30,24 +34,32 @@ protected:
 	 */
 	virtual void init() {}
 	/**
-	 * \brief Script update function
+	 * \brief Script update function (empty by default)
 	 *
 	 * This function is called during the ScriptSystem::update() routine if the \c BehaviorScript
 	 * component holding this script instance is active.
 	 */
 	virtual void update() {}
+	//! \}
+
 	//! ScriptSystem calls \c init() and \c update()
 	friend class crepe::ScriptSystem;
 
 protected:
 	/**
-	 * \brief Get single component of type \c T on this game object (utility)
+	 * \name Utility functions
+	 * \{
+	 */
+
+	/**
+	 * \brief Get single component of type \c T on this game object
 	 *
 	 * \tparam T Type of component
 	 *
 	 * \returns Reference to component
 	 *
-	 * \throws nullptr if this game object does not have a component matching type \c T
+	 * \throws std::runtime_error if this game object does not have a component matching type \c
+	 * T
 	 */
 	template <typename T>
 	T & get_component() const;
@@ -55,7 +67,7 @@ protected:
 	// cause compile-time errors
 
 	/**
-	 * \brief Get all components of type \c T on this game object (utility)
+	 * \brief Get all components of type \c T on this game object
 	 *
 	 * \tparam T Type of component
 	 *
@@ -63,6 +75,17 @@ protected:
 	 */
 	template <typename T>
 	std::vector<std::reference_wrapper<T>> get_components() const;
+
+	/**
+	 * \brief Log a message using Log::logf
+	 *
+	 * \tparam Args Log::logf parameters
+	 * \param args  Log::logf parameters
+	 */
+	template <typename... Args>
+	void logf(Args &&... args);
+
+	//! \}
 
 protected:
 	// NOTE: Script must have a constructor without arguments so the game programmer doesn't need

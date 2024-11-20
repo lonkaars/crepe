@@ -25,4 +25,9 @@ std::vector<std::reference_wrapper<T>> Script::get_components() const {
 	return mgr.get_components_by_id<T>(this->game_object_id);
 }
 
+template <typename... Args>
+void Script::logf(Args &&... args) {
+	Log::logf(std::forward<Args>(args)...);
+}
+
 } // namespace crepe
