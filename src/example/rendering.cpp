@@ -30,13 +30,13 @@ int main() {
 	// Normal adding components
 	{
 		Color color(0, 0, 0, 0);
-		obj.add_component<Sprite>(make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
+		obj.add_component<Sprite>(make_shared<Texture>("../asset/texture/green_square.png"), color,
 								  FlipSettings{false, false});
-		obj.add_component<Camera>(Color::get_red());
+		obj.add_component<Camera>(Color::RED);
 	}
 	{
 		Color color(0, 0, 0, 0);
-		obj1.add_component<Sprite>(make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
+		obj1.add_component<Sprite>(make_shared<Texture>("../asset/texture/green_square.png"), color,
 								   FlipSettings{true, true});
 	}
 
@@ -48,8 +48,12 @@ int main() {
 	}
 	*/
 
+	sys.update();
+	/*
+
 	auto start = std::chrono::steady_clock::now();
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
 		sys.update();
 	}
+	*/
 }
