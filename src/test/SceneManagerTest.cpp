@@ -1,10 +1,10 @@
 #include <crepe/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
-#include <crepe/api/Transform.h>
-#include <crepe/api/Vector2.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/SceneManager.h>
+#include <crepe/api/Transform.h>
+#include <crepe/api/Vector2.h>
 #include <gtest/gtest.h>
 
 using namespace std;
@@ -47,8 +47,10 @@ TEST_F(SceneManagerTest, loadScene) {
 
 	scene_mgr.load_next_scene();
 
-	vector<reference_wrapper<Metadata>> metadata = component_mgr.get_components_by_type<Metadata>();
-	vector<reference_wrapper<Transform>> transform = component_mgr.get_components_by_type<Transform>();
+	vector<reference_wrapper<Metadata>> metadata
+		= component_mgr.get_components_by_type<Metadata>();
+	vector<reference_wrapper<Transform>> transform
+		= component_mgr.get_components_by_type<Transform>();
 
 	EXPECT_EQ(metadata.size(), 3);
 	EXPECT_EQ(transform.size(), 3);
