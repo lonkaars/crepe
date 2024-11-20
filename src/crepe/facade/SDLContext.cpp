@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
@@ -7,13 +8,15 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
-#include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 
+#include "../api/Camera.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../api/Transform.h"
+#include "../api/Vector2.h"
 #include "../util/Log.h"
 
 #include "SDLContext.h"
@@ -30,29 +33,21 @@ SDLContext::SDLContext() {
 	dbg_trace();
 	// FIXME: read window defaults from config manager
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		// FIXME: throw exception
-		std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-		return;
+	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
 	SDL_Window * tmp_window
 		= SDL_CreateWindow("Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 						   this->viewport.w, this->viewport.h, 0);
 	if (!tmp_window) {
-		// FIXME: throw exception
-		std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-		return;
+		throw runtime_error(format("SDLContext: SDL_Window error: {}", SDL_GetError()));
 	}
 	this->game_window = {tmp_window, [](SDL_Window * window) { SDL_DestroyWindow(window); }};
 
 	SDL_Renderer * tmp_renderer
 		= SDL_CreateRenderer(this->game_window.get(), -1, SDL_RENDERER_ACCELERATED);
 	if (!tmp_renderer) {
-		// FIXME: throw exception
-		std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError()
-				  << std::endl;
-		SDL_DestroyWindow(this->game_window.get());
-		return;
+		throw runtime_error(format("SDLContext: SDL_CreateRenderer error: {}", SDL_GetError()));
 	}
 
 	this->game_renderer
@@ -60,9 +55,7 @@ SDLContext::SDLContext() {
 
 	int img_flags = IMG_INIT_PNG;
 	if (!(IMG_Init(img_flags) & img_flags)) {
-		// FIXME: throw exception
-		std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError()
-				  << std::endl;
+		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
 }
 
@@ -103,40 +96,63 @@ void SDLContext::handle_events(bool & running) {
 void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
 
+SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
+	return SDL_Rect{
+		.x = sprite.sprite_rect.x,
+		.y = sprite.sprite_rect.y,
+		.w = sprite.sprite_rect.w,
+		.h = sprite.sprite_rect.h,
+	};
+}
+SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
+								  const double & scale, const Camera & cam) const {
+
+	double adjusted_x = (pos.x - cam.x) * cam.zoom;
+	double adjusted_y = (pos.y - cam.y) * cam.zoom;
+	double adjusted_w = sprite.sprite_rect.w * scale * cam.zoom;
+	double adjusted_h = sprite.sprite_rect.h * scale * cam.zoom;
+
+	return SDL_Rect{
+		.x = static_cast<int>(adjusted_x),
+		.y = static_cast<int>(adjusted_y),
+		.w = static_cast<int>(adjusted_w),
+		.h = static_cast<int>(adjusted_h),
+	};
+}
+
+void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
+							   const double & angle, const double & scale,
+							   const Camera & camera) {
+
+	SDL_RendererFlip render_flip
+		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
+							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
+
+	SDL_Rect srcrect = this->get_src_rect(sprite);
+	SDL_Rect dstrect = this->get_dst_rect(sprite, pos, scale, camera);
+
+	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
+					 &dstrect, angle, NULL, render_flip);
+}
+
 void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Camera & cam) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
-	double adjusted_x = (transform.position.x - cam.x) * cam.zoom;
-	double adjusted_y = (transform.position.y - cam.y) * cam.zoom;
-	double adjusted_w = sprite.sprite_rect.w * transform.scale * cam.zoom;
-	double adjusted_h = sprite.sprite_rect.h * transform.scale * cam.zoom;
-
-	SDL_Rect srcrect = {
-		.x = sprite.sprite_rect.x,
-		.y = sprite.sprite_rect.y,
-		.w = sprite.sprite_rect.w,
-		.h = sprite.sprite_rect.h,
-	};
-
-	SDL_Rect dstrect = {
-		.x = static_cast<int>(adjusted_x),
-		.y = static_cast<int>(adjusted_y),
-		.w = static_cast<int>(adjusted_w),
-		.h = static_cast<int>(adjusted_h),
-	};
+	SDL_Rect srcrect = this->get_src_rect(sprite);
+	SDL_Rect dstrect = this->get_dst_rect(sprite, transform.position, transform.scale, cam);
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
 					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
-void SDLContext::camera(const Camera & cam) {
+void SDLContext::set_camera(const Camera & cam) {
 	this->viewport.w = static_cast<int>(cam.aspect_width);
 	this->viewport.h = static_cast<int>(cam.aspect_height);
-	this->viewport.x = static_cast<int>(cam.x) - (SCREEN_WIDTH / 2);
-	this->viewport.y = static_cast<int>(cam.y) - (SCREEN_HEIGHT / 2);
+	this->viewport.x = static_cast<int>(cam.x) - (this->viewport.w / 2);
+	this->viewport.y = static_cast<int>(cam.y) - (this->viewport.h / 2);
 
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
 						   cam.bg_color.b, cam.bg_color.a);
@@ -148,9 +164,8 @@ std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
 SDLContext::texture_from_path(const std::string & path) {
 
 	SDL_Surface * tmp = IMG_Load(path.c_str());
-	if (tmp == nullptr) {
-		tmp = IMG_Load("asset/texture/ERROR.png");
-	}
+	if (tmp == nullptr)
+		throw runtime_error(format("SDLContext: IMG_Load error: {}", SDL_GetError()));
 
 	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>> img_surface;
 	img_surface = {tmp, [](SDL_Surface * surface) { SDL_FreeSurface(surface); }};
@@ -159,7 +174,7 @@ SDLContext::texture_from_path(const std::string & path) {
 		= SDL_CreateTextureFromSurface(this->game_renderer.get(), img_surface.get());
 
 	if (tmp_texture == nullptr) {
-		throw runtime_error(format("Texture cannot be load from {}", path));
+		throw runtime_error(format("SDLContext: Texture cannot be load from {}", path));
 	}
 
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> img_texture;
