@@ -2,8 +2,9 @@
 #include <stdexcept>
 #include <whereami.h>
 
-#include "Asset.h"
 #include "api/Config.h"
+
+#include "Asset.h"
 
 using namespace crepe;
 using namespace std;
@@ -15,7 +16,7 @@ const string & Asset::get_path() const noexcept { return this->src; }
 
 string Asset::find_asset(const string & src) const {
 	auto & cfg = Config::get_instance();
-	auto & root_pattern = cfg.asset.root_pattern;
+	string & root_pattern = cfg.asset.root_pattern;
 
 	// if root_pattern is empty, find_asset must return all paths as-is
 	if (root_pattern.empty()) return src;

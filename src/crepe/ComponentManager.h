@@ -8,6 +8,7 @@
 #include "api/Vector2.h"
 
 #include "Component.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -112,7 +113,7 @@ public:
 	 * \return A vector of all components of the specific type and id
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>> get_components_by_id(game_object_id_t id) const;
+	RefVector<T> get_components_by_id(game_object_id_t id) const;
 	/**
 	 * \brief Get all components of a specific type
 	 * 
@@ -122,7 +123,7 @@ public:
 	 * \return A vector of all components of the specific type
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
+	RefVector<T> get_components_by_type() const;
 
 private:
 	/**
