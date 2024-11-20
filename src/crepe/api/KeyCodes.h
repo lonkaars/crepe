@@ -1,7 +1,6 @@
 #pragma once
 
-//! \enum MouseButton
-//! \brief Enumeration for mouse button inputs, including standard and extended buttons.
+//! Enumeration for mouse button inputs, including standard and extended buttons.
 enum class MouseButton {
 	//! No mouse button input.
 	NONE = 0,
@@ -18,12 +17,11 @@ enum class MouseButton {
 	//! Scroll wheel upward movement.
 	SCROLL_UP = 6,
 	//! Scroll wheel downward movement.
-	SCROLL_DOWN = 7
+	SCROLL_DOWN = 7,
 };
 
-//! \enum Keycode
-//! \brief Enumeration for keyboard key inputs, including printable characters, function keys, and keypad keys.
-enum class Keycode : int {
+//! Enumeration for keyboard key inputs, including printable characters, function keys, and keypad keys.
+enum class Keycode {
 	//! No key input.
 	NONE = 0,
 	//! Spacebar.
@@ -164,7 +162,10 @@ enum class Keycode : int {
 	PRINT_SCREEN = 283,
 	//! Pause key.
 	PAUSE = 284,
-	//! Function keys (F1-F25).
+	/**
+	 * \name Function keys (F1-F25).
+	 * \{
+	 */
 	F1 = 290,
 	F2 = 291,
 	F3 = 292,
@@ -190,7 +191,11 @@ enum class Keycode : int {
 	F23 = 312,
 	F24 = 313,
 	F25 = 314,
-	//! Keypad digits and operators.
+	/// \}
+	/**
+	 * \name Keypad digits and operators.
+	 * \{
+	 */
 	KP0 = 320,
 	KP1 = 321,
 	KP2 = 322,
@@ -208,6 +213,11 @@ enum class Keycode : int {
 	KP_ADD = 334,
 	KP_ENTER = 335,
 	KP_EQUAL = 336,
+	/// \}
+	/**
+	 * \name Modifier keys.
+	 * \{
+	 */
 	//! Modifier keys.
 	LEFT_SHIFT = 340,
 	LEFT_CONTROL = 341,
@@ -217,6 +227,7 @@ enum class Keycode : int {
 	RIGHT_CONTROL = 345,
 	RIGHT_ALT = 346,
 	RIGHT_SUPER = 347,
+	/// \}
 	//! Menu key.
-	MENU = 348
+	MENU = 348,
 };

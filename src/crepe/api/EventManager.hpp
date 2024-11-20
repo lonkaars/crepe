@@ -4,17 +4,20 @@ namespace crepe {
 
 template <typename EventType>
 void EventManager::subscribe(const EventHandler<EventType> & callback, int channel, int priority) {
-	using HandlersVec = std::vector<CallbackEntry>;
 
 	std::type_index event_type = typeid(EventType);
 	std::unique_ptr<EventHandlerWrapper<EventType>> handler
 		= std::make_unique<EventHandlerWrapper<EventType>>(callback);
-	HandlersVec & handlers = this->subscribers[event_type];
+	std::vector<CallbackEntry> & handlers = this->subscribers[event_type];
 	handlers.emplace_back(CallbackEntry{
 		.callback = std::move(handler),
 		.channel = channel,
 		.priority = priority,
 	});
+	 // Sort handlers by priority (highest first)
+    std::sort(handlers.begin(), handlers.end(), [](const CallbackEntry &a, const CallbackEntry &b) {
+        return a.priority > b.priority;
+    });
 }
 
 template <typename EventType>
@@ -36,72 +39,44 @@ void EventManager::queue_event(const EventType & event, int channel,int priority
 
 template <typename EventType>
 void EventManager::trigger_event(const EventType & event, int channel) {
-	using HandlersMap
-		= std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
-	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
+    std::type_index event_type = typeid(EventType);
 
-	std::type_index event_type = typeid(EventType);
+    auto handlers_it = this->subscribers.find(event_type);
+    if (handlers_it != this->subscribers.end()) {
+        const std::vector<CallbackEntry> &handlers = handlers_it->second;
 
-	if (channel == CHANNEL_ALL) {
-		HandlersMap & handlers_map = this->subscribers_by_event_id[event_type];
-		auto handlers_it = handlers_map.find(channel);
-
-		if (handlers_it != handlers_map.end()) {
-			HandlersVec & handlers = handlers_it->second;
-			for (auto it = handlers.begin(); it != handlers.end(); ++it) {
-				// stops when callback returns true
-				if ((*it)->exec(event)) {
-					break;
-				}
-			}
-		}
-	} else {
-		HandlersVec & handlers = this->subscribers[event_type];
-		for (auto it = handlers.begin(); it != handlers.end(); ++it) {
-			// stops when callback returns true
-			if ((*it)->exec(event)) {
-				break;
-			}
-		}
-	}
+        for (const CallbackEntry &handler : handlers) {
+            if (handler.channel != channel && handler.channel != CHANNEL_ALL) {
+                continue;
+            }
+            if (handler.callback->exec(event)) {
+                break;
+            }
+        }
+    }
 }
+
 
 template <typename EventType>
 void EventManager::unsubscribe(const EventHandler<EventType> & callback, int channel) {
-	using HandlersMap
-		= std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>;
-	using HandlersVec = std::vector<std::unique_ptr<IEventHandlerWrapper>>;
+    std::type_index event_type = typeid(EventType);
+    std::string handler_name = callback.target_type().name();
 
-	std::type_index event_type = typeid(EventType);
-	std::string handler_name = callback.target_type().name();
+    // Find the list of handlers for this event type
+    auto handlers_it = this->subscribers.find(event_type);
+    if (handlers_it != this->subscribers.end()) {
+        std::vector<CallbackEntry> & handlers = handlers_it->second;
 
-	if (channel) {
-		auto subscriber_list = this->subscribers_by_event_id.find(event_type);
-		if (subscriber_list != this->subscribers_by_event_id.end()) {
-			HandlersMap & handlers_map = subscriber_list->second;
-			auto handlers = handlers_map.find(channel);
-			if (handlers != handlers_map.end()) {
-				HandlersVec & callbacks = handlers->second;
-				for (auto it = callbacks.begin(); it != callbacks.end(); ++it) {
-					if ((*it)->get_type() == handler_name) {
-						it = callbacks.erase(it);
-						return;
-					}
-				}
-			}
-		}
-	} else {
-		auto handlers_it = this->subscribers.find(event_type);
-		if (handlers_it != this->subscribers.end()) {
-			HandlersVec & handlers = handlers_it->second;
-			for (auto it = handlers.begin(); it != handlers.end(); ++it) {
-				if ((*it)->get_type() == handler_name) {
-					it = handlers.erase(it);
-					return;
-				}
-			}
-		}
-	}
+        for (auto it = handlers.begin(); it != handlers.end(); ) {
+            // Match based on handler type and channel
+            if (it->callback->get_type() == handler_name && it->channel == channel) {
+                it = handlers.erase(it);
+                return;
+            }
+            ++it;
+        }
+    }
 }
+
 
 } // namespace crepe
