@@ -1,8 +1,6 @@
 #pragma once
 
-#include <functional>
 #include <memory>
-#include <type_traits>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
@@ -11,8 +9,17 @@
 #include "EventHandler.h"
 
 namespace crepe {
-//! typedef for subscription value
-typedef int subscription_t;
+
+//! Event listener unique ID
+typedef size_t subscription_t;
+
+/**
+ * \brief Event channel
+ *
+ * Events can be sent to a specific channel, which prevents listeners on other channels from
+ * being called. The default channel is EventManager::CHANNEL_ALL, which calls all listeners.
+ */
+typedef size_t event_channel_t;
 
 /**
  * \class EventManager
@@ -24,7 +31,7 @@ typedef int subscription_t;
  */
 class EventManager {
 public:
-	static constexpr int CHANNEL_ALL = -1;
+	static constexpr const event_channel_t CHANNEL_ALL = -1;
 
 	/**
 	 * \brief Get the singleton instance of the EventManager.
@@ -49,7 +56,7 @@ public:
 	 */
 	template <typename EventType>
 	subscription_t subscribe(const EventHandler<EventType> & callback,
-							 int channel = CHANNEL_ALL);
+							 event_channel_t channel = CHANNEL_ALL);
 
 	/**
 	 * \brief Unsubscribe a previously registered callback.
@@ -70,7 +77,7 @@ public:
 	 * \param channel The channel to trigger the event on (default is CHANNEL_ALL, which triggers on all channels).
 	 */
 	template <typename EventType>
-	void trigger_event(const EventType & event, int channel = CHANNEL_ALL);
+	void trigger_event(const EventType & event, event_channel_t channel = CHANNEL_ALL);
 
 	/**
 	 * \brief Queue an event for later processing.
@@ -82,7 +89,7 @@ public:
 	 * \param channel The channel to associate with the event (default is CHANNEL_ALL).
 	 */
 	template <typename EventType>
-	void queue_event(const EventType & event, int channel = CHANNEL_ALL);
+	void queue_event(const EventType & event, event_channel_t channel = CHANNEL_ALL);
 
 	/**
 	 * \brief Process all queued events.
@@ -113,9 +120,21 @@ private:
 	 */
 	struct QueueEntry {
 		std::unique_ptr<Event> event; ///< The event instance.
-		int channel = CHANNEL_ALL; ///< The channel associated with the event.
+		event_channel_t channel = CHANNEL_ALL; ///< The channel associated with the event.
 		std::type_index type; ///< The type of the event.
 	};
+
+	/**
+	 * \brief Internal event handler
+	 *
+	 * This function processes a single event, and is used to process events both during
+	 * EventManager::dispatch_events and inside EventManager::trigger_event
+	 *
+	 * \param type \c typeid of concrete Event class
+	 * \param channel Event channel
+	 * \param data Event data
+	 */
+	void handle_event(std::type_index type, event_channel_t channel, const Event & data);
 
 	/**
 	 * \struct CallbackEntry
@@ -123,7 +142,7 @@ private:
 	 */
 	struct CallbackEntry {
 		std::unique_ptr<IEventHandlerWrapper> callback; ///< The callback function wrapper.
-		int channel = CHANNEL_ALL; ///< The channel this callback listens to.
+		event_channel_t channel = CHANNEL_ALL; ///< The channel this callback listens to.
 		subscription_t id = -1; ///< Unique subscription ID.
 	};
 

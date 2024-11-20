@@ -47,7 +47,8 @@ SDLContext::SDLContext() {
 	SDL_Renderer * tmp_renderer
 		= SDL_CreateRenderer(this->game_window.get(), -1, SDL_RENDERER_ACCELERATED);
 	if (!tmp_renderer) {
-		throw runtime_error(format("SDLContext: SDL_CreateRenderer error: {}", SDL_GetError()));
+		throw runtime_error(
+			format("SDLContext: SDL_CreateRenderer error: {}", SDL_GetError()));
 	}
 
 	this->game_renderer

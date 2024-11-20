@@ -2,7 +2,8 @@
 
 using namespace crepe;
 
-IMouseListener::IMouseListener(int channel) : event_manager(EventManager::get_instance()) {
+IMouseListener::IMouseListener(event_channel_t channel)
+	: event_manager(EventManager::get_instance()) {
 	this->click_id = event_manager.subscribe<MouseClickEvent>(
 		[this](const MouseClickEvent & event) { return this->on_mouse_clicked(event); },
 		channel);

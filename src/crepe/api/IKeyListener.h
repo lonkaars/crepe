@@ -16,7 +16,7 @@ public:
      * \brief Constructs an IKeyListener with a specified channel.
      * \param channel The channel ID for event handling.
      */
-	IKeyListener(int channel = EventManager::CHANNEL_ALL);
+	IKeyListener(event_channel_t channel = EventManager::CHANNEL_ALL);
 	virtual ~IKeyListener();
 	IKeyListener(const IKeyListener &) = delete;
 	IKeyListener & operator=(const IKeyListener &) = delete;
@@ -43,7 +43,7 @@ private:
 	//! Key release event id
 	subscription_t release_id = -1;
 	//! EventManager reference
-	EventManager & event_manager;;
+	EventManager & event_manager;
 };
 
 } // namespace crepe
