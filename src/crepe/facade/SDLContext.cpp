@@ -38,7 +38,7 @@ SDLContext::SDLContext() {
 	}
 	SDL_Window * tmp_window
 		= SDL_CreateWindow("Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-						   this->viewport.w, this->viewport.h, SDL_WINDOW_RESIZABLE);
+						   this->viewport.w, this->viewport.h, 0);
 	if (!tmp_window) {
 		// FIXME: throw exception
 		std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
@@ -104,13 +104,11 @@ void SDLContext::handle_events(bool & running) {
 void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
 
-
 void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Camera & cam) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
-	
 
 	Vector2 pixel_coord = (transform.position - cam.pos) * cam.scale;
 	double pixel_w = sprite.sprite_rect.w * transform.scale * cam.scale.x;
@@ -148,11 +146,10 @@ void SDLContext::camera(Camera & cam) {
 		cam.scale.y = cam.scale.x = cam.screen.y / zoomed_viewport.y;
 	}
 
-
 	if (this->viewport.w != cam.screen.x && this->viewport.h != cam.screen.y) {
 		this->viewport.w = cam.screen.x;
 		this->viewport.h = cam.screen.y;
-		SDL_SetWindowSize(this->game_window.get(), cam.screen.x	, cam.screen.y);
+		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
 	}
 
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
