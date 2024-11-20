@@ -5,5 +5,6 @@ target_sources(test_main PUBLIC
 	ParticleTest.cpp
 	ECSTest.cpp
 	SceneManagerTest.cpp
+	ValueBrokerTest.cpp
 )
 
