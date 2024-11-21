@@ -17,9 +17,13 @@ target_sources(crepe PUBLIC
 	Vector2.cpp
 	Camera.cpp
 	Animator.cpp
+	EventManager.cpp
+	IKeyListener.cpp
+	IMouseListener.cpp
 	LoopManager.cpp
 	LoopTimer.cpp
 	Asset.cpp
+	EventHandler.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -44,6 +48,13 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	SceneManager.hpp
 	Camera.h
 	Animator.h
+	EventManager.h
+	EventManager.hpp
+	EventHandler.h
+	EventHandler.hpp
+	Event.h
+	IKeyListener.h
+	IMouseListener.h
 	LoopManager.h
 	LoopTimer.h
 	Asset.h

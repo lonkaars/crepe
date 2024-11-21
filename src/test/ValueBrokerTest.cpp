@@ -13,7 +13,7 @@ public:
 	int write_count = 0;
 	int value = 0;
 
-	ValueBroker<int> broker {
+	ValueBroker<int> broker{
 		[this](const int & target) -> void {
 			this->write_count++;
 			this->value = target;
@@ -49,7 +49,7 @@ TEST_F(ValueBrokerTest, ProxyWrite) {
 	EXPECT_EQ(write_count, 1);
 }
 
-void dummy(int) { }
+void dummy(int) {}
 TEST_F(ValueBrokerTest, ProxyRead) {
 	dummy(proxy);
 	EXPECT_EQ(read_count, 1);
@@ -61,4 +61,3 @@ TEST_F(ValueBrokerTest, ProxyReadWrite) {
 	ASSERT_EQ(read_count, 1);
 	ASSERT_EQ(write_count, 1);
 }
-
