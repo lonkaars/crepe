@@ -1,3 +1,6 @@
+#define private public
+
+#include "api/LoopManager.h"
 #include <iostream>
 
 #include <crepe/ComponentManager.h>
@@ -40,22 +43,21 @@ public:
 };
 
 int main() {
-	ComponentManager component_mgr{};
-	SceneManager scene_mgr{component_mgr};
+	LoopManager loop_mgr;
 
 	// Add the scenes to the scene manager
-	scene_mgr.add_scene<ConcreteScene1>();
-	scene_mgr.add_scene<ConcreteScene2>();
+	loop_mgr.add_scene<ConcreteScene1>();
+	loop_mgr.add_scene<ConcreteScene2>();
 
 	// There is no need to call set_next_scene() at the beginnen, because the first scene will be
 	// automatically set as the next scene
 
 	// Load scene1 (the first scene added)
-	scene_mgr.load_next_scene();
+	loop_mgr.scene_manager.load_next_scene();
 
 	// Get the Metadata components of each GameObject of Scene1
 	vector<reference_wrapper<Metadata>> metadata
-		= component_mgr.get_components_by_type<Metadata>();
+		= loop_mgr.component_manager.get_components_by_type<Metadata>();
 
 	cout << "Metadata components of Scene1:" << endl;
 	// Print the Metadata
@@ -65,12 +67,12 @@ int main() {
 	}
 
 	// Set scene2 as the next scene
-	scene_mgr.set_next_scene("scene2");
+	loop_mgr.scene_manager.set_next_scene("scene2");
 	// Load scene2
-	scene_mgr.load_next_scene();
+	loop_mgr.scene_manager.load_next_scene();
 
 	// Get the Metadata components of each GameObject of Scene2
-	metadata = component_mgr.get_components_by_type<Metadata>();
+	metadata = loop_mgr.component_manager.get_components_by_type<Metadata>();
 
 	cout << "Metadata components of Scene2:" << endl;
 	// Print the Metadata
