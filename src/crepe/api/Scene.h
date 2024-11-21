@@ -15,9 +15,9 @@ class ComponentManager;
  */
 class Scene {
 protected:
+	//TODO: Use Loek's custom reference class to set ComponentManger via SceneManager instead of via constructor
 	/**
 	 * \param mgr  Reference to the ComponentManager
-	 * \param name  Name of the scene
 	 */
 	Scene(ComponentManager & mgr);
 	//! SceneManager instances Scene
