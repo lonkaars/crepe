@@ -21,7 +21,7 @@ public:
 		GameObject object3 = mgr.new_object("scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
 	}
 
-	string get_name() const { return "scene1";}
+	string get_name() const { return "scene1"; }
 };
 
 class ConcreteScene2 : public Scene {
@@ -36,7 +36,7 @@ public:
 		GameObject object4 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
 	}
 
-	string get_name() const { return "scene2";}
+	string get_name() const { return "scene2"; }
 };
 
 class SceneManagerTest : public ::testing::Test {

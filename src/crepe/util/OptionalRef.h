@@ -31,7 +31,7 @@ public:
 	 *
 	 * \throws std::runtime_error if this function is called while the reference it not set
 	 */
-	operator T & () const;
+	operator T &() const;
 	/**
 	 * \brief Check if this reference is not empty
 	 *
