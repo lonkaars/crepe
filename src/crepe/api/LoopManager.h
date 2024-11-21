@@ -8,6 +8,11 @@
 
 namespace crepe {
 
+/**
+ * \brief Main game loop manager
+ *
+ * This class is responsible for managing the game loop, including initialization and updating.
+ */
 class LoopManager {
 public:
 	void start();
