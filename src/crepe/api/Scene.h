@@ -33,7 +33,7 @@ public:
 	 * \brief Get the scene's name
 	 * \return The scene's name
 	 */
-	virtual std::string get_name() = 0;
+	virtual std::string get_name() const = 0;
 
 protected:
 	//! Reference to the ComponentManager
