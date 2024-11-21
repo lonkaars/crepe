@@ -23,14 +23,14 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", Vector2{100, 100}, 0, 0.1);
+	GameObject game_object = mgr.new_object("", "", Vector2{0, 0}, 0, 0.1);
 	RenderSystem sys{mgr};
 	ParticleSystem psys{mgr};
 
 	Color color(255, 255, 255, 255);
 
 	Sprite & test_sprite = game_object.add_component<Sprite>(
-		make_shared<Texture>("../asset/texture/img.png"), color, FlipSettings{false, false});
+		make_shared<Texture>("asset/texture/img.png"), color, FlipSettings{false, false});
 	test_sprite.order_in_layer = 5;
 
 	auto & test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
@@ -55,7 +55,7 @@ int main(int argc, char * argv[]) {
 	game_object.add_component<Camera>(Color::WHITE);
 
 	game_object
-		.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"), color,
+		.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"), color,
 							   FlipSettings{false, false})
 		.order_in_layer
 		= 6;

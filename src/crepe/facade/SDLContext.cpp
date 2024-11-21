@@ -107,10 +107,10 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
 								  const double & scale, const Camera & cam) const {
 
-	double adjusted_x = (pos.x - cam.x) * cam.zoom;
-	double adjusted_y = (pos.y - cam.y) * cam.zoom;
 	double adjusted_w = sprite.sprite_rect.w * scale * cam.zoom;
 	double adjusted_h = sprite.sprite_rect.h * scale * cam.zoom;
+	double adjusted_x = (pos.x - cam.x) * cam.zoom - adjusted_w / 2;
+	double adjusted_y = (pos.y - cam.y) * cam.zoom - adjusted_h / 2;
 
 	return SDL_Rect{
 		.x = static_cast<int>(adjusted_x),
