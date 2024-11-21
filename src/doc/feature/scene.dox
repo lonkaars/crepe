@@ -9,7 +9,7 @@ namespace crepe {
 Scenes can be used to implement game environments, and allow arbitrary game objects to be organized
 as part of the game structure. Scenes are implemented as derivative classes of Scene, which are
 added to the game using the SceneManager. Scenes describe the start of a Scene and cannot modify
-GameObject during runtime of a Scene (use Scripting for this purpose).
+GameObjects during runtime of a Scene (use \ref feature_script "Scripting" for this purpose).
 
 \see SceneManager
 \see GameObject
@@ -18,42 +18,49 @@ GameObject during runtime of a Scene (use Scripting for this purpose).
 
 \par Example
 
-This example demonstrates how to define and add scenes to a scene manager in the `crepe` framework.
-Two concrete scene classes, `ConcreteScene1` and `ConcreteScene2`, are derived from the base `Scene` class.
-Each scene class overrides the `load_scene` method to create and initialize game objects specific to the scene.
-Finally, the scenes are added to the scene manager.
+This example demonstrates how to define and add scenes to the loop/scene manager in the `crepe` framework.
+Each concrete scene should be derived from Scene. In the example below, the concrete scene is named MyScene.
+A concrete scene should, at least, implement (override) two methods, namely load_scene() and get_name(). The
+scene is build (using GameObjects) in the load_scene() method. GameObjects should be made using the
+component_manager::new_object(). In the example below, two GameObjects (named object1 and object2) are added
+to MyScene. object1 and object2 do not have any non-default Components attached to them, however, if needed,
+this should also be done in load_scene(). Each concrete scene must have a unique name. This unique name is
+used to load a new concrete scene (via a Script). The unique name is set using the get_name() method. In the
+example below, MyScene's unique name is my_scene.
+After setting up one or more concrete scene(s), the concrete scene(s) should be added to the loop/scene manager.
+This is done in your main(). Firstly, the LoopManager should be instantiated. Than, all the concrete scene(s)
+should be added to the loop/scene manger via loop_mgr::add_scene<>(). The templated argument should define the
+concrete scene to be added.
 
 ```cpp
+#include <crepe/api/LoopManager.h>
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Scene.h>
+#include <crepe/api/Vector2.h>
+
 using namespace crepe;
 
-class ConcreteScene1 : public Scene {
+class MyScene : public Scene {
 public:
 	using Scene::Scene;
 
 	void load_scene() {
 		auto & mgr = this->component_manager;
-		GameObject object1 = mgr.new_object("scene_1", "tag_scene_1", Vector2{0, 0}, 0, 1);
-		GameObject object2 = mgr.new_object("scene_1", "tag_scene_1", Vector2{1, 0}, 0, 1);
-		GameObject object3 = mgr.new_object("scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
+		GameObject object1 = mgr.new_object("object1", "tag_my_scene", Vector2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("object2", "tag_my_scene", Vector2{1, 0}, 0, 1);
 	}
+
+	string get_name() const { return "my_scene"; }
 };
 
-class ConcreteScene2 : public Scene {
-public:
-	using Scene::Scene;
+int main() {
+	LoopManager loop_mgr;
+	
+	// Add the scenes to the loop manager
+	loop_mgr.add_scene<MyScene>();
 
-	void load_scene() {
-		auto & mgr = this->component_manager;
-		GameObject object1 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 0}, 0, 1);
-		GameObject object2 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 1}, 0, 1);
-		GameObject object3 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 2}, 0, 1);
-		GameObject object4 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
-	}
-};
-
-// Add the scenes to the scene manager
-scene_mgr.add_scene<ConcreteScene1>("scene1");
-scene_mgr.add_scene<ConcreteScene2>("scene2");
+	loop_mgr.start();
+}
 ```
 
 */
