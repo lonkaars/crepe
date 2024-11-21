@@ -62,15 +62,15 @@ protected:
 	 * \returns List of component references
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>> get_components() const;
-	
+	RefVector<T> get_components() const;
+
 	/**
 	 * \brief Gets game object id this script is attached to
 	 *
 	 * \returns game object id
 	 */
 	game_object_id_t get_game_object_id() const {return this->game_object_id;};
-	
+
 protected:
 	// NOTE: Script must have a constructor without arguments so the game programmer doesn't need
 	// to manually add `using Script::Script` to their concrete script class.

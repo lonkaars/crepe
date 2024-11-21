@@ -1,9 +1,11 @@
 #pragma once
-#include "Event.h"
-#include <functional>
-#include <iostream>
-#include <typeindex>
 
+#include <functional>
+#include <string>
+
+#include "Event.h"
+
+namespace crepe {
 /**
  * \brief A type alias for an event handler function.
  * 
@@ -11,8 +13,9 @@
  * indicating whether the event is handled.
  * 
  * \tparam EventType The type of event this handler will handle.
+ * 
+ * Returning \c false from an event handler results in the event being propogated to other listeners for the same event type, while returning \c true stops propogation altogether.
  */
-// TODO: typedef
 template <typename EventType>
 using EventHandler = std::function<bool(const EventType & e)>;
 
@@ -21,7 +24,7 @@ using EventHandler = std::function<bool(const EventType & e)>;
  * \brief An abstract base class for event handler wrappers.
  * 
  * This class provides the interface for handling events. Derived classes must implement the
- * `call()` method to process events and the `get_type()` method to return the handler's type.
+ * `call()` method to process events
  */
 class IEventHandlerWrapper {
 public:
@@ -39,15 +42,6 @@ public:
      * \return A boolean value indicating whether the event is handled.
      */
 	bool exec(const Event & e);
-
-	/**
-     * \brief Get the type of the event handler.
-     * 
-     * This method returns the type of the event handler as a string.
-     * 
-     * \return A string representing the handler's type.
-     */
-	virtual std::string get_type() const = 0;
 
 private:
 	/**
@@ -81,8 +75,7 @@ public:
      * 
      * \param handler The event handler function.
      */
-	explicit EventHandlerWrapper(const EventHandler<EventType> & handler)
-		: m_handler(handler), m_handler_type(m_handler.target_type().name()) {}
+	explicit EventHandlerWrapper(const EventHandler<EventType> & handler);
 
 private:
 	/**
@@ -93,20 +86,11 @@ private:
      * \param e The event to be handled.
      * \return A boolean value indicating whether the event is handled.
      */
-	bool call(const Event & e) override {
-		return m_handler(static_cast<const EventType &>(e));
-	}
-
-	/**
-     * \brief Returns the type of the handler.
-     * 
-     * This method returns a string representing the type of the event handler.
-     * 
-     * \return The handler type as a string.
-     */
-	std::string get_type() const override { return m_handler_type; }
+	bool call(const Event & e) override;
 	//! The event handler function.
-	EventHandler<EventType> m_handler;
-	//! The type name of the handler function.
-	const std::string m_handler_type;
+	EventHandler<EventType> handler;
 };
+
+} // namespace crepe
+
+#include "EventHandler.hpp"

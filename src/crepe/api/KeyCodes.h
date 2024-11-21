@@ -1,94 +1,93 @@
 #pragma once
 
+//! Enumeration for mouse button inputs, including standard and extended buttons.
 enum class MouseButton {
-	NONE = 0,
-	LEFT_MOUSE = 1,
-	RIGHT_MOUSE = 2,
-	MIDDLE_MOUSE = 3,
-	X1_MOUSE = 4,
-	X2_MOUSE = 5,
-	SCROLL_UP = 6,
-	SCROLL_DOWN = 7,
+	NONE = 0, //!< No mouse button input.
+	LEFT_MOUSE = 1, //!< Left mouse button.
+	RIGHT_MOUSE = 2, //!< Right mouse button.
+	MIDDLE_MOUSE = 3, //!< Middle mouse button (scroll wheel press).
+	X1_MOUSE = 4, //!< First extended mouse button.
+	X2_MOUSE = 5, //!< Second extended mouse button.
+	SCROLL_UP = 6, //!< Scroll wheel upward movement.
+	SCROLL_DOWN = 7, //!< Scroll wheel downward movement.
 };
 
-enum class Keycode : int {
-	NONE = 0,
-	SPACE = 32,
-	APOSTROPHE = 39, /* ' */
-	COMMA = 44, /* , */
-	MINUS = 45, /* - */
-	PERIOD = 46, /* . */
-	SLASH = 47, /* / */
-
-	D0 = 48, /* 0 */
-	D1 = 49, /* 1 */
-	D2 = 50, /* 2 */
-	D3 = 51, /* 3 */
-	D4 = 52, /* 4 */
-	D5 = 53, /* 5 */
-	D6 = 54, /* 6 */
-	D7 = 55, /* 7 */
-	D8 = 56, /* 8 */
-	D9 = 57, /* 9 */
-
-	SEMICOLON = 59, /* ; */
-	EQUAL = 61, /* = */
-
-	A = 65,
-	B = 66,
-	C = 67,
-	D = 68,
-	E = 69,
-	F = 70,
-	G = 71,
-	H = 72,
-	I = 73,
-	J = 74,
-	K = 75,
-	L = 76,
-	M = 77,
-	N = 78,
-	O = 79,
-	P = 80,
-	Q = 81,
-	R = 82,
-	S = 83,
-	T = 84,
-	U = 85,
-	V = 86,
-	W = 87,
-	X = 88,
-	Y = 89,
-	Z = 90,
-
-	LEFT_BRACKET = 91, /* [ */
-	BACKSLASH = 92, /* \ */
-	RIGHT_BRACKET = 93, /* ] */
-	GRAVE_ACCENT = 96, /* ` */
-
-	WORLD1 = 161, /* non-US #1 */
-	WORLD2 = 162, /* non-US #2 */
-
-	/* Function keys */
-	ESCAPE = 256,
-	ENTER = 257,
-	TAB = 258,
-	BACKSPACE = 259,
-	INSERT = 260,
-	DELETE = 261,
-	RIGHT = 262,
-	LEFT = 263,
-	DOWN = 264,
-	UP = 265,
-	PAGE_UP = 266,
-	PAGE_DOWN = 267,
-	HOME = 268,
-	END = 269,
-	CAPS_LOCK = 280,
-	SCROLL_LOCK = 281,
-	NUM_LOCK = 282,
-	PRINT_SCREEN = 283,
-	PAUSE = 284,
+//! Enumeration for keyboard key inputs, including printable characters, function keys, and keypad keys.
+enum class Keycode {
+	NONE = 0, //!< No key input.
+	SPACE = 32, //!< Spacebar.
+	APOSTROPHE = 39, //!< Apostrophe (').
+	COMMA = 44, //!< Comma (,).
+	MINUS = 45, //!< Minus (-).
+	PERIOD = 46, //!< Period (.).
+	SLASH = 47, //!< Slash (/).
+	D0 = 48, //!< Digit 0.
+	D1 = 49, //!< Digit 1.
+	D2 = 50, //!< Digit 2.
+	D3 = 51, //!< Digit 3.
+	D4 = 52, //!< Digit 4.
+	D5 = 53, //!< Digit 5.
+	D6 = 54, //!< Digit 6.
+	D7 = 55, //!< Digit 7.
+	D8 = 56, //!< Digit 8.
+	D9 = 57, //!< Digit 9.
+	SEMICOLON = 59, //!< Semicolon (;).
+	EQUAL = 61, //!< Equal sign (=).
+	A = 65, //!< Key 'A'.
+	B = 66, //!< Key 'B'.
+	C = 67, //!< Key 'C'.
+	D = 68, //!< Key 'D'.
+	E = 69, //!< Key 'E'.
+	F = 70, //!< Key 'F'.
+	G = 71, //!< Key 'G'.
+	H = 72, //!< Key 'H'.
+	I = 73, //!< Key 'I'.
+	J = 74, //!< Key 'J'.
+	K = 75, //!< Key 'K'.
+	L = 76, //!< Key 'L'.
+	M = 77, //!< Key 'M'.
+	N = 78, //!< Key 'N'.
+	O = 79, //!< Key 'O'.
+	P = 80, //!< Key 'P'.
+	Q = 81, //!< Key 'Q'.
+	R = 82, //!< Key 'R'.
+	S = 83, //!< Key 'S'.
+	T = 84, //!< Key 'T'.
+	U = 85, //!< Key 'U'.
+	V = 86, //!< Key 'V'.
+	W = 87, //!< Key 'W'.
+	X = 88, //!< Key 'X'.
+	Y = 89, //!< Key 'Y'.
+	Z = 90, //!< Key 'Z'.
+	LEFT_BRACKET = 91, //!< Left bracket ([).
+	BACKSLASH = 92, //!< Backslash (\).
+	RIGHT_BRACKET = 93, //!< Right bracket (]).
+	GRAVE_ACCENT = 96, //!< Grave accent (`).
+	WORLD1 = 161, //!< Non-US key #1.
+	WORLD2 = 162, //!< Non-US key #2.
+	ESCAPE = 256, //!< Escape key.
+	ENTER = 257, //!< Enter key.
+	TAB = 258, //!< Tab key.
+	BACKSPACE = 259, //!< Backspace key.
+	INSERT = 260, //!< Insert key.
+	DELETE = 261, //!< Delete key.
+	RIGHT = 262, //!< Right arrow key.
+	LEFT = 263, //!< Left arrow key.
+	DOWN = 264, //!< Down arrow key.
+	UP = 265, //!< Up arrow key.
+	PAGE_UP = 266, //!< Page Up key.
+	PAGE_DOWN = 267, //!< Page Down key.
+	HOME = 268, //!< Home key.
+	END = 269, //!< End key.
+	CAPS_LOCK = 280, //!< Caps Lock key.
+	SCROLL_LOCK = 281, //!< Scroll Lock key.
+	NUM_LOCK = 282, //!< Num Lock key.
+	PRINT_SCREEN = 283, //!< Print Screen key.
+	PAUSE = 284, //!< Pause key.
+	/**
+	 * \name Function keys (F1-F25).
+	 * \{
+	 */
 	F1 = 290,
 	F2 = 291,
 	F3 = 292,
@@ -114,8 +113,11 @@ enum class Keycode : int {
 	F23 = 312,
 	F24 = 313,
 	F25 = 314,
-
-	/* Keypad */
+	/// \}
+	/**
+	 * \name Keypad digits and operators.
+	 * \{
+	 */
 	KP0 = 320,
 	KP1 = 321,
 	KP2 = 322,
@@ -133,7 +135,11 @@ enum class Keycode : int {
 	KP_ADD = 334,
 	KP_ENTER = 335,
 	KP_EQUAL = 336,
-
+	/// \}
+	/**
+	 * \name Modifier keys.
+	 * \{
+	 */
 	LEFT_SHIFT = 340,
 	LEFT_CONTROL = 341,
 	LEFT_ALT = 342,
@@ -142,5 +148,6 @@ enum class Keycode : int {
 	RIGHT_CONTROL = 345,
 	RIGHT_ALT = 346,
 	RIGHT_SUPER = 347,
-	MENU = 348
+	/// \}
+	MENU = 348, //!< Menu key.
 };

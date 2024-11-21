@@ -18,7 +18,7 @@ void SceneManager::load_next_scene() {
 
 	auto it = find_if(this->scenes.begin(), this->scenes.end(),
 					  [&next_scene = this->next_scene](unique_ptr<Scene> & scene) {
-						  return scene->name == next_scene;
+						  return scene.get()->get_name() == next_scene;
 					  });
 
 	// next scene not found
