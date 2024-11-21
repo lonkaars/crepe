@@ -8,7 +8,7 @@ namespace crepe {
 
 GameObjects are the fundamental building blocks of a Scene. They represent entities
 in the game world and can have various components attached to them to define their
-behavior and properties. GameObjects can be created, and modified within the
+behavior and properties. GameObjects can be created and modified within the
 Scene, allowing for a flexible and dynamic game environment.
 
 \see Component
