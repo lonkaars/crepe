@@ -3,11 +3,12 @@
 namespace crepe {
 
 //! 2D vector
+template <class T>
 struct Vector2 {
 	//! X component of the vector
-	double x = 0;
+	T x = 0;
 	//! Y component of the vector
-	double y = 0;
+	T y = 0;
 
 	//! Subtracts another vector from this vector and returns the result.
 	Vector2 operator-(const Vector2 & other) const;
@@ -38,3 +39,5 @@ struct Vector2 {
 };
 
 } // namespace crepe
+
+#include "Vector2.hpp"
