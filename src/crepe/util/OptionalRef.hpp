@@ -12,7 +12,7 @@ OptionalRef<T>::OptionalRef(T & ref) {
 }
 
 template <typename T>
-OptionalRef<T>::operator T & () const {
+OptionalRef<T>::operator T &() const {
 	if (this->ref == nullptr)
 		throw std::runtime_error("OptionalRef: attempt to dereference nullptr");
 	return *this->ref;

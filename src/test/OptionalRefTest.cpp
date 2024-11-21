@@ -18,9 +18,7 @@ TEST(OptionalRefTest, Normal) {
 
 	ref.clear();
 	EXPECT_FALSE(ref);
-	ASSERT_THROW({
-		string & value_ref = ref;
-	}, runtime_error);
+	ASSERT_THROW({ string & value_ref = ref; }, runtime_error);
 }
 
 TEST(OptionalRefTest, Empty) {
@@ -28,9 +26,7 @@ TEST(OptionalRefTest, Empty) {
 	OptionalRef<string> ref;
 
 	EXPECT_FALSE(ref);
-	ASSERT_THROW({
-		string & value_ref = ref;
-	}, runtime_error);
+	ASSERT_THROW({ string & value_ref = ref; }, runtime_error);
 }
 
 TEST(OptionalRefTest, Chain) {
@@ -44,4 +40,3 @@ TEST(OptionalRefTest, Chain) {
 	value_ref = "bar";
 	EXPECT_EQ(value_ref, value);
 }
-
