@@ -81,15 +81,14 @@ void ComponentManager::delete_components() {
 }
 
 template <typename T>
-std::vector<std::reference_wrapper<T>>
-ComponentManager::get_components_by_id(game_object_id_t id) const {
+RefVector<T> ComponentManager::get_components_by_id(game_object_id_t id) const {
 	using namespace std;
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	type_index type = typeid(T);
 
 	// Create an empty vector<>
-	vector<reference_wrapper<T>> component_vector;
+	RefVector<T> component_vector;
 
 	if (this->components.find(type) == this->components.end()) return component_vector;
 
@@ -114,14 +113,14 @@ ComponentManager::get_components_by_id(game_object_id_t id) const {
 }
 
 template <typename T>
-std::vector<std::reference_wrapper<T>> ComponentManager::get_components_by_type() const {
+RefVector<T> ComponentManager::get_components_by_type() const {
 	using namespace std;
 
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	type_index type = typeid(T);
 
 	// Create an empty vector<>
-	vector<reference_wrapper<T>> component_vector;
+	RefVector<T> component_vector;
 
 	// Find the type (in the unordered_map<>)
 	if (this->components.find(type) == this->components.end()) return component_vector;

@@ -78,7 +78,7 @@ protected:
 	 * \returns List of component references
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>> get_components() const;
+	RefVector<T> get_components() const;
 
 	/**
 	 * \brief Log a message using Log::logf

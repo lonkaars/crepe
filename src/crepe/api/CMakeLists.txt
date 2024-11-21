@@ -22,6 +22,7 @@ target_sources(crepe PUBLIC
 	IMouseListener.cpp
 	LoopManager.cpp
 	LoopTimer.cpp
+	Asset.cpp
 	EventHandler.cpp
 	Script.cpp
 )
@@ -57,4 +58,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	IMouseListener.h
 	LoopManager.h
 	LoopTimer.h
+	Asset.h
 )

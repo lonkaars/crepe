@@ -65,8 +65,7 @@ private:
 	 * \param objs the vector that will do a sorting algorithm on 
 	 * \return returns a sorted reference vector
 	 */
-	std::vector<std::reference_wrapper<Sprite>>
-	sort(std::vector<std::reference_wrapper<Sprite>> & objs) const;
+	RefVector<Sprite> sort(RefVector<Sprite> & objs) const;
 
 	/**
 	 * \todo Include color handling for sprites.
