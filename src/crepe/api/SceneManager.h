@@ -29,7 +29,7 @@ public:
 	 * \param name  Name of new scene
 	 */
 	template <typename T>
-	void add_scene(const std::string & name);
+	void add_scene();
 	/**
 	 * \brief Set the next scene
 	 *

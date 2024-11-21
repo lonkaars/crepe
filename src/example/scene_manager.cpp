@@ -20,6 +20,8 @@ public:
 		GameObject object2 = mgr.new_object("scene_1", "tag_scene_1", Vector2{1, 0}, 0, 1);
 		GameObject object3 = mgr.new_object("scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
 	}
+
+	string get_name() { return "scene1"; }
 };
 
 class ConcreteScene2 : public Scene {
@@ -33,6 +35,8 @@ public:
 		GameObject object3 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 2}, 0, 1);
 		GameObject object4 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
 	}
+
+	string get_name() { return "scene2"; }
 };
 
 int main() {
@@ -40,8 +44,8 @@ int main() {
 	SceneManager scene_mgr{component_mgr};
 
 	// Add the scenes to the scene manager
-	scene_mgr.add_scene<ConcreteScene1>("scene1");
-	scene_mgr.add_scene<ConcreteScene2>("scene2");
+	scene_mgr.add_scene<ConcreteScene1>();
+	scene_mgr.add_scene<ConcreteScene2>();
 
 	// There is no need to call set_next_scene() at the beginnen, because the first scene will be
 	// automatically set as the next scene
