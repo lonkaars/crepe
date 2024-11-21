@@ -42,6 +42,7 @@
 	</navindex>
 	<class>
 		<briefdescription visible="yes"/>
+		<detaileddescription title=""/>
 		<includes visible="$SHOW_HEADERFILE"/>
 		<inheritancegraph visible="yes"/>
 		<collaborationgraph visible="yes"/>
@@ -79,7 +80,6 @@
 			<related title="" subtitle=""/>
 			<membergroups visible="yes"/>
 		</memberdecl>
-		<detaileddescription title=""/>
 		<memberdef>
 			<inlineclasses title=""/>
 			<typedefs title=""/>

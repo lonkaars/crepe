@@ -1,9 +1,11 @@
-// TODO discussing the location of these events
 #pragma once
+// TODO discussing the location of these events
 
 #include <string>
 
 #include "KeyCodes.h"
+
+namespace crepe {
 
 /**
  * \brief Base class for all event types in the system.
@@ -91,11 +93,7 @@ public:
 /**
  * \brief Event triggered during a collision between objects.
  */
-class CollisionEvent : public Event {
-public:
-	//! Data describing the collision (currently not implemented).
-	// Collision collisionData;
-};
+class CollisionEvent : public Event { };
 
 /**
  * \brief Event triggered when text is submitted, e.g., from a text input.
@@ -110,3 +108,5 @@ public:
  * \brief Event triggered to indicate the application is shutting down.
  */
 class ShutDownEvent : public Event {};
+
+}
