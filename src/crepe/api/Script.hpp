@@ -10,7 +10,7 @@ namespace crepe {
 template <typename T>
 T & Script::get_component() const {
 	using namespace std;
-	vector<reference_wrapper<T>> all_components = this->get_components<T>();
+	RefVector<T> all_components = this->get_components<T>();
 	if (all_components.size() < 1)
 		throw runtime_error(
 			format("Script: no component found with type = {}", typeid(T).name()));
@@ -19,7 +19,7 @@ T & Script::get_component() const {
 }
 
 template <typename T>
-std::vector<std::reference_wrapper<T>> Script::get_components() const {
+RefVector<T> Script::get_components() const {
 	ComponentManager & mgr = *this->component_manager_ref;
 
 	return mgr.get_components_by_id<T>(*this->game_object_id_ref);

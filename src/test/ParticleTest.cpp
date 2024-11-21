@@ -29,7 +29,7 @@ public:
 
 			Color color(0, 0, 0, 0);
 			Sprite & test_sprite = game_object.add_component<Sprite>(
-				make_shared<Texture>("../asset/texture/img.png"), color,
+				make_shared<Texture>("asset/texture/img.png"), color,
 				FlipSettings{true, true});
 
 			game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
