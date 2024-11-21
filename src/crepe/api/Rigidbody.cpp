@@ -6,7 +6,7 @@ crepe::Rigidbody::Rigidbody(game_object_id_t id, const Data & data)
 	: Component(id),
 	  data(data) {}
 
-void crepe::Rigidbody::add_force_linear(const Vector2 & force) {
+void crepe::Rigidbody::add_force_linear(const Vector2<double> & force) {
 	this->data.linear_velocity += force;
 }
 

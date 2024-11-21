@@ -56,11 +56,11 @@ public:
 		//! Changes if physics apply
 		BodyType body_type = BodyType::DYNAMIC;
 		//! linear velocity of object
-		Vector2 linear_velocity;
+		Vector2<double> linear_velocity;
 		//! maximum linear velocity of object
-		Vector2 max_linear_velocity;
+		Vector2<double> max_linear_velocity;
 		//! linear damping of object
-		Vector2 linear_damping;
+		Vector2<double> linear_damping;
 		//! angular velocity of object
 		double angular_velocity = 0.0;
 		//! max angular velocity of object
@@ -90,7 +90,7 @@ public:
 	 * 
 	 * \param force Vector2 that is added to the linear force.
 	 */
-	void add_force_linear(const Vector2 & force);
+	void add_force_linear(const Vector2<double> & force);
 	/** 
 	 * \brief add a angular force to the Rigidbody.
 	 * 

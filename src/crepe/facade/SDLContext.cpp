@@ -104,7 +104,7 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 		.h = sprite.sprite_rect.h,
 	};
 }
-SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
+SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2<double> & pos,
 								  const double & scale, const Camera & cam) const {
 
 	double adjusted_x = (pos.x - cam.x) * cam.zoom;
@@ -120,7 +120,7 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
 	};
 }
 
-void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
+void SDLContext::draw_particle(const Sprite & sprite, const Vector2<double> & pos,
 							   const double & angle, const double & scale,
 							   const Camera & camera) {
 
