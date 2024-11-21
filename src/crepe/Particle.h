@@ -18,11 +18,11 @@ class Particle {
 
 public:
 	//! Position of the particle in 2D space.
-	Vector2 position;
+	Vector2<double> position;
 	//! Velocity vector indicating the speed and direction of the particle.
-	Vector2 velocity;
+	Vector2<double> velocity;
 	//! Accumulated force affecting the particle over time.
-	Vector2 force_over_time;
+	Vector2<double> force_over_time;
 	//! Total lifespan of the particle in milliseconds.
 	uint32_t lifespan;
 	//! Active state of the particle; true if it is in use, false otherwise.
@@ -43,8 +43,8 @@ public:
 	 * \param velocity  The initial velocity of the particle.
 	 * \param angle     The angle of the particle's trajectory or orientation.
 	 */
-	void reset(uint32_t lifespan, const Vector2 & position, const Vector2 & velocity,
-			   double angle);
+	void reset(uint32_t lifespan, const Vector2<double> & position,
+			   const Vector2<double> & velocity, double angle);
 	/**
 	 * \brief Updates the particle's state.
 	 *

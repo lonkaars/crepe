@@ -30,7 +30,7 @@ public:
 		//! boundary height (midpoint is emitter location)
 		double height = 0.0;
 		//! boundary offset from particle emitter location
-		Vector2 offset;
+		Vector2<double> offset;
 		//! reset on exit or stop velocity and set max postion
 		bool reset_on_exit = false;
 	};
@@ -43,7 +43,7 @@ public:
 	 */
 	struct Data {
 		//! position of the emitter
-		Vector2 position;
+		Vector2<double> position;
 		//! maximum number of particles
 		const unsigned int max_particles = 0;
 		//! rate of particle emission per update (Lowest value = 0.001 any lower is ignored)
@@ -61,7 +61,7 @@ public:
 		//! end Lifespan of particle
 		double end_lifespan = 0.0;
 		//! force over time (physics)
-		Vector2 force_over_time;
+		Vector2<double> force_over_time;
 		//! particle boundary
 		Boundary boundary;
 		//! collection of particles

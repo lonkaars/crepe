@@ -23,7 +23,7 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", Vector2{100, 100}, 0, 0.1);
+	GameObject game_object = mgr.new_object("", "", Vector2<double>{100, 100}, 0, 0.1);
 	RenderSystem sys{mgr};
 	ParticleSystem psys{mgr};
 
@@ -43,11 +43,11 @@ int main(int argc, char * argv[]) {
 		.max_angle = 20,
 		.begin_lifespan = 0,
 		.end_lifespan = 60,
-		.force_over_time = Vector2{0, 0},
+		.force_over_time = Vector2<double>{0, 0},
 		.boundary{
 			.width = 1000,
 			.height = 1000,
-			.offset = Vector2{0, 0},
+			.offset = Vector2<double>{0, 0},
 			.reset_on_exit = false,
 		},
 		.sprite = test_sprite,

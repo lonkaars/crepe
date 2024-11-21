@@ -44,7 +44,7 @@ void ParticleSystem::update() {
 void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & transform) {
 	constexpr double DEG_TO_RAD = M_PI / 180.0;
 
-	Vector2 initial_position = emitter.data.position + transform.position;
+	Vector2<double> initial_position = emitter.data.position + transform.position;
 	double random_angle
 		= generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
 
@@ -52,7 +52,7 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & 
 		= generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);
 	double angle_radians = random_angle * DEG_TO_RAD;
 
-	Vector2 velocity
+	Vector2<double> velocity
 		= {random_speed * std::cos(angle_radians), random_speed * std::sin(angle_radians)};
 
 	for (Particle & particle : emitter.data.particles) {
@@ -77,7 +77,8 @@ int ParticleSystem::calculate_update(int count, double emission) const {
 }
 
 void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & transform) {
-	Vector2 offset = emitter.data.boundary.offset + transform.position + emitter.data.position;
+	Vector2<double> offset
+		= emitter.data.boundary.offset + transform.position + emitter.data.position;
 	double half_width = emitter.data.boundary.width / 2.0;
 	double half_height = emitter.data.boundary.height / 2.0;
 
@@ -87,7 +88,7 @@ void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & t
 	const double BOTTOM = offset.y + half_height;
 
 	for (Particle & particle : emitter.data.particles) {
-		const Vector2 & position = particle.position;
+		const Vector2<double> & position = particle.position;
 		bool within_bounds = (position.x >= LEFT && position.x <= RIGHT && position.y >= TOP
 							  && position.y <= BOTTOM);
 

@@ -25,7 +25,7 @@ public:
 		std::vector<std::reference_wrapper<Transform>> transforms
 			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
-			GameObject game_object = mgr.new_object("", "", Vector2{0, 0}, 0, 0);
+			GameObject game_object = mgr.new_object("", "", Vector2<double>{0, 0}, 0, 0);
 
 			Color color(0, 0, 0, 0);
 			Sprite & test_sprite = game_object.add_component<Sprite>(
@@ -42,11 +42,11 @@ public:
 				.max_angle = 0,
 				.begin_lifespan = 0,
 				.end_lifespan = 0,
-				.force_over_time = Vector2{0, 0},
+				.force_over_time = Vector2<double>{0, 0},
 				.boundary{
 					.width = 0,
 					.height = 0,
-					.offset = Vector2{0, 0},
+					.offset = Vector2<double>{0, 0},
 					.reset_on_exit = false,
 				},
 				.sprite = test_sprite,
@@ -68,8 +68,8 @@ public:
 		emitter.data.max_angle = 0;
 		emitter.data.begin_lifespan = 0;
 		emitter.data.end_lifespan = 0;
-		emitter.data.force_over_time = Vector2{0, 0};
-		emitter.data.boundary = {0, 0, Vector2{0, 0}, false};
+		emitter.data.force_over_time = Vector2<double>{0, 0};
+		emitter.data.boundary = {0, 0, Vector2<double>{0, 0}, false};
 		for (auto & particle : emitter.data.particles) {
 			particle.active = false;
 		}
