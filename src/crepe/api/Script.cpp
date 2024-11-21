@@ -3,7 +3,7 @@
 using namespace crepe;
 
 Script::~Script() {
-	EventManager & evmgr = *this->event_manager_ref;
+	EventManager & evmgr = this->event_manager;
 	for (auto id : this->listeners) {
 		evmgr.unsubscribe(id);
 	}
@@ -11,6 +11,6 @@ Script::~Script() {
 
 template <>
 void Script::subscribe(const EventHandler<CollisionEvent> & callback) {
-	const game_object_id_t & game_object_id = *this->game_object_id_ref;
+	const game_object_id_t & game_object_id = this->game_object_id;
 	this->subscribe_internal(callback, game_object_id);
 }

@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "../util/OptionalRef.h"
 #include "../types.h"
 
 #include "EventManager.h"
@@ -150,18 +151,16 @@ private:
 	 * implement a non-default constructor (e.g. for passing references to their own concrete
 	 * Script classes).
 	 *
-	 * \todo These should be converted to OptionalRef<> once `loek/util` is merged
-	 *
 	 * \{
 	 */
 	//! Game object ID of game object parent BehaviorScript is attached to
-	const game_object_id_t * game_object_id_ref = nullptr;
+	OptionalRef<const game_object_id_t> game_object_id;
 	//! Reference to parent component
-	bool * active_ref = nullptr;
+	OptionalRef<bool> active;
 	//! Reference to component manager instance
-	ComponentManager * component_manager_ref = nullptr;
+	OptionalRef<ComponentManager> component_manager;
 	//! Reference to event manager instance
-	EventManager * event_manager_ref = nullptr;
+	OptionalRef<EventManager> event_manager;
 	//! \}
 
 private:
