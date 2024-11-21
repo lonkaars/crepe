@@ -15,12 +15,16 @@ that you can click on to open them.
   `name/feature` (i.e. `loek/dll-so-poc` or `jaro/class2`)
 - The master branch is considered stable, and should always contain a
   working/compiling version of the project
+- Pull requests for new code include either automated tests for the new code or
+  an explanation as to why the code can not (reliably) be tested
+<!--
 - TODO: tagging / versions
+-->
 
 # Code style
 
 - Formatting nitty-gritty is handled by clang-format/clang-tidy (run `make
-  format` in the root folder of this repository to format all sources files)
+  format` or `make lint`)
 - <details><summary>
   ASCII only
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
@@ -790,6 +794,7 @@ that you can click on to open them.
   }
   ```
   </td></tr></table></details>
+- Do not implement new classes as singletons
 
 ## CMakeLists-specific
 
@@ -797,6 +802,27 @@ that you can click on to open them.
   `target_sources`, `target_link_libraries`) are on separate lines. This makes
   resolving merge conflicts when multiple sources were added by different
   people to the same CMakeLists.txt easier.
+
+## GoogleTest-specific
+
+- Unit tests are not *required* to follow all code standards
+- <details><summary>
+  Private/protected members may be accessed using preprocessor tricks
+  </summary>
+
+  ```cpp
+  // include unrelated headers before
+
+  #define private public
+  #define protected public
+
+  // headers included after *will* be affected
+  ```
+  </details>
+- Each test source file defines tests within a single test suite (first
+  parameter of `TEST()` / `TEST_F()` macro)
+- Test source files match their suite name (or test fixture name in the case of
+  tests that use a fixture)
 
 # Structure
 
