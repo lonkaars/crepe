@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <queue>
 #include <vector>
 
 #include "Scene.h"
@@ -42,7 +41,7 @@ public:
 	void load_next_scene();
 
 private:
-	//! Vector of scenes
+	//! Vector of concrete scenes (added by add_scene())
 	std::vector<std::unique_ptr<Scene>> scenes;
 	//! Next scene to load
 	std::string next_scene;
