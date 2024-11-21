@@ -14,4 +14,3 @@ void Script::subscribe(const EventHandler<CollisionEvent> & callback) {
 	const game_object_id_t & game_object_id = *this->game_object_id_ref;
 	this->subscribe_internal(callback, game_object_id);
 }
-

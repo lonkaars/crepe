@@ -6,18 +6,18 @@
 
 #include <crepe/ComponentManager.h>
 #include <crepe/api/BehaviorScript.h>
+#include <crepe/api/Event.h>
+#include <crepe/api/EventManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Vector2.h>
-#include <crepe/api/Event.h>
-#include <crepe/api/EventManager.h>
 #include <crepe/system/ScriptSystem.h>
 
 using namespace std;
 using namespace crepe;
 using namespace testing;
 
-class MyEvent : public Event { };
+class MyEvent : public Event {};
 
 class ScriptTest : public Test {
 public:
@@ -39,9 +39,7 @@ public:
 			// init should never be called more than once
 			EXPECT_LE(this->init_count, 1);
 		}
-		void update() {
-			this->update_count++;
-		}
+		void update() { this->update_count++; }
 
 	public:
 		unsigned init_count = 0;
@@ -125,4 +123,3 @@ TEST_F(ScriptTest, ListScripts) {
 	}
 	ASSERT_EQ(1, script_count);
 }
-
