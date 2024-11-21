@@ -93,7 +93,7 @@ public:
 /**
  * \brief Event triggered during a collision between objects.
  */
-class CollisionEvent : public Event { };
+class CollisionEvent : public Event {};
 
 /**
  * \brief Event triggered when text is submitted, e.g., from a text input.
@@ -109,4 +109,4 @@ public:
  */
 class ShutDownEvent : public Event {};
 
-}
+} // namespace crepe

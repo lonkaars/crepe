@@ -127,6 +127,7 @@ protected:
 	Script() = default;
 	//! Only \c BehaviorScript instantiates Script
 	friend class BehaviorScript;
+
 public:
 	// std::unique_ptr destroys script
 	virtual ~Script();
@@ -180,7 +181,8 @@ private:
 template <>
 void Script::subscribe(const EventHandler<CollisionEvent> & callback);
 template <>
-void Script::subscribe(const EventHandler<CollisionEvent> & callback, event_channel_t) = delete;
+void Script::subscribe(const EventHandler<CollisionEvent> & callback, event_channel_t)
+	= delete;
 
 } // namespace crepe
 
