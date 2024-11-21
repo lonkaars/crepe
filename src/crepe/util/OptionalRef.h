@@ -25,26 +25,20 @@ public:
 	 */
 	OptionalRef<T> & operator=(T & ref);
 	/**
-	 * \brief Check if this reference is not empty
-	 *
-	 * \returns `true` if reference is set, or `false` if it is not
-	 */
-	explicit operator bool() const noexcept;
-
-	/**
-	 * \brief Assign new reference
-	 *
-	 * \param ref Reference to assign
-	 */
-	void set(T & ref) noexcept;
-	/**
 	 * \brief Retrieve this reference
 	 *
 	 * \returns Internal reference if it is set
 	 *
 	 * \throws std::runtime_error if this function is called while the reference it not set
 	 */
-	T & get() const;
+	operator T & () const;
+	/**
+	 * \brief Check if this reference is not empty
+	 *
+	 * \returns `true` if reference is set, or `false` if it is not
+	 */
+	explicit operator bool() const noexcept;
+
 	/**
 	 * \brief Make this reference empty
 	 */
