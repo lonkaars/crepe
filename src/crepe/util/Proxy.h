@@ -16,6 +16,8 @@ template <typename T>
 class Proxy {
 public:
 	//! Set operator
+	Proxy & operator=(Proxy &);
+	//! Set operator
 	Proxy & operator=(const T &);
 	//! Get operator
 	operator const T &();
