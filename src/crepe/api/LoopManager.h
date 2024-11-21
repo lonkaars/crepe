@@ -4,6 +4,7 @@
 
 #include "../ComponentManager.h"
 #include "../system/System.h"
+#include "api/SceneManager.h"
 
 namespace crepe {
 
@@ -11,6 +12,14 @@ class LoopManager {
 public:
 	void start();
 	LoopManager();
+
+	/**
+	 * \brief Add a new concrete scene to the scene manager
+	 *
+	 * \tparam T  Type of concrete scene
+	 */
+	template <typename T>
+	void add_scene();
 
 private:
 	/**
@@ -53,12 +62,14 @@ private:
 	 * This function updates physics and game logic based on LoopTimer's fixed_delta_time.
 	 */
 	void fixed_update();
+
 	/**
 	 * \brief Set game running variable
 	 *
 	 * \param running running (false = game shutdown, true = game running)
 	 */
 	void set_running(bool running);
+
 	/**
 	 * \brief Function for executing render-related systems.
 	 *
@@ -71,6 +82,8 @@ private:
 private:
 	//! Component manager instance
 	ComponentManager component_manager{};
+	//! Scene manager instance
+	SceneManager scene_manager{component_manager};
 
 private:
 	/**

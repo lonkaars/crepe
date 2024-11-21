@@ -25,7 +25,6 @@ public:
 	 * \brief Add a new concrete scene to the scene manager
 	 *
 	 * \tparam T  Type of concrete scene
-	 * \param name  Name of new scene
 	 */
 	template <typename T>
 	void add_scene();
