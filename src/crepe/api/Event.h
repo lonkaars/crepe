@@ -1,11 +1,13 @@
-// TODO discussing the location of these events
 #pragma once
+// TODO discussing the location of these events
 
 #include <string>
 
 #include "../system/CollisionSystem.h"
 
 #include "KeyCodes.h"
+
+namespace crepe {
 
 /**
  * \brief Base class for all event types in the system.
@@ -113,3 +115,5 @@ public:
  * \brief Event triggered to indicate the application is shutting down.
  */
 class ShutDownEvent : public Event {};
+
+}

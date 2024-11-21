@@ -11,5 +11,7 @@ Script::~Script() {
 
 template <>
 void Script::subscribe(const EventHandler<CollisionEvent> & callback) {
-	this->subscribe_internal(callback, this->game_object_id);
+	const game_object_id_t & game_object_id = *this->game_object_id_ref;
+	this->subscribe_internal(callback, game_object_id);
 }
+
