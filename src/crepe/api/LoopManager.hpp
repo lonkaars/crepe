@@ -11,6 +11,11 @@
 namespace crepe {
 
 template <class T>
+void LoopManager::add_scene() {
+	this->scene_manager.add_scene<T>();
+}
+
+template <class T>
 T & LoopManager::get_system() {
 	using namespace std;
 	static_assert(is_base_of<System, T>::value,
