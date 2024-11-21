@@ -26,4 +26,3 @@ void ScriptSystem::update() {
 		script->update();
 	}
 }
-
