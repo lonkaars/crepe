@@ -154,7 +154,7 @@ private:
 	 * \{
 	 */
 	//! Game object ID of game object parent BehaviorScript is attached to
-	OptionalRef<const game_object_id_t> game_object_id;
+	game_object_id_t game_object_id;
 	//! Reference to parent component
 	OptionalRef<bool> active;
 	//! Reference to component manager instance
