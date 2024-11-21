@@ -1,8 +1,8 @@
 #pragma once
 
-#include <forward_list>
-
 #include "System.h"
+
+#include "../types.h"
 
 namespace crepe {
 
@@ -33,7 +33,7 @@ private:
 	 *
 	 * \returns List of active \c Script instances
 	 */
-	std::forward_list<std::reference_wrapper<Script>> get_scripts() const;
+	RefVector<Script> get_scripts() const;
 };
 
 } // namespace crepe

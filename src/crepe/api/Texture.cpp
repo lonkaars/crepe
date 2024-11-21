@@ -26,7 +26,7 @@ Texture::~Texture() {
 
 void Texture::load(unique_ptr<Asset> res) {
 	SDLContext & ctx = SDLContext::get_instance();
-	this->texture = std::move(ctx.texture_from_path(res->get_canonical()));
+	this->texture = std::move(ctx.texture_from_path(res->get_path()));
 }
 
 int Texture::get_width() const {
@@ -35,5 +35,5 @@ int Texture::get_width() const {
 }
 int Texture::get_height() const {
 	if (this->texture == nullptr) return 0;
-	return SDLContext::get_instance().get_width(*this);
+	return SDLContext::get_instance().get_height(*this);
 }
