@@ -127,4 +127,3 @@ TEST_F(ScriptTest, EventInactive) {
 	EXPECT_EQ(1, script.update_count);
 	EXPECT_EQ(1, script.event_count);
 }
-

@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "../util/OptionalRef.h"
 #include "../types.h"
+#include "../util/OptionalRef.h"
 
 #include "EventManager.h"
 
