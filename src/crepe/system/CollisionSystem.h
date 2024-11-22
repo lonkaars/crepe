@@ -22,7 +22,8 @@ public:
 private:
 	
 	//! A variant type that can hold either a BoxCollider or a CircleCollider.
-	using collider_stor = std::variant<BoxCollider, CircleCollider>;
+	// using collider_stor = std::variant<BoxCollider, CircleCollider>;
+	using collider_stor = std::variant<std::reference_wrapper<BoxCollider>, std::reference_wrapper<CircleCollider>>;
 
 	/**
 		* \brief A structure to store the collision data of a single collider.
