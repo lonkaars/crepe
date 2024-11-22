@@ -1,4 +1,6 @@
+#include "api/Animator.h"
 #include "api/Camera.h"
+#include "system/AnimatorSystem.h"
 #include "system/ParticleSystem.h"
 #include <SDL2/SDL_timer.h>
 #include <crepe/ComponentManager.h>
@@ -15,7 +17,6 @@
 #include <crepe/system/RenderSystem.h>
 
 #include <chrono>
-#include <iostream>
 #include <memory>
 
 using namespace crepe;
@@ -23,17 +24,20 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", Vector2{1000, 500}, 0, 2);
+	GameObject game_object = mgr.new_object("", "", Vector2{1000, 500}, 0, 1);
 	RenderSystem sys{mgr};
 	ParticleSystem psys{mgr};
+	AnimatorSystem asys{mgr};
 
 	Color color(255, 255, 255, 255);
 
 	Sprite & test_sprite = game_object.add_component<Sprite>(
-		make_shared<Texture>("asset/texture/test_ap43.png"), color, FlipSettings{false, false});
+		make_shared<Texture>("asset/spritesheet/spritesheet_test.png"), color, FlipSettings{true, true});
 	test_sprite.order_in_layer = 5;
 	test_sprite.width = 1000;
 	test_sprite.height = 500;
+
+	game_object.add_component<Animator>(test_sprite, 4,1,0).active = true;
 
 
 	/*
@@ -71,6 +75,7 @@ int main(int argc, char * argv[]) {
 	auto start = std::chrono::steady_clock::now();
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
 		psys.update();
+		asys.update();
 		sys.update();
 		SDL_Delay(10);
 	}

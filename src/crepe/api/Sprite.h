@@ -68,7 +68,13 @@ public:
 	//! height in world units
 	int height = 0;
 
-	const double aspect_ratio;
+	/**
+	 * \aspect_ratio ratio of the img so that scaling will not become weird
+	 *
+	 * cannot be const because if Animator component is addded then ratio becomes scuffed and
+	 * does it need to be calculated again in the Animator
+	 */
+	double aspect_ratio;
 
 public:
 	/**
@@ -90,7 +96,7 @@ private:
 	friend class AnimatorSystem;
 
 	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator
-	// object is present in GameObject
+	// object is present in GameObject. this is in sprite pixels
 	Rect sprite_rect;
 };
 
