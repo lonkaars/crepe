@@ -67,7 +67,7 @@ public:
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = {1,1},
 		.constraints = {0, 0, 0},
-		.use_gravity = false,
+		.use_gravity = true,
 		.bounce = true,
 		.elastisity = 1,
 		.offset = {0,0},
