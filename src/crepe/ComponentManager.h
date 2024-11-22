@@ -101,6 +101,15 @@ protected:
 	 * This method deletes all components.
 	 */
 	void delete_all_components();
+	/**
+	 * \brief Set a GameObject as persistent
+	 *
+	 * This method sets a GameObject as persistent. If a GameObject is persistent, its
+	 * components will not be deleted.
+	 *
+	 * \param id The id of the GameObject to set as persistent
+	 */
+	void set_persistent(game_object_id_t id);
 
 public:
 	/**
@@ -138,6 +147,9 @@ private:
 	 */
 	std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>>
 		components;
+
+	//! Persistent flag for each GameObject
+	std::vector<bool> persistent = {false};
 
 	//! ID of next GameObject allocated by \c ComponentManager::new_object
 	game_object_id_t next_id = 0;
