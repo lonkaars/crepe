@@ -11,19 +11,18 @@ namespace crepe {
  * modified *before* execution is handed over from the game programmer to the engine (i.e. the
  * main loop is started).
  */
-class Config {
+class Config final {
 public:
 	//! Retrieve handle to global Config instance
 	static Config & get_instance();
 
 private:
 	Config() = default;
-
-	// singleton
-	Config(const Config &) = delete;
-	Config(Config &&) = delete;
-	Config & operator=(const Config &) = delete;
-	Config & operator=(Config &&) = delete;
+	~Config() = default;
+	Config(const Config &) = default;
+	Config(Config &&) = default;
+	Config & operator=(const Config &) = default;
+	Config & operator=(Config &&) = default;
 
 public:
 	//! Logging-related settings
