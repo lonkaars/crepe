@@ -14,7 +14,7 @@ namespace crepe {
 class CircleCollider : public Collider {
 public:
 
-	CircleCollider(game_object_id_t game_object_id,Vector2 offset, int radius);
+	CircleCollider(game_object_id_t game_object_id,vec2 offset, int radius);
 
 	//! Radius of the circle collider.
 	double radius;

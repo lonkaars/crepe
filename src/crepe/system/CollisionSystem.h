@@ -65,7 +65,7 @@ public:
 	struct CollisionInfo{
     ColliderInfo first;
     ColliderInfo second;
-		Vector2 move_back_value;
+		vec2 move_back_value;
 		Direction move_back_direction = Direction::NONE;
 	};
 
@@ -98,7 +98,7 @@ private:
 		* \param final_position2 The final position of the second box collider.
 		* \return The move-back vector to resolve the collision.
 		*/
-	Vector2 box_box_collision_move_back(const BoxCollider& box_collider1,const BoxCollider& box_collider2,Vector2 position1,Vector2 position2);
+	vec2 box_box_collision_move_back(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 position1,vec2 position2);
 
 	/**
 		* \brief Determines the appropriate collision handler based on the rigidbody types of the colliding objects.
@@ -185,9 +185,9 @@ private: //detection
 		* \param collider The collider whose position is being determined.
 		* \param transform The transform component associated with the collider.
 		* \param rigidbody The rigidbody component associated with the collider.
-		* \return The current position of the collider as a Vector2.
+		* \return The current position of the collider as a vec2.
 		*/
-	Vector2 current_position(const Collider& collider, const Transform& transform, const Rigidbody& rigidbody);
+	vec2 current_position(const Collider& collider, const Transform& transform, const Rigidbody& rigidbody);
 };
 
 } // namespace crepe

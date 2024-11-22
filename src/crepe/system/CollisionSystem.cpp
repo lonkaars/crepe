@@ -15,6 +15,7 @@
 #include "ComponentManager.h"
 #include "CollisionSystem.h"
 #include "Collider.h"
+#include "types.h"
 
 using namespace crepe;
 
@@ -39,7 +40,7 @@ void CollisionSystem::collision_handler(CollidedInfoStor& data1,CollidedInfoStor
 	// Data needed for collision handler info
 	const Collider* collider1 = nullptr;
 	const Collider* collider2 = nullptr;
-	Vector2 move_back;
+	vec2 move_back;
 
 	// Check collision type and get values for handler
 	if (std::holds_alternative<std::reference_wrapper<BoxCollider>>(data1.collider)) {
@@ -53,8 +54,8 @@ void CollisionSystem::collision_handler(CollidedInfoStor& data1,CollidedInfoStor
 
 			// TODO: send with the collider info to this function because this is calculated previously
 			// Get the current position of the collider
-			Vector2 final_position1 = current_position(box_collider1,data1.transform,data1.rigidbody);
-			Vector2 final_position2 = current_position(box_collider2,data2.transform,data2.rigidbody);
+			vec2 final_position1 = current_position(box_collider1,data1.transform,data1.rigidbody);
+			vec2 final_position2 = current_position(box_collider2,data2.transform,data2.rigidbody);
 
 			// Determine move_back value for smallest overlap (x or y)
 			move_back = box_box_collision_move_back(box_collider1,box_collider2,final_position1,final_position2);
@@ -112,20 +113,20 @@ void CollisionSystem::collision_handler(CollidedInfoStor& data1,CollidedInfoStor
 }
 
 
-Vector2 CollisionSystem::box_box_collision_move_back(const BoxCollider& box_collider1,const BoxCollider& box_collider2,Vector2 final_position1,Vector2 final_position2)
+vec2 CollisionSystem::box_box_collision_move_back(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 final_position1,vec2 final_position2)
 {
-	Vector2 resolution; // Default resolution vector
-	Vector2 delta = final_position2 - final_position1;
+	vec2 resolution; // Default resolution vector
+	vec2 delta = final_position2 - final_position1;
 
 	// Compute half-dimensions of the boxes
-	double half_width1 = box_collider1.width / 2.0;
-	double half_height1 = box_collider1.height / 2.0;
-	double half_width2 = box_collider2.width / 2.0;
-	double half_height2 = box_collider2.height / 2.0;
+	float half_width1 = box_collider1.width / 2.0;
+	float half_height1 = box_collider1.height / 2.0;
+	float half_width2 = box_collider2.width / 2.0;
+	float half_height2 = box_collider2.height / 2.0;
 
 	// Calculate overlaps along X and Y axes
-	double overlap_x = (half_width1 + half_width2) - std::abs(delta.x);
-	double overlap_y = (half_height1 + half_height2) - std::abs(delta.y);
+	float overlap_x = (half_width1 + half_width2) - std::abs(delta.x);
+	float overlap_y = (half_height1 + half_height2) - std::abs(delta.y);
 
 	// Check if there is a collision
 	if (overlap_x > 0 && overlap_y > 0) {//should always be true check if this can be removed
@@ -288,14 +289,14 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 bool CollisionSystem::check_box_box_collision(const BoxCollider& box1, const BoxCollider& box2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2)
 {
 	// Get current positions of colliders
-	Vector2 final_position1 = current_position(box1,transform1,rigidbody1);
-	Vector2 final_position2 = current_position(box2,transform2,rigidbody2);
+	vec2 final_position1 = current_position(box1,transform1,rigidbody1);
+	vec2 final_position2 = current_position(box2,transform2,rigidbody2);
 
 	// Calculate half-extents (half width and half height)
-	double half_width1 = box1.width / 2.0;
-	double half_height1 = box1.height / 2.0;
-	double half_width2 = box2.width / 2.0;
-	double half_height2 = box2.height / 2.0;
+	float half_width1 = box1.width / 2.0;
+	float half_height1 = box1.height / 2.0;
+	float half_width2 = box2.width / 2.0;
+	float half_height2 = box2.height / 2.0;
 
 	// Check if the boxes overlap along the X and Y axes
 	return !(final_position1.x + half_width1 <= final_position2.x - half_width2 ||  // box1 is left of box2
@@ -306,21 +307,21 @@ bool CollisionSystem::check_box_box_collision(const BoxCollider& box1, const Box
 
 bool CollisionSystem::check_box_circle_collision(const BoxCollider& box1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2) {
 	// Get current positions of colliders
-	Vector2 final_position1 = current_position(box1, transform1, rigidbody1);
-	Vector2 final_position2 = current_position(circle2, transform2, rigidbody2);
+	vec2 final_position1 = current_position(box1, transform1, rigidbody1);
+	vec2 final_position2 = current_position(circle2, transform2, rigidbody2);
 
 	// Calculate box half-extents
-	double half_width = box1.width / 2.0;
-	double half_height = box1.height / 2.0;
+	float half_width = box1.width / 2.0;
+	float half_height = box1.height / 2.0;
 
 	// Find the closest point on the box to the circle's center
-	double closest_x = std::max(final_position1.x - half_width, std::min(final_position2.x, final_position1.x + half_width));
-	double closest_y = std::max(final_position1.y - half_height, std::min(final_position2.y, final_position1.y + half_height));
+	float closest_x = std::max(final_position1.x - half_width, std::min(final_position2.x, final_position1.x + half_width));
+	float closest_y = std::max(final_position1.y - half_height, std::min(final_position2.y, final_position1.y + half_height));
 
 	// Calculate the distance squared between the circle's center and the closest point on the box
-	double distance_x = final_position2.x - closest_x;
-	double distance_y = final_position2.y - closest_y;
-	double distance_squared = distance_x * distance_x + distance_y * distance_y;
+	float distance_x = final_position2.x - closest_x;
+	float distance_y = final_position2.y - closest_y;
+	float distance_squared = distance_x * distance_x + distance_y * distance_y;
 
 	// Compare distance squared with the square of the circle's radius
 	return distance_squared <= circle2.radius * circle2.radius;
@@ -328,32 +329,32 @@ bool CollisionSystem::check_box_circle_collision(const BoxCollider& box1, const 
 
 bool CollisionSystem::check_circle_circle_collision(const CircleCollider& circle1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2) {
 	// Get current positions of colliders
-	Vector2 final_position1 = current_position(circle1,transform1,rigidbody1);
-	Vector2 final_position2 = current_position(circle2,transform2,rigidbody2);
+	vec2 final_position1 = current_position(circle1,transform1,rigidbody1);
+	vec2 final_position2 = current_position(circle2,transform2,rigidbody2);
 
-	double distance_x = final_position1.x - final_position2.x;
-	double distance_y = final_position1.y - final_position2.y;
-	double distance_squared = distance_x * distance_x + distance_y * distance_y;
+	float distance_x = final_position1.x - final_position2.x;
+	float distance_y = final_position1.y - final_position2.y;
+	float distance_squared = distance_x * distance_x + distance_y * distance_y;
 
 	// Calculate the sum of the radii
-	double radius_sum = circle1.radius + circle2.radius;
+	float radius_sum = circle1.radius + circle2.radius;
 
 	// Check if the distance between the centers is less than or equal to the sum of the radii
 	return distance_squared <= radius_sum * radius_sum;
 }
 
-Vector2 CollisionSystem::current_position(const Collider& collider, const Transform& transform, const Rigidbody& rigidbody) {
+vec2 CollisionSystem::current_position(const Collider& collider, const Transform& transform, const Rigidbody& rigidbody) {
 	// Get the rotation in radians
-	double radians1 = transform.rotation * (M_PI / 180.0);
+	float radians1 = transform.rotation * (M_PI / 180.0);
 
 	// Calculate total offset with scale
-	Vector2 total_offset = (rigidbody.data.offset + collider.offset) * transform.scale;
+	vec2 total_offset = (rigidbody.data.offset + collider.offset) * transform.scale;
 
 	// Rotate
-	double rotated_total_offset_x1 = total_offset.x * cos(radians1) - total_offset.y * sin(radians1);
-	double rotated_total_offset_y1 = total_offset.x * sin(radians1) + total_offset.y * cos(radians1);
+	float rotated_total_offset_x1 = total_offset.x * cos(radians1) - total_offset.y * sin(radians1);
+	float rotated_total_offset_y1 = total_offset.x * sin(radians1) + total_offset.y * cos(radians1);
 
 	// Final positions considering scaling and rotation
-	return(transform.position + Vector2(rotated_total_offset_x1, rotated_total_offset_y1));
+	return(transform.position + vec2(rotated_total_offset_x1, rotated_total_offset_y1));
 
 }
