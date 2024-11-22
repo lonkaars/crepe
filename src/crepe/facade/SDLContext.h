@@ -116,11 +116,22 @@ private:
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
 	 * \param sprite Reference to the Sprite to draw.
 	 * \param transform Reference to the Transform for positioning.
-	 * \param camera Reference to the Camera for view adjustments.
+	 * \param cam_pos position of the current camera in the scene
+	 * \param cam_scale multiplier for the world to screen
 	 */
 	void draw(const Sprite & sprite, const Transform & transform, const Vector2 & cam_pos,
 			  const Vector2 & cam_scale);
 
+	/**
+	 * \brief Draws a particle to the screen using the specified parameters
+	 *
+	 * \param  sprite Referenceto the sprite to draw
+	 * \param  pos particle position in world units 
+	 * \param  angle particle angle in degrees
+	 * \param  cam_pos camera position in world units
+	 * \param  img_scale scalar multiplier to increase image size 
+	 * \param  cam_scale camera scalar for world to screen
+	 */
 	void draw_particle(const Sprite & sprite, const Vector2 & pos, const double & angle,
 					   const Vector2 & cam_pos, const double & img_scale,
 					   const Vector2 & cam_scale);
@@ -145,14 +156,15 @@ private:
 	 * \return sdl rectangle to draw a src image
 	 */
 	SDL_Rect get_src_rect(const Sprite & sprite) const;
+
 	/**
-	 * \brief calculates the sqaure size of the image for an destination
+	 * \brief calculates the sqaure size of the image for destination
 	 *
-	 * \param sprite Reference to the sprite to calculate the rectangle
-	 * \param pos the pos in pixel positions
-	 * \param scale the multiplier to increase of decrease for the specified sprite 
-	 * \param cam Reference to the current camera in the scene to calculate the position based
-	 * on the camera 
+	 * \param sprite Reference to the sprite to calculate rectangle
+	 * \param pos the pos in world units
+	 * \param cam_pos the camera position in world units
+	 * \param img_scale the image multiplier for increasing img size 
+	 * \param scale the multiplier for world to screen 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
 	SDL_Rect get_dst_rect(const Sprite & sprite, const Vector2 & pos, const Vector2 & cam_pos,
@@ -166,6 +178,7 @@ private:
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
 
 	//! viewport for the camera window
+	//todo change this so that it becomes a vec2 for only width and height
 	SDL_Rect viewport = {0, 0, 1280, 720};
 };
 
