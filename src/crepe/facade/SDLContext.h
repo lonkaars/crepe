@@ -133,7 +133,7 @@ private:
 	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	void set_camera(const Camera & camera);
+	void set_camera(Camera & camera);
 
 private:
 	/**
@@ -164,7 +164,7 @@ private:
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
 
 	//! viewport for the camera window
-	SDL_Rect viewport = {0, 0, 640, 480};
+	SDL_Rect viewport = {0, 0, 1280, 720};
 };
 
 } // namespace crepe

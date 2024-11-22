@@ -32,10 +32,10 @@ public:
 	Vector2 pos = {0, 0};
 
 	//! screen the display size in pixels ( output resolution )
-	Vector2 screen = {640, 480};
+	Vector2 screen = {1080, 720};
 
 	//! viewport is the area of the world visible through the camera (in world units)
-	Vector2 viewport = {500, 500};
+	Vector2 viewport = {2000, 1000};
 
 	//! scale scaling factor from world units to pixel coordinates
 	Vector2 scale = {0, 0};
