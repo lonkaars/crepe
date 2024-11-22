@@ -30,6 +30,9 @@ struct Vector2 {
 	//! Divides this vector by another vector element-wise and updates this vector.
 	Vector2 operator/(const Vector2 & other) const;
 
+	//! Divides a scalar value to both components of this vector and updates this vector.
+	Vector2 operator/(const double & other) const;
+
 	//! Adds another vector to this vector and updates this vector.
 	Vector2 & operator+=(const Vector2 & other);
 

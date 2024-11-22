@@ -3,6 +3,7 @@
 #include <functional>
 #include <vector>
 
+#include "api/Vector2.h"
 #include "facade/SDLContext.h"
 
 #include "System.h"
@@ -80,8 +81,12 @@ private:
 	//! Pointer to the current active camera for rendering
 	Camera * curr_cam_ref = nullptr;
 	// TODO: needs a better solution
+	
+	Vector2 scale;	
 
 	SDLContext & context = SDLContext::get_instance();
+
+
 };
 
 } // namespace crepe

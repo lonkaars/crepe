@@ -118,10 +118,9 @@ private:
 	 * \param transform Reference to the Transform for positioning.
 	 * \param camera Reference to the Camera for view adjustments.
 	 */
-	void draw(const Sprite & sprite, const Transform & transform, const Camera & camera);
+	void draw(const Sprite & sprite, const Transform & transform, const Vector2 & scale);
 
-	void draw_particle(const Sprite & sprite, const Vector2 & pos, const double & angle,
-					   const double & scale, const Camera & camera);
+	void draw_particle(const Sprite & sprite, const Vector2 & pos, const double & angle, const Vector2 & scale);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
@@ -133,7 +132,7 @@ private:
 	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	void set_camera(Camera & camera);
+	void set_camera(const Camera & camera, Vector2 & scale);
 
 private:
 	/**
@@ -153,8 +152,7 @@ private:
 	 * on the camera 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_Rect get_dst_rect(const Sprite & sprite, const Vector2 & pos, const double & scale,
-						  const Camera & cam) const;
+	SDL_Rect get_dst_rect(const Sprite & sprite, const Vector2 & pos, const Vector2 & scale) const;
 
 private:
 	//! sdl Window

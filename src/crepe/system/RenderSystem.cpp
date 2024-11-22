@@ -30,7 +30,7 @@ void RenderSystem::update_camera() {
 
 	for (Camera & cam : cameras) {
 		if (!cam.active) continue;
-		this->context.set_camera(cam);
+		this->context.set_camera(cam, this->scale);
 		this->curr_cam_ref = &cam;
 	}
 }
@@ -72,14 +72,13 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
-			this->context.draw_particle(sprite, p.position, p.angle, scale,
-										*this->curr_cam_ref);
+			this->context.draw_particle(sprite, p.position, p.angle, this->scale * scale);
 		}
 	}
 	return rendering_particles;
 }
 void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
-	this->context.draw(sprite, tm, *this->curr_cam_ref);
+	this->context.draw(sprite, tm, this->scale * tm.scale);
 }
 
 void RenderSystem::render() {

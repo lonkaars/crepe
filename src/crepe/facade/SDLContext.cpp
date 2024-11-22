@@ -9,6 +9,7 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -109,48 +110,60 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 	};
 }
 SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
-								  const double & scale, const Camera & cam) const {
+								  const Vector2 & scale) const {
+
+	int pixel_width, pixel_height;
+
+	if (sprite.sprite_rect.w > sprite.sprite_rect.h) {
+		pixel_width = static_cast<int>(sprite.width * scale.x);
+		pixel_height = static_cast<int>(pixel_width / sprite.aspect_ratio);
+	} else {
+		pixel_height = static_cast<int>(sprite.height * scale.y);
+		pixel_width = static_cast<int>(pixel_height * sprite.aspect_ratio);
+	}
+
+	int pixel_x = static_cast<int>((pos.x - pixel_width / 2));
+	int pixel_y = static_cast<int>((pos.y - pixel_height / 2));
 
 	return SDL_Rect{
-		.x = static_cast<int>(sprite.sprite_rect.x - 400 / 2),
-		.y = static_cast<int>(sprite.sprite_rect.y - 300 / 2),
-		.w = static_cast<int>(400),
-		.h = static_cast<int>(300),
+		.x = pixel_x,
+		.y = pixel_y,
+		.w = pixel_width,
+		.h = pixel_height,
 	};
 }
 
 void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
-							   const double & angle, const double & scale,
-							   const Camera & camera) {
+							   const double & angle, const Vector2 & scale) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(sprite);
-	SDL_Rect dstrect = this->get_dst_rect(sprite, pos, scale, camera);
+	SDL_Rect dstrect = this->get_dst_rect(sprite, pos, scale);
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
 					 &dstrect, angle, NULL, render_flip);
 }
 
-void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Camera & cam) {
+void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Vector2 & scale) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(sprite);
-	SDL_Rect dstrect = this->get_dst_rect(sprite, transform.position, transform.scale, cam);
+	SDL_Rect dstrect = this->get_dst_rect(sprite, transform.position, scale);
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
 					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
-void SDLContext::set_camera(Camera & cam) {
+void SDLContext::set_camera(const Camera & cam, Vector2 & scale) {
 
-	if (this->viewport.w != (int)cam.screen.x && this->viewport.h != (int)cam.screen.y) {
-		SDL_SetWindowSize(this->game_window.get(), (int)cam.screen.x, (int)cam.screen.y);
+	if (this->viewport.w != (int) cam.screen.x && this->viewport.h != (int) cam.screen.y) {
+		SDL_SetWindowSize(this->game_window.get(), (int) cam.screen.x, (int) cam.screen.y);
 		this->viewport.h = cam.screen.y;
 		this->viewport.w = cam.screen.x;
 	}
@@ -158,16 +171,18 @@ void SDLContext::set_camera(Camera & cam) {
 	double screen_aspect = cam.screen.x / cam.screen.y;
 	double viewport_aspect = cam.viewport.x / cam.viewport.y;
 
+	scale = cam.screen / cam.viewport * cam.zoom;
+
 	SDL_Rect view;
 
 	if (screen_aspect > viewport_aspect) {
-		view.h = static_cast<int>(cam.screen.y);
+		view.h = static_cast<int>(cam.screen.y / cam.zoom);
 		view.w = static_cast<int>(cam.screen.y * viewport_aspect);
 		view.x = static_cast<int>(cam.screen.x - view.w) / 2;
 		view.y = 0;
 	} else {
-		view.w = static_cast<int>(cam.screen.x);
 		view.h = static_cast<int>(cam.screen.x / viewport_aspect);
+		view.w = static_cast<int>(cam.screen.x / cam.zoom);
 		view.x = 0;
 		view.y = static_cast<int>(cam.screen.y - view.h) / 2;
 	}
@@ -175,7 +190,7 @@ void SDLContext::set_camera(Camera & cam) {
 
 	SDL_RenderSetLogicalSize(this->game_renderer.get(), cam.viewport.x, cam.viewport.y);
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
-						cam.bg_color.b, cam.bg_color.a);
+						   cam.bg_color.b, cam.bg_color.a);
 	SDL_Rect bg = {
 		.x = 0,
 		.y = 0,
@@ -183,45 +198,6 @@ void SDLContext::set_camera(Camera & cam) {
 		.h = static_cast<int>(cam.viewport.y),
 	};
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
-
-	/*
-	float offset_x = 0, offset_y = 0;
-
-
-	double scale_factor = min(cam.screen.x / cam.viewport.x, cam.screen.y / cam.viewport.y);
-	cam.scale.x = scale_factor * cam.viewport.x;
-	cam.scale.y = scale_factor * cam.viewport.y;
-
-	offset_x = (cam.screen.x - cam.scale.x) / 2;
-	offset_y = (cam.screen.y - cam.scale.y) / 2;
-
-	float bar_w = cam.screen.x - cam.scale.x;
-	float bar_h = cam.screen.y - cam.scale.y;
-
-	SDL_SetRenderDrawColor(this->game_renderer.get(), 0, 0, 0, 255);
-	if (bar_w > 0) {
-		SDL_Rect left_bar = {0, 0, static_cast<int>(offset_x), static_cast<int>(cam.screen.y)};
-		SDL_RenderDrawRect(this->game_renderer.get(), &left_bar);
-
-		SDL_Rect right_bar = {static_cast<int>(offset_x + cam.scale.x), 0,
-							  static_cast<int>(offset_x), static_cast<int>(cam.screen.y)};
-		SDL_RenderDrawRect(this->game_renderer.get(), &right_bar);
-	}
-
-	if (screen_aspect > viewport_aspect) {
-		// pillarboxing
-		cam.scale.x = cam.scale.y = cam.screen.x / cam.viewport.x;
-		offset_y = (cam.screen.y - (cam.viewport.y * cam.scale.y)) / 2;
-	} else if (screen_aspect < viewport_aspect) {
-		// lettor boxing
-		cam.scale.y = cam.scale.x = cam.screen.y / zoomed_viewport.y;
-		offset_x = (cam.screen.x - (cam.viewport.x * cam.scale.x)) / 2;
-	} else {
-		// screen ration is even
-		offset_y = (cam.screen.y - (cam.viewport.y * cam.scale.y)) / 2;
-		offset_x = (cam.screen.x - (cam.viewport.x * cam.scale.x)) / 2;
-	}
-	*/
 }
 
 uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
