@@ -35,6 +35,21 @@ public:
 	string get_name() const { return "scene2"; }
 };
 
+class ConcreteScene3 : public Scene {
+public:
+	ConcreteScene3(const string & name) : name(name) {}
+
+	void load_scene() {
+		ComponentManager & mgr = this->component_manager;
+		GameObject object1 = mgr.new_object("scene_3", "tag_scene_3", Vector2{0, 0}, 0, 1);
+	}
+
+	string get_name() const { return name; }
+
+private:
+	const string name;
+};
+
 class SceneManagerTest : public ::testing::Test {
 public:
 	ComponentManager component_mgr{};
@@ -119,4 +134,26 @@ TEST_F(SceneManagerTest, loadScene) {
 	EXPECT_EQ(metadata[3].get().children.size(), 0);
 	EXPECT_EQ(transform[3].get().position.x, 0);
 	EXPECT_EQ(transform[3].get().position.y, 3);
+}
+
+TEST_F(SceneManagerTest, perfectForwarding) {
+	scene_mgr.add_scene<ConcreteScene3>("scene3");
+	
+	scene_mgr.load_next_scene();
+
+	vector<reference_wrapper<Metadata>> metadata
+		= component_mgr.get_components_by_type<Metadata>();
+	vector<reference_wrapper<Transform>> transform
+		= component_mgr.get_components_by_type<Transform>();
+
+	EXPECT_EQ(metadata.size(), 1);
+	EXPECT_EQ(transform.size(), 1);
+
+	EXPECT_EQ(metadata[0].get().game_object_id, 0);
+	EXPECT_EQ(metadata[0].get().name, "scene_3");
+	EXPECT_EQ(metadata[0].get().tag, "tag_scene_3");
+	EXPECT_EQ(metadata[0].get().parent, -1);
+	EXPECT_EQ(metadata[0].get().children.size(), 0);
+	EXPECT_EQ(transform[0].get().position.x, 0);
+	EXPECT_EQ(transform[0].get().position.y, 0);
 }
