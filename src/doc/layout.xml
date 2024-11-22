@@ -2,8 +2,11 @@
 <doxygenlayout version="1.0">
 	<navindex>
 		<tab type="mainpage" visible="yes" title=""/>
+		<tab type="user" url="@ref install" title="Installation"/>
+		<tab type="user" url="@ref feature" title="Features"/>
+		<tab type="user" url="@ref internal" title="Internals"/>
 		<tab type="pages" visible="no" title="" intro=""/>
-		<tab type="topics" visible="yes" title="" intro=""/>
+		<tab type="topics" visible="no" title="" intro=""/>
 		<tab type="modules" visible="yes" title="" intro="">
 			<tab type="modulelist" visible="yes" title="" intro=""/>
 			<tab type="modulemembers" visible="yes" title="" intro=""/>
