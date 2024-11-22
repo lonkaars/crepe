@@ -39,11 +39,14 @@ public:
 	 * \brief Set the concrete script of this component
 	 *
 	 * \tparam T Concrete script type (derived from \c crepe::Script)
+	 * \tparam Args Arguments for concrete script constructor
+	 *
+	 * \param args Arguments for concrete script constructor (forwarded using perfect forwarding)
 	 *
 	 * \returns Reference to BehaviorScript component (`*this`)
 	 */
-	template <class T>
-	BehaviorScript & set_script();
+	template <class T, typename... Args>
+	BehaviorScript & set_script(Args &&... args);
 
 protected:
 	//! Script instance
