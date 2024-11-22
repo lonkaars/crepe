@@ -42,12 +42,12 @@ void CollisionSystem::collision_handler(CollidedInfoStor& data1,CollidedInfoStor
 	Vector2 move_back;
 
 	// Check collision type and get values for handler
-	if (std::holds_alternative<BoxCollider>(data1.collider)) {
-		if (std::holds_alternative<BoxCollider>(data2.collider)) {
+	if (std::holds_alternative<std::reference_wrapper<BoxCollider>>(data1.collider)) {
+		if (std::holds_alternative<std::reference_wrapper<BoxCollider>>(data2.collider)) {
 			
 			// Get colliders from variant to be used to determine collision handler info
-			const BoxCollider& box_collider1 = std::get<BoxCollider>(data1.collider);
-			const BoxCollider& box_collider2 = std::get<BoxCollider>(data2.collider);
+			const BoxCollider& box_collider1 = std::get<std::reference_wrapper<BoxCollider>>(data1.collider).get();
+			const BoxCollider& box_collider2 = std::get<std::reference_wrapper<BoxCollider>>(data2.collider).get();
 			collider1 = &box_collider1;
 			collider2 = &box_collider2;
 
@@ -62,24 +62,24 @@ void CollisionSystem::collision_handler(CollidedInfoStor& data1,CollidedInfoStor
 		}
 		else {
 			// TODO: calcualte Box - Circle collision info
-			const BoxCollider& box_collider = std::get<BoxCollider>(data1.collider);
-			const CircleCollider& circle_collider = std::get<CircleCollider>(data2.collider);
+			const BoxCollider& box_collider = std::get<std::reference_wrapper<BoxCollider>>(data1.collider).get();
+			const CircleCollider& circle_collider = std::get<std::reference_wrapper<CircleCollider>>(data2.collider).get();
 			collider1 = &box_collider;
 			collider2 = &circle_collider;
 		}
 	}
 	else {
-		if (std::holds_alternative<CircleCollider>(data2.collider)) {
+		if (std::holds_alternative<std::reference_wrapper<CircleCollider>>(data2.collider)) {
 			// TODO: calcualte Circle - Circle collision info
-			const CircleCollider& circle_collider1 = std::get<CircleCollider>(data1.collider);
-			const CircleCollider& circle_collider2 = std::get<CircleCollider>(data2.collider);
+			const CircleCollider& circle_collider1 = std::get<std::reference_wrapper<CircleCollider>>(data1.collider).get();
+			const CircleCollider& circle_collider2 = std::get<std::reference_wrapper<CircleCollider>>(data2.collider).get();
 			collider1 = &circle_collider1;
 			collider2 = &circle_collider2;
 		}
 		else {
 			// TODO: calcualte Circle - Box collision info
-			const CircleCollider& circle_collider = std::get<CircleCollider>(data1.collider);
-			const BoxCollider& box_collider = std::get<BoxCollider>(data2.collider);
+			const CircleCollider& circle_collider = std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
+			const BoxCollider& box_collider = std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
 			collider1 = &circle_collider;
 			collider2 = &box_collider;
 		}
@@ -222,8 +222,8 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 			// Check collision
 			if (check_box_box_collision(boxcolliders[i], boxcolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
 				collisions_ret.emplace_back(std::make_pair(
-				CollidedInfoStor{boxcolliders[i], transform1, rigidbody1}, 
-				CollidedInfoStor{boxcolliders[j], transform2, rigidbody2}
+				CollidedInfoStor{boxcolliders[i].get(), transform1, rigidbody1}, 
+				CollidedInfoStor{boxcolliders[j].get(), transform2, rigidbody2}
 				));
 			}
 		}
@@ -245,8 +245,8 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 			if (check_box_circle_collision(boxcolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
 				
 				collisions_ret.emplace_back(std::make_pair(
-				CollidedInfoStor{boxcolliders[i], transform1, rigidbody1}, 
-				CollidedInfoStor{circlecolliders[j], transform2, rigidbody2}
+				CollidedInfoStor{boxcolliders[i].get(), transform1, rigidbody1}, 
+				CollidedInfoStor{circlecolliders[j].get(), transform2, rigidbody2}
 				));
 			}
 		}
@@ -276,8 +276,8 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 			// Check collision
 			if (check_circle_circle_collision(circlecolliders[i], circlecolliders[j], transform1, transform2, rigidbody1, rigidbody2)) {
 				collisions_ret.emplace_back(std::make_pair(
-				CollidedInfoStor{circlecolliders[i], transform1, rigidbody1}, 
-				CollidedInfoStor{circlecolliders[j], transform2, rigidbody2}
+				CollidedInfoStor{circlecolliders[i].get(), transform1, rigidbody1}, 
+				CollidedInfoStor{circlecolliders[j].get(), transform2, rigidbody2}
 				));
 			}
 		}
