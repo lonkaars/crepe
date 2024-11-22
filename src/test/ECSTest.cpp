@@ -136,6 +136,53 @@ TEST_F(ECSTest, manyGameObjects) {
 
 	EXPECT_EQ(metadata.size(), 10000 - 5000);
 	EXPECT_EQ(transform.size(), 10000);
+
+	for (int i = 0; i < 10000 - 5000; i++) {
+		EXPECT_EQ(metadata[i].get().game_object_id, i + 5000);
+		EXPECT_EQ(metadata[i].get().name, "body");
+		EXPECT_EQ(metadata[i].get().tag, "person" + to_string(i));
+		EXPECT_EQ(metadata[i].get().parent, -1);
+		EXPECT_EQ(metadata[i].get().children.size(), 0);
+
+		EXPECT_EQ(transform[i].get().game_object_id, i);
+		EXPECT_EQ(transform[i].get().position.x, 0);
+		EXPECT_EQ(transform[i].get().position.y, 0);
+		EXPECT_EQ(transform[i].get().rotation, 0);
+		EXPECT_EQ(transform[i].get().scale, i);
+	}
+
+	mgr.delete_all_components();
+
+	metadata = mgr.get_components_by_type<Metadata>();
+	transform = mgr.get_components_by_type<Transform>();
+
+	EXPECT_EQ(metadata.size(), 0);
+	EXPECT_EQ(transform.size(), 0);
+
+	for (int i = 0; i < 10000; i++) {
+		string name = "body" + to_string(i);
+		GameObject obj = mgr.new_object(name, "person", Vector2{0, 0}, 0, 0);
+	}
+
+	metadata = mgr.get_components_by_type<Metadata>();
+	transform = mgr.get_components_by_type<Transform>();
+
+	EXPECT_EQ(metadata.size(), 10000);
+	EXPECT_EQ(transform.size(), 10000);
+
+	for (int i = 0; i < 10000; i++) {
+		EXPECT_EQ(metadata[i].get().game_object_id, i);
+		EXPECT_EQ(metadata[i].get().name, "body" + to_string(i));
+		EXPECT_EQ(metadata[i].get().tag, "person");
+		EXPECT_EQ(metadata[i].get().parent, -1);
+		EXPECT_EQ(metadata[i].get().children.size(), 0);
+
+		EXPECT_EQ(transform[i].get().game_object_id, i);
+		EXPECT_EQ(transform[i].get().position.x, 0);
+		EXPECT_EQ(transform[i].get().position.y, 0);
+		EXPECT_EQ(transform[i].get().rotation, 0);
+		EXPECT_EQ(transform[i].get().scale, 0);
+	}
 }
 
 TEST_F(ECSTest, getComponentsByID) {
