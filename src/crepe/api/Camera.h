@@ -38,10 +38,8 @@ public:
 	Vector2 viewport = {2000, 1000};
 
 	//! scale scaling factor from world units to pixel coordinates
-	Vector2 scale = {0, 0};
-
 	//! Zoom level of the camera view.
-	double zoom = 1.0f;
+	double zoom = 1.5f;
 
 public:
 	/**

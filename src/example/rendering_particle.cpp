@@ -23,7 +23,7 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", Vector2{400, 300}, 0, 0.1);
+	GameObject game_object = mgr.new_object("", "", Vector2{1000, 500}, 0, 2);
 	RenderSystem sys{mgr};
 	ParticleSystem psys{mgr};
 
@@ -32,6 +32,8 @@ int main(int argc, char * argv[]) {
 	Sprite & test_sprite = game_object.add_component<Sprite>(
 		make_shared<Texture>("asset/texture/test_ap43.png"), color, FlipSettings{false, false});
 	test_sprite.order_in_layer = 5;
+	test_sprite.width = 1000;
+	test_sprite.height = 500;
 
 
 	/*

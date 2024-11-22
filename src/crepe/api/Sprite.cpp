@@ -15,7 +15,9 @@ Sprite::Sprite(game_object_id_t id, const shared_ptr<Texture> image, const Color
 	: Component(id),
 	  color(color),
 	  flip(flip),
-	  sprite_image(image) {
+	  sprite_image(image),
+	  aspect_ratio(sprite_image->get_width() / sprite_image->get_height())
+{
 	dbg_trace();
 
 	this->sprite_rect.w = sprite_image->get_width();

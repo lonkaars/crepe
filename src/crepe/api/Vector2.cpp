@@ -40,6 +40,10 @@ Vector2 Vector2::operator/(const Vector2 & other) const {
 	return {this->x / other.x, this->y / other.y};
 }
 
+Vector2 Vector2::operator/(const double & other) const {
+	return {this->x / other, this->y / other};
+}
+
 Vector2 Vector2::operator-() const { return {-x, -y}; }
 
 bool Vector2::operator==(const Vector2 & other) const { return x == other.x && y == other.y; }

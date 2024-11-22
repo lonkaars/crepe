@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <sys/types.h>
 
 #include "../Component.h"
 
@@ -61,6 +62,13 @@ public:
 	uint8_t sorting_in_layer = 0;
 	//! Order within the sorting layer
 	uint8_t order_in_layer = 0;
+
+	//! width in world units
+	int width = 0;
+	//! height in world units
+	int height = 0;
+
+	const double aspect_ratio;
 
 public:
 	/**
