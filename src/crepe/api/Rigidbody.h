@@ -78,7 +78,7 @@ public:
 		//! bounce factor of material
 		double elastisity = 0.0;
 		//! offset of all colliders relative to transform position
-		Vector2 offset;
+		vec2 offset;
 	};
 
 public:
