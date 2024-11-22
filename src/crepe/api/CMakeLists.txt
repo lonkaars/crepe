@@ -24,6 +24,7 @@ target_sources(crepe PUBLIC
 	LoopTimer.cpp
 	Asset.cpp
 	EventHandler.cpp
+	Script.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
