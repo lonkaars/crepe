@@ -48,7 +48,6 @@ void AudioSystem::update() {
 		 *   play/pause/retrigger behavior).
 		 */
 		Sound & sound = this->resman.cache<Sound>(component.source);
-		sound.set_context(this->context);
 
 		// TODO: lots of state diffing
 	}

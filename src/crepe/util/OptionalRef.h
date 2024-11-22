@@ -23,7 +23,15 @@ public:
 	 *
 	 * \return Reference to this (required for operator)
 	 */
-  OptionalRef<T> & operator=(T & ref);
+	OptionalRef<T> & operator=(T & ref);
+	/**
+	 * \brief Retrieve this reference
+	 *
+	 * \returns Internal reference if it is set
+	 *
+	 * \throws std::runtime_error if this function is called while the reference it not set
+	 */
+	operator T &() const;
 	/**
 	 * \brief Check if this reference is not empty
 	 *
@@ -32,32 +40,9 @@ public:
 	explicit operator bool() const noexcept;
 
 	/**
-	 * \brief Assign new reference
-	 *
-	 * \param ref Reference to assign
-	 */
-	void set(T &) noexcept;
-	/**
-	 * \brief Retrieve this reference
-	 *
-	 * \returns Internal reference if it is set
-	 *
-	 * \throws std::runtime_error if this function is called while the reference it not set
-	 */
-	T & get() const;
-	/**
 	 * \brief Make this reference empty
 	 */
 	void clear() noexcept;
-
-	//! Copy constructor
-  OptionalRef(const OptionalRef<T> &);
-	//! Move constructor
-  OptionalRef(OptionalRef<T> &&);
-	//! Copy assignment
-  OptionalRef<T> & operator=(const OptionalRef<T> &);
-	//! Move assignment
-  OptionalRef<T> & operator=(OptionalRef<T> &&);
 
 private:
 	/**
@@ -68,7 +53,6 @@ private:
 	T * ref = nullptr;
 };
 
-}
+} // namespace crepe
 
 #include "OptionalRef.hpp"
-

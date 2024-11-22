@@ -3,7 +3,6 @@
 #include <soloud/soloud.h>
 #include <soloud/soloud_wav.h>
 
-#include "../util/OptionalRef.h"
 #include "../Resource.h"
 
 namespace crepe {
@@ -26,7 +25,7 @@ public:
 	 * Pauses this sound if it is playing, or does nothing if it is already paused. The playhead
 	 * position is saved, such that calling \c play() after this function makes the sound resume.
 	 */
-	void pause();
+	void pause(SoundContext & ctx);
 	/**
 	 * \brief Play this sample
 	 *
@@ -36,7 +35,7 @@ public:
 	 * \c play() while the sound is already playing causes multiple instances of the sample to
 	 * play simultaniously. The sample started last is the one that is controlled afterwards.
 	 */
-	void play();
+	void play(SoundContext & ctx);
 	/**
 	 * \brief Reset playhead position
 	 * 
@@ -44,13 +43,13 @@ public:
 	 * from the start of the sample. If the sound is not paused before calling this function,
 	 * this function will stop playback.
 	 */
-	void rewind();
+	void rewind(SoundContext & ctx);
 	/**
 	 * \brief Set playback volume / gain
 	 *
 	 * \param volume  Volume (0 = muted, 1 = full volume)
 	 */
-	void set_volume(float volume);
+	void set_volume(SoundContext & ctx, float volume);
 	/**
 	 * \brief Get playback volume / gain
 	 *
@@ -62,7 +61,7 @@ public:
 	 *
 	 * \param looping  Looping behavior (false = one-shot, true = loop)
 	 */
-	void set_looping(bool looping);
+	void set_looping(SoundContext & ctx, bool looping);
 	/**
 	 * \brief Get looping behavior
 	 *
@@ -70,13 +69,9 @@ public:
 	 */
 	bool get_looping() const { return this->looping; }
 
-public:
-	void set_context(SoundContext & ctx);
-
 private:
 	SoLoud::Wav sample;
 	SoLoud::handle handle;
-	OptionalRef<SoundContext> context;
 
 	float volume = 1.0f;
 	bool looping = false;

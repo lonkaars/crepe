@@ -32,6 +32,7 @@ This project uses the following libraries
 |`SoLoud`|(latest git `master` version)|
 |Google Test (`GTest`)|1.15.2|
 |Berkeley DB (`libdb`)|5.3.21|
+|Where Am I?|(latest git `master` version)
 
 > [!NOTE]
 > Most of these libraries are likely available from your package manager if you
@@ -49,6 +50,11 @@ $ git submodule update --init --recursive --depth 1
 
 Then, follow these steps for each library you want to install:
 
+> [!IMPORTANT]
+> A dollar sign prompt (`$`) indicates commands to be run as a regular user,
+> while a hashtag (`#`) is used to denote commands that must be run with
+> privileges (e.g. as root or using `sudo`).
+
 1. Change into the library folder (run **one** of these):
    ```
    $ cd lib/googletest
@@ -56,6 +62,7 @@ Then, follow these steps for each library you want to install:
    $ cd lib/soloud/contrib
    $ cd lib/sdl_image
    $ cd lib/sdl_ttf
+   $ cd lib/whereami
    ```
 2. Use CMake to configure the build, run the build and install (run **all** of
    these):

@@ -10,18 +10,12 @@ using namespace testing;
 class AssetTest : public Test {
 public:
 	Config & cfg = Config::get_instance();
-	void SetUp() override {
-		this->cfg.asset.root_pattern = ".crepe-root";
-	}
+	void SetUp() override { this->cfg.asset.root_pattern = ".crepe-root"; }
 };
 
-TEST_F(AssetTest, Existant) {
-	ASSERT_NO_THROW(Asset{"asset/texture/img.png"});
-}
+TEST_F(AssetTest, Existant) { ASSERT_NO_THROW(Asset{"asset/texture/img.png"}); }
 
-TEST_F(AssetTest, Nonexistant) {
-	ASSERT_ANY_THROW(Asset{"asset/nonexistant"});
-}
+TEST_F(AssetTest, Nonexistant) { ASSERT_ANY_THROW(Asset{"asset/nonexistant"}); }
 
 TEST_F(AssetTest, Rootless) {
 	cfg.asset.root_pattern.clear();
@@ -30,4 +24,3 @@ TEST_F(AssetTest, Rootless) {
 	Asset asset{arbitrary};
 	ASSERT_EQ(arbitrary, asset.get_path());
 }
-
