@@ -26,8 +26,7 @@ void ComponentManager::delete_all_components() {
 }
 
 GameObject ComponentManager::new_object(const string & name, const string & tag,
-										const Vector2<double> & position, double rotation,
-										double scale) {
+										const vec2 & position, double rotation, double scale) {
 	GameObject object{*this, this->next_id, name, tag, position, rotation, scale};
 	this->next_id++;
 	return object;

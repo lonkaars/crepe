@@ -46,8 +46,8 @@ public:
 
 	void load_scene() {
 		auto & mgr = this->component_manager;
-		GameObject object1 = mgr.new_object("object1", "tag_my_scene", Vector2<double>{0, 0}, 0, 1);
-		GameObject object2 = mgr.new_object("object2", "tag_my_scene", Vector2<double>{1, 0}, 0, 1);
+		GameObject object1 = mgr.new_object("object1", "tag_my_scene", vec2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("object2", "tag_my_scene", vec2{1, 0}, 0, 1);
 	}
 
 	string get_name() const { return "my_scene"; }

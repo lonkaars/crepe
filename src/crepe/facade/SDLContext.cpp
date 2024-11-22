@@ -104,7 +104,7 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 		.h = sprite.sprite_rect.h,
 	};
 }
-SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2<double> & pos,
+SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos,
 								  const double & scale, const Camera & cam) const {
 
 	double adjusted_x = (pos.x - cam.x) * cam.zoom;
@@ -120,9 +120,8 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2<double> &
 	};
 }
 
-void SDLContext::draw_particle(const Sprite & sprite, const Vector2<double> & pos,
-							   const double & angle, const double & scale,
-							   const Camera & camera) {
+void SDLContext::draw_particle(const Sprite & sprite, const vec2 & pos, const double & angle,
+							   const double & scale, const Camera & camera) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)

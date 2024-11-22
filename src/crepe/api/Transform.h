@@ -1,8 +1,7 @@
 #pragma once
 
-#include "api/Vector2.h"
-
 #include "Component.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -15,7 +14,7 @@ namespace crepe {
 class Transform : public Component {
 public:
 	//! Translation (shift)
-	Vector2<double> position = {0, 0};
+	vec2 position = {0, 0};
 	//! Rotation, in degrees
 	double rotation = 0;
 	//! Multiplication factor
@@ -28,8 +27,7 @@ protected:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	Transform(game_object_id_t id, const Vector2<double> & point, double rotation,
-			  double scale);
+	Transform(game_object_id_t id, const vec2 & point, double rotation, double scale);
 	/**
 	 * There is always exactly one transform component per entity
 	 * \return 1

@@ -20,12 +20,12 @@ public:
 		vector<reference_wrapper<Transform>> transforms
 			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
-			auto entity = mgr.new_object("", "", Vector2<double>{0, 0}, 0, 0);
+			auto entity = mgr.new_object("", "", vec2{0, 0}, 0, 0);
 			entity.add_component<Rigidbody>(Rigidbody::Data{
 				.mass = 1,
 				.gravity_scale = 1,
 				.body_type = Rigidbody::BodyType::DYNAMIC,
-				.max_linear_velocity = Vector2<double>{10, 10},
+				.max_linear_velocity = vec2{10, 10},
 				.max_angular_velocity = 10,
 				.constraints = {0, 0},
 				.use_gravity = true,
