@@ -17,12 +17,14 @@ using namespace crepe;
 using namespace std;
 
 class MyScript : public Script {
-	static bool oncollision(const CollisionEvent& test) {
+	bool oncollision(const CollisionEvent& test) {
 		Log::logf("Box {} script on_collision()", test.info.first.collider.game_object_id);
 		return true;
 	}
 	void init() {
-		EventManager::get_instance().subscribe<CollisionEvent>(oncollision, 0);
+		subscribe<CollisionEvent>([this](const CollisionEvent& ev) -> bool {
+			return this->oncollision(ev);
+		});
 	}
 	void update() {
 		// Retrieve component from the same GameObject this script is on
