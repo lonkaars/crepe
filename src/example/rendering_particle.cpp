@@ -23,16 +23,18 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", Vector2{100, 100}, 0, 0.1);
+	GameObject game_object = mgr.new_object("", "", Vector2{400, 300}, 0, 0.1);
 	RenderSystem sys{mgr};
 	ParticleSystem psys{mgr};
 
 	Color color(255, 255, 255, 255);
 
 	Sprite & test_sprite = game_object.add_component<Sprite>(
-		make_shared<Texture>("../asset/texture/img.png"), color, FlipSettings{false, false});
+		make_shared<Texture>("asset/texture/test_ap43.png"), color, FlipSettings{false, false});
 	test_sprite.order_in_layer = 5;
 
+
+	/*
 	auto & test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
 		.max_particles = 10,
@@ -52,13 +54,17 @@ int main(int argc, char * argv[]) {
 		},
 		.sprite = test_sprite,
 	});
+	*/
+
 	game_object.add_component<Camera>(Color::WHITE);
 
+	/*
 	game_object
-		.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"), color,
+		.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"), color,
 							   FlipSettings{false, false})
 		.order_in_layer
 		= 6;
+	*/
 
 	auto start = std::chrono::steady_clock::now();
 	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {

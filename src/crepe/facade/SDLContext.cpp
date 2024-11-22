@@ -5,12 +5,12 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_video.h>
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
 #include <functional>
 #include <memory>
 #include <stdexcept>
-#include <string>
 
 #include "../api/Camera.h"
 #include "../api/Sprite.h"
@@ -94,7 +94,10 @@ void SDLContext::handle_events(bool & running) {
 	*/
 }
 
-void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
+void SDLContext::clear_screen() {
+	SDL_SetRenderDrawColor(this->game_renderer.get(), 0, 0, 0, 255);
+	SDL_RenderClear(this->game_renderer.get());
+}
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
 
 SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
@@ -108,20 +111,11 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
 								  const double & scale, const Camera & cam) const {
 
-	Vector2 pixel_coord = (transform.position - cam.pos) * cam.scale;
-	double pixel_w = sprite.sprite_rect.w * transform.scale * cam.scale.x;
-	double pixel_h = sprite.sprite_rect.h * transform.scale * cam.scale.y;
-
-	double adjusted_x = (pos.x - cam.x) * cam.zoom;
-	double adjusted_y = (pos.y - cam.y) * cam.zoom;
-	double adjusted_w = sprite.sprite_rect.w * scale * cam.zoom;
-	double adjusted_h = sprite.sprite_rect.h * scale * cam.zoom;
-
 	return SDL_Rect{
-		.x = static_cast<int>(adjusted_x),
-		.y = static_cast<int>(adjusted_y),
-		.w = static_cast<int>(adjusted_w),
-		.h = static_cast<int>(adjusted_h),
+		.x = static_cast<int>(sprite.sprite_rect.x - 400 / 2),
+		.y = static_cast<int>(sprite.sprite_rect.y - 300 / 2),
+		.w = static_cast<int>(400),
+		.h = static_cast<int>(300),
 	};
 }
 
@@ -153,27 +147,81 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
-void SDLContext::set_camera(const Camera & cam) {
+void SDLContext::set_camera(Camera & cam) {
 
+	if (this->viewport.w != (int)cam.screen.x && this->viewport.h != (int)cam.screen.y) {
+		SDL_SetWindowSize(this->game_window.get(), (int)cam.screen.x, (int)cam.screen.y);
+		this->viewport.h = cam.screen.y;
+		this->viewport.w = cam.screen.x;
+	}
 
 	double screen_aspect = cam.screen.x / cam.screen.y;
 	double viewport_aspect = cam.viewport.x / cam.viewport.y;
-	Vector2 zoomed_viewport = cam.viewport * cam.zoom;
+
+	SDL_Rect view;
 
 	if (screen_aspect > viewport_aspect) {
-		cam.scale.x = cam.scale.y = cam.screen.x / zoomed_viewport.x;
+		view.h = static_cast<int>(cam.screen.y);
+		view.w = static_cast<int>(cam.screen.y * viewport_aspect);
+		view.x = static_cast<int>(cam.screen.x - view.w) / 2;
+		view.y = 0;
 	} else {
-		cam.scale.y = cam.scale.x = cam.screen.y / zoomed_viewport.y;
+		view.w = static_cast<int>(cam.screen.x);
+		view.h = static_cast<int>(cam.screen.x / viewport_aspect);
+		view.x = 0;
+		view.y = static_cast<int>(cam.screen.y - view.h) / 2;
 	}
+	SDL_RenderSetViewport(this->game_renderer.get(), &view);
 
-	if (this->viewport.w != cam.screen.x && this->viewport.h != cam.screen.y) {
-		this->viewport.w = cam.screen.x;
-		this->viewport.h = cam.screen.y;
-		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
-	}
-
+	SDL_RenderSetLogicalSize(this->game_renderer.get(), cam.viewport.x, cam.viewport.y);
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
-						   cam.bg_color.b, cam.bg_color.a);
+						cam.bg_color.b, cam.bg_color.a);
+	SDL_Rect bg = {
+		.x = 0,
+		.y = 0,
+		.w = static_cast<int>(cam.viewport.x),
+		.h = static_cast<int>(cam.viewport.y),
+	};
+	SDL_RenderFillRect(this->game_renderer.get(), &bg);
+
+	/*
+	float offset_x = 0, offset_y = 0;
+
+
+	double scale_factor = min(cam.screen.x / cam.viewport.x, cam.screen.y / cam.viewport.y);
+	cam.scale.x = scale_factor * cam.viewport.x;
+	cam.scale.y = scale_factor * cam.viewport.y;
+
+	offset_x = (cam.screen.x - cam.scale.x) / 2;
+	offset_y = (cam.screen.y - cam.scale.y) / 2;
+
+	float bar_w = cam.screen.x - cam.scale.x;
+	float bar_h = cam.screen.y - cam.scale.y;
+
+	SDL_SetRenderDrawColor(this->game_renderer.get(), 0, 0, 0, 255);
+	if (bar_w > 0) {
+		SDL_Rect left_bar = {0, 0, static_cast<int>(offset_x), static_cast<int>(cam.screen.y)};
+		SDL_RenderDrawRect(this->game_renderer.get(), &left_bar);
+
+		SDL_Rect right_bar = {static_cast<int>(offset_x + cam.scale.x), 0,
+							  static_cast<int>(offset_x), static_cast<int>(cam.screen.y)};
+		SDL_RenderDrawRect(this->game_renderer.get(), &right_bar);
+	}
+
+	if (screen_aspect > viewport_aspect) {
+		// pillarboxing
+		cam.scale.x = cam.scale.y = cam.screen.x / cam.viewport.x;
+		offset_y = (cam.screen.y - (cam.viewport.y * cam.scale.y)) / 2;
+	} else if (screen_aspect < viewport_aspect) {
+		// lettor boxing
+		cam.scale.y = cam.scale.x = cam.screen.y / zoomed_viewport.y;
+		offset_x = (cam.screen.x - (cam.viewport.x * cam.scale.x)) / 2;
+	} else {
+		// screen ration is even
+		offset_y = (cam.screen.y - (cam.viewport.y * cam.scale.y)) / 2;
+		offset_x = (cam.screen.x - (cam.viewport.x * cam.scale.x)) / 2;
+	}
+	*/
 }
 
 uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
