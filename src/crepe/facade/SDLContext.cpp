@@ -107,8 +107,9 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 		.h = sprite.sprite_rect.h,
 	};
 }
-SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos, const Vector2 & cam_pos,
-								  const double & img_scale, const Vector2 & cam_scale) const {
+SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
+								  const Vector2 & cam_pos, const double & img_scale,
+								  const Vector2 & cam_scale) const {
 
 	int pixel_width, pixel_height;
 
@@ -135,7 +136,8 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos, co
 }
 
 void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
-							   const double & angle, const Vector2 & cam_pos, const double & img_scale, const Vector2 & cam_scale) {
+							   const double & angle, const Vector2 & cam_pos,
+							   const double & img_scale, const Vector2 & cam_scale) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
@@ -148,14 +150,16 @@ void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
 					 &dstrect, angle, NULL, render_flip);
 }
 
-void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Vector2 & cam_pos, const Vector2 & cam_scale) {
+void SDLContext::draw(const Sprite & sprite, const Transform & transform,
+					  const Vector2 & cam_pos, const Vector2 & cam_scale) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(sprite);
-	SDL_Rect dstrect = this->get_dst_rect(sprite, transform.position, cam_pos, transform.scale, cam_scale);
+	SDL_Rect dstrect
+		= this->get_dst_rect(sprite, transform.position, cam_pos, transform.scale, cam_scale);
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
 					 &dstrect, transform.rotation, NULL, render_flip);
