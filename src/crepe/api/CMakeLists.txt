@@ -12,7 +12,6 @@ target_sources(crepe PUBLIC
 	SaveManager.cpp
 	Config.cpp
 	Metadata.cpp
-	Scene.cpp
 	SceneManager.cpp
 	Vector2.cpp
 	Camera.cpp
