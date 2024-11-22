@@ -9,7 +9,7 @@ void SceneManager::add_scene(Args &&... args) {
 	using namespace std;
 	static_assert(is_base_of<Scene, T>::value, "T must be derived from Scene");
 
-	Scene * scene = new T(std::forward<args>(args)...);
+	Scene * scene = new T(std::forward<Args>(args)...);
 
 	scene->component_manager = this->component_manager;
 
