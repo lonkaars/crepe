@@ -167,6 +167,7 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 
 void SDLContext::set_camera(const Camera & cam, Vector2 & scale) {
 
+	// resize window
 	if (this->viewport.w != (int) cam.screen.x && this->viewport.h != (int) cam.screen.y) {
 		SDL_SetWindowSize(this->game_window.get(), (int) cam.screen.x, (int) cam.screen.y);
 		this->viewport.h = cam.screen.y;
@@ -175,33 +176,43 @@ void SDLContext::set_camera(const Camera & cam, Vector2 & scale) {
 
 	double screen_aspect = cam.screen.x / cam.screen.y;
 	double viewport_aspect = cam.viewport.x / cam.viewport.y;
-
+	
+	// decide scaling factor for world to screen
 	scale = cam.screen / cam.viewport * cam.zoom;
 
 	SDL_Rect view;
-
+	
+	// calculate black bars
 	if (screen_aspect > viewport_aspect) {
+		// lettorboxing
 		view.h = static_cast<int>(cam.screen.y / cam.zoom);
 		view.w = static_cast<int>(cam.screen.y * viewport_aspect);
 		view.x = static_cast<int>(cam.screen.x - view.w) / 2;
 		view.y = 0;
 	} else {
+		// pillarboxing
 		view.h = static_cast<int>(cam.screen.x / viewport_aspect);
 		view.w = static_cast<int>(cam.screen.x / cam.zoom);
 		view.x = 0;
 		view.y = static_cast<int>(cam.screen.y - view.h) / 2;
 	}
+
+	// set drawing area 
 	SDL_RenderSetViewport(this->game_renderer.get(), &view);
 
 	SDL_RenderSetLogicalSize(this->game_renderer.get(), cam.viewport.x, cam.viewport.y);
+
+	// set bg color
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
 						   cam.bg_color.b, cam.bg_color.a);
+
 	SDL_Rect bg = {
 		.x = 0,
 		.y = 0,
 		.w = static_cast<int>(cam.viewport.x),
 		.h = static_cast<int>(cam.viewport.y),
 	};
+	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
 }
 
