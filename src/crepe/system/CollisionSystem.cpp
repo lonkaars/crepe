@@ -5,7 +5,6 @@
 #include <utility>
 #include <variant>
 #include <optional>
-#include <tuple>
 
 #include "api/Event.h"
 #include "api/EventManager.h"
@@ -61,18 +60,22 @@ void CollisionSystem::collision_handler_request(CollidedInfoStor& data1,Collided
 		case ColliderStorType::BOX_BOX:{
 			collider1 = std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			collider2 = std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
+			break;
 		}
 		case ColliderStorType::BOX_CIRCLE:{
 			collider1 = std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			collider2 = std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
+			break;
 		}
 		case ColliderStorType::CIRCLE_BOX:{
 			collider1 = std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
 			collider2 = std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
+			break;
 		}
 		case ColliderStorType::CIRCLE_CIRCLE:{
 			collider1 = std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
 			collider2 = std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
+			break;
 		}
 	}
 	
@@ -233,17 +236,17 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> collisions_ret;
 	for (size_t i = 0; i < colliders.size(); ++i) {
     std::visit([&](auto& inner_collider_ref) {
-			if (inner_collider_ref.get().active) return;
+			if (!inner_collider_ref.get().active) return;
 			auto inner_components = get_active_transform_and_rigidbody(inner_collider_ref.get().game_object_id);
-			if (inner_components) return;
+			if (!inner_components) return;
 			for (size_t j = i + 1; j < colliders.size(); ++j) {
 				std::visit([&](auto& outer_collider_ref) { 
-					if (outer_collider_ref.get().active) return;
+					if (!outer_collider_ref.get().active) return;
 					if (inner_collider_ref.get().game_object_id == outer_collider_ref.get().game_object_id) return;
-					auto outer_components = get_active_transform_and_rigidbody(inner_collider_ref.get().game_object_id);
-					if (outer_components) return;
+					auto outer_components = get_active_transform_and_rigidbody(outer_collider_ref.get().game_object_id);
+					if (!outer_components) return;
 					ColliderStorType type = check_collider_type(colliders[i],colliders[j]);
-					check_collision(colliders[i],*inner_components,colliders[j],*outer_components,type);
+					if(!check_collision(colliders[i],*inner_components,colliders[j],*outer_components,type)) return;
 					collisions_ret.emplace_back(
                         CollidedInfoStor{colliders[i], inner_components->first.get(), inner_components->second.get()},
                         CollidedInfoStor{colliders[j], outer_components->first.get(), outer_components->second.get()}
@@ -295,11 +298,12 @@ bool CollisionSystem::check_collision(const collider_stor& collider1,std::pair<s
 			return check_circle_circle_collision(circle_collider1,circle_collider2,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());
 		}
 		case ColliderStorType::CIRCLE_BOX:	{
-			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(collider1);
-			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(collider2);
+			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(collider1);
+			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(collider2);
 			return check_box_circle_collision(box_collider,circle_collider,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());
 		}
 	}
+	return false;
 }
 
 
@@ -316,10 +320,10 @@ bool CollisionSystem::check_box_box_collision(const BoxCollider& box1, const Box
 	float half_height2 = box2.height / 2.0;
 
 	// Check if the boxes overlap along the X and Y axes
-	return !(final_position1.x + half_width1 <= final_position2.x - half_width2 ||  // box1 is left of box2
-						final_position1.x - half_width1 >= final_position2.x + half_width2 ||  // box1 is right of box2
-						final_position1.y + half_height1 <= final_position2.y - half_height2 || // box1 is above box2
-						final_position1.y - half_height1 >= final_position2.y + half_height2);  // box1 is below box2
+	return (final_position1.x + half_width1 > final_position2.x - half_width2 &&  // not left
+        final_position1.x - half_width1 < final_position2.x + half_width2 &&  // not right
+        final_position1.y + half_height1 > final_position2.y - half_height2 && // not above
+        final_position1.y - half_height1 < final_position2.y + half_height2);  // not below
 }
 
 bool CollisionSystem::check_box_circle_collision(const BoxCollider& box1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2) {
