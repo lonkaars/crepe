@@ -25,7 +25,6 @@ using namespace testing;
 class CollisionHandler : public Script {
 public:
 	int box_id;
-	EventManager & evmgr = EventManager::get_instance();
 	function<void(const CollisionEvent& ev)> test_fn = [](const CollisionEvent & ev) { };
 
 	CollisionHandler(int box_id) {
@@ -42,9 +41,9 @@ public:
 		//Log::logf("Box {} script init()", box_id);
 
 		// TODO: this should be built into script
-		evmgr.subscribe<CollisionEvent>([this](const CollisionEvent & ev) {
-			return this->on_collision(ev);
-		}, this->get_game_object_id());
+		subscribe<CollisionEvent>([](const CollisionEvent&) -> bool {
+			return true;
+		});	
 	}
 };
 

@@ -33,7 +33,7 @@ public:
 		 *
 		 * Only messages with equal or higher priority than this value will be logged.
 		 */
-		Log::Level level = Log::Level::INFO;
+		Log::Level level = Log::Level::DEBUG;
 		/**
 		 * \brief Colored log output
 		 *
