@@ -4,7 +4,6 @@
 
 #include "api/ParticleEmitter.h"
 #include "api/Transform.h"
-#include "api/Vector2.h"
 
 #include "ComponentManager.h"
 #include "ParticleSystem.h"
@@ -42,17 +41,15 @@ void ParticleSystem::update() {
 }
 
 void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & transform) {
-	constexpr double DEG_TO_RAD = M_PI / 180.0;
+	constexpr float DEG_TO_RAD = M_PI / 180.0;
 
-	Vector2<double> initial_position = emitter.data.position + transform.position;
-	double random_angle
-		= generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
+	vec2 initial_position = emitter.data.position + transform.position;
+	float random_angle = generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
 
-	double random_speed
-		= generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);
-	double angle_radians = random_angle * DEG_TO_RAD;
+	float random_speed = generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);
+	float angle_radians = random_angle * DEG_TO_RAD;
 
-	Vector2<double> velocity
+	vec2 velocity
 		= {random_speed * std::cos(angle_radians), random_speed * std::sin(angle_radians)};
 
 	for (Particle & particle : emitter.data.particles) {
@@ -77,8 +74,7 @@ int ParticleSystem::calculate_update(int count, double emission) const {
 }
 
 void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & transform) {
-	Vector2<double> offset
-		= emitter.data.boundary.offset + transform.position + emitter.data.position;
+	vec2 offset = emitter.data.boundary.offset + transform.position + emitter.data.position;
 	double half_width = emitter.data.boundary.width / 2.0;
 	double half_height = emitter.data.boundary.height / 2.0;
 
@@ -88,7 +84,7 @@ void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & t
 	const double BOTTOM = offset.y + half_height;
 
 	for (Particle & particle : emitter.data.particles) {
-		const Vector2<double> & position = particle.position;
+		const vec2 & position = particle.position;
 		bool within_bounds = (position.x >= LEFT && position.x <= RIGHT && position.y >= TOP
 							  && position.y <= BOTTOM);
 

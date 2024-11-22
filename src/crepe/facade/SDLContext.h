@@ -12,7 +12,8 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "api/Camera.h"
-#include "api/Vector2.h"
+
+#include "types.h"
 
 namespace crepe {
 
@@ -120,8 +121,8 @@ private:
 	 */
 	void draw(const Sprite & sprite, const Transform & transform, const Camera & camera);
 
-	void draw_particle(const Sprite & sprite, const Vector2<double> & pos,
-					   const double & angle, const double & scale, const Camera & camera);
+	void draw_particle(const Sprite & sprite, const vec2 & pos, const double & angle,
+					   const double & scale, const Camera & camera);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
@@ -153,8 +154,8 @@ private:
 	 * on the camera 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_Rect get_dst_rect(const Sprite & sprite, const Vector2<double> & pos,
-						  const double & scale, const Camera & cam) const;
+	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const double & scale,
+						  const Camera & cam) const;
 
 private:
 	//! sdl Window

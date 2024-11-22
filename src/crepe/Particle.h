@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "api/Vector2.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -18,11 +18,11 @@ class Particle {
 
 public:
 	//! Position of the particle in 2D space.
-	Vector2<double> position;
+	vec2 position;
 	//! Velocity vector indicating the speed and direction of the particle.
-	Vector2<double> velocity;
+	vec2 velocity;
 	//! Accumulated force affecting the particle over time.
-	Vector2<double> force_over_time;
+	vec2 force_over_time;
 	//! Total lifespan of the particle in milliseconds.
 	uint32_t lifespan;
 	//! Active state of the particle; true if it is in use, false otherwise.
@@ -43,8 +43,7 @@ public:
 	 * \param velocity  The initial velocity of the particle.
 	 * \param angle     The angle of the particle's trajectory or orientation.
 	 */
-	void reset(uint32_t lifespan, const Vector2<double> & position,
-			   const Vector2<double> & velocity, double angle);
+	void reset(uint32_t lifespan, const vec2 & position, const vec2 & velocity, double angle);
 	/**
 	 * \brief Updates the particle's state.
 	 *

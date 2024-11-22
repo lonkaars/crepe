@@ -2,7 +2,6 @@
 
 #include <string>
 
-#include "Vector2.h"
 #include "types.h"
 
 namespace crepe {
@@ -30,8 +29,8 @@ private:
 	 * \param scale The scale of the GameObject
 	 */
 	GameObject(ComponentManager & component_manager, game_object_id_t id,
-			   const std::string & name, const std::string & tag,
-			   const Vector2<double> & position, double rotation, double scale);
+			   const std::string & name, const std::string & tag, const vec2 & position,
+			   double rotation, double scale);
 	//! ComponentManager instances GameObject
 	friend class ComponentManager;
 
