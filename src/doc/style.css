@@ -2,3 +2,5 @@
 address {
 	display: none;
 }
+
+h2.groupheader { margin-top: revert; }
