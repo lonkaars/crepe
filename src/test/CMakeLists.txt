@@ -7,5 +7,11 @@ target_sources(test_main PUBLIC
 	AssetTest.cpp
 	ResourceManagerTest.cpp
 	OptionalRefTest.cpp
+	RenderSystemTest.cpp
+	EventTest.cpp
+	ECSTest.cpp
+	SceneManagerTest.cpp
+	ValueBrokerTest.cpp
+	DBTest.cpp
+	Vector2Test.cpp
 )
-

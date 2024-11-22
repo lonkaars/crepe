@@ -13,8 +13,7 @@ Sound::Sound(const Asset & src) : Resource(src) {
 }
 Sound::~Sound() { dbg_trace(); }
 
-void Sound::play() {
-	SoundContext & ctx = this->context.get();
+void Sound::play(SoundContext & ctx) {
 	if (ctx.engine.getPause(this->handle)) {
 		// resume if paused
 		ctx.engine.setPause(this->handle, false);
@@ -25,35 +24,25 @@ void Sound::play() {
 	}
 }
 
-void Sound::pause() {
-	SoundContext & ctx = this->context.get();
+void Sound::pause(SoundContext & ctx) {
 	if (ctx.engine.getPause(this->handle)) return;
 	ctx.engine.setPause(this->handle, true);
 }
 
-void Sound::rewind() {
-	SoundContext & ctx = this->context.get();
+void Sound::rewind(SoundContext & ctx) {
 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 	ctx.engine.seek(this->handle, 0);
 }
 
-void Sound::set_volume(float volume) {
+void Sound::set_volume(SoundContext & ctx, float volume) {
 	this->volume = volume;
-
-	SoundContext & ctx = this->context.get();
 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 	ctx.engine.setVolume(this->handle, this->volume);
 }
 
-void Sound::set_looping(bool looping) {
+void Sound::set_looping(SoundContext & ctx, bool looping) {
 	this->looping = looping;
-
-	SoundContext & ctx = this->context.get();
 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 	ctx.engine.setLooping(this->handle, this->looping);
-}
-
-void Sound::set_context(SoundContext & ctx) {
-	this->context = ctx;
 }
 

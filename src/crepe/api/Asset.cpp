@@ -2,34 +2,33 @@
 #include <stdexcept>
 #include <whereami.h>
 
-#include "Asset.h"
 #include "api/Config.h"
+
+#include "Asset.h"
 
 using namespace crepe;
 using namespace std;
 
-Asset::Asset(const string & src) : src(find_asset(src)) { }
-Asset::Asset(const char * src) : src(find_asset(src)) { }
+Asset::Asset(const string & src) : src(find_asset(src)) {}
+Asset::Asset(const char * src) : src(find_asset(src)) {}
 
 const string & Asset::get_path() const noexcept { return this->src; }
 
 string Asset::find_asset(const string & src) const {
 	auto & cfg = Config::get_instance();
-	auto & root_pattern = cfg.asset.root_pattern;
+	string & root_pattern = cfg.asset.root_pattern;
 
 	// if root_pattern is empty, find_asset must return all paths as-is
 	if (root_pattern.empty()) return src;
 
 	// absolute paths do not need to be resolved, only canonicalized
 	filesystem::path path = src;
-	if (path.is_absolute())
-		return filesystem::canonical(path);
+	if (path.is_absolute()) return filesystem::canonical(path);
 
 	// find directory matching root_pattern
 	filesystem::path root = this->whereami();
 	while (1) {
-		if (filesystem::exists(root / root_pattern))
-			break;
+		if (filesystem::exists(root / root_pattern)) break;
 		if (!root.has_parent_path())
 			throw runtime_error(format("Asset: Cannot find root pattern ({})", root_pattern));
 		root = root.parent_path();
@@ -48,11 +47,8 @@ string Asset::whereami() const noexcept {
 	return path;
 }
 
-bool Asset::operator==(const Asset & other) const noexcept {
-	return this->src == other.src;
-}
+bool Asset::operator==(const Asset & other) const noexcept { return this->src == other.src; }
 
 size_t std::hash<const Asset>::operator()(const Asset & asset) const noexcept {
 	return std::hash<string>{}(asset.get_path());
 };
-

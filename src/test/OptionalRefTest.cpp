@@ -6,33 +6,37 @@ using namespace std;
 using namespace crepe;
 using namespace testing;
 
-TEST(OptionalRefTest, Explicit) {
-	string value = "foo";
-	OptionalRef<string> ref;
-	EXPECT_FALSE(ref);
-	ASSERT_THROW(ref.get(), runtime_error);
-
-	ref.set(value);
-	EXPECT_TRUE(ref);
-	ASSERT_NO_THROW(ref.get());
-
-	ref.clear();
-	EXPECT_FALSE(ref);
-	ASSERT_THROW(ref.get(), runtime_error);
-}
-
-TEST(OptionalRefTest, Implicit) {
+TEST(OptionalRefTest, Normal) {
 	string value = "foo";
 	OptionalRef<string> ref = value;
+
 	EXPECT_TRUE(ref);
-	ASSERT_NO_THROW(ref.get());
+	ASSERT_NO_THROW({
+		string & value_ref = ref;
+		EXPECT_EQ(value_ref, value);
+	});
 
 	ref.clear();
 	EXPECT_FALSE(ref);
-	ASSERT_THROW(ref.get(), runtime_error);
-
-	ref = value;
-	EXPECT_TRUE(ref);
-	ASSERT_NO_THROW(ref.get());
+	ASSERT_THROW({ string & value_ref = ref; }, runtime_error);
 }
 
+TEST(OptionalRefTest, Empty) {
+	string value = "foo";
+	OptionalRef<string> ref;
+
+	EXPECT_FALSE(ref);
+	ASSERT_THROW({ string & value_ref = ref; }, runtime_error);
+}
+
+TEST(OptionalRefTest, Chain) {
+	string value = "foo";
+	OptionalRef<string> ref1 = value;
+	OptionalRef<string> ref2 = ref1;
+
+	EXPECT_TRUE(ref2);
+	string & value_ref = ref2;
+	EXPECT_EQ(value_ref, value);
+	value_ref = "bar";
+	EXPECT_EQ(value_ref, value);
+}
