@@ -77,7 +77,7 @@ public:
 	 * \param channel The channel to trigger the event on (default is CHANNEL_ALL, which triggers on all channels).
 	 */
 	template <typename EventType>
-	void trigger_event(const EventType & event, event_channel_t channel = CHANNEL_ALL);
+	void trigger_event(const EventType & event = {}, event_channel_t channel = CHANNEL_ALL);
 
 	/**
 	 * \brief Queue an event for later processing.
@@ -89,7 +89,7 @@ public:
 	 * \param channel The channel to associate with the event (default is CHANNEL_ALL).
 	 */
 	template <typename EventType>
-	void queue_event(const EventType & event, event_channel_t channel = CHANNEL_ALL);
+	void queue_event(const EventType & event = {}, event_channel_t channel = CHANNEL_ALL);
 
 	/**
 	 * \brief Process all queued events.
