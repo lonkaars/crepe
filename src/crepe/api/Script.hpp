@@ -20,8 +20,38 @@ T & Script::get_component() const {
 
 template <typename T>
 RefVector<T> Script::get_components() const {
-	auto & mgr = *this->component_manager_ref;
+	ComponentManager & mgr = this->component_manager;
+
 	return mgr.get_components_by_id<T>(this->game_object_id);
+}
+
+template <typename... Args>
+void Script::logf(Args &&... args) {
+	Log::logf(std::forward<Args>(args)...);
+}
+
+template <typename EventType>
+void Script::subscribe_internal(const EventHandler<EventType> & callback,
+								event_channel_t channel) {
+	EventManager & mgr = this->event_manager;
+	subscription_t listener = mgr.subscribe<EventType>(
+		[this, callback](const EventType & data) -> bool {
+			bool & active = this->active;
+			if (!active) return false;
+			return callback(data);
+		},
+		channel);
+	this->listeners.push_back(listener);
+}
+
+template <typename EventType>
+void Script::subscribe(const EventHandler<EventType> & callback, event_channel_t channel) {
+	this->subscribe_internal(callback, channel);
+}
+
+template <typename EventType>
+void Script::subscribe(const EventHandler<EventType> & callback) {
+	this->subscribe_internal(callback, EventManager::CHANNEL_ALL);
 }
 
 } // namespace crepe

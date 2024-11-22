@@ -1,5 +1,6 @@
 #include "api/Camera.h"
 #include "system/ParticleSystem.h"
+#include "types.h"
 #include <SDL2/SDL_timer.h>
 #include <crepe/ComponentManager.h>
 
@@ -23,7 +24,7 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", vec2{100, 100}, 0, 0.1);
+	GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 0.1);
 	RenderSystem sys{mgr};
 	ParticleSystem psys{mgr};
 
