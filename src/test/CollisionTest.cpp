@@ -313,3 +313,51 @@ TEST_F(CollisionTest, collision_box_box_static_both) {
 	collision_sys.update();
 	EXPECT_TRUE(collision_happend);
 }
+
+TEST_F(CollisionTest, collision_box_box_static_x_direction) {
+	bool collision_happend = false;
+	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
+		collision_happend = true;
+		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.move_back_value.x, -5);
+		EXPECT_EQ(ev.info.move_back_value.y, -5);
+		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
+	};
+	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
+		// is static should not be called
+		FAIL();
+	};
+	EXPECT_FALSE(collision_happend);
+	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
+	tf.position = {45,30};
+	Rigidbody & rg1 = this->mgr.get_components_by_id<Rigidbody>(1).front().get();
+	rg1.data.linear_velocity = {10,10};
+	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
+	rg2.data.body_type = crepe::Rigidbody::BodyType::STATIC;
+	collision_sys.update();
+	EXPECT_TRUE(collision_happend);
+}
+
+TEST_F(CollisionTest, collision_box_box_static_y_direction) {
+	bool collision_happend = false;
+	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
+		collision_happend = true;
+		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.move_back_value.x, -5);
+		EXPECT_EQ(ev.info.move_back_value.y, -5);
+		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
+	};
+	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
+		// is static should not be called
+		FAIL();
+	};
+	EXPECT_FALSE(collision_happend);
+	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
+	tf.position = {50,25};
+	Rigidbody & rg1 = this->mgr.get_components_by_id<Rigidbody>(1).front().get();
+	rg1.data.linear_velocity = {10,10};
+	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
+	rg2.data.body_type = crepe::Rigidbody::BodyType::STATIC;
+	collision_sys.update();
+	EXPECT_TRUE(collision_happend);
+}
