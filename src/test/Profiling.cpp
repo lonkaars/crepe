@@ -15,6 +15,7 @@
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Transform.h>
+#include <crepe/api/ParticleEmitter.h>
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/system/ScriptSystem.h>
 #include <crepe/types.h>
@@ -121,7 +122,7 @@ TEST_F(Profiling, Profiling_example) {
 	EXPECT_GE(game_object_count, min_gameobject_count);
 }
 
-TEST_F(Profiling, Profiling_small_object_no_collision) {
+TEST_F(Profiling, Profiling_small_object) {
 	int game_object_count = 0;
 	long long total_time = 0;
 	while (total_time < 16000) {
@@ -140,7 +141,49 @@ TEST_F(Profiling, Profiling_small_object_no_collision) {
 			make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
 			FlipSettings{true, true});
 		}
-		
+
+		render_sys.update();
+		game_object_count++;
+		total_time = run_all_systems();
+		if(game_object_count >= max_gameobject_count) break;
+	}
+	log_timings(total_time,game_object_count);
+	EXPECT_GE(game_object_count, min_gameobject_count);
+}
+
+TEST_F(Profiling, Profiling_small_object_Particle_emitter) {
+	int game_object_count = 0;
+	long long total_time = 0;
+	while (total_time < 16000) {
+	
+		{
+			//define gameobject used for testing
+			GameObject gameobject = mgr.new_object("gameobject","",{static_cast<float>(game_object_count*2),0});
+			gameobject.add_component<Rigidbody>(Rigidbody::Data{
+			.body_type = Rigidbody::BodyType::STATIC,
+			.use_gravity = false,
+			});
+			gameobject.add_component<BoxCollider>(vec2{0, 0}, 1, 1);
+			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
+			Color color(0, 0, 0, 0);
+			gameobject.add_component<Sprite>(
+			make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
+			FlipSettings{true, true});
+			Sprite & test_sprite = gameobject.add_component<Sprite>(
+			make_shared<Texture>("/home/jaro/crepe/asset/texture/img.png"), color, FlipSettings{false, false});
+			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
+			.max_particles = 100,
+			.emission_rate = 100,
+			.end_lifespan = 100000,
+			.boundary{
+				.width = 1000,
+				.height = 1000,
+				.offset = vec2{0, 0},
+				.reset_on_exit = false,
+			},
+			.sprite = test_sprite,
+	});
+		}
 		render_sys.update();
 		game_object_count++;
 		total_time = run_all_systems();
