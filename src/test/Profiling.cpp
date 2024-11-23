@@ -55,7 +55,7 @@ public:
 
 	// Min and max gameobject that should and can be created
 	int min_gameobject_count = 100;
-	int max_gameobject_count = 100;
+	int max_gameobject_count = 1000;
 	
 	void SetUp() override {
 		
@@ -140,6 +140,7 @@ TEST_F(Profiling, Profiling_small_object_no_collision) {
 			make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
 			FlipSettings{true, true});
 		}
+		
 		render_sys.update();
 		game_object_count++;
 		total_time = run_all_systems();
