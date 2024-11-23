@@ -22,6 +22,10 @@ class ComponentManager;
  * \info Additional *events* (like Unity's OnDisable and OnEnable) should be implemented as
  * member or lambda methods in derivative user script classes and registered in \c init().
  *
+ * \warning Concrete scripts are allowed do create a custom constructor, but the utility
+ * functions should not be called inside the constructor as they rely on late references that
+ * are only available after the constructor returns.
+ *
  * \see feature_script
  */
 class Script {
@@ -63,8 +67,7 @@ protected:
 	 *
 	 * \returns Reference to component
 	 *
-	 * \throws std::runtime_error if this game object does not have a component matching type \c
-	 * T
+	 * \throws std::runtime_error if this game object does not have a component with type \c T
 	 */
 	template <typename T>
 	T & get_component() const;
