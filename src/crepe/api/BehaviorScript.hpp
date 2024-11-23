@@ -14,6 +14,7 @@ BehaviorScript & BehaviorScript::set_script(Args &&... args) {
 	dbg_trace();
 	static_assert(std::is_base_of<Script, T>::value);
 	Script * s = new T(std::forward<Args>(args)...);
+	
 	s->game_object_id = this->game_object_id;
 	s->active = this->active;
 	s->component_manager = this->component_manager;

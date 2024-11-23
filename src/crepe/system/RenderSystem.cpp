@@ -28,8 +28,6 @@ void RenderSystem::update_camera() {
 
 	if (cameras.size() == 0) throw std::runtime_error("No cameras in current scene");
 
-	if (cameras.size() == 0) throw std::runtime_error("No cameras in current scene");
-
 	for (Camera & cam : cameras) {
 		if (!cam.active) continue;
 		this->context.set_camera(cam);
