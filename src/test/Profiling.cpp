@@ -25,22 +25,14 @@ using namespace std::chrono_literals;
 using namespace crepe;
 using namespace testing;
 
-class CollisionHandler : public Script {
-public:
-	int box_id;
-
-	CollisionHandler(int box_id) {
-		this->box_id = box_id;
-	}
-
-	bool on_collision(const CollisionEvent& ev) {
-		// test load?
+class TestScript : public Script {
+	bool oncollision(const CollisionEvent& test) {
+		Log::logf("Box {} script on_collision()", test.info.first.collider.game_object_id);
 		return true;
 	}
-
 	void init() {
 		subscribe<CollisionEvent>([this](const CollisionEvent& ev) -> bool {
-			return this->on_collision(ev);
+			return this->oncollision(ev);
 		});
 	}
 	void update() {
@@ -115,11 +107,41 @@ TEST_F(Profiling, Profiling_example) {
 	int game_object_count = 0;
 	long long total_time = 0;
 	while (total_time < 16000) {
-		game_object_count++;
+		
 		{
 			//define gameobject used for testing
 			GameObject gameobject = mgr.new_object("gameobject","",{0,0});
 		}
+
+		game_object_count++;
+		total_time = run_all_systems();
+		if(game_object_count >= max_gameobject_count) break;
+	}
+	log_timings(total_time,game_object_count);
+	EXPECT_GE(game_object_count, min_gameobject_count);
+}
+
+TEST_F(Profiling, Profiling_small_object_no_collision) {
+	int game_object_count = 0;
+	long long total_time = 0;
+	while (total_time < 16000) {
+	
+		{
+			//define gameobject used for testing
+			GameObject gameobject = mgr.new_object("gameobject","",{static_cast<float>(game_object_count*2),0});
+			gameobject.add_component<Rigidbody>(Rigidbody::Data{
+			.body_type = Rigidbody::BodyType::STATIC,
+			.use_gravity = false,
+			});
+			gameobject.add_component<BoxCollider>(vec2{0, 0}, 1, 1);
+			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
+			Color color(0, 0, 0, 0);
+			gameobject.add_component<Sprite>(
+			make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
+			FlipSettings{true, true});
+		}
+		render_sys.update();
+		game_object_count++;
 		total_time = run_all_systems();
 		if(game_object_count >= max_gameobject_count) break;
 	}
