@@ -22,22 +22,6 @@ using namespace std::chrono_literals;
 using namespace crepe;
 using namespace testing;
 
-// class MyScript : public Script {
-// 	bool oncollision(const CollisionEvent& test) {
-// 		Log::logf("Box {} script on_collision()", test.info.first.collider.game_object_id);
-// 		return true;
-// 	}
-// 	void init() {
-// 		subscribe<CollisionEvent>([this](const CollisionEvent& ev) -> bool {
-// 			return this->oncollision(ev);
-// 		});
-// 	}
-// 	void update() {
-// 		// Retrieve component from the same GameObject this script is on
-// 	}
-// };
-
-
 class CollisionHandler : public Script {
 public:
 	int box_id;
