@@ -1,4 +1,5 @@
 #include "api/GameObject.h"
+#include "types.h"
 #include "util/Log.h"
 
 #include "ComponentManager.h"
@@ -34,7 +35,7 @@ void ComponentManager::delete_all_components() {
 }
 
 GameObject ComponentManager::new_object(const string & name, const string & tag,
-										const Vector2 & position, double rotation,
+										const vec2 & position, double rotation,
 										double scale) {
 	// Find the first available id (taking persistent objects into account)
 	while (this->persistent[this->next_id]) {
