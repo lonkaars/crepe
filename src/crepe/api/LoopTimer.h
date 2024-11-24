@@ -35,7 +35,7 @@ public:
 	 *
 	 * \param fps The desired frames rendered per second.
 	 */
-	void set_fps(int fps);
+	void set_target_fps(int fps);
 
 	/**
 	 * \brief Get the current frames per second (FPS).
@@ -121,8 +121,10 @@ private:
 	void advance_fixed_update();
 
 private:
-	//! Current frames per second
-	int fps = 50;
+	//! Target frames per second
+	int target_fps = 50;
+	//! Actual frames per second
+	int actual_fps = 0;
 	//! Current game scale
 	double game_scale = 1;
 	//! Maximum delta time in seconds to avoid large jumps
@@ -130,7 +132,7 @@ private:
 	//! Delta time for the current frame in seconds
 	std::chrono::duration<double> delta_time{0.0};
 	//! Target time per frame in seconds
-	std::chrono::duration<double> frame_target_time = std::chrono::duration<double>(1.0) / fps;
+	std::chrono::duration<double> frame_target_time = std::chrono::duration<double>(1.0) / target_fps;
 	//! Fixed delta time for fixed updates in seconds
 	std::chrono::duration<double> fixed_delta_time = std::chrono::duration<double>(1.0) / 50.0;
 	//! Total elapsed game time in seconds
@@ -139,6 +141,7 @@ private:
 	std::chrono::duration<double> elapsed_fixed_time{0.0};
 	//! Time of the last frame
 	std::chrono::steady_clock::time_point last_frame_time;
+	
 };
 
 } // namespace crepe
