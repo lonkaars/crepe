@@ -1,3 +1,4 @@
+#include "types.h"
 #include <crepe/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
@@ -14,9 +15,9 @@ class ConcreteScene1 : public Scene {
 public:
 	void load_scene() {
 		ComponentManager & mgr = this->component_manager;
-		GameObject object1 = mgr.new_object("scene_1", "tag_scene_1", Vector2{0, 0}, 0, 1);
-		GameObject object2 = mgr.new_object("scene_1", "tag_scene_1", Vector2{1, 0}, 0, 1);
-		GameObject object3 = mgr.new_object("scene_1", "tag_scene_1", Vector2{2, 0}, 0, 1);
+		GameObject object1 = mgr.new_object("scene_1", "tag_scene_1", vec2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("scene_1", "tag_scene_1", vec2{1, 0}, 0, 1);
+		GameObject object3 = mgr.new_object("scene_1", "tag_scene_1", vec2{2, 0}, 0, 1);
 	}
 
 	string get_name() const { return "scene1"; }
@@ -26,10 +27,10 @@ class ConcreteScene2 : public Scene {
 public:
 	void load_scene() {
 		ComponentManager & mgr = this->component_manager;
-		GameObject object1 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 0}, 0, 1);
-		GameObject object2 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 1}, 0, 1);
-		GameObject object3 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 2}, 0, 1);
-		GameObject object4 = mgr.new_object("scene_2", "tag_scene_2", Vector2{0, 3}, 0, 1);
+		GameObject object1 = mgr.new_object("scene_2", "tag_scene_2", vec2{0, 0}, 0, 1);
+		GameObject object2 = mgr.new_object("scene_2", "tag_scene_2", vec2{0, 1}, 0, 1);
+		GameObject object3 = mgr.new_object("scene_2", "tag_scene_2", vec2{0, 2}, 0, 1);
+		GameObject object4 = mgr.new_object("scene_2", "tag_scene_2", vec2{0, 3}, 0, 1);
 	}
 
 	string get_name() const { return "scene2"; }
@@ -41,7 +42,7 @@ public:
 
 	void load_scene() {
 		ComponentManager & mgr = this->component_manager;
-		GameObject object1 = mgr.new_object("scene_3", "tag_scene_3", Vector2{0, 0}, 0, 1);
+		GameObject object1 = mgr.new_object("scene_3", "tag_scene_3", vec2{0, 0}, 0, 1);
 	}
 
 	string get_name() const { return name; }
