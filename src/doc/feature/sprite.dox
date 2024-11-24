@@ -1,0 +1,25 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_sprite Sprite
+\ingroup feature
+\brief component for visualizing game objects
+
+Sprites can be used to visualize game object given the path to the image, its
+color and the flip settings. Sprites are implemented as derivative class of \ref
+Component "component".
+
+\todo This section is incomplete:
+- Example
+- improve
+
+\see Sprite
+\see Color
+\see GameObject
+
+\par Example
+
+*/
+}
+
