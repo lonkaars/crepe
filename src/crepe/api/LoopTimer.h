@@ -68,7 +68,6 @@ private:
 	 * Initializes the timer to begin tracking frame times.
 	 */
 	void start();
-
 	/**
 	 * \brief Enforce the frame rate limit.
 	 *
