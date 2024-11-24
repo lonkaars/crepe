@@ -9,7 +9,7 @@ using namespace std;
 
 GameObject::GameObject(ComponentManager & component_manager, game_object_id_t id,
 					   const std::string & name, const std::string & tag,
-					   const Vector2 & position, double rotation, double scale)
+					   const vec2 & position, double rotation, double scale)
 	: id(id),
 	  component_manager(component_manager) {
 
@@ -23,12 +23,10 @@ void GameObject::set_parent(const GameObject & parent) {
 	ComponentManager & mgr = this->component_manager;
 
 	// Set parent on own Metadata component
-	vector<reference_wrapper<Metadata>> this_metadata
-		= mgr.get_components_by_id<Metadata>(this->id);
+	RefVector<Metadata> this_metadata = mgr.get_components_by_id<Metadata>(this->id);
 	this_metadata.at(0).get().parent = parent.id;
 
 	// Add own id to children list of parent's Metadata component
-	vector<reference_wrapper<Metadata>> parent_metadata
-		= mgr.get_components_by_id<Metadata>(parent.id);
+	RefVector<Metadata> parent_metadata = mgr.get_components_by_id<Metadata>(parent.id);
 	parent_metadata.at(0).get().children.push_back(this->id);
 }

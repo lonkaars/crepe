@@ -5,9 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "api/Vector2.h"
-
 #include "Component.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -44,7 +43,7 @@ public:
 	 * \note This method automatically assigns a new entity ID
 	 */
 	GameObject new_object(const std::string & name, const std::string & tag = "",
-						  const Vector2 & position = {0, 0}, double rotation = 0,
+						  const vec2 & position = {0, 0}, double rotation = 0,
 						  double scale = 1);
 
 protected:
@@ -112,7 +111,7 @@ public:
 	 * \return A vector of all components of the specific type and id
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>> get_components_by_id(game_object_id_t id) const;
+	RefVector<T> get_components_by_id(game_object_id_t id) const;
 	/**
 	 * \brief Get all components of a specific type
 	 * 
@@ -122,7 +121,7 @@ public:
 	 * \return A vector of all components of the specific type
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
+	RefVector<T> get_components_by_type() const;
 
 private:
 	/**

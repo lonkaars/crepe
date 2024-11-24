@@ -2,5 +2,4 @@
 
 using namespace crepe;
 
-// Implementation of IEventHandlerWrapper::exec
-bool IEventHandlerWrapper::exec(const Event & e) { return call(e); }
+bool IEventHandlerWrapper::exec(const Event & e) { return this->call(e); }

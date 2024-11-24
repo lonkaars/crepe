@@ -1,23 +1,24 @@
 #pragma once
+// TODO discussing the location of these events
 
 #include <string>
 
 #include "KeyCodes.h"
 
+namespace crepe {
+
 /**
  * \brief Base class for all event types in the system.
  */
-class Event {
-public:
-};
+class Event {};
 
 /**
  * \brief Event triggered when a key is pressed.
  */
 class KeyPressEvent : public Event {
 public:
-	//! Number of times the key press is repeated (e.g., for long presses).
-	int repeat = 0;
+	//! false if first time press, true if key is repeated
+	bool repeat = false;
 
 	//! The key that was pressed.
 	Keycode key = Keycode::NONE;
@@ -96,11 +97,7 @@ public:
 /**
  * \brief Event triggered during a collision between objects.
  */
-class CollisionEvent : public Event {
-public:
-	//! Data describing the collision (currently not implemented).
-	// Collision collisionData;
-};
+class CollisionEvent : public Event {};
 
 /**
  * \brief Event triggered when text is submitted, e.g., from a text input.
@@ -118,14 +115,4 @@ class ShutDownEvent : public Event {
 public:
 };
 
-class MouseScrollEvent : public Event {
-public:
-	//! X-coordinate of the mouse position at the time of the event.
-	int scroll_x = 0;
-
-	//! Y-coordinate of the mouse position at the time of the event.
-	int scroll_y = 0;
-	
-	int direction = 0;
-};
-
+}
