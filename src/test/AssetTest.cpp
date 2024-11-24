@@ -19,4 +19,3 @@ TEST(AssetTest, Rootless) {
 	Asset asset{arbitrary};
 	ASSERT_EQ(arbitrary, asset.get_path());
 }
-
