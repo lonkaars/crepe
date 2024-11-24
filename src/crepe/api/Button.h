@@ -6,7 +6,7 @@
 namespace crepe {
 class Button : public UiObject{
 public:
-	~Button(){};
+	Button();
 	bool interactable = true;
 	bool is_toggle = false;
 	bool is_pressed = false;
