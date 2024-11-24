@@ -17,7 +17,7 @@ public:
 };
 
 TEST_F(ECSTest, createGameObject) {
-	GameObject obj = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
+	GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 
 	vector<reference_wrapper<Metadata>> metadata = mgr.get_components_by_type<Metadata>();
 	vector<reference_wrapper<Transform>> transform = mgr.get_components_by_type<Transform>();
@@ -37,8 +37,8 @@ TEST_F(ECSTest, createGameObject) {
 }
 
 TEST_F(ECSTest, deleteAllGameObjects) {
-	GameObject obj0 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
-	GameObject obj1 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
+	GameObject obj0 = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+	GameObject obj1 = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 
 	mgr.delete_all_components();
 
@@ -48,7 +48,7 @@ TEST_F(ECSTest, deleteAllGameObjects) {
 	EXPECT_EQ(metadata.size(), 0);
 	EXPECT_EQ(transform.size(), 0);
 
-	GameObject obj2 = mgr.new_object("body2", "person2", Vector2{1, 0}, 5, 1);
+	GameObject obj2 = mgr.new_object("body2", "person2", vec2{1, 0}, 5, 1);
 
 	metadata = mgr.get_components_by_type<Metadata>();
 	transform = mgr.get_components_by_type<Transform>();
@@ -70,8 +70,8 @@ TEST_F(ECSTest, deleteAllGameObjects) {
 }
 
 TEST_F(ECSTest, deleteGameObject) {
-	GameObject obj0 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
-	GameObject obj1 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
+	GameObject obj0 = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+	GameObject obj1 = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 
 	mgr.delete_all_components_of_id(0);
 
@@ -96,7 +96,7 @@ TEST_F(ECSTest, deleteGameObject) {
 
 TEST_F(ECSTest, manyGameObjects) {
 	for (int i = 0; i < 5000; i++) {
-		GameObject obj = mgr.new_object("body", "person", Vector2{0, 0}, 0, i);
+		GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, i);
 	}
 
 	vector<reference_wrapper<Metadata>> metadata = mgr.get_components_by_type<Metadata>();
@@ -128,7 +128,7 @@ TEST_F(ECSTest, manyGameObjects) {
 
 	for (int i = 0; i < 10000 - 5000; i++) {
 		string tag = "person" + to_string(i);
-		GameObject obj = mgr.new_object("body", tag, Vector2{0, 0}, i, 0);
+		GameObject obj = mgr.new_object("body", tag, vec2{0, 0}, i, 0);
 	}
 
 	metadata = mgr.get_components_by_type<Metadata>();
@@ -139,8 +139,8 @@ TEST_F(ECSTest, manyGameObjects) {
 }
 
 TEST_F(ECSTest, getComponentsByID) {
-	GameObject obj0 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
-	GameObject obj1 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
+	GameObject obj0 = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+	GameObject obj1 = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 
 	vector<reference_wrapper<Metadata>> metadata = mgr.get_components_by_id<Metadata>(0);
 	vector<reference_wrapper<Transform>> transform = mgr.get_components_by_id<Transform>(1);
@@ -163,15 +163,15 @@ TEST_F(ECSTest, getComponentsByID) {
 
 TEST_F(ECSTest, tooMuchComponents) {
 	try {
-		GameObject obj0 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
-		obj0.add_component<Transform>(Vector2{10, 10}, 0, 1);
+		GameObject obj0 = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+		obj0.add_component<Transform>(vec2{10, 10}, 0, 1);
 	} catch (const exception & e) {
 		EXPECT_EQ(e.what(),
 				  string("Exceeded maximum number of instances for this component type"));
 	}
 
 	try {
-		GameObject obj1 = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
+		GameObject obj1 = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 		obj1.add_component<Metadata>("body", "person");
 	} catch (const exception & e) {
 		EXPECT_EQ(e.what(),
@@ -187,11 +187,11 @@ TEST_F(ECSTest, tooMuchComponents) {
 
 TEST_F(ECSTest, partentChild) {
 	{
-		GameObject body = mgr.new_object("body", "person", Vector2{0, 0}, 0, 1);
-		GameObject right_leg = mgr.new_object("rightLeg", "person", Vector2{1, 1}, 0, 1);
-		GameObject left_leg = mgr.new_object("leftLeg", "person", Vector2{1, 1}, 0, 1);
-		GameObject right_foot = mgr.new_object("rightFoot", "person", Vector2{2, 2}, 0, 1);
-		GameObject left_foot = mgr.new_object("leftFoot", "person", Vector2{2, 2}, 0, 1);
+		GameObject body = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+		GameObject right_leg = mgr.new_object("rightLeg", "person", vec2{1, 1}, 0, 1);
+		GameObject left_leg = mgr.new_object("leftLeg", "person", vec2{1, 1}, 0, 1);
+		GameObject right_foot = mgr.new_object("rightFoot", "person", vec2{2, 2}, 0, 1);
+		GameObject left_foot = mgr.new_object("leftFoot", "person", vec2{2, 2}, 0, 1);
 
 		// Set the parent of each GameObject
 		right_foot.set_parent(right_leg);

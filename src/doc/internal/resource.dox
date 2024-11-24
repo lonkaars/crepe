@@ -1,0 +1,12 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup internal_resource Resources
+\ingroup internal
+\brief Concrete resources
+
+\todo This section is incomplete
+
+*/
+}

@@ -34,11 +34,11 @@ class Log {
 public:
 	//! Log message severity
 	enum Level {
-		TRACE, //< Include (internal) function calls
-		DEBUG, //< Include dbg_logf output
-		INFO, //< General-purpose messages
-		WARNING, //< Non-fatal errors
-		ERROR, //< Fatal errors
+		TRACE, //!< Include (internal) function calls
+		DEBUG, //!< Include dbg_logf output
+		INFO, //!< General-purpose messages
+		WARNING, //!< Non-fatal errors
+		ERROR, //!< Fatal errors
 	};
 
 	/**
