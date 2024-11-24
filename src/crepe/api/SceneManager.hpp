@@ -10,10 +10,11 @@ void SceneManager::add_scene(Args &&... args) {
 	static_assert(is_base_of<Scene, T>::value, "T must be derived from Scene");
 
 	Scene * scene = new T(std::forward<Args>(args)...);
+	unique_ptr<Scene> unique_scene(scene);
 
-	scene->component_manager = this->component_manager;
+	unique_scene->component_manager = this->component_manager;
 
-	this->scenes.emplace_back(unique_ptr<Scene>(scene));
+	this->scenes.emplace_back(std::move(unique_scene));
 
 	// The first scene added, is the one that will be loaded at the beginning
 	if (next_scene.empty()) {
