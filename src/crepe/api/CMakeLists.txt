@@ -14,7 +14,6 @@ target_sources(crepe PUBLIC
 	Metadata.cpp
 	Scene.cpp
 	SceneManager.cpp
-	Vector2.cpp
 	Camera.cpp
 	Animator.cpp
 	EventManager.cpp
@@ -24,6 +23,7 @@ target_sources(crepe PUBLIC
 	LoopTimer.cpp
 	Asset.cpp
 	EventHandler.cpp
+	Script.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -37,6 +37,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Rigidbody.h
 	Sprite.h
 	Vector2.h
+	Vector2.hpp
 	Color.h
 	Texture.h 
 	AssetManager.h 

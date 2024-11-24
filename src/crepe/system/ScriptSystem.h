@@ -2,8 +2,6 @@
 
 #include "System.h"
 
-#include "../types.h"
-
 namespace crepe {
 
 class Script;
@@ -25,15 +23,6 @@ public:
 	 * the \c BehaviorScript instance.
 	 */
 	void update() override;
-
-private:
-	/**
-	 * \brief Aggregate all active \c BehaviorScript components and return a list
-	 * of references to their \c Script instances (utility)
-	 *
-	 * \returns List of active \c Script instances
-	 */
-	RefVector<Script> get_scripts() const;
 };
 
 } // namespace crepe
