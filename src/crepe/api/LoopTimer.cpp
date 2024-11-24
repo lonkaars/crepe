@@ -30,7 +30,8 @@ void LoopTimer::update() {
 	if (this->delta_time > this->maximum_delta_time) {
 		this->delta_time = this->maximum_delta_time;
 	}
-
+	this->actual_fps = 1.0 / this->delta_time.count();
+	
 	this->delta_time *= this->game_scale;
 	this->elapsed_time += this->delta_time;
 	this->last_frame_time = current_frame_time;
@@ -44,13 +45,13 @@ void LoopTimer::advance_fixed_update() { this->elapsed_fixed_time += this->fixed
 
 double LoopTimer::get_fixed_delta_time() const { return this->fixed_delta_time.count(); }
 
-void LoopTimer::set_fps(int fps) {
-	this->fps = fps;
+void LoopTimer::set_target_fps(int fps) {
+	this->target_fps = fps;
 	// target time per frame in seconds
-	this->frame_target_time = std::chrono::duration<double>(1.0) / fps;
+	this->frame_target_time = std::chrono::duration<double>(1.0) / target_fps;
 }
 
-int LoopTimer::get_fps() const { return this->fps; }
+int LoopTimer::get_fps() const { return this->actual_fps; }
 
 void LoopTimer::set_game_scale(double value) { this->game_scale = value; }
 
@@ -70,8 +71,6 @@ void LoopTimer::enforce_frame_rate() {
 			SDLContext::get_instance().delay(delay_time.count());
 		}
 	}
-
-	this->last_frame_time = current_frame_time;
 }
 
 double LoopTimer::get_lag() const {
