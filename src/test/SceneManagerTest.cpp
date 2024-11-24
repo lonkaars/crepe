@@ -139,7 +139,7 @@ TEST_F(SceneManagerTest, loadScene) {
 
 TEST_F(SceneManagerTest, perfectForwarding) {
 	scene_mgr.add_scene<ConcreteScene3>("scene3");
-	
+
 	scene_mgr.load_next_scene();
 
 	vector<reference_wrapper<Metadata>> metadata
