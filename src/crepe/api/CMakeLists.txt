@@ -58,4 +58,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	LoopManager.h
 	LoopTimer.h
 	Asset.h
+	Button.h
+	UiObject.h
 )

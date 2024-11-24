@@ -95,6 +95,18 @@ public:
 };
 
 /**
+ * \brief Event triggered when the mouse is moved.
+ */
+class MouseScrollEvent : public Event {
+public:
+	//! X-coordinate of the mouse position at the time of the event.
+	int scroll_x = 0;
+
+	//! Y-coordinate of the mouse position at the time of the event.
+	int scroll_y = 0;
+	int direction = 0;
+};
+/**
  * \brief Event triggered during a collision between objects.
  */
 class CollisionEvent : public Event {};
