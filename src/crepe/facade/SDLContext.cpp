@@ -92,7 +92,6 @@ void SDLContext::handle_events(bool &running) {
                 running = false;
                 event_manager.trigger_event(ShutDownEvent{});
                 break;
-
             case SDL_KEYDOWN:
                 event_manager.trigger_event<KeyPressEvent>(KeyPressEvent{
                     .repeat = event.key.repeat,
@@ -146,7 +145,6 @@ void SDLContext::handle_events(bool &running) {
                     .direction = (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -1 : 1)
                 });
                 break;
-
         }
     }
 }
@@ -365,3 +363,79 @@ int SDLContext::get_height(const Texture & ctx) const {
 	return h;
 }
 void SDLContext::delay(int ms) const { SDL_Delay(ms); }
+
+std::vector<SDLContext::EventData> SDLContext::get_events(){
+	std::vector<SDLContext::EventData> event_list;
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT:
+                event_list.push_back(EventData{
+					.event_type = SDLContext::Event::SHUTDOWN,
+				});
+				break;
+            case SDL_KEYDOWN:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::Event::KEYDOWN,
+					.key = sdl_to_keycode(event.key.keysym.scancode),
+					.key_repeat = (event.key.repeat != 0),
+				});
+				break;
+            case SDL_KEYUP:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::Event::KEYUP,
+					.key = sdl_to_keycode(event.key.keysym.scancode),
+				});
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+				{
+					int x,y;
+					SDL_GetMouseState(&x, &y);
+					event_list.push_back(EventData{
+						.event_type = SDLContext::Event::MOUSEDOWN,
+						.mouse_button = sdl_to_mousebutton(event.button.button),
+						.mouse_position = {x,y},
+					});
+				}
+                break;
+            case SDL_MOUSEBUTTONUP:
+                {
+					int x,y;
+					SDL_GetMouseState(&x, &y);
+					event_list.push_back(EventData{
+						.event_type = SDLContext::Event::MOUSEUP,
+						.mouse_button = sdl_to_mousebutton(event.button.button),
+						.mouse_position = {x,y},
+					});
+				}
+                break;
+
+            case SDL_MOUSEMOTION:
+                {
+					int x,y;
+					SDL_GetMouseState(&x, &y);
+					event_list.push_back(EventData{
+						.event_type = SDLContext::Event::MOUSEMOVE,
+						.mouse_position = {x,y},
+					});
+				}
+                break;
+
+            case SDL_MOUSEWHEEL:
+                {
+					int x, y;
+					SDL_GetMouseState(&x, &y);
+
+					event_list.push_back(EventData{
+						.event_type = SDLContext::Event::MOUSEWHEEL,
+						.mouse_position = {event.motion.x,event.motion.y},
+						.wheel_delta = event.wheel.y,
+						.rel_mouse_move {event.motion.yrel,event.motion.xrel},
+					});
+				}
+                break;
+        }
+    }
+	return event_list;
+}
+
