@@ -36,16 +36,14 @@ concrete scene to be added.
 #include <crepe/api/LoopManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Scene.h>
-#include <crepe/api/Vector2.h>
+#include <crepe/util/types.h>
 
 using namespace crepe;
 
 class MyScene : public Scene {
 public:
-	using Scene::Scene;
-
 	void load_scene() {
-		auto & mgr = this->component_manager;
+		ComponentManager & mgr = this->component_manager;
 		GameObject object1 = mgr.new_object("object1", "tag_my_scene", vec2{0, 0}, 0, 1);
 		GameObject object2 = mgr.new_object("object2", "tag_my_scene", vec2{1, 0}, 0, 1);
 	}
