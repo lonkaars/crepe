@@ -25,16 +25,10 @@ class Texture {
 
 public:
 	/**
-	 * \brief Constructs a Texture from a file path.
-	 * \param src Path to the image file to be loaded as a texture.
-	 */
-	Texture(const char * src);
-
-	/**
 	 * \brief Constructs a Texture from an Asset resource.
-	 * \param res Unique pointer to an Asset resource containing texture data.
+	 * \param src Asset with texture data to load.
 	 */
-	Texture(std::unique_ptr<Asset> res);
+	Texture(const Asset & src);
 
 	/**
 	 * \brief Destroys the Texture instance, freeing associated resources.
@@ -59,7 +53,7 @@ private:
 	 * \brief Loads the texture from an Asset resource.
 	 * \param res Unique pointer to an Asset resource to load the texture from.
 	 */
-	void load(std::unique_ptr<Asset> res);
+	void load(const Asset & res);
 
 private:
 	//! The texture of the class from the library

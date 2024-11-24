@@ -1,0 +1,10 @@
+// vim:ft=doxygen
+/**
+
+\defgroup internal Internals
+\brief Internal engine structure and other conventions
+
+\todo This page is incomplete
+\todo Anything about Contexts?
+
+*/

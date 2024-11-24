@@ -11,19 +11,18 @@ namespace crepe {
  * modified *before* execution is handed over from the game programmer to the engine (i.e. the
  * main loop is started).
  */
-class Config {
+class Config final {
 public:
 	//! Retrieve handle to global Config instance
 	static Config & get_instance();
 
 private:
 	Config() = default;
-
-	// singleton
-	Config(const Config &) = delete;
-	Config(Config &&) = delete;
-	Config & operator=(const Config &) = delete;
-	Config & operator=(Config &&) = delete;
+	~Config() = default;
+	Config(const Config &) = default;
+	Config(Config &&) = default;
+	Config & operator=(const Config &) = default;
+	Config & operator=(Config &&) = default;
 
 public:
 	//! Logging-related settings
@@ -62,6 +61,20 @@ public:
 		 */
 		double gravity = 1;
 	} physics;
+
+	//! Asset loading options
+	struct {
+		/**
+		 * \brief Pattern to match for Asset base directory
+		 *
+		 * All non-absolute paths resolved using \c Asset will be made relative to
+		 * the first parent directory relative to the calling executable where
+		 * appending this pattern results in a path that exists. If this string is
+		 * empty, path resolution is disabled, and Asset will return all paths
+		 * as-is.
+		 */
+		std::string root_pattern = ".crepe-root";
+	} asset;
 };
 
 } // namespace crepe

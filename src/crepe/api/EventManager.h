@@ -1,8 +1,6 @@
 #pragma once
 
-#include <functional>
 #include <memory>
-#include <type_traits>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
@@ -12,98 +10,152 @@
 
 namespace crepe {
 
+//! Event listener unique ID
+typedef size_t subscription_t;
+
+/**
+ * \brief Event channel
+ *
+ * Events can be sent to a specific channel, which prevents listeners on other channels from
+ * being called. The default channel is EventManager::CHANNEL_ALL, which calls all listeners.
+ */
+typedef size_t event_channel_t;
+
 /**
  * \class EventManager
- * \brief The EventManager class is responsible for managing the subscription, triggering, 
- * and queueing of events. It handles events and dispatches them to appropriate subscribers.
+ * \brief Manages event subscriptions, triggers, and queues, enabling decoupled event handling.
+ * 
+ * The `EventManager` acts as a centralized event system. It allows for registering callbacks
+ * for specific event types, triggering events synchronously, queueing events for later
+ * processing, and managing subscriptions via unique identifiers.
  */
 class EventManager {
 public:
+	static constexpr const event_channel_t CHANNEL_ALL = -1;
+
 	/**
-     * \brief Get the singleton instance of the EventManager.
-     * 
-     * This method returns the unique instance of the EventManager, creating it on the first call.
-     * 
-     * \return Reference to the EventManager instance.
-     */
+	 * \brief Get the singleton instance of the EventManager.
+	 * 
+	 * This method returns the unique instance of the EventManager, creating it if it
+	 * doesn't already exist. Ensures only one instance is active in the program.
+	 * 
+	 * \return Reference to the singleton instance of the EventManager.
+	 */
 	static EventManager & get_instance();
 
 	/**
-     * \brief Subscribe to an event.
-     * 
-     * This method allows the registration of a callback for a specific event type and channel.
-     * 
-     * \tparam EventType The type of the event to subscribe to.
-     * \param callback The callback function to invoke when the event is triggered.
-     * \param channel The channel number to subscribe to (default is 0).
-     */
+	 * \brief Subscribe to a specific event type.
+	 * 
+	 * Registers a callback for a given event type and optional channel. Each callback
+	 * is assigned a unique subscription ID that can be used for later unsubscription.
+	 * 
+	 * \tparam EventType The type of the event to subscribe to.
+	 * \param callback The callback function to be invoked when the event is triggered.
+	 * \param channel The channel number to subscribe to (default is CHANNEL_ALL, which listens to all channels).
+	 * \return A unique subscription ID associated with the registered callback.
+	 */
 	template <typename EventType>
-	void subscribe(EventHandler<EventType> && callback, int channel = 0);
+	subscription_t subscribe(const EventHandler<EventType> & callback,
+							 event_channel_t channel = CHANNEL_ALL);
 
 	/**
-     * \brief Unsubscribe from an event.
-     * 
-     * This method removes a previously registered callback from an event.
-     * 
-     * \tparam EventType The type of the event to unsubscribe from.
-     * \param callback The callback function to remove from the subscription list.
-     * \param channel The event ID to unsubscribe from.
-     */
-	template <typename EventType>
-	void unsubscribe(const EventHandler<EventType> &, int channel = 0);
+	 * \brief Unsubscribe a previously registered callback.
+	 * 
+	 * Removes a callback from the subscription list based on its unique subscription ID.
+	 * 
+	 * \param event_id The unique subscription ID of the callback to remove.
+	 */
+	void unsubscribe(subscription_t event_id);
 
 	/**
-     * \brief Trigger an event.
-     * 
-     * This method invokes the appropriate callback(s) for the specified event.
-     * 
-     * \tparam EventType The type of the event to trigger.
-     * \param event The event data to pass to the callback.
-     * \param channel The channel from which to trigger the event (default is 0).
-     */
+	 * \brief Trigger an event immediately.
+	 * 
+	 * Synchronously invokes all registered callbacks for the given event type on the specified channel.
+	 * 
+	 * \tparam EventType The type of the event to trigger.
+	 * \param event The event instance to pass to the callbacks.
+	 * \param channel The channel to trigger the event on (default is CHANNEL_ALL, which triggers on all channels).
+	 */
 	template <typename EventType>
-	void trigger_event(const EventType & event, int channel = 0);
+	void trigger_event(const EventType & event = {}, event_channel_t channel = CHANNEL_ALL);
 
 	/**
-     * \brief Queue an event for later processing.
-     * 
-     * This method adds an event to the event queue, which will be processed in the 
-     * dispatch_events function.
-     * 
-     * \tparam EventType The type of the event to queue.
-     * \param event The event to queue.
-     * \param channel The channel number for the event (default is 0).
-     */
+	 * \brief Queue an event for later processing.
+	 * 
+	 * Adds an event to the event queue to be processed during the next call to `dispatch_events`.
+	 * 
+	 * \tparam EventType The type of the event to queue.
+	 * \param event The event instance to queue.
+	 * \param channel The channel to associate with the event (default is CHANNEL_ALL).
+	 */
 	template <typename EventType>
-	void queue_event(EventType && event, int channel = 0);
+	void queue_event(const EventType & event = {}, event_channel_t channel = CHANNEL_ALL);
 
 	/**
-     * \brief Dispatch all queued events.
-     * 
-     * This method processes all events in the event queue and triggers the corresponding 
-     * callbacks for each event.
-     */
+	 * \brief Process all queued events.
+	 * 
+	 * Iterates through the event queue and triggers callbacks for each queued event.
+	 * Events are removed from the queue once processed.
+	 */
 	void dispatch_events();
+
+	/**
+	 * \brief Clear all subscriptions.
+	 * 
+	 * Removes all registered event handlers and clears the subscription list.
+	 */
+	void clear();
 
 private:
 	/**
-     * \brief Default constructor for the EventManager.
-     * 
-     * This constructor is private to enforce the singleton pattern.
-     */
+	 * \brief Default constructor for the EventManager.
+	 * 
+	 * Constructor is private to enforce the singleton pattern.
+	 */
 	EventManager() = default;
 
-	//! The queue of events to be processed.
-	std::vector<std::tuple<std::unique_ptr<Event>, int, std::type_index>> events_queue;
-	//! Registered event handlers.
-	std::unordered_map<std::type_index, std::vector<std::unique_ptr<IEventHandlerWrapper>>>
-		subscribers;
-	//! Event handlers indexed by event ID.
-	std::unordered_map<
-		std::type_index,
-		std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>
-		subscribers_by_event_id;
+	/**
+	 * \struct QueueEntry
+	 * \brief Represents an entry in the event queue.
+	 */
+	struct QueueEntry {
+		std::unique_ptr<Event> event; ///< The event instance.
+		event_channel_t channel = CHANNEL_ALL; ///< The channel associated with the event.
+		std::type_index type; ///< The type of the event.
+	};
+
+	/**
+	 * \brief Internal event handler
+	 *
+	 * This function processes a single event, and is used to process events both during
+	 * EventManager::dispatch_events and inside EventManager::trigger_event
+	 *
+	 * \param type \c typeid of concrete Event class
+	 * \param channel Event channel
+	 * \param data Event data
+	 */
+	void handle_event(std::type_index type, event_channel_t channel, const Event & data);
+
+	/**
+	 * \struct CallbackEntry
+	 * \brief Represents a registered event handler callback.
+	 */
+	struct CallbackEntry {
+		std::unique_ptr<IEventHandlerWrapper> callback; ///< The callback function wrapper.
+		event_channel_t channel = CHANNEL_ALL; ///< The channel this callback listens to.
+		subscription_t id = -1; ///< Unique subscription ID.
+	};
+
+	//! The queue of events to be processed during dispatch.
+	std::vector<QueueEntry> events_queue;
+
+	//! A map of event type to registered callbacks.
+	std::unordered_map<std::type_index, std::vector<CallbackEntry>> subscribers;
+
+	//! Counter to generate unique subscription IDs.
+	subscription_t subscription_counter = 0;
 };
 
 } // namespace crepe
+
 #include "EventManager.hpp"

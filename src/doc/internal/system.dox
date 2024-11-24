@@ -1,0 +1,26 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup internal_system Systems
+\ingroup internal
+\brief ECS Systems
+
+\todo This section is incomplete
+
+A system is responsible for processing the data stored in \ref
+internal_component "components".
+
+A basic system has the following structure:
+```cpp
+#include <crepe/system/System.h>
+
+class MySystem : public System {
+public:
+	using System::System;
+	void update() override;
+};
+```
+
+*/
+}

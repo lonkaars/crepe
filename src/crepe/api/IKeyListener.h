@@ -16,11 +16,11 @@ public:
      * \brief Constructs an IKeyListener with a specified channel.
      * \param channel The channel ID for event handling.
      */
-	IKeyListener(int channel);
-	IKeyListener();
+	IKeyListener(event_channel_t channel = EventManager::CHANNEL_ALL);
 	virtual ~IKeyListener();
 	IKeyListener(const IKeyListener &) = delete;
 	IKeyListener & operator=(const IKeyListener &) = delete;
+	IKeyListener & operator=(IKeyListener &&) = delete;
 	IKeyListener(IKeyListener &&) = delete;
 
 	/**
@@ -37,42 +37,12 @@ public:
      */
 	virtual bool on_key_released(const KeyReleaseEvent & event) = 0;
 
-	/**
-     * \brief Activates key listening.
-     */
-	void activate_keys();
-
-	/**
-     * \brief Deactivates key listening.
-     */
-	void deactivate_keys();
-
-	/**
-     * \brief Sets the channel ID for event handling.
-     * \param channel The channel ID to set.
-     */
-	void set_channel(int channel);
-
-protected:
-	/**
-     * \brief Subscribes to key events.
-     */
-	void subscribe_events();
-
-	/**
-     * \brief Unsubscribes from key events.
-     */
-	void unsubscribe_events();
-
 private:
-	//! Indicates whether key listening is active.
-	bool active = true;
-	//! Channel ID for event handling.
-	int channel = 0;
-	//! Key press event handler.
-	EventHandler<KeyPressEvent> key_pressed_handler;
-	//!< Key release event handler.
-	EventHandler<KeyReleaseEvent> key_released_handler;
+	//! Key press event id
+	subscription_t press_id = -1;
+	//! Key release event id
+	subscription_t release_id = -1;
+	//! EventManager reference
 	EventManager & event_manager;
 };
 

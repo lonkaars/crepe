@@ -9,14 +9,9 @@
 using namespace crepe;
 using namespace std;
 
-Texture::Texture(unique_ptr<Asset> res) {
+Texture::Texture(const Asset & src) {
 	dbg_trace();
-	this->load(std::move(res));
-}
-
-Texture::Texture(const char * src) {
-	dbg_trace();
-	this->load(make_unique<Asset>(src));
+	this->load(src);
 }
 
 Texture::~Texture() {
@@ -24,9 +19,9 @@ Texture::~Texture() {
 	this->texture.reset();
 }
 
-void Texture::load(unique_ptr<Asset> res) {
+void Texture::load(const Asset & res) {
 	SDLContext & ctx = SDLContext::get_instance();
-	this->texture = std::move(ctx.texture_from_path(res->get_canonical()));
+	this->texture = ctx.texture_from_path(res.get_path());
 }
 
 int Texture::get_width() const {
@@ -35,5 +30,5 @@ int Texture::get_width() const {
 }
 int Texture::get_height() const {
 	if (this->texture == nullptr) return 0;
-	return SDLContext::get_instance().get_width(*this);
+	return SDLContext::get_instance().get_height(*this);
 }
