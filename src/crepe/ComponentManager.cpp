@@ -1,8 +1,8 @@
 #include "api/GameObject.h"
-#include "types.h"
 #include "util/Log.h"
 
 #include "ComponentManager.h"
+#include "types.h"
 
 using namespace crepe;
 using namespace std;
