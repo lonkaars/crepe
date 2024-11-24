@@ -1,5 +1,5 @@
 #pragma once
-
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
@@ -10,6 +10,8 @@
 #include "../api/Sprite.h"
 #include "../api/KeyCodes.h"
 #include "../api/Transform.h"
+#include "../api/Vector2.h"
+#include "../api/Event.h"
 #include "api/Camera.h"
 
 // FIXME: this needs to be removed
@@ -20,11 +22,11 @@ namespace crepe {
 
 // TODO: SDL_Keycode is defined in a header not distributed with crepe, which means this
 // typedef is unusable when crepe is packaged. Wouter will fix this later.
-typedef SDL_Keycode CREPE_KEYCODES;
+//typedef SDL_Keycode CREPE_KEYCODES;
 
 class Texture;
 class LoopManager;
-
+class InputSystem;
 /**
  * \class SDLContext
  * \brief Facade for the SDL library
@@ -35,6 +37,26 @@ class LoopManager;
 class SDLContext {
 
 public:
+	enum Event{
+		NONE = 0,
+		MOUSEDOWN,
+		MOUSEUP,
+		MOUSEMOVE,
+		MOUSEWHEEL,
+		KEYUP,
+		KEYDOWN,
+		SHUTDOWN
+
+	};
+	struct EventData {
+		SDLContext::Event event_type = SDLContext::Event::NONE;
+		Keycode key = Keycode::NONE;
+		bool key_repeat = false;
+		MouseButton mouse_button = MouseButton::NONE;
+		std::pair<int,int> mouse_position = {-1,-1};
+		int wheel_delta = -1;
+		std::pair<int,int> rel_mouse_move = {-1,-1};
+	};
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
 	 * \return Reference to the SDLContext instance.
@@ -48,15 +70,18 @@ public:
 
 private:
 	//! will only use handle_events
-	friend class LoopManager;
+	friend class InputSystem;
 	/**
 	 * \brief Handles SDL events such as window close and input.
 	 * \param running Reference to a boolean flag that controls the main loop.
 	 */
 	void handle_events(bool & running);
+	std::vector<SDLContext::EventData> get_events();
+	
+	Keycode get_key();
+	Keycode get_mouse();
 	Keycode sdl_to_keycode(SDL_Keycode sdlKey);
 	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
-
 private:
 	//! Will only use get_ticks
 	friend class AnimatorSystem;
@@ -152,5 +177,6 @@ private:
 	//! viewport for the camera window
 	SDL_Rect viewport = {0, 0, 640, 480};
 };
+
 
 } // namespace crepe

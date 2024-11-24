@@ -6,6 +6,7 @@
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
+#include "../system/InputSystem.h"
 
 #include "LoopManager.h"
 #include "LoopTimer.h"
@@ -20,10 +21,11 @@ LoopManager::LoopManager() {
 	this->load_system<PhysicsSystem>();
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
+	this->load_system<InputSystem>();
 }
 
 void LoopManager::process_input() {
-	SDLContext::get_instance().handle_events(this->game_running);
+	this->get_system<InputSystem>().update();
 }
 
 void LoopManager::start() {
