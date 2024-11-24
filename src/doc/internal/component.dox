@@ -1,0 +1,41 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup internal_component Components
+\ingroup internal
+\brief ECS Components
+
+Components are attached to GameObject instances and are composed by the game
+programmer to create specific entities in the game world. While they are
+implemented as C++ classes, components should be treated as C-style structs,
+meaning all members are public and they do not contain functions.
+
+A basic component has the following structure:
+```cpp
+#include <crepe/Component.h>
+
+class MyComponent : public crepe::Component {
+public:
+	// Add your custom component's ininitializer properties after the `id`
+	// parameter. The first parameter is controlled by GameObject::add_component,
+	// while all other parameters are forwarded using std::forward.
+	MyComponent(game_object_id_t id, ...);
+
+	// Optionally define the `get_instances_max` method to limit the amount of
+	// instances of this component per GameObject. The default implementation for
+	// this function returns -1, which means the instance count does not have an
+	// upper limit:
+	virtual int get_instances_max() const { return -1; }
+
+	// Properties
+	// ...
+};
+```
+
+Generally, components are "handled" by \ref internal_system "systems", which may
+optionally change the components' state. Components' state may also be
+controlled by the game programmer through \ref feature_script "scripts".
+
+*/
+}

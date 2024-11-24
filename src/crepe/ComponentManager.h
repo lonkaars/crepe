@@ -5,8 +5,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "api/Vector2.h"
-
 #include "Component.h"
 #include "types.h"
 
@@ -45,7 +43,7 @@ public:
 	 * \note This method automatically assigns a new entity ID
 	 */
 	GameObject new_object(const std::string & name, const std::string & tag = "",
-						  const Vector2 & position = {0, 0}, double rotation = 0,
+						  const vec2 & position = {0, 0}, double rotation = 0,
 						  double scale = 1);
 
 protected:
