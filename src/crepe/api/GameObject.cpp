@@ -9,7 +9,7 @@ using namespace std;
 
 GameObject::GameObject(ComponentManager & component_manager, game_object_id_t id,
 					   const std::string & name, const std::string & tag,
-					   const Vector2 & position, double rotation, double scale)
+					   const vec2 & position, double rotation, double scale)
 	: id(id),
 	  component_manager(component_manager) {
 
