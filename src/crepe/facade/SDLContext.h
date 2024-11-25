@@ -36,6 +36,7 @@ class InputSystem;
 class SDLContext {
 
 public:
+	//! EventType enum for passing eventType
 	enum EventType {
 		NONE = 0,
 		MOUSEDOWN,
@@ -47,6 +48,7 @@ public:
 		SHUTDOWN,
 
 	};
+	//! EventData struct for passing event data from facade
 	struct EventData {
 		SDLContext::EventType event_type = SDLContext::EventType::NONE;
 		Keycode key = Keycode::NONE;
@@ -68,17 +70,39 @@ public:
 	SDLContext & operator=(SDLContext &&) = delete;
 
 private:
-	//! will only use handle_events
+	//! will only use get_events
 	friend class InputSystem;
 	/**
-	 * \brief Handles SDL events such as window close and input.
-	 * \param running Reference to a boolean flag that controls the main loop.
+	 * @brief Retrieves a list of all events from the SDL context.
+	 * 
+	 * This method retrieves all the events from the SDL context that are currently
+	 * available. It is primarily used by the InputSystem to process various
+	 * input events such as mouse clicks, mouse movements, and keyboard presses.
+	 * 
+	 * @return A vector of `SDLContext::EventData` containing the events.
 	 */
 	std::vector<SDLContext::EventData> get_events();
 
-	Keycode get_key();
-	Keycode get_mouse();
+	/**
+	 * @brief Converts an SDL key code to the custom Keycode type.
+	 * 
+	 * This method maps an SDL key code to the corresponding `Keycode` enum value,
+	 * which is used internally by the system to identify the keys.
+	 * 
+	 * @param sdlKey The SDL key code to convert.
+	 * @return The corresponding `Keycode` value.
+	 */
 	Keycode sdl_to_keycode(SDL_Keycode sdlKey);
+
+	/**
+	 * @brief Converts an SDL mouse button code to the custom MouseButton type.
+	 * 
+	 * This method maps an SDL mouse button code to the corresponding `MouseButton` 
+	 * enum value, which is used internally by the system to identify mouse buttons.
+	 * 
+	 * @param sdl_button The SDL mouse button code to convert.
+	 * @return The corresponding `MouseButton` value.
+	 */
 	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
 
 private:

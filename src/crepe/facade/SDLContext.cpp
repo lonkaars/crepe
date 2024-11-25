@@ -188,6 +188,7 @@ Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
 
 	return LOOKUP_TABLE[sdl_key];
 }
+
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
 	static const std::array<MouseButton, 5> MOUSE_BUTTON_LOOKUP_TABLE = [] {
 		std::array<MouseButton, 5> table{};
@@ -209,7 +210,9 @@ MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
 
 	return MOUSE_BUTTON_LOOKUP_TABLE[sdl_button];
 }
+
 void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
+
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
 
 SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
@@ -307,6 +310,7 @@ int SDLContext::get_height(const Texture & ctx) const {
 	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, NULL, &h);
 	return h;
 }
+
 void SDLContext::delay(int ms) const { SDL_Delay(ms); }
 
 std::vector<SDLContext::EventData> SDLContext::get_events() {
