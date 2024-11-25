@@ -51,10 +51,16 @@ class TestScript : public Script {
 
 class Profiling : public Test {
 public:
-	// config for test
+	// Config for test
+	// Minimum amount to let test pass
 	const int min_gameobject_count = 100;
-	const int max_gameobject_count = 1000;
+	// Maximum amount to stop test
+	const int max_gameobject_count = 200;
+	// Amount of times a test runs to calculate average
+	const int average = 10;
+	// Maximum duration to stop test
 	const std::chrono::microseconds duration = 16000us;
+	
 
 	ComponentManager mgr;
 	// Add system used for profling tests 
@@ -88,7 +94,7 @@ public:
 		func();
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::microseconds duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-		timings[name] = duration;
+		timings[name] += duration;
 		return duration;
 	}
 
@@ -107,16 +113,23 @@ public:
 		std::stringstream ss;
         ss << "\nFunction timings:\n";
         for (const auto& [name, duration] : timings) {
-            ss << name << " took " << duration.count() / 1000.0 << " ms (" << duration.count() << " µs).\n";
+            ss << name << " took " << duration.count() / 1000.0 / average << " ms (" << duration.count() / average << " µs).\n";
         }
-        ss << "Total time: " << this->total_time.count() / 1000.0 << " ms (" << this->total_time.count() << " µs)\n";
+        ss << "Total time: " << this->total_time.count() / 1000.0 / average << " ms (" << this->total_time.count() / average << " µs)\n";
         ss << "Amount of gameobjects: " << game_object_count << "\n";
         GTEST_LOG_(INFO) << ss.str();
+	}
+
+	void clear_timings() {
+		for (auto& [key, value] : timings) {
+    	value = std::chrono::microseconds(0);
+		}
 	}
 };
 
 TEST_F(Profiling, Profiling_1) {
-	while (this->total_time < this->duration) {
+	while (this->total_time/this->average < this->duration) {
+		
 
 		{
 			//define gameobject used for testing
@@ -124,7 +137,14 @@ TEST_F(Profiling, Profiling_1) {
 		}
 
 		this->game_object_count++;
-		this->total_time = run_all_systems();
+
+		this->total_time = 0us;
+		clear_timings();
+
+		for (int amount = 0; amount < this->average; amount++) {
+			this->total_time += run_all_systems();
+		}
+
 		if(this->game_object_count >= this->max_gameobject_count) break;
 	}
 	log_timings();
@@ -132,7 +152,7 @@ TEST_F(Profiling, Profiling_1) {
 }
 
 TEST_F(Profiling, Profiling_2) {
-	while (this->total_time < this->duration) {
+	while (this->total_time/this->average < this->duration) {
 	
 		{
 			//define gameobject used for testing
@@ -150,7 +170,13 @@ TEST_F(Profiling, Profiling_2) {
 		}
 
 		this->game_object_count++;
-		this->total_time = run_all_systems();
+
+		this->total_time = 0us;
+		clear_timings();
+		for (int amount = 0; amount < this->average; amount++) {
+			this->total_time += run_all_systems();
+		}
+
 		if(this->game_object_count >= this->max_gameobject_count) break;
 	}
 	log_timings();
@@ -158,7 +184,7 @@ TEST_F(Profiling, Profiling_2) {
 }
 
 TEST_F(Profiling, Profiling_3) {
-	while (this->total_time < this->duration) {
+	while (this->total_time/this->average < this->duration) {
 	
 		{
 			//define gameobject used for testing
@@ -190,7 +216,13 @@ TEST_F(Profiling, Profiling_3) {
 		}
 		render_sys.update();
 		this->game_object_count++;
-		this->total_time = run_all_systems();
+		
+		this->total_time = 0us;
+		clear_timings();
+		for (int amount = 0; amount < this->average; amount++) {
+			this->total_time += run_all_systems();
+		}
+
 		if(this->game_object_count >= this->max_gameobject_count) break;
 	}
 	log_timings();
