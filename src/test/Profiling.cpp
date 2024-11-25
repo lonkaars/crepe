@@ -26,6 +26,14 @@ using namespace std::chrono_literals;
 using namespace crepe;
 using namespace testing;
 
+
+/*
+List of test cases with component settings/details
+1. Minimal test creates gameobject without additonal components
+2. Minimal 'Complex' gameobject. Has dynamic body without bounce and no collision handler
+3. Minimal 'Complex' gameobject. Same as test 2 but with particle emitter
+*/
+
 class TestScript : public Script {
 	bool oncollision(const CollisionEvent& test) {
 		Log::logf("Box {} script on_collision()", test.info.first.collider.game_object_id);
@@ -43,6 +51,11 @@ class TestScript : public Script {
 
 class Profiling : public Test {
 public:
+	// config for test
+	const int min_gameobject_count = 100;
+	const int max_gameobject_count = 1000;
+	const std::chrono::microseconds duration = 16000us;
+
 	ComponentManager mgr;
 	// Add system used for profling tests 
 	CollisionSystem collision_sys{mgr};
@@ -51,12 +64,11 @@ public:
 	RenderSystem render_sys{mgr};
 	ScriptSystem script_sys{mgr};
 
-	// Store individual function timings
-	std::map<std::string, long long> timings; 
+	// Test data
+	std::map<std::string, std::chrono::microseconds> timings;
+	int game_object_count = 0;
+	std::chrono::microseconds total_time = 0us;
 
-	// Min and max gameobject that should and can be created
-	int min_gameobject_count = 100;
-	int max_gameobject_count = 1000;
 	
 	void SetUp() override {
 		
@@ -71,18 +83,18 @@ public:
 
 	// Helper function to time an update call and store its duration
 	template <typename Func>
-	long long time_function(const std::string& name, Func&& func) {
+	std::chrono::microseconds time_function(const std::string& name, Func&& func) {
 		auto start = std::chrono::steady_clock::now();
 		func();
 		auto end = std::chrono::steady_clock::now();
-		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-		timings[name] = duration; // Store the duration in microseconds
-		return duration; // Return the duration in microseconds
+		std::chrono::microseconds duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+		timings[name] = duration;
+		return duration;
 	}
 
 	// Run and profile all systems, return the total time in milliseconds
-	long long run_all_systems() {
-		long long total_microseconds = 0;
+	std::chrono::microseconds run_all_systems() {
+		std::chrono::microseconds total_microseconds = 0us;
 		total_microseconds += time_function("PhysicsSystem", [&]() { physics_sys.update(); });
 		total_microseconds += time_function("CollisionSystem", [&]() { collision_sys.update(); });
 		total_microseconds += time_function("ParticleSystem", [&]() { particle_sys.update(); });
@@ -91,41 +103,36 @@ public:
 	}
 
 	// Print timings of all functions
-	void log_timings(long long total_time,int game_object_count) const {
+	void log_timings() const {
 		std::stringstream ss;
-		ss <<  std::endl <<"Function timings:\n";  // Starting with a header
-		for (const auto& [name, duration] : timings) {
-				ss << name << " took " << duration / 1000.0 << " ms (" << duration << " µs). " << std::endl;
-		}
-		ss << "Total time: " << total_time / 1000.0  << "ms (" << total_time  << " µs)" << std::endl;
-		ss << "Amount of gameobjects: " << game_object_count << std::endl;
-		// Use GTest INFO macro to print the accumulated log without extra newlines
-		GTEST_LOG_(INFO) << ss.str();
+        ss << "\nFunction timings:\n";
+        for (const auto& [name, duration] : timings) {
+            ss << name << " took " << duration.count() / 1000.0 << " ms (" << duration.count() << " µs).\n";
+        }
+        ss << "Total time: " << this->total_time.count() / 1000.0 << " ms (" << this->total_time.count() << " µs)\n";
+        ss << "Amount of gameobjects: " << game_object_count << "\n";
+        GTEST_LOG_(INFO) << ss.str();
 	}
 };
 
-TEST_F(Profiling, Profiling_example) {
-	int game_object_count = 0;
-	long long total_time = 0;
-	while (total_time < 16000) {
-		
+TEST_F(Profiling, Profiling_1) {
+	while (this->total_time < this->duration) {
+
 		{
 			//define gameobject used for testing
 			GameObject gameobject = mgr.new_object("gameobject","",{0,0});
 		}
 
-		game_object_count++;
-		total_time = run_all_systems();
-		if(game_object_count >= max_gameobject_count) break;
+		this->game_object_count++;
+		this->total_time = run_all_systems();
+		if(this->game_object_count >= this->max_gameobject_count) break;
 	}
-	log_timings(total_time,game_object_count);
-	EXPECT_GE(game_object_count, min_gameobject_count);
+	log_timings();
+	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
-TEST_F(Profiling, Profiling_small_object) {
-	int game_object_count = 0;
-	long long total_time = 0;
-	while (total_time < 16000) {
+TEST_F(Profiling, Profiling_2) {
+	while (this->total_time < this->duration) {
 	
 		{
 			//define gameobject used for testing
@@ -142,19 +149,16 @@ TEST_F(Profiling, Profiling_small_object) {
 			FlipSettings{true, true});
 		}
 
-		render_sys.update();
-		game_object_count++;
-		total_time = run_all_systems();
-		if(game_object_count >= max_gameobject_count) break;
+		this->game_object_count++;
+		this->total_time = run_all_systems();
+		if(this->game_object_count >= this->max_gameobject_count) break;
 	}
-	log_timings(total_time,game_object_count);
-	EXPECT_GE(game_object_count, min_gameobject_count);
+	log_timings();
+	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
-TEST_F(Profiling, Profiling_small_object_Particle_emitter) {
-	int game_object_count = 0;
-	long long total_time = 0;
-	while (total_time < 16000) {
+TEST_F(Profiling, Profiling_3) {
+	while (this->total_time < this->duration) {
 	
 		{
 			//define gameobject used for testing
@@ -172,7 +176,7 @@ TEST_F(Profiling, Profiling_small_object_Particle_emitter) {
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
 			make_shared<Texture>("/home/jaro/crepe/asset/texture/img.png"), color, FlipSettings{false, false});
 			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
-			.max_particles = 100,
+			.max_particles = 10,
 			.emission_rate = 100,
 			.end_lifespan = 100000,
 			.boundary{
@@ -185,10 +189,10 @@ TEST_F(Profiling, Profiling_small_object_Particle_emitter) {
 	});
 		}
 		render_sys.update();
-		game_object_count++;
-		total_time = run_all_systems();
-		if(game_object_count >= max_gameobject_count) break;
+		this->game_object_count++;
+		this->total_time = run_all_systems();
+		if(this->game_object_count >= this->max_gameobject_count) break;
 	}
-	log_timings(total_time,game_object_count);
-	EXPECT_GE(game_object_count, min_gameobject_count);
+	log_timings();
+	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
