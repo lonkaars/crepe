@@ -96,6 +96,32 @@ TEST_F(InputTest, MouseUp) {
 	EXPECT_TRUE(function_triggered);
 }
 
+TEST_F(InputTest, MouseMove) {
+	bool function_triggered = false;
+    EventHandler<MouseMoveEvent> on_mouse_move = [&](const MouseMoveEvent& e) {
+        // Handle the mouse click event here
+		function_triggered = true;
+        EXPECT_EQ(e.mouse_x, 10);
+        EXPECT_EQ(e.mouse_y, 10);
+		EXPECT_EQ(e.rel_x, 10);
+        EXPECT_EQ(e.rel_y, 10);
+        return false;
+    };
+    event_manager.subscribe<MouseMoveEvent>(on_mouse_move);
+	
+    SDL_Event event;
+    SDL_zero(event);
+    event.type = SDL_MOUSEMOTION;
+    event.motion.x = 10;
+    event.motion.y = 10;
+	event.motion.xrel = 10;
+	event.motion.yrel = 10;
+    SDL_PushEvent(&event);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_TRUE(function_triggered);
+}
+
 TEST_F(InputTest, KeyDown) {
     bool function_triggered = false;
 
@@ -159,13 +185,11 @@ TEST_F(InputTest, MouseClick) {
     EXPECT_TRUE(on_click_triggered);
 }
 
-TEST_F(InputTest, testButton) {
+TEST_F(InputTest, testButtonClick) {
     GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
-	//auto test_button = std::make_unique<Button>();
-    // Button test_button = new Button(obj.id);
-    
-    auto button = obj.add_component<Button>();
+    auto& button = obj.add_component<Button>();
 	bool button_clicked = false;
+	bool hover = false;
     button.active = true;
 	button.interactable = true;
     button.width = 100;
@@ -173,11 +197,46 @@ TEST_F(InputTest, testButton) {
     std::function<void()> on_click = [&]() {
         button_clicked = true;
     };
-    button.on_click = on_click;
+	button.on_click = on_click;
     button.is_pressed = false;
     button.is_toggle = false;
-    this->simulate_mouse_click(10,10, SDL_BUTTON_LEFT);
+    this->simulate_mouse_click(101,101, SDL_BUTTON_LEFT);
 	input_system.update();
 	event_manager.dispatch_events();
-	//EXPECT_TRUE(button_clicked);
+	EXPECT_FALSE(button_clicked);
+	this->simulate_mouse_click(10,10, SDL_BUTTON_LEFT);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_TRUE(button_clicked);
+}
+
+TEST_F(InputTest, testButtonHover) {
+    GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+    auto& button = obj.add_component<Button>();
+	bool button_clicked = false;
+	bool hover = false;
+    button.active = true;
+	button.interactable = true;
+    button.width = 100;
+    button.height = 100;
+    button.is_pressed = false;
+    button.is_toggle = false;
+
+	SDL_Event event;
+    SDL_zero(event);
+    event.type = SDL_MOUSEMOTION;
+    event.motion.x = 10;
+    event.motion.y = 10;
+	event.motion.xrel = 10;
+	event.motion.yrel = 10;
+    SDL_PushEvent(&event);
+
+    this->simulate_mouse_click(101,101, SDL_BUTTON_LEFT);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_FALSE(button_clicked);
+	this->simulate_mouse_click(10,10, SDL_BUTTON_LEFT);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_TRUE(button_clicked);
 }

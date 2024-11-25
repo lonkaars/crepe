@@ -56,10 +56,6 @@ void InputSystem::update() {
 				if (last_mouse_button == event.mouse_button &&
 					std::abs(delta_x) <= click_tolerance &&
 					std::abs(delta_y) <= click_tolerance) {
-					std::cout << "Click registered at (" << event.mouse_position.first
-							<< ", " << event.mouse_position.second << ") with button "
-							<< static_cast<int>(event.mouse_button) << std::endl;
-
 					event_mgr.queue_event<MouseClickEvent>(MouseClickEvent{
 						.mouse_x = event.mouse_position.first,
 						.mouse_y = event.mouse_position.second,
@@ -67,8 +63,6 @@ void InputSystem::update() {
 					});
 
 					this->handle_click(mouse_release_event);
-				} else {
-					std::cout << "Mouse release did not register as a click." << std::endl;
 				}
 
 				break;
@@ -98,6 +92,25 @@ void InputSystem::update() {
             default:
                 break;
         }
+    }
+}
+
+void InputSystem::handle_move(const MouseMoveEvent){
+	ComponentManager &mgr = this->component_manager;
+
+    // Get the buttons and transforms
+    std::vector<std::reference_wrapper<Button>> buttons = mgr.get_components_by_type<Button>();
+    std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_type<Transform>();
+
+    for (Button &button : buttons) {
+        Transform* transform = find_transform_for_button(button, transforms);
+        if (!transform) continue; 
+        
+        if (button.interactable && is_mouse_inside_button(event, button, *transform)) {
+			button.hover = true;
+        }else{
+			button.hover = false;
+		}
     }
 }
 
@@ -134,11 +147,11 @@ bool InputSystem::is_mouse_inside_button(const MouseReleaseEvent &event, const B
 
 void InputSystem::handle_button_press(Button &button, const MouseReleaseEvent &event) {
     if (button.is_toggle) {
-        if (!button.is_pressed) {
-            button.on_click();
+        if (!button.is_pressed && button.on_click) {
+    		button.on_click();
         }
         button.is_pressed = !button.is_pressed;
-    } else {
+    } else if(button.on_click) {
         button.on_click();
     }
 }

@@ -361,6 +361,7 @@ std::vector<SDLContext::EventData> SDLContext::get_events(){
 					event_list.push_back(EventData{
 						.event_type = SDLContext::Event::MOUSEMOVE,
 						.mouse_position = {event.button.x,event.button.y},
+						.rel_mouse_move =  {event.motion.yrel,event.motion.xrel}
 					});
 				}
                 break;
@@ -371,7 +372,6 @@ std::vector<SDLContext::EventData> SDLContext::get_events(){
 						.event_type = SDLContext::Event::MOUSEWHEEL,
 						.mouse_position = {event.motion.x,event.motion.y},
 						.wheel_delta = event.wheel.y,
-						.rel_mouse_move =  {event.motion.yrel,event.motion.xrel},
 					});
 				}
                 break;
