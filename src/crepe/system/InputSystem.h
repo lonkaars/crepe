@@ -21,7 +21,7 @@ private:
     MouseButton last_mouse_button = MouseButton::NONE;
 	const int click_tolerance = 5;
 	void handle_click(const MouseReleaseEvent);
-
+	void handle_move(const MouseMoveEvent);
     Transform* find_transform_for_button(Button &button, std::vector<std::reference_wrapper<Transform>> &transforms);
 
     bool is_mouse_inside_button(const MouseReleaseEvent &event, const Button &button, const Transform &transform);
