@@ -104,6 +104,7 @@ public:
 
 	//! Y-coordinate of the mouse position at the time of the event.
 	int scroll_y = 0;
+	//! scroll direction (-1 = down, 1 = up)
 	int direction = 0;
 };
 /**
