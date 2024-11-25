@@ -1,14 +1,12 @@
 #pragma once
 
 #include "System.h"
-
-#include "../api/Button.h"
-#include "../api/Event.h"
-#include "../api/Transform.h"
 #include "../facade/SDLContext.h"
 
 namespace crepe {
 
+class Button;
+class Transform;
 /**
  * \class InputSystem
  * \brief Handles the processing of input events like mouse and keyboard interactions.
