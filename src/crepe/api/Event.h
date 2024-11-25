@@ -123,8 +123,6 @@ public:
 /**
  * \brief Event triggered to indicate the application is shutting down.
  */
-class ShutDownEvent : public Event {
-public:
-};
+class ShutDownEvent : public Event {};
 
 } // namespace crepe
