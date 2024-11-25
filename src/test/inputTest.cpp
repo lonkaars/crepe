@@ -214,29 +214,35 @@ TEST_F(InputTest, testButtonHover) {
     GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
     auto& button = obj.add_component<Button>();
 	bool button_clicked = false;
-	bool hover = false;
     button.active = true;
 	button.interactable = true;
     button.width = 100;
     button.height = 100;
     button.is_pressed = false;
     button.is_toggle = false;
-
+	//mouse not on button
 	SDL_Event event;
     SDL_zero(event);
     event.type = SDL_MOUSEMOTION;
-    event.motion.x = 10;
-    event.motion.y = 10;
+    event.motion.x = 200;
+    event.motion.y = 200;
 	event.motion.xrel = 10;
 	event.motion.yrel = 10;
     SDL_PushEvent(&event);
 
-    this->simulate_mouse_click(101,101, SDL_BUTTON_LEFT);
 	input_system.update();
 	event_manager.dispatch_events();
-	EXPECT_FALSE(button_clicked);
-	this->simulate_mouse_click(10,10, SDL_BUTTON_LEFT);
+	EXPECT_FALSE(button.hover);
+	//mouse on button
+	SDL_Event hover_event;
+    SDL_zero(hover_event);
+    hover_event.type = SDL_MOUSEMOTION;
+    hover_event.motion.x = 10;
+    hover_event.motion.y = 10;
+	hover_event.motion.xrel = 10;
+	hover_event.motion.yrel = 10;
+    SDL_PushEvent(&hover_event);
 	input_system.update();
 	event_manager.dispatch_events();
-	EXPECT_TRUE(button_clicked);
+	EXPECT_TRUE(button.hover);
 }
