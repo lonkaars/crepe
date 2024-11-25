@@ -13,20 +13,20 @@ void InputSystem::update() {
 
 	for (const SDLContext::EventData & event : event_list) {
 		switch (event.event_type) {
-			case SDLContext::Event::KEYDOWN: {
+			case SDLContext::EventType::KEYDOWN: {
 				event_mgr.queue_event<KeyPressEvent>(KeyPressEvent{
 					.repeat = event.key_repeat,
 					.key = event.key,
 				});
 				break;
 			}
-			case SDLContext::Event::KEYUP: {
+			case SDLContext::EventType::KEYUP: {
 				event_mgr.queue_event<KeyReleaseEvent>(KeyReleaseEvent{
 					.key = event.key,
 				});
 				break;
 			}
-			case SDLContext::Event::MOUSEDOWN: {
+			case SDLContext::EventType::MOUSEDOWN: {
 				event_mgr.queue_event<MousePressEvent>(MousePressEvent{
 					.mouse_x = event.mouse_position.first,
 					.mouse_y = event.mouse_position.second,
@@ -36,7 +36,7 @@ void InputSystem::update() {
 				last_mouse_button = event.mouse_button;
 				break;
 			}
-			case SDLContext::Event::MOUSEUP: {
+			case SDLContext::EventType::MOUSEUP: {
 				MouseReleaseEvent mouse_release_event = MouseReleaseEvent{
 					.mouse_x = event.mouse_position.first,
 					.mouse_y = event.mouse_position.second,
@@ -61,7 +61,7 @@ void InputSystem::update() {
 				}
 				break;
 			}
-			case SDLContext::Event::MOUSEMOVE: {
+			case SDLContext::EventType::MOUSEMOVE: {
 				event_mgr.queue_event<MouseMoveEvent>(MouseMoveEvent{
 					.mouse_x = event.mouse_position.first,
 					.mouse_y = event.mouse_position.second,
@@ -71,7 +71,7 @@ void InputSystem::update() {
 				handle_move(event);
 				break;
 			}
-			case SDLContext::Event::MOUSEWHEEL: {
+			case SDLContext::EventType::MOUSEWHEEL: {
 				event_mgr.queue_event<MouseScrollEvent>(MouseScrollEvent{
 					.scroll_x = event.wheel_delta,
 					.scroll_y = 0,
@@ -79,7 +79,7 @@ void InputSystem::update() {
 				});
 				break;
 			}
-			case SDLContext::Event::SHUTDOWN: {
+			case SDLContext::EventType::SHUTDOWN: {
 				event_mgr.queue_event<ShutDownEvent>(ShutDownEvent{});
 				break;
 			}

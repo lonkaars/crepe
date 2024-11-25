@@ -316,19 +316,19 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 		switch (event.type) {
 			case SDL_QUIT:
 				event_list.push_back(EventData{
-					.event_type = SDLContext::Event::SHUTDOWN,
+					.event_type = SDLContext::EventType::SHUTDOWN,
 				});
 				break;
 			case SDL_KEYDOWN:
 				event_list.push_back(EventData{
-					.event_type = SDLContext::Event::KEYDOWN,
+					.event_type = SDLContext::EventType::KEYDOWN,
 					.key = sdl_to_keycode(event.key.keysym.scancode),
 					.key_repeat = (event.key.repeat != 0),
 				});
 				break;
 			case SDL_KEYUP:
 				event_list.push_back(EventData{
-					.event_type = SDLContext::Event::KEYUP,
+					.event_type = SDLContext::EventType::KEYUP,
 					.key = sdl_to_keycode(event.key.keysym.scancode),
 				});
 				break;
@@ -336,7 +336,7 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 				int x, y;
 				SDL_GetMouseState(&x, &y);
 				event_list.push_back(EventData{
-					.event_type = SDLContext::Event::MOUSEDOWN,
+					.event_type = SDLContext::EventType::MOUSEDOWN,
 					.mouse_button = sdl_to_mousebutton(event.button.button),
 					.mouse_position = {event.button.x, event.button.y},
 				});
@@ -345,7 +345,7 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 				int x, y;
 				SDL_GetMouseState(&x, &y);
 				event_list.push_back(EventData{
-					.event_type = SDLContext::Event::MOUSEUP,
+					.event_type = SDLContext::EventType::MOUSEUP,
 					.mouse_button = sdl_to_mousebutton(event.button.button),
 					.mouse_position = {event.button.x, event.button.y},
 				});
@@ -353,14 +353,14 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 
 			case SDL_MOUSEMOTION: {
 				event_list.push_back(
-					EventData{.event_type = SDLContext::Event::MOUSEMOVE,
+					EventData{.event_type = SDLContext::EventType::MOUSEMOVE,
 							  .mouse_position = {event.motion.x, event.motion.y},
 							  .rel_mouse_move = {event.motion.xrel, event.motion.yrel}});
 			} break;
 
 			case SDL_MOUSEWHEEL: {
 				event_list.push_back(EventData{
-					.event_type = SDLContext::Event::MOUSEWHEEL,
+					.event_type = SDLContext::EventType::MOUSEWHEEL,
 					.mouse_position = {event.motion.x, event.motion.y},
 					.wheel_delta = event.wheel.y,
 				});

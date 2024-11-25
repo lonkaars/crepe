@@ -36,7 +36,7 @@ class InputSystem;
 class SDLContext {
 
 public:
-	enum Event {
+	enum EventType {
 		NONE = 0,
 		MOUSEDOWN,
 		MOUSEUP,
@@ -48,7 +48,7 @@ public:
 
 	};
 	struct EventData {
-		SDLContext::Event event_type = SDLContext::Event::NONE;
+		SDLContext::EventType event_type = SDLContext::EventType::NONE;
 		Keycode key = Keycode::NONE;
 		bool key_repeat = false;
 		MouseButton mouse_button = MouseButton::NONE;
