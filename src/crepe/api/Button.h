@@ -1,3 +1,4 @@
+#pragma once
 #include <functional>
 
 #include "Component.h"
@@ -6,7 +7,7 @@
 namespace crepe {
 class Button : public UiObject{
 public:
-	Button();
+	Button(game_object_id_t id) : UiObject(id){};
 	bool interactable = true;
 	bool is_toggle = false;
 	bool is_pressed = false;

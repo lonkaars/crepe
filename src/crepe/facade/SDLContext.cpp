@@ -76,75 +76,6 @@ SDLContext::~SDLContext() {
 	SDL_Quit();
 }
 
-void SDLContext::handle_events(bool &running) {
-    EventManager& event_manager = EventManager::get_instance();
-    SDL_Event event;
-
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                running = false;
-                event_manager.trigger_event(ShutDownEvent{});
-                break;
-            case SDL_KEYDOWN:
-                event_manager.trigger_event<KeyPressEvent>(KeyPressEvent{
-                    .repeat = (!event.key.repeat == 0),
-                    .key = this->sdl_to_keycode(event.key.keysym.scancode)
-                });
-                break;
-
-            case SDL_KEYUP:
-                event_manager.trigger_event<KeyReleaseEvent>(KeyReleaseEvent{
-                    .key = this->sdl_to_keycode(event.key.keysym.scancode),
-                });
-                break;
-
-            case SDL_MOUSEBUTTONDOWN:
-                {
-                    int x, y;
-                    SDL_GetMouseState(&x, &y);
-                    event_manager.trigger_event<MousePressEvent>(MousePressEvent{
-                        .mouse_x = x,
-                        .mouse_y = y,
-                        .button = this->sdl_to_mousebutton(event.button.button)
-                    });
-                }
-                break;
-
-            case SDL_MOUSEBUTTONUP:
-                {
-                    int x, y;
-                    SDL_GetMouseState(&x, &y);
-                    event_manager.trigger_event<MouseReleaseEvent>(MouseReleaseEvent{
-                        .mouse_x = x,
-                        .mouse_y = y,
-                        .button = this->sdl_to_mousebutton(event.button.button)
-                    });
-                }
-                break;
-
-            case SDL_MOUSEMOTION:
-                event_manager.trigger_event<MouseMoveEvent>(MouseMoveEvent{
-                    .mouse_x = event.motion.x,
-                    .mouse_y = event.motion.y,
-                    .rel_x = event.motion.xrel,
-                    .rel_y = event.motion.yrel
-                });
-                break;
-
-            case SDL_MOUSEWHEEL:
-                event_manager.trigger_event<MouseScrollEvent>(MouseScrollEvent{
-                    .scroll_x = event.wheel.x,
-                    .scroll_y = event.wheel.y,
-                    .direction = (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -1 : 1)
-                });
-                break;
-        }
-    }
-}
-
-
-
 Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
     static const std::array<Keycode, SDL_NUM_SCANCODES> LOOKUP_TABLE = [] {
         std::array<Keycode, SDL_NUM_SCANCODES> table{};
@@ -259,8 +190,8 @@ Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
     return LOOKUP_TABLE[sdl_key];
 }
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
-    static const std::array<MouseButton, 8> MOUSE_BUTTON_LOOKUP_TABLE = [] {
-        std::array<MouseButton, 8> table{};
+    static const std::array<MouseButton, 5> MOUSE_BUTTON_LOOKUP_TABLE = [] {
+        std::array<MouseButton, 5> table{};
         table.fill(MouseButton::NONE);
 
         table[SDL_BUTTON_LEFT] = MouseButton::LEFT_MOUSE;
@@ -409,7 +340,7 @@ std::vector<SDLContext::EventData> SDLContext::get_events(){
 					event_list.push_back(EventData{
 						.event_type = SDLContext::Event::MOUSEDOWN,
 						.mouse_button = sdl_to_mousebutton(event.button.button),
-						.mouse_position = {x,y},
+						.mouse_position = {event.button.x,event.button.y},
 					});
 				}
                 break;
@@ -420,32 +351,27 @@ std::vector<SDLContext::EventData> SDLContext::get_events(){
 					event_list.push_back(EventData{
 						.event_type = SDLContext::Event::MOUSEUP,
 						.mouse_button = sdl_to_mousebutton(event.button.button),
-						.mouse_position = {x,y},
+						.mouse_position = {event.button.x,event.button.y},
 					});
 				}
                 break;
 
             case SDL_MOUSEMOTION:
                 {
-					int x,y;
-					SDL_GetMouseState(&x, &y);
 					event_list.push_back(EventData{
 						.event_type = SDLContext::Event::MOUSEMOVE,
-						.mouse_position = {x,y},
+						.mouse_position = {event.button.x,event.button.y},
 					});
 				}
                 break;
 
             case SDL_MOUSEWHEEL:
                 {
-					int x, y;
-					SDL_GetMouseState(&x, &y);
-
 					event_list.push_back(EventData{
 						.event_type = SDLContext::Event::MOUSEWHEEL,
 						.mouse_position = {event.motion.x,event.motion.y},
 						.wheel_delta = event.wheel.y,
-						.rel_mouse_move {event.motion.yrel,event.motion.xrel},
+						.rel_mouse_move =  {event.motion.yrel,event.motion.xrel},
 					});
 				}
                 break;

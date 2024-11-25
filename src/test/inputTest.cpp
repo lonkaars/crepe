@@ -20,159 +20,164 @@ using namespace crepe;
 
 class InputTest : public ::testing::Test {
 public:
-ComponentManager mgr{};
-InputSystem input_system{mgr};
+    ComponentManager mgr{};
+    InputSystem input_system{mgr};
 
-EventManager& event_manager = EventManager::get_instance();
+    EventManager& event_manager = EventManager::get_instance();
+
 protected:
-	void SetUp() override {
-		event_manager.clear();
-	}
+    void SetUp() override {
+        event_manager.clear();
+    }
 
-	void TearDown() override {
-		event_manager.clear();
-	}
-void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
-    SDL_Event event;
+    void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
+        SDL_Event event;
 
-    // Simulate Mouse Button Down event
-    SDL_zero(event);
-    event.type = SDL_MOUSEBUTTONDOWN;
-    event.button.x = mouse_x;
-    event.button.y = mouse_y;
-    event.button.button = mouse_button;
-    SDL_PushEvent(&event);
-    SDL_zero(event);
-    event.type = SDL_MOUSEBUTTONUP;
-    event.button.x = mouse_x;
-    event.button.y = mouse_y;
-    event.button.button = mouse_button;
-    SDL_PushEvent(&event);
-}
-
+        // Simulate Mouse Button Down event
+        SDL_zero(event);
+        event.type = SDL_MOUSEBUTTONDOWN;
+        event.button.x = mouse_x;
+        event.button.y = mouse_y;
+        event.button.button = mouse_button;
+        SDL_PushEvent(&event);
+        SDL_zero(event);
+        event.type = SDL_MOUSEBUTTONUP;
+        event.button.x = mouse_x;
+        event.button.y = mouse_y;
+        event.button.button = mouse_button;
+        SDL_PushEvent(&event);
+    }
 };
 
 TEST_F(InputTest, MouseDown) {
-	bool mouse_triggered = false;
-	EventHandler<MousePressEvent> on_mouse_click = [&](const MousePressEvent& event) {
-        // Handle the mouse click event here
-		mouse_triggered = true;
+    bool mouse_triggered = false;
+    EventHandler<MousePressEvent> on_mouse_down = [&](const MousePressEvent& event) {
+        mouse_triggered = true;
         EXPECT_EQ(event.mouse_x, 10);
         EXPECT_EQ(event.mouse_y, 10);
         EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
-		return false;
+        return false;
     };
-	event_manager.subscribe<MousePressEvent>(on_mouse_click);
-	SDL_Event event;
-	SDL_zero(event);
+    event_manager.subscribe<MousePressEvent>(on_mouse_down);
+	
+    SDL_Event event;
+    SDL_zero(event);
     event.type = SDL_MOUSEBUTTONDOWN;
     event.button.x = 10;
     event.button.y = 10;
     event.button.button = SDL_BUTTON_LEFT;
     SDL_PushEvent(&event);
-	EXPECT_TRUE(mouse_triggered);
+	input_system.update();
+	event_manager.dispatch_events();
+    EXPECT_TRUE(mouse_triggered);
 }
 
 TEST_F(InputTest, MouseUp) {
-	 EventHandler<MouseReleaseEvent> on_mouse_click = [&](const MouseReleaseEvent& event) {
+	bool function_triggered = false;
+    EventHandler<MouseReleaseEvent> on_mouse_release = [&](const MouseReleaseEvent& e) {
         // Handle the mouse click event here
-        EXPECT_EQ(event.mouse_x, 10);
-        EXPECT_EQ(event.mouse_y, 10);
-        EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
-		return false;
+		function_triggered = true;
+        EXPECT_EQ(e.mouse_x, 10);
+        EXPECT_EQ(e.mouse_y, 10);
+        EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
+        return false;
     };
-	event_manager.subscribe<MouseReleaseEvent>(on_mouse_click);
-	SDL_Event event;
-	SDL_zero(event);
+    event_manager.subscribe<MouseReleaseEvent>(on_mouse_release);
+	
+    SDL_Event event;
+    SDL_zero(event);
     event.type = SDL_MOUSEBUTTONUP;
     event.button.x = 10;
     event.button.y = 10;
     event.button.button = SDL_BUTTON_LEFT;
     SDL_PushEvent(&event);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_TRUE(function_triggered);
 }
-TEST_F(InputTest, MouseUp) {
-	 EventHandler<MouseReleaseEvent> on_mouse_click = [&](const MouseReleaseEvent& event) {
-        // Handle the mouse click event here
-        EXPECT_EQ(event.mouse_x, 10);
-        EXPECT_EQ(event.mouse_y, 10);
-        EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
-		return false;
-    };
-	event_manager.subscribe<MouseReleaseEvent>(on_mouse_click);
-	SDL_Event event;
-	SDL_zero(event);
-    event.type = SDL_MOUSEBUTTONUP;
-    event.button.x = 10;
-    event.button.y = 10;
-    event.button.button = SDL_BUTTON_LEFT;
-    SDL_PushEvent(&event);
-}
+
 TEST_F(InputTest, KeyDown) {
-	 EventHandler<KeyPressEvent> on_mouse_click = [&](const KeyPressEvent& event) {
-        // Handle the mouse click event here
-        EXPECT_EQ(event.key, Keycode::B);
-		EXPECT_EQ(event.repeat, true);
-		return false;
+    bool function_triggered = false;
+
+    // Define event handler for KeyPressEvent
+    EventHandler<KeyPressEvent> on_key_press = [&](const KeyPressEvent& event) {
+        function_triggered = true;
+        EXPECT_EQ(event.key, Keycode::B); // Validate the key is 'B'
+        EXPECT_EQ(event.repeat, true);   // Validate repeat flag
+        return false;
     };
-	event_manager.subscribe<KeyPressEvent>(on_mouse_click);
-	SDL_Event event;
-	SDL_zero(event);
-    event.type = SDL_KEYUP;
-    event.button.button = SDL_BUTTON_LEFT;
-	event.key.repeat = 1;
-    SDL_PushEvent(&event);
+
+    event_manager.subscribe<KeyPressEvent>(on_key_press);
+
+    // Simulate SDL_KEYDOWN event
+    SDL_Event test_event;
+    SDL_zero(test_event);
+    test_event.type = SDL_KEYDOWN;                      // Key down event
+    test_event.key.keysym.scancode = SDL_SCANCODE_B;    // Set scancode for 'B'
+    test_event.key.repeat = 1;                          // Set repeat flag
+    SDL_PushEvent(&test_event);
+
+    input_system.update();             // Process the event
+    event_manager.dispatch_events();   // Dispatch events to handlers
+
+    EXPECT_TRUE(function_triggered);  // Check if the handler was triggered
 }
+
 TEST_F(InputTest, KeyUp) {
-	 EventHandler<KeyReleaseEvent> on_mouse_click = [&](const KeyReleaseEvent& event) {
-        // Handle the mouse click event here
+	bool function_triggered = false;
+    EventHandler<KeyReleaseEvent> on_key_release = [&](const KeyReleaseEvent& event) {
+        function_triggered = true;
         EXPECT_EQ(event.key, Keycode::B);
-		return false;
+        return false;
     };
-	event_manager.subscribe<KeyReleaseEvent>(on_mouse_click);
-	SDL_Event event;
-	SDL_zero(event);
+    event_manager.subscribe<KeyReleaseEvent>(on_key_release);
+	
+    SDL_Event event;
+    SDL_zero(event);
     event.type = SDL_KEYUP;
-    event.button.button = SDL_BUTTON_LEFT;
+    event.key.keysym.scancode = SDL_SCANCODE_B;
     SDL_PushEvent(&event);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_TRUE(function_triggered);
 }
-TEST_F(InputTest, KeyClick) {
-	GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
-	Button test_button;
-	bool button_clicked = false;
-	test_button.active = true;
-	test_button.width = 100;
-	test_button.height = 100;
-	std::function<void()> on_click = [&]() {
-        button_clicked = true;
+
+TEST_F(InputTest, MouseClick) {
+    bool on_click_triggered = false;
+    EventHandler<MouseClickEvent> on_mouse_click = [&](const MouseClickEvent& event) {
+        on_click_triggered = true;
+        EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
+        EXPECT_EQ(event.mouse_x, 10);
+        EXPECT_EQ(event.mouse_y, 10);
+        return false;
     };
-	test_button.on_click = on_click;
-	test_button.is_pressed = false;
-	test_button.is_toggle = false;
-	obj.add_component<Button>();
-	EventHandler<KeyReleaseEvent> on_mouse_click = [&](const KeyReleaseEvent& event) {
-        EXPECT_EQ(event.key, Keycode::B);
-		return false;
-    };
-	event_manager.subscribe<KeyReleaseEvent>(on_mouse_click);
-	SDL_Event event;
-	SDL_zero(event);
-    event.type = SDL_KEYUP;
-    event.button.button = SDL_BUTTON_LEFT;
-    SDL_PushEvent(&event);
+    event_manager.subscribe<MouseClickEvent>(on_mouse_click);
+	
+	this->simulate_mouse_click(10,10,SDL_BUTTON_LEFT);
+	input_system.update();
+	event_manager.dispatch_events();
+    EXPECT_TRUE(on_click_triggered);
 }
+
 TEST_F(InputTest, testButton) {
-	GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
-	Button test_button;
+    GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+	//auto test_button = std::make_unique<Button>();
+    // Button test_button = new Button(obj.id);
+    
+    auto button = obj.add_component<Button>();
 	bool button_clicked = false;
-	test_button.active = true;
-	test_button.width = 100;
-	test_button.height = 100;
-	std::function<void()> on_click = [&]() {
+    button.active = true;
+	button.interactable = true;
+    button.width = 100;
+    button.height = 100;
+    std::function<void()> on_click = [&]() {
         button_clicked = true;
     };
-	test_button.on_click = on_click;
-	test_button.is_pressed = false;
-	test_button.is_toggle = false;
-	obj.add_component<Button>();
-	this->simulate_mouse_click(10,10,MouseButton::LEFT_MOUSE);
+    button.on_click = on_click;
+    button.is_pressed = false;
+    button.is_toggle = false;
+    this->simulate_mouse_click(10,10, SDL_BUTTON_LEFT);
+	input_system.update();
+	event_manager.dispatch_events();
+	//EXPECT_TRUE(button_clicked);
 }

@@ -6,6 +6,7 @@
 #include <SDL2/SDL_video.h>
 #include <cmath>
 #include <functional>
+#include <utility>
 #include <memory>
 #include <string>
 
@@ -43,7 +44,7 @@ public:
 		MOUSEWHEEL,
 		KEYUP,
 		KEYDOWN,
-		SHUTDOWN
+		SHUTDOWN,
 
 	};
 	struct EventData {
@@ -73,7 +74,6 @@ private:
 	 * \brief Handles SDL events such as window close and input.
 	 * \param running Reference to a boolean flag that controls the main loop.
 	 */
-	void handle_events(bool & running);
 	std::vector<SDLContext::EventData> get_events();
 	
 	Keycode get_key();
