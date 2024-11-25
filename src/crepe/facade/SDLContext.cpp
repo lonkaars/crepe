@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -124,8 +125,8 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
 	pixel_width *= img_scale;
 	pixel_height *= img_scale;
 
-	int pixel_x = static_cast<int>((pos.x - cam_pos.x - pixel_width / 2));
-	int pixel_y = static_cast<int>((pos.y - cam_pos.y - pixel_height / 2));
+	int pixel_x = static_cast<int>((pos.x - cam_pos.x + this->viewport.w / 2 - pixel_width / 2));
+	int pixel_y = static_cast<int>((pos.y - cam_pos.y + this->viewport.h / 2 - pixel_height / 2));
 
 	return SDL_Rect{
 		.x = pixel_x,
@@ -168,10 +169,10 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 void SDLContext::set_camera(const Camera & cam, Vector2 & scale) {
 
 	// resize window
-	if (this->viewport.w != (int) cam.screen.x && this->viewport.h != (int) cam.screen.y) {
+	if (this->viewport.w != (int) cam.screen.x || this->viewport.h != (int) cam.screen.y) {
 		SDL_SetWindowSize(this->game_window.get(), (int) cam.screen.x, (int) cam.screen.y);
-		this->viewport.h = cam.screen.y;
-		this->viewport.w = cam.screen.x;
+		this->viewport.h = (int)cam.screen.y;
+		this->viewport.w = (int)cam.screen.x;
 	}
 
 	double screen_aspect = cam.screen.x / cam.screen.y;
@@ -185,7 +186,6 @@ void SDLContext::set_camera(const Camera & cam, Vector2 & scale) {
 	// calculate black bars
 	if (screen_aspect > viewport_aspect) {
 		// lettorboxing
-		view.h = static_cast<int>(cam.screen.y / cam.zoom);
 		view.w = static_cast<int>(cam.screen.y * viewport_aspect);
 		view.x = static_cast<int>(cam.screen.x - view.w) / 2;
 		view.y = 0;
@@ -196,7 +196,6 @@ void SDLContext::set_camera(const Camera & cam, Vector2 & scale) {
 		view.x = 0;
 		view.y = static_cast<int>(cam.screen.y - view.h) / 2;
 	}
-
 	// set drawing area 
 	SDL_RenderSetViewport(this->game_renderer.get(), &view);
 

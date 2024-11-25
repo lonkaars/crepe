@@ -24,7 +24,7 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", Vector2{1000, 500}, 0, 1);
+	GameObject game_object = mgr.new_object("", "", Vector2{0, 0}, 0, 1);
 	RenderSystem sys{mgr};
 	ParticleSystem psys{mgr};
 	AnimatorSystem asys{mgr};
@@ -62,7 +62,8 @@ int main(int argc, char * argv[]) {
 	});
 	*/
 
-	game_object.add_component<Camera>(Color::WHITE);
+	auto & cam = game_object.add_component<Camera>(Color::WHITE);
+	cam.pos = {500, 200};
 
 	/*
 	game_object
