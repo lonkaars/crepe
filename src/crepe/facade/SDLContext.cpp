@@ -360,8 +360,8 @@ std::vector<SDLContext::EventData> SDLContext::get_events(){
                 {
 					event_list.push_back(EventData{
 						.event_type = SDLContext::Event::MOUSEMOVE,
-						.mouse_position = {event.button.x,event.button.y},
-						.rel_mouse_move =  {event.motion.yrel,event.motion.xrel}
+						.mouse_position = {event.motion.x,event.motion.y},
+						.rel_mouse_move =  {event.motion.xrel,event.motion.yrel}
 					});
 				}
                 break;

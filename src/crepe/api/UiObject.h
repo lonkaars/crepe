@@ -1,17 +1,33 @@
 #pragma once
 
-#include "Component.h"
+#include "../Component.h"
 
-#include "api/EventHandler.h"
 namespace crepe {
 
-class UiObject : public Component{
+/**
+ * @class UiObject
+ * \brief Represents a UI object in the game, derived from the Component class.
+ */
+class UiObject : public Component {
 public:
-	UiObject(game_object_id_t id) : Component(id){};
-	int width = 0;
-	int height = 0;
+    /**
+     * \brief Constructs a UiObject with the specified game object ID.
+     * \param id The unique ID of the game object associated with this UI object.
+     */
+    UiObject(game_object_id_t id);
+
+    //! The width of the UI object.
+    int width = 0;
+
+    //! The height of the UI object.
+    int height = 0;
+
 public:
-virtual int get_instances_max() const { return 1; }
+    /**
+     * \brief Retrieves the maximum number of instances allowed for this UI object type.
+     * /return Always returns 1, as only a single instance is allowed.
+     */
+    virtual int get_instances_max() const override { return 1; }
 };
 
-}
+} // namespace crepe

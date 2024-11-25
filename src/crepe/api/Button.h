@@ -1,19 +1,44 @@
 #pragma once
+
 #include <functional>
 
-#include "Component.h"
-#include "api/EventHandler.h"
-#include "api/UiObject.h"
+#include "UiObject.h"
+
 namespace crepe {
-class Button : public UiObject{
+
+/**
+ * \class Button
+ * \brief Represents a clickable UI button, derived from the UiObject class.
+ */
+class Button : public UiObject {
 public:
-	Button(game_object_id_t id) : UiObject(id){};
-	bool interactable = true;
-	bool is_toggle = false;
-	bool is_pressed = false;
-	bool hover = false;
-	std::function<void()> on_click;
+    /**
+     * \brief Constructs a Button with the specified game object ID.
+     * \param id The unique ID of the game object associated with this button.
+     */
+    Button(game_object_id_t id);
+
+    //! Indicates if the button is interactable (can be clicked).
+    bool interactable = true;
+
+    //! Indicates if the button is a toggle button (can be pressed and released).
+    bool is_toggle = false;
+
+    //! Indicates whether the button is currently pressed.
+    bool is_pressed = false;
+
+    //! Indicates whether the mouse is currently hovering over the button.
+    bool hover = false;
+
+    //! The callback function to be executed when the button is clicked.
+    std::function<void()> on_click;
+
 public:
-virtual int get_instances_max() const { return 1; }
+    /**
+     * \brief Retrieves the maximum number of instances allowed for this button type.
+     * \return Always returns 1, as only a single instance is allowed.
+     */
+    virtual int get_instances_max() const override { return 1; }
 };
-}
+
+} // namespace crepe
