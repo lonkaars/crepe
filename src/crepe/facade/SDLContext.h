@@ -179,7 +179,7 @@ private:
 
 	//! viewport for the camera window
 	//todo change this so that it becomes a vec2 for only width and height
-	SDL_Rect viewport = {0, 0, 1280, 720};
+	SDL_Rect viewport = {0, 0, 1200, 1200};
 };
 
 } // namespace crepe
