@@ -6,15 +6,15 @@
 #include <SDL2/SDL_video.h>
 #include <cmath>
 #include <functional>
-#include <utility>
 #include <memory>
 #include <string>
+#include <utility>
 
-#include "../api/Sprite.h"
+#include "../api/Event.h"
 #include "../api/KeyCodes.h"
+#include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../api/Vector2.h"
-#include "../api/Event.h"
 #include "api/Camera.h"
 
 #include "types.h"
@@ -36,7 +36,7 @@ class InputSystem;
 class SDLContext {
 
 public:
-	enum Event{
+	enum Event {
 		NONE = 0,
 		MOUSEDOWN,
 		MOUSEUP,
@@ -52,9 +52,9 @@ public:
 		Keycode key = Keycode::NONE;
 		bool key_repeat = false;
 		MouseButton mouse_button = MouseButton::NONE;
-		std::pair<int,int> mouse_position = {-1,-1};
+		std::pair<int, int> mouse_position = {-1, -1};
 		int wheel_delta = -1;
-		std::pair<int,int> rel_mouse_move = {-1,-1};
+		std::pair<int, int> rel_mouse_move = {-1, -1};
 	};
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
@@ -75,11 +75,12 @@ private:
 	 * \param running Reference to a boolean flag that controls the main loop.
 	 */
 	std::vector<SDLContext::EventData> get_events();
-	
+
 	Keycode get_key();
 	Keycode get_mouse();
 	Keycode sdl_to_keycode(SDL_Keycode sdlKey);
 	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
+
 private:
 	//! Will only use get_ticks
 	friend class AnimatorSystem;
@@ -196,6 +197,5 @@ private:
 	//! viewport for the camera window
 	SDL_Rect viewport = {0, 0, 640, 480};
 };
-
 
 } // namespace crepe

@@ -2,4 +2,4 @@
 
 using namespace crepe;
 
-Button::Button(game_object_id_t id) : UiObject(id){}
+Button::Button(game_object_id_t id) : UiObject(id) {}

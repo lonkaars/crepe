@@ -89,9 +89,9 @@ public:
 	//! Y-coordinate of the mouse position at the time of the event.
 	int mouse_y = 0;
 	// Relative movement in x
-    int rel_x;
+	int rel_x;
 	// Relative movement in y
-    int rel_y; 
+	int rel_y;
 };
 
 /**
@@ -127,4 +127,4 @@ class ShutDownEvent : public Event {
 public:
 };
 
-}
+} // namespace crepe
