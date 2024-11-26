@@ -64,6 +64,7 @@ int main(int argc, char * argv[]) {
 
 	auto & cam = game_object.add_component<Camera>(Color::WHITE);
 	cam.pos = {500, 200};
+	cam.viewport = {2000,1000};
 
 	/*
 	game_object

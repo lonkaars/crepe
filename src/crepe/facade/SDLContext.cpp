@@ -30,14 +30,13 @@ SDLContext & SDLContext::get_instance() {
 
 SDLContext::SDLContext() {
 	dbg_trace();
-	// FIXME: read window defaults from config manager
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
 	SDL_Window * tmp_window
 		= SDL_CreateWindow("Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-						   this->viewport.w, this->viewport.h, 0);
+						   this->window.x, this->window.y, 0);
 	if (!tmp_window) {
 		throw runtime_error(format("SDLContext: SDL_Window error: {}", SDL_GetError()));
 	}
@@ -123,8 +122,8 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos,
 	pixel_width *= img_scale;
 	pixel_height *= img_scale;
 
-	int pixel_x = static_cast<int>((pos.x - cam_pos.x + this->viewport.w / 2 - pixel_width / 2));
-	int pixel_y = static_cast<int>((pos.y - cam_pos.y + this->viewport.h / 2 - pixel_height / 2));
+	int pixel_x = static_cast<int>((pos.x - cam_pos.x + this->window.x / 2 - pixel_width / 2));
+	int pixel_y = static_cast<int>((pos.y - cam_pos.y + this->window.y / 2 - pixel_height / 2));
 
 	return SDL_Rect{
 		.x = pixel_x,
@@ -167,10 +166,9 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 void SDLContext::set_camera(const Camera & cam, vec2 & scale) {
 
 	// resize window
-	if (this->viewport.w != (int) cam.screen.x || this->viewport.h != (int) cam.screen.y) {
+	if ((int)this->window.x != (int) cam.screen.x || (int)this->window.y != (int) cam.screen.y) {
 		SDL_SetWindowSize(this->game_window.get(), (int) cam.screen.x, (int) cam.screen.y);
-		this->viewport.h = (int)cam.screen.y;
-		this->viewport.w = (int)cam.screen.x;
+		this->window = cam.screen;
 	}
 
 	double screen_aspect = cam.screen.x / cam.screen.y;

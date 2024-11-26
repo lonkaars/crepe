@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../util/Log.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -61,6 +62,14 @@ public:
 		 */
 		double gravity = 1;
 	} physics;
+
+	//! default window settings
+	struct {
+		//TODO make this constexpr because this will never change 
+		vec2 def_size = {1080,720};
+		vec2 pos = {0,0};
+		float zoom = 1.0f;
+	} win_set;
 
 	//! Asset loading options
 	struct {
