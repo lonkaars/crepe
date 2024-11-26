@@ -13,6 +13,7 @@
 #include "../api/Transform.h"
 #include "api/Camera.h"
 
+#include "api/Config.h"
 #include "types.h"
 
 namespace crepe {
@@ -179,8 +180,7 @@ private:
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
 
 	//! viewport for the camera window
-	//todo change this so that it becomes a vec2 for only width and height
-	SDL_Rect viewport = {0, 0, 1200, 1200};
+	vec2 window = Config::get_instance().win_set.def_size;
 };
 
 } // namespace crepe
