@@ -370,6 +370,12 @@ TEST_F(ECSTest, resetPersistent) {
 	EXPECT_EQ(metadata.size(), 1);
 	EXPECT_EQ(transform.size(), 1);
 
+	vector<reference_wrapper<Metadata>> metadata_id = mgr.get_components_by_id<Metadata>(1);
+
+	EXPECT_EQ(metadata_id.size(), 1);
+	EXPECT_EQ(metadata_id[0].get().game_object_id, 1);
+	EXPECT_EQ(metadata_id[0].get().name, "obj1");
+
 	mgr.set_persistent(1, false);
 	mgr.delete_all_components();
 
