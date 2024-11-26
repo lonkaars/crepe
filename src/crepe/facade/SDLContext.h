@@ -121,7 +121,7 @@ private:
 	 * \param cam_pos position of the current camera in the scene
 	 * \param cam_scale multiplier for the world to screen
 	 */
-	void draw(const Sprite & sprite, const Transform & transform, const vec2 & cam_pos,
+	void draw(const Sprite & sprite, const Transform & transform, const Camera & cam,
 			  const vec2 & cam_scale);
 
 	/**
@@ -135,7 +135,7 @@ private:
 	 * \param  cam_scale camera scalar for world to screen
 	 */
 	void draw_particle(const Sprite & sprite, const vec2 & pos, const double & angle,
-					   const vec2 & cam_pos, const double & img_scale, const vec2 & cam_scale);
+					   const double & img_scale, const Camera & cam, const vec2 & cam_scale);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
@@ -168,8 +168,8 @@ private:
 	 * \param scale the multiplier for world to screen 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const vec2 & cam_pos,
-						  const double & img_scale, const vec2 & scale) const;
+	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
+						  const double & img_scale, const vec2 & cam_scale) const;
 
 private:
 	//! sdl Window

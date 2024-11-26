@@ -72,14 +72,14 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
-			this->context.draw_particle(sprite, p.position, p.angle, this->curr_cam_ref->pos,
-										scale, this->scale);
+			this->context.draw_particle(sprite, p.position, p.angle, scale,
+										*this->curr_cam_ref, this->scale);
 		}
 	}
 	return rendering_particles;
 }
 void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
-	this->context.draw(sprite, tm, this->curr_cam_ref->pos, this->scale);
+	this->context.draw(sprite, tm, *this->curr_cam_ref, this->scale);
 }
 
 void RenderSystem::render() {

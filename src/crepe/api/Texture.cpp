@@ -1,5 +1,3 @@
-#include <SDL2/SDL_render.h>
-
 #include "../facade/SDLContext.h"
 #include "../util/Log.h"
 
