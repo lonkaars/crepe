@@ -2,7 +2,8 @@
 
 #include "Color.h"
 #include "Component.h"
-#include "api/Vector2.h"
+
+#include "types.h"
 
 namespace crepe {
 
@@ -29,15 +30,15 @@ public:
 	Color bg_color;
 
 	//! pos The position of the camera in world units
-	Vector2 pos = {0, 0};
+	vec2 pos = {0, 0};
 
 	//! screen the display size in pixels ( output resolution )
-	//Vector2 screen = {720, 480};
-	Vector2 screen = {1080, 720};
+	//vec2 screen = {720, 480};
+	vec2 screen = {1080, 720};
 
 	//! viewport is the area of the world visible through the camera (in world units)
-	//Vector2 viewport = {720, 480};
-	Vector2 viewport = {2000, 1000};
+	//vec2 viewport = {720, 480};
+	vec2 viewport = {2000, 1000};
 
 	//! scale scaling factor from world units to pixel coordinates
 	//! Zoom level of the camera view.

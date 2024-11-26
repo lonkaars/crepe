@@ -8,7 +8,6 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -16,10 +15,9 @@
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../api/Transform.h"
-#include "../api/Vector2.h"
 #include "../util/Log.h"
-#include "api/Vector2.h"
 
+#include "types.h"
 #include "SDLContext.h"
 
 using namespace crepe;
@@ -108,9 +106,9 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 		.h = sprite.sprite_rect.h,
 	};
 }
-SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
-								  const Vector2 & cam_pos, const double & img_scale,
-								  const Vector2 & cam_scale) const {
+SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos,
+								  const vec2 & cam_pos, const double & img_scale,
+								  const vec2 & cam_scale) const {
 
 	int pixel_width, pixel_height;
 
@@ -136,9 +134,9 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const Vector2 & pos,
 	};
 }
 
-void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
-							   const double & angle, const Vector2 & cam_pos,
-							   const double & img_scale, const Vector2 & cam_scale) {
+void SDLContext::draw_particle(const Sprite & sprite, const vec2 & pos,
+							   const double & angle, const vec2 & cam_pos,
+							   const double & img_scale, const vec2 & cam_scale) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
@@ -152,7 +150,7 @@ void SDLContext::draw_particle(const Sprite & sprite, const Vector2 & pos,
 }
 
 void SDLContext::draw(const Sprite & sprite, const Transform & transform,
-					  const Vector2 & cam_pos, const Vector2 & cam_scale) {
+					  const vec2 & cam_pos, const vec2 & cam_scale) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
@@ -166,7 +164,7 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform,
 					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
-void SDLContext::set_camera(const Camera & cam, Vector2 & scale) {
+void SDLContext::set_camera(const Camera & cam, vec2 & scale) {
 
 	// resize window
 	if (this->viewport.w != (int) cam.screen.x || this->viewport.h != (int) cam.screen.y) {

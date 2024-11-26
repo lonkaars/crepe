@@ -1,13 +1,11 @@
 #pragma once
 
-#include <functional>
-#include <vector>
+#include <cmath>
 
-#include "api/Vector2.h"
 #include "facade/SDLContext.h"
 
 #include "System.h"
-#include <cmath>
+#include "types.h"
 
 namespace crepe {
 
@@ -82,7 +80,7 @@ private:
 	Camera * curr_cam_ref = nullptr;
 	// TODO: needs a better solution
 
-	Vector2 scale;
+	vec2 scale;
 
 	SDLContext & context = SDLContext::get_instance();
 };
