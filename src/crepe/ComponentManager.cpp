@@ -17,11 +17,11 @@ void ComponentManager::delete_all_components_of_id(game_object_id_t id) {
 	}
 
 	// Loop through all the types (in the unordered_map<>)
-	for (auto & [type, componentArray] : this->components) {
+	for (auto & [type, component_array] : this->components) {
 		// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
-		if (id < componentArray.size()) {
+		if (id < component_array.size()) {
 			// Clear the components at this specific id
-			componentArray[id].clear();
+			component_array[id].clear();
 		}
 	}
 }
