@@ -63,8 +63,10 @@ public:
 	 *
 	 * This method sets the persistent flag of the GameObject to true. If the persistent
 	 * flag is set to true, the GameObject will not be deleted when the scene is changed.
+	 *
+	 * \param persistent The persistent flag
 	 */
-	void set_persistent();
+	void set_persistent(bool persistent = true);
 
 public:
 	//! The id of the GameObject
