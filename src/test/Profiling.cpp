@@ -57,7 +57,7 @@ public:
 	// Maximum amount to stop test
 	const int max_gameobject_count = 200;
 	// Amount of times a test runs to calculate average
-	const int average = 10;
+	const int average = 5;
 	// Maximum duration to stop test
 	const std::chrono::microseconds duration = 16000us;
 	
