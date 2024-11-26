@@ -165,7 +165,7 @@ TEST_F(Profiling, Profiling_2) {
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
 			gameobject.add_component<Sprite>(
-			make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
+			make_shared<Texture>("asset/texture/green_square.png"), color,
 			FlipSettings{true, true});
 		}
 
@@ -197,10 +197,10 @@ TEST_F(Profiling, Profiling_3) {
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
 			gameobject.add_component<Sprite>(
-			make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
+			make_shared<Texture>("asset/texture/green_square.png"), color,
 			FlipSettings{true, true});
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-			make_shared<Texture>("/home/jaro/crepe/asset/texture/img.png"), color, FlipSettings{false, false});
+			make_shared<Texture>("asset/texture/img.png"), color, FlipSettings{false, false});
 			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
 			.max_particles = 10,
 			.emission_rate = 100,
