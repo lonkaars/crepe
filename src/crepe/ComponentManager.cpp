@@ -27,10 +27,18 @@ void ComponentManager::delete_all_components_of_id(game_object_id_t id) {
 }
 
 void ComponentManager::delete_all_components() {
-	// Loop through all the ids and delete all components of each id
-	for (game_object_id_t id = 0; id < next_id; id++) {
-		delete_all_components_of_id(id);
+	// Loop through all the types (in the unordered_map<>)
+	for (auto & [type, component_array] : this->components) {
+		// Loop through all the ids (in the vector<>)
+		for (game_object_id_t id = 0; id < component_array.size(); id++) {
+			// Do not delete persistent objects
+			if (!this->persistent[id]) {
+				// Clear the components at this specific id
+				component_array[id].clear();
+			}
+		}
 	}
+
 	this->next_id = 0;
 }
 
