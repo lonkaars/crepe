@@ -47,4 +47,6 @@ GameObject ComponentManager::new_object(const string & name, const string & tag,
 	return object;
 }
 
-void ComponentManager::set_persistent(game_object_id_t id) { this->persistent[id] = true; }
+void ComponentManager::set_persistent(game_object_id_t id, bool persistent) {
+	this->persistent[id] = persistent;
+}

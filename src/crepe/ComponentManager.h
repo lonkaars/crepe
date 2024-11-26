@@ -106,8 +106,9 @@ protected:
 	 * components will not be deleted.
 	 *
 	 * \param id The id of the GameObject to set as persistent
+	 * \param persistent The persistent flag
 	 */
-	void set_persistent(game_object_id_t id);
+	void set_persistent(game_object_id_t id, bool persistent);
 
 public:
 	/**

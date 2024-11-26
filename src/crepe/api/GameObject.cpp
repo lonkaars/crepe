@@ -31,8 +31,8 @@ void GameObject::set_parent(const GameObject & parent) {
 	parent_metadata.at(0).get().children.push_back(this->id);
 }
 
-void GameObject::set_persistent() {
+void GameObject::set_persistent(bool persistent) {
 	ComponentManager & mgr = this->component_manager;
 
-	mgr.set_persistent(this->id);
+	mgr.set_persistent(this->id, persistent);
 }
