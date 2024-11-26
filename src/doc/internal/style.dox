@@ -1,0 +1,9 @@
+// vim:ft=doxygen
+/**
+
+\defgroup internal_style Code style
+\ingroup internal
+\brief Coding conventions
+\include{doc} contributing.md
+
+*/

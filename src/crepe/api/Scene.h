@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "../util/OptionalRef.h"
+
 namespace crepe {
 
 class SceneManager;
@@ -15,11 +17,8 @@ class ComponentManager;
  */
 class Scene {
 protected:
-	//TODO: Use Loek's custom reference class to set ComponentManger via SceneManager instead of via constructor
-	/**
-	 * \param mgr  Reference to the ComponentManager
-	 */
-	Scene(ComponentManager & mgr);
+	// NOTE: This must be the only constructor on Scene, see "Late references" below
+	Scene() = default;
 	//! SceneManager instances Scene
 	friend class SceneManager;
 
@@ -36,8 +35,20 @@ public:
 	virtual std::string get_name() const = 0;
 
 protected:
+	/**
+	 * \name Late references
+	 * 
+	 * These references are set by SceneManager immediately after calling the constructor of Scene.
+	 *
+	 * \note Scene must have a constructor without arguments so the game programmer doesn't need to
+	 * manually add `using Scene::Scene` to their concrete scene class, if they want to add a
+	 * constructor with arguments (e.g. for passing references to their own concrete Scene classes).
+	 *
+	 * \{
+	 */
 	//! Reference to the ComponentManager
-	ComponentManager & component_manager;
+	OptionalRef<ComponentManager> component_manager;
+	//! \}
 };
 
 } // namespace crepe

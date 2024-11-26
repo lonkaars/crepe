@@ -12,7 +12,8 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "api/Camera.h"
-#include "api/Vector2.h"
+
+#include "types.h"
 
 namespace crepe {
 

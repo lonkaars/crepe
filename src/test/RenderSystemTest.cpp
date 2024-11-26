@@ -30,7 +30,7 @@ public:
 
 	void SetUp() override {
 		auto & sprite1
-			= entity1.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"),
+			= entity1.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"),
 											Color(0, 0, 0, 0), FlipSettings{false, false});
 		ASSERT_NE(sprite1.sprite_image.get(), nullptr);
 		sprite1.order_in_layer = 5;
@@ -38,7 +38,7 @@ public:
 		EXPECT_EQ(sprite1.order_in_layer, 5);
 		EXPECT_EQ(sprite1.sorting_in_layer, 5);
 		auto & sprite2
-			= entity2.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"),
+			= entity2.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"),
 											Color(0, 0, 0, 0), FlipSettings{false, false});
 		ASSERT_NE(sprite2.sprite_image.get(), nullptr);
 		sprite2.sorting_in_layer = 2;
@@ -48,7 +48,7 @@ public:
 		EXPECT_EQ(sprite2.order_in_layer, 1);
 
 		auto & sprite3
-			= entity3.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"),
+			= entity3.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"),
 											Color(0, 0, 0, 0), FlipSettings{false, false});
 		ASSERT_NE(sprite3.sprite_image.get(), nullptr);
 		sprite3.sorting_in_layer = 1;
@@ -58,7 +58,7 @@ public:
 		EXPECT_EQ(sprite3.order_in_layer, 2);
 
 		auto & sprite4
-			= entity4.add_component<Sprite>(make_shared<Texture>("../asset/texture/img.png"),
+			= entity4.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"),
 											Color(0, 0, 0, 0), FlipSettings{false, false});
 		ASSERT_NE(sprite4.sprite_image.get(), nullptr);
 		sprite4.sorting_in_layer = 1;
