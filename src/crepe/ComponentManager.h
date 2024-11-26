@@ -147,7 +147,7 @@ private:
 		components;
 
 	//! Persistent flag for each GameObject
-	std::vector<bool> persistent = {false};
+	std::unordered_map<game_object_id_t, bool> persistent;
 
 	//! ID of next GameObject allocated by \c ComponentManager::new_object
 	game_object_id_t next_id = 0;
