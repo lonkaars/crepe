@@ -135,8 +135,7 @@ private:
 	 * \param  cam_scale camera scalar for world to screen
 	 */
 	void draw_particle(const Sprite & sprite, const vec2 & pos, const double & angle,
-					   const vec2 & cam_pos, const double & img_scale,
-					   const vec2 & cam_scale);
+					   const vec2 & cam_pos, const double & img_scale, const vec2 & cam_scale);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
