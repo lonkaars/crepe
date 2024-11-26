@@ -34,7 +34,7 @@ void PhysicsSystem::update() {
 						if (rigidbody.data.angular_damping != 0) {
 							rigidbody.data.angular_velocity *= rigidbody.data.angular_damping;
 						}
-						if (rigidbody.data.linear_damping != Vector2{0, 0}) {
+						if (rigidbody.data.linear_damping != vec2{0, 0}) {
 							rigidbody.data.linear_velocity *= rigidbody.data.linear_damping;
 						}
 

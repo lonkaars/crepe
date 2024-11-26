@@ -2,6 +2,7 @@
 #include "api/Camera.h"
 #include "system/AnimatorSystem.h"
 #include "system/ParticleSystem.h"
+#include "types.h"
 #include <SDL2/SDL_timer.h>
 #include <crepe/ComponentManager.h>
 
@@ -51,11 +52,11 @@ int main(int argc, char * argv[]) {
 		.max_angle = 20,
 		.begin_lifespan = 0,
 		.end_lifespan = 60,
-		.force_over_time = Vector2{0, 0},
+		.force_over_time = vec2{0, 0},
 		.boundary{
 			.width = 1000,
 			.height = 1000,
-			.offset = Vector2{0, 0},
+			.offset = vec2{0, 0},
 			.reset_on_exit = false,
 		},
 		.sprite = test_sprite,
@@ -67,6 +68,7 @@ int main(int argc, char * argv[]) {
 
 	/*
 	game_object
+		.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"), color,
 		.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"), color,
 							   FlipSettings{false, false})
 		.order_in_layer
