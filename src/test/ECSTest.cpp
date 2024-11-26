@@ -349,3 +349,33 @@ TEST_F(ECSTest, persistent) {
 	EXPECT_EQ(transform[2].get().game_object_id, 2);
 	EXPECT_EQ(transform[2].get().scale, 5);
 }
+
+TEST_F(ECSTest, resetPersistent) {
+	GameObject obj0 = mgr.new_object("obj0", "obj0", vec2{0, 0}, 0, 1);
+	GameObject obj1 = mgr.new_object("obj1", "obj1", vec2{0, 0}, 0, 1);
+	obj1.set_persistent();
+	GameObject obj2 = mgr.new_object("obj2", "obj2", vec2{0, 0}, 0, 1);
+
+	vector<reference_wrapper<Metadata>> metadata = mgr.get_components_by_type<Metadata>();
+	vector<reference_wrapper<Transform>> transform = mgr.get_components_by_type<Transform>();
+
+	EXPECT_EQ(metadata.size(), 3);
+	EXPECT_EQ(transform.size(), 3);
+
+	mgr.delete_all_components();
+
+	metadata = mgr.get_components_by_type<Metadata>();
+	transform = mgr.get_components_by_type<Transform>();
+
+	EXPECT_EQ(metadata.size(), 1);
+	EXPECT_EQ(transform.size(), 1);
+
+	mgr.set_persistent(1, false);
+	mgr.delete_all_components();
+
+	metadata = mgr.get_components_by_type<Metadata>();
+	transform = mgr.get_components_by_type<Transform>();
+
+	EXPECT_EQ(metadata.size(), 0);
+	EXPECT_EQ(transform.size(), 0);
+}
