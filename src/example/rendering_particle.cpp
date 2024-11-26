@@ -2,7 +2,6 @@
 #include "api/Camera.h"
 #include "system/AnimatorSystem.h"
 #include "system/ParticleSystem.h"
-#include "types.h"
 #include <SDL2/SDL_timer.h>
 #include <crepe/ComponentManager.h>
 
@@ -14,7 +13,7 @@
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
-#include <crepe/api/Vector2.h>
+#include <crepe/types.h>
 #include <crepe/system/RenderSystem.h>
 
 #include <chrono>
@@ -25,7 +24,7 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", Vector2{0, 0}, 0, 1);
+	GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 	RenderSystem sys{mgr};
 	ParticleSystem psys{mgr};
 	AnimatorSystem asys{mgr};
