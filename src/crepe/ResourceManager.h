@@ -3,12 +3,13 @@
 #include <memory>
 #include <unordered_map>
 
-#include "Asset.h"
+#include "api/Asset.h"
+
+#include "Component.h"
 #include "Resource.h"
 
 namespace crepe {
 
-class Sound;
 
 /**
  * \brief The ResourceManager is responsible for storing and managing assets over
@@ -20,27 +21,19 @@ class Sound;
  * destroyed, at which point the cached assets are cleared.
  */
 class ResourceManager {
-
-private:
-	//! A cache that holds all the assets, accessible by their file path, over multiple scenes.
-	std::unordered_map<const Asset, std::unique_ptr<Resource>> resources;
-
-private:
+public:
 	ResourceManager(); // dbg_trace
 	virtual ~ResourceManager(); // dbg_trace
 
-	ResourceManager(const ResourceManager &) = delete;
-	ResourceManager(ResourceManager &&) = delete;
-	ResourceManager & operator=(const ResourceManager &) = delete;
-	ResourceManager & operator=(ResourceManager &&) = delete;
+private:
+	template <typename Resource>
+	Resource & get_internal(const Component & component, const Asset & asset);
 
-public:
-	/**
-	 * \brief Retrieves the singleton instance of the ResourceManager.
-	 *
-	 * \return A reference to the single instance of the ResourceManager.
-	 */
-	static ResourceManager & get_instance();
+	template <typename Resource>
+	const Asset & get_source(const Component & component) const;
+
+	//! A cache that holds all the assets, accessible by their file path, over multiple scenes.
+	std::unordered_map<const Asset, std::unique_ptr<Resource>> resources;
 
 public:
 	/**
@@ -58,12 +51,26 @@ public:
 	 * Otherwise, the concrete resource will be instantiated and added to the
 	 * cache.
 	 */
-	template <typename T>
-	T & cache(const Asset & asset);
+	template <typename Resource>
+	void cache(const Asset & asset, bool persistent = false);
+
+	template <typename Component>
+	void cache(const Component & component, bool persistent = false);
+
+	// void resman.cache<Resource>(Asset, Lifetime);
+	// void resman.cache(Component, Asset, Lifetime);
+
+	template <typename Resource, typename Component>
+	Resource & get(const Component & component);
 
 	//! Clear the resource cache
 	void clear();
 };
+
+class Sound;
+class AudioSource;
+template <>
+Sound & ResourceManager::get(const AudioSource & component);
 
 } // namespace crepe
 

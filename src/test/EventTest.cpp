@@ -37,7 +37,6 @@ public:
 
 TEST_F(EventManagerTest, EventSubscription) {
 	EventHandler<KeyPressEvent> key_handler = [](const KeyPressEvent & e) {
-		std::cout << "Key Event Triggered" << std::endl;
 		return true;
 	};
 

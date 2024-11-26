@@ -11,35 +11,12 @@ namespace crepe {
  * modified *before* execution is handed over from the game programmer to the engine (i.e. the
  * main loop is started).
  */
-class Config final {
-public:
+struct Config final {
 	//! Retrieve handle to global Config instance
 	static Config & get_instance();
 
-private:
-	Config() = default;
-	~Config() = default;
-	Config(const Config &) = default;
-	Config(Config &&) = default;
-	Config & operator=(const Config &) = default;
-	Config & operator=(Config &&) = default;
-
-public:
 	//! Logging-related settings
-	struct {
-		/**
-		 * \brief Log level
-		 *
-		 * Only messages with equal or higher priority than this value will be logged.
-		 */
-		Log::Level level = Log::Level::INFO;
-		/**
-		 * \brief Colored log output
-		 *
-		 * Enables log coloring using ANSI escape codes.
-		 */
-		bool color = true;
-	} log;
+	Log::Config log;
 
 	//! Save manager
 	struct {

@@ -47,7 +47,7 @@ void AudioSystem::update() {
 		 *   using the same underlying instance of Sound (esp. w/
 		 *   play/pause/retrigger behavior).
 		 */
-		Sound & sound = this->resman.cache<Sound>(component.source);
+		// Sound & sound = this->resource_manager.get<Sound>(component);
 
 		// TODO: lots of state diffing
 	}

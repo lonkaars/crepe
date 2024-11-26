@@ -7,7 +7,6 @@ target_sources(crepe PUBLIC
 	Transform.cpp
 	Color.cpp
 	Texture.cpp
-	ResourceManager.cpp
 	Sprite.cpp
 	SaveManager.cpp
 	Config.cpp
@@ -39,7 +38,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.hpp
 	Color.h
 	Texture.h 
-	ResourceManager.h 
 	SaveManager.h
 	Scene.h
 	Metadata.h

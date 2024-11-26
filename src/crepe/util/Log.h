@@ -77,6 +77,22 @@ private:
 	 * \return Colored message severity prefix string
 	 */
 	static std::string prefix(const Level & level);
+
+public:
+	struct Config {
+		/**
+		 * \brief Log level
+		 *
+		 * Only messages with equal or higher priority than this value will be logged.
+		 */
+		Level level = INFO;
+		/**
+		 * \brief Colored log output
+		 *
+		 * Enables log coloring using ANSI escape codes.
+		 */
+		bool color = true;
+	};
 };
 
 } // namespace crepe
