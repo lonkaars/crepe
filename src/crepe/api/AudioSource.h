@@ -3,6 +3,7 @@
 #include "../Component.h"
 #include "../types.h"
 
+#include "GameObject.h"
 #include "Asset.h"
 
 namespace crepe {
