@@ -39,19 +39,11 @@ GameObject ComponentManager::new_object(const string & name, const string & tag,
 	// Find the first available id (taking persistent objects into account)
 	while (this->persistent[this->next_id]) {
 		this->next_id++;
-		// Make sure that the persistent vector is large enough
-		if (persistent.size() <= next_id) {
-			this->persistent.resize(next_id + 1, false);
-		}
 	}
 
 	GameObject object{*this, this->next_id, name, tag, position, rotation, scale};
 	this->next_id++;
 
-	// Make sure that the persistent vector is large enough
-	if (persistent.size() <= next_id) {
-		this->persistent.resize(next_id + 1, false);
-	}
 	return object;
 }
 
