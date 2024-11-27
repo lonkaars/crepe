@@ -14,7 +14,7 @@ public:
      * \brief Constructs a UiObject with the specified game object ID.
      * \param id The unique ID of the game object associated with this UI object.
      */
-	UiObject(game_object_id_t id);
+	UiObject(game_object_id_t id,int width,int height);
 
 	//! The width of the UI object.
 	int width = 0;

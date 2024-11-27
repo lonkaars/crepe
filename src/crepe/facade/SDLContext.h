@@ -11,20 +11,16 @@
 #include <string>
 #include <utility>
 
-#include "../api/Event.h"
-#include "../api/KeyCodes.h"
-#include "../api/Sprite.h"
-#include "../api/Transform.h"
-#include "../api/Vector2.h"
+#include "api/Event.h"
+#include "api/KeyCodes.h"
+#include "api/Sprite.h"
+#include "api/Transform.h"
 #include "api/Camera.h"
 
 #include "types.h"
 
 namespace crepe {
 
-// TODO: SDL_Keycode is defined in a header not distributed with crepe, which means this
-// typedef is unusable when crepe is packaged. Wouter will fix this later.
-//typedef SDL_Keycode CREPE_KEYCODES;
 class LoopManager;
 class InputSystem;
 /**
@@ -93,7 +89,7 @@ private:
 	 * @param sdlKey The SDL key code to convert.
 	 * @return The corresponding `Keycode` value.
 	 */
-	Keycode sdl_to_keycode(SDL_Keycode sdlKey);
+	Keycode sdl_to_keycode(SDL_Keycode sdl_key);
 
 	/**
 	 * @brief Converts an SDL mouse button code to the custom MouseButton type.
