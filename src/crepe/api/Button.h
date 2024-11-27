@@ -1,7 +1,7 @@
 #pragma once
 
-#include <functional>
 #include "UiObject.h"
+#include <functional>
 
 namespace crepe {
 
@@ -24,7 +24,8 @@ public:
      * \param is_toggle Optional flag to indicate if the button is a toggle button. Defaults to false.
      * \param on_click callback function that will be invoked when the button is clicked.
      */
-	Button(game_object_id_t id, int width, int height, bool is_toggle = false, std::function<void()> on_click = nullptr);
+	Button(game_object_id_t id, int width, int height, bool is_toggle = false,
+		   std::function<void()> on_click = nullptr);
 
 	/**
      * \brief Indicates if the button is a toggle button (can be pressed and released).

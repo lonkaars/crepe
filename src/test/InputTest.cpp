@@ -20,14 +20,12 @@ using namespace crepe;
 class InputTest : public ::testing::Test {
 public:
 	ComponentManager mgr{};
-	InputSystem input_system{mgr};  // Initializes the InputSystem with the ComponentManager
+	InputSystem input_system{mgr}; // Initializes the InputSystem with the ComponentManager
 
-	EventManager& event_manager = EventManager::get_instance();
+	EventManager & event_manager = EventManager::get_instance();
 
 protected:
-	void SetUp() override { 
-		event_manager.clear(); 
-	}
+	void SetUp() override { event_manager.clear(); }
 
 	void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
 		SDL_Event event;
@@ -52,7 +50,7 @@ protected:
 
 TEST_F(InputTest, MouseDown) {
 	bool mouse_triggered = false;
-	EventHandler<MousePressEvent> on_mouse_down = [&](const MousePressEvent& event) {
+	EventHandler<MousePressEvent> on_mouse_down = [&](const MousePressEvent & event) {
 		mouse_triggered = true;
 		EXPECT_EQ(event.mouse_x, 10);
 		EXPECT_EQ(event.mouse_y, 10);
@@ -76,7 +74,7 @@ TEST_F(InputTest, MouseDown) {
 
 TEST_F(InputTest, MouseUp) {
 	bool function_triggered = false;
-	EventHandler<MouseReleaseEvent> on_mouse_release = [&](const MouseReleaseEvent& e) {
+	EventHandler<MouseReleaseEvent> on_mouse_release = [&](const MouseReleaseEvent & e) {
 		function_triggered = true;
 		EXPECT_EQ(e.mouse_x, 10);
 		EXPECT_EQ(e.mouse_y, 10);
@@ -100,7 +98,7 @@ TEST_F(InputTest, MouseUp) {
 
 TEST_F(InputTest, MouseMove) {
 	bool function_triggered = false;
-	EventHandler<MouseMoveEvent> on_mouse_move = [&](const MouseMoveEvent& e) {
+	EventHandler<MouseMoveEvent> on_mouse_move = [&](const MouseMoveEvent & e) {
 		function_triggered = true;
 		EXPECT_EQ(e.mouse_x, 10);
 		EXPECT_EQ(e.mouse_y, 10);
@@ -128,7 +126,7 @@ TEST_F(InputTest, KeyDown) {
 	bool function_triggered = false;
 
 	// Define event handler for KeyPressEvent
-	EventHandler<KeyPressEvent> on_key_press = [&](const KeyPressEvent& event) {
+	EventHandler<KeyPressEvent> on_key_press = [&](const KeyPressEvent & event) {
 		function_triggered = true;
 		EXPECT_EQ(event.key, Keycode::B); // Validate the key is 'B'
 		EXPECT_EQ(event.repeat, true); // Validate repeat flag
@@ -153,7 +151,7 @@ TEST_F(InputTest, KeyDown) {
 
 TEST_F(InputTest, KeyUp) {
 	bool function_triggered = false;
-	EventHandler<KeyReleaseEvent> on_key_release = [&](const KeyReleaseEvent& event) {
+	EventHandler<KeyReleaseEvent> on_key_release = [&](const KeyReleaseEvent & event) {
 		function_triggered = true;
 		EXPECT_EQ(event.key, Keycode::B);
 		return false;
@@ -173,7 +171,7 @@ TEST_F(InputTest, KeyUp) {
 
 TEST_F(InputTest, MouseClick) {
 	bool on_click_triggered = false;
-	EventHandler<MouseClickEvent> on_mouse_click = [&](const MouseClickEvent& event) {
+	EventHandler<MouseClickEvent> on_mouse_click = [&](const MouseClickEvent & event) {
 		on_click_triggered = true;
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
 		EXPECT_EQ(event.mouse_x, 10);
@@ -190,8 +188,8 @@ TEST_F(InputTest, MouseClick) {
 
 TEST_F(InputTest, testButtonClick) {
 	GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
-	
-	auto& button = obj.add_component<Button>(100,100);
+
+	auto & button = obj.add_component<Button>(100, 100);
 	bool button_clicked = false;
 	bool hover = false;
 	button.active = true;
@@ -212,7 +210,7 @@ TEST_F(InputTest, testButtonClick) {
 
 TEST_F(InputTest, testButtonHover) {
 	GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
-	auto& button = obj.add_component<Button>(100,100);
+	auto & button = obj.add_component<Button>(100, 100);
 	bool button_clicked = false;
 	button.active = true;
 	button.width = 100;
