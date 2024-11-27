@@ -1,5 +1,4 @@
 #include <cmath>
-#include <memory>
 
 #include "../util/Log.h"
 
@@ -10,17 +9,17 @@
 using namespace std;
 using namespace crepe;
 
-Sprite::Sprite(game_object_id_t id, const shared_ptr<Texture> image, const Color & color,
+Sprite::Sprite(game_object_id_t id, const Texture & image, const Color & color,
 			   const FlipSettings & flip)
 	: Component(id),
 	  color(color),
 	  flip(flip),
 	  sprite_image(image),
-	  aspect_ratio(static_cast<double>(sprite_image->get_width()) / sprite_image->get_height()) {
+	  aspect_ratio(static_cast<double>(sprite_image.get_width()) / sprite_image.get_height()) {
 	dbg_trace();
 
-	this->sprite_rect.w = sprite_image->get_width();
-	this->sprite_rect.h = sprite_image->get_height();
+	this->sprite_rect.w = sprite_image.get_width();
+	this->sprite_rect.h = sprite_image.get_height();
 }
 
 Sprite::~Sprite() { dbg_trace(); }

@@ -31,8 +31,8 @@ int main(int argc, char * argv[]) {
 
 	Color color(255, 255, 255, 255);
 
-	Sprite & test_sprite = game_object.add_component<Sprite>(
-		make_shared<Texture>("asset/texture/test_ap43.png"), color,
+	auto img = Texture("asset/texture/test_ap43.png");
+	Sprite & test_sprite = game_object.add_component<Sprite>(img, color,
 		FlipSettings{true, true});
 	test_sprite.order_in_layer = 5;
 	test_sprite.height = 195;
