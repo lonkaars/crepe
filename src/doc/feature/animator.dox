@@ -1,0 +1,126 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_animator Animator
+\ingroup feature
+\brief component for animating spritesheet
+
+Animators can be used to animate game object given the reference of a Sprite
+component, the rows and columns of the image and then the column to animate.
+
+\see Animator
+\see Sprite
+\see Color
+\see GameObject
+
+\par Example
+This example demonstrates how to create a game object and attach an Animator component 
+to it using the Crepe Engine. The process involves creating a game object with a Sprite 
+component to visually represent it, and then adding an Animator to handle animations 
+from a spritesheet.
+
+- **Starting Position**: 
+  The sprite's initial placement in the game world is defined using a 2D coordinate 
+  system. In this example, the sprite starts at the origin `(0, 0)`.
+
+- **Rotation**: 
+  The sprite's rotation is specified in degrees. A value of `0.0` indicates that the sprite 
+  is upright and unrotated.
+
+- **Scale**: 
+  The scale determines the sprite's size relative to its original image. A scale value 
+  of `1.0` keeps the sprite at its original size, while values less than `1.0` shrink it, 
+  and values greater than `1.0` enlarge it.
+
+- **Game Object Creation**: 
+  A game object is created through the `ComponentManager`. The object is given a name, a 
+  tag for categorization, and initialized with position, rotation, and scale properties.
+
+- **Texture Setup**: 
+  The texture is a spritesheet image loaded from a file. It contains multiple frames of 
+  animation arranged in rows and columns.
+
+- **Color Tint**: 
+  The color property is defined using RGBA (Red, Green, Blue, Alpha) values. In this example, 
+  a white color `(255, 255, 255, 255)` with full opacity is used, maintaining the original 
+  colors of the spritesheet.
+
+- **Flip Settings**: 
+  Flip settings allow horizontal or vertical flipping of the sprite. In this case, both 
+  flipping options are disabled, leaving the sprite in its default orientation.
+
+- **Sprite Component Attachment**: 
+  The sprite component is attached to the game object. This combines the texture, color, and 
+  flip settings, making the game object visually renderable.
+
+- **Animator Component Setup**: 
+  The Animator is attached to the game object, referencing the Sprite component. The animator 
+  is configured with:
+  - The total number of rows in the spritesheet.
+  - The total number of columns in the spritesheet.
+  - The specific column to animate.
+
+- **Activating the Animator**: 
+  The `active` property of the Animator is set to `true`, enabling animation. The specified 
+  column of the spritesheet is used to animate the sprite.
+
+```cpp
+
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Sprite.h>
+#include <crepe/api/Color.h>
+#include <crepe/api/Animator.h>
+#include <crepe/types.h>
+ 
+using namespace crepe;
+
+int main(int argc, char * argv[]){
+	ComponentManager mgr;
+
+	// starting position of sprite in game units
+	vec2 start_pos = {0,0};
+
+	// in degrees
+	double rotation = 0.0f;
+
+	// scaling of objects. 1=orginal size of image. <1 --> smaller 1> --> larger
+	double scale = 1.0f;
+	
+	// make a new GameObject
+	GameObject game_obj = mgr.new_object("sprite_example","TAG", start_pos, rotation, scale);
+
+	// making crepe texture
+	auto spritesheet = Texture("asset/spritesheet/img.png");
+
+	// Red, green, blue, alpha
+	Color color = (255, 255, 255, 255);
+
+	// Horizontal, vertical flip
+	FlipSettings flip = {false, false};
+
+	// adding sprite game object 
+	auto & sprite = game_obj.add_component<Sprite>(spritesheet, color, flip);
+
+	// Total rows of spritesheet
+	int row = 4; // example size
+
+	// Total columns of spritesheet
+	int col = 1; // example size
+
+	// colummn to animate
+	int col_animate = 0;
+
+	// adding a Animator to the GameObject
+	auto & animator = game_obj.add_component<Animator>(sprite, row, col, col_animate);
+
+	// set the current column of spritesheet active.
+	animator.active = true;
+}
+
+
+```
+
+*/
+}
+

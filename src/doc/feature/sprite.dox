@@ -10,15 +10,91 @@ Sprites can be used to visualize game object given the path to the image, its
 color and the flip settings. Sprites are implemented as derivative class of \ref
 Component "component".
 
-\todo This section is incomplete:
-- Example
-- improve
-
 \see Sprite
 \see Color
 \see GameObject
 
 \par Example
+
+This example demonstrates how to create a game object and attach a sprite component 
+to it using the Crepe Engine. The process involves initializing the game object with 
+its position, rotation, and scale, and configuring a sprite to represent it visually.
+
+- **Starting Position**: 
+  The sprite's initial placement in the game world is defined using a 2D coordinate 
+  system. In this example, the sprite starts at the origin `(0, 0)`.
+
+- **Rotation**: 
+  The sprite's rotation is specified in degrees. A value of `0.0` means the sprite 
+  is upright and unrotated.
+
+- **Scale**: 
+  The scale determines the sprite's size relative to its original image. A scale 
+  of `1.0` keeps the sprite at its original size, values less than `1.0` make it 
+  smaller, and values greater than `1.0` enlarge it.
+
+- **Game Object Creation**: 
+  A game object is created through the `ComponentManager`. The game object is initialized 
+  with a name, a tag for categorization, and the previously defined position, rotation, 
+  and scale.
+
+- **Texture Setup**: 
+  A texture is loaded from a file and used to represent the sprite visually. This 
+  texture is applied to the sprite component.
+
+- **Color Tint**: 
+  A color is defined using RGBA (Red, Green, Blue, Alpha) values. In this example, the 
+  sprite uses a white color `(255, 255, 255, 255)` with full opacity, displaying the 
+  original colors of the texture.
+
+- **FlipSettings**: 
+  Flip settings control whether the sprite is flipped horizontally or vertically. In this 
+  example, both horizontal and vertical flipping are disabled, leaving the sprite in 
+  its default orientation.
+
+- **Sprite Component Attachment**: 
+  The sprite component is attached to the game object. This combines the texture, color, 
+  and flip settings, making the game object visually renderable in the game engine.
+
+```cpp
+
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Sprite.h>
+#include <crepe/api/Sprite.h>
+#include <crepe/types.h>
+ 
+using namespace crepe;
+
+int main(int argc, char * argv[]){
+	ComponentManager mgr;
+
+	// starting position of sprite in game units
+	vec2 start_pos = {0,0};
+
+	// in degrees
+	double rotation = 0.0f;
+
+	// scaling of objects. 1=orginal size of image. <1 --> smaller 1> --> larger
+	double scale = 1.0f;
+	
+	// make a new GameObject
+	GameObject game_obj = mgr.new_object("sprite_example","TAG", start_pos, rotation, scale);
+
+	// making crepe texture
+	auto img = Texture("asset/texture/img.png");
+
+	// Red, green, blue, alpha
+	Color color = (255, 255, 255, 255);
+
+	// Horizontal, vertical flip
+	FlipSettings flip = {false, false};
+
+	// adding sprite game object 
+	game_obj.add_component<Sprite>(img, color, flip);
+}
+
+
+```
 
 */
 }

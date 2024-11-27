@@ -16,10 +16,6 @@ struct Rect {
 	int y = 0;
 };
 
-struct FlipSettings {
-	bool flip_x = false;
-	bool flip_y = false;
-};
 
 class SDLContext;
 class Animator;
@@ -32,6 +28,14 @@ class AnimatorSystem;
  * flip settings, and is managed in layers with defined sorting orders.
  */
 class Sprite : public Component {
+public:
+	//! settings to flip an image
+	struct FlipSettings {
+		//! flip horizontal
+		bool flip_x = false;
+		//! flip vertical
+		bool flip_y = false;
+	};
 
 public:
 	// TODO: Loek comment in github #27 will be looked another time
@@ -41,7 +45,7 @@ public:
 	 * \param game_id Unique identifier for the game object this sprite belongs to.
 	 * \param image Shared pointer to the texture for this sprite.
 	 * \param color Color tint applied to the sprite.
-	 * \param flip Flip settings for horizontal and vertical orientation.
+	 * \param flip FlipSettings for horizontal and vertical orientation.
 	 */
 	Sprite(game_object_id_t id, const std::shared_ptr<Texture> image, const Color & color,
 		   const FlipSettings & flip);
