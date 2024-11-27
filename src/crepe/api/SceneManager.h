@@ -26,8 +26,8 @@ public:
 	 *
 	 * \tparam T  Type of concrete scene
 	 */
-	template <typename T>
-	void add_scene();
+	template <typename T, typename... Args>
+	void add_scene(Args &&... args);
 	/**
 	 * \brief Set the next scene
 	 *
