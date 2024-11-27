@@ -28,8 +28,11 @@ void RenderSystem::update_camera() {
 
 	for (Camera & cam : cameras) {
 		if (!cam.active) continue;
+		const Transform & transform
+			= mgr.get_components_by_id<Transform>(cam.game_object_id).front().get();
 		this->context.set_camera(cam);
 		this->curr_cam_ref = &cam;
+		this->curr_cam_ref->pos = transform.position + this->curr_cam_ref->offset;
 	}
 }
 

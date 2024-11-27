@@ -9,9 +9,9 @@
 #include <memory>
 #include <string>
 
+#include "../api/Camera.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
-#include "../api/Camera.h"
 
 #include "types.h"
 
@@ -172,7 +172,6 @@ private:
 
 	//! renderer for the crepe engine
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
-
 };
 
 } // namespace crepe
