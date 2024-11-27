@@ -136,7 +136,7 @@ void SDLContext::draw_particle(const Sprite & sprite, const vec2 & pos, const do
 	SDL_Rect srcrect = this->get_src_rect(sprite);
 	SDL_Rect dstrect = this->get_dst_rect(sprite, pos, cam , img_scale);
 
-	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
+	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image.texture.get(), &srcrect,
 					 &dstrect, angle, NULL, render_flip);
 }
 
@@ -150,7 +150,7 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 	SDL_Rect dstrect
 		= this->get_dst_rect(sprite, transform.position, cam, transform.scale);
 
-	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
+	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image.texture.get(), &srcrect,
 					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
