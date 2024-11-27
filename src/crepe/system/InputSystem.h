@@ -1,8 +1,8 @@
 #pragma once
 
 #include "facade/SDLContext.h"
-#include "util/OptionalRef.h"
 #include "types.h"
+#include "util/OptionalRef.h"
 
 #include "System.h"
 
@@ -61,8 +61,8 @@ private:
      * \param transforms A list of transforms to search through.
      * \return A pointer to the transform of the button, or nullptr if not found.
      */
-	OptionalRef<Transform>
-	find_transform_for_button(Button & button, RefVector<Transform>& transforms);
+	OptionalRef<Transform> find_transform_for_button(Button & button,
+													 RefVector<Transform> & transforms);
 
 	/**
      * \brief Checks if the mouse position is inside the bounds of the button.

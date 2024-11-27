@@ -1,6 +1,6 @@
+#include "ComponentManager.h"
 #include "api/Button.h"
 #include "api/EventManager.h"
-#include "ComponentManager.h"
 
 #include "InputSystem.h"
 
@@ -41,7 +41,7 @@ void InputSystem::update() {
 
 				int delta_x = event.mouse_position.first - last_mouse_down_position.first;
 				int delta_y = event.mouse_position.second - last_mouse_down_position.second;
-		
+
 				if (last_mouse_button == event.mouse_button
 					&& std::abs(delta_x) <= click_tolerance
 					&& std::abs(delta_y) <= click_tolerance) {
@@ -53,8 +53,7 @@ void InputSystem::update() {
 
 					handle_click(event);
 				}
-			}
-			break;
+			} break;
 			case SDLContext::EventType::MOUSEMOVE:
 				event_mgr.queue_event<MouseMoveEvent>(MouseMoveEvent{
 					.mouse_x = event.mouse_position.first,
@@ -113,19 +112,17 @@ void InputSystem::handle_click(const SDLContext::EventData & event_data) {
 	}
 }
 
+OptionalRef<Transform>
+InputSystem::find_transform_for_button(Button & button, RefVector<Transform> & transforms) {
 
-OptionalRef<Transform> InputSystem::find_transform_for_button(
-    Button & button, RefVector<Transform>& transforms) {
-    
-    for (auto& transform : transforms) {
-        if (button.game_object_id == transform.get().game_object_id) {
-            return OptionalRef<Transform>(transform);
-        }
-    }
+	for (auto & transform : transforms) {
+		if (button.game_object_id == transform.get().game_object_id) {
+			return OptionalRef<Transform>(transform);
+		}
+	}
 
-    return OptionalRef<Transform>();
+	return OptionalRef<Transform>();
 }
-
 
 bool InputSystem::is_mouse_inside_button(const SDLContext::EventData & event_data,
 										 const Button & button, const Transform & transform) {

@@ -11,11 +11,11 @@
 #include <string>
 #include <utility>
 
+#include "api/Camera.h"
 #include "api/Event.h"
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
-#include "api/Camera.h"
 
 #include "types.h"
 
