@@ -2,6 +2,7 @@
 
 #include "facade/SDLContext.h"
 #include "util/OptionalRef.h"
+#include "types.h"
 
 #include "System.h"
 
@@ -61,8 +62,7 @@ private:
      * \return A pointer to the transform of the button, or nullptr if not found.
      */
 	OptionalRef<Transform>
-	find_transform_for_button(Button & button,
-							  std::vector<std::reference_wrapper<Transform>> & transforms);
+	find_transform_for_button(Button & button, RefVector<Transform>& transforms);
 
 	/**
      * \brief Checks if the mouse position is inside the bounds of the button.
