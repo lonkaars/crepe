@@ -35,10 +35,10 @@ int main(int argc, char * argv[]) {
 		make_shared<Texture>("asset/texture/test_ap43.png"), color,
 		FlipSettings{true, true});
 	test_sprite.order_in_layer = 5;
-	test_sprite.width = 259;
 	test_sprite.height = 195;
 
 	//game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
+	game_object.add_component<Animator>(test_sprite, 1, 1, 0).active = true;
 
 	/*
 	auto & test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
