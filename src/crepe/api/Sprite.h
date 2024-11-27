@@ -1,12 +1,10 @@
 #pragma once
 
-#include <memory>
-#include <sys/types.h>
-
 #include "../Component.h"
 
 #include "Color.h"
 #include "Texture.h"
+#include <cstdint>
 
 namespace crepe {
 
@@ -43,9 +41,12 @@ public:
 	 * \param image Shared pointer to the texture for this sprite.
 	 * \param color Color tint applied to the sprite.
 	 * \param flip Flip settings for horizontal and vertical orientation.
+	 * \param order_layer decides the sorting in layer of the sprite.
+	 * \param sort_layer decides the order in layer of the sprite.
+	 * \param height the height of the image in game units
 	 */
 	Sprite(game_object_id_t id, const Texture & image, const Color & color,
-		   const FlipSettings & flip);
+		   const FlipSettings & flip, uint8_t sort_layer, uint8_t order_layer, int height);
 
 	/**
 	 * \brief Destroys the Sprite instance.
@@ -54,17 +55,20 @@ public:
 
 	//! Texture used for the sprite
 	const Texture & sprite_image;
+
 	//! Color tint of the sprite
 	Color color;
+
 	//! Flip settings for the sprite
 	FlipSettings flip;
+
 	//! Layer sorting level of the sprite
-	uint8_t sorting_in_layer = 0;
+	const uint8_t sorting_in_layer;
 	//! Order within the sorting layer
-	uint8_t order_in_layer = 0;
+	const uint8_t order_in_layer;
 
 	//! height in world units
-	int height = 0;
+	const int height;
 
 	/**
 	 * \aspect_ratio ratio of the img so that scaling will not become weird

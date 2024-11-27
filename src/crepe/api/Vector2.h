@@ -37,6 +37,7 @@ struct Vector2 {
 	//! Divides a scalar value to both components of this vector and updates this vector.
 	Vector2 operator/(const T & other) const;
 
+	//! Divides a scalar value to both components of this vector and updates this vector.
 	Vector2 operator/(T other) const;
 
 	//! Adds another vector to this vector and updates this vector.

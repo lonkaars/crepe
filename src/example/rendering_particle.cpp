@@ -33,9 +33,7 @@ int main(int argc, char * argv[]) {
 
 	auto img = Texture("asset/texture/test_ap43.png");
 	Sprite & test_sprite
-		= game_object.add_component<Sprite>(img, color, FlipSettings{true, true});
-	test_sprite.order_in_layer = 5;
-	test_sprite.height = 195;
+		= game_object.add_component<Sprite>(img, color, FlipSettings{true, true}, 1, 1, 500);
 
 	//game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
 	game_object.add_component<Animator>(test_sprite, 1, 1, 0).active = true;
@@ -62,8 +60,8 @@ int main(int argc, char * argv[]) {
 	});
 	*/
 
-	auto & cam = game_object.add_component<Camera>(Color::WHITE);
-	cam.pos = {0, 0};
+	auto & cam = game_object.add_component<Camera>(Color::WHITE, ivec2{1080, 720},
+												   ivec2{2000, 2000}, 1.0f);
 
 	/*
 	game_object

@@ -8,7 +8,6 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -16,10 +15,10 @@
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../api/Transform.h"
+#include "../api/Config.h"
 #include "../util/Log.h"
 
 #include "SDLContext.h"
-#include "api/Config.h"
 #include "types.h"
 
 using namespace crepe;
