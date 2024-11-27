@@ -36,7 +36,7 @@ private:
 	void present_screen();
 
 	//! Updates the active camera used for rendering.
-	void update_camera();
+	const Camera & update_camera();
 
 	//! Renders the whole screen
 	void render();
@@ -48,7 +48,7 @@ private:
 	 * \param tm the Transform component for scale
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite & sprite, const double & scale);
+	bool render_particle(const Sprite & sprite, const Camera & cam, const double & scale);
 
 	/**
 	 * \brief renders a sprite with a Transform component on the screen 
@@ -56,7 +56,7 @@ private:
 	 * \param sprite  the sprite component that holds all the data
 	 * \param tm the Transform component that holds the position,rotation and scale 
 	 */
-	void render_normal(const Sprite & sprite, const Transform & tm);
+	void render_normal(const Sprite & sprite, const Camera & cam, const Transform & tm);
 
 	/**
 	 * \brief sort a vector sprite objects with
@@ -70,17 +70,12 @@ private:
 	 * \todo Include color handling for sprites.
 	 * \todo Add text rendering using SDL_ttf for text components.
 	 * \todo Implement a text component and a button component.
-	 * \todo Ensure each sprite is checked for active status before rendering.
-	 * \todo Sort all layers by order before rendering.
 	 * \todo Consider adding text input functionality.
 	 */
 
 private:
-	//! Pointer to the current active camera for rendering
-	// TODO: needs a better solution
-	Camera * curr_cam_ref = nullptr;
-
 	SDLContext & context = SDLContext::get_instance();
+	
 };
 
 } // namespace crepe

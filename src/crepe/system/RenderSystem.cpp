@@ -10,6 +10,7 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
+#include "api/Camera.h"
 
 #include "RenderSystem.h"
 
@@ -19,7 +20,8 @@ using namespace std;
 void RenderSystem::clear_screen() { this->context.clear_screen(); }
 
 void RenderSystem::present_screen() { this->context.present_screen(); }
-void RenderSystem::update_camera() {
+
+const Camera & RenderSystem::update_camera() {
 	ComponentManager & mgr = this->component_manager;
 
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
@@ -31,9 +33,10 @@ void RenderSystem::update_camera() {
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(cam.game_object_id).front().get();
 		this->context.set_camera(cam);
-		this->curr_cam_ref = &cam;
-		this->curr_cam_ref->pos = transform.position + this->curr_cam_ref->offset;
+		cam.pos = transform.position + cam.offset;
+		return cam;
 	}
+	throw std::runtime_error("No active cameras in current scene");
 }
 
 bool sorting_comparison(const Sprite & a, const Sprite & b) {
@@ -52,12 +55,12 @@ RefVector<Sprite> RenderSystem::sort(RefVector<Sprite> & objs) const {
 
 void RenderSystem::update() {
 	this->clear_screen();
-	this->update_camera();
 	this->render();
 	this->present_screen();
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
+bool RenderSystem::render_particle(const Sprite & sprite, const Camera & cam,
+								   const double & scale) {
 
 	ComponentManager & mgr = this->component_manager;
 
@@ -73,19 +76,20 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
-			this->context.draw_particle(sprite, p.position, p.angle, scale,
-										*this->curr_cam_ref);
+			this->context.draw_particle(sprite, p.position, p.angle, scale, cam);
 		}
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
-	this->context.draw(sprite, tm, *this->curr_cam_ref);
+void RenderSystem::render_normal(const Sprite & sprite, const Camera & cam,
+								 const Transform & tm) {
+	this->context.draw(sprite, tm, cam);
 }
 
 void RenderSystem::render() {
-
 	ComponentManager & mgr = this->component_manager;
+	const Camera & cam = this->update_camera();
+
 	RefVector<Sprite> sprites = mgr.get_components_by_type<Sprite>();
 	RefVector<Sprite> sorted_sprites = this->sort(sprites);
 
@@ -94,10 +98,10 @@ void RenderSystem::render() {
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
-		bool rendered_particles = this->render_particle(sprite, transform.scale);
+		bool rendered_particles = this->render_particle(sprite, cam, transform.scale);
 
 		if (rendered_particles) continue;
 
-		this->render_normal(sprite, transform);
+		this->render_normal(sprite, cam, transform);
 	}
 }

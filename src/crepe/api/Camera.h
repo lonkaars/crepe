@@ -21,12 +21,12 @@ public:
 	 * \param id Unique identifier for the camera component.
 	 * \param bg_color Background color for the camera view.
 	 */
-	Camera(game_object_id_t id, const Color & bg_color);
+	Camera(game_object_id_t id, const Color & bg_color, const ivec2 & screen, const ivec2 & viewport, const double & zoom);
 	~Camera(); // dbg_trace only
 
 public:
 	//! Background color of the camera view.
-	Color bg_color;
+	const Color bg_color;
 
 	//! offset postion from the game object transform component
 	vec2 offset = {0, 0};
@@ -36,19 +36,19 @@ public:
 	vec2 pos = {0, 0};
 
 	//! screen the display size in pixels ( output resolution )
-	ivec2 screen = {1080, 720};
+	const ivec2 screen = {1080, 720};
 
 	//! viewport is the area of the world visible through the camera (in world units)
-	ivec2 viewport = {500, 1000};
+	const ivec2 viewport = {500, 1000};
 
 	//! Zoom level of the camera view.
-	double zoom = 1.0f;
+	const double zoom = 1.0f;
 
 public:
 	/**
 	 * \brief Gets the maximum number of camera instances allowed.
 	 * \return Maximum instance count as an integer.
 	 */
-	virtual int get_instances_max() const { return 10; }
+	virtual int get_instances_max() const { return 1; }
 };
 } // namespace crepe
