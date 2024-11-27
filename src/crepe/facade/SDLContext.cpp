@@ -336,15 +336,13 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 					.key = sdl_to_keycode(event.key.keysym.scancode),
 				});
 				break;
-			case SDL_MOUSEBUTTONDOWN: {
-				int x, y;
-				SDL_GetMouseState(&x, &y);
+			case SDL_MOUSEBUTTONDOWN:
 				event_list.push_back(EventData{
 					.event_type = SDLContext::EventType::MOUSEDOWN,
 					.mouse_button = sdl_to_mousebutton(event.button.button),
 					.mouse_position = {event.button.x, event.button.y},
 				});
-			} break;
+				break;
 			case SDL_MOUSEBUTTONUP: {
 				int x, y;
 				SDL_GetMouseState(&x, &y);
