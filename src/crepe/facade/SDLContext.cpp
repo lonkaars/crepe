@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -18,6 +19,7 @@
 #include "../util/Log.h"
 
 #include "SDLContext.h"
+#include "api/Config.h"
 #include "types.h"
 
 using namespace crepe;
@@ -34,9 +36,11 @@ SDLContext::SDLContext() {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
+
+	auto & cfg = Config::get_instance().win_set;
 	SDL_Window * tmp_window
 		= SDL_CreateWindow("Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-						   this->window.x, this->window.y, 0);
+						   cfg.def_size.x,cfg.def_size.y, 0);
 	if (!tmp_window) {
 		throw runtime_error(format("SDLContext: SDL_Window error: {}", SDL_GetError()));
 	}
@@ -106,20 +110,22 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 	};
 }
 SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
-								  const double & img_scale, const vec2 & cam_scale) const {
+								  const double & img_scale) const {
 
 	int width, height;
 
-	if (sprite.sprite_rect.w > sprite.sprite_rect.h) {
-		width = static_cast<int>(sprite.width * cam_scale.x);
-		height = static_cast<int>(width / sprite.aspect_ratio);
+	if (sprite.width > sprite.height) {
+		width = sprite.width;
+		height = static_cast<int>(sprite.width / sprite.aspect_ratio);
 	} else {
-		height = static_cast<int>(sprite.height * cam_scale.y);
-		width = static_cast<int>(height * sprite.aspect_ratio);
+		height = sprite.height;
+		width = static_cast<int>(sprite.height * sprite.aspect_ratio);
 	}
 
-	width *= img_scale;
-	height *= img_scale;
+	cout << width << " " << height << " " << " " << sprite.aspect_ratio << endl;
+
+	width *= img_scale * cam.zoom;
+	height *= img_scale * cam.zoom;
 
 	return SDL_Rect{
 		.x = static_cast<int>((pos.x - cam.pos.x + (cam.viewport.x / 2) - width / 2)),
@@ -130,22 +136,20 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const
 }
 
 void SDLContext::draw_particle(const Sprite & sprite, const vec2 & pos, const double & angle,
-							   const double & img_scale, const Camera & cam,
-							   const vec2 & cam_scale) {
+							   const double & img_scale, const Camera & cam) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(sprite);
-	SDL_Rect dstrect = this->get_dst_rect(sprite, pos, cam , img_scale, cam_scale);
+	SDL_Rect dstrect = this->get_dst_rect(sprite, pos, cam , img_scale);
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
 					 &dstrect, angle, NULL, render_flip);
 }
 
-void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Camera & cam,
-					  const vec2 & cam_scale) {
+void SDLContext::draw(const Sprite & sprite, const Transform & transform, const Camera & cam) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * sprite.flip.flip_x)
@@ -153,32 +157,29 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 
 	SDL_Rect srcrect = this->get_src_rect(sprite);
 	SDL_Rect dstrect
-		= this->get_dst_rect(sprite, transform.position, cam, transform.scale, cam_scale);
+		= this->get_dst_rect(sprite, transform.position, cam, transform.scale);
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image->texture.get(), &srcrect,
 					 &dstrect, transform.rotation, NULL, render_flip);
 }
 
-void SDLContext::set_camera(const Camera & cam, vec2 & scale) {
+void SDLContext::set_camera(const Camera & cam) {
 
 	// resize window
-	if ((int) this->window.x != (int) cam.screen.x
-		|| (int) this->window.y != (int) cam.screen.y) {
-		SDL_SetWindowSize(this->game_window.get(), (int) cam.screen.x, (int) cam.screen.y);
-		this->window = cam.screen;
+	int w,h;
+	SDL_GetWindowSize(this->game_window.get(), &w, &h);
+	if ( w != cam.screen.x || h != cam.screen.y) {
+		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
 	}
 
 	double screen_aspect = cam.screen.x / cam.screen.y;
 	double viewport_aspect = cam.viewport.x / cam.viewport.y;
 
-	// decide scaling factor for world to screen
-	scale = cam.screen / cam.viewport * cam.zoom;
-
 	SDL_Rect view;
-
 	// calculate black bars
 	if (screen_aspect > viewport_aspect) {
 		// lettorboxing
+		view.h = static_cast<int>(cam.screen.y / cam.zoom);
 		view.w = static_cast<int>(cam.screen.y * viewport_aspect);
 		view.x = static_cast<int>(cam.screen.x - view.w) / 2;
 		view.y = 0;

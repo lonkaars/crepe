@@ -77,10 +77,8 @@ private:
 
 private:
 	//! Pointer to the current active camera for rendering
-	Camera * curr_cam_ref = nullptr;
 	// TODO: needs a better solution
-
-	vec2 scale;
+	Camera * curr_cam_ref = nullptr;
 
 	SDLContext & context = SDLContext::get_instance();
 };
