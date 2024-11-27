@@ -2,8 +2,6 @@
 
 #include "Color.h"
 #include "Component.h"
-
-#include "api/Config.h"
 #include "types.h"
 
 namespace crepe {
@@ -31,17 +29,18 @@ public:
 	Color bg_color;
 
 	//! pos The position of the camera in world units
-	vec2 pos = Config::get_instance().win_set.pos;
+	vec2 pos = {0,0};
 
 	//! screen the display size in pixels ( output resolution )
-	vec2 screen = Config::get_instance().win_set.def_size;
+	ivec2 screen = {1080,720};
 
 	//! viewport is the area of the world visible through the camera (in world units)
-	vec2 viewport = Config::get_instance().win_set.def_size;
+	//vec2 viewport = {1000, 2000};
+	ivec2 viewport = {500, 1000};
 
 	//! scale scaling factor from world units to pixel coordinates
 	//! Zoom level of the camera view.
-	double zoom = Config::get_instance().win_set.zoom;
+	double zoom = 1.0f;
 
 public:
 	/**

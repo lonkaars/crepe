@@ -11,9 +11,8 @@
 
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
-#include "api/Camera.h"
+#include "../api/Camera.h"
 
-#include "api/Config.h"
 #include "types.h"
 
 namespace crepe {
@@ -101,14 +100,14 @@ private:
 	 * \param texture Reference to the Texture object.
 	 * \return Width of the texture as an integer.
 	 */
-	int get_width(const Texture &) const;
+	int get_width(const Texture & texture) const;
 
 	/**
 	 * \brief Gets the height of a texture.
 	 * \param texture Reference to the Texture object.
 	 * \return Height of the texture as an integer.
 	 */
-	int get_height(const Texture &) const;
+	int get_height(const Texture & texture) const;
 
 private:
 	//! Will use draw,clear_screen, present_screen, camera.
@@ -118,11 +117,9 @@ private:
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
 	 * \param sprite Reference to the Sprite to draw.
 	 * \param transform Reference to the Transform for positioning.
-	 * \param cam_pos position of the current camera in the scene
-	 * \param cam_scale multiplier for the world to screen
+	 * \param cam camera of the current scene
 	 */
-	void draw(const Sprite & sprite, const Transform & transform, const Camera & cam,
-			  const vec2 & cam_scale);
+	void draw(const Sprite & sprite, const Transform & transform, const Camera & cam);
 
 	/**
 	 * \brief Draws a particle to the screen using the specified parameters
@@ -130,12 +127,11 @@ private:
 	 * \param  sprite Referenceto the sprite to draw
 	 * \param  pos particle position in world units 
 	 * \param  angle particle angle in degrees
-	 * \param  cam_pos camera position in world units
 	 * \param  img_scale scalar multiplier to increase image size 
-	 * \param  cam_scale camera scalar for world to screen
+	 * \param  cam camera of the current scene
 	 */
 	void draw_particle(const Sprite & sprite, const vec2 & pos, const double & angle,
-					   const double & img_scale, const Camera & cam, const vec2 & cam_scale);
+					   const double & img_scale, const Camera & cam);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
@@ -147,7 +143,7 @@ private:
 	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	void set_camera(const Camera & camera, vec2 & scale);
+	void set_camera(const Camera & camera);
 
 private:
 	/**
@@ -163,13 +159,12 @@ private:
 	 *
 	 * \param sprite Reference to the sprite to calculate rectangle
 	 * \param pos the pos in world units
-	 * \param cam_pos the camera position in world units
+	 * \param cam the camera of the current scene
 	 * \param img_scale the image multiplier for increasing img size 
-	 * \param scale the multiplier for world to screen 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
 	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
-						  const double & img_scale, const vec2 & cam_scale) const;
+						  const double & img_scale) const;
 
 private:
 	//! sdl Window
@@ -178,8 +173,6 @@ private:
 	//! renderer for the crepe engine
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
 
-	//! viewport for the camera window
-	vec2 window = Config::get_instance().win_set.def_size;
 };
 
 } // namespace crepe

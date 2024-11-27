@@ -66,7 +66,7 @@ public:
 	//! default window settings
 	struct {
 		//TODO make this constexpr because this will never change
-		vec2 def_size = {1080, 720};
+		ivec2 def_size = {1080, 720};
 		vec2 pos = {0, 0};
 		float zoom = 1.0f;
 	} win_set;
