@@ -36,7 +36,7 @@ private:
 	//! Stores the last mouse button pressed.
 	MouseButton last_mouse_button = MouseButton::NONE;
 
-	//! The tolerance in pixels for detecting a mouse click.
+	//! The tolerance in game units for detecting a mouse click.
 	const int click_tolerance = 5;
 
 	/**
