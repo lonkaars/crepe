@@ -40,7 +40,7 @@ SDLContext::SDLContext() {
 	auto & cfg = Config::get_instance().win_set;
 	SDL_Window * tmp_window
 		= SDL_CreateWindow("Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-						   cfg.def_size.x,cfg.def_size.y, 0);
+						   cfg.def_size.x, cfg.def_size.y, 0);
 	if (!tmp_window) {
 		throw runtime_error(format("SDLContext: SDL_Window error: {}", SDL_GetError()));
 	}
@@ -134,7 +134,7 @@ void SDLContext::draw_particle(const Sprite & sprite, const vec2 & pos, const do
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(sprite);
-	SDL_Rect dstrect = this->get_dst_rect(sprite, pos, cam , img_scale);
+	SDL_Rect dstrect = this->get_dst_rect(sprite, pos, cam, img_scale);
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image.texture.get(), &srcrect,
 					 &dstrect, angle, NULL, render_flip);
@@ -147,8 +147,7 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 							  | (SDL_FLIP_VERTICAL * sprite.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(sprite);
-	SDL_Rect dstrect
-		= this->get_dst_rect(sprite, transform.position, cam, transform.scale);
+	SDL_Rect dstrect = this->get_dst_rect(sprite, transform.position, cam, transform.scale);
 
 	SDL_RenderCopyEx(this->game_renderer.get(), sprite.sprite_image.texture.get(), &srcrect,
 					 &dstrect, transform.rotation, NULL, render_flip);
@@ -157,9 +156,9 @@ void SDLContext::draw(const Sprite & sprite, const Transform & transform, const 
 void SDLContext::set_camera(const Camera & cam) {
 
 	// resize window
-	int w,h;
+	int w, h;
 	SDL_GetWindowSize(this->game_window.get(), &w, &h);
-	if ( w != cam.screen.x || h != cam.screen.y) {
+	if (w != cam.screen.x || h != cam.screen.y) {
 		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
 	}
 

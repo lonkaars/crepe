@@ -28,17 +28,19 @@ public:
 	//! Background color of the camera view.
 	Color bg_color;
 
-	//! pos The position of the camera in world units
-	vec2 pos = {0,0};
+	//! offset postion from the game object transform component
+	vec2 offset = {0, 0};
+
+	//! pos the postion of the camera in world space this will be filled with
+	//pos = transform + offset
+	vec2 pos = {0, 0};
 
 	//! screen the display size in pixels ( output resolution )
-	ivec2 screen = {1080,720};
+	ivec2 screen = {1080, 720};
 
 	//! viewport is the area of the world visible through the camera (in world units)
-	//vec2 viewport = {1000, 2000};
 	ivec2 viewport = {500, 1000};
 
-	//! scale scaling factor from world units to pixel coordinates
 	//! Zoom level of the camera view.
 	double zoom = 1.0f;
 
