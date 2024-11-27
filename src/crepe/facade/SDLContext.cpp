@@ -116,10 +116,10 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const
 
 	if (sprite.width > sprite.height) {
 		width = sprite.width;
-		height = static_cast<int>(sprite.width / sprite.aspect_ratio);
+		height = sprite.width / sprite.aspect_ratio;
 	} else {
 		height = sprite.height;
-		width = static_cast<int>(sprite.height * sprite.aspect_ratio);
+		width = sprite.height * sprite.aspect_ratio;
 	}
 
 	cout << width << " " << height << " " << " " << sprite.aspect_ratio << endl;
@@ -179,16 +179,16 @@ void SDLContext::set_camera(const Camera & cam) {
 	// calculate black bars
 	if (screen_aspect > viewport_aspect) {
 		// lettorboxing
-		view.h = static_cast<int>(cam.screen.y / cam.zoom);
-		view.w = static_cast<int>(cam.screen.y * viewport_aspect);
-		view.x = static_cast<int>(cam.screen.x - view.w) / 2;
+		view.h = cam.screen.y / cam.zoom;
+		view.w = cam.screen.y * viewport_aspect;
+		view.x = (cam.screen.x - view.w) / 2;
 		view.y = 0;
 	} else {
 		// pillarboxing
-		view.h = static_cast<int>(cam.screen.x / viewport_aspect);
-		view.w = static_cast<int>(cam.screen.x / cam.zoom);
+		view.h = cam.screen.x / viewport_aspect;
+		view.w = cam.screen.x / cam.zoom;
 		view.x = 0;
-		view.y = static_cast<int>(cam.screen.y - view.h) / 2;
+		view.y = (cam.screen.y - view.h) / 2;
 	}
 	// set drawing area
 	SDL_RenderSetViewport(this->game_renderer.get(), &view);
@@ -202,8 +202,8 @@ void SDLContext::set_camera(const Camera & cam) {
 	SDL_Rect bg = {
 		.x = 0,
 		.y = 0,
-		.w = static_cast<int>(cam.viewport.x),
-		.h = static_cast<int>(cam.viewport.y),
+		.w = cam.viewport.x,
+		.h = cam.viewport.y,
 	};
 	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
