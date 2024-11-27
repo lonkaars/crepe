@@ -89,9 +89,8 @@ void InputSystem::update() {
 void InputSystem::handle_move(const SDLContext::EventData & event_data) {
 	ComponentManager & mgr = this->component_manager;
 
-	std::vector<std::reference_wrapper<Button>> buttons = mgr.get_components_by_type<Button>();
-	std::vector<std::reference_wrapper<Transform>> transforms
-		= mgr.get_components_by_type<Transform>();
+	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
+	RefVector<Transform> transforms = mgr.get_components_by_type<Transform>();
 
 	for (Button & button : buttons) {
 		OptionalRef<Transform> transform = find_transform_for_button(button, transforms);
@@ -108,8 +107,8 @@ void InputSystem::handle_move(const SDLContext::EventData & event_data) {
 void InputSystem::handle_click(const SDLContext::EventData & event_data) {
 	ComponentManager & mgr = this->component_manager;
 
-	std::vector<std::reference_wrapper<Button>> buttons = mgr.get_components_by_type<Button>();
-	std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_type<Transform>();
+	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
+	RefVector<Transform> transforms = mgr.get_components_by_type<Transform>();
 
 	for (Button & button : buttons) {
 		OptionalRef<Transform> transform_ref = find_transform_for_button(button, transforms);
@@ -122,7 +121,7 @@ void InputSystem::handle_click(const SDLContext::EventData & event_data) {
 
 
 OptionalRef<Transform> InputSystem::find_transform_for_button(
-    Button & button, std::vector<std::reference_wrapper<Transform>> & transforms) {
+    Button & button, RefVector<Transform>& transforms) {
     
     for (auto& transform : transforms) {
         if (button.game_object_id == transform.get().game_object_id) {
