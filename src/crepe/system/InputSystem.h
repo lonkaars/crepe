@@ -1,11 +1,14 @@
 #pragma once
 
+#include "facade/SDLContext.h"
+#include "util/OptionalRef.h"
+
 #include "System.h"
-#include "../facade/SDLContext.h"
 
 namespace crepe {
 
 class Button;
+
 class Transform;
 /**
  * \class InputSystem
@@ -57,7 +60,7 @@ private:
      * \param transforms A list of transforms to search through.
      * \return A pointer to the transform of the button, or nullptr if not found.
      */
-	Transform *
+	OptionalRef<Transform>
 	find_transform_for_button(Button & button,
 							  std::vector<std::reference_wrapper<Transform>> & transforms);
 

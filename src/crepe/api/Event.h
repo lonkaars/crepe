@@ -88,10 +88,12 @@ public:
 
 	//! Y-coordinate of the mouse position at the time of the event.
 	int mouse_y = 0;
+
 	// Relative movement in x
-	int rel_x;
+	int rel_x = 0;
+
 	// Relative movement in y
-	int rel_y;
+	int rel_y = 0;
 };
 
 /**
@@ -104,6 +106,7 @@ public:
 
 	//! Y-coordinate of the mouse position at the time of the event.
 	int scroll_y = 0;
+
 	//! scroll direction (-1 = down, 1 = up)
 	int direction = 0;
 };

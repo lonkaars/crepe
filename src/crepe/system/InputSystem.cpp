@@ -1,8 +1,8 @@
-#include "../api/Button.h"
-#include "../api/EventManager.h"
+#include "api/Button.h"
+#include "api/EventManager.h"
 #include "ComponentManager.h"
 
-#include "system/InputSystem.h"
+#include "InputSystem.h"
 
 using namespace crepe;
 
@@ -36,17 +36,15 @@ void InputSystem::update() {
 				break;
 			}
 			case SDLContext::EventType::MOUSEUP: {
-				MouseReleaseEvent mouse_release_event = MouseReleaseEvent{
+				event_mgr.queue_event<MouseReleaseEvent>(MouseReleaseEvent{
 					.mouse_x = event.mouse_position.first,
 					.mouse_y = event.mouse_position.second,
 					.button = event.mouse_button,
-				};
-				event_mgr.queue_event<MouseReleaseEvent>(mouse_release_event);
+				});
 
-				// Calculate deltas for click detection
 				int delta_x = event.mouse_position.first - last_mouse_down_position.first;
 				int delta_y = event.mouse_position.second - last_mouse_down_position.second;
-
+		
 				if (last_mouse_button == event.mouse_button
 					&& std::abs(delta_x) <= click_tolerance
 					&& std::abs(delta_y) <= click_tolerance) {
@@ -96,10 +94,10 @@ void InputSystem::handle_move(const SDLContext::EventData & event_data) {
 		= mgr.get_components_by_type<Transform>();
 
 	for (Button & button : buttons) {
-		Transform * transform = find_transform_for_button(button, transforms);
+		OptionalRef<Transform> transform = find_transform_for_button(button, transforms);
 		if (!transform) continue;
 
-		if (button.interactable && is_mouse_inside_button(event_data, button, *transform)) {
+		if (button.active && is_mouse_inside_button(event_data, button, transform)) {
 			button.hover = true;
 		} else {
 			button.hover = false;
@@ -111,28 +109,30 @@ void InputSystem::handle_click(const SDLContext::EventData & event_data) {
 	ComponentManager & mgr = this->component_manager;
 
 	std::vector<std::reference_wrapper<Button>> buttons = mgr.get_components_by_type<Button>();
-	std::vector<std::reference_wrapper<Transform>> transforms
-		= mgr.get_components_by_type<Transform>();
+	std::vector<std::reference_wrapper<Transform>> transforms = mgr.get_components_by_type<Transform>();
 
 	for (Button & button : buttons) {
-		Transform * transform = find_transform_for_button(button, transforms);
-		if (!transform) continue;
+		OptionalRef<Transform> transform_ref = find_transform_for_button(button, transforms);
 
-		if (button.interactable && is_mouse_inside_button(event_data, button, *transform)) {
+		if (button.active && is_mouse_inside_button(event_data, button, transform_ref)) {
 			handle_button_press(button);
 		}
 	}
 }
 
-Transform * InputSystem::find_transform_for_button(
-	Button & button, std::vector<std::reference_wrapper<Transform>> & transforms) {
-	for (Transform & transform : transforms) {
-		if (button.game_object_id == transform.game_object_id) {
-			return &transform;
-		}
-	}
-	return nullptr;
+
+OptionalRef<Transform> InputSystem::find_transform_for_button(
+    Button & button, std::vector<std::reference_wrapper<Transform>> & transforms) {
+    
+    for (auto& transform : transforms) {
+        if (button.game_object_id == transform.get().game_object_id) {
+            return OptionalRef<Transform>(transform);
+        }
+    }
+
+    return OptionalRef<Transform>();
 }
+
 
 bool InputSystem::is_mouse_inside_button(const SDLContext::EventData & event_data,
 										 const Button & button, const Transform & transform) {
