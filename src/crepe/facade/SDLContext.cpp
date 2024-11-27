@@ -112,17 +112,8 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
 								  const double & img_scale) const {
 
-	int width, height;
-
-	if (sprite.width > sprite.height) {
-		width = sprite.width;
-		height = sprite.width / sprite.aspect_ratio;
-	} else {
-		height = sprite.height;
-		width = sprite.height * sprite.aspect_ratio;
-	}
-
-	cout << width << " " << height << " " << " " << sprite.aspect_ratio << endl;
+	int width = sprite.height * sprite.aspect_ratio;
+	int height = sprite.height;
 
 	width *= img_scale * cam.zoom;
 	height *= img_scale * cam.zoom;

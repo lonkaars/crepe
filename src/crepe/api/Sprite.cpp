@@ -2,7 +2,6 @@
 #include <memory>
 
 #include "../util/Log.h"
-#include "facade/SDLContext.h"
 
 #include "Component.h"
 #include "Sprite.h"

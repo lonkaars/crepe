@@ -63,8 +63,6 @@ public:
 	//! Order within the sorting layer
 	uint8_t order_in_layer = 0;
 
-	//! width in world units
-	int width = 0;
 	//! height in world units
 	int height = 0;
 
