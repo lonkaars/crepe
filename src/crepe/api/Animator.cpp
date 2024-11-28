@@ -21,7 +21,7 @@ Animator::Animator(game_object_id_t id, Sprite & ss, int row, int col, int col_a
 	this->active = false;
 
 	// need to do this for to get the aspect ratio for a single clipping in the spritesheet
-	this->spritesheet.aspect_ratio = static_cast<double>(this->spritesheet.mask.w)
-									 / this->spritesheet.mask.h;
+	this->spritesheet.aspect_ratio
+		= static_cast<double>(this->spritesheet.mask.w) / this->spritesheet.mask.h;
 }
 Animator::~Animator() { dbg_trace(); }
