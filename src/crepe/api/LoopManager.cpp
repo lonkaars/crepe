@@ -32,7 +32,10 @@ void LoopManager::start() {
 }
 void LoopManager::set_running(bool running) { this->game_running = running; }
 
-void LoopManager::fixed_update() {}
+void LoopManager::fixed_update() {
+	this->get_system<PhysicsSystem>().update();
+	
+}
 
 void LoopManager::loop() {
 	LoopTimer & timer = LoopTimer::get_instance();
@@ -66,4 +69,6 @@ void LoopManager::render() {
 	}
 }
 
-void LoopManager::update() { LoopTimer & timer = LoopTimer::get_instance(); }
+void LoopManager::update() { LoopTimer & timer = LoopTimer::get_instance(); 
+
+}
