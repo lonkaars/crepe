@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #define protected public
+#define private public
 #include "api/EventManager.h"
 #include "api/KeyCodes.h"
 #include "system/InputSystem.h"
@@ -188,13 +189,13 @@ TEST_F(InputTest, MouseClick) {
 
 TEST_F(InputTest, testButtonClick) {
 	GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
-
-	auto & button = obj.add_component<Button>(100, 100);
 	bool button_clicked = false;
+	std::function<void()> on_click = [&]() { button_clicked = true; };
+	auto & button = obj.add_component<Button>(100, 100,on_click,false);
+	
 	bool hover = false;
 	button.active = true;
-	std::function<void()> on_click = [&]() { button_clicked = true; };
-	button.on_click = on_click;
+	
 	button.is_pressed = false;
 	button.is_toggle = false;
 	this->simulate_mouse_click(101, 101, SDL_BUTTON_LEFT);
@@ -210,8 +211,9 @@ TEST_F(InputTest, testButtonClick) {
 
 TEST_F(InputTest, testButtonHover) {
 	GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
-	auto & button = obj.add_component<Button>(100, 100);
 	bool button_clicked = false;
+	std::function<void()> on_click = [&]() { button_clicked = true; };
+	auto & button = obj.add_component<Button>(100, 100,on_click,false);
 	button.active = true;
 	button.width = 100;
 	button.height = 100;

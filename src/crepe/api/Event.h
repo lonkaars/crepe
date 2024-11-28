@@ -89,10 +89,10 @@ public:
 	//! Y-coordinate of the mouse position at the time of the event.
 	int mouse_y = 0;
 
-	// Relative movement in x
+	// Movement since last event in x
 	int rel_x = 0;
 
-	// Relative movement in y
+	// Movement since last event in y
 	int rel_y = 0;
 };
 
