@@ -77,31 +77,28 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Camera & cam,
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
 
-			RenderCtx ctx{
+			this->context.draw(SDLContext::RenderContext{
 				.sprite = sprite,
 				.cam = cam,
 				.cam_pos = this->cam_pos,
 				.pos = p.position,
 				.angle = p.angle,
 				.scale = scale,
-			};
-			this->context.draw(ctx);
+			});
 		}
 	}
 	return rendering_particles;
 }
 void RenderSystem::render_normal(const Sprite & sprite, const Camera & cam,
 								 const Transform & tm) {
-
-	RenderCtx ctx{
+	this->context.draw(SDLContext::RenderContext{
 		.sprite = sprite,
 		.cam = cam,
 		.cam_pos = this->cam_pos,
 		.pos = tm.position,
 		.angle = tm.rotation,
 		.scale = tm.scale,
-	};
-	this->context.draw(ctx);
+	});
 }
 
 void RenderSystem::render() {

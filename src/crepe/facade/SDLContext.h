@@ -16,14 +16,6 @@
 
 namespace crepe {
 
-struct RenderCtx {
-	const Sprite & sprite;
-	const Camera & cam;
-	const vec2 & cam_pos;
-	const vec2 & pos;
-	const double & angle;
-	const double & scale;
-};
 
 // TODO: SDL_Keycode is defined in a header not distributed with crepe, which means this
 // typedef is unusable when crepe is packaged. Wouter will fix this later.
@@ -37,6 +29,15 @@ typedef SDL_Keycode CREPE_KEYCODES;
  * event handling, and rendering to the screen. It is never used directly by the user
  */
 class SDLContext {
+public:
+	struct RenderContext {
+		const Sprite & sprite;
+		const Camera & cam;
+		const vec2 & cam_pos;
+		const vec2 & pos;
+		const double & angle;
+		const double & scale;
+	};
 
 public:
 	/**
@@ -125,7 +126,7 @@ private:
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
 	 * \param RenderCtx Reference to rendering data to draw
 	 */
-	void draw(const RenderCtx & ctx);
+	void draw(const RenderContext & ctx);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();

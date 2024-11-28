@@ -2,6 +2,7 @@
 
 #include "../util/Log.h"
 #include "types.h"
+#include <string>
 
 namespace crepe {
 
@@ -66,8 +67,10 @@ public:
 	//! default window settings
 	struct {
 		//TODO make this constexpr because this will never change
-		ivec2 def_size = {1080, 720};
-	} win_set;
+		ivec2 default_size = {1080, 720};
+		std::string window_title = "Jetpack joyride clone";
+
+	} window_settings;
 
 	//! Asset loading options
 	struct {

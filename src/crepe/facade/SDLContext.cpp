@@ -15,7 +15,6 @@
 #include "../api/Config.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
-#include "../api/Transform.h"
 #include "../util/Log.h"
 
 #include "SDLContext.h"
@@ -36,10 +35,10 @@ SDLContext::SDLContext() {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
 
-	auto & cfg = Config::get_instance().win_set;
+	auto & cfg = Config::get_instance().window_settings;
 	SDL_Window * tmp_window
-		= SDL_CreateWindow("Crepe Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-						   cfg.def_size.x, cfg.def_size.y, 0);
+		= SDL_CreateWindow(cfg.window_title.c_str(), SDL_WINDOWPOS_CENTERED,
+						   SDL_WINDOWPOS_CENTERED, cfg.default_size.x, cfg.default_size.y, 0);
 	if (!tmp_window) {
 		throw runtime_error(format("SDLContext: SDL_Window error: {}", SDL_GetError()));
 	}
@@ -102,10 +101,10 @@ void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get())
 
 SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 	return SDL_Rect{
-		.x = sprite.sprite_rect.x,
-		.y = sprite.sprite_rect.y,
-		.w = sprite.sprite_rect.w,
-		.h = sprite.sprite_rect.h,
+		.x = sprite.mask.x,
+		.y = sprite.mask.y,
+		.w = sprite.mask.w,
+		.h = sprite.mask.h,
 	};
 }
 SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
@@ -118,14 +117,14 @@ SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const
 	height *= img_scale * cam.zoom;
 
 	return SDL_Rect{
-		.x = static_cast<int>((pos.x - cam_pos.x + (cam.viewport.x / 2) - width / 2)),
-		.y = static_cast<int>((pos.y - cam_pos.y + (cam.viewport.y / 2) - height / 2)),
+		.x = static_cast<int>((pos.x - cam_pos.x + (cam.viewport_size.x / 2) - width / 2)),
+		.y = static_cast<int>((pos.y - cam_pos.y + (cam.viewport_size.y / 2) - height / 2)),
 		.w = width,
 		.h = height,
 	};
 }
 
-void SDLContext::draw(const RenderCtx & ctx) {
+void SDLContext::draw(const RenderContext & ctx) {
 
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * ctx.sprite.flip.flip_x)
@@ -149,12 +148,12 @@ void SDLContext::set_camera(const Camera & cam) {
 	}
 
 	double screen_aspect = cam.screen.x / cam.screen.y;
-	double viewport_aspect = cam.viewport.x / cam.viewport.y;
+	double viewport_aspect = cam.viewport_size.x / cam.viewport_size.y;
 
 	SDL_Rect view;
 	// calculate black bars
 	if (screen_aspect > viewport_aspect) {
-		// lettorboxing
+		// letterboxing
 		view.h = cam.screen.y / cam.zoom;
 		view.w = cam.screen.y * viewport_aspect;
 		view.x = (cam.screen.x - view.w) / 2;
@@ -169,7 +168,8 @@ void SDLContext::set_camera(const Camera & cam) {
 	// set drawing area
 	SDL_RenderSetViewport(this->game_renderer.get(), &view);
 
-	SDL_RenderSetLogicalSize(this->game_renderer.get(), cam.viewport.x, cam.viewport.y);
+	SDL_RenderSetLogicalSize(this->game_renderer.get(), static_cast<int>(cam.viewport_size.x),
+							 static_cast<int>(cam.viewport_size.y));
 
 	// set bg color
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
@@ -178,8 +178,8 @@ void SDLContext::set_camera(const Camera & cam) {
 	SDL_Rect bg = {
 		.x = 0,
 		.y = 0,
-		.w = cam.viewport.x,
-		.h = cam.viewport.y,
+		.w = static_cast<int>(cam.viewport_size.x),
+		.h = static_cast<int>(cam.viewport_size.y),
 	};
 	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);

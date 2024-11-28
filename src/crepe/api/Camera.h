@@ -22,7 +22,7 @@ public:
 	 * \param bg_color Background color for the camera view.
 	 */
 	Camera(game_object_id_t id, const Color & bg_color, const ivec2 & screen,
-		   const ivec2 & viewport, const double & zoom, const vec2 & offset = {0, 0});
+		   const vec2 & viewport_size, const double & zoom, const vec2 & offset = {0, 0});
 	~Camera(); // dbg_trace only
 
 public:
@@ -36,7 +36,7 @@ public:
 	const ivec2 screen;
 
 	//! viewport is the area of the world visible through the camera (in world units)
-	const ivec2 viewport;
+	const vec2 viewport_size;
 
 	//! Zoom level of the camera view.
 	const double zoom;
