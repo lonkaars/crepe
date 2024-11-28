@@ -24,7 +24,8 @@ public:
      * \param is_toggle Optional flag to indicate if the button is a toggle button. Defaults to false.
      * \param on_click callback function that will be invoked when the button is clicked.
      */
-	Button(game_object_id_t id, int width, int height, std::function<void()> on_click, bool is_toggle = false);
+	Button(game_object_id_t id, int width, int height, std::function<void()> on_click,
+		   bool is_toggle = false);
 
 	/**
      * \brief Indicates if the button is a toggle button (can be pressed and released).
@@ -41,7 +42,7 @@ public:
      * function that matches the signature `void()`.
      */
 	std::function<void()> on_click;
-	
+
 	/**
 	 * \brief Callback function to be executed when the mouse enters the button's boundaries.
 	 *
@@ -57,7 +58,8 @@ public:
 	 * allowing custom actions like resetting visual effects or playing exit-related effects.
 	 */
 	std::function<void()> on_exit;
-	private:
+
+private:
 	friend class InputSystem;
 	/**
      * \brief Indicates whether the button is currently pressed.

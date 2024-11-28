@@ -80,46 +80,45 @@ void InputSystem::update() {
 }
 
 void InputSystem::handle_move(const SDLContext::EventData & event_data) {
-    ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->component_manager;
 
-    RefVector<Button> buttons = mgr.get_components_by_type<Button>();
-    
+	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
-    for (Button & button : buttons) {
-        RefVector<Transform> transform_vec =  mgr.get_components_by_id<Transform>(button.game_object_id);
+	for (Button & button : buttons) {
+		RefVector<Transform> transform_vec
+			= mgr.get_components_by_id<Transform>(button.game_object_id);
 		OptionalRef<Transform> transform(transform_vec.front().get());
-        if (!transform) continue;
+		if (!transform) continue;
 
-        bool was_hovering = button.hover; // Store previous hover state
+		bool was_hovering = button.hover; // Store previous hover state
 
-        // Check if the mouse is inside the button
-        if (button.active && is_mouse_inside_button(event_data, button, transform)) {
-            button.hover = true;
+		// Check if the mouse is inside the button
+		if (button.active && is_mouse_inside_button(event_data, button, transform)) {
+			button.hover = true;
 
-            // Trigger the on_enter callback if the hover state just changed to true
-            if (!was_hovering && button.on_enter) {
-                button.on_enter();
-            }
-        } else {
-            button.hover = false;
+			// Trigger the on_enter callback if the hover state just changed to true
+			if (!was_hovering && button.on_enter) {
+				button.on_enter();
+			}
+		} else {
+			button.hover = false;
 
-            // Trigger the on_exit callback if the hover state just changed to false
-            if (was_hovering && button.on_exit) {
-                button.on_exit();
-            }
-        }
-    }
+			// Trigger the on_exit callback if the hover state just changed to false
+			if (was_hovering && button.on_exit) {
+				button.on_exit();
+			}
+		}
+	}
 }
-
 
 void InputSystem::handle_click(const SDLContext::EventData & event_data) {
 	ComponentManager & mgr = this->component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
-	
 
 	for (Button & button : buttons) {
-		RefVector<Transform> transform_vec =  mgr.get_components_by_id<Transform>(button.game_object_id);
+		RefVector<Transform> transform_vec
+			= mgr.get_components_by_id<Transform>(button.game_object_id);
 		OptionalRef<Transform> transform(transform_vec.front().get());
 
 		if (button.active && is_mouse_inside_button(event_data, button, transform)) {
