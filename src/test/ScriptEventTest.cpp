@@ -1,33 +1,31 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 // stupid hack to allow access to private/protected members under test
 #define private public
 #define protected public
 
 #include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/EventManager.h>
 #include <crepe/api/BehaviorScript.h>
+#include <crepe/api/Event.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Script.h>
+#include <crepe/api/Vector2.h>
 #include <crepe/system/ScriptSystem.h>
 
 using namespace std;
 using namespace crepe;
 using namespace testing;
 
-class ScriptTest : public Test {
+class ScriptEventTest : public Test {
 	Mediator m;
 public:
 	ComponentManager component_manager{m};
 	ScriptSystem system{m};
 	EventManager & event_manager = m.event_manager;
 
-	class MyScript : public Script {
-		// NOTE: explicitly stating `public:` is not required on actual scripts
-	public:
-		MOCK_METHOD(void, init, (), (override));
-		MOCK_METHOD(void, update, (), (override));
-	};
+	class MyEvent : public Event {};
+	class MyScript : public Script {};
 
 	OptionalRef<BehaviorScript> behaviorscript;
 	OptionalRef<MyScript> script;
@@ -48,52 +46,26 @@ public:
 	}
 };
 
-TEST_F(ScriptTest, Default) {
-	MyScript & script = this->script;
-	EXPECT_CALL(script, init()).Times(0);
-	EXPECT_CALL(script, update()).Times(0);
-}
-
-TEST_F(ScriptTest, UpdateOnce) {
-	MyScript & script = this->script;
-
-	{
-		InSequence seq;
-
-		EXPECT_CALL(script, init()).Times(1);
-		EXPECT_CALL(script, update()).Times(1);
-		system.update();
-	}
-
-	{
-		InSequence seq;
-
-		EXPECT_CALL(script, init()).Times(0);
-		EXPECT_CALL(script, update()).Times(1);
-		system.update();
-	}
-}
-
-TEST_F(ScriptTest, UpdateInactive) {
+TEST_F(ScriptEventTest, Inactive) {
 	BehaviorScript & behaviorscript = this->behaviorscript;
 	MyScript & script = this->script;
+	EventManager & evmgr = this->event_manager;
 
-	{
-		InSequence seq;
+	unsigned event_count = 0;
+	script.subscribe<MyEvent>([&](const MyEvent &){
+		event_count++;
+		return true;
+	});
 
-		EXPECT_CALL(script, init()).Times(0);
-		EXPECT_CALL(script, update()).Times(0);
-		behaviorscript.active = false;
-		system.update();
-	}
+	system.update();
+	behaviorscript.active = false;
+	EXPECT_EQ(0, event_count);
 
-	{
-		InSequence seq;
+	evmgr.trigger_event<MyEvent>();
+	EXPECT_EQ(0, event_count);
 
-		EXPECT_CALL(script, init()).Times(1);
-		EXPECT_CALL(script, update()).Times(1);
-		behaviorscript.active = true;
-		system.update();
-	}
+	behaviorscript.active = true;
+	evmgr.trigger_event<MyEvent>();
+	EXPECT_EQ(1, event_count);
 }
 
