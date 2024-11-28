@@ -1,9 +1,9 @@
 #include "../facade/DB.h"
 #include "../util/Log.h"
+#include "../api/Config.h"
+#include "../ValueBroker.h"
 
-#include "Config.h"
 #include "SaveManager.h"
-#include "ValueBroker.h"
 
 using namespace std;
 using namespace crepe;

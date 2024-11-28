@@ -1,4 +1,4 @@
-#include <crepe/ComponentManager.h>
+#include <crepe/manager/ComponentManager.h>
 #include <crepe/api/Config.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Rigidbody.h>
@@ -11,9 +11,10 @@ using namespace std::chrono_literals;
 using namespace crepe;
 
 class PhysicsTest : public ::testing::Test {
+	Mediator m;
 public:
-	ComponentManager component_manager;
-	PhysicsSystem system{component_manager};
+	ComponentManager component_manager{m};
+	PhysicsSystem system{m};
 
 	void SetUp() override {
 		ComponentManager & mgr = this->component_manager;

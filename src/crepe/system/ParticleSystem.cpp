@@ -2,10 +2,10 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "api/ParticleEmitter.h"
-#include "api/Transform.h"
+#include "../api/ParticleEmitter.h"
+#include "../api/Transform.h"
+#include "../manager/ComponentManager.h"
 
-#include "ComponentManager.h"
 #include "ParticleSystem.h"
 
 using namespace crepe;

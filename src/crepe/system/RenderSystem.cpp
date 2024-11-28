@@ -2,11 +2,10 @@
 #include <cassert>
 #include <cmath>
 #include <functional>
-#include <iostream>
 #include <stdexcept>
 #include <vector>
 
-#include "../ComponentManager.h"
+#include "../manager/ComponentManager.h"
 #include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"

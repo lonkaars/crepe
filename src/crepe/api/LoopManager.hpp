@@ -38,8 +38,11 @@ void LoopManager::load_system() {
 	static_assert(is_base_of<System, T>::value,
 				  "load_system must recieve a derivative class of System");
 
-	System * system = new T(this->component_manager);
-	this->systems[typeid(T)] = unique_ptr<System>(system);
+	System * system = new T(this->mediator);
+	const type_info & type = typeid(T);
+	if (this->systems.contains(type))
+		throw runtime_error(format("LoopManager: {} is already initialized", type.name()));
+	this->systems[type] = unique_ptr<System>(system);
 }
 
 } // namespace crepe

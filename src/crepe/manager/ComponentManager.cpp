@@ -1,13 +1,16 @@
-#include "api/GameObject.h"
-#include "util/Log.h"
+#include "../api/GameObject.h"
+#include "../util/Log.h"
+#include "../types.h"
 
 #include "ComponentManager.h"
-#include "types.h"
 
 using namespace crepe;
 using namespace std;
 
-ComponentManager::ComponentManager() { dbg_trace(); }
+ComponentManager::ComponentManager(Mediator & mediator) : Manager(mediator) {
+	mediator.component_manager = *this;
+	dbg_trace();
+}
 ComponentManager::~ComponentManager() { dbg_trace(); }
 
 void ComponentManager::delete_all_components_of_id(game_object_id_t id) {
