@@ -66,7 +66,7 @@ public:
 	//! default window settings
 	struct {
 		//TODO make this constexpr because this will never change
-		const ivec2 def_size = {1080, 720};
+		ivec2 def_size = {1080, 720};
 	} win_set;
 
 	//! Asset loading options
