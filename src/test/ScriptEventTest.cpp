@@ -13,37 +13,17 @@
 #include <crepe/api/Vector2.h>
 #include <crepe/system/ScriptSystem.h>
 
+#include "ScriptTest.h"
+
 using namespace std;
 using namespace crepe;
 using namespace testing;
 
-class ScriptEventTest : public Test {
-	Mediator m;
+class ScriptEventTest : public ScriptTest {
 public:
-	ComponentManager component_manager{m};
-	ScriptSystem system{m};
-	EventManager & event_manager = m.event_manager;
+	EventManager & event_manager = mediator.event_manager;
 
 	class MyEvent : public Event {};
-	class MyScript : public Script {};
-
-	OptionalRef<BehaviorScript> behaviorscript;
-	OptionalRef<MyScript> script;
-
-	void SetUp() override {
-		auto & mgr = this->component_manager;
-		GameObject entity = mgr.new_object("name");
-		BehaviorScript & component = entity.add_component<BehaviorScript>();
-
-		this->behaviorscript = component;
-		ASSERT_TRUE(this->behaviorscript);
-		EXPECT_EQ(component.script.get(), nullptr);
-		component.set_script<MyScript>();
-		ASSERT_NE(component.script.get(), nullptr);
-
-		this->script = *(MyScript *) component.script.get();
-		ASSERT_TRUE(this->script);
-	}
 };
 
 TEST_F(ScriptEventTest, Inactive) {

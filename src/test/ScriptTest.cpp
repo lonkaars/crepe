@@ -5,48 +5,27 @@
 #define private public
 #define protected public
 
-#include <crepe/manager/ComponentManager.h>
-#include <crepe/api/BehaviorScript.h>
+#include "ScriptTest.h"
 #include <crepe/api/GameObject.h>
-#include <crepe/api/Script.h>
-#include <crepe/system/ScriptSystem.h>
 
 using namespace std;
 using namespace crepe;
 using namespace testing;
 
-class ScriptTest : public Test {
-	Mediator m;
-public:
-	ComponentManager component_manager{m};
-	ScriptSystem system{m};
-	EventManager & event_manager = m.event_manager;
+void ScriptTest::SetUp() {
+	auto & mgr = this->component_manager;
+	GameObject entity = mgr.new_object("name");
+	BehaviorScript & component = entity.add_component<BehaviorScript>();
 
-	class MyScript : public Script {
-		// NOTE: explicitly stating `public:` is not required on actual scripts
-	public:
-		MOCK_METHOD(void, init, (), (override));
-		MOCK_METHOD(void, update, (), (override));
-	};
+	this->behaviorscript = component;
+	ASSERT_TRUE(this->behaviorscript);
+	EXPECT_EQ(component.script.get(), nullptr);
+	component.set_script<NiceMock<MyScript>>();
+	ASSERT_NE(component.script.get(), nullptr);
 
-	OptionalRef<BehaviorScript> behaviorscript;
-	OptionalRef<MyScript> script;
-
-	void SetUp() override {
-		auto & mgr = this->component_manager;
-		GameObject entity = mgr.new_object("name");
-		BehaviorScript & component = entity.add_component<BehaviorScript>();
-
-		this->behaviorscript = component;
-		ASSERT_TRUE(this->behaviorscript);
-		EXPECT_EQ(component.script.get(), nullptr);
-		component.set_script<MyScript>();
-		ASSERT_NE(component.script.get(), nullptr);
-
-		this->script = *(MyScript *) component.script.get();
-		ASSERT_TRUE(this->script);
-	}
-};
+	this->script = *(MyScript *) component.script.get();
+	ASSERT_TRUE(this->script);
+}
 
 TEST_F(ScriptTest, Default) {
 	MyScript & script = this->script;
