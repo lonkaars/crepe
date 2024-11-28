@@ -57,8 +57,6 @@ private:
 	//! The current row being animated.
 	int curr_row = 0;
 
-	Rect animator_rect;
-
 	//TODO: Is this necessary?
 	//int fps;
 
