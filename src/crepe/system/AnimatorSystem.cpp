@@ -9,7 +9,7 @@
 using namespace crepe;
 
 void AnimatorSystem::update() {
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Animator> animations = mgr.get_components_by_type<Animator>();
 

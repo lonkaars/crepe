@@ -17,7 +17,11 @@ class SceneManager;
  * pass specific references through dependency injection. All references on this struct
  * *should* be explicitly checked for availability as this struct does not guarantee anything.
  *
- * \todo Find better solution
+ * \note Dereferencing members of this struct should be deferred. If you are a user of this
+ * class, keep a reference to this mediator instead of just picking references from it when you
+ * receive an instance.
+ *
+ * \warning This class should never be directly accessible from the API
  */
 struct Mediator {
 	OptionalRef<ComponentManager> component_manager;

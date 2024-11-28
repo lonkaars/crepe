@@ -25,7 +25,7 @@ public:
 	virtual ~System() = default;
 
 protected:
-	ComponentManager & component_manager;
+	const Mediator & mediator;
 };
 
 } // namespace crepe
