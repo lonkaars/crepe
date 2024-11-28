@@ -13,7 +13,6 @@ class Camera;
 class Sprite;
 class Transform;
 
-
 /**
  * \class RenderSystem
  * \brief Manages rendering operations for all game objects.
@@ -80,7 +79,6 @@ private:
 
 	//! camera postion in the current scene
 	vec2 cam_pos;
-
 };
 
 } // namespace crepe

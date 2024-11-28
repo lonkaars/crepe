@@ -17,15 +17,13 @@ Texture::~Texture() {
 	this->texture.reset();
 }
 
-Texture::Texture(Texture&& other) noexcept
-    : texture(std::move(other.texture)){
-}
-                                               
-Texture& Texture::operator=(Texture&& other) noexcept {
-    if (this != &other) {
-        texture = std::move(other.texture);
-    }
-    return *this;
+Texture::Texture(Texture && other) noexcept : texture(std::move(other.texture)) {}
+
+Texture & Texture::operator=(Texture && other) noexcept {
+	if (this != &other) {
+		texture = std::move(other.texture);
+	}
+	return *this;
 }
 
 void Texture::load(const Asset & res) {
