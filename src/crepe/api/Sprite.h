@@ -1,10 +1,11 @@
 #pragma once
 
+#include <cstdint>
+
 #include "../Component.h"
 
 #include "Color.h"
 #include "Texture.h"
-#include <cstdint>
 
 namespace crepe {
 
