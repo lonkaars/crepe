@@ -12,7 +12,7 @@ using namespace crepe;
 
 void ParticleSystem::update() {
 	// Get all emitters
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<ParticleEmitter> emitters = mgr.get_components_by_type<ParticleEmitter>();
 
 	for (ParticleEmitter & emitter : emitters) {

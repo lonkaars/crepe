@@ -4,4 +4,4 @@
 
 using namespace crepe;
 
-System::System(const Mediator & mediator) : component_manager(mediator.component_manager) { dbg_trace(); }
+System::System(const Mediator & mediator) : mediator(mediator) { dbg_trace(); }
