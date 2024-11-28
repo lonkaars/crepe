@@ -11,6 +11,8 @@ namespace crepe {
 
 class Camera;
 class Sprite;
+class Transform;
+
 
 /**
  * \class RenderSystem
@@ -75,6 +77,10 @@ private:
 
 private:
 	SDLContext & context = SDLContext::get_instance();
+
+	//! camera postion in the current scene
+	vec2 cam_pos = {0,0};
+
 };
 
 } // namespace crepe

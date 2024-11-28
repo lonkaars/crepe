@@ -11,7 +11,6 @@
 
 #include "../api/Camera.h"
 #include "../api/Sprite.h"
-#include "../api/Transform.h"
 
 #include "types.h"
 
@@ -115,23 +114,9 @@ private:
 
 	/**
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
-	 * \param sprite Reference to the Sprite to draw.
-	 * \param transform Reference to the Transform for positioning.
-	 * \param cam camera of the current scene
+	 * \param RenderCtx Reference to rendering data to draw
 	 */
-	void draw(const Sprite & sprite, const Transform & transform, const Camera & cam);
-
-	/**
-	 * \brief Draws a particle to the screen using the specified parameters
-	 *
-	 * \param  sprite Referenceto the sprite to draw
-	 * \param  pos particle position in world units 
-	 * \param  angle particle angle in degrees
-	 * \param  img_scale scalar multiplier to increase image size 
-	 * \param  cam camera of the current scene
-	 */
-	void draw_particle(const Sprite & sprite, const vec2 & pos, const double & angle,
-					   const double & img_scale, const Camera & cam);
+	void draw(const RenderCtx & ctx);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
@@ -160,10 +145,11 @@ private:
 	 * \param sprite Reference to the sprite to calculate rectangle
 	 * \param pos the pos in world units
 	 * \param cam the camera of the current scene
+	 * \param cam_pos the current postion of the camera
 	 * \param img_scale the image multiplier for increasing img size 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
+	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam, const vec2 & cam_pos,
 						  const double & img_scale) const;
 
 private:

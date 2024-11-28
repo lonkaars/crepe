@@ -32,10 +32,6 @@ public:
 	//! offset postion from the game object transform component
 	vec2 offset;
 
-	//! pos the postion of the camera in world space this will be filled with
-	//pos = transform + offset
-	vec2 pos = {0, 0};
-
 	//! screen the display size in pixels ( output resolution )
 	const ivec2 screen = {1080, 720};
 
