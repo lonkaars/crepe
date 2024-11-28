@@ -15,8 +15,16 @@ function(add_example target_name)
 	target_link_libraries(${target_name} PUBLIC crepe)
 	add_dependencies(examples ${target_name})
 endfunction()
-
+set(game_sources,
+)
 add_example(asset_manager)
 add_example(savemgr)
 add_example(rendering_particle)
+set(game_sources
+    demogame.cpp
+    # Add other source files here
+)
+
+add_example(demogame ${game_sources})
+
 

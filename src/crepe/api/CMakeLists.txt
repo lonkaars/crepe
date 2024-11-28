@@ -33,6 +33,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Config.h
 	Script.h
 	Script.hpp
+	Transform.h
 	GameObject.h
 	GameObject.hpp
 	Rigidbody.h
