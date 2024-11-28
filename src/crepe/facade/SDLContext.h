@@ -16,7 +16,6 @@
 
 namespace crepe {
 
-
 // TODO: SDL_Keycode is defined in a header not distributed with crepe, which means this
 // typedef is unusable when crepe is packaged. Wouter will fix this later.
 typedef SDL_Keycode CREPE_KEYCODES;
