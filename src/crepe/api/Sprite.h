@@ -41,7 +41,7 @@ public:
 	 * \param height the height of the image in game units
 	 */
 	Sprite(game_object_id_t id, Texture & image, const Color & color,
-		   const FlipSettings & flip, uint8_t sort_layer, uint8_t order_layer, int height);
+		   const FlipSettings & flip, int sort_layer, int order_layer, int height);
 
 	/**
 	 * \brief Destroys the Sprite instance.
@@ -58,9 +58,9 @@ public:
 	FlipSettings flip;
 
 	//! Layer sorting level of the sprite
-	const uint8_t sorting_in_layer;
+	const int sorting_in_layer;
 	//! Order within the sorting layer
-	const uint8_t order_in_layer;
+	const int order_in_layer;
 
 	//! height in world units
 	const int height;
@@ -74,13 +74,13 @@ public:
 	double aspect_ratio;
 
 private:
-	//! Reads the sprite_rect of sprite
+	//! Reads the mask of sprite
 	friend class SDLContext;
 
-	//! Reads the all the variables plus the  sprite_rect
+	//! Reads the all the variables plus the  mask
 	friend class Animator;
 
-	//! Reads the all the variables plus the  sprite_rect
+	//! Reads the all the variables plus the  mask
 	friend class AnimatorSystem;
 
 	struct Rect {
@@ -91,7 +91,7 @@ private:
 	};
 	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator
 	// object is present in GameObject. this is in sprite pixels
-	Rect sprite_rect;
+	Rect mask;
 };
 
 } // namespace crepe

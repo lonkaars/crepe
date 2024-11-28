@@ -18,7 +18,7 @@ void AnimatorSystem::update() {
 		if (!a.active) continue;
 		// (10 frames per second)
 		a.curr_row = (tick / 100) % a.row;
-		a.spritesheet.sprite_rect.x = (a.curr_row * a.spritesheet.sprite_rect.w) + a.curr_col;
-		a.spritesheet.sprite_rect = a.spritesheet.sprite_rect;
+		a.spritesheet.mask.x = (a.curr_row * a.spritesheet.mask.w) + a.curr_col;
+		a.spritesheet.mask = a.spritesheet.mask;
 	}
 }

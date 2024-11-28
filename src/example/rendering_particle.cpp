@@ -60,7 +60,7 @@ int main(int argc, char * argv[]) {
 	*/
 
 	auto & cam = game_object.add_component<Camera>(Color::WHITE, ivec2{1080, 720},
-												   ivec2{2000, 2000}, 1.0f);
+												   vec2{2000, 2000}, 1.0f);
 
 	/*
 	game_object
