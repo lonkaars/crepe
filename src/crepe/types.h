@@ -27,4 +27,4 @@ typedef Vector2<float> vec2;
 //! Default Vector2<double> type
 typedef Vector2<double> dvec2;
 
-} // namespace crepe
+}; // namespace crepe
