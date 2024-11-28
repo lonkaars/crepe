@@ -8,18 +8,6 @@
 
 namespace crepe {
 
-struct Rect {
-	int w = 0;
-	int h = 0;
-	int x = 0;
-	int y = 0;
-};
-
-struct FlipSettings {
-	bool flip_x = false;
-	bool flip_y = false;
-};
-
 class SDLContext;
 class Animator;
 class AnimatorSystem;
@@ -31,6 +19,12 @@ class AnimatorSystem;
  * flip settings, and is managed in layers with defined sorting orders.
  */
 class Sprite : public Component {
+
+public:
+	struct FlipSettings {
+		bool flip_x = false;
+		bool flip_y = false;
+	};
 
 public:
 	// TODO: Loek comment in github #27 will be looked another time
@@ -88,6 +82,12 @@ private:
 	//! Reads the all the variables plus the  sprite_rect
 	friend class AnimatorSystem;
 
+	struct Rect {
+		int w = 0;
+		int h = 0;
+		int x = 0;
+		int y = 0;
+	};
 	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator
 	// object is present in GameObject. this is in sprite pixels
 	Rect sprite_rect;

@@ -17,7 +17,6 @@
 #include <crepe/types.h>
 
 #include <chrono>
-#include <memory>
 
 using namespace crepe;
 using namespace std;
@@ -33,7 +32,7 @@ int main(int argc, char * argv[]) {
 
 	auto img = Texture("asset/texture/test_ap43.png");
 	Sprite & test_sprite
-		= game_object.add_component<Sprite>(img, color, FlipSettings{true, true}, 1, 1, 500);
+		= game_object.add_component<Sprite>(img, color, Sprite::FlipSettings{true, true}, 1, 1, 500);
 
 	//game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
 	game_object.add_component<Animator>(test_sprite, 1, 1, 0).active = true;
