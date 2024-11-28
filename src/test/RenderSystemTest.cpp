@@ -7,12 +7,12 @@
 #define private public
 #define protected public
 
+#include "crepe/api/Camera.h"
 #include <crepe/ComponentManager.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
-#include "crepe/api/Camera.h"
 
 #include <crepe/system/RenderSystem.h>
 
@@ -34,25 +34,25 @@ public:
 		auto s2 = Texture("asset/texture/img.png");
 		auto s3 = Texture("asset/texture/img.png");
 		auto s4 = Texture("asset/texture/img.png");
-		auto & sprite1 = entity1.add_component<Sprite>(s1, Color(0, 0, 0, 0),
-													   Sprite::FlipSettings{false, false}, 5, 5, 100);
+		auto & sprite1 = entity1.add_component<Sprite>(
+			s1, Color(0, 0, 0, 0), Sprite::FlipSettings{false, false}, 5, 5, 100);
 		ASSERT_NE(sprite1.sprite_image.texture.get(), nullptr);
 		EXPECT_EQ(sprite1.order_in_layer, 5);
 		EXPECT_EQ(sprite1.sorting_in_layer, 5);
-		auto & sprite2 = entity2.add_component<Sprite>(s2, Color(0, 0, 0, 0),
-													   Sprite::FlipSettings{false, false}, 2, 1, 100);
+		auto & sprite2 = entity2.add_component<Sprite>(
+			s2, Color(0, 0, 0, 0), Sprite::FlipSettings{false, false}, 2, 1, 100);
 		ASSERT_NE(sprite2.sprite_image.texture.get(), nullptr);
 		EXPECT_EQ(sprite2.sorting_in_layer, 2);
 		EXPECT_EQ(sprite2.order_in_layer, 1);
 
-		auto & sprite3 = entity3.add_component<Sprite>(s3, Color(0, 0, 0, 0),
-													   Sprite::FlipSettings{false, false}, 1, 2, 100);
+		auto & sprite3 = entity3.add_component<Sprite>(
+			s3, Color(0, 0, 0, 0), Sprite::FlipSettings{false, false}, 1, 2, 100);
 		ASSERT_NE(sprite3.sprite_image.texture.get(), nullptr);
 		EXPECT_EQ(sprite3.sorting_in_layer, 1);
 		EXPECT_EQ(sprite3.order_in_layer, 2);
 
-		auto & sprite4 = entity4.add_component<Sprite>(s4, Color(0, 0, 0, 0),
-													   Sprite::FlipSettings{false, false}, 1, 1, 100);
+		auto & sprite4 = entity4.add_component<Sprite>(
+			s4, Color(0, 0, 0, 0), Sprite::FlipSettings{false, false}, 1, 1, 100);
 		ASSERT_NE(sprite4.sprite_image.texture.get(), nullptr);
 		EXPECT_EQ(sprite4.sorting_in_layer, 1);
 		EXPECT_EQ(sprite4.order_in_layer, 1);
@@ -66,7 +66,7 @@ TEST_F(RenderSystemTest, expected_throws) {
 	EXPECT_ANY_THROW({
 		auto test = Texture("");
 		entity1.add_component<Sprite>(test, Color(0, 0, 0, 0),
-									  Sprite::FlipSettings{false, false},1,1,100);
+									  Sprite::FlipSettings{false, false}, 1, 1, 100);
 	});
 
 	// No camera

@@ -16,14 +16,13 @@
 
 namespace crepe {
 
-struct RenderCtx{
+struct RenderCtx {
 	const Sprite & sprite;
 	const Camera & cam;
 	const vec2 & cam_pos;
 	const vec2 & pos;
 	const double & angle;
 	const double & scale;
-	
 };
 
 // TODO: SDL_Keycode is defined in a header not distributed with crepe, which means this
@@ -38,8 +37,6 @@ typedef SDL_Keycode CREPE_KEYCODES;
  * event handling, and rendering to the screen. It is never used directly by the user
  */
 class SDLContext {
-
-
 
 public:
 	/**
@@ -161,8 +158,8 @@ private:
 	 * \param img_scale the image multiplier for increasing img size 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam, const vec2 & cam_pos,
-						  const double & img_scale) const;
+	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
+						  const vec2 & cam_pos, const double & img_scale) const;
 
 private:
 	//! sdl Window
