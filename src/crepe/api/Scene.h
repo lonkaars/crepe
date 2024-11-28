@@ -3,6 +3,7 @@
 #include <string>
 
 #include "../util/OptionalRef.h"
+#include "../manager/Mediator.h"
 
 namespace crepe {
 
@@ -34,6 +35,8 @@ public:
 	 */
 	virtual std::string get_name() const = 0;
 
+	// TODO: Late references should ALWAYS be private! This is currently kept as-is so unit tests
+	// keep passing, but this reference should not be directly accessible by the user!!!
 protected:
 	/**
 	 * \name Late references
@@ -46,8 +49,8 @@ protected:
 	 *
 	 * \{
 	 */
-	//! Reference to the ComponentManager
-	OptionalRef<ComponentManager> component_manager;
+	//! Mediator reference
+	OptionalRef<Mediator> mediator;
 	//! \}
 };
 

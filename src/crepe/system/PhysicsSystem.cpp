@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "../ComponentManager.h"
+#include "../manager/ComponentManager.h"
 #include "../api/Config.h"
 #include "../api/Rigidbody.h"
 #include "../api/Transform.h"

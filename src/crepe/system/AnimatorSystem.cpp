@@ -1,10 +1,10 @@
 #include <cstdint>
 
-#include "api/Animator.h"
-#include "facade/SDLContext.h"
+#include "../api/Animator.h"
+#include "../facade/SDLContext.h"
+#include "../manager/ComponentManager.h"
 
 #include "AnimatorSystem.h"
-#include "ComponentManager.h"
 
 using namespace crepe;
 

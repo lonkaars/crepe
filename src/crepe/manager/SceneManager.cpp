@@ -1,14 +1,15 @@
 #include <algorithm>
 #include <memory>
 
-#include "../ComponentManager.h"
-
+#include "ComponentManager.h"
 #include "SceneManager.h"
 
 using namespace crepe;
 using namespace std;
 
-SceneManager::SceneManager(ComponentManager & mgr) : component_manager(mgr) {}
+SceneManager::SceneManager(Mediator & mediator) : Manager(mediator) {
+	mediator.scene_manager = *this;
+}
 
 void SceneManager::set_next_scene(const string & name) { next_scene = name; }
 
@@ -26,7 +27,7 @@ void SceneManager::load_next_scene() {
 	unique_ptr<Scene> & scene = *it;
 
 	// Delete all components of the current scene
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 	mgr.delete_all_components();
 
 	// Load the new scene

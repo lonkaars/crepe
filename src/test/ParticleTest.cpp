@@ -1,5 +1,4 @@
-#include "api/Vector2.h"
-#include <crepe/ComponentManager.h>
+#include <crepe/manager/ComponentManager.h>
 #include <crepe/Particle.h>
 #include <crepe/api/Config.h>
 #include <crepe/api/GameObject.h>
@@ -16,9 +15,10 @@ using namespace std::chrono_literals;
 using namespace crepe;
 
 class ParticlesTest : public ::testing::Test {
+	Mediator m;
 public:
-	ComponentManager component_manager;
-	ParticleSystem particle_system{component_manager};
+	ComponentManager component_manager{m};
+	ParticleSystem particle_system{m};
 
 	void SetUp() override {
 		ComponentManager & mgr = this->component_manager;

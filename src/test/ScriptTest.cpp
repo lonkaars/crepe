@@ -4,10 +4,10 @@
 #define private public
 #define protected public
 
-#include <crepe/ComponentManager.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/EventManager.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Event.h>
-#include <crepe/api/EventManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Vector2.h>
@@ -20,10 +20,11 @@ using namespace testing;
 class MyEvent : public Event {};
 
 class ScriptTest : public Test {
+	Mediator m;
 public:
-	ComponentManager component_manager{};
-	ScriptSystem system{component_manager};
-	EventManager & event_manager = EventManager::get_instance();
+	ComponentManager component_manager{m};
+	ScriptSystem system{m};
+	EventManager & event_manager = m.event_manager;
 
 	class MyScript : public Script {
 		// NOTE: default (private) visibility of init and update shouldn't cause
