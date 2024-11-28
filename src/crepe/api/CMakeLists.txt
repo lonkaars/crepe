@@ -15,6 +15,8 @@ target_sources(crepe PUBLIC
 	SceneManager.cpp
 	Camera.cpp
 	Animator.cpp
+	BoxCollider.cpp
+	CircleCollider.cpp
 	EventManager.cpp
 	IKeyListener.cpp
 	IMouseListener.cpp
@@ -51,6 +53,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	SceneManager.hpp
 	Camera.h
 	Animator.h
+	BoxCollider.h
+	CircleCollider.h
 	EventManager.h
 	EventManager.hpp
 	EventHandler.h
@@ -63,4 +67,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Asset.h
 	Button.h
 	UiObject.h
+	ParticleEmitter.h
 )

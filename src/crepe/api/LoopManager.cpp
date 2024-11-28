@@ -7,7 +7,10 @@
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
+#include "../system/PhysicsSystem.h"
+#include "../system/CollisionSystem.h"
 
+#include "EventManager.h"
 #include "LoopManager.h"
 #include "LoopTimer.h"
 
@@ -22,6 +25,9 @@ LoopManager::LoopManager() {
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
 	this->load_system<InputSystem>();
+	EventManager::get_instance().subscribe<ShutDownEvent>([this](const ShutDownEvent & e) {
+				return on_shutdown(e);
+			});
 }
 
 void LoopManager::process_input() { this->get_system<InputSystem>().update(); }
@@ -33,8 +39,9 @@ void LoopManager::start() {
 void LoopManager::set_running(bool running) { this->game_running = running; }
 
 void LoopManager::fixed_update() {
+	this->get_system<ScriptSystem>().update();
 	this->get_system<PhysicsSystem>().update();
-	
+	this->get_system<CollisionSystem>().update();
 }
 
 void LoopManager::loop() {
@@ -49,7 +56,7 @@ void LoopManager::loop() {
 			this->fixed_update();
 			timer.advance_fixed_update();
 		}
-
+		EventManager::get_instance().dispatch_events();
 		this->update();
 		this->render();
 
@@ -60,7 +67,8 @@ void LoopManager::loop() {
 void LoopManager::setup() {
 	this->game_running = true;
 	LoopTimer::get_instance().start();
-	LoopTimer::get_instance().set_fps(200);
+	LoopTimer::get_instance().set_fps(300);
+	this->scene_manager.load_next_scene();
 }
 
 void LoopManager::render() {
@@ -70,5 +78,11 @@ void LoopManager::render() {
 }
 
 void LoopManager::update() { LoopTimer & timer = LoopTimer::get_instance(); 
+	this->get_system<ParticleSystem>().update();
+	this->get_system<AnimatorSystem>().update();
+}
 
+bool LoopManager::on_shutdown(const ShutDownEvent& e){
+	this->game_running = false;
+	return false;
 }

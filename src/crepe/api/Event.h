@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "system/CollisionSystem.h"
+
 #include "KeyCodes.h"
 
 namespace crepe {
@@ -113,7 +115,12 @@ public:
 /**
  * \brief Event triggered during a collision between objects.
  */
-class CollisionEvent : public Event {};
+class CollisionEvent : public Event {
+public:
+	crepe::CollisionSystem::CollisionInfo info;
+	CollisionEvent(const crepe::CollisionSystem::CollisionInfo& collisionInfo)
+        : info(collisionInfo) {}
+};
 
 /**
  * \brief Event triggered when text is submitted, e.g., from a text input.

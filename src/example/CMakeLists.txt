@@ -27,4 +27,5 @@ set(game_sources
 
 add_example(demogame ${game_sources})
 
+add_example(game)
 

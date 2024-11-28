@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "../Component.h"
 
 #include "types.h"
@@ -58,13 +60,13 @@ public:
 		//! linear velocity of object
 		vec2 linear_velocity;
 		//! maximum linear velocity of object
-		vec2 max_linear_velocity;
+		vec2 max_linear_velocity = {INFINITY ,INFINITY};
 		//! linear damping of object
 		vec2 linear_damping;
 		//! angular velocity of object
 		double angular_velocity = 0.0;
 		//! max angular velocity of object
-		double max_angular_velocity = 0.0;
+		double max_angular_velocity = INFINITY;
 		//! angular damping of object
 		double angular_damping = 0.0;
 		//! movements constraints of object
@@ -73,6 +75,10 @@ public:
 		bool use_gravity = true;
 		//! if object bounces
 		bool bounce = false;
+		//! bounce factor of material
+		double elastisity = 0.0;
+		//! offset of all colliders relative to transform position
+		vec2 offset;
 	};
 
 public:

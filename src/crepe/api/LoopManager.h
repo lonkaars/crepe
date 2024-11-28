@@ -5,7 +5,7 @@
 #include "../ComponentManager.h"
 #include "../system/System.h"
 #include "api/SceneManager.h"
-
+#include "EventManager.h"
 namespace crepe {
 
 /**
@@ -81,7 +81,7 @@ private:
 	 * Renders the current state of the game to the screen.
 	 */
 	void render();
-
+	bool on_shutdown(const ShutDownEvent& e);
 	bool game_running = false;
 
 private:

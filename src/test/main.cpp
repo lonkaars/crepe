@@ -25,6 +25,8 @@ int main(int argc, char ** argv) {
 
 	UnitTest & ut = *UnitTest::GetInstance();
 	ut.listeners().Append(new GlobalConfigReset);
+	// auto & cfg = Config::get_instance();
+	// cfg.log.level = Log::Level::DEBUG;
 
 	return RUN_ALL_TESTS();
 }
