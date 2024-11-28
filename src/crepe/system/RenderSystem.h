@@ -79,7 +79,7 @@ private:
 	SDLContext & context = SDLContext::get_instance();
 
 	//! camera postion in the current scene
-	vec2 cam_pos = {0,0};
+	vec2 cam_pos;
 
 };
 

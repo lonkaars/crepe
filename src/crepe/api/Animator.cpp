@@ -14,14 +14,13 @@ Animator::Animator(game_object_id_t id, Sprite & ss, int row, int col, int col_a
 	  col(col) {
 	dbg_trace();
 
-	animator_rect = spritesheet.sprite_rect;
-	animator_rect.h /= col;
-	animator_rect.w /= row;
-	animator_rect.x = 0;
-	animator_rect.y = col_animator * animator_rect.h;
+	this->spritesheet.sprite_rect.h /= col;
+	this->spritesheet.sprite_rect.w /= row;
+	this->spritesheet.sprite_rect.x = 0;
+	this->spritesheet.sprite_rect.y = col_animator * this->spritesheet.sprite_rect.h;
 	this->active = false;
 
 	// need to do this for to get the aspect ratio for a single clipping in the spritesheet
-	this->spritesheet.aspect_ratio = static_cast<double>(animator_rect.w) / animator_rect.h;
+	this->spritesheet.aspect_ratio = static_cast<double>(this->spritesheet.sprite_rect.w) / this->spritesheet.sprite_rect.h;
 }
 Animator::~Animator() { dbg_trace(); }

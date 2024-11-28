@@ -33,13 +33,13 @@ public:
 	vec2 offset;
 
 	//! screen the display size in pixels ( output resolution )
-	const ivec2 screen = {1080, 720};
+	const ivec2 screen;
 
 	//! viewport is the area of the world visible through the camera (in world units)
-	const ivec2 viewport = {500, 1000};
+	const ivec2 viewport;
 
 	//! Zoom level of the camera view.
-	const double zoom = 1.0f;
+	const double zoom;
 
 public:
 	/**
