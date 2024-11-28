@@ -9,9 +9,8 @@
 #include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
+#include "../api/Camera.h"
 #include "../facade/SDLContext.h"
-#include "api/Camera.h"
-#include "types.h"
 
 #include "RenderSystem.h"
 

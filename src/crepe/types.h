@@ -27,17 +27,4 @@ typedef Vector2<float> vec2;
 //! Default Vector2<double> type
 typedef Vector2<double> dvec2;
 
-class Sprite;
-class Camera;
-
-struct RenderCtx{
-	const Sprite & sprite;
-	const Camera & cam;
-	const vec2 & cam_pos;
-	const vec2 & pos;
-	const double & angle;
-	const double & scale;
-	
-} ;                  
-
-} // namespace crepe
+}; // namespace crepe

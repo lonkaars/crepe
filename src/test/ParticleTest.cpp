@@ -31,7 +31,7 @@ public:
 			auto s1 = Texture("asset/texture/img.png");
 			Sprite & test_sprite = game_object.add_component<Sprite>(
 				s1, color,
-				FlipSettings{true, true}, 1,1,100);
+				Sprite::FlipSettings{true, true}, 1,1,100);
 
 			game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 				.position = {0, 0},
