@@ -45,7 +45,7 @@ public:
 	 * \param sort_layer decides the order in layer of the sprite.
 	 * \param height the height of the image in game units
 	 */
-	Sprite(game_object_id_t id, const Texture & image, const Color & color,
+	Sprite(game_object_id_t id, Texture & image, const Color & color,
 		   const FlipSettings & flip, uint8_t sort_layer, uint8_t order_layer, int height);
 
 	/**
@@ -54,7 +54,7 @@ public:
 	~Sprite();
 
 	//! Texture used for the sprite
-	const Texture & sprite_image;
+	const Texture sprite_image;
 
 	//! Color tint of the sprite
 	Color color;

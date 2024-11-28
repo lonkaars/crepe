@@ -17,6 +17,17 @@ Texture::~Texture() {
 	this->texture.reset();
 }
 
+Texture::Texture(Texture&& other) noexcept
+    : texture(std::move(other.texture)){
+}
+                                               
+Texture& Texture::operator=(Texture&& other) noexcept {
+    if (this != &other) {
+        texture = std::move(other.texture);
+    }
+    return *this;
+}
+
 void Texture::load(const Asset & res) {
 	SDLContext & ctx = SDLContext::get_instance();
 	this->texture = ctx.texture_from_path(res.get_path());
