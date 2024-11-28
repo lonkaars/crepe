@@ -77,16 +77,6 @@ public:
 	 * does it need to be calculated again in the Animator
 	 */
 	double aspect_ratio;
-
-public:
-	/**
-	 * \brief Gets the maximum number of instances allowed for this sprite.
-	 * \return Maximum instance count as an integer.
-	 *
-	 * For now is this number randomly picked. I think it will eventually be 1. 
-	 */
-	virtual int get_instances_max() const { return 10; }
-
 private:
 	//! Reads the sprite_rect of sprite
 	friend class SDLContext;
