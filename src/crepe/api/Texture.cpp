@@ -1,5 +1,3 @@
-#include <SDL2/SDL_render.h>
-
 #include "../facade/SDLContext.h"
 #include "../util/Log.h"
 
@@ -17,6 +15,15 @@ Texture::Texture(const Asset & src) {
 Texture::~Texture() {
 	dbg_trace();
 	this->texture.reset();
+}
+
+Texture::Texture(Texture && other) noexcept : texture(std::move(other.texture)) {}
+
+Texture & Texture::operator=(Texture && other) noexcept {
+	if (this != &other) {
+		texture = std::move(other.texture);
+	}
+	return *this;
 }
 
 void Texture::load(const Asset & res) {

@@ -9,9 +9,8 @@
 #include <memory>
 #include <string>
 
+#include "../api/Camera.h"
 #include "../api/Sprite.h"
-#include "../api/Transform.h"
-#include "api/Camera.h"
 
 #include "types.h"
 
@@ -29,6 +28,15 @@ typedef SDL_Keycode CREPE_KEYCODES;
  * event handling, and rendering to the screen. It is never used directly by the user
  */
 class SDLContext {
+public:
+	struct RenderContext {
+		const Sprite & sprite;
+		const Camera & cam;
+		const vec2 & cam_pos;
+		const vec2 & pos;
+		const double & angle;
+		const double & scale;
+	};
 
 public:
 	/**
@@ -100,14 +108,14 @@ private:
 	 * \param texture Reference to the Texture object.
 	 * \return Width of the texture as an integer.
 	 */
-	int get_width(const Texture &) const;
+	int get_width(const Texture & texture) const;
 
 	/**
 	 * \brief Gets the height of a texture.
 	 * \param texture Reference to the Texture object.
 	 * \return Height of the texture as an integer.
 	 */
-	int get_height(const Texture &) const;
+	int get_height(const Texture & texture) const;
 
 private:
 	//! Will use draw,clear_screen, present_screen, camera.
@@ -115,14 +123,9 @@ private:
 
 	/**
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
-	 * \param sprite Reference to the Sprite to draw.
-	 * \param transform Reference to the Transform for positioning.
-	 * \param camera Reference to the Camera for view adjustments.
+	 * \param RenderCtx Reference to rendering data to draw
 	 */
-	void draw(const Sprite & sprite, const Transform & transform, const Camera & camera);
-
-	void draw_particle(const Sprite & sprite, const vec2 & pos, const double & angle,
-					   const double & scale, const Camera & camera);
+	void draw(const RenderContext & ctx);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
@@ -144,18 +147,19 @@ private:
 	 * \return sdl rectangle to draw a src image
 	 */
 	SDL_Rect get_src_rect(const Sprite & sprite) const;
+
 	/**
-	 * \brief calculates the sqaure size of the image for an destination
+	 * \brief calculates the sqaure size of the image for destination
 	 *
-	 * \param sprite Reference to the sprite to calculate the rectangle
-	 * \param pos the pos in pixel positions
-	 * \param scale the multiplier to increase of decrease for the specified sprite 
-	 * \param cam Reference to the current camera in the scene to calculate the position based
-	 * on the camera 
+	 * \param sprite Reference to the sprite to calculate rectangle
+	 * \param pos the pos in world units
+	 * \param cam the camera of the current scene
+	 * \param cam_pos the current postion of the camera
+	 * \param img_scale the image multiplier for increasing img size 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const double & scale,
-						  const Camera & cam) const;
+	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
+						  const vec2 & cam_pos, const double & img_scale) const;
 
 private:
 	//! sdl Window
@@ -163,9 +167,6 @@ private:
 
 	//! renderer for the crepe engine
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
-
-	//! viewport for the camera window
-	SDL_Rect viewport = {0, 0, 640, 480};
 };
 
 } // namespace crepe
