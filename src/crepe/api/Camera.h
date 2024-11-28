@@ -21,7 +21,8 @@ public:
 	 * \param id Unique identifier for the camera component.
 	 * \param bg_color Background color for the camera view.
 	 */
-	Camera(game_object_id_t id, const Color & bg_color, const ivec2 & screen, const ivec2 & viewport, const double & zoom, const vec2 & offset = {0,0});
+	Camera(game_object_id_t id, const Color & bg_color, const ivec2 & screen,
+		   const ivec2 & viewport, const double & zoom, const vec2 & offset = {0, 0});
 	~Camera(); // dbg_trace only
 
 public:

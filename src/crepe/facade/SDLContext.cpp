@@ -12,10 +12,10 @@
 #include <stdexcept>
 
 #include "../api/Camera.h"
+#include "../api/Config.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../api/Transform.h"
-#include "../api/Config.h"
 #include "../util/Log.h"
 
 #include "SDLContext.h"
