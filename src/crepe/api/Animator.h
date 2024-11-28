@@ -40,6 +40,7 @@ public:
 	Animator(uint32_t id, Sprite & spritesheet, int row, int col, int col_animate);
 
 	~Animator(); // dbg_trace
+
 private:
 	//! A reference to the Sprite sheet containing the animation frames.
 	Sprite & spritesheet;

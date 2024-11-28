@@ -77,6 +77,7 @@ public:
 	 * does it need to be calculated again in the Animator
 	 */
 	double aspect_ratio;
+
 private:
 	//! Reads the sprite_rect of sprite
 	friend class SDLContext;

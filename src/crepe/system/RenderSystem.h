@@ -75,7 +75,6 @@ private:
 
 private:
 	SDLContext & context = SDLContext::get_instance();
-	
 };
 
 } // namespace crepe
