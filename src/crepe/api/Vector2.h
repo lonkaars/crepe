@@ -31,14 +31,8 @@ struct Vector2 {
 	//! Divides this vector by another vector element-wise and returns the result.
 	Vector2 operator/(const Vector2<T> & other) const;
 
-	//! Multiplies this vector by another vector element-wise and updates this vector.
-	Vector2 & operator*=(const Vector2<T> & other);
-
-	//! Divides a scalar value to both components of this vector and updates this vector.
-	Vector2 operator/(const T & other) const;
-
-	//! Divides a scalar value to both components of this vector and updates this vector.
-	Vector2 operator/(T other) const;
+	//! Divides this vector by a scalar and returns the result.
+	Vector2 operator/(T scalar) const;
 
 	//! Adds another vector to this vector and updates this vector.
 	Vector2 & operator+=(const Vector2<T> & other);
@@ -51,6 +45,9 @@ struct Vector2 {
 
 	//! Subtracts a scalar value from both components of this vector and updates this vector.
 	Vector2 & operator-=(T other);
+
+	//! Multiplies this vector by another vector element-wise and updates this vector.
+	Vector2 & operator*=(const Vector2<T> & other);
 
 	//! Multiplies this vector by a scalar and updates this vector.
 	Vector2 & operator*=(T other);
