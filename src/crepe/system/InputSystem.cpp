@@ -80,48 +80,52 @@ void InputSystem::update() {
 }
 
 void InputSystem::handle_move(const SDLContext::EventData & event_data) {
-	ComponentManager & mgr = this->component_manager;
+    ComponentManager & mgr = this->component_manager;
 
-	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
-	RefVector<Transform> transforms = mgr.get_components_by_type<Transform>();
+    RefVector<Button> buttons = mgr.get_components_by_type<Button>();
+    
 
-	for (Button & button : buttons) {
-		OptionalRef<Transform> transform = find_transform_for_button(button, transforms);
-		if (!transform) continue;
+    for (Button & button : buttons) {
+        RefVector<Transform> transform_vec =  mgr.get_components_by_id<Transform>(button.game_object_id);
+		OptionalRef<Transform> transform(transform_vec.front().get());
+        if (!transform) continue;
 
-		if (button.active && is_mouse_inside_button(event_data, button, transform)) {
-			button.hover = true;
-		} else {
-			button.hover = false;
-		}
-	}
+        bool was_hovering = button.hover; // Store previous hover state
+
+        // Check if the mouse is inside the button
+        if (button.active && is_mouse_inside_button(event_data, button, transform)) {
+            button.hover = true;
+
+            // Trigger the on_enter callback if the hover state just changed to true
+            if (!was_hovering && button.on_enter) {
+                button.on_enter();
+            }
+        } else {
+            button.hover = false;
+
+            // Trigger the on_exit callback if the hover state just changed to false
+            if (was_hovering && button.on_exit) {
+                button.on_exit();
+            }
+        }
+    }
 }
+
 
 void InputSystem::handle_click(const SDLContext::EventData & event_data) {
 	ComponentManager & mgr = this->component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
-	RefVector<Transform> transforms = mgr.get_components_by_type<Transform>();
+	
 
 	for (Button & button : buttons) {
-		OptionalRef<Transform> transform_ref = find_transform_for_button(button, transforms);
+		RefVector<Transform> transform_vec =  mgr.get_components_by_id<Transform>(button.game_object_id);
+		OptionalRef<Transform> transform(transform_vec.front().get());
 
-		if (button.active && is_mouse_inside_button(event_data, button, transform_ref)) {
+		if (button.active && is_mouse_inside_button(event_data, button, transform)) {
 			handle_button_press(button);
 		}
 	}
-}
-
-OptionalRef<Transform>
-InputSystem::find_transform_for_button(Button & button, RefVector<Transform> & transforms) {
-
-	for (auto & transform : transforms) {
-		if (button.game_object_id == transform.get().game_object_id) {
-			return OptionalRef<Transform>(transform);
-		}
-	}
-
-	return OptionalRef<Transform>();
 }
 
 bool InputSystem::is_mouse_inside_button(const SDLContext::EventData & event_data,

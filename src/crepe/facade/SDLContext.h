@@ -86,7 +86,7 @@ private:
 	 * This method maps an SDL key code to the corresponding `Keycode` enum value,
 	 * which is used internally by the system to identify the keys.
 	 * 
-	 * @param sdlKey The SDL key code to convert.
+	 * @param sdl_key The SDL key code to convert.
 	 * @return The corresponding `Keycode` value.
 	 */
 	Keycode sdl_to_keycode(SDL_Keycode sdl_key);

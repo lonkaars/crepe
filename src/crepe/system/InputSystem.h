@@ -54,16 +54,6 @@ private:
      * This method processes the mouse movement event and updates the button hover state.
      */
 	void handle_move(const SDLContext::EventData & eventData);
-
-	/**
-     * \brief Finds the transform component associated with a button.
-     * \param button The button to find the associated transform for.
-     * \param transforms A list of transforms to search through.
-     * \return A pointer to the transform of the button, or nullptr if not found.
-     */
-	OptionalRef<Transform> find_transform_for_button(Button & button,
-													 RefVector<Transform> & transforms);
-
 	/**
      * \brief Checks if the mouse position is inside the bounds of the button.
      * \param eventData The event data containing the mouse position.
