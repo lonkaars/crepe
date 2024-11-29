@@ -20,13 +20,8 @@ public:
 	Sound(const Asset & src);
 	~Sound(); // dbg_trace
 
-	class Handle {
-	private:
+	struct Handle {
 		SoLoud::handle handle;
-		float volume = 1.0f;
-		bool looping = false;
-
-		friend class SoundContext;
 	};
 
 private:

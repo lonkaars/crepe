@@ -1,8 +1,10 @@
 #pragma once
 
-#include "../util/Log.h"
-#include "types.h"
 #include <string>
+
+#include "../util/Log.h"
+
+#include "types.h"
 
 namespace crepe {
 
@@ -18,7 +20,20 @@ struct Config final {
 	static Config & get_instance();
 
 	//! Logging-related settings
-	Log::Config log;
+	struct {
+		/**
+		 * \brief Log level
+		 *
+		 * Only messages with equal or higher priority than this value will be logged.
+		 */
+		Log::Level level = Log::Level::INFO;
+		/**
+		 * \brief Colored log output
+		 *
+		 * Enables log coloring using ANSI escape codes.
+		 */
+		bool color = true;
+	} log;
 
 	//! Save manager
 	struct {
@@ -62,6 +77,12 @@ struct Config final {
 		 */
 		std::string root_pattern = ".crepe-root";
 	} asset;
+
+	//! Audio system settings
+	struct {
+		//! Max amount of simultanious voices
+		unsigned int voices = 32;
+	} audio;
 };
 
 } // namespace crepe

@@ -15,6 +15,5 @@ void AudioSource::play(bool looping) {
 
 void AudioSource::stop() {
 	this->playing = false;
-	this->rewind = true;
 }
 

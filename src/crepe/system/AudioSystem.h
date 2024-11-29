@@ -34,7 +34,7 @@ private:
 
 	void update_last(const AudioSource & component, ComponentPrivate & data);
 
-	void diff_update(AudioSource & component, const ComponentPrivate & data, Sound & resource);
+	void diff_update(AudioSource & component, ComponentPrivate & data, Sound & resource);
 
 private:
 	SoundContext context {};
