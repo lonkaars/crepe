@@ -44,8 +44,6 @@ private:
 
 	//! If this source is playing audio
 	bool playing = false;
-	//! Rewind the sample location
-	bool rewind = false;
 
 private:
 	//! AudioSystem::ComponentPrivate

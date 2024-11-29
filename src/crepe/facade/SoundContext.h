@@ -2,6 +2,8 @@
 
 #include <soloud/soloud.h>
 
+#include "../api/Config.h"
+
 #include "Sound.h"
 
 namespace crepe {
@@ -22,9 +24,17 @@ public:
 	SoundContext & operator=(const SoundContext &) = delete;
 	SoundContext & operator=(SoundContext &&) = delete;
 
+	Sound::Handle play(Sound & resource);
+	void stop(Sound::Handle &);
+	void set_volume(Sound &, Sound::Handle &, float);
+	void set_loop(Sound &, Sound::Handle &, bool);
+	bool get_playing(Sound::Handle &);
 
 private:
 	SoLoud::Soloud engine;
+	float default_volume = 1.0f;
+
+	Config & config = Config::get_instance();
 };
 
 } // namespace crepe

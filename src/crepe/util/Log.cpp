@@ -25,7 +25,7 @@ string Log::prefix(const Level & level) {
 }
 
 void Log::log(const Level & level, const string & msg) {
-	auto & cfg = crepe::Config::get_instance();
+	auto & cfg = Config::get_instance();
 	if (level < cfg.log.level) return;
 
 	string out = Log::prefix(level) + msg;
