@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -94,7 +95,7 @@ void SDLContext::handle_events(bool & running) {
 }
 
 void SDLContext::clear_screen() {
-	SDL_SetRenderDrawColor(this->game_renderer.get(), 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(this->game_renderer.get(), 255, 255, 255, 255);
 	SDL_RenderClear(this->game_renderer.get());
 }
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
@@ -110,17 +111,19 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
 								  const vec2 & cam_pos, const double & img_scale) const {
 
-	int width = sprite.height * sprite.aspect_ratio;
-	int height = sprite.height;
+	double width = sprite.height * sprite.aspect_ratio;
+	double height = sprite.height;
 
 	width *= img_scale * cam.zoom;
 	height *= img_scale * cam.zoom;
 
 	return SDL_Rect{
-		.x = static_cast<int>((pos.x - cam_pos.x + (cam.viewport_size.x / 2) - width / 2)),
-		.y = static_cast<int>((pos.y - cam_pos.y + (cam.viewport_size.y / 2) - height / 2)),
-		.w = width,
-		.h = height,
+		.x
+		= static_cast<int>(round(pos.x - cam_pos.x + (cam.viewport_size.x / 2) - width / 2)),
+		.y
+		= static_cast<int>(round(pos.y - cam_pos.y + (cam.viewport_size.y / 2) - height / 2)),
+		.w = static_cast<int>(width),
+		.h = static_cast<int>(height),
 	};
 }
 
@@ -133,6 +136,8 @@ void SDLContext::draw(const RenderContext & ctx) {
 	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
 	SDL_Rect dstrect
 		= this->get_dst_rect(ctx.sprite, ctx.pos, ctx.cam, ctx.cam_pos, ctx.scale);
+
+	cout << dstrect.x << " " << dstrect.y << " " << dstrect.w << " " << dstrect.h << endl;
 
 	SDL_RenderCopyEx(this->game_renderer.get(), ctx.sprite.sprite_image.texture.get(),
 					 &srcrect, &dstrect, ctx.angle, NULL, render_flip);
@@ -147,30 +152,44 @@ void SDLContext::set_camera(const Camera & cam) {
 		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
 	}
 
-	double screen_aspect = cam.screen.x / cam.screen.y;
+	double screen_aspect = static_cast<double>(cam.screen.x) / cam.screen.y;
 	double viewport_aspect = cam.viewport_size.x / cam.viewport_size.y;
 
-	SDL_Rect view;
+	cout << screen_aspect << " " << viewport_aspect << endl;
+	SDL_FRect black_bars[2];
 	// calculate black bars
 	if (screen_aspect > viewport_aspect) {
-		// letterboxing
-		view.h = cam.screen.y / cam.zoom;
-		view.w = cam.screen.y * viewport_aspect;
-		view.x = (cam.screen.x - view.w) / 2;
-		view.y = 0;
-	} else {
 		// pillarboxing
-		view.h = cam.screen.x / viewport_aspect;
-		view.w = cam.screen.x / cam.zoom;
-		view.x = 0;
-		view.y = (cam.screen.y - view.h) / 2;
+		cout << "pillarboxing" << endl;
+		float render_scale = cam.screen.y / cam.viewport_size.y;
+		float adj_width = cam.viewport_size.x * render_scale;
+		float bar_width = (cam.screen.x - adj_width) / 2;
+		black_bars[0] = {0, 0, bar_width, (float)cam.screen.y};
+		black_bars[1] = {(cam.screen.x - bar_width), 0, bar_width, (float)cam.screen.y};
+		cout << render_scale << " " << adj_width << " " << bar_width << " " << cam.screen.y
+			 << " " << cam.viewport_size.y << endl;
+	} else {
+		// letterboxing
+		cout << "letterboxing" << endl;
+		float render_scale = cam.screen.y / cam.viewport_size.y;
+		float adj_width = cam.viewport_size.x * render_scale;
+		float bar_height = (cam.screen.x - adj_width) / 2;
+		black_bars[0] = {0, 0, (float) cam.screen.x, bar_height};
+		black_bars[1] = {0, (cam.screen.y - bar_height), (float) cam.screen.x, bar_height};
+		cout << render_scale << " " << adj_width << " " << bar_height << " " << cam.screen.y
+			 << " " << cam.viewport_size.y << endl;
 	}
-	// set drawing area
-	SDL_RenderSetViewport(this->game_renderer.get(), &view);
 
-	SDL_RenderSetLogicalSize(this->game_renderer.get(), static_cast<int>(cam.viewport_size.x),
-							 static_cast<int>(cam.viewport_size.y));
+	for (int i = 0; i < 2; ++i) {
+		cout << black_bars[i].x << " " << black_bars[i].y << " " << black_bars[i].w << " "
+			 << black_bars[i].h << endl;
+	}
 
+	SDL_SetRenderDrawColor(this->game_renderer.get(), 0, 0, 0, 255);
+	SDL_RenderFillRectF(this->game_renderer.get(), &black_bars[0]);
+	SDL_RenderFillRectF(this->game_renderer.get(), &black_bars[1]);
+
+	/*
 	// set bg color
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
 						   cam.bg_color.b, cam.bg_color.a);
@@ -178,11 +197,13 @@ void SDLContext::set_camera(const Camera & cam) {
 	SDL_Rect bg = {
 		.x = 0,
 		.y = 0,
-		.w = static_cast<int>(cam.viewport_size.x),
-		.h = static_cast<int>(cam.viewport_size.y),
+		.w = (int)cam.viewport_size.x,
+		.h = (int)cam.viewport_size.y,
 	};
 	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
+
+	*/
 }
 
 uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }

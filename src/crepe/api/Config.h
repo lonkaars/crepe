@@ -67,7 +67,7 @@ public:
 	//! default window settings
 	struct {
 		//TODO make this constexpr because this will never change
-		ivec2 default_size = {1080, 720};
+		ivec2 default_size = {1280, 720};
 		std::string window_title = "Jetpack joyride clone";
 
 	} window_settings;
