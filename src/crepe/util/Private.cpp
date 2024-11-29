@@ -27,3 +27,8 @@ Private & Private::operator=(Private && other) {
 	return *this;
 }
 
+Private::Private(const Private & other) { }
+Private & Private::operator=(const Private & other) {
+	return *this;
+}
+

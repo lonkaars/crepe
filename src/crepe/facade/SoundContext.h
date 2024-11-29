@@ -22,10 +22,9 @@ public:
 	SoundContext & operator=(const SoundContext &) = delete;
 	SoundContext & operator=(SoundContext &&) = delete;
 
+
 private:
 	SoLoud::Soloud engine;
-	//! Sound directly calls methods on \c engine
-	friend class Sound;
 };
 
 } // namespace crepe

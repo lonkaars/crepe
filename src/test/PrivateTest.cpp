@@ -64,3 +64,95 @@ TEST_F(PrivateTest, IncorrectTypeException) {
 	EXPECT_NO_THROW(foo.get<TestClass>());
 }
 
+TEST_F(PrivateTest, MoveConstructor) {
+	{
+		Private foo;
+		foo.set<TestClass>();
+
+		EXPECT_EQ(PrivateTest::constructors, 1);
+		EXPECT_EQ(PrivateTest::destructors, 0);
+
+		Private bar(std::move(foo));
+
+		EXPECT_EQ(PrivateTest::constructors, 1);
+		EXPECT_EQ(PrivateTest::destructors, 0);
+	}
+
+	EXPECT_EQ(PrivateTest::constructors, 1);
+	EXPECT_EQ(PrivateTest::destructors, 1);
+}
+
+TEST_F(PrivateTest, MoveOperator) {
+	{
+		Private foo;
+		foo.set<TestClass>();
+
+		EXPECT_EQ(PrivateTest::constructors, 1);
+		EXPECT_EQ(PrivateTest::destructors, 0);
+
+		Private bar = std::move(foo);
+
+		EXPECT_EQ(PrivateTest::constructors, 1);
+		EXPECT_EQ(PrivateTest::destructors, 0);
+	}
+
+	EXPECT_EQ(PrivateTest::constructors, 1);
+	EXPECT_EQ(PrivateTest::destructors, 1);
+}
+
+TEST_F(PrivateTest, CopyConstructor) {
+	{
+		Private foo;
+		foo.set<TestClass>();
+
+		EXPECT_EQ(PrivateTest::constructors, 1);
+		EXPECT_EQ(PrivateTest::destructors, 0);
+
+		Private bar(foo);
+
+		EXPECT_TRUE(bar.empty());
+		EXPECT_EQ(PrivateTest::constructors, 1);
+		EXPECT_EQ(PrivateTest::destructors, 0);
+	}
+
+	EXPECT_EQ(PrivateTest::constructors, 1);
+	EXPECT_EQ(PrivateTest::destructors, 1);
+}
+
+TEST_F(PrivateTest, CopyOperator) {
+	{
+		Private foo;
+		foo.set<TestClass>();
+
+		EXPECT_EQ(PrivateTest::constructors, 1);
+		EXPECT_EQ(PrivateTest::destructors, 0);
+
+		Private bar = foo;
+
+		EXPECT_TRUE(bar.empty());
+		EXPECT_EQ(PrivateTest::constructors, 1);
+		EXPECT_EQ(PrivateTest::destructors, 0);
+	}
+
+	EXPECT_EQ(PrivateTest::constructors, 1);
+	EXPECT_EQ(PrivateTest::destructors, 1);
+}
+
+TEST_F(PrivateTest, DoubleAssignment) {
+	{
+		Private foo;
+		foo.set<TestClass>();
+
+		EXPECT_EQ(PrivateTest::constructors, 1);
+		EXPECT_EQ(PrivateTest::destructors, 0);
+
+		foo.set<TestClass>();
+
+		EXPECT_EQ(PrivateTest::constructors, 2);
+		EXPECT_EQ(PrivateTest::destructors, 1);
+	}
+
+	EXPECT_EQ(PrivateTest::constructors, 2);
+	EXPECT_EQ(PrivateTest::destructors, 2);
+}
+

@@ -8,13 +8,15 @@
 namespace crepe {
 
 template <typename T, typename... Args>
-void Private::set(Args &&... args) {
+T & Private::set(Args &&... args) {
+	if (!this->empty()) this->destructor(this->instance);
 	T * instance = new T(std::forward<Args>(args)...);
 	this->instance = static_cast<void*>(instance);
 	this->destructor = [](void * instance) {
 		delete static_cast<T*>(instance);
 	};
 	this->type = typeid(T);
+	return *instance;
 }
 
 template <typename T>
