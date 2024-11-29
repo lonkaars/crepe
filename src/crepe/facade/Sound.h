@@ -9,6 +9,10 @@ namespace crepe {
 
 class SoundContext;
 
+struct SoundHandle {
+	SoLoud::handle handle;
+};
+
 /**
  * \brief Sound resource facade
  *
