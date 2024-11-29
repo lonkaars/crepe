@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../facade/SoundContext.h"
+#include "../facade/Sound.h"
 #include "../api/AudioSource.h"
 
 #include "System.h"
@@ -18,19 +19,22 @@ private:
 	 */
 	struct ComponentPrivate {
 		//! This sample's voice handle
-		SoLoud::handle handle;
+		Sound::Handle handle;
 
-		//! Value of \c active after last system update
-		bool last_active = false;
-		//! Value of \c playing after last system update
-		bool last_playing = false;
-		//! Value of \c volume after last system update
-		float last_volume = 1.0;
-		//! Value of \c loop after last system update
-		bool last_loop = false;
+		/**
+		 * \name State diffing variables
+		 * \{
+		 */
+		typeof(AudioSource::active) last_active;
+		typeof(AudioSource::playing) last_playing;
+		typeof(AudioSource::volume) last_volume;
+		typeof(AudioSource::loop) last_loop;
+		//! \}
 	};
 
-	void update_private(const AudioSource & component, ComponentPrivate & data);
+	void update_last(const AudioSource & component, ComponentPrivate & data);
+
+	void diff_update(AudioSource & component, const ComponentPrivate & data, Sound & resource);
 
 private:
 	SoundContext context {};

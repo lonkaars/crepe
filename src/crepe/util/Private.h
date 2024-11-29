@@ -9,16 +9,16 @@ class Private {
 public:
 	Private() = default;
 	~Private();
+	Private(const Private &);
 	Private(Private &&);
+	Private & operator=(const Private &);
 	Private & operator=(Private &&);
-	Private(const Private &) = delete;
-	Private & operator=(const Private &) = delete;
 
 	template <typename T>
 	T & get();
 
 	template <typename T, typename... Args>
-	void set(Args &&... args);
+	T & set(Args &&... args);
 
 	bool empty() const noexcept;
 
