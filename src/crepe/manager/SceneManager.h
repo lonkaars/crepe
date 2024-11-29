@@ -3,7 +3,9 @@
 #include <memory>
 #include <vector>
 
-#include "Scene.h"
+#include "../api/Scene.h"
+
+#include "Manager.h"
 
 namespace crepe {
 
@@ -15,10 +17,9 @@ class ComponentManager;
  * This class manages scenes. It can add new scenes and load them. It also manages the current scene
  * and the next scene.
  */
-class SceneManager {
+class SceneManager : public Manager {
 public:
-	//! \param mgr  Reference to the ComponentManager
-	SceneManager(ComponentManager & mgr);
+	SceneManager(Mediator & mediator);
 
 public:
 	/**
@@ -44,8 +45,6 @@ private:
 	std::vector<std::unique_ptr<Scene>> scenes;
 	//! Next scene to load
 	std::string next_scene;
-	//! Reference to the ComponentManager
-	ComponentManager & component_manager;
 };
 
 } // namespace crepe

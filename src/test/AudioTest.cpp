@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <crepe/ComponentManager.h>
+#include <crepe/manager/ComponentManager.h>
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/system/AudioSystem.h>
@@ -10,9 +10,10 @@ using namespace crepe;
 using namespace testing;
 
 class AudioTest : public Test {
+	Mediator mediator;
 public:
-	ComponentManager component_manager{};
-	AudioSystem system {component_manager};
+	ComponentManager component_manager{mediator};
+	AudioSystem system {mediator};
 
 	void SetUp() override {
 		auto & mgr = this->component_manager;

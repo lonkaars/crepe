@@ -4,12 +4,12 @@
 
 using namespace crepe;
 
-BehaviorScript::BehaviorScript(game_object_id_t id, ComponentManager & mgr)
+BehaviorScript::BehaviorScript(game_object_id_t id, Mediator & mediator)
 	: Component(id),
-	  component_manager(mgr) {}
+	  mediator(mediator) {}
 
 template <>
 BehaviorScript & GameObject::add_component<BehaviorScript>() {
 	ComponentManager & mgr = this->component_manager;
-	return mgr.add_component<BehaviorScript>(this->id, mgr);
+	return mgr.add_component<BehaviorScript>(this->id, mgr.mediator);
 }

@@ -12,7 +12,7 @@ void SceneManager::add_scene(Args &&... args) {
 	Scene * scene = new T(std::forward<Args>(args)...);
 	unique_ptr<Scene> unique_scene(scene);
 
-	unique_scene->component_manager = this->component_manager;
+	unique_scene->mediator = this->mediator;
 
 	this->scenes.emplace_back(std::move(unique_scene));
 

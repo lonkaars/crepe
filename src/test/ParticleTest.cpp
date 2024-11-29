@@ -1,11 +1,11 @@
-#include "api/Vector2.h"
-#include <crepe/ComponentManager.h>
+#include <crepe/manager/ComponentManager.h>
 #include <crepe/Particle.h>
 #include <crepe/api/Config.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
+#include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
 #include <crepe/system/ParticleSystem.h>
 #include <gtest/gtest.h>
@@ -16,9 +16,10 @@ using namespace std::chrono_literals;
 using namespace crepe;
 
 class ParticlesTest : public ::testing::Test {
+	Mediator m;
 public:
-	ComponentManager component_manager;
-	ParticleSystem particle_system{component_manager};
+	ComponentManager component_manager{m};
+	ParticleSystem particle_system{m};
 
 	void SetUp() override {
 		ComponentManager & mgr = this->component_manager;
@@ -28,9 +29,9 @@ public:
 			GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 0);
 
 			Color color(0, 0, 0, 0);
+			auto s1 = Texture("asset/texture/img.png");
 			Sprite & test_sprite = game_object.add_component<Sprite>(
-				make_shared<Texture>("asset/texture/img.png"), color,
-				FlipSettings{true, true});
+				s1, color, Sprite::FlipSettings{true, true}, 1, 1, 100);
 
 			game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 				.position = {0, 0},

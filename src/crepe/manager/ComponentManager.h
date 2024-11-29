@@ -5,8 +5,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Component.h"
-#include "types.h"
+#include "../Component.h"
+#include "../types.h"
+
+#include "Manager.h"
 
 namespace crepe {
 
@@ -17,7 +19,7 @@ class GameObject;
  * 
  * This class manages all components. It provides methods to add, delete and get components.
  */
-class ComponentManager {
+class ComponentManager : public Manager {
 	// TODO: This relation should be removed! I (loek) believe that the scene manager should
 	// create/destroy components because the GameObject's are stored in concrete Scene classes,
 	// which will in turn call GameObject's destructor, which will in turn call
@@ -26,7 +28,7 @@ class ComponentManager {
 	friend class SceneManager;
 
 public:
-	ComponentManager(); // dbg_trace
+	ComponentManager(Mediator & mediator);
 	~ComponentManager(); // dbg_trace
 
 	/**
@@ -99,6 +101,16 @@ protected:
 	 * This method deletes all components.
 	 */
 	void delete_all_components();
+	/**
+	 * \brief Set a GameObject as persistent
+	 *
+	 * This method sets a GameObject as persistent. If a GameObject is persistent, its
+	 * components will not be deleted.
+	 *
+	 * \param id The id of the GameObject to set as persistent
+	 * \param persistent The persistent flag
+	 */
+	void set_persistent(game_object_id_t id, bool persistent);
 
 public:
 	/**
@@ -136,6 +148,9 @@ private:
 	 */
 	std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>>
 		components;
+
+	//! Persistent flag for each GameObject
+	std::unordered_map<game_object_id_t, bool> persistent;
 
 	//! ID of next GameObject allocated by \c ComponentManager::new_object
 	game_object_id_t next_id = 0;

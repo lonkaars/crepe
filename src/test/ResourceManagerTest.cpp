@@ -4,7 +4,7 @@
 #define protected public
 
 #include <crepe/util/Log.h>
-#include <crepe/ResourceManager.h>
+#include <crepe/manager/ResourceManager.h>
 #include <crepe/api/GameObject.h>
 
 using namespace std;
@@ -12,8 +12,9 @@ using namespace crepe;
 using namespace testing;
 
 class ResourceManagerTest : public Test {
+	Mediator mediator;
 public:
-	ResourceManager resource_manager{};
+	ResourceManager resource_manager{mediator};
 
 	Asset asset_a{"asset/texture/img.png"};
 	Asset asset_b{"asset/texture/ERROR.png"};

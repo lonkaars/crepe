@@ -36,6 +36,11 @@ public:
 	~Texture();
 	// FIXME: this constructor shouldn't be necessary because this class doesn't manage memory
 
+	Texture(Texture && other) noexcept;
+	Texture & operator=(Texture && other) noexcept;
+	Texture(const Texture &) = delete;
+	Texture & operator=(const Texture &) = delete;
+
 	/**
 	 * \brief Gets the width of the texture.
 	 * \return Width of the texture in pixels.

@@ -5,8 +5,11 @@
 using namespace crepe;
 using namespace std;
 
+ResourceManager::ResourceManager(Mediator & mediator) : Manager(mediator) {
+	mediator.resource_manager = *this;
+	dbg_trace();
+}
 ResourceManager::~ResourceManager() { dbg_trace(); }
-ResourceManager::ResourceManager() { dbg_trace(); }
 
 void ResourceManager::clear() {
 	std::erase_if(this->resources, [](const pair<const Asset, CacheEntry> & pair) {

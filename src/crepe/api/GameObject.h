@@ -58,6 +58,15 @@ public:
 	 */
 	template <typename T, typename... Args>
 	T & add_component(Args &&... args);
+	/**
+	 * \brief Components will not be deleted if this method is called
+	 *
+	 * This method sets the persistent flag of the GameObject to true. If the persistent
+	 * flag is set to true, the GameObject will not be deleted when the scene is changed.
+	 *
+	 * \param persistent The persistent flag
+	 */
+	void set_persistent(bool persistent = true);
 
 public:
 	//! The id of the GameObject
