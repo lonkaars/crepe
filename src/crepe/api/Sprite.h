@@ -41,7 +41,7 @@ public:
 	 * \param height the height of the image in game units
 	 */
 	Sprite(game_object_id_t id, Texture & image, const Color & color,
-		   const FlipSettings & flip, int sort_layer, int order_layer, int height);
+		   const FlipSettings & flip, int sort_layer, int order_layer, float height);
 
 	/**
 	 * \brief Destroys the Sprite instance.
@@ -63,7 +63,7 @@ public:
 	const int order_in_layer;
 
 	//! height in world units
-	const int height;
+	const float height;
 
 	/**
 	 * \aspect_ratio ratio of the img so that scaling will not become weird

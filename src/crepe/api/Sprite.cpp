@@ -11,7 +11,7 @@ using namespace std;
 using namespace crepe;
 
 Sprite::Sprite(game_object_id_t id, Texture & image, const Color & color,
-			   const FlipSettings & flip, int sort_layer, int order_layer, int height)
+			   const FlipSettings & flip, int sort_layer, int order_layer, float height)
 	: Component(id),
 	  color(color),
 	  flip(flip),
