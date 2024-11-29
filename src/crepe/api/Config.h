@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../util/Log.h"
+#include "types.h"
+#include <string>
 
 namespace crepe {
 
@@ -38,6 +40,14 @@ struct Config final {
 		 */
 		double gravity = 1;
 	} physics;
+
+	//! default window settings
+	struct {
+		//TODO make this constexpr because this will never change
+		ivec2 default_size = {1080, 720};
+		std::string window_title = "Jetpack joyride clone";
+
+	} window_settings;
 
 	//! Asset loading options
 	struct {

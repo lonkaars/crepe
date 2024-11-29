@@ -3,9 +3,10 @@
 #include <memory>
 #include <unordered_map>
 
-#include "api/Asset.h"
+#include "../Resource.h"
+#include "../api/Asset.h"
 
-#include "Resource.h"
+#include "Manager.h"
 
 namespace crepe {
 
@@ -18,9 +19,9 @@ namespace crepe {
  * a scene is loaded. Assets are retained in memory until the ResourceManager is
  * destroyed, at which point the cached assets are cleared.
  */
-class ResourceManager {
+class ResourceManager : public Manager {
 public:
-	ResourceManager(); // dbg_trace
+	ResourceManager(Mediator & mediator);
 	virtual ~ResourceManager(); // dbg_trace
 
 private:

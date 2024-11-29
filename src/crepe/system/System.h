@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../manager/Mediator.h"
+
 namespace crepe {
 
 class ComponentManager;
@@ -19,11 +21,11 @@ public:
 	virtual void update() = 0;
 
 public:
-	System(ComponentManager &);
+	System(const Mediator & m);
 	virtual ~System() = default;
 
 protected:
-	ComponentManager & component_manager;
+	const Mediator & mediator;
 };
 
 } // namespace crepe

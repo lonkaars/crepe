@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../facade/SoundContext.h"
-#include "../ResourceManager.h"
 
 #include "System.h"
 
@@ -14,7 +13,6 @@ public:
 
 private:
 	SoundContext context {};
-	ResourceManager resource_manager {};
 };
 
 } // namespace crepe

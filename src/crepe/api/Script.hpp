@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ComponentManager.h"
+#include "../manager/ComponentManager.h"
 
 #include "BehaviorScript.h"
 #include "Script.h"
@@ -20,7 +20,8 @@ T & Script::get_component() const {
 
 template <typename T>
 RefVector<T> Script::get_components() const {
-	ComponentManager & mgr = this->component_manager;
+	Mediator & mediator = this->mediator;
+	ComponentManager & mgr = mediator.component_manager;
 
 	return mgr.get_components_by_id<T>(this->game_object_id);
 }
@@ -33,7 +34,8 @@ void Script::logf(Args &&... args) {
 template <typename EventType>
 void Script::subscribe_internal(const EventHandler<EventType> & callback,
 								event_channel_t channel) {
-	EventManager & mgr = this->event_manager;
+	Mediator & mediator = this->mediator;
+	EventManager & mgr = mediator.event_manager;
 	subscription_t listener = mgr.subscribe<EventType>(
 		[this, callback](const EventType & data) -> bool {
 			bool & active = this->active;

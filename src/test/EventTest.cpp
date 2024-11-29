@@ -1,10 +1,11 @@
-
-#include "api/Event.h"
-#include "api/EventManager.h"
-#include "api/IKeyListener.h"
-#include "api/IMouseListener.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <crepe/api/Event.h>
+#include <crepe/manager/EventManager.h>
+#include <crepe/api/IKeyListener.h>
+#include <crepe/api/IMouseListener.h>
+
 using namespace std;
 using namespace std::chrono_literals;
 using namespace crepe;

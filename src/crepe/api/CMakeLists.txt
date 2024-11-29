@@ -8,13 +8,10 @@ target_sources(crepe PUBLIC
 	Color.cpp
 	Texture.cpp
 	Sprite.cpp
-	SaveManager.cpp
 	Config.cpp
 	Metadata.cpp
-	SceneManager.cpp
 	Camera.cpp
 	Animator.cpp
-	EventManager.cpp
 	IKeyListener.cpp
 	IMouseListener.cpp
 	LoopManager.cpp
@@ -38,15 +35,10 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.hpp
 	Color.h
 	Texture.h 
-	SaveManager.h
 	Scene.h
 	Metadata.h
-	SceneManager.h
-	SceneManager.hpp
 	Camera.h
 	Animator.h
-	EventManager.h
-	EventManager.hpp
 	EventHandler.h
 	EventHandler.hpp
 	Event.h

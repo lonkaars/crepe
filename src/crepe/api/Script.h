@@ -4,8 +4,8 @@
 
 #include "../types.h"
 #include "../util/OptionalRef.h"
-
-#include "EventManager.h"
+#include "../manager/Mediator.h"
+#include "../manager/EventManager.h"
 
 namespace crepe {
 
@@ -106,6 +106,12 @@ protected:
 	template <typename EventType>
 	void subscribe(const EventHandler<EventType> & callback);
 
+	/**
+	 * \brief Set the next scene using SceneManager
+	 * \see SceneManager::set_next_scene
+	 */
+	void set_next_scene(const std::string & name);
+
 	//! \}
 
 private:
@@ -160,10 +166,8 @@ private:
 	game_object_id_t game_object_id;
 	//! Reference to parent component
 	OptionalRef<bool> active;
-	//! Reference to component manager instance
-	OptionalRef<ComponentManager> component_manager;
-	//! Reference to event manager instance
-	OptionalRef<EventManager> event_manager;
+	//! Mediator reference
+	OptionalRef<Mediator> mediator;
 	//! \}
 
 private:
