@@ -1,6 +1,5 @@
 #include "AudioSystem.h"
 
-#include "../api/AudioSource.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/ResourceManager.h"
 #include "../types.h"
@@ -13,12 +12,24 @@ void AudioSystem::update() {
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 	RefVector<AudioSource> components = component_manager.get_components_by_type<AudioSource>();
 
-	for (auto component_ref : components) {
-		AudioSource & component = component_ref.get();
+	for (AudioSource & component : components) {
 		if (!component.active) continue;
 
 		Sound & sound = resource_manager.get<Sound>(component.source);
+		if (component.private_data.empty())
+			component.private_data.set<ComponentPrivate>();
+		auto & data = component.private_data.get<ComponentPrivate>();
 		// TODO: lots of state diffing
+
+
+		this->update_private(component, data);
 	}
+}
+
+void AudioSystem::update_private(const AudioSource & component, ComponentPrivate & data) {
+	data.last_active = component.active;
+	data.last_loop = component.loop;
+	data.last_playing = component.playing;
+	data.last_volume = component.volume;
 }
 

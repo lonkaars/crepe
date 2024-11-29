@@ -1,6 +1,7 @@
 target_sources(crepe PUBLIC
 	LogColor.cpp
 	Log.cpp
+	Private.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -11,5 +12,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Proxy.hpp
 	OptionalRef.h
 	OptionalRef.hpp
+	Private.h
+	Private.hpp
 )
 

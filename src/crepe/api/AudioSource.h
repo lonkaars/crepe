@@ -2,6 +2,7 @@
 
 #include "../Component.h"
 #include "../types.h"
+#include "../util/Private.h"
 
 #include "GameObject.h"
 #include "Asset.h"
@@ -47,14 +48,8 @@ private:
 	bool rewind = false;
 
 private:
-	//! Value of \c active after last system update
-	bool last_active = false;
-	//! Value of \c playing after last system update
-	bool last_playing = false;
-	//! Value of \c volume after last system update
-	float last_volume = 1.0;
-	//! Value of \c loop after last system update
-	bool last_loop = false;
+	//! AudioSystem::ComponentPrivate
+	Private private_data;
 };
 
 } // namespace crepe
