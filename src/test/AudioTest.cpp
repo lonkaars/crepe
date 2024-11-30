@@ -1,3 +1,4 @@
+#include "util/Log.h"
 #include <gtest/gtest.h>
 #include <future>
 
@@ -27,24 +28,29 @@ public:
 	AudioSource & sfx2 = entity.add_component<AudioSource>("mwe/audio/sfx2.wav");
 	AudioSource & sfx3 = entity.add_component<AudioSource>("mwe/audio/sfx3.wav");
 
+	void SetUp() override {
+		bgm.play_on_awake = true;
+	}
 };
 
 TEST_F(AudioTest, Default) {
 	bool example_done = false;
 
 	future example = async([&](){
-		// Start the background track
-		bgm.play();
+		// Start the background track. This happens automatically due to the play_on_awake property
+		// being true. The following call is optional and doesn't start two simultanious voices if
+		// left in:
+		// bgm.play();
 
 		// Play each sample sequentially while pausing and resuming the background track
 		this_thread::sleep_for(500ms);
 		sfx1.play();
 		this_thread::sleep_for(500ms);
 		sfx2.play();
-		bgm.stop();
+		bgm.active = false;
 		this_thread::sleep_for(500ms);
 		sfx3.play();
-		bgm.play();
+		bgm.active = true;
 		this_thread::sleep_for(500ms);
 
 		// Play all samples simultaniously

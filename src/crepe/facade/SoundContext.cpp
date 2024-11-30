@@ -34,9 +34,3 @@ void SoundContext::set_loop(Sound & resource, Sound::Handle & handle, bool loop)
 	this->engine.setLooping(handle.handle, loop);
 }
 
-bool SoundContext::get_playing(Sound::Handle & handle) {
-	// See Soloud::stopVoice_internal in soloud/src/core/soloud_core_voiceops.cpp for why this is
-	// the correct method to use here (samples are currently never paused)
-	return this->engine.isValidVoiceHandle(handle.handle);
-}
-

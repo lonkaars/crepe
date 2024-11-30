@@ -10,10 +10,10 @@ AudioSource::AudioSource(game_object_id_t id, const Asset & src) :
 
 void AudioSource::play(bool looping) {
 	this->loop = looping;
-	this->playing = true;
+	this->oneshot_play = true;
 }
 
 void AudioSource::stop() {
-	this->playing = false;
+	this->oneshot_stop = true;
 }
 

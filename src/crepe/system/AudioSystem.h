@@ -26,7 +26,6 @@ private:
 		 * \{
 		 */
 		typeof(AudioSource::active) last_active;
-		typeof(AudioSource::playing) last_playing;
 		typeof(AudioSource::volume) last_volume;
 		typeof(AudioSource::loop) last_loop;
 		//! \}
