@@ -2,10 +2,10 @@
 
 #include <vector>
 
+#include "../manager/EventManager.h"
+#include "../manager/Mediator.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
-#include "../manager/Mediator.h"
-#include "../manager/EventManager.h"
 
 namespace crepe {
 

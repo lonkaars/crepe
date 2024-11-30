@@ -2,5 +2,4 @@
 
 using namespace crepe;
 
-Manager::Manager(Mediator & mediator) : mediator(mediator) { }
-
+Manager::Manager(Mediator & mediator) : mediator(mediator) {}

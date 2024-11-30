@@ -3,8 +3,8 @@
 #include "../util/OptionalRef.h"
 
 // TODO: remove these singletons:
-#include "SaveManager.h"
 #include "EventManager.h"
+#include "SaveManager.h"
 
 namespace crepe {
 
@@ -30,4 +30,4 @@ struct Mediator {
 	OptionalRef<EventManager> event_manager = EventManager::get_instance();
 };
 
-}
+} // namespace crepe

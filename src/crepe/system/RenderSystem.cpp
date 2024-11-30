@@ -5,12 +5,12 @@
 #include <stdexcept>
 #include <vector>
 
-#include "../manager/ComponentManager.h"
 #include "../api/Camera.h"
 #include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
+#include "../manager/ComponentManager.h"
 
 #include "RenderSystem.h"
 

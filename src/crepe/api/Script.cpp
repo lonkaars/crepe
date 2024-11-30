@@ -25,4 +25,3 @@ void Script::set_next_scene(const string & name) {
 	SceneManager & mgr = mediator.scene_manager;
 	mgr.set_next_scene(name);
 }
-

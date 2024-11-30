@@ -1,6 +1,6 @@
-#include "../manager/ComponentManager.h"
 #include "../api/BehaviorScript.h"
 #include "../api/Script.h"
+#include "../manager/ComponentManager.h"
 
 #include "ScriptSystem.h"
 
