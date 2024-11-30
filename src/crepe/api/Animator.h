@@ -18,11 +18,6 @@ class SDLContext;
 class Animator : public Component {
 
 public:
-	//TODO: need to implement this
-	void loop();
-	void stop();
-
-public:
 	/**
 	 * \brief Constructs an Animator object that will control animations for a sprite sheet.
 	 *
@@ -57,15 +52,32 @@ private:
 	//! The current row being animated.
 	int curr_row = 0;
 
-	//TODO: Is this necessary?
-	//int fps;
+	//! should the animation loop
+	bool looping = false;
+
+	//! starting frame for cycling
+	int cycle_start = 0;
+
+	//! end frame for cycling (-1 --> use last frame)
+	int cycle_end = -1;
+
+	//! frames per second for animation
+	int fps = 1;
+
+	int offset_x = 0;
+
+public:
+	void loop() { this->looping = true; }
+	void play() {this->active = true;}
+	void pause() {this->active = false;}
+	void stop() {this->active = false; this->curr_col = 0; this->curr_row = 0;}
+	void set_fps(int fps) {this->fps = fps;}
+	void set_cycle_range(int start, int end) {this->cycle_start = start, this->cycle_end = end;}
+	void set_anim(int col) {this->curr_row = 0; this->curr_col = col; }
 
 private:
 	//! AnimatorSystem adjust the private member parameters of Animator;
 	friend class AnimatorSystem;
-
-	//! SDLContext reads the Animator member var's
-	friend class SDLContext;
 };
 } // namespace crepe
 //

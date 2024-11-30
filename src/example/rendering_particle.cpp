@@ -1,5 +1,7 @@
 #include "api/Animator.h"
 #include "api/Camera.h"
+#include "api/LoopManager.h"
+#include "api/LoopTimer.h"
 #include "system/AnimatorSystem.h"
 #include "system/ParticleSystem.h"
 #include <SDL2/SDL_timer.h>
@@ -16,29 +18,10 @@
 #include <crepe/system/RenderSystem.h>
 #include <crepe/types.h>
 
-#include <chrono>
-
 using namespace crepe;
 using namespace std;
 
-int main(int argc, char * argv[]) {
-	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
-	RenderSystem sys{mgr};
-	ParticleSystem psys{mgr};
-	AnimatorSystem asys{mgr};
-
-	Color color(255, 255, 255, 255);
-
-	auto img = Texture("asset/texture/test_ap43.png");
-
-	Sprite & test_sprite = game_object.add_component<Sprite>(
-		img, color, Sprite::FlipSettings{true, true}, 1, 1, 1.95);
-
-	//game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
-	game_object.add_component<Animator>(test_sprite, 1, 1, 0).active = true;
-
-	/*
+/*
 	auto & test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
 		.max_particles = 10,
@@ -60,9 +43,35 @@ int main(int argc, char * argv[]) {
 	});
 	*/
 
-	auto & cam = game_object.add_component<Camera>(Color::RED, ivec2{1280, 720},
-												   vec2{2.59,1.95}, 2.0);
-	cam.offset.x = 1;
+class TestScene : public Scene {
+public:
+	using Scene::Scene;
+
+	void load_scene() {
+		ComponentManager & mgr = this->component_manager;
+		GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
+
+		Color color(255, 255, 255, 255);
+
+		auto img = Texture("asset/spritesheet/spritesheet_test.png");
+
+		Sprite & test_sprite = game_object.add_component<Sprite>(
+			img, color, Sprite::FlipSettings{true, true}, 1, 1, vec2{1, 1});
+
+		//game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
+		game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
+
+		auto & cam = game_object.add_component<Camera>(Color::RED, ivec2{1280, 720},
+													   vec2{2.59, 1.95}, 2.0);
+	}
+
+	string get_name() const { return "TestScene"; };
+};
+
+int main(int argc, char * argv[]) {
+	LoopManager engine;
+	engine.add_scene<TestScene>();
+	engine.start();
 
 	/*
 	game_object
@@ -72,14 +81,6 @@ int main(int argc, char * argv[]) {
 		.order_in_layer
 		= 6;
 	*/
-
-	auto start = std::chrono::steady_clock::now();
-	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
-		psys.update();
-		asys.update();
-		sys.update();
-		SDL_Delay(10);
-	}
 
 	return 0;
 }

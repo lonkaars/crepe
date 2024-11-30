@@ -113,7 +113,11 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 
 SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
 
-	vec2 size = {(ctx.sprite.height * ctx.sprite.aspect_ratio), ctx.sprite.height};
+
+	vec2 size = {
+		ctx.sprite.size.x == 0 && ctx.sprite.size.y != 0 ? ctx.sprite.size.y * ctx.sprite.aspect_ratio : ctx.sprite.size.x,
+		ctx.sprite.size.y == 0 && ctx.sprite.size.x != 0 ? ctx.sprite.size.x / ctx.sprite.aspect_ratio : ctx.sprite.size.y
+	};
 
 	const CameraValues & cam = ctx.cam;
 

@@ -1,11 +1,10 @@
 #pragma once
 
-#include <cstdint>
-
 #include "../Component.h"
 
 #include "Color.h"
 #include "Texture.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -41,7 +40,7 @@ public:
 	 * \param height the height of the image in game units
 	 */
 	Sprite(game_object_id_t id, Texture & image, const Color & color,
-		   const FlipSettings & flip, int sort_layer, int order_layer, float height);
+		   const FlipSettings & flip, int sort_layer, int order_layer, const vec2 & size);
 
 	/**
 	 * \brief Destroys the Sprite instance.
@@ -62,8 +61,7 @@ public:
 	//! Order within the sorting layer
 	const int order_in_layer;
 
-	//! height in world units
-	const float height;
+	vec2 size;
 
 	/**
 	 * \aspect_ratio ratio of the img so that scaling will not become weird

@@ -6,19 +6,20 @@
 #include "Component.h"
 #include "Sprite.h"
 #include "Texture.h"
+#include "types.h"
 
 using namespace std;
 using namespace crepe;
 
 Sprite::Sprite(game_object_id_t id, Texture & image, const Color & color,
-			   const FlipSettings & flip, int sort_layer, int order_layer, float height)
+			   const FlipSettings & flip, int sort_layer, int order_layer, const vec2 & size)
 	: Component(id),
 	  color(color),
 	  flip(flip),
 	  sprite_image(std::move(image)),
 	  sorting_in_layer(sort_layer),
 	  order_in_layer(order_layer),
-	  height(height) {
+	  size(size) {
 
 	dbg_trace();
 
