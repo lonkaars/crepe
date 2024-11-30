@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
-#include <crepe/manager/ComponentManager.h>
-#include <crepe/manager/ResourceManager.h>
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/ResourceManager.h>
 #include <crepe/system/AudioSystem.h>
 
 using namespace std;
@@ -26,21 +26,21 @@ private:
 	public:
 		using AudioSystem::AudioSystem;
 		StrictMock<TestSoundContext> context;
-		virtual SoundContext & get_context() {
-			return this->context;
-		}
+		virtual SoundContext & get_context() { return this->context; }
 	};
 
 private:
 	Mediator mediator;
 	ComponentManager component_manager{mediator};
 	ResourceManager resource_manager{mediator};
+
 public:
-	TestAudioSystem system {mediator};
+	TestAudioSystem system{mediator};
 	TestSoundContext & context = system.context;
 
 private:
 	GameObject entity = component_manager.new_object("name");
+
 public:
 	AudioSource & component = entity.add_component<AudioSource>("mwe/audio/bgm.ogg");
 };
@@ -150,4 +150,3 @@ TEST_F(AudioTest, PlayOnActive) {
 		system.update();
 	}
 }
-

@@ -2,9 +2,9 @@
 #include <gtest/gtest.h>
 
 #include <crepe/api/Event.h>
-#include <crepe/manager/EventManager.h>
 #include <crepe/api/IKeyListener.h>
 #include <crepe/api/IMouseListener.h>
+#include <crepe/manager/EventManager.h>
 
 using namespace std;
 using namespace std::chrono_literals;
@@ -37,9 +37,7 @@ public:
 };
 
 TEST_F(EventManagerTest, EventSubscription) {
-	EventHandler<KeyPressEvent> key_handler = [](const KeyPressEvent & e) {
-		return true;
-	};
+	EventHandler<KeyPressEvent> key_handler = [](const KeyPressEvent & e) { return true; };
 
 	// Subscribe to KeyPressEvent
 	EventManager::get_instance().subscribe<KeyPressEvent>(key_handler, 1);

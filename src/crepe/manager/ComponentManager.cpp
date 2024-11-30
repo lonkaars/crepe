@@ -1,6 +1,6 @@
 #include "../api/GameObject.h"
-#include "../util/Log.h"
 #include "../types.h"
+#include "../util/Log.h"
 
 #include "ComponentManager.h"
 

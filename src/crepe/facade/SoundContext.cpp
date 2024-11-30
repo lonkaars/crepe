@@ -21,9 +21,7 @@ Sound::Handle SoundContext::play(Sound & resource) {
 	};
 }
 
-void SoundContext::stop(Sound::Handle & handle) {
-	this->engine.stop(handle.handle);
-}
+void SoundContext::stop(Sound::Handle & handle) { this->engine.stop(handle.handle); }
 
 void SoundContext::set_volume(Sound & resource, Sound::Handle & handle, float volume) {
 	this->engine.setVolume(handle.handle, volume);
@@ -33,4 +31,3 @@ void SoundContext::set_volume(Sound & resource, Sound::Handle & handle, float vo
 void SoundContext::set_loop(Sound & resource, Sound::Handle & handle, bool loop) {
 	this->engine.setLooping(handle.handle, loop);
 }
-

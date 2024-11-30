@@ -2,5 +2,4 @@
 
 using namespace crepe;
 
-Resource::Resource(const Asset & asset) { }
-
+Resource::Resource(const Asset & asset) {}

@@ -1,7 +1,7 @@
+#include "../ValueBroker.h"
+#include "../api/Config.h"
 #include "../facade/DB.h"
 #include "../util/Log.h"
-#include "../api/Config.h"
-#include "../ValueBroker.h"
 
 #include "SaveManager.h"
 

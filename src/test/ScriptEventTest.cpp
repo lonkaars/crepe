@@ -4,13 +4,13 @@
 #define private public
 #define protected public
 
-#include <crepe/manager/ComponentManager.h>
-#include <crepe/manager/EventManager.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Event.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Vector2.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/EventManager.h>
 #include <crepe/system/ScriptSystem.h>
 
 #include "ScriptTest.h"
@@ -32,7 +32,7 @@ TEST_F(ScriptEventTest, Inactive) {
 	EventManager & evmgr = this->event_manager;
 
 	unsigned event_count = 0;
-	script.subscribe<MyEvent>([&](const MyEvent &){
+	script.subscribe<MyEvent>([&](const MyEvent &) {
 		event_count++;
 		return true;
 	});
@@ -48,4 +48,3 @@ TEST_F(ScriptEventTest, Inactive) {
 	evmgr.trigger_event<MyEvent>();
 	EXPECT_EQ(1, event_count);
 }
-
