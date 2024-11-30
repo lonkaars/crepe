@@ -94,11 +94,13 @@ void SDLContext::handle_events(bool & running) {
 	*/
 }
 
-void SDLContext::clear_screen() {
-	SDL_SetRenderDrawColor(this->game_renderer.get(), 255, 255, 255, 255);
-	SDL_RenderClear(this->game_renderer.get());
+void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
+void SDLContext::present_screen() {
+	SDL_SetRenderDrawColor(this->game_renderer.get(), 0, 0, 0, 255);
+	SDL_RenderFillRectF(this->game_renderer.get(), &black_bars[0]);
+	SDL_RenderFillRectF(this->game_renderer.get(), &black_bars[1]);
+	SDL_RenderPresent(this->game_renderer.get());
 }
-void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
 
 SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 	return SDL_Rect{
@@ -109,23 +111,16 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 	};
 }
 
-vec2 bar_size;
-vec2 scale;
+SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
 
-SDL_FRect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
-								  const vec2 & cam_pos, const double & img_scale) const {
+	vec2 size = {(ctx.sprite.height * ctx.sprite.aspect_ratio), ctx.sprite.height};
 
+	const CameraValues & cam = ctx.cam;
 
-	vec2 size = { (sprite.height * sprite.aspect_ratio), sprite.height};
-	
-	size *=  scale * img_scale;
+	size *= cam.render_scale * ctx.img_scale;
 
-	vec2 screen_pos = (pos - cam_pos + (cam.viewport_size / cam.zoom ) / 2) * scale - size / 2 + bar_size;
-
-	cout << size.x << " " << size.y << endl;
-	cout << pos.x << " " << pos.y << endl;
-	cout << scale.x << " " << scale.y << endl;
-	cout << screen_pos.x << " " << screen_pos.y << endl;
+	vec2 screen_pos = (ctx.pos - cam.cam_pos + (cam.zoomed_viewport) / 2) * cam.render_scale
+					  - size / 2 + cam.bar_size;
 
 	return SDL_FRect{
 		.x = screen_pos.x,
@@ -142,16 +137,18 @@ void SDLContext::draw(const RenderContext & ctx) {
 							  | (SDL_FLIP_VERTICAL * ctx.sprite.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
-	SDL_FRect dstrect
-		= this->get_dst_rect(ctx.sprite, ctx.pos, ctx.cam, ctx.cam_pos, ctx.scale);
-
-	cout << dstrect.x << " " << dstrect.y << " " << dstrect.w << " " << dstrect.h << endl;
+	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DstRect{
+		.sprite = ctx.sprite,
+		.cam = ctx.cam,
+		.pos = ctx.pos,
+		.img_scale = ctx.scale,
+	});
 
 	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.sprite_image.texture.get(),
-					 &srcrect, &dstrect, ctx.angle, NULL, render_flip);
+					  &srcrect, &dstrect, ctx.angle, NULL, render_flip);
 }
 
-void SDLContext::set_camera(const Camera & cam) {
+void SDLContext::set_camera(const Camera & cam, CameraValues & ctx) {
 
 	// resize window
 	int w, h;
@@ -160,62 +157,50 @@ void SDLContext::set_camera(const Camera & cam) {
 		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
 	}
 
+	vec2 & zoomed_viewport = ctx.zoomed_viewport;
+	vec2 & bar_size = ctx.bar_size;
+	vec2 & render_scale = ctx.render_scale;
+
+	zoomed_viewport = cam.viewport_size * cam.zoom;
 	double screen_aspect = static_cast<double>(cam.screen.x) / cam.screen.y;
-	double viewport_aspect = (cam.viewport_size.x / cam.zoom ) / (cam.viewport_size.y / cam.zoom);
+	double viewport_aspect = zoomed_viewport.x / zoomed_viewport.y;
 
-
-	SDL_FRect black_bars[2];
-	// calculate black bars
+	// calculate black bars 
 	if (screen_aspect > viewport_aspect) {
 		// pillarboxing
-		cout << "pillarboxing" << endl;
-		float render_scale = cam.screen.y / (cam.viewport_size.y / cam.zoom);
-		float adj_width = (cam.viewport_size.x / cam.zoom )* render_scale;
+		float scale = cam.screen.y / zoomed_viewport.y;
+		float adj_width = zoomed_viewport.x * scale;
 		float bar_width = (cam.screen.x - adj_width) / 2;
-		black_bars[0] = {0, 0, bar_width, (float) cam.screen.y};
-		black_bars[1] = {(cam.screen.x - bar_width), 0, bar_width, (float) cam.screen.y};
+		this->black_bars[0] = {0, 0, bar_width, (float) cam.screen.y};
+		this->black_bars[1] = {(cam.screen.x - bar_width), 0, bar_width, (float) cam.screen.y};
 
-		bar_size = {bar_width,0};
-		scale.x = scale.y = render_scale;
+		bar_size = {bar_width, 0};
+		render_scale.x = render_scale.y = scale;
 	} else {
 		// letterboxing
-		cout << "letterboxing" << endl;
-		float render_scale = cam.screen.x / (cam.viewport_size.x * cam.zoom);
-		float adj_height = cam.viewport_size.y * render_scale;
+		float scale = cam.screen.x / (cam.viewport_size.x * cam.zoom);
+		float adj_height = cam.viewport_size.y * scale;
 		float bar_height = (cam.screen.y - adj_height) / 2;
-		black_bars[0] = {0, 0, (float) cam.screen.x, bar_height};
-		black_bars[1] = {0, (cam.screen.y - bar_height), (float) cam.screen.x, bar_height};
+		this->black_bars[0] = {0, 0, (float) cam.screen.x, bar_height};
+		this->black_bars[1]
+			= {0, (cam.screen.y - bar_height), (float) cam.screen.x, bar_height};
 
-		bar_size = {0,bar_height};
-		scale.x = scale.y = render_scale;
+		bar_size = {0, bar_height};
+		render_scale.x = render_scale.y = scale;
 	}
 
-	cout << "BARS" << endl;
-
-	for (int i = 0; i < 2; ++i) {
-		cout << black_bars[i].x << " " << black_bars[i].y << " " << black_bars[i].w << " "
-			 << black_bars[i].h << endl;
-	}
-
-	SDL_SetRenderDrawColor(this->game_renderer.get(), 0, 0, 0, 255);
-	SDL_RenderFillRectF(this->game_renderer.get(), &black_bars[0]);
-	SDL_RenderFillRectF(this->game_renderer.get(), &black_bars[1]);
-
-	/*
-	// set bg color
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
 						   cam.bg_color.b, cam.bg_color.a);
 
 	SDL_Rect bg = {
 		.x = 0,
 		.y = 0,
-		.w = (int)cam.viewport_size.x,
-		.h = (int)cam.viewport_size.y,
+		.w = cam.screen.x,
+		.h = cam.screen.y,
 	};
+
 	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
-
-	*/
 }
 
 uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }

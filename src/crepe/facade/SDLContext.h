@@ -29,14 +29,22 @@ typedef SDL_Keycode CREPE_KEYCODES;
  */
 class SDLContext {
 public:
+	//! data that the camera component cannot hold
+	struct CameraValues {
+		vec2 zoomed_viewport;
+		vec2 render_scale;
+		vec2 bar_size;
+		vec2 cam_pos;
+	};
+
 	struct RenderContext {
 		const Sprite & sprite;
-		const Camera & cam;
-		const vec2 & cam_pos;
+		const CameraValues & cam;
 		const vec2 & pos;
 		const double & angle;
 		const double & scale;
 	};
+
 
 public:
 	/**
@@ -137,9 +145,15 @@ private:
 	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	void set_camera(const Camera & camera);
+	void set_camera(const Camera & camera, CameraValues & ctx);
 
 private:
+	struct DstRect {
+		const Sprite & sprite;
+		const CameraValues & cam;
+		const vec2 & pos;
+		const double & img_scale;
+	};
 	/**
 	 * \brief calculates the sqaure size of the image
 	 *
@@ -158,8 +172,7 @@ private:
 	 * \param img_scale the image multiplier for increasing img size 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_FRect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
-						  const vec2 & cam_pos, const double & img_scale) const;
+	SDL_FRect get_dst_rect(const DstRect & ctx) const;
 
 private:
 	//! sdl Window
@@ -167,6 +180,9 @@ private:
 
 	//! renderer for the crepe engine
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
+
+	//! black bars rectangle to draw
+	SDL_FRect black_bars[2];
 };
 
 } // namespace crepe

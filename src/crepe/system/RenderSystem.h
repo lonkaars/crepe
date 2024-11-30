@@ -76,9 +76,8 @@ private:
 
 private:
 	SDLContext & context = SDLContext::get_instance();
-
-	//! camera postion in the current scene
-	vec2 cam_pos;
+	
+	SDLContext::CameraValues cam_ctx;
 };
 
 } // namespace crepe
