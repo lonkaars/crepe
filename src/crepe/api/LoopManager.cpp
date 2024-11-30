@@ -22,9 +22,7 @@ LoopManager::LoopManager() {
 	this->load_system<ScriptSystem>();
 }
 
-void LoopManager::process_input() {
-	this->sdl_context.handle_events(this->game_running);
-}
+void LoopManager::process_input() { this->sdl_context.handle_events(this->game_running); }
 
 void LoopManager::start() {
 	this->setup();
@@ -69,4 +67,3 @@ void LoopManager::render() {
 }
 
 void LoopManager::update() {}
-

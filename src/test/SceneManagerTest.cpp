@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
 
-#include <crepe/types.h>
-#include <crepe/manager/SceneManager.h>
-#include <crepe/manager/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/SceneManager.h>
+#include <crepe/types.h>
 
 using namespace std;
 using namespace crepe;
@@ -57,6 +57,7 @@ private:
 
 class SceneManagerTest : public ::testing::Test {
 	Mediator m;
+
 public:
 	ComponentManager component_mgr{m};
 	SceneManager scene_mgr{m};

@@ -7,11 +7,11 @@
 #define protected public
 
 #include <crepe/api/Camera.h>
-#include <crepe/manager/ComponentManager.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
+#include <crepe/manager/ComponentManager.h>
 
 #include <crepe/system/RenderSystem.h>
 
@@ -21,6 +21,7 @@ using namespace testing;
 
 class RenderSystemTest : public Test {
 	Mediator m;
+
 public:
 	ComponentManager mgr{m};
 	RenderSystem sys{m};

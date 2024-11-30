@@ -1,10 +1,10 @@
 #include <cmath>
 
-#include "../manager/ComponentManager.h"
 #include "../api/Config.h"
 #include "../api/Rigidbody.h"
 #include "../api/Transform.h"
 #include "../api/Vector2.h"
+#include "../manager/ComponentManager.h"
 
 #include "PhysicsSystem.h"
 
