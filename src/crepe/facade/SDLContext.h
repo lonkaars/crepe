@@ -45,7 +45,6 @@ public:
 		const double & scale;
 	};
 
-
 public:
 	/**
 	 * \brief Gets the singleton instance of SDLContext.

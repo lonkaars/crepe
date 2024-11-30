@@ -113,11 +113,12 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 
 SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
 
-
-	vec2 size = {
-		ctx.sprite.size.x == 0 && ctx.sprite.size.y != 0 ? ctx.sprite.size.y * ctx.sprite.aspect_ratio : ctx.sprite.size.x,
-		ctx.sprite.size.y == 0 && ctx.sprite.size.x != 0 ? ctx.sprite.size.x / ctx.sprite.aspect_ratio : ctx.sprite.size.y
-	};
+	vec2 size = {ctx.sprite.size.x == 0 && ctx.sprite.size.y != 0
+					 ? ctx.sprite.size.y * ctx.sprite.aspect_ratio
+					 : ctx.sprite.size.x,
+				 ctx.sprite.size.y == 0 && ctx.sprite.size.x != 0
+					 ? ctx.sprite.size.x / ctx.sprite.aspect_ratio
+					 : ctx.sprite.size.y};
 
 	const CameraValues & cam = ctx.cam;
 
@@ -169,7 +170,7 @@ void SDLContext::set_camera(const Camera & cam, CameraValues & ctx) {
 	double screen_aspect = static_cast<double>(cam.screen.x) / cam.screen.y;
 	double viewport_aspect = zoomed_viewport.x / zoomed_viewport.y;
 
-	// calculate black bars 
+	// calculate black bars
 	if (screen_aspect > viewport_aspect) {
 		// pillarboxing
 		float scale = cam.screen.y / zoomed_viewport.y;

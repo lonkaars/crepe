@@ -67,7 +67,7 @@ void LoopManager::render() {
 	}
 }
 
-void LoopManager::update() { 
-	LoopTimer & timer = LoopTimer::get_instance(); 
+void LoopManager::update() {
+	LoopTimer & timer = LoopTimer::get_instance();
 	this->get_system<AnimatorSystem>().update();
 }
