@@ -118,9 +118,9 @@ SDL_FRect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, cons
 
 	vec2 size = { (sprite.height * sprite.aspect_ratio), sprite.height};
 	
-	size *=  scale * img_scale * cam.zoom ;
+	size *=  scale * img_scale;
 
-	vec2 screen_pos = (pos - cam_pos + cam.viewport_size / 2) * scale - size / 2 + bar_size;
+	vec2 screen_pos = (pos - cam_pos + (cam.viewport_size / cam.zoom ) / 2) * scale - size / 2 + bar_size;
 
 	cout << size.x << " " << size.y << endl;
 	cout << pos.x << " " << pos.y << endl;
@@ -161,7 +161,7 @@ void SDLContext::set_camera(const Camera & cam) {
 	}
 
 	double screen_aspect = static_cast<double>(cam.screen.x) / cam.screen.y;
-	double viewport_aspect = cam.viewport_size.x / cam.viewport_size.y;
+	double viewport_aspect = (cam.viewport_size.x / cam.zoom ) / (cam.viewport_size.y / cam.zoom);
 
 
 	SDL_FRect black_bars[2];
@@ -169,18 +169,18 @@ void SDLContext::set_camera(const Camera & cam) {
 	if (screen_aspect > viewport_aspect) {
 		// pillarboxing
 		cout << "pillarboxing" << endl;
-		float render_scale = cam.screen.y / cam.viewport_size.y;
-		float adj_width = cam.viewport_size.x * render_scale;
+		float render_scale = cam.screen.y / (cam.viewport_size.y / cam.zoom);
+		float adj_width = (cam.viewport_size.x / cam.zoom )* render_scale;
 		float bar_width = (cam.screen.x - adj_width) / 2;
 		black_bars[0] = {0, 0, bar_width, (float) cam.screen.y};
 		black_bars[1] = {(cam.screen.x - bar_width), 0, bar_width, (float) cam.screen.y};
 
 		bar_size = {bar_width,0};
-		scale.x = scale.y = cam.screen.y / cam.viewport_size.y;
+		scale.x = scale.y = render_scale;
 	} else {
 		// letterboxing
 		cout << "letterboxing" << endl;
-		float render_scale = cam.screen.x / cam.viewport_size.x;
+		float render_scale = cam.screen.x / (cam.viewport_size.x * cam.zoom);
 		float adj_height = cam.viewport_size.y * render_scale;
 		float bar_height = (cam.screen.y - adj_height) / 2;
 		black_bars[0] = {0, 0, (float) cam.screen.x, bar_height};
