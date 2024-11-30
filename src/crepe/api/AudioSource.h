@@ -42,8 +42,19 @@ private:
 	//! This audio source's clip
 	const Asset source;
 
-	//! If this source is playing audio
-	bool playing = false;
+	/**
+	 * \name One-shot state variables
+	 *
+	 * These variables trigger function calls when set to true, and are unconditionally reset on
+	 * every system update.
+	 *
+	 * \{
+	 */
+	//! Play this sample
+	bool oneshot_play = false;
+	//! Stop this sample
+	bool oneshot_stop = false;
+	//! \}
 
 private:
 	//! AudioSystem::ComponentPrivate
