@@ -35,8 +35,10 @@ private:
 
 	void diff_update(AudioSource & component, ComponentPrivate & data, Sound & resource);
 
+protected:
+	virtual SoundContext & get_context();
 private:
-	SoundContext context {};
+	Private context;
 };
 
 } // namespace crepe

@@ -24,10 +24,10 @@ public:
 	SoundContext & operator=(const SoundContext &) = delete;
 	SoundContext & operator=(SoundContext &&) = delete;
 
-	Sound::Handle play(Sound & resource);
-	void stop(Sound::Handle &);
-	void set_volume(Sound &, Sound::Handle &, float);
-	void set_loop(Sound &, Sound::Handle &, bool);
+	virtual Sound::Handle play(Sound & resource);
+	virtual void stop(Sound::Handle &);
+	virtual void set_volume(Sound &, Sound::Handle &, float);
+	virtual void set_loop(Sound &, Sound::Handle &, bool);
 
 private:
 	SoLoud::Soloud engine;
