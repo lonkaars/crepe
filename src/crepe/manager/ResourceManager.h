@@ -11,13 +11,11 @@
 namespace crepe {
 
 /**
- * \brief The ResourceManager is responsible for storing and managing assets over
- * multiple scenes.
+ * \brief Owner of concrete Resource instances
  * 
- * The ResourceManager ensures that assets are loaded once and can be accessed
- * across different scenes. It caches assets to avoid reloading them every time
- * a scene is loaded. Assets are retained in memory until the ResourceManager is
- * destroyed, at which point the cached assets are cleared.
+ * ResourceManager caches concrete Resource instances per Asset. Concrete resources are
+ * destroyed at the end of scenes by default, unless the game programmer marks them as
+ * persistent.
  */
 class ResourceManager : public Manager {
 public:
@@ -25,21 +23,53 @@ public:
 	virtual ~ResourceManager(); // dbg_trace
 
 private:
+	//! Cache entry
 	struct CacheEntry {
+		//! Concrete resource instance
 		std::unique_ptr<Resource> resource = nullptr;
+		//! Prevent ResourceManager::clear from removing this entry
 		bool persistent = false;
 	};
-	//! A cache that holds all the assets, accessible by their file path, over multiple scenes.
+	//! Internal cache
 	std::unordered_map<const Asset, CacheEntry> resources;
+	/**
+	 * \brief Ensure a cache entry exists for this asset and return a mutable reference to it
+	 *
+	 * \param asset Asset the concrete resource is instantiated from
+	 *
+	 * \returns Mutable reference to cache entry
+	 */
 	CacheEntry & get_entry(const Asset & asset);
 
 public:
+	/**
+	 * \brief Mark a resource as persistent (i.e. used across multiple scenes)
+	 *
+	 * \param asset Asset the concrete resource is instantiated from
+	 * \param persistent Whether this resource is persistent (true=keep, false=destroy)
+	 */
 	void set_persistent(const Asset & asset, bool persistent);
 
+	/**
+	 * \brief Retrieve reference to concrete Resource by Asset
+	 *
+	 * \param asset Asset the concrete resource is instantiated from
+	 * \tparam Resource Concrete derivative of Resource
+	 *
+	 * This class instantiates the concrete resource if it is not yet stored in the internal
+	 * cache, or returns a reference to the cached resource if it already exists.
+	 *
+	 * \returns Reference to concrete resource
+	 *
+	 * \throws std::runtime_error if the \c Resource parameter does not match with the actual
+	 * type of the resource stored in the cache for this Asset
+	 */
 	template <typename Resource>
 	Resource & get(const Asset & asset);
 
+	//! Clear non-persistent resources from cache
 	void clear();
+	//! Clear all resources from cache regardless of persistence
 	void clear_all();
 };
 

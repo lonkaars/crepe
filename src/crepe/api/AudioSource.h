@@ -17,16 +17,19 @@ class AudioSource : public Component {
 	friend class AudioSystem;
 
 protected:
+	/**
+	 * \param source Sound sample to load
+	 */
 	AudioSource(game_object_id_t id, const Asset & source);
-	//! Only ComponentManager can create components
+	//! Only ComponentManager creates components
 	friend class ComponentManager;
 
 public:
-	// But std::unique_ptr needs to be able to destoy this component again
+	// std::unique_ptr needs to be able to destoy this component
 	virtual ~AudioSource() = default;
 
 public:
-	//! Start or resume this audio source
+	//! Start this audio source
 	void play(bool looping = false);
 	//! Stop this audio source
 	void stop();
