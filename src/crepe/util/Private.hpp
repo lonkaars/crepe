@@ -18,7 +18,7 @@ T & Private::set(Args &&... args) {
 }
 
 template <typename T>
-T & Private::get() {
+T & Private::get() const {
 	using namespace std;
 	if (this->empty()) throw out_of_range("Private: get() called on empty object");
 	type_index requested_type = typeid(T);

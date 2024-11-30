@@ -18,8 +18,8 @@ private:
 	public:
 		MOCK_METHOD(Sound::Handle, play, (Sound & resource), (override));
 		MOCK_METHOD(void, stop, (Sound::Handle &), (override));
-		MOCK_METHOD(void, set_volume, (Sound &, Sound::Handle &, float), (override));
-		MOCK_METHOD(void, set_loop, (Sound &, Sound::Handle &, bool), (override));
+		MOCK_METHOD(void, set_volume, (Sound::Handle &, float), (override));
+		MOCK_METHOD(void, set_loop, (Sound::Handle &, bool), (override));
 	};
 
 	class TestAudioSystem : public AudioSystem {
@@ -48,8 +48,8 @@ public:
 TEST_F(AudioTest, Default) {
 	EXPECT_CALL(context, play(_)).Times(0);
 	EXPECT_CALL(context, stop(_)).Times(0);
-	EXPECT_CALL(context, set_volume(_, _, _)).Times(0);
-	EXPECT_CALL(context, set_loop(_, _, _)).Times(0);
+	EXPECT_CALL(context, set_volume(_, _)).Times(0);
+	EXPECT_CALL(context, set_loop(_, _)).Times(0);
 	system.update();
 }
 
@@ -95,14 +95,14 @@ TEST_F(AudioTest, Volume) {
 	{
 		InSequence seq;
 
-		EXPECT_CALL(context, set_volume(_, _, _)).Times(0);
+		EXPECT_CALL(context, set_volume(_, _)).Times(0);
 		component.volume += 0.2;
 	}
 
 	{
 		InSequence seq;
 
-		EXPECT_CALL(context, set_volume(_, _, component.volume)).Times(1);
+		EXPECT_CALL(context, set_volume(_, component.volume)).Times(1);
 		system.update();
 	}
 }
@@ -113,14 +113,14 @@ TEST_F(AudioTest, Looping) {
 	{
 		InSequence seq;
 
-		EXPECT_CALL(context, set_loop(_, _, _)).Times(0);
+		EXPECT_CALL(context, set_loop(_, _)).Times(0);
 		component.loop = !component.loop;
 	}
 
 	{
 		InSequence seq;
 
-		EXPECT_CALL(context, set_loop(_, _, component.loop)).Times(1);
+		EXPECT_CALL(context, set_loop(_, component.loop)).Times(1);
 		system.update();
 	}
 }

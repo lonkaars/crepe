@@ -52,10 +52,10 @@ void AudioSystem::diff_update(AudioSource & component, ComponentPrivate & data,
 		component.oneshot_stop = false;
 	}
 	if (component.volume != data.last_volume) {
-		context.set_volume(resource, data.handle, component.volume);
+		context.set_volume(data.handle, component.volume);
 	}
 	if (component.loop != data.last_loop) {
-		context.set_loop(resource, data.handle, component.loop);
+		context.set_loop(data.handle, component.loop);
 	}
 }
 
