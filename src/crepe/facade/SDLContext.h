@@ -158,7 +158,7 @@ private:
 	 * \param img_scale the image multiplier for increasing img size 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
+	SDL_FRect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
 						  const vec2 & cam_pos, const double & img_scale) const;
 
 private:

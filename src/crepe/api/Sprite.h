@@ -71,7 +71,7 @@ public:
 	 * cannot be const because if Animator component is addded then ratio becomes scuffed and
 	 * does it need to be calculated again in the Animator
 	 */
-	double aspect_ratio;
+	float aspect_ratio;
 
 private:
 	//! Reads the mask of sprite

@@ -108,22 +108,30 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 		.h = sprite.mask.h,
 	};
 }
-SDL_Rect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
+
+vec2 bar_size;
+vec2 scale;
+
+SDL_FRect SDLContext::get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
 								  const vec2 & cam_pos, const double & img_scale) const {
 
-	double width = sprite.height * sprite.aspect_ratio;
-	double height = sprite.height;
 
-	width *= img_scale * cam.zoom;
-	height *= img_scale * cam.zoom;
+	vec2 size = { (sprite.height * sprite.aspect_ratio), sprite.height};
+	
+	size *=  scale * img_scale * cam.zoom ;
 
-	return SDL_Rect{
-		.x
-		= static_cast<int>(round(pos.x - cam_pos.x + (cam.viewport_size.x / 2) - width / 2)),
-		.y
-		= static_cast<int>(round(pos.y - cam_pos.y + (cam.viewport_size.y / 2) - height / 2)),
-		.w = static_cast<int>(width),
-		.h = static_cast<int>(height),
+	vec2 screen_pos = (pos - cam_pos + cam.viewport_size / 2) * scale - size / 2 + bar_size;
+
+	cout << size.x << " " << size.y << endl;
+	cout << pos.x << " " << pos.y << endl;
+	cout << scale.x << " " << scale.y << endl;
+	cout << screen_pos.x << " " << screen_pos.y << endl;
+
+	return SDL_FRect{
+		.x = screen_pos.x,
+		.y = screen_pos.y,
+		.w = size.x,
+		.h = size.y,
 	};
 }
 
@@ -134,12 +142,12 @@ void SDLContext::draw(const RenderContext & ctx) {
 							  | (SDL_FLIP_VERTICAL * ctx.sprite.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
-	SDL_Rect dstrect
+	SDL_FRect dstrect
 		= this->get_dst_rect(ctx.sprite, ctx.pos, ctx.cam, ctx.cam_pos, ctx.scale);
 
 	cout << dstrect.x << " " << dstrect.y << " " << dstrect.w << " " << dstrect.h << endl;
 
-	SDL_RenderCopyEx(this->game_renderer.get(), ctx.sprite.sprite_image.texture.get(),
+	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.sprite_image.texture.get(),
 					 &srcrect, &dstrect, ctx.angle, NULL, render_flip);
 }
 
@@ -155,7 +163,7 @@ void SDLContext::set_camera(const Camera & cam) {
 	double screen_aspect = static_cast<double>(cam.screen.x) / cam.screen.y;
 	double viewport_aspect = cam.viewport_size.x / cam.viewport_size.y;
 
-	cout << screen_aspect << " " << viewport_aspect << endl;
+
 	SDL_FRect black_bars[2];
 	// calculate black bars
 	if (screen_aspect > viewport_aspect) {
@@ -164,21 +172,25 @@ void SDLContext::set_camera(const Camera & cam) {
 		float render_scale = cam.screen.y / cam.viewport_size.y;
 		float adj_width = cam.viewport_size.x * render_scale;
 		float bar_width = (cam.screen.x - adj_width) / 2;
-		black_bars[0] = {0, 0, bar_width, (float)cam.screen.y};
-		black_bars[1] = {(cam.screen.x - bar_width), 0, bar_width, (float)cam.screen.y};
-		cout << render_scale << " " << adj_width << " " << bar_width << " " << cam.screen.y
-			 << " " << cam.viewport_size.y << endl;
+		black_bars[0] = {0, 0, bar_width, (float) cam.screen.y};
+		black_bars[1] = {(cam.screen.x - bar_width), 0, bar_width, (float) cam.screen.y};
+
+		bar_size = {bar_width,0};
+		scale.x = scale.y = cam.screen.y / cam.viewport_size.y;
 	} else {
 		// letterboxing
 		cout << "letterboxing" << endl;
-		float render_scale = cam.screen.y / cam.viewport_size.y;
-		float adj_width = cam.viewport_size.x * render_scale;
-		float bar_height = (cam.screen.x - adj_width) / 2;
+		float render_scale = cam.screen.x / cam.viewport_size.x;
+		float adj_height = cam.viewport_size.y * render_scale;
+		float bar_height = (cam.screen.y - adj_height) / 2;
 		black_bars[0] = {0, 0, (float) cam.screen.x, bar_height};
 		black_bars[1] = {0, (cam.screen.y - bar_height), (float) cam.screen.x, bar_height};
-		cout << render_scale << " " << adj_width << " " << bar_height << " " << cam.screen.y
-			 << " " << cam.viewport_size.y << endl;
+
+		bar_size = {0,bar_height};
+		scale.x = scale.y = render_scale;
 	}
+
+	cout << "BARS" << endl;
 
 	for (int i = 0; i < 2; ++i) {
 		cout << black_bars[i].x << " " << black_bars[i].y << " " << black_bars[i].w << " "
