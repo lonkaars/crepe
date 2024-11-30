@@ -2,10 +2,10 @@
 
 #include <memory>
 
+#include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/SceneManager.h"
 #include "../system/System.h"
-#include "../facade/SDLContext.h"
 
 #include "LoopTimer.h"
 

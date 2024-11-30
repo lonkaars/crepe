@@ -3,9 +3,9 @@
 #define private public
 #define protected public
 
-#include <crepe/util/Log.h>
-#include <crepe/manager/ResourceManager.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/manager/ResourceManager.h>
+#include <crepe/util/Log.h>
 
 using namespace std;
 using namespace crepe;
@@ -13,6 +13,7 @@ using namespace testing;
 
 class ResourceManagerTest : public Test {
 	Mediator mediator;
+
 public:
 	ResourceManager resource_manager{mediator};
 
@@ -25,19 +26,15 @@ public:
 
 	public:
 		const unsigned instance;
-		TestResource(const Asset & src)
-			: Resource(src),
-				instance(this->instances++) { }
+		TestResource(const Asset & src) : Resource(src), instance(this->instances++) {}
 		~TestResource() { this->instances--; }
-		bool operator == (const TestResource & other) const {
+		bool operator==(const TestResource & other) const {
 			return this->instance == other.instance;
 		}
 	};
 
 private:
-	void SetUp() override {
-		TestResource::instances = 0;
-	}
+	void SetUp() override { TestResource::instances = 0; }
 };
 unsigned ResourceManagerTest::TestResource::instances = 0;
 
@@ -72,4 +69,3 @@ TEST_F(ResourceManagerTest, Persistent) {
 	resource_manager.clear_all();
 	EXPECT_EQ(TestResource::instances, 0);
 }
-

@@ -4,8 +4,8 @@
 #define private public
 #define protected public
 
-#include <crepe/manager/SceneManager.h>
 #include "ScriptTest.h"
+#include <crepe/manager/SceneManager.h>
 
 using namespace std;
 using namespace crepe;
@@ -28,4 +28,3 @@ TEST_F(ScriptSceneTest, Inactive) {
 	script.set_next_scene(non_default_value);
 	EXPECT_EQ(non_default_value, scene_manager.next_scene);
 }
-

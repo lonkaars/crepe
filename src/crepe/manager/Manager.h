@@ -13,5 +13,4 @@ protected:
 	Mediator & mediator;
 };
 
-}
-
+} // namespace crepe

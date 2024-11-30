@@ -23,26 +23,25 @@ Sound::~Sound() { dbg_trace(); }
 // 		ctx.engine.setLooping(this->handle, this->looping);
 // 	}
 // }
-// 
+//
 // void Sound::pause(SoundContext & ctx) {
 // 	if (ctx.engine.getPause(this->handle)) return;
 // 	ctx.engine.setPause(this->handle, true);
 // }
-// 
+//
 // void Sound::rewind(SoundContext & ctx) {
 // 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 // 	ctx.engine.seek(this->handle, 0);
 // }
-// 
+//
 // void Sound::set_volume(SoundContext & ctx, float volume) {
 // 	this->volume = volume;
 // 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 // 	ctx.engine.setVolume(this->handle, this->volume);
 // }
-// 
+//
 // void Sound::set_looping(SoundContext & ctx, bool looping) {
 // 	this->looping = looping;
 // 	if (!ctx.engine.isValidVoiceHandle(this->handle)) return;
 // 	ctx.engine.setLooping(this->handle, this->looping);
 // }
-

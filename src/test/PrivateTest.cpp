@@ -27,9 +27,7 @@ unsigned PrivateTest::constructors;
 unsigned PrivateTest::destructors;
 
 TEST_F(PrivateTest, Empty) {
-	{
-		Private foo;
-	}
+	{ Private foo; }
 
 	EXPECT_EQ(PrivateTest::constructors, 0);
 	EXPECT_EQ(PrivateTest::destructors, 0);
@@ -155,4 +153,3 @@ TEST_F(PrivateTest, DoubleAssignment) {
 	EXPECT_EQ(PrivateTest::constructors, 2);
 	EXPECT_EQ(PrivateTest::destructors, 2);
 }
-

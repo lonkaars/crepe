@@ -18,17 +18,13 @@ void ResourceManager::clear() {
 	});
 }
 
-void ResourceManager::clear_all() {
-	this->resources.clear();
-}
+void ResourceManager::clear_all() { this->resources.clear(); }
 
 void ResourceManager::set_persistent(const Asset & asset, bool persistent) {
 	this->get_entry(asset).persistent = persistent;
 }
 
 ResourceManager::CacheEntry & ResourceManager::get_entry(const Asset & asset) {
-	if (!this->resources.contains(asset))
-		this->resources[asset] = {};
+	if (!this->resources.contains(asset)) this->resources[asset] = {};
 	return this->resources.at(asset);
 }
-

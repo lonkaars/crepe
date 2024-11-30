@@ -1,7 +1,7 @@
 #pragma once
 
-#include <typeindex>
 #include <functional>
+#include <typeindex>
 
 namespace crepe {
 
@@ -28,7 +28,6 @@ private:
 	void * instance = nullptr;
 };
 
-}
+} // namespace crepe
 
 #include "Private.hpp"
-

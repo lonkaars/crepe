@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 // stupid hack to allow access to private/protected members under test
 #define private public
@@ -75,4 +75,3 @@ TEST_F(ScriptTest, UpdateInactive) {
 		system.update();
 	}
 }
-

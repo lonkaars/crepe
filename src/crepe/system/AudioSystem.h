@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../facade/SoundContext.h"
-#include "../facade/Sound.h"
 #include "../api/AudioSource.h"
+#include "../facade/Sound.h"
+#include "../facade/SoundContext.h"
 
 #include "System.h"
 
@@ -37,9 +37,9 @@ private:
 
 protected:
 	virtual SoundContext & get_context();
+
 private:
 	Private context;
 };
 
 } // namespace crepe
-

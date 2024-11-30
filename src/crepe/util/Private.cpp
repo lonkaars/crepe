@@ -2,18 +2,14 @@
 
 using namespace crepe;
 
-bool Private::empty() const noexcept {
-	return this->instance == nullptr;
-}
+bool Private::empty() const noexcept { return this->instance == nullptr; }
 
 Private::~Private() {
 	if (this->instance == nullptr) return;
 	this->destructor(this->instance);
 }
 
-Private::Private(Private && other) {
-	*this = std::move(other);
-}
+Private::Private(Private && other) { *this = std::move(other); }
 
 Private & Private::operator=(Private && other) {
 	// TODO: ideally this function checks for self-assignment
@@ -22,13 +18,10 @@ Private & Private::operator=(Private && other) {
 	this->type = other.type;
 
 	other.instance = nullptr;
-	other.destructor = [](void*){};
+	other.destructor = [](void *) {};
 
 	return *this;
 }
 
-Private::Private(const Private & other) { }
-Private & Private::operator=(const Private & other) {
-	return *this;
-}
-
+Private::Private(const Private & other) {}
+Private & Private::operator=(const Private & other) { return *this; }

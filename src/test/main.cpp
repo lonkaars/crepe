@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <crepe/api/Config.h>
+#include <gtest/gtest.h>
 
 using namespace crepe;
 using namespace testing;
@@ -26,4 +26,3 @@ int main(int argc, char ** argv) {
 
 	return RUN_ALL_TESTS();
 }
-

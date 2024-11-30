@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "../util/OptionalRef.h"
 #include "../manager/Mediator.h"
+#include "../util/OptionalRef.h"
 
 namespace crepe {
 
@@ -37,6 +37,7 @@ public:
 
 	// TODO: Late references should ALWAYS be private! This is currently kept as-is so unit tests
 	// keep passing, but this reference should not be directly accessible by the user!!!
+
 protected:
 	/**
 	 * \name Late references

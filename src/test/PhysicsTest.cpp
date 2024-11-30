@@ -1,8 +1,8 @@
-#include <crepe/manager/ComponentManager.h>
 #include <crepe/api/Config.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Transform.h>
+#include <crepe/manager/ComponentManager.h>
 #include <crepe/system/PhysicsSystem.h>
 #include <gtest/gtest.h>
 
@@ -12,6 +12,7 @@ using namespace crepe;
 
 class PhysicsTest : public ::testing::Test {
 	Mediator m;
+
 public:
 	ComponentManager component_manager{m};
 	PhysicsSystem system{m};

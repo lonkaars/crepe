@@ -4,8 +4,8 @@
 #include "../types.h"
 #include "../util/Private.h"
 
-#include "GameObject.h"
 #include "Asset.h"
+#include "GameObject.h"
 
 namespace crepe {
 
@@ -20,6 +20,7 @@ protected:
 	AudioSource(game_object_id_t id, const Asset & source);
 	//! Only ComponentManager can create components
 	friend class ComponentManager;
+
 public:
 	// But std::unique_ptr needs to be able to destoy this component again
 	virtual ~AudioSource() = default;
@@ -62,4 +63,3 @@ private:
 };
 
 } // namespace crepe
-
