@@ -18,7 +18,6 @@ Animator::Animator(game_object_id_t id, Sprite & ss, int row, int col, int col_a
 	this->spritesheet.mask.w /= row;
 	this->spritesheet.mask.x = 0;
 	this->spritesheet.mask.y = col_animator * this->spritesheet.mask.h;
-	this->active = false;
 
 	// need to do this for to get the aspect ratio for a single clipping in the spritesheet
 	this->spritesheet.aspect_ratio

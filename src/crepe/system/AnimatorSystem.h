@@ -1,9 +1,7 @@
 #pragma once
 
 #include "System.h"
-
-//TODO:
-// control if flip works with animation system
+#include "api/LoopTimer.h"
 
 namespace crepe {
 
@@ -26,6 +24,9 @@ public:
 	 * looping).
 	 */
 	void update() override;
+
+private:
+	LoopTimer & timer = LoopTimer::get_instance();
 };
 
 } // namespace crepe
