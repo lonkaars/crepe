@@ -76,7 +76,7 @@ private:
 
 private:
 	SDLContext & context = SDLContext::get_instance();
-	
+
 	SDLContext::CameraValues cam_ctx;
 };
 

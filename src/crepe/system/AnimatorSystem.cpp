@@ -22,11 +22,11 @@ void AnimatorSystem::update() {
 		int cycle_end = (a.cycle_end == -1) ? a.row : cycle_end;
 		int total_frames = cycle_end - a.cycle_start;
 
-
 		int curr_frame = static_cast<int>(elapsed_time / frame_duration) % total_frames;
 
 		a.curr_row = a.cycle_start + curr_frame;
-		a.spritesheet.mask.x = std::clamp((a.curr_row * a.spritesheet.mask.w - a.offset_x), 0, a.spritesheet.mask.w);
+		a.spritesheet.mask.x = std::clamp((a.curr_row * a.spritesheet.mask.w - a.offset_x), 0,
+										  a.spritesheet.mask.w);
 		a.spritesheet.mask.y = (a.curr_col * a.spritesheet.mask.h);
 
 		if (!a.looping && curr_frame == total_frames) {

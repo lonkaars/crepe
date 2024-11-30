@@ -68,12 +68,21 @@ private:
 
 public:
 	void loop() { this->looping = true; }
-	void play() {this->active = true;}
-	void pause() {this->active = false;}
-	void stop() {this->active = false; this->curr_col = 0; this->curr_row = 0;}
-	void set_fps(int fps) {this->fps = fps;}
-	void set_cycle_range(int start, int end) {this->cycle_start = start, this->cycle_end = end;}
-	void set_anim(int col) {this->curr_row = 0; this->curr_col = col; }
+	void play() { this->active = true; }
+	void pause() { this->active = false; }
+	void stop() {
+		this->active = false;
+		this->curr_col = 0;
+		this->curr_row = 0;
+	}
+	void set_fps(int fps) { this->fps = fps; }
+	void set_cycle_range(int start, int end) {
+		this->cycle_start = start, this->cycle_end = end;
+	}
+	void set_anim(int col) {
+		this->curr_row = 0;
+		this->curr_col = col;
+	}
 
 private:
 	//! AnimatorSystem adjust the private member parameters of Animator;
