@@ -32,14 +32,12 @@ int main(int argc, char * argv[]) {
 
 	auto img = Texture("asset/texture/test_ap43.png");
 
-	/*
 	Sprite & test_sprite = game_object.add_component<Sprite>(
-		img, color, Sprite::FlipSettings{true, true}, 1, 1, 500);
+		img, color, Sprite::FlipSettings{true, true}, 1, 1, 3000);
 
 	//game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
 	game_object.add_component<Animator>(test_sprite, 1, 1, 0).active = true;
 
-	*/
 	/*
 	auto & test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
@@ -62,8 +60,9 @@ int main(int argc, char * argv[]) {
 	});
 	*/
 
-	auto & cam = game_object.add_component<Camera>(Color::WHITE, ivec2{1600, 900},
-												   vec2{800,800}, 1.0f);
+	auto & cam = game_object.add_component<Camera>(Color::WHITE, ivec2{1280, 720},
+												   vec2{8000,6000}, 1.0f);
+	cam.offset.x = 4000;
 
 	/*
 	game_object
