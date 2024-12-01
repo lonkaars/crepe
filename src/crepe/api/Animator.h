@@ -40,10 +40,6 @@ public:
 	Animator(uint32_t id, Sprite & spritesheet, int row, int col, int col_animate);
 
 	~Animator(); // dbg_trace
-	Animator(const Animator &) = delete;
-	Animator(Animator &&) = delete;
-	Animator & operator=(const Animator &) = delete;
-	Animator & operator=(Animator &&) = delete;
 
 private:
 	//! A reference to the Sprite sheet containing the animation frames.
@@ -60,8 +56,6 @@ private:
 
 	//! The current row being animated.
 	int curr_row = 0;
-
-	Rect animator_rect;
 
 	//TODO: Is this necessary?
 	//int fps;

@@ -15,10 +15,10 @@ void AnimatorSystem::update() {
 
 	uint64_t tick = SDLContext::get_instance().get_ticks();
 	for (Animator & a : animations) {
-		if (a.active) {
-			a.curr_row = (tick / 100) % a.row;
-			a.animator_rect.x = (a.curr_row * a.animator_rect.w) + a.curr_col;
-			a.spritesheet.sprite_rect = a.animator_rect;
-		}
+		if (!a.active) continue;
+		// (10 frames per second)
+		a.curr_row = (tick / 100) % a.row;
+		a.spritesheet.mask.x = (a.curr_row * a.spritesheet.mask.w) + a.curr_col;
+		a.spritesheet.mask = a.spritesheet.mask;
 	}
 }
