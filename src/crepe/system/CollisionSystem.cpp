@@ -104,7 +104,7 @@ std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(Co
 			const BoxCollider & collider2 = std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
 			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
 			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
-			move_back = box_box_move_back(collider1,collider2,collider_pos1,collider_pos2);
+			move_back = box_box_resolution(collider1,collider2,collider_pos1,collider_pos2);
 		}
 		case CollisionInternalType::BOX_CIRCLE: {
 		
@@ -133,7 +133,7 @@ std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(Co
 	return {move_back,move_back_direction};
 }
 
-vec2 CollisionSystem::box_box_move_back(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 final_position1,vec2 final_position2)
+vec2 CollisionSystem::box_box_resolution(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 final_position1,vec2 final_position2)
 {
 	vec2 resolution; // Default resolution vector
 	vec2 delta = final_position2 - final_position1;
