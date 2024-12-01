@@ -217,26 +217,6 @@ std::vector<std::pair<CollisionSystem::CollisionInternal,CollisionSystem::Collis
 	// Quadtree code
 	// Quadtree is placed over the input vector
 
-	// Function to retrieve active transform and rigidbody components for a given game_object_id
-	auto get_active_transform_and_rigidbody = [&](game_object_id_t game_object_id) 
-	-> std::optional<std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>>> {
-		RefVector<Transform> transforms = this->component_manager.get_components_by_id<Transform>(game_object_id);
-		if (transforms.empty()) return std::nullopt;
-
-		RefVector<Rigidbody> rigidbodies = this->component_manager.get_components_by_id<Rigidbody>(game_object_id);
-		if (rigidbodies.empty()) return std::nullopt;
-
-		Transform& transform = transforms.front().get();
-		if (!transform.active) return std::nullopt;
-
-		Rigidbody& rigidbody = rigidbodies.front().get();
-		if (!rigidbody.active) return std::nullopt;
-
-		// Return the active components
-		return std::make_pair(std::ref(transform), std::ref(rigidbody));
-    };
-	
-
 	std::vector<std::pair<CollisionInternal,CollisionInternal>> collisions_ret;
 	for (size_t i = 0; i < colliders.size(); ++i) {
     std::visit([&](auto& inner_collider_ref) {
@@ -261,6 +241,24 @@ std::vector<std::pair<CollisionSystem::CollisionInternal,CollisionSystem::Collis
 	}
 	
 	return collisions_ret;
+}
+
+std::optional<std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>>>
+CollisionSystem::get_active_transform_and_rigidbody(game_object_id_t game_object_id) {
+    RefVector<Transform> transforms = this->component_manager.get_components_by_id<Transform>(game_object_id);
+    if (transforms.empty()) return std::nullopt;
+
+    RefVector<Rigidbody> rigidbodies = this->component_manager.get_components_by_id<Rigidbody>(game_object_id);
+    if (rigidbodies.empty()) return std::nullopt;
+
+    Transform& transform = transforms.front().get();
+    if (!transform.active) return std::nullopt;
+
+    Rigidbody& rigidbody = rigidbodies.front().get();
+    if (!rigidbody.active) return std::nullopt;
+
+    // Return the active components
+    return std::make_pair(std::ref(transform), std::ref(rigidbody));
 }
 
 CollisionSystem::CollisionInternalType CollisionSystem::check_collider_type(const collider_variant& collider1,const collider_variant& collider2){

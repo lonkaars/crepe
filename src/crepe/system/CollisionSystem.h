@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <variant>
+#include <optional>
 
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
@@ -11,6 +12,7 @@
 
 #include "Collider.h"
 #include "System.h"
+
 
 namespace crepe {
 
@@ -184,6 +186,23 @@ private:
 		*/
 	bool check_collision(const collider_variant& collider1,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components1,const collider_variant& collider2,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components2,CollisionSystem::CollisionInternalType type);
 	
+	/**
+		* \brief Retrieves the active Transform and Rigidbody components for a given game object.
+		* 
+		* This function looks up the Transform and Rigidbody components associated with the specified 
+		* game object ID. It checks if both components are present and active. If both are found 
+		* to be active, they are returned wrapped in reference wrappers; otherwise, an empty 
+		* optional is returned.
+		*
+		* \param game_object_id The ID of the game object for which to retrieve the components.
+		* 
+		* \return A std::optional containing a pair of reference wrappers to the active Transform 
+		*         and Rigidbody components, or std::nullopt if either component is not found 
+		*         or not active.
+		*/
+	std::optional<std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>>> get_active_transform_and_rigidbody(game_object_id_t game_object_id);
+
+
 	/**
 		* \brief Detects collisions between two BoxColliders.
 		* 
