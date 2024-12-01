@@ -16,7 +16,7 @@ typedef size_t subscription_t;
 /**
  * \brief Event channel
  *
- * Events can be sent to a specific channel, which prevents listeners on other channels from
+ * Events derived from \c Event can be sent to a specific channel, which prevents listeners on other channels from
  * being called. The default channel is EventManager::CHANNEL_ALL, which calls all listeners.
  */
 typedef size_t event_channel_t;

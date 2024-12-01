@@ -1,0 +1,130 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_events Events
+\ingroup feature
+\brief events
+
+# EventManager
+The `EventManager` is a centralized system for managing event subscriptions and triggering. It facilitates
+decoupled communication between different parts of your application by allowing subscribers to register callbacks
+for specific event types and receive notifications when those events occur.
+## Key Features
+- **Event Subscriptions**: Subscribe to specific events using a unique subscription ID.
+- **Event Channels**: Use channels to scope events, reducing unnecessary callback invocations.
+- **Event Dispatching**: Trigger events immediately or queue them for deferred processing.
+- **Custom Event creation**: Ability to create custom events for easy interaction between scripts
+
+\see EventManager
+\see Events
+
+## Event Types
+The `EventManager` works with a variety of event types derived from the `Event` base class. These include:
+- `KeyPressEvent`: Triggered when a key is pressed.
+- `KeyReleaseEvent`: Triggered when a key is released.
+- `MousePressEvent`: Triggered when a mouse button is pressed.
+- `MouseReleaseEvent`: Triggered when a mouse button is released.
+- `MouseClickEvent`: Triggered when a mouse button is clicked.
+- `MouseMoveEvent`: Triggered when the mouse is moved.
+- `CollisionEvent`: Triggered during object collisions.
+- `TextSubmitEvent`: Triggered when text is submitted.
+- `ShutDownEvent`: Triggered when the application is shutting down.
+
+For detailed documentation on each event type, see the @ref EventTypesFeature "Event Types Feature Page".
+## Usage
+
+### Subscribing to Events
+Use the `subscribe` method to register a callback for a specific event type. The callback will be invoked when
+the event is triggered.
+
+```cpp
+// Example: Subscribing to a KeyPressEvent
+EventManager::get_instance().subscribe<KeyPressEvent>(
+	[](const KeyPressEvent &event) {
+		std::cout << "Key pressed: " << event.key << std::endl;
+	}
+);
+```
+
+### Triggering Events
+You can trigger events synchronously using the `trigger_event` method:
+
+```cpp
+// Example: Triggering a KeyPressEvent
+KeyPressEvent event;
+event.key = Keycode::SPACE;
+EventManager::get_instance().trigger_event(event);
+```
+
+### Queueing and Dispatching Events
+Queue events using the `queue_event` method these events are called during the dispatch_events() in the \c LoopManager
+
+```cpp
+// Queueing a MouseMoveEvent
+MouseMoveEvent event;
+event.mouse_x = 100;
+event.mouse_y = 200;
+EventManager::get_instance().queue_event(event);
+```
+
+### Event Channels
+Events can be scoped using channels to ensure that only listeners subscribed to the same channel are notified:
+
+```cpp
+event_channel_t MY_CHANNEL = 42;
+EventManager::get_instance().subscribe<MouseClickEvent>(
+	[](const MouseClickEvent &event) { std::cout << "Mouse clicked!" << std::endl; },
+	MY_CHANNEL
+);
+EventManager::get_instance().trigger_event<MouseClickEvent>({}, MY_CHANNEL);
+```
+
+\par Custom event example
+
+The EventManager allows developers to define their own event types by inheriting from the base `Event` class.
+Custom events enable flexibility and scalability, making it possible to address application-specific requirements.
+ 
+### How to Create a Custom Event
+1. Inherit from the `Event` Base Class:  
+	Create a new class that derives from the `Event` class. Add any fields or methods required for the custom event.
+
+2. Add Event-Specific Fields:  
+	Define properties to represent data specific to the event, such as IDs, coordinates, or any context data.
+
+3. Integrate with the EventManager:  
+	Use the EventManager to subscribe, trigger, or queue your custom events just like the built-in events.
+ 
+### Example
+ 
+```cpp
+#include "Event.h"
+#include "EventManager.h"
+#include <iostream>
+
+// Define a custom event
+class PlayerScoredEvent : public Event {
+public:
+	int playerId; ///< The ID of the player who scored.
+	int score;    ///< The points scored.
+};
+
+int main() {
+	// Subscribe to the custom event
+	auto& manager = EventManager::get_instance();
+	manager.subscribe<PlayerScoredEvent>([](const PlayerScoredEvent& e) {
+		std::cout << "Player " << e.playerId << " scored " << e.score << " points!\n";
+	});
+
+	// Trigger the custom event
+	manager.trigger_event(PlayerScoredEvent{
+		.playerId = 1,
+		.score = 10,
+	});
+	return 0;
+}
+```
+ 
+
+*/
+}

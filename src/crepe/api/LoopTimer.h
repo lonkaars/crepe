@@ -3,6 +3,16 @@
 #include <chrono>
 
 namespace crepe {
+/**
+ * \class LoopTimer
+ * \brief Manages game loop timing.
+ *
+ * Provides delta time calculations, enforces frame rate limits, and supports
+ * fixed update intervals for consistent physics and game logic. Uses the 
+ * singleton pattern to ensure a single timing source throughout the game.
+ *
+ * \note Integrated with \c LoopManager for synchronizing game updates.
+ */
 
 class LoopTimer {
 public:
