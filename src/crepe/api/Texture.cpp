@@ -1,5 +1,3 @@
-#include <SDL2/SDL_render.h>
-
 #include "../facade/SDLContext.h"
 #include "../util/Log.h"
 
@@ -9,14 +7,9 @@
 using namespace crepe;
 using namespace std;
 
-Texture::Texture(unique_ptr<Asset> res) {
+Texture::Texture(const Asset & src) {
 	dbg_trace();
-	this->load(std::move(res));
-}
-
-Texture::Texture(const char * src) {
-	dbg_trace();
-	this->load(make_unique<Asset>(src));
+	this->load(src);
 }
 
 Texture::~Texture() {
@@ -24,9 +17,18 @@ Texture::~Texture() {
 	this->texture.reset();
 }
 
-void Texture::load(unique_ptr<Asset> res) {
+Texture::Texture(Texture && other) noexcept : texture(std::move(other.texture)) {}
+
+Texture & Texture::operator=(Texture && other) noexcept {
+	if (this != &other) {
+		texture = std::move(other.texture);
+	}
+	return *this;
+}
+
+void Texture::load(const Asset & res) {
 	SDLContext & ctx = SDLContext::get_instance();
-	this->texture = std::move(ctx.texture_from_path(res->get_path()));
+	this->texture = ctx.texture_from_path(res.get_path());
 }
 
 int Texture::get_width() const {

@@ -63,7 +63,7 @@ void LoopManager::loop() {
 void LoopManager::setup() {
 	this->game_running = true;
 	LoopTimer::get_instance().start();
-	LoopTimer::get_instance().set_fps(60);
+	LoopTimer::get_instance().set_fps(200);
 	this->scene_manager.load_next_scene();
 }
 

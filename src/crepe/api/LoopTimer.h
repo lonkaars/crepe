@@ -130,9 +130,9 @@ private:
 	//! Delta time for the current frame in seconds
 	std::chrono::duration<double> delta_time{0.0};
 	//! Target time per frame in seconds
-	std::chrono::duration<double> frame_target_time = std::chrono::seconds(1) / fps;
+	std::chrono::duration<double> frame_target_time = std::chrono::duration<double>(1.0) / fps;
 	//! Fixed delta time for fixed updates in seconds
-	std::chrono::duration<double> fixed_delta_time = std::chrono::seconds(1) / 50;
+	std::chrono::duration<double> fixed_delta_time = std::chrono::duration<double>(1.0) / 50.0;
 	//! Total elapsed game time in seconds
 	std::chrono::duration<double> elapsed_time{0.0};
 	//! Total elapsed time for fixed updates in seconds
