@@ -114,11 +114,11 @@ TEST_F(CollisionTest, collision_example) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
 	};
 	EXPECT_FALSE(collision_happend);
 	collision_sys.update();
@@ -129,17 +129,17 @@ TEST_F(CollisionTest, collision_box_box_dynamic_both_no_velocity) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.move_back_value.x, 10);
-		EXPECT_EQ(ev.info.move_back_value.y, 10);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::BOTH);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.resolution.x, 10);
+		EXPECT_EQ(ev.info.resolution.y, 10);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 2);
-		EXPECT_EQ(ev.info.move_back_value.x, 10);
-		EXPECT_EQ(ev.info.move_back_value.y, 10);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::BOTH);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.resolution.x, 10);
+		EXPECT_EQ(ev.info.resolution.y, 10);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
 	};
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
@@ -152,17 +152,17 @@ TEST_F(CollisionTest, collision_box_box_dynamic_x_direction_no_velocity) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.move_back_value.x, -5);
-		EXPECT_EQ(ev.info.move_back_value.y, 0);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.resolution.x, -5);
+		EXPECT_EQ(ev.info.resolution.y, 0);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 2);
-		EXPECT_EQ(ev.info.move_back_value.x, 5);
-		EXPECT_EQ(ev.info.move_back_value.y, 0);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.resolution.x, 5);
+		EXPECT_EQ(ev.info.resolution.y, 0);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
@@ -175,17 +175,17 @@ TEST_F(CollisionTest, collision_box_box_dynamic_y_direction_no_velocity) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.move_back_value.x, 0);
-		EXPECT_EQ(ev.info.move_back_value.y, -5);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.resolution.x, 0);
+		EXPECT_EQ(ev.info.resolution.y, -5);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 2);
-		EXPECT_EQ(ev.info.move_back_value.x, 0);
-		EXPECT_EQ(ev.info.move_back_value.y, 5);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.resolution.x, 0);
+		EXPECT_EQ(ev.info.resolution.y, 5);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
 	};
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
@@ -198,17 +198,17 @@ TEST_F(CollisionTest, collision_box_box_dynamic_both) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.move_back_value.x, 10);
-		EXPECT_EQ(ev.info.move_back_value.y, 10);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::BOTH);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.resolution.x, 10);
+		EXPECT_EQ(ev.info.resolution.y, 10);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 2);
-		EXPECT_EQ(ev.info.move_back_value.x, 10);
-		EXPECT_EQ(ev.info.move_back_value.y, 10);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::BOTH);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.resolution.x, 10);
+		EXPECT_EQ(ev.info.resolution.y, 10);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
 	};
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
@@ -225,17 +225,17 @@ TEST_F(CollisionTest, collision_box_box_dynamic_x_direction) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.move_back_value.x, -5);
-		EXPECT_EQ(ev.info.move_back_value.y, -5);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.resolution.x, -5);
+		EXPECT_EQ(ev.info.resolution.y, -5);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 2);
-		EXPECT_EQ(ev.info.move_back_value.x, 5);
-		EXPECT_EQ(ev.info.move_back_value.y, 5);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.resolution.x, 5);
+		EXPECT_EQ(ev.info.resolution.y, 5);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
@@ -252,17 +252,17 @@ TEST_F(CollisionTest, collision_box_box_dynamic_y_direction) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.move_back_value.x, -5);
-		EXPECT_EQ(ev.info.move_back_value.y, -5);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.resolution.x, -5);
+		EXPECT_EQ(ev.info.resolution.y, -5);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 2);
-		EXPECT_EQ(ev.info.move_back_value.x, 5);
-		EXPECT_EQ(ev.info.move_back_value.y, 5);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.resolution.x, 5);
+		EXPECT_EQ(ev.info.resolution.y, 5);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
 	};
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
@@ -280,10 +280,10 @@ TEST_F(CollisionTest, collision_box_box_static_both) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.move_back_value.x, 10);
-		EXPECT_EQ(ev.info.move_back_value.y, 10);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::BOTH);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.resolution.x, 10);
+		EXPECT_EQ(ev.info.resolution.y, 10);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		// is static should not be called
@@ -302,10 +302,10 @@ TEST_F(CollisionTest, collision_box_box_static_x_direction) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.move_back_value.x, -5);
-		EXPECT_EQ(ev.info.move_back_value.y, -5);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.resolution.x, -5);
+		EXPECT_EQ(ev.info.resolution.y, -5);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		// is static should not be called
@@ -326,10 +326,10 @@ TEST_F(CollisionTest, collision_box_box_static_y_direction) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first.collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.move_back_value.x, -5);
-		EXPECT_EQ(ev.info.move_back_value.y, -5);
-		EXPECT_EQ(ev.info.move_back_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.resolution.x, -5);
+		EXPECT_EQ(ev.info.resolution.y, -5);
+		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		// is static should not be called
