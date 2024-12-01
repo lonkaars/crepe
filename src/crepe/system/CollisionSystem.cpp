@@ -148,8 +148,8 @@ vec2 CollisionSystem::box_box_resolution(const BoxCollider& box_collider1,const 
 	float overlap_x = (half_width1 + half_width2) - std::abs(delta.x);
 	float overlap_y = (half_height1 + half_height2) - std::abs(delta.y);
 
-	// Check if there is a collision
-	if (overlap_x > 0 && overlap_y > 0) {//should always be true check if this can be removed
+	// Check if there is a collision should always be true
+	if (overlap_x > 0 && overlap_y > 0) {
 		// Determine the direction of resolution
 		if (overlap_x < overlap_y) {
 			// Resolve along the X-axis (smallest overlap)
