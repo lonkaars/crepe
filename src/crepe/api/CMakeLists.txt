@@ -25,6 +25,7 @@ target_sources(crepe PUBLIC
 	Script.cpp
 	Button.cpp
 	UiObject.cpp
+	Font.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -62,4 +63,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Asset.h
 	Button.h
 	UiObject.h
+	Font.h
+	Text.h
 )
