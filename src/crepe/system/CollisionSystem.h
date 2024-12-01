@@ -177,14 +177,12 @@ private:
 		* 
 		* Calls the appropriate collision detection function based on the collider types.
 		* 
-		* \param collider1 The first collider.
-		* \param components1 Transform and Rigidbody of the first object.
-		* \param collider2 The second collider.
-		* \param components2 Transform and Rigidbody of the second object.
+		* \param first_info Collision data for the first collider.
+		* \param second_info Collision data for the second collider.
 		* \param type The type of collider pair.
 		* \return True if a collision is detected, otherwise false.
 		*/
-	bool check_collision(const collider_variant& collider1,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components1,const collider_variant& collider2,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components2,CollisionSystem::CollisionInternalType type);
+	bool check_collision(const CollisionInternal& first_info,const CollisionInternal& second_info, CollisionInternalType type);
 	
 	/**
 		* \brief Retrieves the active Transform and Rigidbody components for a given game object.

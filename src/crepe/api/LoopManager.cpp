@@ -47,11 +47,11 @@ void LoopManager::loop() {
 	while (game_running) {
 		timer.update();
 
-		//while (timer.get_lag() >= timer.get_fixed_delta_time()) {
+		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
 			this->process_input();
 			this->fixed_update();
 			timer.advance_fixed_update();
-		//}
+		}
 
 		this->update();
 		this->render();
