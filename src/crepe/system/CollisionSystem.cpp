@@ -230,7 +230,17 @@ std::vector<std::pair<CollisionSystem::CollisionInternal,CollisionSystem::Collis
 					auto outer_components = get_active_transform_and_rigidbody(outer_collider_ref.get().game_object_id);
 					if (!outer_components) return;
 					CollisionInternalType type = check_collider_type(colliders[i],colliders[j]);
-					if(!check_collision(colliders[i],*inner_components,colliders[j],*outer_components,type)) return;
+					if(!check_collision({
+															.collider = colliders[i],
+															.transform = inner_components->first,
+															.rigidbody = inner_components->second,
+															},
+															{
+															.collider = colliders[j],
+															.transform = outer_components->first,
+															.rigidbody = outer_components->second,
+															},
+															type)) return;
 					collisions_ret.emplace_back(
                         CollisionInternal{colliders[i], inner_components->first.get(), inner_components->second.get()},
                         CollisionInternal{colliders[j], outer_components->first.get(), outer_components->second.get()}
@@ -282,27 +292,27 @@ CollisionSystem::CollisionInternalType CollisionSystem::check_collider_type(cons
 	}
 }
 
-bool CollisionSystem::check_collision(const collider_variant& collider1,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components1,const collider_variant& collider2,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components2, CollisionInternalType type){
+bool CollisionSystem::check_collision(const CollisionInternal& first_info,const CollisionInternal& second_info, CollisionInternalType type){
 	switch (type) {
 		case CollisionInternalType::BOX_BOX:	{
-			const BoxCollider & box_collider1 = std::get<std::reference_wrapper<BoxCollider>>(collider1);
-			const BoxCollider & box_collider2 = std::get<std::reference_wrapper<BoxCollider>>(collider2);
-			return check_box_box_collision(box_collider1,box_collider2,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());
+			const BoxCollider & box_collider1 = std::get<std::reference_wrapper<BoxCollider>>(first_info.collider);
+			const BoxCollider & box_collider2 = std::get<std::reference_wrapper<BoxCollider>>(second_info.collider);
+			return check_box_box_collision(box_collider1,box_collider2,first_info.transform,second_info.transform,second_info.rigidbody,second_info.rigidbody);
 		}
 		case CollisionInternalType::BOX_CIRCLE: {
-			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(collider1);
-			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(collider2);
-			return check_box_circle_collision(box_collider,circle_collider,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());
+			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(first_info.collider);
+			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(second_info.collider);
+			return check_box_circle_collision(box_collider,circle_collider,first_info.transform,second_info.transform,second_info.rigidbody,second_info.rigidbody);
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE:	{
-			const CircleCollider & circle_collider1 = std::get<std::reference_wrapper<CircleCollider>>(collider1);
-			const CircleCollider & circle_collider2 = std::get<std::reference_wrapper<CircleCollider>>(collider2);
-			return check_circle_circle_collision(circle_collider1,circle_collider2,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());
+			const CircleCollider & circle_collider1 = std::get<std::reference_wrapper<CircleCollider>>(first_info.collider);
+			const CircleCollider & circle_collider2 = std::get<std::reference_wrapper<CircleCollider>>(second_info.collider);
+			return check_circle_circle_collision(circle_collider1,circle_collider2,first_info.transform,second_info.transform,second_info.rigidbody,second_info.rigidbody);
 		}
 		case CollisionInternalType::CIRCLE_BOX:	{
-			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(collider1);
-			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(collider2);
-			return check_box_circle_collision(box_collider,circle_collider,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());
+			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(first_info.collider);
+			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(second_info.collider);
+			return check_box_circle_collision(box_collider,circle_collider,first_info.transform,second_info.transform,second_info.rigidbody,second_info.rigidbody);
 		}
 	}
 	return false;
