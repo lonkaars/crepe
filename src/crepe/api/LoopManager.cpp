@@ -7,7 +7,7 @@
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
 #include "..//system/PhysicsSystem.h"
-#include "..//system/CollisionSystem.h"
+#include "../system/CollisionSystem.h"
 
 #include "LoopManager.h"
 #include "LoopTimer.h"
