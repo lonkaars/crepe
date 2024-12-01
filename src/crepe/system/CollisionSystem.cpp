@@ -28,19 +28,19 @@ void CollisionSystem::update() {
 	std::vector<std::reference_wrapper<BoxCollider>> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
 	std::vector<std::reference_wrapper<CircleCollider>> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
 
-	std::vector<collider_stor> all_colliders;
+	std::vector<collider_variant> all_colliders;
 	// Add BoxCollider references
 	for (auto& box : boxcolliders) {
-			all_colliders.push_back(collider_stor{box});
+			all_colliders.push_back(collider_variant{box});
 	}
 
 	// Add CircleCollider references
 	for (auto& circle : circlecolliders) {
-			all_colliders.push_back(collider_stor{circle});
+			all_colliders.push_back(collider_variant{circle});
 	}
 	
 	// Check between all colliders if there is a collision
-	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> collided = check_collisions(all_colliders);
+	std::vector<std::pair<CollisionInternal,CollisionInternal>> collided = check_collisions(all_colliders);
 
 	// For both objects call the collision handler 
 	for (auto& collision_pair : collided) {
@@ -49,30 +49,30 @@ void CollisionSystem::update() {
 	}
 }
 
-void CollisionSystem::collision_handler_request(CollidedInfoStor& data1,CollidedInfoStor& data2){
+void CollisionSystem::collision_handler_request(CollisionInternal& data1,CollisionInternal& data2){
 
-	ColliderStorType type = check_collider_type(data1.collider,data2.collider);
-	std::pair<vec2,CollisionSystem::Direction> move_back_data = collision_handler(data1,data2,type);
+	CollisionInternalType type = check_collider_type(data1.collider,data2.collider);
+	std::pair<vec2,CollisionSystem::Direction> resolution_data = collision_handler(data1,data2,type);
 
 	OptionalRef<Collider> collider1;
 	OptionalRef<Collider> collider2;
 	switch (type) {
-		case ColliderStorType::BOX_BOX:{
+		case CollisionInternalType::BOX_BOX:{
 			collider1 = std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			collider2 = std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
 			break;
 		}
-		case ColliderStorType::BOX_CIRCLE:{
+		case CollisionInternalType::BOX_CIRCLE:{
 			collider1 = std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			collider2 = std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
 			break;
 		}
-		case ColliderStorType::CIRCLE_BOX:{
+		case CollisionInternalType::CIRCLE_BOX:{
 			collider1 = std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
 			collider2 = std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
 			break;
 		}
-		case ColliderStorType::CIRCLE_CIRCLE:{
+		case CollisionInternalType::CIRCLE_CIRCLE:{
 			collider1 = std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
 			collider2 = std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
 			break;
@@ -81,10 +81,14 @@ void CollisionSystem::collision_handler_request(CollidedInfoStor& data1,Collided
 	
 	// collision info
 	crepe::CollisionSystem::CollisionInfo collision_info{
-            .first={ collider1, data1.transform, data1.rigidbody },
-            .second={ collider2, data2.transform, data2.rigidbody },
-						.move_back_value = move_back_data.first,
-						.move_back_direction = move_back_data.second,
+						.first_collider = collider1,
+						.first_transform = data1.transform,
+						.first_rigidbody = data1.rigidbody,
+						.second_collider = collider2,
+						.second_transform = data2.transform,
+						.second_rigidbody = data2.rigidbody,
+						.resolution = resolution_data.first,
+						.resolution_direction = resolution_data.second,
         };
 
 	// Determine if static needs to be called
@@ -92,23 +96,23 @@ void CollisionSystem::collision_handler_request(CollidedInfoStor& data1,Collided
 }
 
 
-std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(CollidedInfoStor& data1,CollidedInfoStor& data2,ColliderStorType type) {
+std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(CollisionInternal& data1,CollisionInternal& data2,CollisionInternalType type) {
 	vec2 move_back;
 	switch (type) {
-		case ColliderStorType::BOX_BOX:	{
+		case CollisionInternalType::BOX_BOX:	{
 			const BoxCollider & collider1 = std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			const BoxCollider & collider2 = std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
 			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
 			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
 			move_back = box_box_move_back(collider1,collider2,collider_pos1,collider_pos2);
 		}
-		case ColliderStorType::BOX_CIRCLE: {
+		case CollisionInternalType::BOX_CIRCLE: {
 		
 		}
-		case ColliderStorType::CIRCLE_CIRCLE:	{
+		case CollisionInternalType::CIRCLE_CIRCLE:	{
 		
 		}
-		case ColliderStorType::CIRCLE_BOX:	{
+		case CollisionInternalType::CIRCLE_BOX:	{
 		
 		}
 	}
@@ -165,43 +169,43 @@ vec2 CollisionSystem::box_box_move_back(const BoxCollider& box_collider1,const B
 
 void CollisionSystem::determine_collision_handler(CollisionInfo& info){
 	// Check rigidbody type for static
-	if(info.first.rigidbody.data.body_type != Rigidbody::BodyType::STATIC)
+	if(info.first_rigidbody.data.body_type != Rigidbody::BodyType::STATIC)
 	{
 		// If second body is static perform the static collision handler in this system
-		if(info.second.rigidbody.data.body_type == Rigidbody::BodyType::STATIC){
+		if(info.second_rigidbody.data.body_type == Rigidbody::BodyType::STATIC){
 			static_collision_handler(info);
 		}; 
 		// Call collision event for user
 		CollisionEvent data(info);
-		EventManager::get_instance().trigger_event<CollisionEvent>(data, info.first.collider.game_object_id);
+		EventManager::get_instance().trigger_event<CollisionEvent>(data, info.first_collider.game_object_id);
 	}		
 }
 
 void CollisionSystem::static_collision_handler(CollisionInfo& info){
 	// Move object back using calculate move back value 
-	info.first.transform.position += info.move_back_value;
+	info.first_transform.position += info.resolution;
 
 	// If bounce is enabled mirror velocity
-	if(info.first.rigidbody.data.bounce) {
-		if(info.move_back_direction == Direction::BOTH)
+	if(info.first_rigidbody.data.bounce) {
+		if(info.resolution_direction == Direction::BOTH)
 		{
-			info.first.rigidbody.data.linear_velocity.y = -info.first.rigidbody.data.linear_velocity.y * info.first.rigidbody.data.elastisity;
-			info.first.rigidbody.data.linear_velocity.x = -info.first.rigidbody.data.linear_velocity.x * info.first.rigidbody.data.elastisity;
+			info.first_rigidbody.data.linear_velocity.y = -info.first_rigidbody.data.linear_velocity.y * info.first_rigidbody.data.elastisity;
+			info.first_rigidbody.data.linear_velocity.x = -info.first_rigidbody.data.linear_velocity.x * info.first_rigidbody.data.elastisity;
 		}
-		else if(info.move_back_direction == Direction::Y_DIRECTION) {
-			info.first.rigidbody.data.linear_velocity.y = -info.first.rigidbody.data.linear_velocity.y * info.first.rigidbody.data.elastisity;
+		else if(info.resolution_direction == Direction::Y_DIRECTION) {
+			info.first_rigidbody.data.linear_velocity.y = -info.first_rigidbody.data.linear_velocity.y * info.first_rigidbody.data.elastisity;
 		}
-		else if(info.move_back_direction == Direction::X_DIRECTION){
-			info.first.rigidbody.data.linear_velocity.x = -info.first.rigidbody.data.linear_velocity.x * info.first.rigidbody.data.elastisity;
+		else if(info.resolution_direction == Direction::X_DIRECTION){
+			info.first_rigidbody.data.linear_velocity.x = -info.first_rigidbody.data.linear_velocity.x * info.first_rigidbody.data.elastisity;
 		}
 	}
 	// Stop movement if bounce is disabled
 	else {
-		info.first.rigidbody.data.linear_velocity = {0,0};
+		info.first_rigidbody.data.linear_velocity = {0,0};
 	}
 }
 
-std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::CollidedInfoStor>> CollisionSystem::check_collisions(std::vector<collider_stor> & colliders) {
+std::vector<std::pair<CollisionSystem::CollisionInternal,CollisionSystem::CollisionInternal>> CollisionSystem::check_collisions(std::vector<collider_variant> & colliders) {
 	
 	
 	// TODO:
@@ -233,7 +237,7 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
     };
 	
 
-	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> collisions_ret;
+	std::vector<std::pair<CollisionInternal,CollisionInternal>> collisions_ret;
 	for (size_t i = 0; i < colliders.size(); ++i) {
     std::visit([&](auto& inner_collider_ref) {
 			if (!inner_collider_ref.get().active) return;
@@ -245,11 +249,11 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 					if (inner_collider_ref.get().game_object_id == outer_collider_ref.get().game_object_id) return;
 					auto outer_components = get_active_transform_and_rigidbody(outer_collider_ref.get().game_object_id);
 					if (!outer_components) return;
-					ColliderStorType type = check_collider_type(colliders[i],colliders[j]);
+					CollisionInternalType type = check_collider_type(colliders[i],colliders[j]);
 					if(!check_collision(colliders[i],*inner_components,colliders[j],*outer_components,type)) return;
 					collisions_ret.emplace_back(
-                        CollidedInfoStor{colliders[i], inner_components->first.get(), inner_components->second.get()},
-                        CollidedInfoStor{colliders[j], outer_components->first.get(), outer_components->second.get()}
+                        CollisionInternal{colliders[i], inner_components->first.get(), inner_components->second.get()},
+                        CollisionInternal{colliders[j], outer_components->first.get(), outer_components->second.get()}
                     );
 				}, colliders[j]);
 			}
@@ -259,45 +263,45 @@ std::vector<std::pair<CollisionSystem::CollidedInfoStor,CollisionSystem::Collide
 	return collisions_ret;
 }
 
-CollisionSystem::ColliderStorType CollisionSystem::check_collider_type(const collider_stor& collider1,const collider_stor& collider2){
+CollisionSystem::CollisionInternalType CollisionSystem::check_collider_type(const collider_variant& collider1,const collider_variant& collider2){
 	if(std::holds_alternative<std::reference_wrapper<CircleCollider>>(collider1)){
 		if(std::holds_alternative<std::reference_wrapper<CircleCollider>>(collider2))
 		{
-			return ColliderStorType::CIRCLE_CIRCLE;
+			return CollisionInternalType::CIRCLE_CIRCLE;
 		}
 		else {
-			return ColliderStorType::CIRCLE_BOX;
+			return CollisionInternalType::CIRCLE_BOX;
 		}
 	}
 	else {
 		if(std::holds_alternative<std::reference_wrapper<CircleCollider>>(collider2))
 		{
-			return ColliderStorType::BOX_CIRCLE;
+			return CollisionInternalType::BOX_CIRCLE;
 		}
 		else {
-			return ColliderStorType::BOX_BOX;
+			return CollisionInternalType::BOX_BOX;
 		}
 	}
 }
 
-bool CollisionSystem::check_collision(const collider_stor& collider1,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components1,const collider_stor& collider2,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components2, ColliderStorType type){
+bool CollisionSystem::check_collision(const collider_variant& collider1,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components1,const collider_variant& collider2,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components2, CollisionInternalType type){
 	switch (type) {
-		case ColliderStorType::BOX_BOX:	{
+		case CollisionInternalType::BOX_BOX:	{
 			const BoxCollider & box_collider1 = std::get<std::reference_wrapper<BoxCollider>>(collider1);
 			const BoxCollider & box_collider2 = std::get<std::reference_wrapper<BoxCollider>>(collider2);
 			return check_box_box_collision(box_collider1,box_collider2,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());
 		}
-		case ColliderStorType::BOX_CIRCLE: {
+		case CollisionInternalType::BOX_CIRCLE: {
 			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(collider1);
 			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(collider2);
 			return check_box_circle_collision(box_collider,circle_collider,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());
 		}
-		case ColliderStorType::CIRCLE_CIRCLE:	{
+		case CollisionInternalType::CIRCLE_CIRCLE:	{
 			const CircleCollider & circle_collider1 = std::get<std::reference_wrapper<CircleCollider>>(collider1);
 			const CircleCollider & circle_collider2 = std::get<std::reference_wrapper<CircleCollider>>(collider2);
 			return check_circle_circle_collision(circle_collider1,circle_collider2,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());
 		}
-		case ColliderStorType::CIRCLE_BOX:	{
+		case CollisionInternalType::CIRCLE_BOX:	{
 			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(collider1);
 			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(collider2);
 			return check_box_circle_collision(box_collider,circle_collider,components1.first.get(),components2.first.get(),components1.second.get(),components2.second.get());

@@ -23,10 +23,10 @@ private:
 	
 	//! A variant type that can hold either a BoxCollider or a CircleCollider.
 	// using collider_stor = std::variant<BoxCollider, CircleCollider>;
-	using collider_stor = std::variant<std::reference_wrapper<BoxCollider>, std::reference_wrapper<CircleCollider>>;
+	using collider_variant = std::variant<std::reference_wrapper<BoxCollider>, std::reference_wrapper<CircleCollider>>;
 
 	//! A enum that is used to tell the pair of the collider stor in a std::pair.
-	enum class ColliderStorType {
+	enum class CollisionInternalType {
     BOX_BOX,
     CIRCLE_CIRCLE,
     BOX_CIRCLE,
@@ -38,9 +38,9 @@ private:
 		* 
 		* This structure stores the collider type, its associated transform, and its rigidbody.
 		*/
-	struct CollidedInfoStor {
+	struct CollisionInternal {
 		//! Store either BoxCollider or CircleCollider
-		collider_stor& collider; 
+		collider_variant& collider; 
 		Transform& transform;
 		Rigidbody& rigidbody;
 	};
@@ -55,26 +55,19 @@ private:
 
 public:
 	/**
-		* \brief A structure representing the collision information between two colliders.
-		* 
-		* This structure contains both colliders, their associated transforms and rigidbodies,
-		* as well as the movement vector to resolve the collision.
-		*/
-	struct ColliderInfo {
-		const Collider& collider;
-		Transform& transform;
-		Rigidbody& rigidbody;
-	};
-	/**
 		* \brief A structure representing detailed collision information between two colliders.
 		* 
 		* This includes the movement data required to resolve the collision.
 		*/
 	struct CollisionInfo{
-    ColliderInfo first;
-    ColliderInfo second;
-		vec2 move_back_value;
-		Direction move_back_direction = Direction::NONE;
+    Collider& first_collider;
+		Transform& first_transform;
+		Rigidbody& first_rigidbody;
+    Collider& second_collider;
+		Transform& second_transform;
+		Rigidbody& second_rigidbody;
+		vec2 resolution;
+		Direction resolution_direction = Direction::NONE;
 	};
 
 public:
@@ -94,7 +87,7 @@ private: //generic
 	 *
 	 * \return collider pair type.
 	 */
-	ColliderStorType check_collider_type(const collider_stor& collider1,const collider_stor& collider2);
+	CollisionInternalType check_collider_type(const collider_variant& collider1,const collider_variant& collider2);
 
 	/**
 	 * \brief Calculates the position of the Collider
@@ -122,7 +115,7 @@ private:// handeling
 	 *
 	 * \return Postion of collider.
 	 */
-	void collision_handler_request(CollidedInfoStor& data1,CollidedInfoStor& data2);
+	void collision_handler_request(CollisionInternal& data1,CollisionInternal& data2);
 
 	/**
 	 * \brief Calculates the move back value and direction of the Collision
@@ -135,7 +128,7 @@ private:// handeling
 	 *
 	 * \return Move back value and direction for first gameobject
 	 */
-	std::pair<vec2,Direction> collision_handler(CollidedInfoStor& data1,CollidedInfoStor& data2 ,ColliderStorType type);
+	std::pair<vec2,Direction> collision_handler(CollisionInternal& data1,CollisionInternal& data2 ,CollisionInternalType type);
 
 	/**
 	 * \brief Calculates the move back value for box box collision
@@ -183,7 +176,7 @@ private: // detection
 	 *
 	 * \return Move back value and direction for first gameobject
 	 */
-	std::vector<std::pair<CollidedInfoStor,CollidedInfoStor>> check_collisions(std::vector<collider_stor> & colliders);
+	std::vector<std::pair<CollisionInternal,CollisionInternal>> check_collisions(std::vector<collider_variant> & colliders);
 
 	/**
 	 * \brief Calls the correct check collision function.
@@ -198,7 +191,7 @@ private: // detection
 	 *
 	 * \return status of collision
 	 */
-	bool check_collision(const collider_stor& collider1,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components1,const collider_stor& collider2,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components2,CollisionSystem::ColliderStorType type);
+	bool check_collision(const collider_variant& collider1,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components1,const collider_variant& collider2,std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>> components2,CollisionSystem::CollisionInternalType type);
 	
 	/**
 	 * \brief Check collision for box on box collider
