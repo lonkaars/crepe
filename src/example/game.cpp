@@ -18,7 +18,7 @@ using namespace std;
 
 class MyScript : public Script {
 	bool oncollision(const CollisionEvent& test) {
-		Log::logf("Box {} script on_collision()", test.info.first.collider.game_object_id);
+		Log::logf("Box {} script on_collision()", test.info.first_collider.game_object_id);
 		return true;
 	}
 	void init() {
@@ -50,8 +50,6 @@ public:
 		.gravity_scale = 0,
 		.body_type = Rigidbody::BodyType::STATIC,
 		.constraints = {0, 0, 0},
-		.use_gravity = false,
-		.bounce = false,
 		.offset = {0,0}
 	});
 	world.add_component<BoxCollider>(vec2{0, 0-(screen_size_height/2+world_collider/2)}, world_collider, world_collider);;	// Top
@@ -67,17 +65,14 @@ public:
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = {1,1},
 		.constraints = {0, 0, 0},
-		.use_gravity = true,
-		.bounce = true,
 		.elastisity = 1,
 		.offset = {0,0},
 	});
 	game_object1.add_component<BoxCollider>(vec2{0, 0}, 20, 20);
 	game_object1.add_component<BehaviorScript>().set_script<MyScript>();
-	game_object1.add_component<Sprite>(
-	make_shared<Texture>("/home/jaro/crepe/asset/texture/green_square.png"), color,
-	FlipSettings{true, true});
-	game_object1.add_component<Camera>(Color::WHITE);
+	auto img = Texture("asset/texture/green_square.png");
+	game_object1.add_component<Sprite>(img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
+	game_object1.add_component<Camera>(Color::WHITE, ivec2{1080, 720},vec2{2000, 2000}, 1.0f);
 	}
 
 	string get_name() const { return "scene1"; }
