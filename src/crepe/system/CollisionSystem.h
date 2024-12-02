@@ -92,7 +92,7 @@ private:
 		* \param collider2 Second collider variant (BoxCollider or CircleCollider).
 		* \return The combined type of the two colliders.
 		*/
-	CollisionInternalType check_collider_type(const collider_variant& collider1,const collider_variant& collider2) const;
+	CollisionInternalType get_collider_type(const collider_variant& collider1,const collider_variant& collider2) const;
 
 	/**
 		* \brief Calculates the current position of a collider.
@@ -104,7 +104,7 @@ private:
 		* \param rigidbody The Rigidbody of the associated game object.
 		* \return The calculated position of the collider.
 		*/
-	vec2 current_position(vec2 collider_offset, const Transform& transform, const Rigidbody& rigidbody);
+	vec2 get_current_position(vec2 collider_offset, const Transform& transform, const Rigidbody& rigidbody) const;
 
 private:
 
@@ -141,7 +141,7 @@ private:
 		* \param position2 The position of the second BoxCollider.
 		* \return The resolution vector for the collision.
 		*/
-	vec2 box_box_resolution(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 position1,vec2 position2);
+	vec2 get_box_box_resolution(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 position1,vec2 position2) const;
 
 	/**
 		* \brief Calculates the resolution vector for two CircleCollider.
@@ -154,7 +154,7 @@ private:
 		* \param position2 The position of the second CircleCollider.
 		* \return The resolution vector for the collision.
 		*/
-	vec2 circle_circle_resolution(const CircleCollider& circle_collider1, const CircleCollider& circle_collider2, vec2 final_position1, vec2 final_position2);
+	vec2 get_circle_circle_resolution(const CircleCollider& circle_collider1, const CircleCollider& circle_collider2, vec2 final_position1, vec2 final_position2) const;
 
 	/**
 		* \brief Calculates the resolution vector for two CircleCollider.
@@ -167,7 +167,7 @@ private:
 		* \param box_position The position of the BocCollider.
 		* \return The resolution vector for the collision.
 		*/
-	vec2 circle_box_resolution(const CircleCollider& circle_collider, const BoxCollider& box_collider, vec2 circle_position, vec2 box_position);
+	vec2 get_circle_box_resolution(const CircleCollider& circle_collider, const BoxCollider& box_collider, vec2 circle_position, vec2 box_position) const;
 
 	/**
 		* \brief Determines the appropriate collision handler for a collision.
@@ -196,7 +196,7 @@ private:
 		* \param colliders A collection of all active colliders.
 		* \return A list of collision pairs with their associated data.
 		*/
-	std::vector<std::pair<CollisionInternal,CollisionInternal>> check_collisions(std::vector<collider_variant> & colliders);
+	std::vector<std::pair<CollisionInternal,CollisionInternal>> gather_collisions(std::vector<collider_variant> & colliders);
 
 	/**
 		* \brief Checks for collision between two colliders.
@@ -208,7 +208,7 @@ private:
 		* \param type The type of collider pair.
 		* \return True if a collision is detected, otherwise false.
 		*/
-	bool check_collision(const CollisionInternal& first_info,const CollisionInternal& second_info, CollisionInternalType type);
+	bool get_collision(const CollisionInternal& first_info,const CollisionInternal& second_info, CollisionInternalType type) const;
 	
 	/**
 		* \brief Retrieves the active Transform and Rigidbody components for a given game object.
@@ -224,7 +224,7 @@ private:
 		*         and Rigidbody components, or std::nullopt if either component is not found 
 		*         or not active.
 		*/
-	std::optional<std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>>> get_active_transform_and_rigidbody(game_object_id_t game_object_id);
+	std::optional<std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>>> get_active_transform_and_rigidbody(game_object_id_t game_object_id) const;
 
 
 	/**
@@ -238,7 +238,7 @@ private:
 		* \param rigidbody2 Rigidbody of the second object.
 		* \return True if a collision is detected, otherwise false.
 		*/
-	bool check_box_box_collision(const BoxCollider& box1, const BoxCollider& box2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2);
+	bool get_box_box_collision(const BoxCollider& box1, const BoxCollider& box2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2) const;
 	
 	/**
 	 * \brief Check collision for box on circle collider
@@ -251,7 +251,7 @@ private:
 	 * \param rigidbody2 Rigidbody of the second object.
 	 * \return True if a collision is detected, otherwise false.
 	 */
-	bool check_box_circle_collision(const BoxCollider& box1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2);
+	bool get_box_circle_collision(const BoxCollider& box1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2) const;
 
 	/**
 	 * \brief Check collision for circle on circle collider
@@ -266,7 +266,7 @@ private:
 	 *
 	 * \return status of collision
 	 */
-	bool check_circle_circle_collision(const CircleCollider& circle1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2);
+	bool get_circle_circle_collision(const CircleCollider& circle1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2) const;
 };
 
 } // namespace crepe
