@@ -74,10 +74,10 @@ public:
 	vec2 size;
 
 	//! independent sprite angle. rotating clockwise direction in degrees
-	double angle_offset;
+	double angle_offset = 0;
 
 	//! independent sprite scale multiplier
-	double scale;
+	double scale = 1;
 
 	/**
 	 * \aspect_ratio ratio of the img so that scaling will not become weird

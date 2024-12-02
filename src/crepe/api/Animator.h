@@ -89,7 +89,7 @@ public:
 
 	~Animator(); // dbg_trace
 
-private:
+public:
 	//! A reference to the Sprite sheet containing.
 	Sprite & spritesheet;
 
