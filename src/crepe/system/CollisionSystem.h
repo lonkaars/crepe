@@ -92,7 +92,7 @@ private:
 		* \param collider2 Second collider variant (BoxCollider or CircleCollider).
 		* \return The combined type of the two colliders.
 		*/
-	CollisionInternalType check_collider_type(const collider_variant& collider1,const collider_variant& collider2);
+	CollisionInternalType check_collider_type(const collider_variant& collider1,const collider_variant& collider2) const;
 
 	/**
 		* \brief Calculates the current position of a collider.
