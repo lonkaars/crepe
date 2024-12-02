@@ -162,10 +162,7 @@ private:
 	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
 						  const vec2 & cam_pos, const double & img_scale) const;
 	/**
-	 * \brief changes the texture rbg values with the given parameters
-	 *  it sets the allowed color inside a image. So if all the colors are 255 (MAXIMUM)
-	 *  it will show the given texture. however if the one of the colors is reduced it will reduce the 
-	 *
+	 * \brief Set an additional color value multiplied into render copy operations.
 	 *
 	 * \param  texture the given texture to adjust 
 	 * \param  r Red color 
@@ -175,8 +172,9 @@ private:
 	void set_rbg_texture(const Texture & texture, const uint8_t & r,
 						 const uint8_t & g, const uint8_t & b);
 
+
 	/**
-	 * \brief Modifies the transparency of the given texture
+	 * \brief Set an additional alpha value multiplied into render copy operations.
 	 *
 	 * \param texture modify the given texture alpha channel
 	 * \param  alpha alpha channel
