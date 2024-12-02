@@ -58,10 +58,26 @@ public:
 
 	//! Layer sorting level of the sprite
 	const int sorting_in_layer;
+
 	//! Order within the sorting layer
 	const int order_in_layer;
 
+	/**
+	 * \size width and height of the sprite in game units
+	 *
+	 * if height is filled in and not width it will multiply width by aspect_ratio.
+	 * if width is filled in and not height it will multiply height by aspect_ratio.
+	 * if neither is filled it will not show sprite because size will be zero
+	 * if both are filled will it use the width and height without making sure the aspect_ratio
+	 * is correct
+	 */
 	vec2 size;
+
+	//! independent sprite angle. rotating clockwise direction in degrees
+	double angle_offset;
+
+	//! independent sprite scale multiplier
+	double scale;
 
 	/**
 	 * \aspect_ratio ratio of the img so that scaling will not become weird

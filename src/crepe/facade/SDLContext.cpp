@@ -8,7 +8,6 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -113,6 +112,7 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 
 SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
 
+	// this might not work all the time because of float checking zero -_-
 	vec2 size = {ctx.sprite.size.x == 0 && ctx.sprite.size.y != 0
 					 ? ctx.sprite.size.y * ctx.sprite.aspect_ratio
 					 : ctx.sprite.size.x,
@@ -122,7 +122,7 @@ SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
 
 	const CameraValues & cam = ctx.cam;
 
-	size *= cam.render_scale * ctx.img_scale;
+	size *= cam.render_scale * ctx.img_scale * ctx.sprite.scale;
 
 	vec2 screen_pos = (ctx.pos - cam.cam_pos + (cam.zoomed_viewport) / 2) * cam.render_scale
 					  - size / 2 + cam.bar_size;
@@ -149,8 +149,10 @@ void SDLContext::draw(const RenderContext & ctx) {
 		.img_scale = ctx.scale,
 	});
 
+	double angle = ctx.angle + ctx.sprite.angle_offset;
+
 	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.sprite_image.texture.get(),
-					  &srcrect, &dstrect, ctx.angle, NULL, render_flip);
+					  &srcrect, &dstrect, angle, NULL, render_flip);
 }
 
 void SDLContext::set_camera(const Camera & cam, CameraValues & ctx) {

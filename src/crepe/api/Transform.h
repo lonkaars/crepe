@@ -15,7 +15,7 @@ class Transform : public Component {
 public:
 	//! Translation (shift)
 	vec2 position = {0, 0};
-	//! Rotation, in degrees
+	//! Rotation, in degrees clockwise
 	double rotation = 0;
 	//! Multiplication factor
 	double scale = 0;

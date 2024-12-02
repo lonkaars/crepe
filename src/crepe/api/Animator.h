@@ -19,6 +19,59 @@ class Animator : public Component {
 
 public:
 	/**
+	 * \brief Animator will repeat the animation 
+	 *
+	 */
+	void loop();
+
+	/**
+	 * \brief starts the animation
+	 *
+	 */
+	void play();
+	/**
+	 * \brief pauses the animation
+	 *
+	 * sets the active false
+	 *
+	 */
+	void pause();
+
+	/**
+	 * \brief stops the animation
+	 *
+	 * sets the active on false and resets all the current rows and columns
+	 *
+	 */
+	void stop();
+	/**
+	 * \brief set frames per second
+	 *
+	 * \param fps frames per second
+	 */
+	void set_fps(int fps);
+	/**
+	 * \brief set the range in the row
+	 *
+	 * \param  start of row animation
+	 * \param  end of row animation	
+	 */
+	void set_cycle_range(int start, int end);
+	/**
+	 * \brief select which column to animate from
+	 *
+	 * \param col animation column
+	 */
+	void set_anim(int col);
+
+	/**
+	 * \brief will go to the next animaiton of current row 
+	 *
+	 */
+	void next_anim();
+
+public:
+	/**
 	 * \brief Constructs an Animator object that will control animations for a sprite sheet.
 	 *
 	 * \param id The unique identifier for the component, typically assigned automatically.
@@ -37,7 +90,7 @@ public:
 	~Animator(); // dbg_trace
 
 private:
-	//! A reference to the Sprite sheet containing the animation frames.
+	//! A reference to the Sprite sheet containing.
 	Sprite & spritesheet;
 
 	//! The maximum number of columns in the sprite sheet.
@@ -64,25 +117,8 @@ private:
 	//! frames per second for animation
 	int fps = 1;
 
+	//! offset in pixels.
 	int offset_x = 0;
-
-public:
-	void loop() { this->looping = true; }
-	void play() { this->active = true; }
-	void pause() { this->active = false; }
-	void stop() {
-		this->active = false;
-		this->curr_col = 0;
-		this->curr_row = 0;
-	}
-	void set_fps(int fps) { this->fps = fps; }
-	void set_cycle_range(int start, int end) {
-		this->cycle_start = start, this->cycle_end = end;
-	}
-	void set_anim(int col) {
-		this->curr_row = 0;
-		this->curr_col = col;
-	}
 
 private:
 	//! AnimatorSystem adjust the private member parameters of Animator;
