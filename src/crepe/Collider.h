@@ -1,7 +1,5 @@
 #pragma once
 
-#include "api/Vector2.h"
-
 #include "Component.h"
 #include "types.h"
 
