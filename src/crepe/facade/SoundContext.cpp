@@ -15,18 +15,23 @@ SoundContext::~SoundContext() {
 	this->engine.deinit();
 }
 
-Sound::Handle SoundContext::play(Sound & resource) {
-	return {
-		.handle = this->engine.play(resource.sample, 1.0f),
-	};
+SoundHandle SoundContext::play(Sound & resource) {
+	SoLoud::handle real_handle = this->engine.play(resource.sample, 1.0f);
+	SoundHandle handle = this->next_handle;
+	this->registry[handle] = real_handle;
+	this->next_handle++;
+	return handle;
 }
 
-void SoundContext::stop(Sound::Handle & handle) { this->engine.stop(handle.handle); }
-
-void SoundContext::set_volume(Sound::Handle & handle, float volume) {
-	this->engine.setVolume(handle.handle, volume);
+void SoundContext::stop(const SoundHandle & handle) {
+	this->engine.stop(this->registry[handle]);
 }
 
-void SoundContext::set_loop(Sound::Handle & handle, bool loop) {
-	this->engine.setLooping(handle.handle, loop);
+void SoundContext::set_volume(const SoundHandle & handle, float volume) {
+	this->engine.setVolume(this->registry[handle], volume);
 }
+
+void SoundContext::set_loop(const SoundHandle & handle, bool loop) {
+	this->engine.setLooping(this->registry[handle], loop);
+}
+

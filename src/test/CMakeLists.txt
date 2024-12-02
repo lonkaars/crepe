@@ -16,5 +16,4 @@ target_sources(test_main PUBLIC
 	Vector2Test.cpp
 	ScriptEventTest.cpp
 	ScriptSceneTest.cpp
-	PrivateTest.cpp
 )

@@ -16,56 +16,50 @@ void AudioSystem::update() {
 	for (AudioSource & component : components) {
 		Sound & resource = resource_manager.get<Sound>(component.source);
 
-		if (component.private_data.empty()) {
-			auto & data = component.private_data.set<ComponentPrivate>();
-			this->update_last(component, data);
-			data.last_active = false;
-		}
-		auto & data = component.private_data.get<ComponentPrivate>();
+		this->diff_update(component, resource);
 
-		this->diff_update(component, data, resource);
-
-		this->update_last(component, data);
+		this->update_last(component);
 	}
 }
 
-void AudioSystem::diff_update(AudioSource & component, ComponentPrivate & data,
-							  Sound & resource) {
+void AudioSystem::diff_update(AudioSource & component, Sound & resource) {
 	SoundContext & context = this->get_context();
 
-	if (component.active != data.last_active) {
+	if (component.active != component.last_active) {
 		if (component.active) {
 			component.oneshot_play = component.play_on_awake;
 		} else {
-			context.stop(data.handle);
+			context.stop(component.voice);
 			return;
 		}
 	}
 	if (!component.active) return;
 
 	if (component.oneshot_play) {
-		data.handle = context.play(resource);
+		component.voice = context.play(resource);
 		component.oneshot_play = false;
 	}
 	if (component.oneshot_stop) {
-		context.stop(data.handle);
+		context.stop(component.voice);
 		component.oneshot_stop = false;
 	}
-	if (component.volume != data.last_volume) {
-		context.set_volume(data.handle, component.volume);
+	if (component.volume != component.last_volume) {
+		context.set_volume(component.voice, component.volume);
 	}
-	if (component.loop != data.last_loop) {
-		context.set_loop(data.handle, component.loop);
+	if (component.loop != component.last_loop) {
+		context.set_loop(component.voice, component.loop);
 	}
 }
 
-void AudioSystem::update_last(const AudioSource & component, ComponentPrivate & data) {
-	data.last_active = component.active;
-	data.last_loop = component.loop;
-	data.last_volume = component.volume;
+void AudioSystem::update_last(AudioSource & component) {
+	component.last_active = component.active;
+	component.last_loop = component.loop;
+	component.last_volume = component.volume;
 }
 
 SoundContext & AudioSystem::get_context() {
-	if (this->context.empty()) this->context.set<SoundContext>();
-	return this->context.get<SoundContext>();
+	if (this->context == nullptr)
+		this->context = make_unique<SoundContext>();
+	return *this->context.get();
 }
+
