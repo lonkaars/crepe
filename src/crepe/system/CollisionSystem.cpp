@@ -25,8 +25,8 @@ using namespace crepe;
 void CollisionSystem::update() {
 	// Get collider components and keep them seperate
 	ComponentManager & mgr = this->component_manager;
-	std::vector<std::reference_wrapper<BoxCollider>> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
-	std::vector<std::reference_wrapper<CircleCollider>> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
+	RefVector<BoxCollider> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
+	RefVector<CircleCollider> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
 
 	std::vector<collider_variant> all_colliders;
 	// Add BoxCollider references
@@ -237,16 +237,14 @@ vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider& circle_col
 
 void CollisionSystem::determine_collision_handler(CollisionInfo& info){
 	// Check rigidbody type for static
-	if(info.first_rigidbody.data.body_type != Rigidbody::BodyType::STATIC)
-	{
-		// If second body is static perform the static collision handler in this system
-		if(info.second_rigidbody.data.body_type == Rigidbody::BodyType::STATIC){
-			static_collision_handler(info);
-		}; 
-		// Call collision event for user
-		CollisionEvent data(info);
-		EventManager::get_instance().trigger_event<CollisionEvent>(data, info.first_collider.game_object_id);
-	}		
+	if(info.first_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) return;
+	// If second body is static perform the static collision handler in this system
+	if(info.second_rigidbody.data.body_type == Rigidbody::BodyType::STATIC){
+		static_collision_handler(info);
+	}; 
+	// Call collision event for user
+	CollisionEvent data(info);
+	EventManager::get_instance().trigger_event<CollisionEvent>(data, info.first_collider.game_object_id);
 }
 
 void CollisionSystem::static_collision_handler(CollisionInfo& info){
@@ -287,40 +285,46 @@ std::vector<std::pair<CollisionSystem::CollisionInternal,CollisionSystem::Collis
 
 	// Return data of collided colliders which are variants
 	std::vector<std::pair<CollisionInternal,CollisionInternal>> collisions_ret;
+	bool active_inner = false;
+	bool active_outer = false;
+	game_object_id_t id_inner = -1;
+	game_object_id_t id_outer = -1;
 	//using visit to visit the variant to access the active and id.  
 	for (size_t i = 0; i < colliders.size(); ++i) {
-    std::visit([&](auto& inner_collider_ref) {
-			// Return from visit if collider or components are not active 
-			if (!inner_collider_ref.get().active) return;
-			auto inner_components = get_active_transform_and_rigidbody(inner_collider_ref.get().game_object_id);
-			if (!inner_components) return;
-			for (size_t j = i + 1; j < colliders.size(); ++j) {
-				std::visit([&](auto& outer_collider_ref) { 
-					// Return from visit if collider or components are not active and if they have the same id.
-					if (!outer_collider_ref.get().active) return;
-					if (inner_collider_ref.get().game_object_id == outer_collider_ref.get().game_object_id) return;
-					auto outer_components = get_active_transform_and_rigidbody(outer_collider_ref.get().game_object_id);
-					if (!outer_components) return;
-					// Get collision type form variant colliders
-					CollisionInternalType type = get_collider_type(colliders[i],colliders[j]);
-					if(!get_collision({
-															.collider = colliders[i],
-															.transform = inner_components->first,
-															.rigidbody = inner_components->second,
-															},
-															{
-															.collider = colliders[j],
-															.transform = outer_components->first,
-															.rigidbody = outer_components->second,
-															},
-															type)) return;
-					collisions_ret.emplace_back(
-                        CollisionInternal{colliders[i], inner_components->first.get(), inner_components->second.get()},
-                        CollisionInternal{colliders[j], outer_components->first.get(), outer_components->second.get()}
-                    );
-				}, colliders[j]);
-			}
-    }, colliders[i]);
+    std::visit([&](Collider& inner_collider_ref) {
+			active_inner = inner_collider_ref.active;
+			id_inner = inner_collider_ref.game_object_id;
+		}, colliders[i]);
+		if(!active_inner) continue;
+		auto inner_components = get_active_transform_and_rigidbody(id_inner);
+		if (!inner_components) continue;
+		for (size_t j = i + 1; j < colliders.size(); ++j) {
+			std::visit([&](Collider& outer_collider_ref) {
+			active_outer = outer_collider_ref.active;
+			id_outer = outer_collider_ref.game_object_id;
+			}, colliders[j]);
+			if(!active_outer) continue;
+			if(id_outer == id_inner) continue;
+			auto outer_components = get_active_transform_and_rigidbody(id_outer);
+			if (!outer_components) continue;
+				// Get collision type form variant colliders
+				CollisionInternalType type = get_collider_type(colliders[i],colliders[j]);
+				if(!get_collision({
+					.collider = colliders[i],
+					.transform = inner_components->first,
+					.rigidbody = inner_components->second,
+					},
+					{
+					.collider = colliders[j],
+					.transform = outer_components->first,
+					.rigidbody = outer_components->second,
+					},
+					type)) continue;
+				collisions_ret.emplace_back(
+											CollisionInternal{colliders[i], inner_components->first.get(), inner_components->second.get()},
+											CollisionInternal{colliders[j], outer_components->first.get(), outer_components->second.get()}
+									);
+		}
 	}
 	
 	return collisions_ret;
