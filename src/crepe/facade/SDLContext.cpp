@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_blendmode.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
@@ -9,6 +10,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -215,6 +217,7 @@ SDLContext::texture_from_path(const std::string & path) {
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> img_texture;
 	img_texture = {tmp_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
 
+	SDL_SetTextureBlendMode(img_texture.get(), SDL_BLENDMODE_BLEND);
 	return img_texture;
 }
 int SDLContext::get_width(const Texture & ctx) const {
@@ -235,5 +238,6 @@ void SDLContext::set_rbg_texture(const Texture & texture, const uint8_t & r,
 }
 void SDLContext::set_alpha_texture(const Texture & texture,
 								   const uint8_t & alpha) {
+
 	SDL_SetTextureAlphaMod(texture.texture.get(), alpha);
 }
