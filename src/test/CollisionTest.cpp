@@ -65,7 +65,6 @@ public:
 		world.add_component<Rigidbody>(Rigidbody::Data{
 			// TODO: remove unrelated properties:
 			.body_type = Rigidbody::BodyType::STATIC,
-			.bounce = false,
 			.offset = {0,0},
 		});
 		// Create a box with an inner size of 10x10 units
@@ -80,8 +79,6 @@ public:
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0,0},
 			.constraints = {0, 0, 0},
-			.use_gravity = true,
-			.bounce = true,
 			.elastisity = 1,
 			.offset = {0,0},
 		});
@@ -96,8 +93,6 @@ public:
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0,0},
 			.constraints = {0, 0, 0},
-			.use_gravity = true,
-			.bounce = true,
 			.elastisity = 1,
 			.offset = {0,0},
 		});

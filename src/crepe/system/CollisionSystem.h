@@ -104,7 +104,7 @@ private:
 		* \param rigidbody The Rigidbody of the associated game object.
 		* \return The calculated position of the collider.
 		*/
-	vec2 get_current_position(vec2 collider_offset, const Transform& transform, const Rigidbody& rigidbody) const;
+	vec2 get_current_position(const vec2& collider_offset, const Transform& transform, const Rigidbody& rigidbody) const;
 
 private:
 
@@ -141,7 +141,7 @@ private:
 		* \param position2 The position of the second BoxCollider.
 		* \return The resolution vector for the collision.
 		*/
-	vec2 get_box_box_resolution(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 position1,vec2 position2) const;
+	vec2 get_box_box_resolution(const BoxCollider& box_collider1,const BoxCollider& box_collider2,const vec2& position1,const vec2& position2) const;
 
 	/**
 		* \brief Calculates the resolution vector for two CircleCollider.
@@ -154,7 +154,7 @@ private:
 		* \param position2 The position of the second CircleCollider.
 		* \return The resolution vector for the collision.
 		*/
-	vec2 get_circle_circle_resolution(const CircleCollider& circle_collider1, const CircleCollider& circle_collider2, vec2 final_position1, vec2 final_position2) const;
+	vec2 get_circle_circle_resolution(const CircleCollider& circle_collider1, const CircleCollider& circle_collider2, const vec2& final_position1, const vec2& final_position2) const;
 
 	/**
 		* \brief Calculates the resolution vector for two CircleCollider.
@@ -167,7 +167,7 @@ private:
 		* \param box_position The position of the BocCollider.
 		* \return The resolution vector for the collision.
 		*/
-	vec2 get_circle_box_resolution(const CircleCollider& circle_collider, const BoxCollider& box_collider, vec2 circle_position, vec2 box_position) const;
+	vec2 get_circle_box_resolution(const CircleCollider& circle_collider, const BoxCollider& box_collider, const vec2& circle_position, const vec2& box_position) const;
 
 	/**
 		* \brief Determines the appropriate collision handler for a collision.

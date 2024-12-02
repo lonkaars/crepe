@@ -54,7 +54,7 @@ public:
 		//! objects mass
 		float mass = 0.0;
 		//! gravtiy scale
-		float gravity_scale = 0.0;
+		float gravity_scale = 0;
 		//! Changes if physics apply
 		BodyType body_type = BodyType::DYNAMIC;
 		//! linear velocity of object
@@ -62,20 +62,16 @@ public:
 		//! maximum linear velocity of object
 		vec2 max_linear_velocity = {INFINITY ,INFINITY};
 		//! linear damping of object
-		vec2 linear_damping;
+		vec2 linear_velocity_factor;
 		//! angular velocity of object
-		float angular_velocity = 0.0;
+		float angular_velocity = 1;
 		//! max angular velocity of object
 		float max_angular_velocity = INFINITY;
 		//! angular damping of object
-		float angular_damping = 0.0;
+		float angular_velocity_factor = 1;
 		//! movements constraints of object
 		PhysicsConstraints constraints;
-		//! if gravity applies
-		bool use_gravity = true;
-		//! if object bounces
-		bool bounce = false;
-		//! bounce factor of material
+		//! bounce factor of material. 0.0 <= means all velocity is lost, 1.0 means it gets the same momentum but the mirrored direction. 0.5 is half of the velocity is saved.
 		float elastisity = 0.0;
 		//! offset of all colliders relative to transform position
 		vec2 offset;
