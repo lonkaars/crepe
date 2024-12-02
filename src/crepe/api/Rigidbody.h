@@ -52,9 +52,9 @@ public:
 	 */
 	struct Data {
 		//! objects mass
-		double mass = 0.0;
+		float mass = 0.0;
 		//! gravtiy scale
-		double gravity_scale = 0.0;
+		float gravity_scale = 0.0;
 		//! Changes if physics apply
 		BodyType body_type = BodyType::DYNAMIC;
 		//! linear velocity of object
@@ -64,11 +64,11 @@ public:
 		//! linear damping of object
 		vec2 linear_damping;
 		//! angular velocity of object
-		double angular_velocity = 0.0;
+		float angular_velocity = 0.0;
 		//! max angular velocity of object
-		double max_angular_velocity = INFINITY;
+		float max_angular_velocity = INFINITY;
 		//! angular damping of object
-		double angular_damping = 0.0;
+		float angular_damping = 0.0;
 		//! movements constraints of object
 		PhysicsConstraints constraints;
 		//! if gravity applies
@@ -76,7 +76,7 @@ public:
 		//! if object bounces
 		bool bounce = false;
 		//! bounce factor of material
-		double elastisity = 0.0;
+		float elastisity = 0.0;
 		//! offset of all colliders relative to transform position
 		vec2 offset;
 	};
@@ -102,7 +102,7 @@ public:
 	 * 
 	 * \param force Vector2 that is added to the angular force.
 	 */
-	void add_force_angular(double force);
+	void add_force_angular(float force);
 };
 
 } // namespace crepe
