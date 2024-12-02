@@ -128,7 +128,7 @@ private:
 
 	/**
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
-	 * \param RenderCtx Reference to rendering data to draw
+	 * \param RenderContext Reference to rendering data to draw
 	 */
 	void draw(const RenderContext & ctx);
 

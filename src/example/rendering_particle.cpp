@@ -70,11 +70,19 @@ public:
 			.spritesheet = test_sprite,
 			.col = 4,
 			.row = 4,
-			.fps = 10,
+			.fps = 1,
+			.looping = true,
+			.cycle_start = 1,
+			.cycle_end = 3,
 		});
+		anim.set_anim(2);
 
-		auto & cam = game_object.add_component<Camera>(Color::WHITE, ivec2{720, 1280},
-													   vec2{400, 400}, 1.0);
+		auto & cam = game_object.add_component<Camera>(Camera::Data{
+			.bg_color = Color::WHITE,
+			.screen = ivec2{720, 1280},
+			.viewport_size = vec2{400, 400},
+			.zoom = 1.0,
+		});
 	}
 
 	string get_name() const { return "TestScene"; };
