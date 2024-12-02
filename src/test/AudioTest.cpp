@@ -16,10 +16,10 @@ class AudioTest : public Test {
 private:
 	class TestSoundContext : public SoundContext {
 	public:
-		MOCK_METHOD(Sound::Handle, play, (Sound & resource), (override));
-		MOCK_METHOD(void, stop, (Sound::Handle &), (override));
-		MOCK_METHOD(void, set_volume, (Sound::Handle &, float), (override));
-		MOCK_METHOD(void, set_loop, (Sound::Handle &, bool), (override));
+		MOCK_METHOD(SoundHandle, play, (Sound & resource), (override));
+		MOCK_METHOD(void, stop, (const SoundHandle &), (override));
+		MOCK_METHOD(void, set_volume, (const SoundHandle &, float), (override));
+		MOCK_METHOD(void, set_loop, (const SoundHandle &, bool), (override));
 	};
 
 	class TestAudioSystem : public AudioSystem {

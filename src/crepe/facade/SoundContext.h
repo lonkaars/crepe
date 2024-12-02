@@ -4,6 +4,7 @@
 
 #include "../api/Config.h"
 
+#include "SoundHandle.h"
 #include "Sound.h"
 
 namespace crepe {
@@ -33,7 +34,7 @@ public:
 	 *
 	 * \returns Handle to control this voice
 	 */
-	virtual Sound::Handle play(Sound & resource);
+	virtual SoundHandle play(Sound & resource);
 	/**
 	 * \brief Stop a voice immediately if it is still playing
 	 *
@@ -42,7 +43,7 @@ public:
 	 *
 	 * \param handle Voice handle returned by SoundContext::play
 	 */
-	virtual void stop(Sound::Handle & handle);
+	virtual void stop(const SoundHandle & handle);
 	/**
 	 * \brief Change the volume of a voice
 	 *
@@ -52,7 +53,7 @@ public:
 	 * \param handle Voice handle returned by SoundContext::play
 	 * \param volume New gain value (0=silent, 1=default)
 	 */
-	virtual void set_volume(Sound::Handle & handle, float volume);
+	virtual void set_volume(const SoundHandle & handle, float volume);
 	/**
 	 * \brief Set the looping behavior of a voice
 	 *
@@ -62,7 +63,7 @@ public:
 	 * \param handle Voice handle returned by SoundContext::play
 	 * \param loop Looping behavior (false=oneshot, true=loop)
 	 */
-	virtual void set_loop(Sound::Handle & handle, bool loop);
+	virtual void set_loop(const SoundHandle & handle, bool loop);
 
 private:
 	//! Abstracted class
@@ -70,6 +71,12 @@ private:
 
 	//! Config reference
 	Config & config = Config::get_instance();
+
+	//! Sound handle registry
+	std::unordered_map<SoundHandle, SoLoud::handle> registry;
+	//! Unique handle counter
+	SoundHandle next_handle = 0;
+
 };
 
 } // namespace crepe

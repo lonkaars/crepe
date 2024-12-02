@@ -2,7 +2,7 @@
 
 #include "../Component.h"
 #include "../types.h"
-#include "../util/Private.h"
+#include "../facade/SoundHandle.h"
 
 #include "Asset.h"
 #include "GameObject.h"
@@ -59,10 +59,17 @@ private:
 	//! Stop this sample
 	bool oneshot_stop = false;
 	//! \}
+	/**
+	 * \name State diffing variables
+	 * \{
+	 */
+	typeof(active) last_active = false;
+	typeof(volume) last_volume = volume;
+	typeof(loop) last_loop = loop;
+	//! \}
+	//! This source's voice handle
+	SoundHandle voice{};
 
-private:
-	//! AudioSystem::ComponentPrivate
-	Private private_data;
 };
 
 } // namespace crepe
