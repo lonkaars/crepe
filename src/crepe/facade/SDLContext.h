@@ -169,9 +169,8 @@ private:
 	 * \param  g Green color
 	 * \param  b Blue color
 	 */
-	void set_rbg_texture(const Texture & texture, const uint8_t & r,
-						 const uint8_t & g, const uint8_t & b);
-
+	void set_rbg_texture(const Texture & texture, const uint8_t & r, const uint8_t & g,
+						 const uint8_t & b);
 
 	/**
 	 * \brief Set an additional alpha value multiplied into render copy operations.
