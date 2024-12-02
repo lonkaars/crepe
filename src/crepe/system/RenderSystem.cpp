@@ -40,8 +40,9 @@ const Camera & RenderSystem::update_camera() {
 }
 
 bool sorting_comparison(const Sprite & a, const Sprite & b) {
-	if (a.sorting_in_layer < b.sorting_in_layer) return true;
-	if (a.sorting_in_layer == b.sorting_in_layer) return a.order_in_layer < b.order_in_layer;
+	if (a.data.sorting_in_layer < b.data.sorting_in_layer) return true;
+	if (a.data.sorting_in_layer == b.data.sorting_in_layer)
+		return a.data.order_in_layer < b.data.order_in_layer;
 
 	return false;
 }

@@ -56,11 +56,24 @@ public:
 		auto img = Texture("asset/spritesheet/pokemon_spritesheet.png");
 
 		Sprite & test_sprite = game_object.add_component<Sprite>(
-			img, color, Sprite::FlipSettings{false, false}, 1, 1, vec2{100, 100});
+			img, Sprite::Data{
+					 .color = color,
+					 .flip = Sprite::FlipSettings{false, false},
+					 .sorting_in_layer = 2,
+					 .order_in_layer = 2,
+					 .size = {0, 100},
+					 .angle_offset = 0,
+					 .scale = 1,
+				 });
 
-		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4, 0);
+		auto & anim = game_object.add_component<Animator>(Animator::Data{
+			.spritesheet = test_sprite,
+			.col = 4,
+			.row = 4,
+			.fps = 10,
+		});
 
-		auto & cam = game_object.add_component<Camera>(Color::, ivec2{720, 1280},
+		auto & cam = game_object.add_component<Camera>(Color::WHITE, ivec2{720, 1280},
 													   vec2{400, 400}, 1.0);
 	}
 
