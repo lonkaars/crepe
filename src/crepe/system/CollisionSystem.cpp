@@ -146,10 +146,10 @@ std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(Co
 		resolution.x = data1.rigidbody.data.linear_velocity.x * (resolution.y/data1.rigidbody.data.linear_velocity.y);
 	}
 
-	return {resolution,resolution_direction};
+	return std::make_pair(resolution,resolution_direction);
 }
 
-vec2 CollisionSystem::get_box_box_resolution(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 final_position1,vec2 final_position2) const
+vec2 CollisionSystem::get_box_box_resolution(const BoxCollider& box_collider1,const BoxCollider& box_collider2,const vec2& final_position1,const vec2& final_position2) const
 {
 	vec2 resolution; // Default resolution vector
 	vec2 delta = final_position2 - final_position1;
@@ -183,7 +183,7 @@ vec2 CollisionSystem::get_box_box_resolution(const BoxCollider& box_collider1,co
 	return resolution;
 }
 
-vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider& circle_collider1, const CircleCollider& circle_collider2, vec2 final_position1, vec2 final_position2) const 
+vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider& circle_collider1, const CircleCollider& circle_collider2, const vec2& final_position1, const vec2& final_position2) const 
 {
     vec2 delta = final_position2 - final_position1;
 
@@ -205,7 +205,7 @@ vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider& circle_
     return resolution;
 }
 
-vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider& circle_collider, const BoxCollider& box_collider, vec2 circle_position, vec2 box_position) const 
+vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider& circle_collider, const BoxCollider& box_collider, const vec2& circle_position, const vec2& box_position) const 
 {
     vec2 delta = circle_position - box_position;
 
@@ -252,7 +252,7 @@ void CollisionSystem::static_collision_handler(CollisionInfo& info){
 	info.first_transform.position += info.resolution;
 
 	// If bounce is enabled mirror velocity
-	if(info.first_rigidbody.data.bounce) {
+	if(info.first_rigidbody.data.elastisity > 0) {
 		if(info.resolution_direction == Direction::BOTH)
 		{
 			info.first_rigidbody.data.linear_velocity.y = -info.first_rigidbody.data.linear_velocity.y * info.first_rigidbody.data.elastisity;
@@ -335,11 +335,11 @@ CollisionSystem::get_active_transform_and_rigidbody(game_object_id_t game_object
     RefVector<Transform> transforms = this->component_manager.get_components_by_id<Transform>(game_object_id);
     if (transforms.empty()) return std::nullopt;
 
+		Transform& transform = transforms.front().get();
+    if (!transform.active) return std::nullopt;
+
     RefVector<Rigidbody> rigidbodies = this->component_manager.get_components_by_id<Rigidbody>(game_object_id);
     if (rigidbodies.empty()) return std::nullopt;
-
-    Transform& transform = transforms.front().get();
-    if (!transform.active) return std::nullopt;
 
     Rigidbody& rigidbody = rigidbodies.front().get();
     if (!rigidbody.active) return std::nullopt;
@@ -453,7 +453,7 @@ bool CollisionSystem::get_circle_circle_collision(const CircleCollider& circle1,
 	return distance_squared <= radius_sum * radius_sum;
 }
 
-vec2 CollisionSystem::get_current_position(vec2 collider_offset, const Transform& transform, const Rigidbody& rigidbody) const {
+vec2 CollisionSystem::get_current_position(const vec2& collider_offset, const Transform& transform, const Rigidbody& rigidbody) const {
 	// Get the rotation in radians
 	float radians1 = transform.rotation * (M_PI / 180.0);
 

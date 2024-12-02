@@ -79,7 +79,8 @@ public:
 	void SetUp() override {
 		
 		GameObject do_not_use = mgr.new_object("DO_NOT_USE","",{0,0});
-		do_not_use.add_component<Camera>(Color::WHITE);
+		do_not_use.add_component<Camera>(Color::WHITE, ivec2{1080, 720},
+												   vec2{2000, 2000}, 1.0f);
 		// initialize systems here:
 		//calls init
 		script_sys.update();
@@ -110,14 +111,19 @@ public:
 
 	// Print timings of all functions
 	void log_timings() const {
-		std::stringstream ss;
-        ss << "\nFunction timings:\n";
-        for (const auto& [name, duration] : timings) {
-            ss << name << " took " << duration.count() / 1000.0 / average << " ms (" << duration.count() / average << " µs).\n";
-        }
-        ss << "Total time: " << this->total_time.count() / 1000.0 / average << " ms (" << this->total_time.count() / average << " µs)\n";
-        ss << "Amount of gameobjects: " << game_object_count << "\n";
-        GTEST_LOG_(INFO) << ss.str();
+		std::string result = "\nFunction timings:\n";
+    
+    for (const auto& [name, duration] : timings) {
+        result += name + " took " + std::to_string(duration.count() / 1000.0 / average) + " ms (" +
+                  std::to_string(duration.count() / average) + " µs).\n";
+    }
+
+    result += "Total time: " + std::to_string(this->total_time.count() / 1000.0 / average) + " ms (" +
+              std::to_string(this->total_time.count() / average) + " µs)\n";
+    
+    result += "Amount of gameobjects: " + std::to_string(game_object_count) + "\n";
+
+    GTEST_LOG_(INFO) << result;
 	}
 
 	void clear_timings() {
@@ -158,15 +164,14 @@ TEST_F(Profiling, Profiling_2) {
 			//define gameobject used for testing
 			GameObject gameobject = mgr.new_object("gameobject","",{static_cast<float>(game_object_count*2),0});
 			gameobject.add_component<Rigidbody>(Rigidbody::Data{
-			.body_type = Rigidbody::BodyType::STATIC,
-			.use_gravity = false,
+				.gravity_scale = 0.0,
+				.body_type = Rigidbody::BodyType::STATIC,
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, 1, 1);
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
-			gameobject.add_component<Sprite>(
-			make_shared<Texture>("asset/texture/green_square.png"), color,
-			FlipSettings{true, true});
+			auto img = Texture("asset/texture/green_square.png");
+			Sprite & test_sprite = gameobject.add_component<Sprite>(img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
 		}
 
 		this->game_object_count++;
@@ -190,17 +195,14 @@ TEST_F(Profiling, Profiling_3) {
 			//define gameobject used for testing
 			GameObject gameobject = mgr.new_object("gameobject","",{static_cast<float>(game_object_count*2),0});
 			gameobject.add_component<Rigidbody>(Rigidbody::Data{
+			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::STATIC,
-			.use_gravity = false,
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, 1, 1);
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
-			gameobject.add_component<Sprite>(
-			make_shared<Texture>("asset/texture/green_square.png"), color,
-			FlipSettings{true, true});
-			Sprite & test_sprite = gameobject.add_component<Sprite>(
-			make_shared<Texture>("asset/texture/img.png"), color, FlipSettings{false, false});
+			auto img = Texture("asset/texture/green_square.png");
+			Sprite & test_sprite = gameobject.add_component<Sprite>(img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
 			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
 			.max_particles = 10,
 			.emission_rate = 100,
