@@ -105,6 +105,7 @@ std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(Co
 			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
 			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
 			resolution = box_box_resolution(collider1,collider2,collider_pos1,collider_pos2);
+			break;
 		}
 		case CollisionInternalType::BOX_CIRCLE: {
 			const BoxCollider & collider1 = std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
@@ -112,7 +113,7 @@ std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(Co
 			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
 			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
 			resolution = circle_box_resolution(collider2,collider1,collider_pos2,collider_pos1);
-
+			break;
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE:	{
 			const CircleCollider & collider1 = std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
@@ -120,6 +121,7 @@ std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(Co
 			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
 			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
 			resolution = circle_circle_resolution(collider1,collider2,collider_pos1,collider_pos2);
+			break;
 		}
 		case CollisionInternalType::CIRCLE_BOX:	{
 			const CircleCollider & collider1 = std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
@@ -127,6 +129,7 @@ std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(Co
 			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
 			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
 			resolution = circle_box_resolution(collider1,collider2,collider_pos1,collider_pos2);
+			break;
 		}
 	}
 
@@ -282,18 +285,23 @@ std::vector<std::pair<CollisionSystem::CollisionInternal,CollisionSystem::Collis
 	// Quadtree code
 	// Quadtree is placed over the input vector
 
+	// Return data of collided colliders which are variants
 	std::vector<std::pair<CollisionInternal,CollisionInternal>> collisions_ret;
+	//using visit to visit the variant to access the active and id.  
 	for (size_t i = 0; i < colliders.size(); ++i) {
     std::visit([&](auto& inner_collider_ref) {
+			// Return from visit if collider or components are not active 
 			if (!inner_collider_ref.get().active) return;
 			auto inner_components = get_active_transform_and_rigidbody(inner_collider_ref.get().game_object_id);
 			if (!inner_components) return;
 			for (size_t j = i + 1; j < colliders.size(); ++j) {
 				std::visit([&](auto& outer_collider_ref) { 
+					// Return from visit if collider or components are not active and if they have the same id.
 					if (!outer_collider_ref.get().active) return;
 					if (inner_collider_ref.get().game_object_id == outer_collider_ref.get().game_object_id) return;
 					auto outer_components = get_active_transform_and_rigidbody(outer_collider_ref.get().game_object_id);
 					if (!outer_components) return;
+					// Get collision type form variant colliders
 					CollisionInternalType type = check_collider_type(colliders[i],colliders[j]);
 					if(!check_collision({
 															.collider = colliders[i],
@@ -336,7 +344,7 @@ CollisionSystem::get_active_transform_and_rigidbody(game_object_id_t game_object
     return std::make_pair(std::ref(transform), std::ref(rigidbody));
 }
 
-CollisionSystem::CollisionInternalType CollisionSystem::check_collider_type(const collider_variant& collider1,const collider_variant& collider2){
+CollisionSystem::CollisionInternalType CollisionSystem::check_collider_type(const collider_variant& collider1,const collider_variant& collider2) const{
 	if(std::holds_alternative<std::reference_wrapper<CircleCollider>>(collider1)){
 		if(std::holds_alternative<std::reference_wrapper<CircleCollider>>(collider2))
 		{
