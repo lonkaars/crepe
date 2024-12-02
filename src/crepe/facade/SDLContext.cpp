@@ -156,53 +156,54 @@ void SDLContext::draw(const RenderContext & ctx) {
 
 void SDLContext::set_camera(const Camera & cam, CameraValues & ctx) {
 
+	const Camera::Data & cam_data = cam.data;
 	// resize window
 	int w, h;
 	SDL_GetWindowSize(this->game_window.get(), &w, &h);
-	if (w != cam.screen.x || h != cam.screen.y) {
-		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
+	if (w != cam_data.screen.x || h != cam_data.screen.y) {
+		SDL_SetWindowSize(this->game_window.get(), cam_data.screen.x, cam_data.screen.y);
 	}
 
 	vec2 & zoomed_viewport = ctx.zoomed_viewport;
 	vec2 & bar_size = ctx.bar_size;
 	vec2 & render_scale = ctx.render_scale;
 
-	zoomed_viewport = cam.viewport_size * cam.zoom;
-	double screen_aspect = static_cast<double>(cam.screen.x) / cam.screen.y;
+	zoomed_viewport = cam_data.viewport_size * cam_data.zoom;
+	double screen_aspect = static_cast<double>(cam_data.screen.x) / cam_data.screen.y;
 	double viewport_aspect = zoomed_viewport.x / zoomed_viewport.y;
 
 	// calculate black bars
 	if (screen_aspect > viewport_aspect) {
 		// pillarboxing
-		float scale = cam.screen.y / zoomed_viewport.y;
+		float scale = cam_data.screen.y / zoomed_viewport.y;
 		float adj_width = zoomed_viewport.x * scale;
-		float bar_width = (cam.screen.x - adj_width) / 2;
-		this->black_bars[0] = {0, 0, bar_width, (float) cam.screen.y};
-		this->black_bars[1] = {(cam.screen.x - bar_width), 0, bar_width, (float) cam.screen.y};
+		float bar_width = (cam_data.screen.x - adj_width) / 2;
+		this->black_bars[0] = {0, 0, bar_width, (float) cam_data.screen.y};
+		this->black_bars[1] = {(cam_data.screen.x - bar_width), 0, bar_width, (float) cam_data.screen.y};
 
 		bar_size = {bar_width, 0};
 		render_scale.x = render_scale.y = scale;
 	} else {
 		// letterboxing
-		float scale = cam.screen.x / (cam.viewport_size.x * cam.zoom);
-		float adj_height = cam.viewport_size.y * scale;
-		float bar_height = (cam.screen.y - adj_height) / 2;
-		this->black_bars[0] = {0, 0, (float) cam.screen.x, bar_height};
+		float scale = cam_data.screen.x / (cam_data.viewport_size.x * cam_data.zoom);
+		float adj_height = cam_data.viewport_size.y * scale;
+		float bar_height = (cam_data.screen.y - adj_height) / 2;
+		this->black_bars[0] = {0, 0, (float) cam_data.screen.x, bar_height};
 		this->black_bars[1]
-			= {0, (cam.screen.y - bar_height), (float) cam.screen.x, bar_height};
+			= {0, (cam_data.screen.y - bar_height), (float) cam_data.screen.x, bar_height};
 
 		bar_size = {0, bar_height};
 		render_scale.x = render_scale.y = scale;
 	}
 
-	SDL_SetRenderDrawColor(this->game_renderer.get(), cam.bg_color.r, cam.bg_color.g,
-						   cam.bg_color.b, cam.bg_color.a);
+	SDL_SetRenderDrawColor(this->game_renderer.get(), cam_data.bg_color.r, cam_data.bg_color.g,
+						   cam_data.bg_color.b, cam_data.bg_color.a);
 
 	SDL_Rect bg = {
 		.x = 0,
 		.y = 0,
-		.w = cam.screen.x,
-		.h = cam.screen.y,
+		.w = cam_data.screen.x,
+		.h = cam_data.screen.y,
 	};
 
 	// fill bg color

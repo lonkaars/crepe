@@ -33,7 +33,7 @@ const Camera & RenderSystem::update_camera() {
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(cam.game_object_id).front().get();
 		this->context.set_camera(cam, this->cam_ctx);
-		this->cam_ctx.cam_pos = transform.position + cam.offset;
+		this->cam_ctx.cam_pos = transform.position + cam.data.offset;
 		return cam;
 	}
 	throw std::runtime_error("No active cameras in current scene");

@@ -4,7 +4,6 @@
 
 #include "AnimatorSystem.h"
 #include "ComponentManager.h"
-#include <iostream>
 
 using namespace crepe;
 
@@ -21,7 +20,7 @@ void AnimatorSystem::update() {
 		Animator::Data & ctx = a.data;
 		double frame_duration = 1.0f / ctx.fps;
 
-		int cycle_end = (ctx.cycle_end == -1) ? ctx.row : cycle_end;
+		int cycle_end = (ctx.cycle_end == -1) ? ctx.row : ctx.cycle_end;
 		int total_frames = cycle_end - ctx.cycle_start;
 
 		int curr_frame = static_cast<int>(elapsed_time / frame_duration) % total_frames;
@@ -30,8 +29,7 @@ void AnimatorSystem::update() {
 		ctx.spritesheet.mask.x = ctx.curr_row * ctx.spritesheet.mask.w;
 		ctx.spritesheet.mask.y = (ctx.curr_col * ctx.spritesheet.mask.h);
 	
-		std::cout << curr_frame << " " << total_frames << std::endl;
-		if (!ctx.looping && curr_frame == 0) {
+		if (!ctx.looping && curr_frame == total_frames - 1) {
 			a.active = false;
 		}
 	}

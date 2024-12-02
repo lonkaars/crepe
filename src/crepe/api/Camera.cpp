@@ -7,7 +7,6 @@
 using namespace crepe;
 
 Camera::Camera(game_object_id_t id, const Data & ctx) : Component(id), data(ctx) {
-
 	dbg_trace();
 }
 
