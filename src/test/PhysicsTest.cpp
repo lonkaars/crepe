@@ -28,8 +28,6 @@ public:
 				.max_linear_velocity = vec2{10, 10},
 				.max_angular_velocity = 10,
 				.constraints = {0, 0},
-				.use_gravity = true,
-				.bounce = false,
 			});
 		}
 		transforms = mgr.get_components_by_id<Transform>(0);
@@ -105,16 +103,16 @@ TEST_F(PhysicsTest, movement) {
 	EXPECT_EQ(transform.position.y, 1);
 	EXPECT_EQ(transform.rotation, 1);
 
-	rigidbody.data.linear_damping.x = 0.5;
-	rigidbody.data.linear_damping.y = 0.5;
-	rigidbody.data.angular_damping = 0.5;
+	rigidbody.data.linear_velocity_factor.x = 0.5;
+	rigidbody.data.linear_velocity_factor.y = 0.5;
+	rigidbody.data.angular_velocity_factor = 0.5;
 	system.update();
 	EXPECT_EQ(rigidbody.data.linear_velocity.x, 0.5);
 	EXPECT_EQ(rigidbody.data.linear_velocity.y, 0.5);
 	EXPECT_EQ(rigidbody.data.angular_velocity, 0.5);
 
 	rigidbody.data.constraints = {1, 1, 0};
-	rigidbody.data.angular_damping = 0;
+	rigidbody.data.angular_velocity_factor = 0;
 	rigidbody.data.max_angular_velocity = 1000;
 	rigidbody.data.angular_velocity = 360;
 	system.update();

@@ -26,14 +26,6 @@ using namespace std::chrono_literals;
 using namespace crepe;
 using namespace testing;
 
-
-/*
-List of test cases with component settings/details
-1. Minimal test creates gameobject without additonal components
-2. Minimal 'Complex' gameobject. Has dynamic body without bounce and no collision handler
-3. Minimal 'Complex' gameobject. Same as test 2 but with particle emitter
-*/
-
 class TestScript : public Script {
 	bool oncollision(const CollisionEvent& test) {
 		Log::logf("Box {} script on_collision()", test.info.first_collider.game_object_id);
@@ -55,7 +47,7 @@ public:
 	// Minimum amount to let test pass
 	const int min_gameobject_count = 100;
 	// Maximum amount to stop test
-	const int max_gameobject_count = 200;
+	const int max_gameobject_count = 150;
 	// Amount of times a test runs to calculate average
 	const int average = 5;
 	// Maximum duration to stop test
