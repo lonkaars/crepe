@@ -179,7 +179,8 @@ void SDLContext::set_camera(const Camera & cam, CameraValues & ctx) {
 		float adj_width = zoomed_viewport.x * scale;
 		float bar_width = (cam_data.screen.x - adj_width) / 2;
 		this->black_bars[0] = {0, 0, bar_width, (float) cam_data.screen.y};
-		this->black_bars[1] = {(cam_data.screen.x - bar_width), 0, bar_width, (float) cam_data.screen.y};
+		this->black_bars[1]
+			= {(cam_data.screen.x - bar_width), 0, bar_width, (float) cam_data.screen.y};
 
 		bar_size = {bar_width, 0};
 		render_scale.x = render_scale.y = scale;

@@ -45,7 +45,6 @@ public:
 		//! end frame for cycling (-1 --> use last frame)
 		int cycle_end = -1;
 
-
 		//! offset in pixels.
 		// TODO implement
 		int offset_x = 0;
