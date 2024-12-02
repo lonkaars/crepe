@@ -4,6 +4,7 @@
 
 #include "AnimatorSystem.h"
 #include "ComponentManager.h"
+#include <iostream>
 
 using namespace crepe;
 
@@ -25,11 +26,11 @@ void AnimatorSystem::update() {
 		int curr_frame = static_cast<int>(elapsed_time / frame_duration) % total_frames;
 
 		a.curr_row = a.cycle_start + curr_frame;
-		a.spritesheet.mask.x = std::clamp((a.curr_row * a.spritesheet.mask.w - a.offset_x), 0,
-										  a.spritesheet.mask.w);
+		a.spritesheet.mask.x = a.curr_row * a.spritesheet.mask.w;
 		a.spritesheet.mask.y = (a.curr_col * a.spritesheet.mask.h);
-
-		if (!a.looping && curr_frame == total_frames) {
+	
+		std::cout << curr_frame << " " << total_frames << std::endl;
+		if (!a.looping && curr_frame == 0) {
 			a.active = false;
 		}
 	}

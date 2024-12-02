@@ -53,16 +53,15 @@ public:
 
 		Color color(255, 255, 255, 255);
 
-		auto img = Texture("asset/spritesheet/spritesheet_test.png");
+		auto img = Texture("asset/spritesheet/pokemon_spritesheet.png");
 
 		Sprite & test_sprite = game_object.add_component<Sprite>(
-			img, color, Sprite::FlipSettings{true, true}, 1, 1, vec2{1, 1});
+			img, color, Sprite::FlipSettings{false, false}, 1, 1, vec2{100, 100});
 
-		//game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
-		game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
+		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4, 0);
 
-		auto & cam = game_object.add_component<Camera>(Color::RED, ivec2{1280, 720},
-													   vec2{2.59, 1.95}, 2.0);
+		auto & cam = game_object.add_component<Camera>(Color::, ivec2{720, 1280},
+													   vec2{400, 400}, 1.0);
 	}
 
 	string get_name() const { return "TestScene"; };
