@@ -16,6 +16,39 @@ class SDLContext;
  * sheet. It can be used to play animations, loop them, or stop them.
  */
 class Animator : public Component {
+public:
+	struct Data {
+		//! A reference to the Sprite sheet containing.
+		Sprite & spritesheet;
+
+		//! The maximum number of columns in the sprite sheet.
+		const int col;
+
+		//! The maximum number of rows in the sprite sheet.
+		const int row;
+
+		//! frames per second for animation
+		int fps;
+
+		//! The current col being animated.
+		int curr_col;
+
+		//! The current row being animated.
+		int curr_row = 0;
+
+		//! should the animation loop
+		bool looping = false;
+
+		//! starting frame for cycling
+		int cycle_start = 0;
+
+		//! end frame for cycling (-1 --> use last frame)
+		int cycle_end = -1;
+
+
+		//! offset in pixels.
+		int offset_x = 0;
+	};
 
 public:
 	/**
@@ -85,40 +118,11 @@ public:
 	 * This constructor sets up the Animator with the given parameters, and initializes the
 	 * animation system.
 	 */
-	Animator(uint32_t id, Sprite & spritesheet, int row, int col, int col_animate);
-
+	Animator(uint32_t id, const Animator::Data & ctx);
 	~Animator(); // dbg_trace
 
 public:
-	//! A reference to the Sprite sheet containing.
-	Sprite & spritesheet;
-
-	//! The maximum number of columns in the sprite sheet.
-	const int col;
-
-	//! The maximum number of rows in the sprite sheet.
-	const int row;
-
-	//! The current col being animated.
-	int curr_col = 0;
-
-	//! The current row being animated.
-	int curr_row = 0;
-
-	//! should the animation loop
-	bool looping = false;
-
-	//! starting frame for cycling
-	int cycle_start = 0;
-
-	//! end frame for cycling (-1 --> use last frame)
-	int cycle_end = -1;
-
-	//! frames per second for animation
-	int fps = 1;
-
-	//! offset in pixels.
-	int offset_x = 0;
+	Animator::Data data;
 
 private:
 	//! AnimatorSystem adjust the private member parameters of Animator;

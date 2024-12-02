@@ -17,20 +17,21 @@ void AnimatorSystem::update() {
 
 	for (Animator & a : animations) {
 		if (!a.active) continue;
+		
+		Animator::Data & ctx = a.data;
+		double frame_duration = 1.0f / ctx.fps;
 
-		double frame_duration = 1.0f / a.fps;
-
-		int cycle_end = (a.cycle_end == -1) ? a.row : cycle_end;
-		int total_frames = cycle_end - a.cycle_start;
+		int cycle_end = (ctx.cycle_end == -1) ? ctx.row : cycle_end;
+		int total_frames = cycle_end - ctx.cycle_start;
 
 		int curr_frame = static_cast<int>(elapsed_time / frame_duration) % total_frames;
 
-		a.curr_row = a.cycle_start + curr_frame;
-		a.spritesheet.mask.x = a.curr_row * a.spritesheet.mask.w;
-		a.spritesheet.mask.y = (a.curr_col * a.spritesheet.mask.h);
+		ctx.curr_row = ctx.cycle_start + curr_frame;
+		ctx.spritesheet.mask.x = ctx.curr_row * ctx.spritesheet.mask.w;
+		ctx.spritesheet.mask.y = (ctx.curr_col * ctx.spritesheet.mask.h);
 	
 		std::cout << curr_frame << " " << total_frames << std::endl;
-		if (!a.looping && curr_frame == 0) {
+		if (!ctx.looping && curr_frame == 0) {
 			a.active = false;
 		}
 	}

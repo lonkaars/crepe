@@ -112,17 +112,15 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 
 SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
 
-	// this might not work all the time because of float checking zero -_-
-	vec2 size = {ctx.sprite.size.x == 0 && ctx.sprite.size.y != 0
-					 ? ctx.sprite.size.y * ctx.sprite.aspect_ratio
-					 : ctx.sprite.size.x,
-				 ctx.sprite.size.y == 0 && ctx.sprite.size.x != 0
-					 ? ctx.sprite.size.x / ctx.sprite.aspect_ratio
-					 : ctx.sprite.size.y};
+	const Sprite::Data & data = ctx.sprite.data;
+
+	vec2 size = {
+		data.size.x == 0 && data.size.y != 0 ? data.size.y * data.aspect_ratio : data.size.x,
+		data.size.y == 0 && data.size.x != 0 ? data.size.x / data.aspect_ratio : data.size.y};
 
 	const CameraValues & cam = ctx.cam;
 
-	size *= cam.render_scale * ctx.img_scale * ctx.sprite.scale;
+	size *= cam.render_scale * ctx.img_scale * data.scale;
 
 	vec2 screen_pos = (ctx.pos - cam.cam_pos + (cam.zoomed_viewport) / 2) * cam.render_scale
 					  - size / 2 + cam.bar_size;
@@ -137,9 +135,10 @@ SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
 
 void SDLContext::draw(const RenderContext & ctx) {
 
+	const Sprite::Data & data = ctx.sprite.data;
 	SDL_RendererFlip render_flip
-		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * ctx.sprite.flip.flip_x)
-							  | (SDL_FLIP_VERTICAL * ctx.sprite.flip.flip_y));
+		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
+							  | (SDL_FLIP_VERTICAL * data.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
 	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DstRect{
@@ -149,10 +148,10 @@ void SDLContext::draw(const RenderContext & ctx) {
 		.img_scale = ctx.scale,
 	});
 
-	double angle = ctx.angle + ctx.sprite.angle_offset;
+	double angle = ctx.angle + data.angle_offset;
 
-	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.sprite_image.texture.get(),
-					  &srcrect, &dstrect, angle, NULL, render_flip);
+	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.texture.texture.get(), &srcrect,
+					  &dstrect, angle, NULL, render_flip);
 }
 
 void SDLContext::set_camera(const Camera & cam, CameraValues & ctx) {
