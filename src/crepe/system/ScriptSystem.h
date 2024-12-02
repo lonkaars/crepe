@@ -1,7 +1,5 @@
 #pragma once
 
-#include <forward_list>
-
 #include "System.h"
 
 namespace crepe {
@@ -25,15 +23,6 @@ public:
 	 * the \c BehaviorScript instance.
 	 */
 	void update() override;
-
-private:
-	/**
-	 * \brief Aggregate all active \c BehaviorScript components and return a list
-	 * of references to their \c Script instances (utility)
-	 *
-	 * \returns List of active \c Script instances
-	 */
-	std::forward_list<std::reference_wrapper<Script>> get_scripts() const;
 };
 
 } // namespace crepe

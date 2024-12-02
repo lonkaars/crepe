@@ -15,12 +15,19 @@ that you can click on to open them.
   `name/feature` (i.e. `loek/dll-so-poc` or `jaro/class2`)
 - The master branch is considered stable, and should always contain a
   working/compiling version of the project
+- Pull requests for new code include either automated tests for the new code or
+  an explanation as to why the code can not (reliably) be tested
+- Non-bugfix pull requests must be approved by at least 2 reviewers before being
+  merged
+
+<!--
 - TODO: tagging / versions
+-->
 
 # Code style
 
 - Formatting nitty-gritty is handled by clang-format/clang-tidy (run `make
-  format` in the root folder of this repository to format all sources files)
+  format` or `make lint`)
 - <details><summary>
   ASCII only
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
@@ -491,6 +498,12 @@ that you can click on to open them.
   </td></tr></table></details>
 - <details><summary>
   Ensure const-correctness
+
+  > [!IMPORTANT]
+  > C-style APIs that work on (possibly internal) references to structs can be
+  > called from const member functions in C++. If the compiler allows you to
+  > mark a function as `const` even though it has side effects, it should
+  > **not** be marked as `const`.
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
@@ -790,6 +803,24 @@ that you can click on to open them.
   }
   ```
   </td></tr></table></details>
+- Do not implement new classes as singletons
+- <details><summary>
+  Retrieving the first or last indices for iterators with a known or expected
+  size should be done using <code>.front()</code> or <code>.back()</code>
+  instead of by index
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  vector<int> foo = { 1, 2, 3 };
+  int bar = foo.first();
+  ```
+  </td><td>
+
+  ```cpp
+  vector<int> foo = { 1, 2, 3 };
+  int bar = foo[0];
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 
@@ -797,6 +828,27 @@ that you can click on to open them.
   `target_sources`, `target_link_libraries`) are on separate lines. This makes
   resolving merge conflicts when multiple sources were added by different
   people to the same CMakeLists.txt easier.
+
+## GoogleTest-specific
+
+- Unit tests are not *required* to follow all code standards
+- <details><summary>
+  Private/protected members may be accessed using preprocessor tricks
+  </summary>
+
+  ```cpp
+  // include unrelated headers before
+
+  #define private public
+  #define protected public
+
+  // headers included after *will* be affected
+  ```
+  </details>
+- Each test source file defines tests within a single test suite (first
+  parameter of `TEST()` / `TEST_F()` macro)
+- Test source files match their suite name (or test fixture name in the case of
+  tests that use a fixture)
 
 # Structure
 

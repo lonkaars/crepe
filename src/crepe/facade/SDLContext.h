@@ -1,30 +1,24 @@
 #pragma once
 
 #include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
-#include <cstdint>
+#include <cmath>
 #include <functional>
 #include <memory>
 #include <string>
 
+#include "../api/Camera.h"
 #include "../api/Sprite.h"
-#include "../api/Transform.h"
-#include "api/Camera.h"
-#include "api/Vector2.h"
 
-// FIXME: this needs to be removed
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+#include "types.h"
 
 namespace crepe {
 
 // TODO: SDL_Keycode is defined in a header not distributed with crepe, which means this
 // typedef is unusable when crepe is packaged. Wouter will fix this later.
 typedef SDL_Keycode CREPE_KEYCODES;
-
-class Texture;
-class LoopManager;
 
 /**
  * \class SDLContext
@@ -34,6 +28,15 @@ class LoopManager;
  * event handling, and rendering to the screen. It is never used directly by the user
  */
 class SDLContext {
+public:
+	struct RenderContext {
+		const Sprite & sprite;
+		const Camera & cam;
+		const vec2 & cam_pos;
+		const vec2 & pos;
+		const double & angle;
+		const double & scale;
+	};
 
 public:
 	/**
@@ -93,9 +96,6 @@ private:
 	//! Will use the funtions: texture_from_path, get_width,get_height.
 	friend class Texture;
 
-	//! Will use the funtions: texture_from_path, get_width,get_height.
-	friend class Animator;
-
 	/**
 	 * \brief Loads a texture from a file path.
 	 * \param path Path to the image file.
@@ -108,14 +108,14 @@ private:
 	 * \param texture Reference to the Texture object.
 	 * \return Width of the texture as an integer.
 	 */
-	int get_width(const Texture &) ;
+	int get_width(const Texture & texture) const;
 
 	/**
 	 * \brief Gets the height of a texture.
 	 * \param texture Reference to the Texture object.
 	 * \return Height of the texture as an integer.
 	 */
-	int get_height(const Texture &) ;
+	int get_height(const Texture & texture) const;
 
 private:
 	//! Will use draw,clear_screen, present_screen, camera.
@@ -123,13 +123,9 @@ private:
 
 	/**
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
-	 * \param sprite Reference to the Sprite to draw.
-	 * \param transform Reference to the Transform for positioning.
-	 * \param camera Reference to the Camera for view adjustments.
+	 * \param RenderCtx Reference to rendering data to draw
 	 */
-	void draw(const Sprite & sprite, const Transform & transform, const Camera & camera);
-
-	void draw_particle(const Vector2 & pos, const Camera & camera);
+	void draw(const RenderContext & ctx);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
@@ -138,12 +134,33 @@ private:
 	void present_screen();
 
 	/**
-	 * \brief Sets the current camera for rendering.
+	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	void camera(const Camera & camera);
+	void set_camera(const Camera & camera);
+
+private:
+	/**
+	 * \brief calculates the sqaure size of the image
+	 *
+	 * \param sprite Reference to the sprite to calculate the rectangle
+	 * \return sdl rectangle to draw a src image
+	 */
+	SDL_Rect get_src_rect(const Sprite & sprite) const;
 
 	/**
+	 * \brief calculates the sqaure size of the image for destination
+	 *
+	 * \param sprite Reference to the sprite to calculate rectangle
+	 * \param pos the pos in world units
+	 * \param cam the camera of the current scene
+	 * \param cam_pos the current postion of the camera
+	 * \param img_scale the image multiplier for increasing img size 
+	 * \return sdl rectangle to draw a dst image to draw on the screen
+	 */
+	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
+						  const vec2 & cam_pos, const double & img_scale) const;
+/**
 	 * \brief changes the texture rbg values with the given parameters
 	 *  it sets the allowed color inside a image. So if all the colors are 255 (MAXIMUM)
 	 *  it will show the given texture. however if the one of the colors is reduced it will reduce the 
@@ -164,16 +181,12 @@ private:
 	 * \param  alpha alpha channel
 	 */
 	void set_alpha_texture(const std::shared_ptr<Texture>& texture, const uint8_t& alpha);
-
 private:
 	//! sdl Window
 	std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> game_window;
 
 	//! renderer for the crepe engine
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
-
-	//! viewport for the camera window
-	SDL_Rect viewport = {0, 0, 640, 480};
 };
 
 } // namespace crepe

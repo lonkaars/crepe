@@ -47,7 +47,7 @@ double LoopTimer::get_fixed_delta_time() const { return this->fixed_delta_time.c
 void LoopTimer::set_fps(int fps) {
 	this->fps = fps;
 	// target time per frame in seconds
-	this->frame_target_time = std::chrono::seconds(1) / fps;
+	this->frame_target_time = std::chrono::duration<double>(1.0) / fps;
 }
 
 int LoopTimer::get_fps() const { return this->fps; }

@@ -4,7 +4,7 @@
 #include <soloud/soloud.h>
 #include <soloud/soloud_wav.h>
 
-#include "../Asset.h"
+#include "../api/Asset.h"
 
 namespace crepe {
 

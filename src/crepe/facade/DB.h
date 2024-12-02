@@ -22,8 +22,10 @@ class DB {
 public:
 	/**
 	 * \param path  The path of the database (created if nonexistant)
+	 *
+	 * \note If \p path is empty, the database is entirely in-memory
 	 */
-	DB(const std::string & path);
+	DB(const std::string & path = "");
 	virtual ~DB() = default;
 
 public:

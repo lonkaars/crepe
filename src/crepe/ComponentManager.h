@@ -5,9 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "api/Vector2.h"
-
 #include "Component.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -44,7 +43,7 @@ public:
 	 * \note This method automatically assigns a new entity ID
 	 */
 	GameObject new_object(const std::string & name, const std::string & tag = "",
-						  const Vector2 & position = {0, 0}, double rotation = 0,
+						  const vec2 & position = {0, 0}, double rotation = 0,
 						  double scale = 1);
 
 protected:
@@ -100,6 +99,16 @@ protected:
 	 * This method deletes all components.
 	 */
 	void delete_all_components();
+	/**
+	 * \brief Set a GameObject as persistent
+	 *
+	 * This method sets a GameObject as persistent. If a GameObject is persistent, its
+	 * components will not be deleted.
+	 *
+	 * \param id The id of the GameObject to set as persistent
+	 * \param persistent The persistent flag
+	 */
+	void set_persistent(game_object_id_t id, bool persistent);
 
 public:
 	/**
@@ -112,7 +121,7 @@ public:
 	 * \return A vector of all components of the specific type and id
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>> get_components_by_id(game_object_id_t id) const;
+	RefVector<T> get_components_by_id(game_object_id_t id) const;
 	/**
 	 * \brief Get all components of a specific type
 	 * 
@@ -122,7 +131,7 @@ public:
 	 * \return A vector of all components of the specific type
 	 */
 	template <typename T>
-	std::vector<std::reference_wrapper<T>> get_components_by_type() const;
+	RefVector<T> get_components_by_type() const;
 
 private:
 	/**
@@ -137,6 +146,9 @@ private:
 	 */
 	std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>>
 		components;
+
+	//! Persistent flag for each GameObject
+	std::unordered_map<game_object_id_t, bool> persistent;
 
 	//! ID of next GameObject allocated by \c ComponentManager::new_object
 	game_object_id_t next_id = 0;
