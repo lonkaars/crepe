@@ -67,8 +67,6 @@ private:
 	void handle_events(bool & running);
 
 private:
-	//! Will only use get_ticks
-	friend class AnimatorSystem;
 	//! Will only use delay
 	friend class LoopTimer;
 	/**
