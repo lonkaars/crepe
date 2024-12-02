@@ -1,20 +1,24 @@
 #pragma once
 
-#include "api/Camera.h"
-#include "api/Sprite.h"
-#include "api/Transform.h"
+#include <cmath>
+
+#include "facade/SDLContext.h"
 
 #include "System.h"
+#include "types.h"
 
 namespace crepe {
+
+class Camera;
+class Sprite;
+class Transform;
 
 /**
  * \class RenderSystem
  * \brief Manages rendering operations for all game objects.
  *
- * RenderSystem is responsible for rendering sprites, clearing and presenting the screen, and
- * managing the active camera. It functions as a singleton, providing centralized rendering
- * services for the application.
+ * RenderSystem is responsible for rendering, clearing and presenting the screen, and
+ * managing the active camera. 
  */
 class RenderSystem : public System {
 public:
@@ -27,13 +31,13 @@ public:
 
 private:
 	//! Clears the screen in preparation for rendering.
-	void clear_screen() const;
+	void clear_screen();
 
 	//! Presents the rendered frame to the display.
-	void present_screen() const;
+	void present_screen();
 
 	//! Updates the active camera used for rendering.
-	void update_camera();
+	const Camera & update_camera();
 
 	//! Renders the whole screen
 	void render();
@@ -48,22 +52,35 @@ private:
 	 *  constructor is now protected i cannot make tmp inside
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite &, Transform tm);
+	bool render_particle(const Sprite & sprite, const Camera & cam, const double & scale);
 
-	void render_normal(const Sprite &, const Transform & tm);
+	/**
+	 * \brief renders a sprite with a Transform component on the screen 
+	 *
+	 * \param sprite  the sprite component that holds all the data
+	 * \param tm the Transform component that holds the position,rotation and scale 
+	 */
+	void render_normal(const Sprite & sprite, const Camera & cam, const Transform & tm);
 
+	/**
+	 * \brief sort a vector sprite objects with
+	 *
+	 * \param objs the vector that will do a sorting algorithm on 
+	 * \return returns a sorted reference vector
+	 */
+	RefVector<Sprite> sort(RefVector<Sprite> & objs) const;
 
 	/**
 	 * \todo Add text rendering using SDL_ttf for text components.
 	 * \todo Implement a text component and a button component.
-	 * \todo Sort all layers by order before rendering.
 	 * \todo Consider adding text input functionality.
 	 */
 
 private:
-	//! Pointer to the current active camera for rendering
-	Camera * curr_cam = nullptr;
-	// TODO: needs a better solution
+	SDLContext & context = SDLContext::get_instance();
+
+	//! camera postion in the current scene
+	vec2 cam_pos;
 };
 
 } // namespace crepe

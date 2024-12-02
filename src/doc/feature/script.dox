@@ -1,0 +1,62 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_script Scripting
+\ingroup feature
+\brief User-defined scripts for game objects
+
+Scripts can be used to implement game behavior, and allow arbitrary code to run
+as part of the game loop. Scripts are implemented as derivative classes of
+Script, which are added to game objects using the BehaviorScript \ref Component
+"component".
+
+\todo This section is incomplete:
+- Utility functions to get components/events/etc inside script
+- How to listen for events
+- Extensions of script (keylistener)
+
+\see Script
+\see BehaviorScript
+\see GameObject
+
+\par Example
+
+First, define a class that inherits from Script. This class acts as an
+interface, and has two functions (\ref Script::init "\c init()" and \ref
+Script::update "\c update()"), which may be implemented (they are empty by
+default). From now on, this derivative class will be referred to as a *concrete
+script*.
+
+```cpp
+#include <crepe/api/Script.h>
+#include <crepe/api/BehaviorScript.h>
+
+class MyScript : public crepe::Script {
+	void init() {
+		// called once
+	}
+	void update() {
+		// called on fixed update
+	}
+};
+```
+
+Concrete scripts can be instantiated and attached to \ref GameObject
+"game objects" using the BehaviorScript \ref Component "component".
+
+```cpp
+using namespace crepe;
+GameObject obj = component_manager.new_object("name");
+
+// create BehaviorScript instance
+BehaviorScript & behavior_script = obj.add_component<BehaviorScript>();
+// attach (and instantiate) MyScript to behavior_script
+behavior_script.set_script<MyScript>();
+
+// the above can also be done in a single call for convenience:
+obj.add_component<BehaviorScript>().set_script<MyScript>();
+```
+
+*/
+}
