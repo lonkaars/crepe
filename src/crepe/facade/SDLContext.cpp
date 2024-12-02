@@ -19,6 +19,7 @@
 #include "../util/Log.h"
 
 #include "SDLContext.h"
+#include "api/Color.h"
 #include "types.h"
 
 using namespace crepe;
@@ -131,9 +132,15 @@ void SDLContext::draw(const RenderContext & ctx) {
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * ctx.sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * ctx.sprite.flip.flip_y));
 
+	const Color & color = ctx.sprite.color;
+
 	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
 	SDL_Rect dstrect
 		= this->get_dst_rect(ctx.sprite, ctx.pos, ctx.cam, ctx.cam_pos, ctx.scale);
+
+	this->set_rbg_texture(ctx.sprite.sprite_image, color.r, color.g, color.b);
+	this->set_alpha_texture(ctx.sprite.sprite_image, color.a);
+
 
 	SDL_RenderCopyEx(this->game_renderer.get(), ctx.sprite.sprite_image.texture.get(),
 					 &srcrect, &dstrect, ctx.angle, NULL, render_flip);
@@ -221,9 +228,12 @@ int SDLContext::get_height(const Texture & ctx) const {
 	return h;
 }
 void SDLContext::delay(int ms) const { SDL_Delay(ms); }
-void SDLContext::set_rbg_texture(const std::shared_ptr<Texture>& texture, const uint8_t& r, const uint8_t& g, const uint8_t& b){
-	SDL_SetTextureColorMod(texture->texture.get(), r, g, b);
+
+void SDLContext::set_rbg_texture(const Texture & texture, const uint8_t & r,
+								 const uint8_t & g, const uint8_t & b) {
+	SDL_SetTextureColorMod(texture.texture.get(), r, g, b);
 }
-void SDLContext::set_alpha_texture(const std::shared_ptr<Texture>& texture, const uint8_t& alpha){
-	SDL_SetTextureAlphaMod(texture->texture.get(), alpha	);
+void SDLContext::set_alpha_texture(const Texture & texture,
+								   const uint8_t & alpha) {
+	SDL_SetTextureAlphaMod(texture.texture.get(), alpha);
 }

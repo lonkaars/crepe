@@ -12,6 +12,7 @@
 #include "../api/Camera.h"
 #include "../api/Sprite.h"
 
+#include "api/Texture.h"
 #include "types.h"
 
 namespace crepe {
@@ -160,7 +161,7 @@ private:
 	 */
 	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
 						  const vec2 & cam_pos, const double & img_scale) const;
-/**
+	/**
 	 * \brief changes the texture rbg values with the given parameters
 	 *  it sets the allowed color inside a image. So if all the colors are 255 (MAXIMUM)
 	 *  it will show the given texture. however if the one of the colors is reduced it will reduce the 
@@ -171,8 +172,8 @@ private:
 	 * \param  g Green color
 	 * \param  b Blue color
 	 */
-	void set_rbg_texture(const std::shared_ptr<Texture>& texture, const uint8_t& r, const uint8_t& g, const uint8_t& b);
-
+	void set_rbg_texture(const Texture & texture, const uint8_t & r,
+						 const uint8_t & g, const uint8_t & b);
 
 	/**
 	 * \brief Modifies the transparency of the given texture
@@ -180,7 +181,8 @@ private:
 	 * \param texture modify the given texture alpha channel
 	 * \param  alpha alpha channel
 	 */
-	void set_alpha_texture(const std::shared_ptr<Texture>& texture, const uint8_t& alpha);
+	void set_alpha_texture(const Texture & texture, const uint8_t & alpha);
+
 private:
 	//! sdl Window
 	std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> game_window;
