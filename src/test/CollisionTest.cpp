@@ -1,3 +1,4 @@
+#include "api/BoxCollider.h"
 #include <cmath>
 #include <cstddef>
 #include <gtest/gtest.h>
@@ -342,6 +343,40 @@ TEST_F(CollisionTest, collision_box_box_static_y_direction) {
 	rg1.data.linear_velocity = {10,10};
 	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
 	rg2.data.body_type = crepe::Rigidbody::BodyType::STATIC;
+	collision_sys.update();
+	EXPECT_TRUE(collision_happend);
+}
+
+TEST_F(CollisionTest, collision_box_box_static_multiple) {//todo check visually
+	bool collision_happend = false;
+	float offset_value = 0;
+	float resolution = 0;
+	script_object1_ref->test_fn = [&](const CollisionEvent & ev) {
+		collision_happend = true;
+		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.first_collider.offset.x , offset_value);
+		EXPECT_EQ(ev.info.resolution.x , resolution);
+	};
+	script_object2_ref->test_fn = [&](const CollisionEvent & ev) {
+		// is static should not be called
+		FAIL();
+	};
+	EXPECT_FALSE(collision_happend);
+	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
+	tf.position = {45,30};
+	Rigidbody & rg1 = this->mgr.get_components_by_id<Rigidbody>(1).front().get();
+	rg1.data.linear_velocity = {10,10};
+	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
+	rg2.data.body_type = crepe::Rigidbody::BodyType::STATIC;
+	BoxCollider & bxc = this->mgr.get_components_by_id<BoxCollider>(1).front().get();
+	bxc.offset = {5,0};
+	this->game_object1.add_component<BoxCollider>(vec2{-5, 0}, 10, 10);
+	offset_value = 5;
+	resolution = 10;
+	collision_sys.update();
+	offset_value = -5;
+	resolution = 10;
+	tf.position = {55,30};
 	collision_sys.update();
 	EXPECT_TRUE(collision_happend);
 }

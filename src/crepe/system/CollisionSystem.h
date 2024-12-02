@@ -139,9 +139,35 @@ private:
 		* \param box_collider2 The second BoxCollider.
 		* \param position1 The position of the first BoxCollider.
 		* \param position2 The position of the second BoxCollider.
-		* \return The resolution vector for the first BoxCollider.
+		* \return The resolution vector for the collision.
 		*/
 	vec2 box_box_resolution(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 position1,vec2 position2);
+
+	/**
+		* \brief Calculates the resolution vector for two CircleCollider.
+		* 
+		* Computes the displacement required to separate two overlapping CircleCollider.
+		* 
+		* \param circle_collider1 The first CircleCollider.
+		* \param circle_collider2 The second CircleCollider.
+		* \param position1 The position of the first CircleCollider.
+		* \param position2 The position of the second CircleCollider.
+		* \return The resolution vector for the collision.
+		*/
+	vec2 circle_circle_resolution(const CircleCollider& circle_collider1, const CircleCollider& circle_collider2, vec2 final_position1, vec2 final_position2);
+
+	/**
+		* \brief Calculates the resolution vector for two CircleCollider.
+		* 
+		* Computes the displacement required to separate two overlapping CircleCollider.
+		* 
+		* \param circle_collider The first CircleCollider.
+		* \param box_collider The second CircleCollider.
+		* \param circle_position The position of the CircleCollider.
+		* \param box_position The position of the BocCollider.
+		* \return The resolution vector for the collision.
+		*/
+	vec2 circle_box_resolution(const CircleCollider& circle_collider, const BoxCollider& box_collider, vec2 circle_position, vec2 box_position);
 
 	/**
 		* \brief Determines the appropriate collision handler for a collision.

@@ -97,40 +97,53 @@ void CollisionSystem::collision_handler_request(CollisionInternal& data1,Collisi
 
 
 std::pair<vec2,CollisionSystem::Direction> CollisionSystem::collision_handler(CollisionInternal& data1,CollisionInternal& data2,CollisionInternalType type) {
-	vec2 move_back;
+	vec2 resolution;
 	switch (type) {
 		case CollisionInternalType::BOX_BOX:	{
 			const BoxCollider & collider1 = std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			const BoxCollider & collider2 = std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
 			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
 			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
-			move_back = box_box_resolution(collider1,collider2,collider_pos1,collider_pos2);
+			resolution = box_box_resolution(collider1,collider2,collider_pos1,collider_pos2);
 		}
 		case CollisionInternalType::BOX_CIRCLE: {
-		
+			const BoxCollider & collider1 = std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
+			const CircleCollider & collider2 = std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
+			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
+			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
+			resolution = circle_box_resolution(collider2,collider1,collider_pos2,collider_pos1);
+
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE:	{
-		
+			const CircleCollider & collider1 = std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
+			const CircleCollider & collider2 = std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
+			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
+			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
+			resolution = circle_circle_resolution(collider1,collider2,collider_pos1,collider_pos2);
 		}
 		case CollisionInternalType::CIRCLE_BOX:	{
-		
+			const CircleCollider & collider1 = std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
+			const BoxCollider & collider2 = std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
+			vec2 collider_pos1 = current_position(collider1.offset, data1.transform, data1.rigidbody);
+			vec2 collider_pos2 = current_position(collider2.offset, data2.transform, data2.rigidbody);
+			resolution = circle_box_resolution(collider1,collider2,collider_pos1,collider_pos2);
 		}
 	}
 
-	Direction move_back_direction = Direction::NONE;
-	if(move_back.x != 0 && move_back.y > 0) {
-		move_back_direction = Direction::BOTH;
-	} else if (move_back.x != 0) {
-		move_back_direction = Direction::X_DIRECTION;
+	Direction resolution_direction = Direction::NONE;
+	if(resolution.x != 0 && resolution.y > 0) {
+		resolution_direction = Direction::BOTH;
+	} else if (resolution.x != 0) {
+		resolution_direction = Direction::X_DIRECTION;
 		if(data1.rigidbody.data.linear_velocity.y != 0)	
-		move_back.y = data1.rigidbody.data.linear_velocity.y * (move_back.x/data1.rigidbody.data.linear_velocity.x);
-	} else if (move_back.y != 0) {
-		move_back_direction = Direction::Y_DIRECTION;
+		resolution.y = data1.rigidbody.data.linear_velocity.y * (resolution.x/data1.rigidbody.data.linear_velocity.x);
+	} else if (resolution.y != 0) {
+		resolution_direction = Direction::Y_DIRECTION;
 		if(data1.rigidbody.data.linear_velocity.x != 0) 
-		move_back.x = data1.rigidbody.data.linear_velocity.x * (move_back.y/data1.rigidbody.data.linear_velocity.y);
+		resolution.x = data1.rigidbody.data.linear_velocity.x * (resolution.y/data1.rigidbody.data.linear_velocity.y);
 	}
 
-	return {move_back,move_back_direction};
+	return {resolution,resolution_direction};
 }
 
 vec2 CollisionSystem::box_box_resolution(const BoxCollider& box_collider1,const BoxCollider& box_collider2,vec2 final_position1,vec2 final_position2)
@@ -166,6 +179,58 @@ vec2 CollisionSystem::box_box_resolution(const BoxCollider& box_collider1,const 
 
 	return resolution;
 }
+
+vec2 CollisionSystem::circle_circle_resolution(const CircleCollider& circle_collider1, const CircleCollider& circle_collider2, vec2 final_position1, vec2 final_position2) 
+{
+    vec2 delta = final_position2 - final_position1;
+
+    // Compute the distance between the two circle centers
+    float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+
+    // Compute the combined radii of the two circles
+    float combined_radius = circle_collider1.radius + circle_collider2.radius;
+
+    // Compute the penetration depth
+    float penetration_depth = combined_radius - distance;
+
+    // Normalize the delta vector to get the collision direction
+    vec2 collision_normal = delta / distance;
+
+    // Compute the resolution vector
+    vec2 resolution = collision_normal * penetration_depth;
+
+    return resolution;
+}
+
+vec2 CollisionSystem::circle_box_resolution(const CircleCollider& circle_collider, const BoxCollider& box_collider, vec2 circle_position, vec2 box_position) 
+{
+    vec2 delta = circle_position - box_position;
+
+    // Compute half-dimensions of the box
+    float half_width = box_collider.width / 2.0f;
+    float half_height = box_collider.height / 2.0f;
+
+    // Clamp circle center to the nearest point on the box
+    vec2 closest_point;
+    closest_point.x = std::clamp(delta.x, -half_width, half_width);
+    closest_point.y = std::clamp(delta.y, -half_height, half_height);
+
+    // Find the vector from the circle center to the closest point
+    vec2 closest_delta = delta - closest_point;
+
+    // Normalize the delta to get the collision direction
+    float distance = std::sqrt(closest_delta.x * closest_delta.x + closest_delta.y * closest_delta.y);
+    vec2 collision_normal = closest_delta / distance;
+
+    // Compute penetration depth
+    float penetration_depth = circle_collider.radius - distance;
+
+    // Compute the resolution vector
+    vec2 resolution = collision_normal * penetration_depth;
+
+    return resolution;
+}
+
 
 void CollisionSystem::determine_collision_handler(CollisionInfo& info){
 	// Check rigidbody type for static
