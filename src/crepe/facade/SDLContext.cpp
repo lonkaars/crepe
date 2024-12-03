@@ -16,6 +16,8 @@
 #include <stdexcept>
 
 #include "../api/Camera.h"
+#include "../api/EventManager.h"
+#include "../api/Config.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../util/Log.h"
@@ -213,7 +215,10 @@ MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
 	return MOUSE_BUTTON_LOOKUP_TABLE[sdl_button];
 }
 
-void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
+void SDLContext::clear_screen() {
+	SDL_SetRenderDrawColor(this->game_renderer.get(), 0, 0, 0, 255);
+	SDL_RenderClear(this->game_renderer.get());
+}
 void SDLContext::present_screen() { SDL_RenderPresent(this->game_renderer.get()); }
 
 SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
@@ -336,3 +341,66 @@ ivec2 SDLContext::get_size(const Texture & ctx) {
 }
 
 void SDLContext::delay(int ms) const { SDL_Delay(ms); }
+
+std::vector<SDLContext::EventData> SDLContext::get_events() {
+	std::vector<SDLContext::EventData> event_list;
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+			case SDL_QUIT:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::SHUTDOWN,
+				});
+				break;
+			case SDL_KEYDOWN:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::KEYDOWN,
+					.key = sdl_to_keycode(event.key.keysym.scancode),
+					.key_repeat = (event.key.repeat != 0),
+				});
+				break;
+			case SDL_KEYUP:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::KEYUP,
+					.key = sdl_to_keycode(event.key.keysym.scancode),
+				});
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::MOUSEDOWN,
+					.mouse_button = sdl_to_mousebutton(event.button.button),
+					.mouse_position = {event.button.x, event.button.y},
+				});
+				break;
+			case SDL_MOUSEBUTTONUP: {
+				int x, y;
+				SDL_GetMouseState(&x, &y);
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::MOUSEUP,
+					.mouse_button = sdl_to_mousebutton(event.button.button),
+					.mouse_position = {event.button.x, event.button.y},
+				});
+			} break;
+
+			case SDL_MOUSEMOTION: {
+				event_list.push_back(
+					EventData{.event_type = SDLContext::EventType::MOUSEMOVE,
+							  .mouse_position = {event.motion.x, event.motion.y},
+							  .rel_mouse_move = {event.motion.xrel, event.motion.yrel}});
+			} break;
+
+			case SDL_MOUSEWHEEL: {
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::MOUSEWHEEL,
+					.mouse_position = {event.motion.x, event.motion.y},
+					.wheel_delta = event.wheel.y,
+				});
+			} break;
+		}
+	}
+	return event_list;
+}
+void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
+	SDL_SetTextureColorMod(texture.texture.get(), color.r, color.g, color.b);
+	SDL_SetTextureAlphaMod(texture.texture.get(), color.a);
+}
