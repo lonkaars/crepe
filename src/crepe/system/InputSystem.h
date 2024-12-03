@@ -64,13 +64,13 @@ private:
 
 	/**
 	* \brief Checks if the mouse position is inside the bounds of the button.
-	* \param mouse_x The X coordinate of the mouse.
-	* \param mouse_y The Y coordinate of the mouse.
+	* \param world_mouse_x The X coordinate of the mouse in world space.
+	* \param world_mouse_y The Y coordinate of the mouse in world space.
 	* \param button The button to check.
 	* \param transform The transform component of the button.
 	* \return True if the mouse is inside the button, false otherwise.
 	*/
-	bool is_mouse_inside_button(const int& mouse_x, const int& mouse_y, const Button& button, const Transform& transform);
+	bool is_mouse_inside_button(const int& world_mouse_x, const int& world_mouse_y, const Button& button, const Transform& transform);
 
 	/**
 	* \brief Handles the button press event, calling the on_click callback if necessary.

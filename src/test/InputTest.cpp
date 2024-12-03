@@ -22,14 +22,13 @@ using namespace crepe;
 class InputTest : public ::testing::Test {
 public:
 	ComponentManager mgr{};
-	InputSystem input_system{mgr}; // Initializes the InputSystem with the ComponentManager
+	InputSystem input_system{mgr};
 
 	EventManager & event_manager = EventManager::get_instance();
-
+	//GameObject camera;
 protected:
 	void SetUp() override { 
 		event_manager.clear(); 
-		// GameObject camera = mgr.new_object<Camera>(Color{0,0,0,0},ivec2{0,0},vec2{500,500},0,vec2{0,0});
 	}
 
 	void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
@@ -51,15 +50,18 @@ protected:
 		event.button.button = mouse_button;
 		SDL_PushEvent(&event);
 	}
-	GameObject camera;
 };
 
 TEST_F(InputTest, MouseDown) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto& camera = obj.add_component<Camera>(Color::BLACK,ivec2{0,0},vec2{500,500},0.0,vec2{0,0});
+	camera.active = true;
 	bool mouse_triggered = false;
 	EventHandler<MousePressEvent> on_mouse_down = [&](const MousePressEvent & event) {
 		mouse_triggered = true;
-		EXPECT_EQ(event.mouse_x, 10);
-		EXPECT_EQ(event.mouse_y, 10);
+		//middle of the screen = 0,0
+		EXPECT_EQ(event.mouse_x, 0);
+		EXPECT_EQ(event.mouse_y, 0);
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -68,8 +70,9 @@ TEST_F(InputTest, MouseDown) {
 	SDL_Event event;
 	SDL_zero(event);
 	event.type = SDL_MOUSEBUTTONDOWN;
-	event.button.x = 10;
-	event.button.y = 10;
+	// middle of the screen of a 500*500 camera = 250*250
+	event.button.x = 250;
+	event.button.y = 250;
 	event.button.button = SDL_BUTTON_LEFT;
 	SDL_PushEvent(&event);
 
@@ -79,11 +82,14 @@ TEST_F(InputTest, MouseDown) {
 }
 
 TEST_F(InputTest, MouseUp) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto& camera = obj.add_component<Camera>(Color::BLACK,ivec2{0,0},vec2{500,500},0.0,vec2{0,0});
+	camera.active = true;
 	bool function_triggered = false;
 	EventHandler<MouseReleaseEvent> on_mouse_release = [&](const MouseReleaseEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_x, 10);
-		EXPECT_EQ(e.mouse_y, 10);
+		EXPECT_EQ(e.mouse_x, 0);
+		EXPECT_EQ(e.mouse_y, 0);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -92,8 +98,8 @@ TEST_F(InputTest, MouseUp) {
 	SDL_Event event;
 	SDL_zero(event);
 	event.type = SDL_MOUSEBUTTONUP;
-	event.button.x = 10;
-	event.button.y = 10;
+	event.button.x = 250;
+	event.button.y = 250;
 	event.button.button = SDL_BUTTON_LEFT;
 	SDL_PushEvent(&event);
 
@@ -103,11 +109,14 @@ TEST_F(InputTest, MouseUp) {
 }
 
 TEST_F(InputTest, MouseMove) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto& camera = obj.add_component<Camera>(Color::BLACK,ivec2{0,0},vec2{500,500},0.0,vec2{0,0});
+	camera.active = true;
 	bool function_triggered = false;
 	EventHandler<MouseMoveEvent> on_mouse_move = [&](const MouseMoveEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_x, 10);
-		EXPECT_EQ(e.mouse_y, 10);
+		EXPECT_EQ(e.mouse_x, 0);
+		EXPECT_EQ(e.mouse_y, 0);
 		EXPECT_EQ(e.rel_x, 10);
 		EXPECT_EQ(e.rel_y, 10);
 		return false;
@@ -117,8 +126,8 @@ TEST_F(InputTest, MouseMove) {
 	SDL_Event event;
 	SDL_zero(event);
 	event.type = SDL_MOUSEMOTION;
-	event.motion.x = 10;
-	event.motion.y = 10;
+	event.motion.x = 250;
+	event.motion.y = 250;
 	event.motion.xrel = 10;
 	event.motion.yrel = 10;
 	SDL_PushEvent(&event);
@@ -129,6 +138,9 @@ TEST_F(InputTest, MouseMove) {
 }
 
 TEST_F(InputTest, KeyDown) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto& camera = obj.add_component<Camera>(Color::BLACK,ivec2{0,0},vec2{500,500},0.0,vec2{0,0});
+	camera.active = true;
 	bool function_triggered = false;
 
 	// Define event handler for KeyPressEvent
@@ -156,6 +168,9 @@ TEST_F(InputTest, KeyDown) {
 }
 
 TEST_F(InputTest, KeyUp) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto& camera = obj.add_component<Camera>(Color::BLACK,ivec2{0,0},vec2{500,500},0.0,vec2{0,0});
+	camera.active = true;
 	bool function_triggered = false;
 	EventHandler<KeyReleaseEvent> on_key_release = [&](const KeyReleaseEvent & event) {
 		function_triggered = true;
@@ -176,49 +191,58 @@ TEST_F(InputTest, KeyUp) {
 }
 
 TEST_F(InputTest, MouseClick) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto& camera = obj.add_component<Camera>(Color::BLACK,ivec2{0,0},vec2{500,500},0.0,vec2{0,0});
+	camera.active = true;
 	bool on_click_triggered = false;
 	EventHandler<MouseClickEvent> on_mouse_click = [&](const MouseClickEvent & event) {
 		on_click_triggered = true;
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
-		EXPECT_EQ(event.mouse_x, 10);
-		EXPECT_EQ(event.mouse_y, 10);
+		EXPECT_EQ(event.mouse_x, 0);
+		EXPECT_EQ(event.mouse_y, 0);
 		return false;
 	};
 	event_manager.subscribe<MouseClickEvent>(on_mouse_click);
 
-	this->simulate_mouse_click(10, 10, SDL_BUTTON_LEFT);
+	this->simulate_mouse_click(250, 250, SDL_BUTTON_LEFT);
 	input_system.update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(on_click_triggered);
 }
 
 TEST_F(InputTest, testButtonClick) {
-	GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto& camera = obj.add_component<Camera>(Color::BLACK,ivec2{0,0},vec2{500,500},0.0,vec2{0,0});
+	camera.active = true;
+	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = obj.add_component<Button>(100, 100, on_click, false);
+	auto & button = button_obj.add_component<Button>(100, 100, on_click, false);
 
 	bool hover = false;
 	button.active = true;
 
 	button.is_pressed = false;
 	button.is_toggle = false;
-	this->simulate_mouse_click(101, 101, SDL_BUTTON_LEFT);
+	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
 	input_system.update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button_clicked);
 
-	this->simulate_mouse_click(10, 10, SDL_BUTTON_LEFT);
+	this->simulate_mouse_click(250, 250, SDL_BUTTON_LEFT);
 	input_system.update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button_clicked);
 }
 
 TEST_F(InputTest, testButtonHover) {
-	GameObject obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto& camera = obj.add_component<Camera>(Color::BLACK,ivec2{0,0},vec2{500,500},0.0,vec2{0,0});
+	camera.active = true;
+	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = obj.add_component<Button>(100, 100, on_click, false);
+	auto & button = button_obj.add_component<Button>(100, 100, on_click, false);
 	button.active = true;
 	button.width = 100;
 	button.height = 100;
@@ -229,8 +253,8 @@ TEST_F(InputTest, testButtonHover) {
 	SDL_Event event;
 	SDL_zero(event);
 	event.type = SDL_MOUSEMOTION;
-	event.motion.x = 200;
-	event.motion.y = 200;
+	event.motion.x = 700;
+	event.motion.y = 700;
 	event.motion.xrel = 10;
 	event.motion.yrel = 10;
 	SDL_PushEvent(&event);
@@ -243,8 +267,8 @@ TEST_F(InputTest, testButtonHover) {
 	SDL_Event hover_event;
 	SDL_zero(hover_event);
 	hover_event.type = SDL_MOUSEMOTION;
-	hover_event.motion.x = 10;
-	hover_event.motion.y = 10;
+	hover_event.motion.x = 250;
+	hover_event.motion.y = 250;
 	hover_event.motion.xrel = 10;
 	hover_event.motion.yrel = 10;
 	SDL_PushEvent(&hover_event);
