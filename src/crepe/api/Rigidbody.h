@@ -109,8 +109,8 @@ public:
 		*
 		* \{
 		*/
-		//! Angular velocity of the object, representing the rate of rotation (in radians per second).
-		float angular_velocity = 1;
+		//! Angular velocity of the object, representing the rate of rotation (in degrees).
+		float angular_velocity = 0;
 		//! Maximum angular velocity of the object. This limits the maximum rate of rotation.
 		float max_angular_velocity = INFINITY;
 		//! Angular velocity coefficient. This scales the object's angular velocity, typically used for damping.

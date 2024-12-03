@@ -52,11 +52,11 @@ public:
 		.constraints = {0, 0, 0},
 		.offset = {0,0}
 	});
-	world.add_component<BoxCollider>(vec2{0, 0-(screen_size_height/2+world_collider/2)}, world_collider, world_collider);;	// Top
-	world.add_component<BoxCollider>(vec2{0, screen_size_height/2+world_collider/2}, world_collider, world_collider); // Bottom
-	world.add_component<BoxCollider>(vec2{0-(screen_size_width/2+world_collider/2), 0}, world_collider, world_collider); // Left
-	world.add_component<BoxCollider>(vec2{screen_size_width/2+world_collider/2, 0}, world_collider, world_collider); // right
-
+	world.add_component<BoxCollider>(vec2{0, 0-(screen_size_height/2+world_collider/2)}, vec2{world_collider, world_collider});;	// Top
+	world.add_component<BoxCollider>(vec2{0, screen_size_height/2+world_collider/2}, vec2{world_collider, world_collider}); // Bottom
+	world.add_component<BoxCollider>(vec2{0-(screen_size_width/2+world_collider/2), 0}, vec2{world_collider, world_collider}); // Left
+	world.add_component<BoxCollider>(vec2{screen_size_width/2+world_collider/2, 0}, vec2{world_collider, world_collider}); // right
+	world.add_component<Camera>(Color::WHITE, ivec2{640, 480},vec2{640, 480}, 1.0f);
 
 	GameObject game_object1 = mgr.new_object("Name", "Tag", vec2{screen_size_width/2, screen_size_height/2}, 0, 1);
 	game_object1.add_component<Rigidbody>(Rigidbody::Data{
@@ -68,11 +68,10 @@ public:
 		.elastisity_coefficient = 1,
 		.offset = {0,0},
 	});
-	game_object1.add_component<BoxCollider>(vec2{0, 0}, 20, 20);
+	game_object1.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
 	game_object1.add_component<BehaviorScript>().set_script<MyScript>();
 	auto img = Texture("asset/texture/green_square.png");
 	game_object1.add_component<Sprite>(img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
-	game_object1.add_component<Camera>(Color::WHITE, ivec2{1080, 720},vec2{2000, 2000}, 1.0f);
 	}
 
 	string get_name() const { return "scene1"; }
