@@ -59,26 +59,10 @@ public:
 		* The `gravity_scale` controls how much gravity affects the object. It is a multiplier applied to the default
 		* gravity force, allowing for fine-grained control over how the object responds to gravity.
 		* 
-		* - A value of `0.0` means that gravity has **no effect** on the object (i.e., the object is completely immune to gravity).
-		* - A value of `1.0` means that gravity is applied at its **normal intensity** (the default behavior).
-		* - A value greater than `1.0` means the object is affected by gravity more strongly than normal.
-		* - A value less than `1.0` (but greater than `0.0`) reduces the effect of gravity on the object.
-		* 
-		* This is useful in cases where you need objects to behave differently under gravity, such as lighter objects (like feathers),
-		* objects that float in water, or heavier objects that fall faster.
 		*/
 		float gravity_scale = 0;
-		/**
-		* \brief Defines the type of the physics body, which determines how the physics system interacts with the object.
-		*
-		* - **Static**: The object does not move and is not affected by forces. It is used for immovable objects like walls or terrain. Does not have collision detection.
-		* - **Dynamic**: The object is fully affected by physics forces, including gravity, collisions, and other physical interactions. It can move and be moved by forces.
-		* - **Kinematic**: The object does not move and is not affected by forces. It is typically controlled by external factors (e.g., animations or user input), and collision detection is handled without affecting its velocity.
-		*
-		* The `body_type` defines the behavior of the object in the physics system.
-		*
-		* \default BodyType::DYNAMIC
-		*/
+
+		//! Defines the type of the physics body, which determines how the physics system interacts with the object.
 		BodyType body_type = BodyType::DYNAMIC;
 
 		/**
@@ -124,12 +108,6 @@ public:
 		* in certain directions or prevent rotation. These constraints effect only the physics system
 		* to prevent the object from moving or rotating in specified ways.
 		* 
-		* - **X Constraint**: If enabled, the object cannot move along the X-axis.
-		* - **Y Constraint**: If enabled, the object cannot move along the Y-axis.
-		* - **Rotation Constraint**: If enabled, the object cannot rotate.
-		* 
-		* These constraints allow you to restrict movement for specific scenarios (e.g., a platform that shouldn't move
-		* or a character that should only move horizontally).
 		*/
 		PhysicsConstraints constraints;
 
@@ -138,13 +116,8 @@ public:
 		*
 		* The `elasticity_coefficient` controls how much of the object's velocity is retained after a collision.
 		* It represents the material's ability to bounce or recover velocity upon impact. The coefficient is a value
-		* between 0.0 and 1.0, where:
+		* above 0.0.
 		*
-		* - **0.0** means no velocity is retained after the collision (all velocity is lost, and the object does not bounce).
-		* - **1.0** means the object retains its full velocity but in the opposite direction (perfect elastic bounce).
-		* - **0.5** means the object retains half of its velocity, resulting in a bounce with reduced speed.
-		*
-		* This factor can be used to simulate different materials, such as rubber (high elasticity) or concrete (low elasticity).
 		*/
 		float elastisity_coefficient = 0.0;
 
@@ -155,9 +128,6 @@ public:
 		* transform position. This allows for the colliders to be placed at a different position than the object's actual
 		* position, without modifying the object's transform itself.
 		* 
-		* - The `offset` is typically used to adjust the collider's position in cases where all colluders should be moved.
-		* - For example, if a character has a animation where all colliders should be moved this offset can be used to 
-		*		achieve this.
 		*/
 		vec2 offset;
 	};

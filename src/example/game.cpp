@@ -38,7 +38,7 @@ public:
 
 	void load_scene() {
 	ComponentManager & mgr = this->component_manager;
-	Color color(0, 0, 0, 0);
+	Color color(0, 0, 0, 255);
 
 	float screen_size_width = 640;
 	float screen_size_height = 480;
@@ -71,7 +71,7 @@ public:
 	game_object1.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
 	game_object1.add_component<BehaviorScript>().set_script<MyScript>();
 	auto img = Texture("asset/texture/green_square.png");
-	game_object1.add_component<Sprite>(img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
+	game_object1.add_component<Sprite>(img, color, Sprite::FlipSettings{false, false}, 1, 1, 20);
 	}
 
 	string get_name() const { return "scene1"; }
