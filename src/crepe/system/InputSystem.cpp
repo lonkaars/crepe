@@ -141,11 +141,15 @@ void InputSystem::handle_click(const MouseButton& mouse_button, const int& world
 	}
 }
 
-bool InputSystem::is_mouse_inside_button(const int& mouse_x, const int& mouse_y, const Button & button, const Transform & transform) {
-	return mouse_x >= transform.position.x
-		   && mouse_x <= transform.position.x + button.width
-		   && mouse_y >= transform.position.y
-		   && mouse_y <= transform.position.y + button.height;
+bool InputSystem::is_mouse_inside_button(
+    const int& mouse_x, const int& mouse_y, 
+    const Button & button, const Transform & transform) {
+    int half_width = button.width / 2;
+    int half_height = button.height / 2;
+    return mouse_x >= transform.position.x - half_width
+        && mouse_x <= transform.position.x + half_width
+        && mouse_y >= transform.position.y - half_height
+        && mouse_y <= transform.position.y + half_height;
 }
 
 void InputSystem::handle_button_press(Button & button) {
