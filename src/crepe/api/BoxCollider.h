@@ -2,6 +2,7 @@
 
 #include "Vector2.h"
 #include "../Collider.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -12,13 +13,10 @@ namespace crepe {
  */
 class BoxCollider : public Collider {
 public:
-	BoxCollider(game_object_id_t game_object_id,const vec2& offset, float width, float height);
+	BoxCollider(game_object_id_t game_object_id,const vec2& offset, const vec2& dimensions);
 
-	//! Width of box collider 
-	float width;
-
-	//! Height of box collider
-	float height;
+	//! Width and height of the box collider 
+	vec2 dimensions;
 };
 
 } // namespace crepe

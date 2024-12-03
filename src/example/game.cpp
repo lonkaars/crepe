@@ -18,7 +18,7 @@ using namespace std;
 
 class MyScript : public Script {
 	bool oncollision(const CollisionEvent& test) {
-		Log::logf("Box {} script on_collision()", test.info.first_collider.game_object_id);
+		Log::logf("Box {} script on_collision()", test.info.this_collider.game_object_id);
 		return true;
 	}
 	void init() {
@@ -65,7 +65,7 @@ public:
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = {1,1},
 		.constraints = {0, 0, 0},
-		.elastisity = 1,
+		.elastisity_coefficient = 1,
 		.offset = {0,0},
 	});
 	game_object1.add_component<BoxCollider>(vec2{0, 0}, 20, 20);

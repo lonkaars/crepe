@@ -68,10 +68,10 @@ public:
 			.offset = {0,0},
 		});
 		// Create a box with an inner size of 10x10 units
-		world.add_component<BoxCollider>(vec2{0, -100}, 100, 100); // Top
-		world.add_component<BoxCollider>(vec2{0, 100}, 100, 100); // Bottom
-		world.add_component<BoxCollider>(vec2{-100, 0}, 100, 100); // Left
-		world.add_component<BoxCollider>(vec2{100, 0}, 100, 100); // right
+		world.add_component<BoxCollider>(vec2{0, -100}, vec2{100, 100}); // Top
+		world.add_component<BoxCollider>(vec2{0, 100}, vec2{100, 100}); // Bottom
+		world.add_component<BoxCollider>(vec2{-100, 0}, vec2{100, 100}); // Left
+		world.add_component<BoxCollider>(vec2{100, 0}, vec2{100, 100}); // right
 
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
@@ -79,10 +79,10 @@ public:
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0,0},
 			.constraints = {0, 0, 0},
-			.elastisity = 1,
+			.elastisity_coefficient = 1,
 			.offset = {0,0},
 		});
-		game_object1.add_component<BoxCollider>(vec2{0, 0}, 10, 10);
+		game_object1.add_component<BoxCollider>(vec2{0, 0}, vec2{10, 10});
 		BehaviorScript & script_object1 = game_object1.add_component<BehaviorScript>().set_script<CollisionHandler>(1);
 		script_object1_ref = static_cast<CollisionHandler*>(script_object1.script.get());
 		ASSERT_NE(script_object1_ref, nullptr);
@@ -93,10 +93,10 @@ public:
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0,0},
 			.constraints = {0, 0, 0},
-			.elastisity = 1,
+			.elastisity_coefficient = 1,
 			.offset = {0,0},
 		});
-		game_object2.add_component<BoxCollider>(vec2{0, 0}, 10, 10);
+		game_object2.add_component<BoxCollider>(vec2{0, 0}, vec2{10, 10});
 		BehaviorScript & script_object2 = game_object2.add_component<BehaviorScript>().set_script<CollisionHandler>(2);
 		script_object2_ref = static_cast<CollisionHandler*>(script_object2.script.get());
 		ASSERT_NE(script_object2_ref, nullptr);
@@ -110,11 +110,11 @@ TEST_F(CollisionTest, collision_example) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
 	};
 	EXPECT_FALSE(collision_happend);
 	collision_sys.update();
@@ -125,14 +125,14 @@ TEST_F(CollisionTest, collision_box_box_dynamic_both_no_velocity) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, 10);
 		EXPECT_EQ(ev.info.resolution.y, 10);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
 		EXPECT_EQ(ev.info.resolution.x, 10);
 		EXPECT_EQ(ev.info.resolution.y, 10);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
@@ -148,14 +148,14 @@ TEST_F(CollisionTest, collision_box_box_dynamic_x_direction_no_velocity) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, -5);
 		EXPECT_EQ(ev.info.resolution.y, 0);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
 		EXPECT_EQ(ev.info.resolution.x, 5);
 		EXPECT_EQ(ev.info.resolution.y, 0);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
@@ -171,14 +171,14 @@ TEST_F(CollisionTest, collision_box_box_dynamic_y_direction_no_velocity) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, 0);
 		EXPECT_EQ(ev.info.resolution.y, -5);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
 		EXPECT_EQ(ev.info.resolution.x, 0);
 		EXPECT_EQ(ev.info.resolution.y, 5);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
@@ -194,14 +194,14 @@ TEST_F(CollisionTest, collision_box_box_dynamic_both) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, 10);
 		EXPECT_EQ(ev.info.resolution.y, 10);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
 		EXPECT_EQ(ev.info.resolution.x, 10);
 		EXPECT_EQ(ev.info.resolution.y, 10);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
@@ -221,14 +221,14 @@ TEST_F(CollisionTest, collision_box_box_dynamic_x_direction) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, -5);
 		EXPECT_EQ(ev.info.resolution.y, -5);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
 		EXPECT_EQ(ev.info.resolution.x, 5);
 		EXPECT_EQ(ev.info.resolution.y, 5);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
@@ -248,14 +248,14 @@ TEST_F(CollisionTest, collision_box_box_dynamic_y_direction) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, -5);
 		EXPECT_EQ(ev.info.resolution.y, -5);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
 	};
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 2);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
 		EXPECT_EQ(ev.info.resolution.x, 5);
 		EXPECT_EQ(ev.info.resolution.y, 5);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
@@ -276,7 +276,7 @@ TEST_F(CollisionTest, collision_box_box_static_both) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, 10);
 		EXPECT_EQ(ev.info.resolution.y, 10);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
@@ -298,7 +298,7 @@ TEST_F(CollisionTest, collision_box_box_static_x_direction) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, -5);
 		EXPECT_EQ(ev.info.resolution.y, -5);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::X_DIRECTION);
@@ -322,7 +322,7 @@ TEST_F(CollisionTest, collision_box_box_static_y_direction) {
 	bool collision_happend = false;
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, -5);
 		EXPECT_EQ(ev.info.resolution.y, -5);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::Y_DIRECTION);
@@ -348,8 +348,8 @@ TEST_F(CollisionTest, collision_box_box_static_multiple) {//todo check visually
 	float resolution = 0;
 	script_object1_ref->test_fn = [&](const CollisionEvent & ev) {
 		collision_happend = true;
-		EXPECT_EQ(ev.info.first_collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.first_collider.offset.x , offset_value);
+		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
+		EXPECT_EQ(ev.info.this_collider.offset.x , offset_value);
 		EXPECT_EQ(ev.info.resolution.x , resolution);
 	};
 	script_object2_ref->test_fn = [&](const CollisionEvent & ev) {
@@ -365,7 +365,7 @@ TEST_F(CollisionTest, collision_box_box_static_multiple) {//todo check visually
 	rg2.data.body_type = crepe::Rigidbody::BodyType::STATIC;
 	BoxCollider & bxc = this->mgr.get_components_by_id<BoxCollider>(1).front().get();
 	bxc.offset = {5,0};
-	this->game_object1.add_component<BoxCollider>(vec2{-5, 0}, 10, 10);
+	this->game_object1.add_component<BoxCollider>(vec2{-5, 0}, vec2{10, 10});
 	offset_value = 5;
 	resolution = 10;
 	collision_sys.update();

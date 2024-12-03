@@ -8,6 +8,7 @@
 #include "api/Transform.h"
 #include "api/BoxCollider.h"
 #include "api/CircleCollider.h"
+#include "api/Metadata.h"
 #include "api/Vector2.h"
 
 #include "Collider.h"
@@ -68,12 +69,14 @@ public:
 		* Includes information about the colliding objects and the resolution data for handling the collision.
 		*/
 	struct CollisionInfo{
-    Collider& first_collider;
-		Transform& first_transform;
-		Rigidbody& first_rigidbody;
-    Collider& second_collider;
-		Transform& second_transform;
-		Rigidbody& second_rigidbody;
+    Collider& this_collider;
+		Transform& this_transform;
+		Rigidbody& this_rigidbody;
+		Metadata& this_metadata;
+    Collider& other_collider;
+		Transform& other_transform;
+		Rigidbody& other_rigidbody;
+		Metadata& other_metadata;
 		//! The resolution vector for the collision.
 		vec2 resolution;
 		//! The direction of movement for resolving the collision.
@@ -213,23 +216,6 @@ private:
 		*/
 	bool get_collision(const CollisionInternal& first_info,const CollisionInternal& second_info, CollisionInternalType type) const;
 	
-	/**
-		* \brief Retrieves the active Transform and Rigidbody components for a given game object.
-		* 
-		* This function looks up the Transform and Rigidbody components associated with the specified 
-		* game object ID. It checks if both components are present and active. If both are found 
-		* to be active, they are returned wrapped in reference wrappers; otherwise, an empty 
-		* optional is returned.
-		*
-		* \param game_object_id The ID of the game object for which to retrieve the components.
-		* 
-		* \return A std::optional containing a pair of reference wrappers to the active Transform 
-		*         and Rigidbody components, or std::nullopt if either component is not found 
-		*         or not active.
-		*/
-	std::optional<std::pair<std::reference_wrapper<Transform>, std::reference_wrapper<Rigidbody>>> get_active_transform_and_rigidbody(game_object_id_t game_object_id) const;
-
-
 	/**
 		* \brief Detects collisions between two BoxColliders.
 		* 

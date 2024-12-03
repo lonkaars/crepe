@@ -28,7 +28,7 @@ using namespace testing;
 
 class TestScript : public Script {
 	bool oncollision(const CollisionEvent& test) {
-		Log::logf("Box {} script on_collision()", test.info.first_collider.game_object_id);
+		Log::logf("Box {} script on_collision()", test.info.this_collider.game_object_id);
 		return true;
 	}
 	void init() {
