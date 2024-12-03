@@ -20,6 +20,8 @@ void AnimatorSystem::update() {
 		Animator::Data & ctx = a.data;
 		double frame_duration = 1.0f / ctx.fps;
 
+		int last_frame = ctx.curr_row;
+
 		int cycle_end = (ctx.cycle_end == -1) ? ctx.row : ctx.cycle_end;
 		int total_frames = cycle_end - ctx.cycle_start;
 
@@ -29,7 +31,7 @@ void AnimatorSystem::update() {
 		ctx.spritesheet.mask.x = ctx.curr_row * ctx.spritesheet.mask.w;
 		ctx.spritesheet.mask.y = (ctx.curr_col * ctx.spritesheet.mask.h);
 
-		if (!ctx.looping && curr_frame == total_frames - 1) {
+		if (!ctx.looping && curr_frame == ctx.cycle_start && last_frame == total_frames - 1) {
 			a.active = false;
 		}
 	}

@@ -71,15 +71,13 @@ public:
 			.col = 4,
 			.row = 4,
 			.fps = 1,
-			.looping = true,
-			.cycle_start = 1,
-			.cycle_end = 3,
+			.looping = false,
 		});
 		anim.set_anim(2);
 
 		auto & cam = game_object.add_component<Camera>(Camera::Data{
 			.bg_color = Color::WHITE,
-			.screen = ivec2{720, 1280},
+			.screen = ivec2{1280, 720},
 			.viewport_size = vec2{400, 400},
 			.zoom = 1.0,
 		});
