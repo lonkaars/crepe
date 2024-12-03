@@ -216,8 +216,7 @@ SDLContext::texture_from_path(const std::string & path) {
 	return img_texture;
 }
 
-
-ivec2 SDLContext::get_size(const Texture & ctx){
+ivec2 SDLContext::get_size(const Texture & ctx) {
 	ivec2 size;
 	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &size.x, &size.y);
 	return size;

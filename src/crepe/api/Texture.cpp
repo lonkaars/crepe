@@ -2,8 +2,8 @@
 #include "../util/Log.h"
 
 #include "Asset.h"
-#include "types.h"
 #include "Texture.h"
+#include "types.h"
 
 using namespace crepe;
 using namespace std;
