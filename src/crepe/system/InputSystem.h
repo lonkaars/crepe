@@ -21,26 +21,26 @@ class Transform;
  */
 class InputSystem : public System {
 public:
-    using System::System;
+	using System::System;
 
-    /**
+	/**
      * \brief Updates the system, processing all input events.
      * This method processes all events and triggers corresponding actions.
      */
-    void update() override;
+	void update() override;
 
 private:
-    	//! Reference to the currently active camera.
-    	OptionalRef<Camera> curr_cam_ref;
+	//! Reference to the currently active camera.
+	OptionalRef<Camera> curr_cam_ref;
 
-    	//! Stores the last position of the mouse when the button was pressed.
-    	std::pair<int, int> last_mouse_down_position{INFINITY, INFINITY};
+	//! Stores the last position of the mouse when the button was pressed.
+	std::pair<int, int> last_mouse_down_position{INFINITY, INFINITY};
 
-    	//! Stores the last mouse button pressed.
-    	MouseButton last_mouse_button = MouseButton::NONE;
+	//! Stores the last mouse button pressed.
+	MouseButton last_mouse_button = MouseButton::NONE;
 	//
-    	//! The tolerance in game units for detecting a mouse click.
-    	const int click_tolerance = 5;
+	//! The tolerance in game units for detecting a mouse click.
+	const int click_tolerance = 5;
 
 	/**
 	* \brief Handles the mouse click event.
@@ -50,7 +50,8 @@ private:
 	*
 	* This method processes the mouse click event and triggers the corresponding button action.
 	*/
-	void handle_click(const MouseButton& mouse_button, const int& world_mouse_x, const int& world_mouse_y);
+	void handle_click(const MouseButton & mouse_button, const int & world_mouse_x,
+					  const int & world_mouse_y);
 
 	/**
 	* \brief Handles the mouse movement event.
@@ -60,7 +61,8 @@ private:
 	*
 	* This method processes the mouse movement event and updates the button hover state.
 	*/
-	void handle_move(const SDLContext::EventData& event_data, const int& world_mouse_x, const int& world_mouse_y);
+	void handle_move(const SDLContext::EventData & event_data, const int & world_mouse_x,
+					 const int & world_mouse_y);
 
 	/**
 	* \brief Checks if the mouse position is inside the bounds of the button.
@@ -70,7 +72,8 @@ private:
 	* \param transform The transform component of the button.
 	* \return True if the mouse is inside the button, false otherwise.
 	*/
-	bool is_mouse_inside_button(const int& world_mouse_x, const int& world_mouse_y, const Button& button, const Transform& transform);
+	bool is_mouse_inside_button(const int & world_mouse_x, const int & world_mouse_y,
+								const Button & button, const Transform & transform);
 
 	/**
 	* \brief Handles the button press event, calling the on_click callback if necessary.
@@ -78,7 +81,7 @@ private:
 	*
 	* This method triggers the on_click action for the button when it is pressed.
 	*/
-	void handle_button_press(Button& button);
+	void handle_button_press(Button & button);
 };
 
 } // namespace crepe

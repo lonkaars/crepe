@@ -16,8 +16,8 @@
 #include <stdexcept>
 
 #include "../api/Camera.h"
-#include "../api/EventManager.h"
 #include "../api/Config.h"
+#include "../api/EventManager.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../util/Log.h"
