@@ -12,13 +12,12 @@
 #include <utility>
 
 #include "api/Camera.h"
+#include "api/Color.h"
 #include "api/Event.h"
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
-#include "api/Transform.h"
-#include "api/Camera.h"
-#include "api/Color.h"
 #include "api/Texture.h"
+#include "api/Transform.h"
 #include "types.h"
 
 namespace crepe {

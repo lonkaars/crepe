@@ -4,7 +4,6 @@
 
 #include "UiObject.h"
 
-
 namespace crepe {
 
 /**
