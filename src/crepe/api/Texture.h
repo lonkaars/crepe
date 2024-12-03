@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "Asset.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -36,17 +37,16 @@ public:
 	~Texture();
 	// FIXME: this constructor shouldn't be necessary because this class doesn't manage memory
 
-	/**
-	 * \brief Gets the width of the texture.
-	 * \return Width of the texture in pixels.
-	 */
-	int get_width() const;
+	Texture(Texture && other) noexcept;
+	Texture & operator=(Texture && other) noexcept;
+	Texture(const Texture &) = delete;
+	Texture & operator=(const Texture &) = delete;
 
 	/**
-	 * \brief Gets the height of the texture.
-	 * \return Height of the texture in pixels.
+	 * \brief Gets the width and height of the texture.
+	 * \return Width and height of the texture in pixels.
 	 */
-	int get_height() const;
+	ivec2 get_size() const;
 
 private:
 	/**

@@ -1,17 +1,17 @@
 #pragma once
 
-#include <functional>
-#include <vector>
+#include <cmath>
 
 #include "facade/SDLContext.h"
 
 #include "System.h"
-#include <cmath>
+#include "types.h"
 
 namespace crepe {
 
 class Camera;
 class Sprite;
+class Transform;
 
 /**
  * \class RenderSystem
@@ -37,7 +37,7 @@ private:
 	void present_screen();
 
 	//! Updates the active camera used for rendering.
-	void update_camera();
+	const Camera & update_camera();
 
 	//! Renders the whole screen
 	void render();
@@ -46,10 +46,13 @@ private:
 	 * \brief Renders all the particles on the screen from a given sprite.
 	 *
 	 * \param sprite renders the particles with given texture
-	 * \param tm the Transform component for scale
+	 * \param tm the Transform component for scale. This is not a const reference because each
+	 *  particle has a position and rotation that needs to overwrite the transform position and
+	 *  rotation without overwriting the current transform. and because the transform
+	 *  constructor is now protected i cannot make tmp inside
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite & sprite, const double & scale);
+	bool render_particle(const Sprite & sprite, const Camera & cam, const double & scale);
 
 	/**
 	 * \brief renders a sprite with a Transform component on the screen 
@@ -57,7 +60,7 @@ private:
 	 * \param sprite  the sprite component that holds all the data
 	 * \param tm the Transform component that holds the position,rotation and scale 
 	 */
-	void render_normal(const Sprite & sprite, const Transform & tm);
+	void render_normal(const Sprite & sprite, const Camera & cam, const Transform & tm);
 
 	/**
 	 * \brief sort a vector sprite objects with
@@ -68,20 +71,17 @@ private:
 	RefVector<Sprite> sort(RefVector<Sprite> & objs) const;
 
 	/**
-	 * \todo Include color handling for sprites.
 	 * \todo Add text rendering using SDL_ttf for text components.
 	 * \todo Implement a text component and a button component.
-	 * \todo Ensure each sprite is checked for active status before rendering.
-	 * \todo Sort all layers by order before rendering.
 	 * \todo Consider adding text input functionality.
 	 */
 
 private:
-	//! Pointer to the current active camera for rendering
-	Camera * curr_cam_ref = nullptr;
-	// TODO: needs a better solution
-
+	// FIXME: retrieve sdlcontext via mediator after #PR57
 	SDLContext & context = SDLContext::get_instance();
+
+	//! camera postion in the current scene
+	vec2 cam_pos;
 };
 
 } // namespace crepe

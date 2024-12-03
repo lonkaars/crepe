@@ -17,6 +17,8 @@ that you can click on to open them.
   working/compiling version of the project
 - Pull requests for new code include either automated tests for the new code or
   an explanation as to why the code can not (reliably) be tested
+- Non-bugfix pull requests must be approved by at least 2 reviewers before being
+  merged
 
 <!--
 - TODO: tagging / versions
