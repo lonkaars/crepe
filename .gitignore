@@ -16,4 +16,3 @@ CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
 compile.sh
-asset
