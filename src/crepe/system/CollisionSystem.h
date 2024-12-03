@@ -40,8 +40,8 @@ private:
 		* This structure stores the collider type, its associated transform, and its rigidbody.
 		*/
 	struct CollisionInternal {
-		//! Store either BoxCollider or CircleCollider
-		collider_variant& collider; 
+		game_object_id_t id = 0;
+		collider_variant collider; 
 		Transform& transform;
 		Rigidbody& rigidbody;
 	};
@@ -196,7 +196,7 @@ private:
 		* \param colliders A collection of all active colliders.
 		* \return A list of collision pairs with their associated data.
 		*/
-	std::vector<std::pair<CollisionInternal,CollisionInternal>> gather_collisions(std::vector<collider_variant> & colliders);
+	std::vector<std::pair<CollisionInternal,CollisionInternal>> gather_collisions(std::vector<CollisionInternal> & colliders);
 
 	/**
 		* \brief Checks for collision between two colliders.
