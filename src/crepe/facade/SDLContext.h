@@ -12,6 +12,7 @@
 #include "../api/Camera.h"
 #include "../api/Sprite.h"
 
+#include "api/Color.h"
 #include "api/Texture.h"
 #include "types.h"
 
@@ -105,18 +106,11 @@ private:
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
 	texture_from_path(const std::string & path);
 	/**
-	 * \brief Gets the width of a texture.
+	 * \brief Gets the size of a texture.
 	 * \param texture Reference to the Texture object.
-	 * \return Width of the texture as an integer.
+	 * \return Width and height of the texture as an integer.
 	 */
-	int get_width(const Texture & texture) const;
-
-	/**
-	 * \brief Gets the height of a texture.
-	 * \param texture Reference to the Texture object.
-	 * \return Height of the texture as an integer.
-	 */
-	int get_height(const Texture & texture) const;
+	ivec2 get_size(const Texture & ctx);
 
 private:
 	//! Will use draw,clear_screen, present_screen, camera.
@@ -165,20 +159,9 @@ private:
 	 * \brief Set an additional color value multiplied into render copy operations.
 	 *
 	 * \param  texture the given texture to adjust 
-	 * \param  r Red color 
-	 * \param  g Green color
-	 * \param  b Blue color
+	 * \param  color the color data for the texture
 	 */
-	void set_rbg_texture(const Texture & texture, const uint8_t & r, const uint8_t & g,
-						 const uint8_t & b);
-
-	/**
-	 * \brief Set an additional alpha value multiplied into render copy operations.
-	 *
-	 * \param texture modify the given texture alpha channel
-	 * \param  alpha alpha channel
-	 */
-	void set_alpha_texture(const Texture & texture, const uint8_t & alpha);
+	void set_color_texture(const Texture & texture, const Color & color);
 
 private:
 	//! sdl Window

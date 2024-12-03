@@ -2,6 +2,7 @@
 #include "../util/Log.h"
 
 #include "Asset.h"
+#include "types.h"
 #include "Texture.h"
 
 using namespace crepe;
@@ -31,11 +32,7 @@ void Texture::load(const Asset & res) {
 	this->texture = ctx.texture_from_path(res.get_path());
 }
 
-int Texture::get_width() const {
-	if (this->texture == nullptr) return 0;
-	return SDLContext::get_instance().get_width(*this);
-}
-int Texture::get_height() const {
-	if (this->texture == nullptr) return 0;
-	return SDLContext::get_instance().get_height(*this);
+ivec2 Texture::get_size() const {
+	if (this->texture == nullptr) return {};
+	return SDLContext::get_instance().get_size(*this);
 }

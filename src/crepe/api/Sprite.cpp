@@ -22,8 +22,8 @@ Sprite::Sprite(game_object_id_t id, Texture & image, const Color & color,
 
 	dbg_trace();
 
-	this->mask.w = sprite_image.get_width();
-	this->mask.h = sprite_image.get_height();
+	this->mask.w = sprite_image.get_size().x;
+	this->mask.h = sprite_image.get_size().y;
 	this->aspect_ratio = static_cast<double>(this->mask.w) / this->mask.h;
 }
 
