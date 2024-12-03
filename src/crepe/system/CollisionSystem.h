@@ -37,7 +37,10 @@ private:
 	/**
 		* \brief A structure to store the collision data of a single collider.
 		* 
-		* This structure stores the collider type, its associated transform, and its rigidbody.
+		* This structure all components and id that are for needed within this system when calculating or handeling collisions.
+		* The transform and rigidbody are mostly needed for location and rotation.
+		* In rigidbody additional info is written about what the body of the object is,
+		* and how it should respond on a collision.
 		*/
 	struct CollisionInternal {
 		game_object_id_t id = 0;
