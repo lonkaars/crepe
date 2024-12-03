@@ -62,7 +62,7 @@ public:
 		//! maximum linear velocity of object
 		vec2 max_linear_velocity = {INFINITY ,INFINITY};
 		//! linear damping of object
-		vec2 linear_velocity_factor;
+		vec2 linear_velocity_factor = {1,1};
 		//! angular velocity of object
 		float angular_velocity = 1;
 		//! max angular velocity of object
