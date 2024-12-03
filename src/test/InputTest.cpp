@@ -12,6 +12,7 @@
 #include <crepe/api/Metadata.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
+#include <crepe/api/Camera.h>
 #include <gmock/gmock.h>
 
 using namespace std;
@@ -26,7 +27,10 @@ public:
 	EventManager & event_manager = EventManager::get_instance();
 
 protected:
-	void SetUp() override { event_manager.clear(); }
+	void SetUp() override { 
+		event_manager.clear(); 
+		// GameObject camera = mgr.new_object<Camera>(Color{0,0,0,0},ivec2{0,0},vec2{500,500},0,vec2{0,0});
+	}
 
 	void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
 		SDL_Event event;
@@ -47,6 +51,7 @@ protected:
 		event.button.button = mouse_button;
 		SDL_PushEvent(&event);
 	}
+	GameObject camera;
 };
 
 TEST_F(InputTest, MouseDown) {
