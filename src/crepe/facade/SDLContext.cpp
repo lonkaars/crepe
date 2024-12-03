@@ -134,15 +134,11 @@ void SDLContext::draw(const RenderContext & ctx) {
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * ctx.sprite.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * ctx.sprite.flip.flip_y));
 
-	const Color & color = ctx.sprite.color;
-
 	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
 	SDL_Rect dstrect
 		= this->get_dst_rect(ctx.sprite, ctx.pos, ctx.cam, ctx.cam_pos, ctx.scale);
 
-	this->set_rbg_texture(ctx.sprite.sprite_image, color.r, color.g, color.b);
-	this->set_alpha_texture(ctx.sprite.sprite_image, color.a);
-
+	this->set_color_texture(ctx.sprite.sprite_image, ctx.sprite.color);
 	SDL_RenderCopyEx(this->game_renderer.get(), ctx.sprite.sprite_image.texture.get(),
 					 &srcrect, &dstrect, ctx.angle, NULL, render_flip);
 }
@@ -219,23 +215,17 @@ SDLContext::texture_from_path(const std::string & path) {
 	SDL_SetTextureBlendMode(img_texture.get(), SDL_BLENDMODE_BLEND);
 	return img_texture;
 }
-int SDLContext::get_width(const Texture & ctx) const {
-	int w;
-	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &w, NULL);
-	return w;
+
+
+ivec2 SDLContext::get_size(const Texture & ctx){
+	ivec2 size;
+	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &size.x, &size.y);
+	return size;
 }
-int SDLContext::get_height(const Texture & ctx) const {
-	int h;
-	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, NULL, &h);
-	return h;
-}
+
 void SDLContext::delay(int ms) const { SDL_Delay(ms); }
 
-void SDLContext::set_rbg_texture(const Texture & texture, const uint8_t & r, const uint8_t & g,
-								 const uint8_t & b) {
-	SDL_SetTextureColorMod(texture.texture.get(), r, g, b);
-}
-void SDLContext::set_alpha_texture(const Texture & texture, const uint8_t & alpha) {
-
-	SDL_SetTextureAlphaMod(texture.texture.get(), alpha);
+void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
+	SDL_SetTextureColorMod(texture.texture.get(), color.r, color.g, color.b);
+	SDL_SetTextureAlphaMod(texture.texture.get(), color.a);
 }

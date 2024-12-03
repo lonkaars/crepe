@@ -77,6 +77,7 @@ private:
 	 */
 
 private:
+	// FIXME: retrieve sdlcontext via mediator after #PR57
 	SDLContext & context = SDLContext::get_instance();
 
 	//! camera postion in the current scene

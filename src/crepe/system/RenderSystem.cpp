@@ -10,7 +10,6 @@
 #include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
-#include "../api/Vector2.h"
 #include "../facade/SDLContext.h"
 
 #include "RenderSystem.h"
@@ -71,7 +70,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Camera & cam,
 	bool rendering_particles = false;
 
 	for (const ParticleEmitter & em : emitters) {
-		if (!(&em.data.sprite == &sprite)) continue;
+		if (&em.data.sprite != &sprite) continue;
 		rendering_particles = true;
 		if (!em.active) continue;
 
