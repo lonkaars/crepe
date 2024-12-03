@@ -28,10 +28,12 @@ void CollisionSystem::update() {
 	ComponentManager & mgr = this->component_manager;
 	game_object_id_t id = 0;
 	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
+	// Collisions can only happen on object with a rigidbody
 	for(Rigidbody& rigidbody : rigidbodies) {
 		if (!rigidbody.active) continue;
 		id = rigidbody.game_object_id;
 		Transform& transform = this->component_manager.get_components_by_id<Transform>(id).front().get();
+		// Check if the boxcollider is active and has the same id as the rigidbody.
 		RefVector<BoxCollider> boxcolliders	= mgr.get_components_by_type<BoxCollider>();
 		for (BoxCollider& boxcollider : boxcolliders) {
 			if(boxcollider.game_object_id != id) continue;
@@ -45,6 +47,7 @@ void CollisionSystem::update() {
 					}
 				);
 		}
+		// Check if the circlecollider is active and has the same id as the rigidbody.
 		RefVector<CircleCollider> circlecolliders	= mgr.get_components_by_type<CircleCollider>();
 		for (CircleCollider& circlecollider : circlecolliders) {
 			if(circlecollider.game_object_id != id) continue;
@@ -58,7 +61,6 @@ void CollisionSystem::update() {
 					}
 				);
 		}
-		 
 	}
 
 	// Check between all colliders if there is a collision
@@ -311,7 +313,6 @@ std::vector<std::pair<CollisionSystem::CollisionInternal,CollisionSystem::Collis
 	for (size_t i = 0; i < colliders.size(); ++i) {
 		for (size_t j = i + 1; j < colliders.size(); ++j) {
 			if(colliders[i].id == colliders[j].id) continue;
-				// Get collision type form variant colliders
 				CollisionInternalType type = get_collider_type(colliders[i].collider,colliders[j].collider);
 				if(!get_collision({
 					.collider = colliders[i].collider,
@@ -410,10 +411,10 @@ bool CollisionSystem::get_box_box_collision(const BoxCollider& box1, const BoxCo
 	float half_height2 = box2.height / 2.0;
 
 	// Check if the boxes overlap along the X and Y axes
-	return (final_position1.x + half_width1 > final_position2.x - half_width2 &&  // not left
-        final_position1.x - half_width1 < final_position2.x + half_width2 &&  // not right
-        final_position1.y + half_height1 > final_position2.y - half_height2 && // not above
-        final_position1.y - half_height1 < final_position2.y + half_height2);  // not below
+	return (final_position1.x + half_width1 > final_position2.x - half_width2 &&
+        final_position1.x - half_width1 < final_position2.x + half_width2 &&
+        final_position1.y + half_height1 > final_position2.y - half_height2 &&
+        final_position1.y - half_height1 < final_position2.y + half_height2);
 }
 
 bool CollisionSystem::get_box_circle_collision(const BoxCollider& box1, const CircleCollider& circle2, const Transform& transform1, const Transform& transform2, const Rigidbody& rigidbody1, const Rigidbody& rigidbody2) const {
