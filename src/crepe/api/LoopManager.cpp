@@ -54,8 +54,8 @@ void LoopManager::loop() {
 
 		timer.enforce_frame_rate();
 
-		// Stop the game after 5 seconds, for testing purposes
-		if (timer.get_current_time() > 5) {
+		// Stop the game after 10 seconds, for testing purposes
+		if (timer.get_current_time() > 10) {
 			this->game_running = false;
 		}
 	}
