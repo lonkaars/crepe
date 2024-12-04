@@ -3,6 +3,7 @@
 #include "../api/EventManager.h"
 
 #include "InputSystem.h"
+
 using namespace crepe;
 
 void InputSystem::update() {
@@ -97,7 +98,7 @@ void InputSystem::update() {
 					.delta_x = event.rel_mouse_move.first,
 					.delta_y = event.rel_mouse_move.second,
 				});
-				handle_move(event, world_mouse_x, world_mouse_y);
+				this->handle_move(event, world_mouse_x, world_mouse_y);
 				break;
 			case SDLContext::EventType::MOUSEWHEEL:
 				event_mgr.queue_event<MouseScrollEvent>(MouseScrollEvent{
