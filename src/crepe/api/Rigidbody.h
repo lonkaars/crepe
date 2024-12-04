@@ -130,6 +130,16 @@ public:
 		* 
 		*/
 		vec2 offset;
+
+		/**
+		 * \brief Defines the collision layers of a GameObject.
+		 *
+		 * The `collision_layers` vector specifies the layers that the GameObject will collide with.
+		 * Each element in the vector represents a layer ID, and the GameObject will only detect 
+		 * collisions with other GameObjects that belong to these layers.
+		 */
+		std::vector<int> collision_layers;
+
 	};
 
 public:

@@ -359,6 +359,7 @@ CollisionSystem::gather_collisions(std::vector<CollisionInternal> & colliders) {
 	for (size_t i = 0; i < colliders.size(); ++i) {
 		for (size_t j = i + 1; j < colliders.size(); ++j) {
 			if (colliders[i].id == colliders[j].id) continue;
+			if(!have_common_layer(colliders[i].rigidbody.data.collision_layers,colliders[j].rigidbody.data.collision_layers)) continue;
 			CollisionInternalType type
 				= get_collider_type(colliders[i].collider, colliders[j].collider);
 			if (!get_collision(
@@ -379,6 +380,17 @@ CollisionSystem::gather_collisions(std::vector<CollisionInternal> & colliders) {
 	}
 
 	return collisions_ret;
+}
+
+bool CollisionSystem::have_common_layer(const std::vector<int>& layers1, const std::vector<int>& layers2) {
+    // Iterate through each layer in the first vector
+    for (int layer : layers1) {
+        // Check if the current layer is present in the second vector
+        if (std::find(layers2.begin(), layers2.end(), layer) != layers2.end()) {
+            return true; // Common layer found
+        }
+    }
+    return false; // No common layers found
 }
 
 CollisionSystem::CollisionInternalType
