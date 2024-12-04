@@ -30,3 +30,9 @@ void GameObject::set_parent(const GameObject & parent) {
 	RefVector<Metadata> parent_metadata = mgr.get_components_by_id<Metadata>(parent.id);
 	parent_metadata.at(0).get().children.push_back(this->id);
 }
+
+void GameObject::set_persistent(bool persistent) {
+	ComponentManager & mgr = this->component_manager;
+
+	mgr.set_persistent(this->id, persistent);
+}

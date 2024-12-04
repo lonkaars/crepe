@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <cstdint>
 
 #include "../Component.h"
 
@@ -8,14 +8,6 @@
 #include "Texture.h"
 
 namespace crepe {
-
-struct Rect {
-	int w = 0;
-	int h = 0;
-	int x = 0;
-	int y = 0;
-};
-
 
 class SDLContext;
 class Animator;
@@ -28,12 +20,10 @@ class AnimatorSystem;
  * flip settings, and is managed in layers with defined sorting orders.
  */
 class Sprite : public Component {
+
 public:
-	//! settings to flip an image
 	struct FlipSettings {
-		//! flip horizontal
 		bool flip_x = false;
-		//! flip vertical
 		bool flip_y = false;
 	};
 
@@ -45,10 +35,13 @@ public:
 	 * \param game_id Unique identifier for the game object this sprite belongs to.
 	 * \param image Shared pointer to the texture for this sprite.
 	 * \param color Color tint applied to the sprite.
-	 * \param flip FlipSettings for horizontal and vertical orientation.
+	 * \param flip Flip settings for horizontal and vertical orientation.
+	 * \param order_layer decides the sorting in layer of the sprite.
+	 * \param sort_layer decides the order in layer of the sprite.
+	 * \param height the height of the image in game units
 	 */
-	Sprite(game_object_id_t id, const std::shared_ptr<Texture> image, const Color & color,
-		   const FlipSettings & flip);
+	Sprite(game_object_id_t id, Texture & image, const Color & color,
+		   const FlipSettings & flip, int sort_layer, int order_layer, int height);
 
 	/**
 	 * \brief Destroys the Sprite instance.
@@ -56,38 +49,49 @@ public:
 	~Sprite();
 
 	//! Texture used for the sprite
-	const std::shared_ptr<Texture> sprite_image;
+	const Texture sprite_image;
+
 	//! Color tint of the sprite
 	Color color;
+
 	//! Flip settings for the sprite
 	FlipSettings flip;
-	//! Layer sorting level of the sprite
-	uint8_t sorting_in_layer = 0;
-	//! Order within the sorting layer
-	uint8_t order_in_layer = 0;
 
-public:
+	//! Layer sorting level of the sprite
+	const int sorting_in_layer;
+	//! Order within the sorting layer
+	const int order_in_layer;
+
+	//! height in world units
+	const int height;
+
 	/**
-	 * \brief Gets the maximum number of instances allowed for this sprite.
-	 * \return Maximum instance count as an integer.
+	 * \aspect_ratio ratio of the img so that scaling will not become weird
 	 *
-	 * For now is this number randomly picked. I think it will eventually be 1. 
+	 * cannot be const because if Animator component is addded then ratio becomes scuffed and
+	 * does it need to be calculated again in the Animator
 	 */
-	virtual int get_instances_max() const { return 10; }
+	double aspect_ratio;
 
 private:
-	//! Reads the sprite_rect of sprite
+	//! Reads the mask of sprite
 	friend class SDLContext;
 
-	//! Reads the all the variables plus the  sprite_rect
+	//! Reads the all the variables plus the  mask
 	friend class Animator;
 
-	//! Reads the all the variables plus the  sprite_rect
+	//! Reads the all the variables plus the  mask
 	friend class AnimatorSystem;
 
+	struct Rect {
+		int w = 0;
+		int h = 0;
+		int x = 0;
+		int y = 0;
+	};
 	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator
-	// object is present in GameObject
-	Rect sprite_rect;
+	// object is present in GameObject. this is in sprite pixels
+	Rect mask;
 };
 
 } // namespace crepe

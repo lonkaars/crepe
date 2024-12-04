@@ -1,4 +1,4 @@
-#include "api/Camera.h"
+#include "types.h"
 #include <functional>
 #include <gtest/gtest.h>
 #include <memory>
@@ -7,6 +7,7 @@
 #define private public
 #define protected public
 
+#include "crepe/api/Camera.h"
 #include <crepe/ComponentManager.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
@@ -29,40 +30,30 @@ public:
 	GameObject entity4 = this->mgr.new_object("name");
 
 	void SetUp() override {
-		auto & sprite1
-			= entity1.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"),
-											Color(0, 0, 0, 0), FlipSettings{false, false});
-		ASSERT_NE(sprite1.sprite_image.get(), nullptr);
-		sprite1.order_in_layer = 5;
-		sprite1.sorting_in_layer = 5;
+		auto s1 = Texture("asset/texture/img.png");
+		auto s2 = Texture("asset/texture/img.png");
+		auto s3 = Texture("asset/texture/img.png");
+		auto s4 = Texture("asset/texture/img.png");
+		auto & sprite1 = entity1.add_component<Sprite>(
+			s1, Color(0, 0, 0, 0), Sprite::FlipSettings{false, false}, 5, 5, 100);
+		ASSERT_NE(sprite1.sprite_image.texture.get(), nullptr);
 		EXPECT_EQ(sprite1.order_in_layer, 5);
 		EXPECT_EQ(sprite1.sorting_in_layer, 5);
-		auto & sprite2
-			= entity2.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"),
-											Color(0, 0, 0, 0), FlipSettings{false, false});
-		ASSERT_NE(sprite2.sprite_image.get(), nullptr);
-		sprite2.sorting_in_layer = 2;
-		sprite2.order_in_layer = 1;
-
+		auto & sprite2 = entity2.add_component<Sprite>(
+			s2, Color(0, 0, 0, 0), Sprite::FlipSettings{false, false}, 2, 1, 100);
+		ASSERT_NE(sprite2.sprite_image.texture.get(), nullptr);
 		EXPECT_EQ(sprite2.sorting_in_layer, 2);
 		EXPECT_EQ(sprite2.order_in_layer, 1);
 
-		auto & sprite3
-			= entity3.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"),
-											Color(0, 0, 0, 0), FlipSettings{false, false});
-		ASSERT_NE(sprite3.sprite_image.get(), nullptr);
-		sprite3.sorting_in_layer = 1;
-		sprite3.order_in_layer = 2;
-
+		auto & sprite3 = entity3.add_component<Sprite>(
+			s3, Color(0, 0, 0, 0), Sprite::FlipSettings{false, false}, 1, 2, 100);
+		ASSERT_NE(sprite3.sprite_image.texture.get(), nullptr);
 		EXPECT_EQ(sprite3.sorting_in_layer, 1);
 		EXPECT_EQ(sprite3.order_in_layer, 2);
 
-		auto & sprite4
-			= entity4.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"),
-											Color(0, 0, 0, 0), FlipSettings{false, false});
-		ASSERT_NE(sprite4.sprite_image.get(), nullptr);
-		sprite4.sorting_in_layer = 1;
-		sprite4.order_in_layer = 1;
+		auto & sprite4 = entity4.add_component<Sprite>(
+			s4, Color(0, 0, 0, 0), Sprite::FlipSettings{false, false}, 1, 1, 100);
+		ASSERT_NE(sprite4.sprite_image.texture.get(), nullptr);
 		EXPECT_EQ(sprite4.sorting_in_layer, 1);
 		EXPECT_EQ(sprite4.order_in_layer, 1);
 	}
@@ -73,8 +64,9 @@ TEST_F(RenderSystemTest, expected_throws) {
 
 	// no texture img
 	EXPECT_ANY_THROW({
-		entity1.add_component<Sprite>(make_shared<Texture>("NO_IMAGE"), Color(0, 0, 0, 0),
-									  FlipSettings{false, false});
+		auto test = Texture("");
+		entity1.add_component<Sprite>(test, Color(0, 0, 0, 0),
+									  Sprite::FlipSettings{false, false}, 1, 1, 100);
 	});
 
 	// No camera
@@ -121,7 +113,7 @@ TEST_F(RenderSystemTest, sorting_sprites) {
 }
 
 TEST_F(RenderSystemTest, Update) {
-	entity1.add_component<Camera>(Color::WHITE);
+	entity1.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{2000, 2000}, 1.0f);
 	{
 		vector<reference_wrapper<Sprite>> sprites = this->mgr.get_components_by_type<Sprite>();
 		ASSERT_EQ(sprites.size(), 4);
@@ -149,7 +141,7 @@ TEST_F(RenderSystemTest, Camera) {
 		EXPECT_NE(cameras.size(), 1);
 	}
 	{
-		entity1.add_component<Camera>(Color::WHITE);
+		entity1.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{2000, 2000}, 1.0f);
 		auto cameras = this->mgr.get_components_by_type<Camera>();
 		EXPECT_EQ(cameras.size(), 1);
 	}
@@ -157,9 +149,9 @@ TEST_F(RenderSystemTest, Camera) {
 	//TODO improve with newer version
 }
 TEST_F(RenderSystemTest, Color) {
-	entity1.add_component<Camera>(Color::WHITE);
+	entity1.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{2000, 2000}, 1.0f);
 	auto & sprite = this->mgr.get_components_by_id<Sprite>(entity1.id).front().get();
-	ASSERT_NE(sprite.sprite_image.get(), nullptr);
+	ASSERT_NE(sprite.sprite_image.texture.get(), nullptr);
 
 	sprite.color = Color::GREEN;
 	EXPECT_EQ(sprite.color.r, Color::GREEN.r);

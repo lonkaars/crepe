@@ -54,6 +54,11 @@ template <typename T>
 void ComponentManager::delete_components_by_id(game_object_id_t id) {
 	using namespace std;
 
+	// Do not delete persistent objects
+	if (this->persistent[id]) {
+		return;
+	}
+
 	// Determine the type of T (this is used as the key of the unordered_map<>)
 	type_index type = typeid(T);
 
@@ -77,7 +82,13 @@ void ComponentManager::delete_components() {
 
 	if (this->components.find(type) == this->components.end()) return;
 
-	this->components[type].clear();
+	// Loop through the whole vector<> of this specific type
+	for (game_object_id_t i = 0; i < this->components[type].size(); ++i) {
+		// Do not delete persistent objects
+		if (!this->persistent[i]) {
+			this->components[type][i].clear();
+		}
+	}
 }
 
 template <typename T>

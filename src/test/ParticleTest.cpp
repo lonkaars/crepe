@@ -1,4 +1,4 @@
-#include "api/Vector2.h"
+#include "api/Texture.h"
 #include <crepe/ComponentManager.h>
 #include <crepe/Particle.h>
 #include <crepe/api/Config.h>
@@ -28,9 +28,9 @@ public:
 			GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 0);
 
 			Color color(0, 0, 0, 0);
+			auto s1 = Texture("asset/texture/img.png");
 			Sprite & test_sprite = game_object.add_component<Sprite>(
-				make_shared<Texture>("asset/texture/img.png"), color,
-				FlipSettings{true, true});
+				s1, color, Sprite::FlipSettings{true, true}, 1, 1, 100);
 
 			game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 				.position = {0, 0},
