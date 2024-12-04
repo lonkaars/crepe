@@ -3,7 +3,6 @@
 #include "../api/EventManager.h"
 
 #include "InputSystem.h"
-#include <iostream>
 using namespace crepe;
 
 void InputSystem::update() {
