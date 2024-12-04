@@ -215,6 +215,22 @@ private:
 	gather_collisions(std::vector<CollisionInternal> & colliders);
 
 	/**
+	 * \brief Checks if two collision layers have at least one common layer.
+	 * 
+	 * This function checks if there is any overlapping layer between the two input 
+	 * collision layer vectors. It compares each layer from the first vector to see 
+	 * if it exists in the second vector. If at least one common layer is found, 
+	 * the function returns true, indicating that the two colliders share a common 
+	 * collision layer.
+	 * 
+	 * \param layers1 A vector of collision layers for the first collider.
+	 * \param layers2 A vector of collision layers for the second collider.
+	 * \return Returns true if there is at least one common layer, false otherwise.
+	 */
+
+	bool have_common_layer(const std::vector<int>& layers1, const std::vector<int>& layers2);
+
+	/**
 		* \brief Checks for collision between two colliders.
 		* 
 		* Calls the appropriate collision detection function based on the collider types.
