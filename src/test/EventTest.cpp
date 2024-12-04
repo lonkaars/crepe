@@ -1,10 +1,11 @@
-
-#include "api/Event.h"
-#include "api/EventManager.h"
-#include "api/IKeyListener.h"
-#include "api/IMouseListener.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <crepe/api/Event.h>
+#include <crepe/api/IKeyListener.h>
+#include <crepe/api/IMouseListener.h>
+#include <crepe/manager/EventManager.h>
+
 using namespace std;
 using namespace std::chrono_literals;
 using namespace crepe;
@@ -36,10 +37,7 @@ public:
 };
 
 TEST_F(EventManagerTest, EventSubscription) {
-	EventHandler<KeyPressEvent> key_handler = [](const KeyPressEvent & e) {
-		std::cout << "Key Event Triggered" << std::endl;
-		return true;
-	};
+	EventHandler<KeyPressEvent> key_handler = [](const KeyPressEvent & e) { return true; };
 
 	// Subscribe to KeyPressEvent
 	EventManager::get_instance().subscribe<KeyPressEvent>(key_handler, 1);

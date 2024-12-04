@@ -1,4 +1,3 @@
-#include "types.h"
 #include <functional>
 #include <gtest/gtest.h>
 #include <memory>
@@ -7,12 +6,12 @@
 #define private public
 #define protected public
 
-#include "crepe/api/Camera.h"
-#include <crepe/ComponentManager.h>
+#include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
+#include <crepe/manager/ComponentManager.h>
 
 #include <crepe/system/RenderSystem.h>
 
@@ -21,9 +20,11 @@ using namespace crepe;
 using namespace testing;
 
 class RenderSystemTest : public Test {
+	Mediator m;
+
 public:
-	ComponentManager mgr{};
-	RenderSystem sys{mgr};
+	ComponentManager mgr{m};
+	RenderSystem sys{m};
 	GameObject entity1 = this->mgr.new_object("name");
 	GameObject entity2 = this->mgr.new_object("name");
 	GameObject entity3 = this->mgr.new_object("name");

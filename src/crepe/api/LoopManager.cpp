@@ -1,22 +1,19 @@
-#include <iostream>
-
 #include "../facade/SDLContext.h"
+
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/ParticleSystem.h"
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
+#include "../manager/EventManager.h"
 
-#include "../api/EventManager.h"
 #include "LoopManager.h"
-#include "LoopTimer.h"
 
 using namespace crepe;
 using namespace std;
 
 LoopManager::LoopManager() {
-	this->loop_timer = make_unique<LoopTimer>();
 	this->load_system<AnimatorSystem>();
 	this->load_system<CollisionSystem>();
 	this->load_system<ParticleSystem>();
@@ -26,12 +23,11 @@ LoopManager::LoopManager() {
 	EventManager::get_instance().subscribe<ShutDownEvent>([this](const ShutDownEvent& event) {
     	return this->on_shutdown(event);
 	});
-
+	this->loop_timer = make_unique<LoopTimer>();
+	this->mediator.loop_timer = *loop_timer;
 }
 
-void LoopManager::process_input() {
-	SDLContext::get_instance().handle_events(this->game_running);
-}
+void LoopManager::process_input() { this->sdl_context.handle_events(this->game_running); }
 
 void LoopManager::start() {
 	this->setup();
@@ -59,15 +55,17 @@ void LoopManager::loop() {
 }
 
 void LoopManager::setup() {
+	
+
 	this->game_running = true;
 	this->loop_timer->start();
-	this->loop_timer->set_target_fps(60);
+	this->loop_timer->set_target_fps(200);
 }
 
 void LoopManager::render() {
-	if (this->game_running) {
-		this->get_system<RenderSystem>().update();
-	}
+	if (!this->game_running) return;
+
+	this->get_system<RenderSystem>().update();
 }
 bool LoopManager::on_shutdown(const ShutDownEvent & e){
 	this->game_running = false;

@@ -2,9 +2,12 @@
 
 #include <memory>
 
-#include "../ComponentManager.h"
+#include "../facade/SDLContext.h"
+#include "../manager/ComponentManager.h"
+#include "../manager/SceneManager.h"
 #include "../system/System.h"
-#include "api/SceneManager.h"
+#include "manager/SceneManager.h"
+
 #include "api/Event.h"
 #include "api/LoopTimer.h"
 
@@ -84,14 +87,20 @@ private:
 	bool game_running = false;
 
 private:
-	//! Component manager instance
-	ComponentManager component_manager{};
-	//! Scene manager instance
-	SceneManager scene_manager{component_manager};
+	//! Global context
+	Mediator mediator;
 
-private:
+	//! Component manager instance
+	ComponentManager component_manager{mediator};
+	//! Scene manager instance
+	SceneManager scene_manager{mediator};
+
+	//! SDL context \todo no more singletons!
+	SDLContext & sdl_context = SDLContext::get_instance();
 	//! loop timer instance
 	std::unique_ptr<LoopTimer> loop_timer;
+private:
+	
 	//! callback function for shutdown event
 	bool on_shutdown(const ShutDownEvent & e);
 	/**

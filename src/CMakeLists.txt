@@ -40,5 +40,6 @@ install(
 
 target_link_libraries(test_main
 	PRIVATE gtest
+	PRIVATE gmock
 	PUBLIC crepe
 )

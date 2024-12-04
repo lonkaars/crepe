@@ -57,3 +57,25 @@ TEST_F(LoopTimerTest, DeltaTimeCalculation) {
     ASSERT_LE(delta_time, (elapsed_time + 2) / 1000.0);
 }
 
+TEST_F(LoopTimerTest, getCurrentTime) {
+    // Set the target FPS to 60 (16.67 ms per frame)
+    loop_timer.set_target_fps(60);
+
+    auto start_time = steady_clock::now();
+
+    // Sleep for 500 milliseconds
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    loop_timer.update();
+
+    auto end_time = steady_clock::now();
+
+    // Get the elapsed time in seconds as a double
+    auto elapsed_time = duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+
+    ASSERT_NEAR(loop_timer.get_current_time(), elapsed_time, 0.001);
+
+	
+}
+
+
