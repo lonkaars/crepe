@@ -63,16 +63,18 @@ public:
 					 .angle_offset = 0,
 				 });
 
-		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4, Animator::Data{
-			.fps = 1,
-			.looping = false,
-		});
+		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4,
+														  Animator::Data{
+															  .fps = 1,
+															  .looping = false,
+														  });
 		anim.set_anim(2);
 		anim.active = false;
 
-		auto & cam = game_object.add_component<Camera>(ivec2{1280,720}, vec2{400,400},Camera::Data{
-			.bg_color = Color::WHITE,
-		});
+		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
+													   Camera::Data{
+														   .bg_color = Color::WHITE,
+													   });
 	}
 
 	string get_name() const { return "TestScene"; };

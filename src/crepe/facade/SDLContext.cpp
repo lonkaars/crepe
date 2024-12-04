@@ -114,9 +114,10 @@ SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
 
-	vec2 size = {
-		data.size.x == 0 && data.size.y != 0 ? data.size.y * ctx.sprite.aspect_ratio : data.size.x,
-		data.size.y == 0 && data.size.x != 0 ? data.size.x / ctx.sprite.aspect_ratio : data.size.y};
+	vec2 size = {data.size.x == 0 && data.size.y != 0 ? data.size.y * ctx.sprite.aspect_ratio
+													  : data.size.x,
+				 data.size.y == 0 && data.size.x != 0 ? data.size.x / ctx.sprite.aspect_ratio
+													  : data.size.y};
 
 	const CameraValues & cam = ctx.cam;
 
@@ -180,8 +181,7 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 		float adj_width = zoomed_viewport.x * scale;
 		float bar_width = (cam.screen.x - adj_width) / 2;
 		this->black_bars[0] = {0, 0, bar_width, (float) cam.screen.y};
-		this->black_bars[1]
-			= {(cam.screen.x - bar_width), 0, bar_width, (float) cam.screen.y};
+		this->black_bars[1] = {(cam.screen.x - bar_width), 0, bar_width, (float) cam.screen.y};
 
 		bar_size = {bar_width, 0};
 		render_scale.x = render_scale.y = scale;
@@ -210,7 +210,6 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 
 	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
-
 
 	return ret_cam;
 }

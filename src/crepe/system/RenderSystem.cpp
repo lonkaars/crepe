@@ -89,7 +89,8 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const SDLContext::CameraValues & cam, const Transform & tm) {
+void RenderSystem::render_normal(const Sprite & sprite, const SDLContext::CameraValues & cam,
+								 const Transform & tm) {
 	this->context.draw(SDLContext::RenderContext{
 		.sprite = sprite,
 		.cam = cam,

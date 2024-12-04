@@ -19,7 +19,6 @@ class Animator : public Component {
 public:
 	struct Data {
 
-
 		//! frames per second for animation
 		int fps = 1;
 
