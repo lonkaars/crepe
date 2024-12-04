@@ -22,14 +22,14 @@ void AnimatorSystem::update() {
 
 		int last_frame = ctx.curr_row;
 
-		int cycle_end = (ctx.cycle_end == -1) ? ctx.row : ctx.cycle_end;
+		int cycle_end = (ctx.cycle_end == -1) ? a.row : ctx.cycle_end;
 		int total_frames = cycle_end - ctx.cycle_start;
 
 		int curr_frame = static_cast<int>(elapsed_time / frame_duration) % total_frames;
 
 		ctx.curr_row = ctx.cycle_start + curr_frame;
-		ctx.spritesheet.mask.x = ctx.curr_row * ctx.spritesheet.mask.w;
-		ctx.spritesheet.mask.y = (ctx.curr_col * ctx.spritesheet.mask.h);
+		a.spritesheet.mask.x = ctx.curr_row * a.spritesheet.mask.w;
+		a.spritesheet.mask.y = (ctx.curr_col * a.spritesheet.mask.h);
 
 		if (!ctx.looping && curr_frame == ctx.cycle_start && last_frame == total_frames - 1) {
 			a.active = false;

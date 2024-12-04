@@ -18,20 +18,13 @@ class SDLContext;
 class Animator : public Component {
 public:
 	struct Data {
-		//! A reference to the Sprite sheet containing.
-		Sprite & spritesheet;
 
-		//! The maximum number of columns in the sprite sheet.
-		const int col;
-
-		//! The maximum number of rows in the sprite sheet.
-		const int row;
 
 		//! frames per second for animation
-		int fps;
+		int fps = 1;
 
 		//! The current col being animated.
-		int curr_col;
+		int curr_col = 0;
 
 		//! The current row being animated.
 		int curr_row = 0;
@@ -113,10 +106,19 @@ public:
 	 * This constructor sets up the Animator with the given parameters, and initializes the
 	 * animation system.
 	 */
-	Animator(uint32_t id, const Animator::Data & ctx);
+	Animator(uint32_t id, Sprite & ss, int max_row, int max_col, const Animator::Data & ctx);
 	~Animator(); // dbg_trace
 
 public:
+	//! A reference to the Sprite sheet containing.
+	Sprite & spritesheet;
+
+	//! The maximum number of columns in the sprite sheet.
+	const int col;
+
+	//! The maximum number of rows in the sprite sheet.
+	const int row;
+
 	Animator::Data data;
 
 private:

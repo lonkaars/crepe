@@ -20,7 +20,7 @@ Sprite::Sprite(game_object_id_t id, Texture & texture, const Sprite::Data & ctx)
 
 	this->mask.w = this->texture.get_width();
 	this->mask.h = this->texture.get_height();
-	this->data.aspect_ratio = static_cast<double>(this->mask.w) / this->mask.h;
+	this->aspect_ratio = static_cast<double>(this->mask.w) / this->mask.h;
 }
 
 Sprite::~Sprite() { dbg_trace(); }
