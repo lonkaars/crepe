@@ -9,13 +9,10 @@ target_sources(crepe PUBLIC
 	Texture.cpp
 	AssetManager.cpp
 	Sprite.cpp
-	SaveManager.cpp
 	Config.cpp
 	Metadata.cpp
-	SceneManager.cpp
 	Camera.cpp
 	Animator.cpp
-	EventManager.cpp
 	IKeyListener.cpp
 	IMouseListener.cpp
 	LoopManager.cpp
@@ -43,15 +40,10 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Texture.h 
 	AssetManager.h 
 	AssetManager.hpp
-	SaveManager.h
 	Scene.h
 	Metadata.h
-	SceneManager.h
-	SceneManager.hpp
 	Camera.h
 	Animator.h
-	EventManager.h
-	EventManager.hpp
 	EventHandler.h
 	EventHandler.hpp
 	Event.h

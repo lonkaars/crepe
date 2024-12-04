@@ -13,4 +13,6 @@ target_sources(test_main PUBLIC
 	DBTest.cpp
 	Vector2Test.cpp
 	InputTest.cpp
+	ScriptEventTest.cpp
+	ScriptSceneTest.cpp
 )
