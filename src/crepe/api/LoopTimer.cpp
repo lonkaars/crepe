@@ -13,8 +13,10 @@ LoopTimer::LoopTimer() { dbg_trace(); }
 
 void LoopTimer::start() {
 	this->last_frame_time = std::chrono::steady_clock::now();
+	
 	this->elapsed_time = std::chrono::milliseconds(0);
-	this->elapsed_fixed_time = std::chrono::milliseconds(0);
+	// by starting the elapsed_fixed_time at (0 - fixed_delta_time) in milliseconds it calls a fixed update at the start of the loop.
+	this->elapsed_fixed_time = -std::chrono::duration_cast<std::chrono::milliseconds>(fixed_delta_time);
 	this->delta_time = std::chrono::milliseconds(0);
 }
 

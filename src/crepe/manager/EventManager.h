@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Event.h"
-#include "EventHandler.h"
+#include "../api/Event.h"
+#include "../api/EventHandler.h"
 
 namespace crepe {
 
