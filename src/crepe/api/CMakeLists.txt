@@ -23,6 +23,7 @@ target_sources(crepe PUBLIC
 	Asset.cpp
 	EventHandler.cpp
 	Script.cpp
+	AI.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -58,4 +59,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	LoopManager.h
 	LoopTimer.h
 	Asset.h
+	AI.h
 )
