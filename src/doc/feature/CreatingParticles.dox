@@ -1,0 +1,78 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+\note Add sprites features here
+
+\defgroup feature_creating_particles Creating particles
+\ingroup feature
+\brief Creating particles with the ParticleSystem
+
+Particles provide a dynamic and purely visual effect, 
+often influenced by basic physics or environmental factors.
+These effects are designed to enhance the visual appeal of a scene without 
+interacting with or affecting other GameObjects or Components in the game world.
+
+Common use cases for this feature include:
+- Campfire smoke
+- Rocket flames
+- Background leaves
+- Weather Effects
+
+\see Component
+\see Scene
+\see ParticleEmitter
+\see GameObject
+\see ParticleSystem
+\see Sprite
+\see Transform
+
+\par Example
+Adding a ParticleEmitter to a GameObject.
+
+To add a ParticleEmitter, include the necessary header:
+```ccp
+#include <crepe/api/ParticleEmitter.h>
+
+```
+\par Step 1: Create a Sprite
+A ParticleEmitter requires a Sprite to determine how the particles are visualized.
+Refer to /ref Creating a Sprite for detailed instructions on adding a sprite to the GameObject.
+Save the reference to the sprite, as it is needed to link it to the ParticleEmitter:
+
+```cpp
+Sprite &example_sprite = game_object.add_component<Sprite>(img, color, Sprite::FlipSettings{true, true}, 1, 1, 500);
+```
+
+
+\par Step 2: Add a ParticleEmitter
+The ParticleSystem uses the Transform and ParticleEmitter to generate particles. The 
+ParticleEmitter stores data defining the behavior of the particles. Ensure that the code 
+creating a ParticleEmitter is placed within a Scene: 
+
+```cpp
+game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
+		.position = {0, 0},
+		.max_particles = 10,
+		.emission_rate = 0.1,
+		.min_speed = 1,
+		.max_speed = 20,
+		.min_angle = 0,
+		.max_angle = 30,
+		.begin_lifespan = 0,
+		.end_lifespan = 60,
+		.force_over_time = vec2{0, 0},
+		.boundary{
+			.width = 1000,
+			.height = 1000,
+			.offset = vec2{0, 0},
+			.reset_on_exit = true,
+		},
+		.sprite = example_sprite,
+	});
+
+```
+This example demonstrates the creation of a simple ParticleEmitter that can generate 
+particles with customizable behavior and appearance.
+
+*/
+}
