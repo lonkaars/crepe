@@ -6,13 +6,7 @@ namespace crepe {
 
 class LoopTimer {
 public:
-	/**
-	 * \brief Get the singleton instance of LoopTimer.
-	 *
-	 * \return A reference to the LoopTimer instance.
-	 */
-	static LoopTimer & get_instance();
-
+	LoopTimer();
 	/**
 	 * \brief Get the current delta time for the current frame.
 	 *
@@ -96,12 +90,7 @@ private:
 	 */
 	double get_lag() const;
 
-	/**
-	 * \brief Construct a new LoopTimer object.
-	 *
-	 * Private constructor for singleton pattern to restrict instantiation outside the class.
-	 */
-	LoopTimer();
+	
 
 	/**
 	 * \brief Update the timer to the current frame.
