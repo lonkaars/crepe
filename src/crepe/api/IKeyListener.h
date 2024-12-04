@@ -1,8 +1,9 @@
 #pragma once
 
+#include "../manager/EventManager.h"
+
 #include "Event.h"
 #include "EventHandler.h"
-#include "EventManager.h"
 
 namespace crepe {
 
