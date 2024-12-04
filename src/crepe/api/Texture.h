@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "Asset.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -42,16 +43,10 @@ public:
 	Texture & operator=(const Texture &) = delete;
 
 	/**
-	 * \brief Gets the width of the texture.
-	 * \return Width of the texture in pixels.
+	 * \brief Gets the width and height of the texture.
+	 * \return Width and height of the texture in pixels.
 	 */
-	int get_width() const;
-
-	/**
-	 * \brief Gets the height of the texture.
-	 * \return Height of the texture in pixels.
-	 */
-	int get_height() const;
+	ivec2 get_size() const;
 
 private:
 	/**

@@ -1,10 +1,28 @@
 // vim:ft=doxygen
 /**
 
+\htmlonly
+<style>
+table.memberdecls { display: none; }
+ul { margin: 1ex 0pt; }
+</style>
+\endhtmlonly
+
 \defgroup feature Features
 \brief Engine components
 
 This page lists engine features and contains usage instructions for each
 feature.
+
+\par Features
+
+- Scripting
+	- \ref feature_script \n\copybrief feature_script
+
+- Game flow management
+	- \ref feature_scene \n\copybrief feature_scene
+
+- Entity
+	- \ref feature_gameobject \n\copybrief feature_gameobject
 
 */
