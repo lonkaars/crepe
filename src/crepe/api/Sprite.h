@@ -54,7 +54,6 @@ public:
 
 		//! independent sprite scale multiplier
 		double scale_offset = 1;
-
 	};
 
 public:
