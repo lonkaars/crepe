@@ -66,6 +66,30 @@ struct Vector2 {
 
 	//! Checks if this vector is not equal to another vector.
 	bool operator!=(const Vector2<T> & other) const;
+
+	//! Truncates the vector to a maximum length.
+	void truncate(T max);
+
+	//! Normalizes the vector.
+	void normalize();
+
+	//! Returns the length of the vector.
+	T length() const;
+
+	//! Returns the squared length of the vector.
+	T length_squared() const;
+
+	//! Returns the dot product of this vector and another vector.
+	T dot(const Vector2<T> & other) const;
+
+	//! Returns the distance between this vector and another vector.
+	T distance(const Vector2<T> & other) const;
+
+	//! Returns the squared distance between this vector and another vector.
+	T distance_squared(const Vector2<T> & other) const;
+
+	//! Returns the perpendicular vector to this vector.
+	Vector2 perpendicular() const;
 };
 
 } // namespace crepe
