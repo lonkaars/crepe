@@ -78,6 +78,7 @@ public:
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
 			.offset = {0, 0},
+			.collision_layers = {0},
 		});
 		game_object1.add_component<BoxCollider>(vec2{0, 0}, vec2{10, 10});
 		BehaviorScript & script_object1
@@ -93,6 +94,7 @@ public:
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
 			.offset = {0, 0},
+			.collision_layers = {0},
 		});
 		game_object2.add_component<BoxCollider>(vec2{0, 0}, vec2{10, 10});
 		BehaviorScript & script_object2
