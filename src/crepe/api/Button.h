@@ -42,7 +42,7 @@ public:
      * This function is invoked whenever the button is clicked. It can be set to any
      * function that matches the signature `void()`.
      */
-	std::function<void()> on_click;
+	std::function<void()> on_click = nullptr;
 
 	/**
 	 * \brief Callback function to be executed when the mouse enters the button's boundaries.
@@ -50,7 +50,7 @@ public:
 	 * This function is triggered when the mouse cursor moves over the button, allowing
 	 * custom actions like visual effects, highlighting, or sound effects.
 	 */
-	std::function<void()> on_enter;
+	std::function<void()> on_enter = nullptr;
 
 	/**
 	 * \brief Callback function to be executed when the mouse exits the button's boundaries.
@@ -58,7 +58,7 @@ public:
 	 * This function is triggered when the mouse cursor moves out of the button's area,
 	 * allowing custom actions like resetting visual effects or playing exit-related effects.
 	 */
-	std::function<void()> on_exit;
+	std::function<void()> on_exit = nullptr;
 
 private:
 	friend class InputSystem;
