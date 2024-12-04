@@ -1,8 +1,8 @@
 #include "system/ParticleSystem.h"
 #include "system/PhysicsSystem.h"
 #include "system/RenderSystem.h"
-#include <cmath>
 #include <chrono>
+#include <cmath>
 #include <gtest/gtest.h>
 
 #define private public
@@ -12,10 +12,10 @@
 #include <crepe/api/Event.h>
 #include <crepe/api/EventManager.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Transform.h>
-#include <crepe/api/ParticleEmitter.h>
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/system/ScriptSystem.h>
 #include <crepe/types.h>
@@ -27,14 +27,13 @@ using namespace crepe;
 using namespace testing;
 
 class TestScript : public Script {
-	bool oncollision(const CollisionEvent& test) {
+	bool oncollision(const CollisionEvent & test) {
 		Log::logf("Box {} script on_collision()", test.info.this_collider.game_object_id);
 		return true;
 	}
 	void init() {
-		subscribe<CollisionEvent>([this](const CollisionEvent& ev) -> bool {
-			return this->oncollision(ev);
-		});
+		subscribe<CollisionEvent>(
+			[this](const CollisionEvent & ev) -> bool { return this->oncollision(ev); });
 	}
 	void update() {
 		// Retrieve component from the same GameObject this script is on
@@ -52,10 +51,9 @@ public:
 	const int average = 5;
 	// Maximum duration to stop test
 	const std::chrono::microseconds duration = 16000us;
-	
 
 	ComponentManager mgr;
-	// Add system used for profling tests 
+	// Add system used for profling tests
 	CollisionSystem collision_sys{mgr};
 	PhysicsSystem physics_sys{mgr};
 	ParticleSystem particle_sys{mgr};
@@ -67,12 +65,11 @@ public:
 	int game_object_count = 0;
 	std::chrono::microseconds total_time = 0us;
 
-	
 	void SetUp() override {
-		
-		GameObject do_not_use = mgr.new_object("DO_NOT_USE","",{0,0});
-		do_not_use.add_component<Camera>(Color::WHITE, ivec2{1080, 720},
-												   vec2{2000, 2000}, 1.0f);
+
+		GameObject do_not_use = mgr.new_object("DO_NOT_USE", "", {0, 0});
+		do_not_use.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{2000, 2000},
+										 1.0f);
 		// initialize systems here:
 		//calls init
 		script_sys.update();
@@ -82,11 +79,12 @@ public:
 
 	// Helper function to time an update call and store its duration
 	template <typename Func>
-	std::chrono::microseconds time_function(const std::string& name, Func&& func) {
+	std::chrono::microseconds time_function(const std::string & name, Func && func) {
 		auto start = std::chrono::steady_clock::now();
 		func();
 		auto end = std::chrono::steady_clock::now();
-		std::chrono::microseconds duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+		std::chrono::microseconds duration
+			= std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 		timings[name] += duration;
 		return duration;
 	}
@@ -95,8 +93,10 @@ public:
 	std::chrono::microseconds run_all_systems() {
 		std::chrono::microseconds total_microseconds = 0us;
 		total_microseconds += time_function("PhysicsSystem", [&]() { physics_sys.update(); });
-		total_microseconds += time_function("CollisionSystem", [&]() { collision_sys.update(); });
-		total_microseconds += time_function("ParticleSystem", [&]() { particle_sys.update(); });
+		total_microseconds
+			+= time_function("CollisionSystem", [&]() { collision_sys.update(); });
+		total_microseconds
+			+= time_function("ParticleSystem", [&]() { particle_sys.update(); });
 		total_microseconds += time_function("RenderSystem", [&]() { render_sys.update(); });
 		return total_microseconds;
 	}
@@ -104,34 +104,33 @@ public:
 	// Print timings of all functions
 	void log_timings() const {
 		std::string result = "\nFunction timings:\n";
-    
-    for (const auto& [name, duration] : timings) {
-        result += name + " took " + std::to_string(duration.count() / 1000.0 / average) + " ms (" +
-                  std::to_string(duration.count() / average) + " µs).\n";
-    }
 
-    result += "Total time: " + std::to_string(this->total_time.count() / 1000.0 / average) + " ms (" +
-              std::to_string(this->total_time.count() / average) + " µs)\n";
-    
-    result += "Amount of gameobjects: " + std::to_string(game_object_count) + "\n";
+		for (const auto & [name, duration] : timings) {
+			result += name + " took " + std::to_string(duration.count() / 1000.0 / average)
+					  + " ms (" + std::to_string(duration.count() / average) + " µs).\n";
+		}
 
-    GTEST_LOG_(INFO) << result;
+		result += "Total time: " + std::to_string(this->total_time.count() / 1000.0 / average)
+				  + " ms (" + std::to_string(this->total_time.count() / average) + " µs)\n";
+
+		result += "Amount of gameobjects: " + std::to_string(game_object_count) + "\n";
+
+		GTEST_LOG_(INFO) << result;
 	}
 
 	void clear_timings() {
-		for (auto& [key, value] : timings) {
-    	value = std::chrono::microseconds(0);
+		for (auto & [key, value] : timings) {
+			value = std::chrono::microseconds(0);
 		}
 	}
 };
 
 TEST_F(Profiling, Profiling_1) {
-	while (this->total_time/this->average < this->duration) {
-		
+	while (this->total_time / this->average < this->duration) {
 
 		{
 			//define gameobject used for testing
-			GameObject gameobject = mgr.new_object("gameobject","",{0,0});
+			GameObject gameobject = mgr.new_object("gameobject", "", {0, 0});
 		}
 
 		this->game_object_count++;
@@ -143,18 +142,19 @@ TEST_F(Profiling, Profiling_1) {
 			this->total_time += run_all_systems();
 		}
 
-		if(this->game_object_count >= this->max_gameobject_count) break;
+		if (this->game_object_count >= this->max_gameobject_count) break;
 	}
 	log_timings();
 	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
 TEST_F(Profiling, Profiling_2) {
-	while (this->total_time/this->average < this->duration) {
-	
+	while (this->total_time / this->average < this->duration) {
+
 		{
 			//define gameobject used for testing
-			GameObject gameobject = mgr.new_object("gameobject","",{static_cast<float>(game_object_count*2),0});
+			GameObject gameobject = mgr.new_object(
+				"gameobject", "", {static_cast<float>(game_object_count * 2), 0});
 			gameobject.add_component<Rigidbody>(Rigidbody::Data{
 				.gravity_scale = 0.0,
 				.body_type = Rigidbody::BodyType::STATIC,
@@ -163,7 +163,8 @@ TEST_F(Profiling, Profiling_2) {
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
 			auto img = Texture("asset/texture/green_square.png");
-			Sprite & test_sprite = gameobject.add_component<Sprite>(img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
+			Sprite & test_sprite = gameobject.add_component<Sprite>(
+				img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
 		}
 
 		this->game_object_count++;
@@ -174,50 +175,52 @@ TEST_F(Profiling, Profiling_2) {
 			this->total_time += run_all_systems();
 		}
 
-		if(this->game_object_count >= this->max_gameobject_count) break;
+		if (this->game_object_count >= this->max_gameobject_count) break;
 	}
 	log_timings();
 	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
 TEST_F(Profiling, Profiling_3) {
-	while (this->total_time/this->average < this->duration) {
-	
+	while (this->total_time / this->average < this->duration) {
+
 		{
 			//define gameobject used for testing
-			GameObject gameobject = mgr.new_object("gameobject","",{static_cast<float>(game_object_count*2),0});
+			GameObject gameobject = mgr.new_object(
+				"gameobject", "", {static_cast<float>(game_object_count * 2), 0});
 			gameobject.add_component<Rigidbody>(Rigidbody::Data{
-			.gravity_scale = 0,
-			.body_type = Rigidbody::BodyType::STATIC,
+				.gravity_scale = 0,
+				.body_type = Rigidbody::BodyType::STATIC,
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, 1, 1);
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
 			auto img = Texture("asset/texture/green_square.png");
-			Sprite & test_sprite = gameobject.add_component<Sprite>(img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
+			Sprite & test_sprite = gameobject.add_component<Sprite>(
+				img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
 			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
-			.max_particles = 10,
-			.emission_rate = 100,
-			.end_lifespan = 100000,
-			.boundary{
-				.width = 1000,
-				.height = 1000,
-				.offset = vec2{0, 0},
-				.reset_on_exit = false,
-			},
-			.sprite = test_sprite,
-	});
+				.max_particles = 10,
+				.emission_rate = 100,
+				.end_lifespan = 100000,
+				.boundary{
+					.width = 1000,
+					.height = 1000,
+					.offset = vec2{0, 0},
+					.reset_on_exit = false,
+				},
+				.sprite = test_sprite,
+			});
 		}
 		render_sys.update();
 		this->game_object_count++;
-		
+
 		this->total_time = 0us;
 		clear_timings();
 		for (int amount = 0; amount < this->average; amount++) {
 			this->total_time += run_all_systems();
 		}
 
-		if(this->game_object_count >= this->max_gameobject_count) break;
+		if (this->game_object_count >= this->max_gameobject_count) break;
 	}
 	log_timings();
 	EXPECT_GE(this->game_object_count, this->min_gameobject_count);

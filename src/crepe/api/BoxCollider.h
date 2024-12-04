@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Vector2.h"
 #include "../Collider.h"
+#include "Vector2.h"
 #include "types.h"
 
 namespace crepe {
@@ -13,9 +13,9 @@ namespace crepe {
  */
 class BoxCollider : public Collider {
 public:
-	BoxCollider(game_object_id_t game_object_id,const vec2& offset, const vec2& dimensions);
+	BoxCollider(game_object_id_t game_object_id, const vec2 & offset, const vec2 & dimensions);
 
-	//! Width and height of the box collider 
+	//! Width and height of the box collider
 	vec2 dimensions;
 };
 

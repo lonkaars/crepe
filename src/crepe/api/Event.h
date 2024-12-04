@@ -98,8 +98,8 @@ public:
 class CollisionEvent : public Event {
 public:
 	crepe::CollisionSystem::CollisionInfo info;
-	CollisionEvent(const crepe::CollisionSystem::CollisionInfo& collisionInfo)
-        : info(collisionInfo) {}
+	CollisionEvent(const crepe::CollisionSystem::CollisionInfo & collisionInfo)
+		: info(collisionInfo) {}
 };
 
 /**
