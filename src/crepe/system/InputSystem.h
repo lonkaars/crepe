@@ -1,8 +1,8 @@
 #pragma once
 
-#include "facade/SDLContext.h"
-#include "types.h"
-#include "util/OptionalRef.h"
+#include "../facade/SDLContext.h"
+#include "../types.h"
+#include "../util/OptionalRef.h"
 
 #include "System.h"
 
@@ -30,9 +30,6 @@ public:
 	void update() override;
 
 private:
-	//! Reference to the currently active camera.
-	OptionalRef<Camera> curr_cam_ref;
-
 	//! Stores the last position of the mouse when the button was pressed.
 	std::pair<int, int> last_mouse_down_position{INFINITY, INFINITY};
 

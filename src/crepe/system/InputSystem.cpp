@@ -11,11 +11,11 @@ void InputSystem::update() {
 	std::vector<SDLContext::EventData> event_list = SDLContext::get_instance().get_events();
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
-
+	OptionalRef<Camera> curr_cam_ref;
 	// Find the active camera
 	for (Camera & cam : cameras) {
 		if (!cam.active) continue;
-		this->curr_cam_ref = cam;
+		curr_cam_ref = cam;
 		break;
 	}
 	if (!curr_cam_ref) return;
@@ -123,8 +123,7 @@ void InputSystem::handle_move(const SDLContext::EventData & event_data,
 	for (Button & button : buttons) {
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		OptionalRef<Transform> transform(transform_vec.front().get());
-		if (!transform) continue;
+		Transform & transform(transform_vec.front().get());
 
 		bool was_hovering = button.hover;
 		if (button.active
