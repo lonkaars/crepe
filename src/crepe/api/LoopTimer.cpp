@@ -9,10 +9,6 @@ using namespace crepe;
 
 LoopTimer::LoopTimer() { dbg_trace(); }
 
-LoopTimer & LoopTimer::get_instance() {
-	static LoopTimer instance;
-	return instance;
-}
 
 void LoopTimer::start() {
 	this->last_frame_time = std::chrono::steady_clock::now();
@@ -57,11 +53,8 @@ void LoopTimer::set_game_scale(double value) { this->game_scale = value; }
 
 double LoopTimer::get_game_scale() const { return this->game_scale; }
 void LoopTimer::enforce_frame_rate() {
-	std::chrono::steady_clock::time_point current_frame_time
-		= std::chrono::steady_clock::now();
-	std::chrono::milliseconds frame_duration
-		= std::chrono::duration_cast<std::chrono::milliseconds>(current_frame_time
-																- this->last_frame_time);
+    auto current_frame_time = std::chrono::steady_clock::now();
+    auto frame_duration = current_frame_time - this->last_frame_time;
 
 	if (frame_duration < this->frame_target_time) {
 		std::chrono::milliseconds delay_time

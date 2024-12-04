@@ -7,7 +7,7 @@
 #include "api/SceneManager.h"
 
 namespace crepe {
-
+class LoopTimer;
 /**
  * \brief Main game loop manager
  *
@@ -91,6 +91,8 @@ private:
 	SceneManager scene_manager{component_manager};
 
 private:
+	std::unique_ptr<LoopTimer> loop_timer;
+	bool on_shutdown(const ShutDownEvent & e);
 	/**
 	 * \brief Collection of System instances
 	 *
