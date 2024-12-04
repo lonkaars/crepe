@@ -2,7 +2,6 @@
 
 using namespace crepe;
 
-UiObject::UiObject(game_object_id_t id, int width, int height)
+UIObject::UIObject(game_object_id_t id, vec2 dimensions,vec2 offset)
 	: Component(id),
-	  width(width),
-	  height(height){};
+	  dimensions(dimensions),offset(offset){}

@@ -62,7 +62,8 @@ public:
 		bool key_repeat = false;
 		MouseButton mouse_button = MouseButton::NONE;
 		std::pair<int, int> mouse_position = {-1, -1};
-		int wheel_delta = -1;
+		int scroll_direction = -1;
+		float scroll_delta = INFINITY;
 		std::pair<int, int> rel_mouse_move = {-1, -1};
 	};
 	/**
@@ -80,35 +81,35 @@ private:
 	//! will only use get_events
 	friend class InputSystem;
 	/**
-	 * @brief Retrieves a list of all events from the SDL context.
+	 * \brief Retrieves a list of all events from the SDL context.
 	 * 
 	 * This method retrieves all the events from the SDL context that are currently
 	 * available. It is primarily used by the InputSystem to process various
 	 * input events such as mouse clicks, mouse movements, and keyboard presses.
 	 * 
-	 * @return A vector of `SDLContext::EventData` containing the events.
+	 * \return Events that occurred since last call to `get_events()`
 	 */
 	std::vector<SDLContext::EventData> get_events();
 
 	/**
-	 * @brief Converts an SDL key code to the custom Keycode type.
+	 * \brief Converts an SDL key code to the custom Keycode type.
 	 * 
 	 * This method maps an SDL key code to the corresponding `Keycode` enum value,
 	 * which is used internally by the system to identify the keys.
 	 * 
-	 * @param sdl_key The SDL key code to convert.
-	 * @return The corresponding `Keycode` value.
+	 * \param sdl_key The SDL key code to convert.
+	 * \return The corresponding `Keycode` value or `Keycode::NONE` if the key is unrecognized.
 	 */
 	Keycode sdl_to_keycode(SDL_Keycode sdl_key);
 
 	/**
-	 * @brief Converts an SDL mouse button code to the custom MouseButton type.
+	 * \brief Converts an SDL mouse button code to the custom MouseButton type.
 	 * 
 	 * This method maps an SDL mouse button code to the corresponding `MouseButton` 
 	 * enum value, which is used internally by the system to identify mouse buttons.
 	 * 
-	 * @param sdl_button The SDL mouse button code to convert.
-	 * @return The corresponding `MouseButton` value.
+	 * \param sdl_button The SDL mouse button code to convert.
+	 * \return The corresponding `MouseButton` value or `MouseButton::NONE` if the key is unrecognized
 	 */
 	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
 
