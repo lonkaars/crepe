@@ -1,17 +1,17 @@
 #include <iostream>
 
 #include "../facade/SDLContext.h"
-
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/ParticleSystem.h"
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
+
 #include "../api/EventManager.h"
 #include "LoopManager.h"
 #include "LoopTimer.h"
-#include <iostream>
+
 using namespace crepe;
 using namespace std;
 
@@ -37,7 +37,6 @@ void LoopManager::start() {
 	this->setup();
 	this->loop();
 }
-void LoopManager::set_running(bool running) { this->game_running = running; }
 
 void LoopManager::fixed_update() {}
 
@@ -46,7 +45,7 @@ void LoopManager::loop() {
 
 	while (game_running) {
 		this->loop_timer->update();
-
+		
 		while (this->loop_timer->get_lag() >= this->loop_timer->get_fixed_delta_time()) {
 			this->process_input();
 			this->fixed_update();
@@ -67,7 +66,7 @@ void LoopManager::setup() {
 
 void LoopManager::render() {
 	if (this->game_running) {
-		//this->get_system<RenderSystem>().update();
+		this->get_system<RenderSystem>().update();
 	}
 }
 bool LoopManager::on_shutdown(const ShutDownEvent & e){
@@ -75,6 +74,4 @@ bool LoopManager::on_shutdown(const ShutDownEvent & e){
 	return false;
 }
 
-void LoopManager::update() {
-	std::cout << this->loop_timer->get_fps() << std::endl;
-}
+void LoopManager::update() {}

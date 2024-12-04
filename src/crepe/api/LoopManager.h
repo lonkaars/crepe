@@ -16,6 +16,12 @@ namespace crepe {
  */
 class LoopManager {
 public:
+	/**
+	 * \brief Start the gameloop
+	 *
+	 * This is the start of the engine where the setup is called and then the loop keeps running until the game stops running.
+	 * Developers need to call this function to run the game.
+	 */
 	void start();
 	LoopManager();
 
@@ -68,14 +74,6 @@ private:
 	 * This function updates physics and game logic based on LoopTimer's fixed_delta_time.
 	 */
 	void fixed_update();
-
-	/**
-	 * \brief Set game running variable
-	 *
-	 * \param running running (false = game shutdown, true = game running)
-	 */
-	void set_running(bool running);
-
 	/**
 	 * \brief Function for executing render-related systems.
 	 *
@@ -100,7 +98,7 @@ private:
 	 * \brief Collection of System instances
 	 *
 	 * This map holds System instances indexed by the system's class typeid. It is filled in the
-	 * constructor of \c LoopManager using LoopManager::load_system.
+	 * constructor of LoopManager using LoopManager::load_system.
 	 */
 	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
 	/**
