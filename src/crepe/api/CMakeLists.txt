@@ -24,7 +24,7 @@ target_sources(crepe PUBLIC
 	EventHandler.cpp
 	Script.cpp
 	Button.cpp
-	UiObject.cpp
+	UIObject.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -61,5 +61,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	LoopTimer.h
 	Asset.h
 	Button.h
-	UiObject.h
+	UIObject.h
 )
