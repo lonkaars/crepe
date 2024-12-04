@@ -1,5 +1,6 @@
 #include "../facade/SDLContext.h"
 
+#include "../system/AISystem.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/ParticleSystem.h"
@@ -20,6 +21,7 @@ LoopManager::LoopManager() {
 	this->load_system<PhysicsSystem>();
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
+	this->load_system<AISystem>();
 }
 
 void LoopManager::process_input() {
@@ -51,6 +53,11 @@ void LoopManager::loop() {
 		this->render();
 
 		timer.enforce_frame_rate();
+
+		// Stop the game after 5 seconds, for testing purposes
+		if (timer.get_current_time() > 5) {
+			this->game_running = false;
+		}
 	}
 }
 
@@ -58,6 +65,7 @@ void LoopManager::setup() {
 	this->game_running = true;
 	LoopTimer::get_instance().start();
 	LoopTimer::get_instance().set_fps(200);
+	this->scene_manager.load_next_scene();
 }
 
 void LoopManager::render() {
@@ -66,4 +74,8 @@ void LoopManager::render() {
 	}
 }
 
-void LoopManager::update() { LoopTimer & timer = LoopTimer::get_instance(); }
+void LoopManager::update() {
+	LoopTimer & timer = LoopTimer::get_instance();
+	this->get_system<AnimatorSystem>().update();
+	this->get_system<AISystem>().update();
+}
