@@ -1,6 +1,5 @@
 #include "../facade/SDLContext.h"
 
-#include "../system/PhysicsSystem.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/ParticleSystem.h"

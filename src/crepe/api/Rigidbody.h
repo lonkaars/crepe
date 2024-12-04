@@ -139,7 +139,6 @@ public:
 		 * collisions with other GameObjects that belong to these layers.
 		 */
 		std::vector<int> collision_layers;
-
 	};
 
 public:
