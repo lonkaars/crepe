@@ -94,8 +94,6 @@ public:
 
 	// Movement since last event in y
 	int delta_y = 0;
-
-	
 };
 
 /**

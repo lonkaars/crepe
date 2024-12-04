@@ -31,14 +31,14 @@ public:
 
 private:
 	//! Stores the last position of the mouse when the button was pressed.
-	ivec2 last_mouse_down_position{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()};
+	ivec2 last_mouse_down_position{std::numeric_limits<int>::max(),
+								   std::numeric_limits<int>::max()};
 
 	//! Stores the last mouse button pressed.
 	MouseButton last_mouse_button = MouseButton::NONE;
-	
+
 	//! The maximum allowable distance between mouse down and mouse up to register as a click.
 	const int click_tolerance = 5;
-
 
 	/**
 	* \brief Handles the mouse click event.

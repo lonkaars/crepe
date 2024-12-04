@@ -16,11 +16,10 @@ public:
 	 * \param dimensions width and height of the UIObject
 	 * \param offset Offset relative to the GameObject Transform
      */
-	UIObject(game_object_id_t id, vec2 dimensions,vec2 offset);
+	UIObject(game_object_id_t id, vec2 dimensions, vec2 offset);
 	//! Width and height of the UIObject
 	vec2 dimensions;
 	vec2 offset;
-
 };
 
 } // namespace crepe
