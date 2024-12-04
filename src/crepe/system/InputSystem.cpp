@@ -153,7 +153,7 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const int world
 	for (Button & button : buttons) {
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		Transform & transform(transform_vec.front().get());
+		Transform & transform = transform_vec.front().get();
 
 		if (button.active
 			&& this->is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
@@ -176,16 +176,12 @@ bool InputSystem::is_mouse_inside_button(const int mouse_x, const int mouse_y,
 }
 
 void InputSystem::handle_button_press(Button & button) {
-	//checks if the button is a toggle button
 	if (button.is_toggle) {
-		//if the toggle button is not in a pressed state and it has a on_click call the on_click
 		if (!button.is_pressed && button.on_click) {
 			button.on_click();
 		}
-		//toggle the pressed state
 		button.is_pressed = !button.is_pressed;
 	} else if (button.on_click) {
-		// if the button is not a toggle button and has a on_click call the on_click
 		button.on_click();
 	}
 }

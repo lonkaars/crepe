@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "UiObject.h"
+#include "UIObject.h"
 
 namespace crepe {
 
@@ -21,7 +21,7 @@ public:
      * \param is_toggle Optional flag to indicate if the button is a toggle button. Defaults to false.
      * \param on_click callback function that will be invoked when the button is clicked.
      */
-	Button(game_object_id_t id, vec2 dimensions, vec2 offset, std::function<void()> on_click,
+	Button(game_object_id_t id, const vec2 & dimensions, const vec2 & offset, const std::function<void()>& on_click,
 		   bool is_toggle = false);
 
 	/**
