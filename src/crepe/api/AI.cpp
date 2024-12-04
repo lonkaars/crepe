@@ -2,7 +2,7 @@
 
 namespace crepe {
 
-AI::AI(game_object_id_t id, double mass, double max_speed, double max_force)
+AI::AI(game_object_id_t id, float mass, float max_speed, float max_force)
 	: Component(id),
 	  mass(mass),
 	  max_speed(max_speed),
