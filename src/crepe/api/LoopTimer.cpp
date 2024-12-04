@@ -1,4 +1,5 @@
 #include <chrono>
+#include <thread>
 
 #include "../facade/SDLContext.h"
 #include "../util/Log.h"
@@ -56,14 +57,14 @@ void LoopTimer::enforce_frame_rate() {
     auto current_frame_time = std::chrono::steady_clock::now();
     auto frame_duration = current_frame_time - this->last_frame_time;
 
-	if (frame_duration < this->frame_target_time) {
-		std::chrono::milliseconds delay_time
-			= std::chrono::duration_cast<std::chrono::milliseconds>(this->frame_target_time
-																	- frame_duration);
-		if (delay_time.count() > 0) {
-			SDLContext::get_instance().delay(delay_time.count());
-		}
-	}
+    // Check if frame duration is less than the target frame time
+    if (frame_duration < this->frame_target_time) {
+        auto delay_time = std::chrono::duration_cast<std::chrono::microseconds>(this->frame_target_time - frame_duration);
+
+        if (delay_time.count() > 0) {
+            std::this_thread::sleep_for(delay_time);
+        }
+    }
 }
 
 double LoopTimer::get_lag() const {

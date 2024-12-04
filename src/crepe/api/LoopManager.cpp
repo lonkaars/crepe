@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "../facade/SDLContext.h"
 
 #include "../system/AnimatorSystem.h"
@@ -60,12 +62,12 @@ void LoopManager::loop() {
 void LoopManager::setup() {
 	this->game_running = true;
 	this->loop_timer->start();
-	this->loop_timer->set_fps(60);
+	this->loop_timer->set_target_fps(60);
 }
 
 void LoopManager::render() {
 	if (this->game_running) {
-		this->get_system<RenderSystem>().update();
+		//this->get_system<RenderSystem>().update();
 	}
 }
 bool LoopManager::on_shutdown(const ShutDownEvent & e){
@@ -73,4 +75,6 @@ bool LoopManager::on_shutdown(const ShutDownEvent & e){
 	return false;
 }
 
-void LoopManager::update() {}
+void LoopManager::update() {
+	std::cout << this->loop_timer->get_fps() << std::endl;
+}
