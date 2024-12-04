@@ -21,8 +21,8 @@ public:
      * \param is_toggle Optional flag to indicate if the button is a toggle button. Defaults to false.
      * \param on_click callback function that will be invoked when the button is clicked.
      */
-	Button(game_object_id_t id, const vec2 & dimensions, const vec2 & offset, const std::function<void()>& on_click,
-		   bool is_toggle = false);
+	Button(game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
+		   const std::function<void()> & on_click, bool is_toggle = false);
 
 	/**
      * \brief Indicates if the button is a toggle button (can be pressed and released).
