@@ -27,16 +27,16 @@ public:
 
 	struct Data {
 		//! Color tint of the sprite
-		Color color;
+		Color color = Color::WHITE;
 
 		//! Flip settings for the sprite
 		FlipSettings flip;
 
 		//! Layer sorting level of the sprite
-		const int sorting_in_layer;
+		const int sorting_in_layer = 0;
 
 		//! Order within the sorting layer
-		const int order_in_layer;
+		const int order_in_layer = 0;
 
 		/**
 	 	* \size width and height of the sprite in game units
@@ -53,15 +53,8 @@ public:
 		double angle_offset = 0;
 
 		//! independent sprite scale multiplier
-		double scale = 1;
+		double scale_offset = 1;
 
-		/**
-	 	* \aspect_ratio ratio of the img so that scaling will not become weird
-	 	*
-	 	* cannot be const because if Animator component is addded then ratio becomes scuffed and
-	 	* does it need to be calculated again in the Animator
-	 	*/
-		float aspect_ratio;
 	};
 
 public:
@@ -71,8 +64,6 @@ public:
 	 * \param texture asset of the image
 	 * \param ctx all the sprite data
 	 */
-	//TODO: texture is outside the Sprite::Data because of the deleted copy constructer. eventually
-	//  texture will go into data when it becomes asset
 	Sprite(game_object_id_t id, Texture & texture, const Data & ctx);
 	~Sprite();
 
@@ -82,6 +73,14 @@ public:
 	Data data;
 
 private:
+	/**
+		* \aspect_ratio ratio of the img so that scaling will not become weird
+		*
+		* cannot be const because if Animator component is addded then ratio becomes scuffed and
+		* does it need to be calculated again in the Animator
+		*/
+	float aspect_ratio;
+
 	//! Reads the mask of sprite
 	friend class SDLContext;
 

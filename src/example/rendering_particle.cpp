@@ -45,8 +45,6 @@ using namespace std;
 
 class TestScene : public Scene {
 public:
-	using Scene::Scene;
-
 	void load_scene() {
 		ComponentManager & mgr = this->component_manager;
 		GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
@@ -63,23 +61,17 @@ public:
 					 .order_in_layer = 2,
 					 .size = {0, 100},
 					 .angle_offset = 0,
-					 .scale = 1,
 				 });
 
-		auto & anim = game_object.add_component<Animator>(Animator::Data{
-			.spritesheet = test_sprite,
-			.col = 4,
-			.row = 4,
+		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4, Animator::Data{
 			.fps = 1,
 			.looping = false,
 		});
 		anim.set_anim(2);
+		anim.active = false;
 
-		auto & cam = game_object.add_component<Camera>(Camera::Data{
+		auto & cam = game_object.add_component<Camera>(ivec2{1280,720}, vec2{400,400},Camera::Data{
 			.bg_color = Color::WHITE,
-			.screen = ivec2{1280, 720},
-			.viewport_size = vec2{400, 400},
-			.zoom = 1.0,
 		});
 	}
 

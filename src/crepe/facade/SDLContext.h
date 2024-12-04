@@ -142,7 +142,7 @@ private:
 	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	void set_camera(const Camera & camera, CameraValues & ctx);
+	CameraValues set_camera(const Camera & camera);
 
 private:
 	struct DstRect {
