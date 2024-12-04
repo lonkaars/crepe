@@ -1,12 +1,13 @@
 #include <gtest/gtest.h>
 #define protected public
 #define private public
-#include "api/EventManager.h"
+#include "manager/EventManager.h"
+#include "manager/ComponentManager.h"
 #include "api/KeyCodes.h"
 #include "system/InputSystem.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_keycode.h>
-#include <crepe/ComponentManager.h>
+#include "manager/Mediator.h"
 #include <crepe/api/Button.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/GameObject.h>
@@ -21,14 +22,19 @@ using namespace crepe;
 
 class InputTest : public ::testing::Test {
 public:
-	ComponentManager mgr{};
-	InputSystem input_system{mgr};
+	Mediator mediator;
+	ComponentManager mgr{mediator};
+	
+	InputSystem input_system{mediator};
 
 	EventManager & event_manager = EventManager::get_instance();
 	//GameObject camera;
 
 protected:
-	void SetUp() override { event_manager.clear(); }
+	void SetUp() override { 
+		mediator.event_manager = event_manager;
+		mediator.component_manager = mgr;
+		event_manager.clear(); }
 
 	void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
 		SDL_Event event;

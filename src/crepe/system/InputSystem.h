@@ -31,8 +31,7 @@ public:
 
 private:
 	//! Stores the last position of the mouse when the button was pressed.
-	ivec2 last_mouse_down_position{std::numeric_limits<int>::max(),
-								   std::numeric_limits<int>::max()};
+	ivec2 last_mouse_down_position;
 
 	//! Stores the last mouse button pressed.
 	MouseButton last_mouse_button = MouseButton::NONE;
