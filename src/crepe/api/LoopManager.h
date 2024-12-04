@@ -11,7 +11,7 @@ namespace crepe {
 /**
  * \brief Main game loop manager
  *
- * This class is responsible for managing the game loop, including initialization and updating.
+ * This class is responsible for managing the game loop, including initialization and updating. 
  */
 class LoopManager {
 public:
@@ -43,7 +43,7 @@ private:
 	/**
 	 * \brief Function for handling input-related system calls.
 	 *
-	 * Processes user inputs from keyboard and mouse.
+	 * \c InputSystem is called here to process inputs.
 	 */
 	void process_input();
 

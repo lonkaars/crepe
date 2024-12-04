@@ -47,7 +47,7 @@ private:
 	/**
      * \brief The method responsible for handling the event.
      * 
-     * This method is implemented by derived classes to process the event.
+     * This method is implemented by derived classes to process the \c Event.
      * 
      * \param e The event to be processed.
      * \return A boolean value indicating whether the event is handled.
@@ -60,7 +60,7 @@ private:
  * \brief A wrapper for event handler functions.
  * 
  * This class wraps an event handler function of a specific event type. It implements the 
- * `call()` and `get_type()` methods to allow the handler to be executed and its type to be 
+ * `call()` method to allow the handler to be executed and its type to be 
  * queried.
  * 
  * \tparam EventType The type of event this handler will handle.
@@ -81,10 +81,10 @@ private:
 	/**
      * \brief Calls the stored event handler with the event.
      * 
-     * This method casts the event to the appropriate type and calls the handler.
+     * This method casts the \c Event to the appropriate type and calls the handler.
      * 
      * \param e The event to be handled.
-     * \return A boolean value indicating whether the event is handled.
+     * \return A boolean value indicating whether the \c Event is handled.
      */
 	bool call(const Event & e) override;
 	//! The event handler function.
