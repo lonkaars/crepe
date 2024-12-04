@@ -635,15 +635,21 @@ that you can click on to open them.
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   ```cpp
+  void Foo::bar() { }
+
   void Foo::set_value(int value) {
     this->value = value;
+    this->bar();
   }
   ```
   </td><td>
 
   ```cpp
+  void Foo::bar() { }
+
   void Foo::set_value(int new_value) {
     value = new_value;
+    bar();
   }
   ```
   </td></tr></table></details>
@@ -868,6 +874,8 @@ that you can click on to open them.
 
 # Documentation
 
+[Doxygen commands](https://www.doxygen.nl/manual/commands.html)
+
 - All documentation is written in U.S. English
 - <details><summary>
   Doxygen commands are used with a backslash instead of an at-sign.
@@ -953,6 +961,52 @@ that you can click on to open them.
   Foo & operator=(Foo &&) = delete;
   ```
   </td></tr></table></details>
+- Do not use markdown headings in Doxygen
+
+## Documenting features
+
+Engine features are small 'building blocks' that the user (game developer) may
+reference when building a game with the engine. Features do not necessarily map
+1-1 to engine components or systems. If a component or system has a single,
+distinct feature it should be named after that feature, not the component or
+system itself.
+
+The sources for these pages are located under `src/doc/feature/`, and have the
+following format:
+
+- A feature description which explains—
+  - the purpose and function of the feature (focus on what it enables or
+    achieves for the user)
+  - additional information about when to implement the feature, such as specific
+    use cases or scenarios
+- A list of 'see also' references to relevant classes and/or types
+- A **minimal** example to demonstrate how the feature is used. The example
+  should be written such that the following is clear to the reader:
+  - Which headers need to be included to utilize the feature
+  - *Why* the example works, not what is happening in the example
+  - Where is this code supposed to be called (e.g. inside scene/script
+    functions)
+  - Which restrictions should be kept in mind (e.g. copy/move semantics, max
+    component instances, speed considerations)
+
+Features should be documented as clear and concise as possible, so the following
+points should be kept in mind:
+
+- <details><summary>
+  If a page expands on an example from another page, directly reference the
+  other page using a cross-reference (`\ref`) in a `\note` block at the top of
+  the page.
+  </summary>
+
+  ```
+  \note This page builds on top of the example shown in \ref feature_script
+  ```
+  </details>
+- When explaining the usage of specific functions, qualify them such that
+  Doxygen is able to add a cross-reference or manually add a reference using the
+  `\ref` command.
+- Users will likely copy-paste examples as-is, so do this yourself to check if
+  the example code actually works!
 
 # Libraries
 
@@ -960,4 +1014,6 @@ that you can click on to open them.
   subdirectory
 - When adding new submodules, please set the `shallow` option to `true` in the
   [.gitmodules](./.gitmodules) file
+- When adding new libraries, please update the library version table in
+  [readme\.md](./readme.md)
 

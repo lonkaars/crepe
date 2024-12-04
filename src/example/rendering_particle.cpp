@@ -28,7 +28,7 @@ int main(int argc, char * argv[]) {
 	ParticleSystem psys{mgr};
 	AnimatorSystem asys{mgr};
 
-	Color color(255, 255, 255, 255);
+	Color color(255, 255, 255, 100);
 
 	auto img = Texture("asset/texture/test_ap43.png");
 	Sprite & test_sprite = game_object.add_component<Sprite>(
@@ -59,7 +59,7 @@ int main(int argc, char * argv[]) {
 	});
 	*/
 
-	auto & cam = game_object.add_component<Camera>(Color::WHITE, ivec2{1080, 720},
+	auto & cam = game_object.add_component<Camera>(Color::RED, ivec2{1080, 720},
 												   vec2{2000, 2000}, 1.0f);
 
 	/*
