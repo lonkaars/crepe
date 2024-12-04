@@ -78,9 +78,9 @@ public:
 		//! Linear velocity of the object (speed and direction).
 		vec2 linear_velocity;
 		//! Maximum linear velocity of the object. This limits the object's speed.
-		vec2 max_linear_velocity = {INFINITY ,INFINITY};
+		vec2 max_linear_velocity = {INFINITY, INFINITY};
 		//! Linear velocity coefficient. This scales the object's velocity for adjustment or damping.
-		vec2 linear_velocity_coefficient = {1,1};
+		vec2 linear_velocity_coefficient = {1, 1};
 		//! \}
 
 		/**

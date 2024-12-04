@@ -32,10 +32,13 @@ void PhysicsSystem::update() {
 						}
 						// Add damping
 						if (rigidbody.data.angular_velocity_coefficient > 0) {
-							rigidbody.data.angular_velocity *= rigidbody.data.angular_velocity_coefficient;
+							rigidbody.data.angular_velocity
+								*= rigidbody.data.angular_velocity_coefficient;
 						}
-						if (rigidbody.data.linear_velocity_coefficient.x > 0 && rigidbody.data.linear_velocity_coefficient.y > 0) {
-							rigidbody.data.linear_velocity *= rigidbody.data.linear_velocity_coefficient;
+						if (rigidbody.data.linear_velocity_coefficient.x > 0
+							&& rigidbody.data.linear_velocity_coefficient.y > 0) {
+							rigidbody.data.linear_velocity
+								*= rigidbody.data.linear_velocity_coefficient;
 						}
 
 						// Max velocity check

@@ -1,13 +1,12 @@
 #include "../facade/SDLContext.h"
 
+#include "../system/PhysicsSystem.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/ParticleSystem.h"
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
-#include "..//system/PhysicsSystem.h"
-#include "../system/CollisionSystem.h"
 
 #include "LoopManager.h"
 #include "LoopTimer.h"
