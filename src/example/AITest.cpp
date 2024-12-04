@@ -18,13 +18,13 @@ public:
 	void load_scene() override {
 		ComponentManager & mgr = this->component_manager;
 
-		GameObject game_object1 = mgr.new_object("", "", vec2{0, 0}, 0, 1);
+		GameObject game_object1 = mgr.new_object("", "", vec2{250, 250}, 0, 1);
 		GameObject game_object2 = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 
 		Texture img = Texture("asset/texture/test_ap43.png");
 		game_object1.add_component<Sprite>(img, Color::MAGENTA,
 										   Sprite::FlipSettings{false, false}, 1, 1, 195);
-		game_object1.add_component<AI>(1, 1, 1);
+		game_object1.add_component<AI>(1, 200, 200).seek_on();
 
 		game_object2.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{1036, 780},
 										   1.0f);

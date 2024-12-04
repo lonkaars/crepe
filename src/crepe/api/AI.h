@@ -51,6 +51,9 @@ public:
 	float arrive_deceleration = 2.0f;
 
 private:
+	vec2 velocity;
+	friend class AISystem;
+
 	int flags = 0;
 };
 
