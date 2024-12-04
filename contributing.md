@@ -983,18 +983,25 @@ following format:
 - A **minimal** example to demonstrate how the feature is used. The example
   should be written such that the following is clear to the reader:
   - Which headers need to be included to utilize the feature
+  - *Why* the example works, not what is happening in the example
   - Where is this code supposed to be called (e.g. inside scene/script
     functions)
-  - *Why* the example works, not what is happening in the example
   - Which restrictions should be kept in mind (e.g. copy/move semantics, max
     component instances, speed considerations)
 
 Features should be documented as clear and concise as possible, so the following
 points should be kept in mind:
 
-- If a page expands on an example from another page, directly reference the
-  other page using a cross-reference (`\ref`) instead of writing a larger
-  example
+- <details><summary>
+  If a page expands on an example from another page, directly reference the
+  other page using a cross-reference (`\ref`) in a `\note` block at the top of
+  the page.
+  </summary>
+
+  ```
+  \note This page builds on top of the example shown in \ref feature_script
+  ```
+  </details>
 - When explaining the usage of specific functions, qualify them such that
   Doxygen is able to add a cross-reference or manually add a reference using the
   `\ref` command.
