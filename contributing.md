@@ -953,6 +953,23 @@ that you can click on to open them.
   Foo & operator=(Foo &&) = delete;
   ```
   </td></tr></table></details>
+- Features are described in the Doxygen Feature Tab (in this order):
+  - A feature description should explain the purpose and function of the feature,
+    focusing on what it enables or achieves for the gamedeveloper.
+  - Include additional information about when to implement the feature,
+    such as specific use cases or scenarios.
+  - Provide an example to demonstrate how gamedevelopers can enable or use the feature.
+    <!-- add example -->
+  - If the current feature depends on or reuses a previous feature,  
+    include a link to that feature from the current feature (backward link, if applicable).
+    <!-- add example -->
+  - If the current feature depends on or reuses a previous feature,  
+    include a link from the previous feature to the current feature (forward link, if applicable).
+    <!-- add example -->
+  > [!NOTE]
+  > A feature is almost never a component, system or large part of the engine.
+  > If a component or system has a single,
+  > distinct feature it should be named after that feature, not the component or system itself.
 
 # Libraries
 
