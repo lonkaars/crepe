@@ -151,7 +151,7 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const int & wor
 	for (Button & button : buttons) {
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		OptionalRef<Transform> transform(transform_vec.front().get());
+		Transform& transform(transform_vec.front().get());
 
 		if (button.active
 			&& is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
