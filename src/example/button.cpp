@@ -36,7 +36,8 @@ int main(int argc, char * argv[]) {
 	std::function<void()> on_click = [&]() { std::cout << "button clicked" << std::endl; };
 	std::function<void()> on_enter = [&]() { std::cout << "enter" << std::endl; };
 	std::function<void()> on_exit = [&]() { std::cout << "exit" << std::endl; };
-	auto & button = button_obj.add_component<Button>(vec2{100,100},vec2{0,0}, on_click, false);
+	auto & button
+		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click, false);
 	button.on_mouse_enter = on_enter;
 	button.on_mouse_exit = on_exit;
 	button.is_toggle = true;

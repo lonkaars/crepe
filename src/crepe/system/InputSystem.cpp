@@ -152,7 +152,7 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const int world
 	for (Button & button : buttons) {
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		Transform& transform(transform_vec.front().get());
+		Transform & transform(transform_vec.front().get());
 
 		if (button.active
 			&& this->is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
@@ -162,20 +162,17 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const int world
 }
 
 bool InputSystem::is_mouse_inside_button(const int mouse_x, const int mouse_y,
-                                         const Button &button, const Transform &transform) {
-    int actual_x = transform.position.x + button.offset.x;
-    int actual_y = transform.position.y + button.offset.y;
+										 const Button & button, const Transform & transform) {
+	int actual_x = transform.position.x + button.offset.x;
+	int actual_y = transform.position.y + button.offset.y;
 
-    int half_width = button.dimensions.x / 2;
-    int half_height = button.dimensions.y / 2;
+	int half_width = button.dimensions.x / 2;
+	int half_height = button.dimensions.y / 2;
 
-    // Check if the mouse is within the button's boundaries
-    return mouse_x >= actual_x - half_width
-           && mouse_x <= actual_x + half_width
-           && mouse_y >= actual_y - half_height
-           && mouse_y <= actual_y + half_height;
+	// Check if the mouse is within the button's boundaries
+	return mouse_x >= actual_x - half_width && mouse_x <= actual_x + half_width
+		   && mouse_y >= actual_y - half_height && mouse_y <= actual_y + half_height;
 }
-
 
 void InputSystem::handle_button_press(Button & button) {
 	//checks if the button is a toggle button
