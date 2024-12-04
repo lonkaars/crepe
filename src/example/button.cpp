@@ -26,7 +26,7 @@ int main(int argc, char * argv[]) {
 	InputSystem input_sys{mgr};
 	AnimatorSystem asys{mgr};
 	GameObject camera_obj = mgr.new_object("", "", vec2{1000, 1000}, 0, 1);
-	camera_obj.add_component<Camera>(Color::WHITE, ivec2{1080,720 }, vec2{2000, 2000}, 1.0f);
+	camera_obj.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{2000, 2000}, 1.0f);
 
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	auto s2 = Texture("asset/texture/test_ap43.png");
