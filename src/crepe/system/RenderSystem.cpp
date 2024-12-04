@@ -70,7 +70,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Camera & cam,
 	bool rendering_particles = false;
 
 	for (const ParticleEmitter & em : emitters) {
-		if (!(&em.data.sprite == &sprite)) continue;
+		if (&em.data.sprite != &sprite) continue;
 		rendering_particles = true;
 		if (!em.active) continue;
 
