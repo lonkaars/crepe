@@ -37,7 +37,7 @@ void InputSystem::update() {
 				|| world_mouse_x > camera_origin_x + current_cam.viewport_size.x
 				|| world_mouse_y < camera_origin_y
 				|| world_mouse_y > camera_origin_y + current_cam.viewport_size.y);
-
+		
 		switch (event.event_type) {
 			case SDLContext::EventType::KEYDOWN:
 				event_mgr.queue_event<KeyPressEvent>(KeyPressEvent{
