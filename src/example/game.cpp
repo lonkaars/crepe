@@ -44,12 +44,13 @@ public:
 		//define playable world
 		GameObject world = mgr.new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
-		world.add_component<Rigidbody>(
-			Rigidbody::Data{.mass = 0,
-							.gravity_scale = 0,
-							.body_type = Rigidbody::BodyType::STATIC,
-							.constraints = {0, 0, 0},
-							.offset = {0, 0}});
+		world.add_component<Rigidbody>(Rigidbody::Data{
+			.mass = 0,
+			.gravity_scale = 0,
+			.body_type = Rigidbody::BodyType::STATIC,
+			.offset = {0, 0},
+			.collision_layers = {0},
+		});
 		world.add_component<BoxCollider>(
 			vec2{0, 0 - (screen_size_height / 2 + world_collider / 2)},
 			vec2{world_collider, world_collider});
@@ -73,6 +74,7 @@ public:
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
 			.offset = {0, 0},
+			.collision_layers = {0},
 		});
 		game_object1.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
 		game_object1.add_component<BehaviorScript>().set_script<MyScript>();
