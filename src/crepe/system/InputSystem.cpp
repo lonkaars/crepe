@@ -3,8 +3,9 @@
 #include "../api/EventManager.h"
 
 #include "InputSystem.h"
-
+#include <iostream>
 using namespace crepe;
+
 
 void InputSystem::update() {
 	ComponentManager & mgr = this->component_manager;
@@ -20,17 +21,18 @@ void InputSystem::update() {
 		break;
 	}
 	if (!curr_cam_ref) return;
-	Camera & current_cam = curr_cam_ref;
-	RefVector<Transform> transform_vec
-		= mgr.get_components_by_id<Transform>(current_cam.game_object_id);
-	Transform & cam_transform = transform_vec.front().get();
-	int camera_origin_x
-		= cam_transform.position.x + current_cam.offset.x - (current_cam.viewport_size.x / 2);
-	int camera_origin_y
-		= cam_transform.position.y + current_cam.offset.y - (current_cam.viewport_size.y / 2);
+	Camera& current_cam = curr_cam_ref;
+	RefVector<Transform> transform_vec = mgr.get_components_by_id<Transform>(current_cam.game_object_id);
+	Transform& cam_transform = transform_vec.front().get();
+	int camera_origin_x = cam_transform.position.x + current_cam.offset.x - (current_cam.viewport_size.x / 2);
+	int camera_origin_y = cam_transform.position.y + current_cam.offset.y - (current_cam.viewport_size.y / 2);
+	
 	for (const SDLContext::EventData & event : event_list) {
 		int world_mouse_x = event.mouse_position.first + camera_origin_x;
 		int world_mouse_y = event.mouse_position.second + camera_origin_y;
+		// check if the mouse is within the viewport
+		bool mouse_in_viewport = !(world_mouse_x < camera_origin_x || world_mouse_x > camera_origin_x + current_cam.viewport_size.x ||
+                           world_mouse_y < camera_origin_y || world_mouse_y > camera_origin_y + current_cam.viewport_size.y);
 
 		switch (event.event_type) {
 			case SDLContext::EventType::KEYDOWN:
@@ -45,6 +47,9 @@ void InputSystem::update() {
 				});
 				break;
 			case SDLContext::EventType::MOUSEDOWN:
+				if(!mouse_in_viewport){
+					break;
+				}
 				event_mgr.queue_event<MousePressEvent>(MousePressEvent{
 					.mouse_x = world_mouse_x,
 					.mouse_y = world_mouse_y,
@@ -54,6 +59,9 @@ void InputSystem::update() {
 				last_mouse_button = event.mouse_button;
 				break;
 			case SDLContext::EventType::MOUSEUP: {
+				if(!mouse_in_viewport){
+					break;
+				}
 				event_mgr.queue_event<MouseReleaseEvent>(MouseReleaseEvent{
 					.mouse_x = world_mouse_x,
 					.mouse_y = world_mouse_y,
@@ -76,6 +84,9 @@ void InputSystem::update() {
 				}
 			} break;
 			case SDLContext::EventType::MOUSEMOVE:
+				if(!mouse_in_viewport){
+					break;
+				}
 				event_mgr.queue_event<MouseMoveEvent>(MouseMoveEvent{
 					.mouse_x = world_mouse_x,
 					.mouse_y = world_mouse_y,
@@ -99,9 +110,7 @@ void InputSystem::update() {
 		}
 	}
 }
-
-void InputSystem::handle_move(const SDLContext::EventData & event_data,
-							  const int & world_mouse_x, const int & world_mouse_y) {
+void InputSystem::handle_move(const SDLContext::EventData & event_data, const int& world_mouse_x, const int& world_mouse_y) {
 	ComponentManager & mgr = this->component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
@@ -113,8 +122,7 @@ void InputSystem::handle_move(const SDLContext::EventData & event_data,
 		if (!transform) continue;
 
 		bool was_hovering = button.hover;
-		if (button.active
-			&& is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
+		if (button.active && is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
 			button.hover = true;
 			if (!was_hovering && button.on_enter) {
 				button.on_enter();
@@ -129,8 +137,7 @@ void InputSystem::handle_move(const SDLContext::EventData & event_data,
 	}
 }
 
-void InputSystem::handle_click(const MouseButton & mouse_button, const int & world_mouse_x,
-							   const int & world_mouse_y) {
+void InputSystem::handle_click(const MouseButton& mouse_button, const int& world_mouse_x, const int& world_mouse_y) {
 	ComponentManager & mgr = this->component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
@@ -140,21 +147,22 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const int & wor
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
 		OptionalRef<Transform> transform(transform_vec.front().get());
 
-		if (button.active
-			&& is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
+		if (button.active && is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
 			handle_button_press(button);
 		}
 	}
 }
 
-bool InputSystem::is_mouse_inside_button(const int & mouse_x, const int & mouse_y,
-										 const Button & button, const Transform & transform) {
-	int half_width = button.width / 2;
-	int half_height = button.height / 2;
-	return mouse_x >= transform.position.x - half_width
-		   && mouse_x <= transform.position.x + half_width
-		   && mouse_y >= transform.position.y - half_height
-		   && mouse_y <= transform.position.y + half_height;
+bool InputSystem::is_mouse_inside_button(
+    const int& mouse_x, const int& mouse_y, 
+    const Button & button, const Transform & transform) {
+    int half_width = button.width / 2;
+    int half_height = button.height / 2;
+
+    return mouse_x >= transform.position.x - half_width
+        && mouse_x <= transform.position.x + half_width
+        && mouse_y >= transform.position.y - half_height
+        && mouse_y <= transform.position.y + half_height;
 }
 
 void InputSystem::handle_button_press(Button & button) {
