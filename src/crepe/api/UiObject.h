@@ -8,26 +8,19 @@ namespace crepe {
  * @class UiObject
  * \brief Represents a UI object in the game, derived from the Component class.
  */
-class UiObject : public Component {
+class UIObject : public Component {
 public:
 	/**
      * \brief Constructs a UiObject with the specified game object ID.
      * \param id The unique ID of the game object associated with this UI object.
+	 * \param dimensions width and height of the UIObject
+	 * \param offset Offset relative to the GameObject Transform
      */
-	UiObject(game_object_id_t id, int width, int height);
+	UIObject(game_object_id_t id, vec2 dimensions,vec2 offset);
+	//! Width and height of the UIObject
+	vec2 dimensions;
+	vec2 offset;
 
-	//! The width of the UI object.
-	int width = 0;
-
-	//! The height of the UI object.
-	int height = 0;
-
-public:
-	/**
-     * \brief Retrieves the maximum number of instances allowed for this UI object type.
-     * /return Always returns 1, as only a single instance is allowed.
-     */
-	virtual int get_instances_max() const override { return 1; }
 };
 
 } // namespace crepe

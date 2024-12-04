@@ -13,7 +13,7 @@ class Button;
 class Transform;
 
 /**
- * \brief Handles the processing of input events like mouse and keyboard interactions.
+ * \brief Handles the processing of input events created by SDLContext
  *
  * This system processes events such as mouse clicks, mouse movement, and keyboard
  * actions. It is responsible for detecting interactions with UI buttons and
@@ -31,13 +31,14 @@ public:
 
 private:
 	//! Stores the last position of the mouse when the button was pressed.
-	std::pair<int, int> last_mouse_down_position{INFINITY, INFINITY};
+	ivec2 last_mouse_down_position{std::numeric_limits<int>::max(), std::numeric_limits<int>::max()};
 
 	//! Stores the last mouse button pressed.
 	MouseButton last_mouse_button = MouseButton::NONE;
-	//
-	//! The tolerance in game units for detecting a mouse click.
+	
+	//! The maximum allowable distance between mouse down and mouse up to register as a click.
 	const int click_tolerance = 5;
+
 
 	/**
 	* \brief Handles the mouse click event.
@@ -47,8 +48,8 @@ private:
 	*
 	* This method processes the mouse click event and triggers the corresponding button action.
 	*/
-	void handle_click(const MouseButton & mouse_button, const int & world_mouse_x,
-					  const int & world_mouse_y);
+	void handle_click(const MouseButton & mouse_button, const int world_mouse_x,
+					  const int world_mouse_y);
 
 	/**
 	* \brief Handles the mouse movement event.
@@ -58,8 +59,8 @@ private:
 	*
 	* This method processes the mouse movement event and updates the button hover state.
 	*/
-	void handle_move(const SDLContext::EventData & event_data, const int & world_mouse_x,
-					 const int & world_mouse_y);
+	void handle_move(const SDLContext::EventData & event_data, const int world_mouse_x,
+					 const int world_mouse_y);
 
 	/**
 	* \brief Checks if the mouse position is inside the bounds of the button.
@@ -69,7 +70,7 @@ private:
 	* \param transform The transform component of the button.
 	* \return True if the mouse is inside the button, false otherwise.
 	*/
-	bool is_mouse_inside_button(const int & world_mouse_x, const int & world_mouse_y,
+	bool is_mouse_inside_button(const int world_mouse_x, const int world_mouse_y,
 								const Button & button, const Transform & transform);
 
 	/**

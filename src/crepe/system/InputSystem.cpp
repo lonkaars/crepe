@@ -37,7 +37,7 @@ void InputSystem::update() {
 				|| world_mouse_x > camera_origin_x + current_cam.viewport_size.x
 				|| world_mouse_y < camera_origin_y
 				|| world_mouse_y > camera_origin_y + current_cam.viewport_size.y);
-		
+
 		switch (event.event_type) {
 			case SDLContext::EventType::KEYDOWN:
 				event_mgr.queue_event<KeyPressEvent>(KeyPressEvent{
@@ -59,8 +59,8 @@ void InputSystem::update() {
 					.mouse_y = world_mouse_y,
 					.button = event.mouse_button,
 				});
-				last_mouse_down_position = {world_mouse_x, world_mouse_y};
-				last_mouse_button = event.mouse_button;
+				this->last_mouse_down_position = {world_mouse_x, world_mouse_y};
+				this->last_mouse_button = event.mouse_button;
 				break;
 			case SDLContext::EventType::MOUSEUP: {
 				if (!mouse_in_viewport) {
@@ -72,10 +72,10 @@ void InputSystem::update() {
 					.button = event.mouse_button,
 				});
 				//check if its a click by checking the last button down
-				int delta_x = world_mouse_x - last_mouse_down_position.first;
-				int delta_y = world_mouse_y - last_mouse_down_position.second;
+				int delta_x = world_mouse_x - this->last_mouse_down_position.x;
+				int delta_y = world_mouse_y - this->last_mouse_down_position.y;
 
-				if (last_mouse_button == event.mouse_button
+				if (this->last_mouse_button == event.mouse_button
 					&& std::abs(delta_x) <= click_tolerance
 					&& std::abs(delta_y) <= click_tolerance) {
 					event_mgr.queue_event<MouseClickEvent>(MouseClickEvent{
@@ -84,7 +84,7 @@ void InputSystem::update() {
 						.button = event.mouse_button,
 					});
 
-					handle_click(event.mouse_button, world_mouse_x, world_mouse_y);
+					this->handle_click(event.mouse_button, world_mouse_x, world_mouse_y);
 				}
 			} break;
 			case SDLContext::EventType::MOUSEMOVE:
@@ -94,16 +94,17 @@ void InputSystem::update() {
 				event_mgr.queue_event<MouseMoveEvent>(MouseMoveEvent{
 					.mouse_x = world_mouse_x,
 					.mouse_y = world_mouse_y,
-					.rel_x = event.rel_mouse_move.first,
-					.rel_y = event.rel_mouse_move.second,
+					.delta_x = event.rel_mouse_move.first,
+					.delta_y = event.rel_mouse_move.second,
 				});
 				handle_move(event, world_mouse_x, world_mouse_y);
 				break;
 			case SDLContext::EventType::MOUSEWHEEL:
 				event_mgr.queue_event<MouseScrollEvent>(MouseScrollEvent{
-					.scroll_x = event.wheel_delta,
-					.scroll_y = 0,
-					.direction = event.wheel_delta,
+					.mouse_x = world_mouse_x,
+					.mouse_y = world_mouse_y,
+					.scroll_direction = event.scroll_direction,
+					.scroll_delta = event.scroll_delta,
 				});
 				break;
 			case SDLContext::EventType::SHUTDOWN:
@@ -115,7 +116,7 @@ void InputSystem::update() {
 	}
 }
 void InputSystem::handle_move(const SDLContext::EventData & event_data,
-							  const int & world_mouse_x, const int & world_mouse_y) {
+							  const int world_mouse_x, const int world_mouse_y) {
 	ComponentManager & mgr = this->component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
@@ -127,23 +128,23 @@ void InputSystem::handle_move(const SDLContext::EventData & event_data,
 
 		bool was_hovering = button.hover;
 		if (button.active
-			&& is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
+			&& this->is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
 			button.hover = true;
-			if (!was_hovering && button.on_enter) {
-				button.on_enter();
+			if (!was_hovering && button.on_mouse_enter) {
+				button.on_mouse_enter();
 			}
 		} else {
 			button.hover = false;
 			// Trigger the on_exit callback if the hover state just changed to false
-			if (was_hovering && button.on_exit) {
-				button.on_exit();
+			if (was_hovering && button.on_mouse_exit) {
+				button.on_mouse_exit();
 			}
 		}
 	}
 }
 
-void InputSystem::handle_click(const MouseButton & mouse_button, const int & world_mouse_x,
-							   const int & world_mouse_y) {
+void InputSystem::handle_click(const MouseButton & mouse_button, const int world_mouse_x,
+							   const int world_mouse_y) {
 	ComponentManager & mgr = this->component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
@@ -154,30 +155,39 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const int & wor
 		Transform& transform(transform_vec.front().get());
 
 		if (button.active
-			&& is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
-			handle_button_press(button);
+			&& this->is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
+			this->handle_button_press(button);
 		}
 	}
 }
 
-bool InputSystem::is_mouse_inside_button(const int & mouse_x, const int & mouse_y,
-										 const Button & button, const Transform & transform) {
-	int half_width = button.width / 2;
-	int half_height = button.height / 2;
+bool InputSystem::is_mouse_inside_button(const int mouse_x, const int mouse_y,
+                                         const Button &button, const Transform &transform) {
+    int actual_x = transform.position.x + button.offset.x;
+    int actual_y = transform.position.y + button.offset.y;
 
-	return mouse_x >= transform.position.x - half_width
-		   && mouse_x <= transform.position.x + half_width
-		   && mouse_y >= transform.position.y - half_height
-		   && mouse_y <= transform.position.y + half_height;
+    int half_width = button.dimensions.x / 2;
+    int half_height = button.dimensions.y / 2;
+
+    // Check if the mouse is within the button's boundaries
+    return mouse_x >= actual_x - half_width
+           && mouse_x <= actual_x + half_width
+           && mouse_y >= actual_y - half_height
+           && mouse_y <= actual_y + half_height;
 }
 
+
 void InputSystem::handle_button_press(Button & button) {
+	//checks if the button is a toggle button
 	if (button.is_toggle) {
+		//if the toggle button is not in a pressed state and it has a on_click call the on_click
 		if (!button.is_pressed && button.on_click) {
 			button.on_click();
 		}
+		//toggle the pressed state
 		button.is_pressed = !button.is_pressed;
 	} else if (button.on_click) {
+		// if the button is not a toggle button and has a on_click call the on_click
 		button.on_click();
 	}
 }

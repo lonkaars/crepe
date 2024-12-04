@@ -119,8 +119,8 @@ TEST_F(InputTest, MouseMove) {
 		function_triggered = true;
 		EXPECT_EQ(e.mouse_x, 0);
 		EXPECT_EQ(e.mouse_y, 0);
-		EXPECT_EQ(e.rel_x, 10);
-		EXPECT_EQ(e.rel_y, 10);
+		EXPECT_EQ(e.delta_x , 10);
+		EXPECT_EQ(e.delta_y , 10);
 		return false;
 	};
 	event_manager.subscribe<MouseMoveEvent>(on_mouse_move);
@@ -223,7 +223,7 @@ TEST_F(InputTest, testButtonClick) {
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = button_obj.add_component<Button>(100, 100, on_click, false);
+	auto & button = button_obj.add_component<Button>(vec2{100,100},vec2{0,0}, on_click, false);
 
 	bool hover = false;
 	button.active = true;
@@ -249,10 +249,8 @@ TEST_F(InputTest, testButtonHover) {
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = button_obj.add_component<Button>(100, 100, on_click, false);
+	auto & button = button_obj.add_component<Button>(vec2{100,100},vec2{0,0}, on_click, false);
 	button.active = true;
-	button.width = 100;
-	button.height = 100;
 	button.is_pressed = false;
 	button.is_toggle = false;
 

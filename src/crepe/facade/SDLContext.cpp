@@ -393,7 +393,8 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 				event_list.push_back(EventData{
 					.event_type = SDLContext::EventType::MOUSEWHEEL,
 					.mouse_position = {event.motion.x, event.motion.y},
-					.wheel_delta = event.wheel.y,
+					.scroll_direction = event.wheel.direction,
+					.scroll_delta = event.wheel.preciseY,
 				});
 			} break;
 		}
