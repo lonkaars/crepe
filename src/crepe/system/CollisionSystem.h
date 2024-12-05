@@ -177,13 +177,14 @@ private:
 		* \param circle_collider The first CircleCollider.
 		* \param box_collider The second CircleCollider.
 		* \param circle_position The position of the CircleCollider.
-		* \param box_position The position of the BocCollider.
+		* \param box_position The position of the BoxCollider.
+		* \param inverse Inverted true if box circle collision, false if circle box collision (inverts the direction).
 		* \return The resolution vector for the collision.
 		*/
 	vec2 get_circle_box_resolution(const CircleCollider & circle_collider,
 								   const BoxCollider & box_collider,
 								   const vec2 & circle_position,
-								   const vec2 & box_position) const;
+								   const vec2 & box_position,bool inverse) const;
 
 	/**
 		* \brief Determines the appropriate collision handler for a collision.

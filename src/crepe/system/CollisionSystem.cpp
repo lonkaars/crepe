@@ -159,7 +159,7 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
 															data2.rigidbody);
 			resolution = this->get_circle_box_resolution(collider2, collider1, collider_pos2,
-														 collider_pos1);
+														 collider_pos1,true);
 			break;
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE: {
@@ -185,7 +185,7 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
 															data2.rigidbody);
 			resolution = this->get_circle_box_resolution(collider1, collider2, collider_pos1,
-														 collider_pos2);
+														 collider_pos2,false);
 			break;
 		}
 	}
@@ -261,9 +261,10 @@ vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider & circle
 
 	// Normalize the delta vector to get the collision direction
 	vec2 collision_normal = delta / distance;
+	
 
 	// Compute the resolution vector
-	vec2 resolution = collision_normal * penetration_depth;
+	vec2 resolution = -collision_normal * penetration_depth;
 
 	return resolution;
 }
@@ -271,7 +272,7 @@ vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider & circle
 vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_collider,
 												const BoxCollider & box_collider,
 												const vec2 & circle_position,
-												const vec2 & box_position) const {
+												const vec2 & box_position,bool inverse) const {
 	vec2 delta = circle_position - box_position;
 
 	// Compute half-dimensions of the box
@@ -293,7 +294,7 @@ vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_co
 
 	// Compute penetration depth
 	float penetration_depth = circle_collider.radius - distance;
-
+	if(inverse) collision_normal = -collision_normal;
 	// Compute the resolution vector
 	vec2 resolution = collision_normal * penetration_depth;
 
@@ -511,7 +512,7 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 	float distance_squared = distance_x * distance_x + distance_y * distance_y;
 
 	// Compare distance squared with the square of the circle's radius
-	return distance_squared <= circle2.radius * circle2.radius;
+	return distance_squared <= circle2.radius * circle2.radius-1;
 }
 
 bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1,
@@ -532,7 +533,7 @@ bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1
 	float radius_sum = circle1.radius + circle2.radius;
 
 	// Check if the distance between the centers is less than or equal to the sum of the radii
-	return distance_squared <= radius_sum * radius_sum;
+	return distance_squared <= radius_sum * radius_sum - 1;
 }
 
 vec2 CollisionSystem::get_current_position(const vec2 & collider_offset,
