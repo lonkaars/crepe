@@ -1,12 +1,13 @@
-#include "types.h"
-#include <crepe/ComponentManager.h>
+#include <gtest/gtest.h>
+
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
 #include <crepe/api/Scene.h>
-#include <crepe/api/SceneManager.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
-#include <gtest/gtest.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/SceneManager.h>
+#include <crepe/types.h>
 
 using namespace std;
 using namespace crepe;
@@ -14,7 +15,8 @@ using namespace crepe;
 class ConcreteScene1 : public Scene {
 public:
 	void load_scene() {
-		ComponentManager & mgr = this->component_manager;
+		Mediator & mediator = this->mediator;
+		ComponentManager & mgr = mediator.component_manager;
 		GameObject object1 = mgr.new_object("scene_1", "tag_scene_1", vec2{0, 0}, 0, 1);
 		GameObject object2 = mgr.new_object("scene_1", "tag_scene_1", vec2{1, 0}, 0, 1);
 		GameObject object3 = mgr.new_object("scene_1", "tag_scene_1", vec2{2, 0}, 0, 1);
@@ -26,7 +28,8 @@ public:
 class ConcreteScene2 : public Scene {
 public:
 	void load_scene() {
-		ComponentManager & mgr = this->component_manager;
+		Mediator & mediator = this->mediator;
+		ComponentManager & mgr = mediator.component_manager;
 		GameObject object1 = mgr.new_object("scene_2", "tag_scene_2", vec2{0, 0}, 0, 1);
 		GameObject object2 = mgr.new_object("scene_2", "tag_scene_2", vec2{0, 1}, 0, 1);
 		GameObject object3 = mgr.new_object("scene_2", "tag_scene_2", vec2{0, 2}, 0, 1);
@@ -41,7 +44,8 @@ public:
 	ConcreteScene3(const string & name) : name(name) {}
 
 	void load_scene() {
-		ComponentManager & mgr = this->component_manager;
+		Mediator & mediator = this->mediator;
+		ComponentManager & mgr = mediator.component_manager;
 		GameObject object1 = mgr.new_object("scene_3", "tag_scene_3", vec2{0, 0}, 0, 1);
 	}
 
@@ -52,9 +56,11 @@ private:
 };
 
 class SceneManagerTest : public ::testing::Test {
+	Mediator m;
+
 public:
-	ComponentManager component_mgr{};
-	SceneManager scene_mgr{component_mgr};
+	ComponentManager component_mgr{m};
+	SceneManager scene_mgr{m};
 };
 
 TEST_F(SceneManagerTest, loadScene) {

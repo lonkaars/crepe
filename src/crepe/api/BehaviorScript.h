@@ -23,14 +23,13 @@ class BehaviorScript : public Component {
 protected:
 	/**
 	 * \param id Parent \c GameObject id
-	 * \param component_manager Reference to component manager (passed through to \c Script
-	 * instance)
+	 * \param mediator Mediator reference
 	 *
 	 * \note Calls to this constructor (should) always pass through \c GameObject::add_component,
 	 * which has an exception for this specific component type. This was done so the user does
 	 * not have to pass references used within \c Script to each \c BehaviorScript instance.
 	 */
-	BehaviorScript(game_object_id_t id, ComponentManager & component_manager);
+	BehaviorScript(game_object_id_t id, Mediator & mediator);
 	//! Only ComponentManager is allowed to instantiate BehaviorScript
 	friend class ComponentManager;
 
@@ -55,8 +54,8 @@ protected:
 	friend class ScriptSystem;
 
 protected:
-	//! Reference to component manager (passed to Script)
-	ComponentManager & component_manager;
+	//! Reference mediator
+	Mediator & mediator;
 };
 
 /**
