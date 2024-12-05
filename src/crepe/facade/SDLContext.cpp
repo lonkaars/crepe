@@ -17,9 +17,9 @@
 
 #include "../api/Camera.h"
 #include "../api/Config.h"
-#include "../manager/EventManager.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
+#include "../manager/EventManager.h"
 #include "../util/Log.h"
 
 #include "SDLContext.h"

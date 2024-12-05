@@ -1,14 +1,13 @@
+#include "../api/Button.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/EventManager.h"
-#include "../api/Button.h"
-
 
 #include "InputSystem.h"
 
 using namespace crepe;
 
 void InputSystem::update() {
-	ComponentManager& mgr = this->mediator.component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 	EventManager & event_mgr = this->mediator.event_manager;
 	std::vector<SDLContext::EventData> event_list = SDLContext::get_instance().get_events();
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
@@ -119,7 +118,7 @@ void InputSystem::update() {
 }
 void InputSystem::handle_move(const SDLContext::EventData & event_data,
 							  const int world_mouse_x, const int world_mouse_y) {
-	ComponentManager& mgr = this->mediator.component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
@@ -147,7 +146,7 @@ void InputSystem::handle_move(const SDLContext::EventData & event_data,
 
 void InputSystem::handle_click(const MouseButton & mouse_button, const int world_mouse_x,
 							   const int world_mouse_y) {
-	ComponentManager& mgr = this->mediator.component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
