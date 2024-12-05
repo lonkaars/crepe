@@ -58,8 +58,6 @@ void AudioSystem::update_last(AudioSource & component) {
 }
 
 SoundContext & AudioSystem::get_context() {
-	if (this->context == nullptr)
-		this->context = make_unique<SoundContext>();
+	if (this->context == nullptr) this->context = make_unique<SoundContext>();
 	return *this->context.get();
 }
-

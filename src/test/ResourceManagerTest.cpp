@@ -75,12 +75,7 @@ TEST_F(ResourceManagerTest, Persistent) {
 }
 
 TEST_F(ResourceManagerTest, UnmatchedType) {
-	EXPECT_NO_THROW({
-		resource_manager.get<TestResource>(asset_a);
-	});
+	EXPECT_NO_THROW({ resource_manager.get<TestResource>(asset_a); });
 
-	EXPECT_THROW({
-		resource_manager.get<Unrelated>(asset_a);
-	}, runtime_error);
+	EXPECT_THROW({ resource_manager.get<Unrelated>(asset_a); }, runtime_error);
 }
-

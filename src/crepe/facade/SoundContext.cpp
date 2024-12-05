@@ -34,4 +34,3 @@ void SoundContext::set_volume(const SoundHandle & handle, float volume) {
 void SoundContext::set_loop(const SoundHandle & handle, bool loop) {
 	this->engine.setLooping(this->registry[handle], loop);
 }
-
