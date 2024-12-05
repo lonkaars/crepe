@@ -26,7 +26,9 @@ LoopManager::LoopManager() {
 	this->mediator.loop_timer = *loop_timer;
 }
 
-void LoopManager::process_input() { this->sdl_context.handle_events(this->game_running); }
+void LoopManager::process_input() { 
+	
+	this->sdl_context.handle_events(this->game_running); }
 
 void LoopManager::start() {
 	this->setup();
@@ -57,7 +59,6 @@ void LoopManager::setup() {
 
 	this->game_running = true;
 	this->loop_timer->start();
-	this->loop_timer->set_target_fps(200);
 }
 
 void LoopManager::render() {

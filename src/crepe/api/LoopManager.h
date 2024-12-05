@@ -81,7 +81,7 @@ private:
 	 *
 	 * Renders the current state of the game to the screen.
 	 */
-	void render();
+	virtual void render();
 
 	bool game_running = false;
 
