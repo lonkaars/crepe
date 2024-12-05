@@ -9,15 +9,15 @@
 #include "api/BoxCollider.h"
 #include "api/CircleCollider.h"
 #include "api/Event.h"
-#include "api/EventManager.h"
 #include "api/Metadata.h"
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
 #include "api/Vector2.h"
+#include "../manager/ComponentManager.h"
+#include "../manager/EventManager.h"
 
 #include "Collider.h"
 #include "CollisionSystem.h"
-#include "ComponentManager.h"
 #include "types.h"
 #include "util/OptionalRef.h"
 
@@ -26,17 +26,18 @@ using namespace crepe;
 void CollisionSystem::update() {
 	std::vector<CollisionInternal> all_colliders;
 	game_object_id_t id = 0;
+	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<Rigidbody> rigidbodies
-		= this->component_manager.get_components_by_type<Rigidbody>();
+		= mgr.get_components_by_type<Rigidbody>();
 	// Collisions can only happen on object with a rigidbody
 	for (Rigidbody & rigidbody : rigidbodies) {
 		if (!rigidbody.active) continue;
 		id = rigidbody.game_object_id;
 		Transform & transform
-			= this->component_manager.get_components_by_id<Transform>(id).front().get();
+			= mgr.get_components_by_id<Transform>(id).front().get();
 		// Check if the boxcollider is active and has the same id as the rigidbody.
 		RefVector<BoxCollider> boxcolliders
-			= this->component_manager.get_components_by_type<BoxCollider>();
+			= mgr.get_components_by_type<BoxCollider>();
 		for (BoxCollider & boxcollider : boxcolliders) {
 			if (boxcollider.game_object_id != id) continue;
 			if (!boxcollider.active) continue;
@@ -47,7 +48,7 @@ void CollisionSystem::update() {
 		}
 		// Check if the circlecollider is active and has the same id as the rigidbody.
 		RefVector<CircleCollider> circlecolliders
-			= this->component_manager.get_components_by_type<CircleCollider>();
+			= mgr.get_components_by_type<CircleCollider>();
 		for (CircleCollider & circlecollider : circlecolliders) {
 			if (circlecollider.game_object_id != id) continue;
 			if (!circlecollider.active) continue;
@@ -76,11 +77,11 @@ void CollisionSystem::collision_handler_request(CollisionInternal & this_data,
 		= this->get_collider_type(this_data.collider, other_data.collider);
 	std::pair<vec2, CollisionSystem::Direction> resolution_data
 		= this->collision_handler(this_data, other_data, type);
-
+	ComponentManager & mgr = this->mediator.component_manager;
 	OptionalRef<Metadata> this_metadata
-		= this->component_manager.get_components_by_id<Metadata>(this_data.id).front().get();
+		= mgr.get_components_by_id<Metadata>(this_data.id).front().get();
 	OptionalRef<Metadata> other_metadata
-		= this->component_manager.get_components_by_id<Metadata>(other_data.id).front().get();
+		= mgr.get_components_by_id<Metadata>(other_data.id).front().get();
 	OptionalRef<Collider> this_collider;
 	OptionalRef<Collider> other_collider;
 	switch (type) {
@@ -308,7 +309,8 @@ void CollisionSystem::determine_collision_handler(CollisionInfo & info) {
 	};
 	// Call collision event for user
 	CollisionEvent data(info);
-	EventManager::get_instance().trigger_event<CollisionEvent>(
+	EventManager & emgr = this->mediator.event_manager;
+	emgr.trigger_event<CollisionEvent>(
 		data, info.this_collider.game_object_id);
 }
 
@@ -384,16 +386,19 @@ CollisionSystem::gather_collisions(std::vector<CollisionInternal> & colliders) {
 	return collisions_ret;
 }
 
-bool CollisionSystem::have_common_layer(const std::vector<int> & layers1,
-										const std::vector<int> & layers2) {
-	// Iterate through each layer in the first vector
-	for (int layer : layers1) {
-		// Check if the current layer is present in the second vector
-		if (std::find(layers2.begin(), layers2.end(), layer) != layers2.end()) {
-			return true; // Common layer found
-		}
+bool CollisionSystem::have_common_layer(const std::set<int> & layers1,
+										const std::set<int> & layers2) {
+	
+	// Check if any number is equal in the layers
+	for (int num : layers1) {
+			if (layers2.contains(num)) {
+					// Common layer found
+					return true;
+					break;
+			}
 	}
-	return false; // No common layers found
+	// No common layer found
+	return false;
 }
 
 CollisionSystem::CollisionInternalType

@@ -1,3 +1,4 @@
+#include "manager/Mediator.h"
 #include "system/ParticleSystem.h"
 #include "system/PhysicsSystem.h"
 #include "system/RenderSystem.h"
@@ -8,9 +9,9 @@
 #define private public
 #define protected public
 
-#include <crepe/ComponentManager.h>
+#include <crepe/manager/ComponentManager.h>
 #include <crepe/api/Event.h>
-#include <crepe/api/EventManager.h>
+#include <crepe/manager/EventManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
@@ -52,13 +53,14 @@ public:
 	// Maximum duration to stop test
 	const std::chrono::microseconds duration = 16000us;
 
-	ComponentManager mgr;
+	Mediator m;
+	ComponentManager mgr{m};
 	// Add system used for profling tests
-	CollisionSystem collision_sys{mgr};
-	PhysicsSystem physics_sys{mgr};
-	ParticleSystem particle_sys{mgr};
-	RenderSystem render_sys{mgr};
-	ScriptSystem script_sys{mgr};
+	CollisionSystem collision_sys{m};
+	PhysicsSystem physics_sys{m};
+	ParticleSystem particle_sys{m};
+	RenderSystem render_sys{m};
+	ScriptSystem script_sys{m};
 
 	// Test data
 	std::map<std::string, std::chrono::microseconds> timings;
@@ -159,7 +161,8 @@ TEST_F(Profiling, Profiling_2) {
 				.gravity_scale = 0.0,
 				.body_type = Rigidbody::BodyType::STATIC,
 			});
-			gameobject.add_component<BoxCollider>(vec2{0, 0}, 1, 1);
+			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
+			
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
 			auto img = Texture("asset/texture/green_square.png");
@@ -192,7 +195,7 @@ TEST_F(Profiling, Profiling_3) {
 				.gravity_scale = 0,
 				.body_type = Rigidbody::BodyType::STATIC,
 			});
-			gameobject.add_component<BoxCollider>(vec2{0, 0}, 1, 1);
+			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
 			auto img = Texture("asset/texture/green_square.png");

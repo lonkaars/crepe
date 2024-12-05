@@ -1,6 +1,6 @@
 target_sources(test_main PUBLIC
-	CollisionTest.cpp
 	main.cpp
+	CollisionTest.cpp
 	# PhysicsTest.cpp
 	# ScriptTest.cpp
 	# ParticleTest.cpp
@@ -13,5 +13,8 @@ target_sources(test_main PUBLIC
 	# ValueBrokerTest.cpp
 	# DBTest.cpp
 	# Vector2Test.cpp
+	# InputTest.cpp
+	# ScriptEventTest.cpp
+	# ScriptSceneTest.cpp
 	# Profiling.cpp
 )

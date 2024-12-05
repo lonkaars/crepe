@@ -1,4 +1,5 @@
 #include "api/BoxCollider.h"
+#include "manager/Mediator.h"
 #include <cmath>
 #include <cstddef>
 #include <gtest/gtest.h>
@@ -6,9 +7,10 @@
 #define private public
 #define protected public
 
-#include <crepe/ComponentManager.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/Mediator.h>
 #include <crepe/api/Event.h>
-#include <crepe/api/EventManager.h>
+#include <crepe/manager/EventManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
@@ -47,9 +49,10 @@ public:
 
 class CollisionTest : public Test {
 public:
-	ComponentManager mgr;
-	CollisionSystem collision_sys{mgr};
-	ScriptSystem script_sys{mgr};
+	Mediator m;
+	ComponentManager mgr{m};
+	CollisionSystem collision_sys{m};
+	ScriptSystem script_sys{m};
 
 	GameObject world = mgr.new_object("world", "", {50, 50});
 	GameObject game_object1 = mgr.new_object("object1", "", {50, 50});

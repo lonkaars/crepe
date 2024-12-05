@@ -1,10 +1,12 @@
 #pragma once
 
 #include <cmath>
+#include <set>
 
 #include "../Component.h"
 
 #include "types.h"
+
 
 namespace crepe {
 
@@ -138,7 +140,7 @@ public:
 		 * Each element in the vector represents a layer ID, and the GameObject will only detect 
 		 * collisions with other GameObjects that belong to these layers.
 		 */
-		std::vector<int> collision_layers;
+		std::set<int> collision_layers;
 	};
 
 public:

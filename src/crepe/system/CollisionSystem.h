@@ -10,6 +10,7 @@
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
 #include "api/Vector2.h"
+#include "api/Event.h"
 
 #include "Collider.h"
 #include "System.h"
@@ -228,7 +229,7 @@ private:
 	 * \return Returns true if there is at least one common layer, false otherwise.
 	 */
 
-	bool have_common_layer(const std::vector<int> & layers1, const std::vector<int> & layers2);
+	bool have_common_layer(const std::set<int> & layers1, const std::set<int> & layers2);
 
 	/**
 		* \brief Checks for collision between two colliders.
@@ -295,6 +296,16 @@ private:
 									 const Transform & transform2,
 									 const Rigidbody & rigidbody1,
 									 const Rigidbody & rigidbody2) const;
+};
+
+/**
+ * \brief Event triggered during a collision between objects.
+ */
+class CollisionEvent : public Event {
+public:
+	crepe::CollisionSystem::CollisionInfo info;
+	CollisionEvent(const crepe::CollisionSystem::CollisionInfo & collisionInfo)
+		: info(collisionInfo) {}
 };
 
 } // namespace crepe
