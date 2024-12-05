@@ -1,6 +1,8 @@
 #include <chrono>
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <thread>
+
 #define private public
 #define protected public
 #include "api/LoopManager.h"
@@ -11,35 +13,35 @@ using namespace crepe;
 
 class LoopManagerTest : public ::testing::Test {
 protected:
-	LoopManager loop_manager;
+    class TestGameLoop : public crepe::LoopManager {
+    public:
+        MOCK_METHOD(void, fixed_update, (), (override));
+        MOCK_METHOD(void, update, (), (override));
+    };
 
-	void SetUp() override {
-		// Setting up loop manager and start the loop
-		loop_manager.loop_timer->set_target_fps(60);
-	}
+    TestGameLoop test_loop;
+
+    void SetUp() override {
+        test_loop.loop_timer->set_target_fps(60); // Example target FPS
+    }
 };
 
-//Test to check if exactly 5 fixed updates are done every second (50Hz)
+// Test to check if exactly 50 fixed updates occur in 1 second (50Hz)
 TEST_F(LoopManagerTest, FixedUpdate) {
-	loop_manager.loop_timer->fixed_delta_time = std::chrono::milliseconds(20);
-	loop_manager.loop_timer->set_target_fps(50);
-	int fixed_update_count = 0;
-	loop_manager.loop_timer->start();
-	// We want to simulate the game loop for about 1 second
-	auto start_time = steady_clock::now();
+    // Arrange
+    using ::testing::AtLeast;
+    using ::testing::Exactly;
 
-	// Simulate the game loop for 1 second
-	while (duration_cast<milliseconds>(steady_clock::now() - start_time)
-		   < std::chrono::milliseconds(1000)) {
-		loop_manager.loop_timer->update();
-		// Simulate processing fixed updates while there's lag to advance
-		while (loop_manager.loop_timer->get_lag()
-			   >= loop_manager.loop_timer->get_fixed_delta_time()) {
-			fixed_update_count++;
-			loop_manager.loop_timer->advance_fixed_update();
-		}
+    test_loop.loop_timer->fixed_delta_time = std::chrono::milliseconds(20);
+	test_loop.start();
+    // Expect the `fixed_update` method to be called exactly 50 times
+    EXPECT_CALL(test_loop, fixed_update()).Times(Exactly(50));
 
-		loop_manager.loop_timer->enforce_frame_rate();
-	}
-	ASSERT_EQ(fixed_update_count, 50);
+    auto start_time = steady_clock::now();
+
+    // Act: Simulate the game loop for 1 second
+    while (duration_cast<milliseconds>(steady_clock::now() - start_time) < std::chrono::milliseconds(1000)) {
+
+    }
+	test_loop.game_running = false;
 }

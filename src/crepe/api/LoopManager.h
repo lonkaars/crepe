@@ -61,7 +61,7 @@ private:
 	 *
 	 * Updates the game state based on the elapsed time since the last frame.
 	 */
-	void update();
+	virtual void update();
 
 	/**
 	 * \brief Late update which is called after update().
@@ -75,7 +75,7 @@ private:
 	 *
 	 * This function updates physics and game logic based on LoopTimer's fixed_delta_time.
 	 */
-	void fixed_update();
+	virtual void fixed_update();
 	/**
 	 * \brief Function for executing render-related systems.
 	 *
