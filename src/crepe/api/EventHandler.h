@@ -29,29 +29,29 @@ using EventHandler = std::function<bool(const EventType & e)>;
 class IEventHandlerWrapper {
 public:
 	/**
-     * \brief Virtual destructor for IEventHandlerWrapper.
-     */
+	 * \brief Virtual destructor for IEventHandlerWrapper.
+	 */
 	virtual ~IEventHandlerWrapper() = default;
 
 	/**
-     * \brief Executes the handler with the given event.
-     * 
-     * This method calls the `call()` method of the derived class, passing the event to the handler.
-     * 
-     * \param e The event to be processed.
-     * \return A boolean value indicating whether the event is handled.
-     */
+	 * \brief Executes the handler with the given event.
+	 * 
+	 * This method calls the `call()` method of the derived class, passing the event to the handler.
+	 * 
+	 * \param e The event to be processed.
+	 * \return A boolean value indicating whether the event is handled.
+	 */
 	bool exec(const Event & e);
 
 private:
 	/**
-     * \brief The method responsible for handling the event.
-     * 
-     * This method is implemented by derived classes to process the event.
-     * 
-     * \param e The event to be processed.
-     * \return A boolean value indicating whether the event is handled.
-     */
+	 * \brief The method responsible for handling the event.
+	 * 
+	 * This method is implemented by derived classes to process the event.
+	 * 
+	 * \param e The event to be processed.
+	 * \return A boolean value indicating whether the event is handled.
+	 */
 	virtual bool call(const Event & e) = 0;
 };
 
@@ -69,23 +69,23 @@ template <typename EventType>
 class EventHandlerWrapper : public IEventHandlerWrapper {
 public:
 	/**
-     * \brief Constructs an EventHandlerWrapper with a given handler.
-     * 
-     * The constructor takes an event handler function and stores it in the wrapper.
-     * 
-     * \param handler The event handler function.
-     */
+	 * \brief Constructs an EventHandlerWrapper with a given handler.
+	 * 
+	 * The constructor takes an event handler function and stores it in the wrapper.
+	 * 
+	 * \param handler The event handler function.
+	 */
 	explicit EventHandlerWrapper(const EventHandler<EventType> & handler);
 
 private:
 	/**
-     * \brief Calls the stored event handler with the event.
-     * 
-     * This method casts the event to the appropriate type and calls the handler.
-     * 
-     * \param e The event to be handled.
-     * \return A boolean value indicating whether the event is handled.
-     */
+	 * \brief Calls the stored event handler with the event.
+	 * 
+	 * This method casts the event to the appropriate type and calls the handler.
+	 * 
+	 * \param e The event to be handled.
+	 * \return A boolean value indicating whether the event is handled.
+	 */
 	bool call(const Event & e) override;
 	//! The event handler function.
 	EventHandler<EventType> handler;
