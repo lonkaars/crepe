@@ -1,0 +1,59 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+\note This feature is build upon \ref feature_creating_particles
+
+\defgroup feature_changing_amount_particle Changing the amount of particles
+\ingroup feature
+\brief Changing the amount of maximum particles and the amount that is spawned per update.
+
+For some application the amount of particles that spawn and the maximum amount that can spawn needs to be changed.
+This can create visually a better effect for the game, if more or less of a certain particle is spawned.
+
+Common use cases for this feature include:
+- Leaves have a high maximum and a low spawn rate.
+- Smoke has a average maximum and a high spawn rate.
+- Birds in the background have a low maximum and a low spawn rate.
+
+\see Component
+\see Scene
+\see ParticleEmitter
+\see GameObject
+\see ParticleSystem
+\see Sprite
+\see Transform
+
+\par Example
+
+\attention Al fields are removed! Only the fields for this example are shown. 
+See \ref feature_creating_particles for all minimum needed fields.
+
+\details To add a ParticleEmitter, include the necessary header:
+```ccp
+#include <crepe/api/ParticleEmitter.h>
+```
+The value in max_particles shows how much the ParticleSystem is allowed to set active.
+The emitter uses pooling to achieve a better performance. 
+If the maximum is reach no particles are spawned. This value can be in between 0 and INFINITY.
+Zero will not shown any particles.
+
+The emission_rate shown how many particles are spawned each update.
+this value can be in between 0 and INFINITY. This value can be decimal to spawn a particle per couple updates.
+The system runs in the fixed loop of the LoopManager which is 50hz.
+
+Valid iput value for emission_rate:
+- 0.1 spawns 1 particle per 10 updates.
+- 0.5 spawns 1 particle per 2 updates.
+- 1 	spawns 1 particle per update.
+- 10 	spawns 10 particles per update.
+
+These are the fields that needs to be changed.
+```cpp
+game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
+		.max_particles = 100,
+		.emission_rate = 1,
+	});
+
+```
+*/
+}
