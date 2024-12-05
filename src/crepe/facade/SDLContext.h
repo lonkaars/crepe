@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
@@ -8,20 +9,21 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <utility>
 
-#include "../api/Camera.h"
-#include "../api/Sprite.h"
-
+#include "api/Camera.h"
 #include "api/Color.h"
+#include "api/Event.h"
+#include "api/KeyCodes.h"
+#include "api/Sprite.h"
 #include "api/Texture.h"
+#include "api/Transform.h"
 #include "types.h"
 
 namespace crepe {
 
-// TODO: SDL_Keycode is defined in a header not distributed with crepe, which means this
-// typedef is unusable when crepe is packaged. Wouter will fix this later.
-typedef SDL_Keycode CREPE_KEYCODES;
-
+class LoopManager;
+class InputSystem;
 /**
  * \class SDLContext
  * \brief Facade for the SDL library
@@ -41,6 +43,29 @@ public:
 	};
 
 public:
+	//! EventType enum for passing eventType
+	enum EventType {
+		NONE = 0,
+		MOUSEDOWN,
+		MOUSEUP,
+		MOUSEMOVE,
+		MOUSEWHEEL,
+		KEYUP,
+		KEYDOWN,
+		SHUTDOWN,
+
+	};
+	//! EventData struct for passing event data from facade
+	struct EventData {
+		SDLContext::EventType event_type = SDLContext::EventType::NONE;
+		Keycode key = Keycode::NONE;
+		bool key_repeat = false;
+		MouseButton mouse_button = MouseButton::NONE;
+		ivec2 mouse_position = {-1, -1};
+		int scroll_direction = -1;
+		float scroll_delta = INFINITY;
+		ivec2 rel_mouse_move = {-1, -1};
+	};
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
 	 * \return Reference to the SDLContext instance.
@@ -53,13 +78,40 @@ public:
 	SDLContext & operator=(SDLContext &&) = delete;
 
 private:
-	//! will only use handle_events
-	friend class LoopManager;
+	//! will only use get_events
+	friend class InputSystem;
 	/**
-	 * \brief Handles SDL events such as window close and input.
-	 * \param running Reference to a boolean flag that controls the main loop.
+	 * \brief Retrieves a list of all events from the SDL context.
+	 * 
+	 * This method retrieves all the events from the SDL context that are currently
+	 * available. It is primarily used by the InputSystem to process various
+	 * input events such as mouse clicks, mouse movements, and keyboard presses.
+	 * 
+	 * \return Events that occurred since last call to `get_events()`
 	 */
-	void handle_events(bool & running);
+	std::vector<SDLContext::EventData> get_events();
+
+	/**
+	 * \brief Converts an SDL key code to the custom Keycode type.
+	 * 
+	 * This method maps an SDL key code to the corresponding `Keycode` enum value,
+	 * which is used internally by the system to identify the keys.
+	 * 
+	 * \param sdl_key The SDL key code to convert.
+	 * \return The corresponding `Keycode` value or `Keycode::NONE` if the key is unrecognized.
+	 */
+	Keycode sdl_to_keycode(SDL_Keycode sdl_key);
+
+	/**
+	 * \brief Converts an SDL mouse button code to the custom MouseButton type.
+	 * 
+	 * This method maps an SDL mouse button code to the corresponding `MouseButton` 
+	 * enum value, which is used internally by the system to identify mouse buttons.
+	 * 
+	 * \param sdl_button The SDL mouse button code to convert.
+	 * \return The corresponding `MouseButton` value or `MouseButton::NONE` if the key is unrecognized
+	 */
+	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
 
 private:
 	//! Will only use get_ticks

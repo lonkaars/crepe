@@ -2,18 +2,20 @@
 
 #define protected public
 
-#include <crepe/ComponentManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
+#include <crepe/manager/ComponentManager.h>
 
 using namespace std;
 using namespace crepe;
 
 class ECSTest : public ::testing::Test {
+	Mediator m;
+
 public:
-	ComponentManager mgr{};
+	ComponentManager mgr{m};
 };
 
 TEST_F(ECSTest, createGameObject) {
