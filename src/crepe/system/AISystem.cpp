@@ -1,6 +1,6 @@
-#include "manager/ComponentManager.h"
 #include "api/LoopTimer.h"
 #include "api/Transform.h"
+#include "manager/ComponentManager.h"
 #include "manager/Mediator.h"
 #include "types.h"
 
