@@ -1,7 +1,5 @@
-#include <crepe/manager/Mediator.h>
 #include <SDL2/SDL_timer.h>
 #include <chrono>
-#include <crepe/manager/ComponentManager.h>
 #include <crepe/api/AI.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
@@ -10,6 +8,8 @@
 #include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/Mediator.h>
 
 using namespace crepe;
 using namespace std;
