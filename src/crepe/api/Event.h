@@ -88,8 +88,30 @@ public:
 
 	//! Y-coordinate of the mouse position at the time of the event.
 	int mouse_y = 0;
+
+	// Movement since last event in x
+	int delta_x = 0;
+
+	// Movement since last event in y
+	int delta_y = 0;
 };
 
+/**
+ * \brief Event triggered when the mouse is moved.
+ */
+class MouseScrollEvent : public Event {
+public:
+	//! X-coordinate of the mouse position at the time of the event.
+	int mouse_x = 0;
+
+	//! Y-coordinate of the mouse position at the time of the event.
+	int mouse_y = 0;
+
+	//! scroll direction (-1 = down, 1 = up)
+	int scroll_direction = 0;
+	//! scroll amount in y axis (from and away from the person).
+	float scroll_delta = 0;
+};
 /**
  * \brief Event triggered during a collision between objects.
  */
