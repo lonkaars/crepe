@@ -19,6 +19,8 @@ target_sources(crepe PUBLIC
 	Asset.cpp
 	EventHandler.cpp
 	Script.cpp
+	Button.cpp
+	UIObject.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -47,4 +49,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	LoopManager.h
 	LoopTimer.h
 	Asset.h
+	Button.h
+	UIObject.h
 )

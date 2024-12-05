@@ -1,5 +1,6 @@
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
+#include "../system/InputSystem.h"
 #include "../system/ParticleSystem.h"
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
@@ -20,9 +21,10 @@ LoopManager::LoopManager() {
 	this->load_system<PhysicsSystem>();
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
+	this->load_system<InputSystem>();
 }
 
-void LoopManager::process_input() { this->sdl_context.handle_events(this->game_running); }
+void LoopManager::process_input() { this->get_system<InputSystem>().update(); }
 
 void LoopManager::start() {
 	this->setup();
