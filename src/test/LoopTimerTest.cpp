@@ -61,7 +61,7 @@ TEST_F(LoopTimerTest, getCurrentTime) {
 
 	auto start_time = steady_clock::now();
 
-	// Sleep for 500 milliseconds
+	// Sleep
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	loop_timer.update();
