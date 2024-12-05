@@ -10,13 +10,13 @@ using namespace crepe;
 
 LoopTimer::LoopTimer() { dbg_trace(); }
 
-
 void LoopTimer::start() {
 	this->last_frame_time = std::chrono::steady_clock::now();
-	
+
 	this->elapsed_time = std::chrono::milliseconds(0);
 	// by starting the elapsed_fixed_time at (0 - fixed_delta_time) in milliseconds it calls a fixed update at the start of the loop.
-	this->elapsed_fixed_time = -std::chrono::duration_cast<std::chrono::milliseconds>(fixed_delta_time);
+	this->elapsed_fixed_time
+		= -std::chrono::duration_cast<std::chrono::milliseconds>(fixed_delta_time);
 	this->delta_time = std::chrono::milliseconds(0);
 }
 
@@ -30,7 +30,7 @@ void LoopTimer::update() {
 		this->delta_time = this->maximum_delta_time;
 	}
 	this->actual_fps = 1.0 / this->delta_time.count();
-	
+
 	this->delta_time *= this->game_scale;
 	this->elapsed_time += this->delta_time;
 	this->last_frame_time = current_frame_time;
@@ -56,17 +56,18 @@ void LoopTimer::set_game_scale(double value) { this->game_scale = value; }
 
 double LoopTimer::get_game_scale() const { return this->game_scale; }
 void LoopTimer::enforce_frame_rate() {
-    auto current_frame_time = std::chrono::steady_clock::now();
-    auto frame_duration = current_frame_time - this->last_frame_time;
+	auto current_frame_time = std::chrono::steady_clock::now();
+	auto frame_duration = current_frame_time - this->last_frame_time;
 
-    // Check if frame duration is less than the target frame time
-    if (frame_duration < this->frame_target_time) {
-        auto delay_time = std::chrono::duration_cast<std::chrono::microseconds>(this->frame_target_time - frame_duration);
+	// Check if frame duration is less than the target frame time
+	if (frame_duration < this->frame_target_time) {
+		auto delay_time = std::chrono::duration_cast<std::chrono::microseconds>(
+			this->frame_target_time - frame_duration);
 
-        if (delay_time.count() > 0) {
-            std::this_thread::sleep_for(delay_time);
-        }
-    }
+		if (delay_time.count() > 0) {
+			std::this_thread::sleep_for(delay_time);
+		}
+	}
 }
 
 double LoopTimer::get_lag() const {

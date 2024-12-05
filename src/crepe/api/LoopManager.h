@@ -5,9 +5,7 @@
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/SceneManager.h"
-#include "../manager/SceneManager.h"
 #include "../system/System.h"
-
 
 #include "api/Event.h"
 #include "api/LoopTimer.h"
@@ -28,7 +26,6 @@ public:
 	 * Developers need to call this function to run the game.
 	 */
 	void start();
-	
 
 	/**
 	 * \brief Add a new concrete scene to the scene manager
@@ -101,8 +98,8 @@ private:
 	SDLContext & sdl_context = SDLContext::get_instance();
 	//! loop timer instance
 	std::unique_ptr<LoopTimer> loop_timer;
+
 private:
-	
 	/**
 	 * \brief Callback function for ShutDownEvent
 	 *
