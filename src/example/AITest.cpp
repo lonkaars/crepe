@@ -1,6 +1,7 @@
+#include <crepe/manager/Mediator.h>
 #include <SDL2/SDL_timer.h>
 #include <chrono>
-#include <crepe/ComponentManager.h>
+#include <crepe/manager/ComponentManager.h>
 #include <crepe/api/AI.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
@@ -16,7 +17,8 @@ using namespace std;
 class Scene1 : public Scene {
 public:
 	void load_scene() override {
-		ComponentManager & mgr = this->component_manager;
+		Mediator & mediator = this->mediator;
+		ComponentManager & mgr = mediator.component_manager;
 
 		GameObject game_object1 = mgr.new_object("", "", vec2{250, 250}, 0, 1);
 		GameObject game_object2 = mgr.new_object("", "", vec2{0, 0}, 0, 1);
