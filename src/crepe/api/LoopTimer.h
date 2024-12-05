@@ -90,8 +90,6 @@ private:
 	 */
 	double get_lag() const;
 
-	
-
 	/**
 	 * \brief Update the timer to the current frame.
 	 *
@@ -120,7 +118,8 @@ private:
 	//! Delta time for the current frame in seconds
 	std::chrono::duration<double> delta_time{0.0};
 	//! Target time per frame in seconds
-	std::chrono::duration<double> frame_target_time = std::chrono::duration<double>(1.0) / target_fps;
+	std::chrono::duration<double> frame_target_time
+		= std::chrono::duration<double>(1.0) / target_fps;
 	//! Fixed delta time for fixed updates in seconds
 	std::chrono::duration<double> fixed_delta_time = std::chrono::duration<double>(1.0) / 50.0;
 	//! Total elapsed game time in seconds
@@ -129,7 +128,6 @@ private:
 	std::chrono::duration<double> elapsed_fixed_time{0.0};
 	//! Time of the last frame
 	std::chrono::steady_clock::time_point last_frame_time;
-	
 };
 
 } // namespace crepe

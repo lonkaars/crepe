@@ -1,12 +1,12 @@
 #include "../facade/SDLContext.h"
 
+#include "../manager/EventManager.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/ParticleSystem.h"
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
-#include "../manager/EventManager.h"
 
 #include "LoopManager.h"
 
@@ -20,9 +20,8 @@ LoopManager::LoopManager() {
 	this->load_system<PhysicsSystem>();
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
-	EventManager::get_instance().subscribe<ShutDownEvent>([this](const ShutDownEvent& event) {
-    	return this->on_shutdown(event);
-	});
+	EventManager::get_instance().subscribe<ShutDownEvent>(
+		[this](const ShutDownEvent & event) { return this->on_shutdown(event); });
 	this->loop_timer = make_unique<LoopTimer>();
 	this->mediator.loop_timer = *loop_timer;
 }
@@ -41,7 +40,7 @@ void LoopManager::loop() {
 
 	while (game_running) {
 		this->loop_timer->update();
-		
+
 		while (this->loop_timer->get_lag() >= this->loop_timer->get_fixed_delta_time()) {
 			this->process_input();
 			this->fixed_update();
@@ -55,7 +54,6 @@ void LoopManager::loop() {
 }
 
 void LoopManager::setup() {
-	
 
 	this->game_running = true;
 	this->loop_timer->start();
@@ -67,7 +65,7 @@ void LoopManager::render() {
 
 	this->get_system<RenderSystem>().update();
 }
-bool LoopManager::on_shutdown(const ShutDownEvent & e){
+bool LoopManager::on_shutdown(const ShutDownEvent & e) {
 	this->game_running = false;
 	return false;
 }
