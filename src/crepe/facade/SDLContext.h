@@ -61,10 +61,10 @@ public:
 		Keycode key = Keycode::NONE;
 		bool key_repeat = false;
 		MouseButton mouse_button = MouseButton::NONE;
-		std::pair<int, int> mouse_position = {-1, -1};
+		ivec2 mouse_position = {-1, -1};
 		int scroll_direction = -1;
 		float scroll_delta = INFINITY;
-		std::pair<int, int> rel_mouse_move = {-1, -1};
+		ivec2 rel_mouse_move = {-1, -1};
 	};
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
