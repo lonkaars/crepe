@@ -31,8 +31,8 @@ void InputSystem::update() {
 		= cam_transform.position.y + current_cam.offset.y - (current_cam.viewport_size.y / 2);
 
 	for (const SDLContext::EventData & event : event_list) {
-		int world_mouse_x = event.mouse_position.first + camera_origin_x;
-		int world_mouse_y = event.mouse_position.second + camera_origin_y;
+		int world_mouse_x = event.mouse_position.x + camera_origin_x;
+		int world_mouse_y = event.mouse_position.y + camera_origin_y;
 		// check if the mouse is within the viewport
 		bool mouse_in_viewport
 			= !(world_mouse_x < camera_origin_x
@@ -96,8 +96,8 @@ void InputSystem::update() {
 				event_mgr.queue_event<MouseMoveEvent>(MouseMoveEvent{
 					.mouse_x = world_mouse_x,
 					.mouse_y = world_mouse_y,
-					.delta_x = event.rel_mouse_move.first,
-					.delta_y = event.rel_mouse_move.second,
+					.delta_x = event.rel_mouse_move.x,
+					.delta_y = event.rel_mouse_move.y,
 				});
 				this->handle_move(event, world_mouse_x, world_mouse_y);
 				break;

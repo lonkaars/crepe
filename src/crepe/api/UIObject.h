@@ -5,7 +5,6 @@
 namespace crepe {
 
 /**
- * @class UiObject
  * \brief Represents a UI object in the game, derived from the Component class.
  */
 class UIObject : public Component {
