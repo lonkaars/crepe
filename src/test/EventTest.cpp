@@ -1,10 +1,11 @@
-
-#include "api/Event.h"
-#include "api/EventManager.h"
-#include "api/IKeyListener.h"
-#include "api/IMouseListener.h"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <crepe/api/Event.h>
+#include <crepe/api/IKeyListener.h>
+#include <crepe/api/IMouseListener.h>
+#include <crepe/manager/EventManager.h>
+
 using namespace std;
 using namespace std::chrono_literals;
 using namespace crepe;
@@ -36,10 +37,7 @@ public:
 };
 
 TEST_F(EventManagerTest, EventSubscription) {
-	EventHandler<KeyPressEvent> key_handler = [](const KeyPressEvent & e) {
-		std::cout << "Key Event Triggered" << std::endl;
-		return true;
-	};
+	EventHandler<KeyPressEvent> key_handler = [](const KeyPressEvent & e) { return true; };
 
 	// Subscribe to KeyPressEvent
 	EventManager::get_instance().subscribe<KeyPressEvent>(key_handler, 1);
@@ -158,29 +156,37 @@ TEST_F(EventManagerTest, EventManagerTest_queue_dispatch) {
 	bool triggered1 = false;
 	bool triggered2 = false;
 	int test_channel = 1;
-	EventHandler<MouseClickEvent> mouse_handler1 = [&](const MouseClickEvent & e) {
-		triggered1 = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
-		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
-		return false; // Allows propagation
-	};
-	EventHandler<MouseClickEvent> mouse_handler2 = [&](const MouseClickEvent & e) {
-		triggered2 = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
-		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
-		return false; // Allows propagation
-	};
-	event_manager.subscribe<MouseClickEvent>(mouse_handler1);
-	event_manager.subscribe<MouseClickEvent>(mouse_handler2, test_channel);
 
-	event_manager.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE});
-	event_manager.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE},
+	// Adjusted to use KeyPressEvent with repeat as the first variable
+	EventHandler<KeyPressEvent> key_handler1 = [&](const KeyPressEvent & e) {
+		triggered1 = true;
+		EXPECT_EQ(e.repeat, false); // Expecting repeat to be false
+		EXPECT_EQ(e.key, Keycode::A); // Adjust expected key code
+		return false; // Allows propagation
+	};
+
+	EventHandler<KeyPressEvent> key_handler2 = [&](const KeyPressEvent & e) {
+		triggered2 = true;
+		EXPECT_EQ(e.repeat, false); // Expecting repeat to be false
+		EXPECT_EQ(e.key, Keycode::A); // Adjust expected key code
+		return false; // Allows propagation
+	};
+
+	// Subscribe handlers to KeyPressEvent
+	event_manager.subscribe<KeyPressEvent>(key_handler1);
+	event_manager.subscribe<KeyPressEvent>(key_handler2, test_channel);
+
+	// Queue a KeyPressEvent instead of KeyDownEvent
+	event_manager.queue_event<KeyPressEvent>(KeyPressEvent{
+		.repeat = false, .key = Keycode::A}); // Adjust event with repeat flag first
+
+	event_manager.queue_event<KeyPressEvent>(
+		KeyPressEvent{.repeat = false,
+					  .key = Keycode::A}, // Adjust event for second subscription
 		test_channel);
+
 	event_manager.dispatch_events();
+
 	EXPECT_TRUE(triggered1);
 	EXPECT_TRUE(triggered2);
 }

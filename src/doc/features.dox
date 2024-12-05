@@ -17,12 +17,12 @@ feature.
 \par Features
 
 - Scripting
-	- \ref feature_script <br>\copybrief feature_script
+	- \ref feature_script \n\copybrief feature_script
 
 - Game flow management
-	- \ref feature_scene <br>\copybrief feature_scene
+	- \ref feature_scene \n\copybrief feature_scene
 
 - Entity
-	- \ref feature_gameobject <br>\copybrief feature_gameobject
+	- \ref feature_gameobject \n\copybrief feature_gameobject
 
 */
