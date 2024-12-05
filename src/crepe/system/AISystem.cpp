@@ -1,6 +1,7 @@
-#include "../ComponentManager.h"
+#include "manager/ComponentManager.h"
 #include "api/LoopTimer.h"
 #include "api/Transform.h"
+#include "manager/Mediator.h"
 #include "types.h"
 
 #include "AISystem.h"
@@ -8,7 +9,8 @@
 using namespace crepe;
 
 void AISystem::update() {
-	ComponentManager & mgr = this->component_manager;
+	const Mediator & mediator = this->mediator;
+	ComponentManager & mgr = mediator.component_manager;
 	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 
 	double dt = LoopTimer::get_instance().get_delta_time();
@@ -63,7 +65,8 @@ bool AISystem::accumulate_force(vec2 & running_total, vec2 force_to_add) {
 }
 
 vec2 AISystem::seek(const AI & ai) {
-	ComponentManager & mgr = this->component_manager;
+	const Mediator & mediator = this->mediator;
+	ComponentManager & mgr = mediator.component_manager;
 	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
 	Transform & transform = transforms.front().get();
 
