@@ -8,7 +8,7 @@ namespace crepe {
 
 /**
  * \brief Represents a clickable UI button, derived from the UiObject class.
- * 
+ *
  */
 class Button : public UIObject {
 public:
@@ -31,7 +31,7 @@ public:
      * typically only has an on-click state.
      */
 	bool is_toggle = false;
-
+	// TODO: toggle button in new class
 	/**
      * \brief The callback function to be executed when the button is clicked.
      * 
