@@ -5,8 +5,9 @@
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/SceneManager.h"
+#include "../manager/SceneManager.h"
 #include "../system/System.h"
-#include "manager/SceneManager.h"
+
 
 #include "api/Event.h"
 #include "api/LoopTimer.h"
@@ -19,6 +20,7 @@ namespace crepe {
  */
 class LoopManager {
 public:
+	LoopManager();
 	/**
 	 * \brief Start the gameloop
 	 *
@@ -26,7 +28,7 @@ public:
 	 * Developers need to call this function to run the game.
 	 */
 	void start();
-	LoopManager();
+	
 
 	/**
 	 * \brief Add a new concrete scene to the scene manager
@@ -101,7 +103,11 @@ private:
 	std::unique_ptr<LoopTimer> loop_timer;
 private:
 	
-	//! callback function for shutdown event
+	/**
+	 * \brief Callback function for ShutDownEvent
+	 *
+	 * This function sets the game_running variable to false, stopping the gameloop and therefor quitting the game.
+	 */
 	bool on_shutdown(const ShutDownEvent & e);
 	/**
 	 * \brief Collection of System instances

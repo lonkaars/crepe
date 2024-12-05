@@ -39,6 +39,5 @@ TEST_F(LoopManagerTest, FixedUpdate) {
         
         loop_manager.loop_timer->enforce_frame_rate();
     }
-	// gameloop is 99 because it first takes 20 millisecond to build the lag to execute the fixed loop
     ASSERT_EQ(fixed_update_count, 50);
 }
