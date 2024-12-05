@@ -1,0 +1,48 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note Adjusting the \ref Sprite::Data struct \ref angle_offset variable to give
+a the Sprite an offset from transform in degrees. rotating clockwise.
+
+\defgroup feature_sprite_angle sprite rotating
+\ingroup feature
+\brief Rotating sprite clockwise in degrees
+
+Common use cases for this feature include:
+
+\see feature_sprite_creation
+\see GameObject 
+\see Sprite
+
+\par example
+
+\note this page builds on top of the example shown in \ref
+feature_sprite_creation
+
+```cpp
+
+#include <crepe/api/Sprite.h>
+
+int main(){
+
+	// Define the texture for the sprite.
+	auto img = Texture("asset/texture/personal_img.png");
+
+	// this will render the background first
+	game_object.add_component<Sprite>(
+		img, Sprite::Data{
+			.angle_offset = 0, // default
+			.angle_offset = 180, // rotating 180 degrees clockwise
+		});
+}                                                                 
+
+```
+
+*/
+}
+
+
+
+
+

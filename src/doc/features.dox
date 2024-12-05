@@ -25,4 +25,15 @@ feature.
 - Entity
 	- \ref feature_gameobject \n\copybrief feature_gameobject
 
+
+- Sprite
+	- \ref feature_sprite_creation \n\copybrief feature_sprite_creation
+	- \ref feature_sprite_color \n\copybrief feature_sprite_color
+	- \ref feature_sprite_layers \n\copybrief feature_sprite_layers
+	- \ref feature_sprite_flip \n\copybrief feature_sprite_flip
+	- \ref feature_sprite_scale \n\copybrief feature_sprite_scale
+	- \ref feature_sprite_angle \n\copybrief feature_sprite_angle
+
+- Camera
+- Animator
 */
