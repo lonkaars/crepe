@@ -6,24 +6,20 @@
 #include "Component.h"
 #include "Sprite.h"
 #include "Texture.h"
+#include "types.h"
 
 using namespace std;
 using namespace crepe;
 
-Sprite::Sprite(game_object_id_t id, Texture & image, const Color & color,
-			   const FlipSettings & flip, int sort_layer, int order_layer, int height)
+Sprite::Sprite(game_object_id_t id, Texture & texture, const Sprite::Data & data)
 	: Component(id),
-	  color(color),
-	  flip(flip),
-	  sprite_image(std::move(image)),
-	  sorting_in_layer(sort_layer),
-	  order_in_layer(order_layer),
-	  height(height) {
+	  texture(std::move(texture)),
+	  data(data) {
 
 	dbg_trace();
 
-	this->mask.w = sprite_image.get_size().x;
-	this->mask.h = sprite_image.get_size().y;
+	this->mask.w = this->texture.get_size().x;
+	this->mask.h = this->texture.get_size().y;
 	this->aspect_ratio = static_cast<double>(this->mask.w) / this->mask.h;
 }
 
