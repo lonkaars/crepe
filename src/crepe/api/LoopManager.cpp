@@ -7,6 +7,7 @@
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
+#include "manager/EventManager.h"
 
 #include "LoopManager.h"
 
@@ -35,7 +36,13 @@ void LoopManager::start() {
 }
 void LoopManager::set_running(bool running) { this->game_running = running; }
 
-void LoopManager::fixed_update() {}
+void LoopManager::fixed_update() {
+	EventManager & ev = this->mediator.event_manager;
+	ev.dispatch_events();
+	this->get_system<ScriptSystem>().update();
+	this->get_system<PhysicsSystem>().update();
+	this->get_system<CollisionSystem>().update();
+}
 
 void LoopManager::loop() {
 	LoopTimer & timer = this->loop_timer;
@@ -43,13 +50,13 @@ void LoopManager::loop() {
 
 	while (game_running) {
 		timer.update();
-
+		
 		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
 			this->process_input();
 			this->fixed_update();
 			timer.advance_fixed_update();
 		}
-
+		
 		this->update();
 		this->render();
 
@@ -64,8 +71,8 @@ void LoopManager::loop() {
 
 void LoopManager::setup() {
 	LoopTimer & timer = this->loop_timer;
-
 	this->game_running = true;
+	this->scene_manager.load_next_scene();
 	timer.start();
 	timer.set_fps(200);
 	this->scene_manager.load_next_scene();
