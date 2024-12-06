@@ -44,9 +44,9 @@ public:
 	// The target to flee from
 	vec2 flee_target;
 	// The distance at which the entity will start to flee from the target
-	float square_flee_panic_distance = 100.0f * 100.0f;
+	float square_flee_panic_distance = 200.0f * 200.0f;
 	// The deceleration rate for the arrive behavior (higher values will make the entity decelerate faster (less overshoot))
-	float arrive_deceleration = 2.0f;
+	float arrive_deceleration = 40.0f;
 
 private:
 	int flags = 0;

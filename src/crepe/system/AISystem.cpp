@@ -1,11 +1,14 @@
+#include <algorithm>
+#include <cmath>
+
 #include "api/LoopTimer.h"
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
 #include "manager/ComponentManager.h"
 #include "manager/Mediator.h"
-#include "types.h"
 
 #include "AISystem.h"
+#include "types.h"
 
 using namespace crepe;
 
@@ -30,6 +33,20 @@ void AISystem::update() {
 vec2 AISystem::calculate(AI & ai) {
 	vec2 force;
 
+	if (ai.on(AI::BehaviorType::FLEE)) {
+		vec2 force_to_add = this->flee(ai);
+
+		if (!this->accumulate_force(ai, force, force_to_add)) {
+			return force;
+		}
+	}
+	if (ai.on(AI::BehaviorType::ARRIVE)) {
+		vec2 force_to_add = this->arrive(ai);
+
+		if (!this->accumulate_force(ai, force, force_to_add)) {
+			return force;
+		}
+	}
 	if (ai.on(AI::BehaviorType::SEEK)) {
 		vec2 force_to_add = this->seek(ai);
 
@@ -37,14 +54,12 @@ vec2 AISystem::calculate(AI & ai) {
 			return force;
 		}
 	}
-	if (ai.on(AI::BehaviorType::FLEE)) {
-		// Flee from the target
-	}
-	if (ai.on(AI::BehaviorType::ARRIVE)) {
-		// Arrive at the target
-	}
 	if (ai.on(AI::BehaviorType::PATH_FOLLOW)) {
-		// Follow the path
+		/*vec2 force_to_add = this->path_follow(ai);
+
+		if (!this->accumulate_force(ai, force, force_to_add)) {
+			return force;
+		}*/
 	}
 
 	return force;
@@ -82,4 +97,44 @@ vec2 AISystem::seek(const AI & ai) {
 	desired_velocity *= rigidbody.data.max_linear_velocity;
 
 	return desired_velocity - rigidbody.data.linear_velocity;
+}
+
+vec2 AISystem::flee(const AI & ai) {
+	const Mediator & mediator = this->mediator;
+	ComponentManager & mgr = mediator.component_manager;
+	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
+	Transform & transform = transforms.front().get();
+	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_id<Rigidbody>(ai.game_object_id);
+	Rigidbody & rigidbody = rigidbodies.front().get();
+
+	vec2 desired_velocity = transform.position - ai.flee_target;
+	if (desired_velocity.length_squared() > ai.square_flee_panic_distance) {
+		return vec2{0, 0};
+	}
+
+	desired_velocity.normalize();
+	desired_velocity *= rigidbody.data.max_linear_velocity;
+
+	return desired_velocity - rigidbody.data.linear_velocity;
+}
+
+vec2 AISystem::arrive(const AI & ai) {
+	const Mediator & mediator = this->mediator;
+	ComponentManager & mgr = mediator.component_manager;
+	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
+	Transform & transform = transforms.front().get();
+	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_id<Rigidbody>(ai.game_object_id);
+	Rigidbody & rigidbody = rigidbodies.front().get();
+
+	vec2 to_target = ai.seek_target - transform.position;
+	float distance = to_target.length();
+	if (distance > 0.0f) {
+		float speed = distance / ai.arrive_deceleration;
+		speed = std::min(speed, rigidbody.data.max_linear_velocity.length());
+		vec2 desired_velocity = to_target * (speed / distance);
+
+		return desired_velocity - rigidbody.data.linear_velocity;
+	}
+
+	return vec2{0, 0};
 }
