@@ -23,7 +23,6 @@ public:
 	 * looping).
 	 */
 	void update() override;
-
 };
 
 } // namespace crepe
