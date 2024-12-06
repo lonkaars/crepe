@@ -6,6 +6,7 @@
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/LoopManager.h>
+#include <crepe/api/Rigidbody.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
@@ -40,7 +41,10 @@ public:
 		Texture img = Texture("asset/texture/test_ap43.png");
 		game_object1.add_component<Sprite>(img, Color::MAGENTA,
 										   Sprite::FlipSettings{false, false}, 1, 1, 195);
-		game_object1.add_component<AI>(1, 200, 200).seek_on();
+		game_object1.add_component<AI>(200).seek_on();
+		game_object1.add_component<Rigidbody>(Rigidbody::Data{
+			.mass = 1.0f, .max_linear_velocity = {21, 21}, // sqrt(21^2 + 21^2) = 30
+		});
 
 		game_object2.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{1036, 780},
 										   1.0f);

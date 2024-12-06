@@ -1,4 +1,5 @@
 #include "api/LoopTimer.h"
+#include "api/Rigidbody.h"
 #include "api/Transform.h"
 #include "manager/ComponentManager.h"
 #include "manager/Mediator.h"
@@ -16,16 +17,13 @@ void AISystem::update() {
 	double dt = LoopTimer::get_instance().get_delta_time();
 
 	for (AI & ai : ai_components) {
-		vec2 force = this->calculate(ai);
-		vec2 acceleration = force / ai.mass;
-		ai.velocity += acceleration * dt;
-		ai.velocity.truncate(ai.max_speed);
+		RefVector<Rigidbody> rigidbodies
+			= mgr.get_components_by_id<Rigidbody>(ai.game_object_id);
+		Rigidbody & rigidbody = rigidbodies.front().get();
 
-		// Update the position
-		RefVector<Transform> transforms
-			= mgr.get_components_by_id<Transform>(ai.game_object_id);
-		Transform & transform = transforms.front().get();
-		transform.position += ai.velocity * dt;
+		vec2 force = this->calculate(ai);
+		vec2 acceleration = force / rigidbody.data.mass;
+		rigidbody.data.linear_velocity += acceleration * dt;
 	}
 }
 
@@ -69,10 +67,12 @@ vec2 AISystem::seek(const AI & ai) {
 	ComponentManager & mgr = mediator.component_manager;
 	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
 	Transform & transform = transforms.front().get();
+	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_id<Rigidbody>(ai.game_object_id);
+	Rigidbody & rigidbody = rigidbodies.front().get();
 
 	vec2 desired_velocity = ai.seek_target - transform.position;
 	desired_velocity.normalize();
-	desired_velocity *= ai.max_speed;
+	desired_velocity *= rigidbody.data.max_linear_velocity;
 
-	return desired_velocity - ai.velocity;
+	return desired_velocity - rigidbody.data.linear_velocity;
 }

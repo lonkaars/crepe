@@ -16,7 +16,7 @@ public:
 	};
 
 public:
-	AI(game_object_id_t id, float mass, float max_speed, float max_force);
+	AI(game_object_id_t id, float max_force);
 
 	bool on(BehaviorType behavior) const { return (flags & behavior) == behavior; }
 	void seek_on() { flags |= SEEK; }
@@ -37,8 +37,6 @@ public:
 	}
 
 public:
-	float mass;
-	float max_speed;
 	float max_force;
 
 	// The target to seek or arrive at
@@ -51,9 +49,6 @@ public:
 	float arrive_deceleration = 2.0f;
 
 private:
-	vec2 velocity;
-	friend class AISystem;
-
 	int flags = 0;
 };
 
