@@ -33,7 +33,7 @@ vec2 AISystem::calculate(AI & ai) {
 	if (ai.on(AI::BehaviorType::SEEK)) {
 		vec2 force_to_add = this->seek(ai);
 
-		if (!this->accumulate_force(force, force_to_add)) {
+		if (!this->accumulate_force(ai, force, force_to_add)) {
 			return force;
 		}
 	}
@@ -50,16 +50,23 @@ vec2 AISystem::calculate(AI & ai) {
 	return force;
 }
 
-bool AISystem::accumulate_force(vec2 & running_total, vec2 force_to_add) {
-	double magnitude_remaining = running_total.length();
-	double magnitude_to_add = force_to_add.length();
+bool AISystem::accumulate_force(AI & ai, vec2 & running_total, vec2 force_to_add) {
+	float magnitude = running_total.length();
+	float magnitude_remaining = ai.max_force - magnitude;
 
-	if (magnitude_remaining + magnitude_to_add > 0) {
-		running_total += force_to_add;
-		return true;
+	if (magnitude_remaining <= 0.0f) {
+		return false;
 	}
 
-	return false;
+	float magnitude_to_add = force_to_add.length();
+	if (magnitude_to_add < magnitude_remaining) {
+		running_total += force_to_add;
+	} else {
+		force_to_add.normalize();
+		running_total += force_to_add * magnitude_remaining;
+	}
+
+	return true;
 }
 
 vec2 AISystem::seek(const AI & ai) {
