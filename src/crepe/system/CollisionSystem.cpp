@@ -550,5 +550,3 @@ vec2 CollisionSystem::get_current_position(const vec2 & collider_offset,
 	// Final positions considering scaling and rotation
 	return (transform.position + vec2(rotated_total_offset_x1, rotated_total_offset_y1));
 }
-
-
