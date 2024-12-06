@@ -855,6 +855,11 @@ that you can click on to open them.
   parameter of `TEST()` / `TEST_F()` macro)
 - Test source files match their suite name (or test fixture name in the case of
   tests that use a fixture)
+- Tests that measure time or use delays must be [disabled][gtest-disable] (by
+  prepending `DISABLED_` to the suite or case name).
+
+  These tests will still be compiled, but will only run when the `test_main`
+  binary is run with the `--gtest_also_run_disabled_tests` flag.
 
 # Structure
 
@@ -1016,4 +1021,6 @@ points should be kept in mind:
   [.gitmodules](./.gitmodules) file
 - When adding new libraries, please update the library version table in
   [readme\.md](./readme.md)
+
+[gtest-disable]: https://google.github.io/googletest/advanced.html#temporarily-disabling-tests
 
