@@ -40,6 +40,7 @@ void LoopManager::fixed_update() {
 	EventManager & ev = this->mediator.event_manager;
 	ev.dispatch_events();
 	this->get_system<ScriptSystem>().update();
+	this->get_system<AISystem>().update();
 	this->get_system<PhysicsSystem>().update();
 	this->get_system<CollisionSystem>().update();
 }
@@ -50,22 +51,17 @@ void LoopManager::loop() {
 
 	while (game_running) {
 		timer.update();
-		
+
 		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
 			this->process_input();
 			this->fixed_update();
 			timer.advance_fixed_update();
 		}
-		
+
 		this->update();
 		this->render();
 
 		timer.enforce_frame_rate();
-
-		// Stop the game after 10 seconds, for testing purposes
-		if (timer.get_current_time() > 10) {
-			this->game_running = false;
-		}
 	}
 }
 
@@ -75,7 +71,6 @@ void LoopManager::setup() {
 	this->scene_manager.load_next_scene();
 	timer.start();
 	timer.set_fps(200);
-	this->scene_manager.load_next_scene();
 }
 
 void LoopManager::render() {
@@ -84,7 +79,4 @@ void LoopManager::render() {
 	this->get_system<RenderSystem>().update();
 }
 
-void LoopManager::update() {
-	this->get_system<AnimatorSystem>().update();
-	this->get_system<AISystem>().update();
-}
+void LoopManager::update() { this->get_system<AnimatorSystem>().update(); }
