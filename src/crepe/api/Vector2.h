@@ -70,7 +70,7 @@ struct Vector2 {
 	//! Truncates the vector to a maximum length.
 	void truncate(T max);
 
-	//! Normalizes the vector.
+	//! Normalizes the vector (resulting in vector with a length of 1).
 	void normalize();
 
 	//! Returns the length of the vector.
@@ -79,7 +79,7 @@ struct Vector2 {
 	//! Returns the squared length of the vector.
 	T length_squared() const;
 
-	//! Returns the dot product of this vector and another vector.
+	//! Returns the dot product (inwendig product) of this vector and another vector.
 	T dot(const Vector2<T> & other) const;
 
 	//! Returns the distance between this vector and another vector.
