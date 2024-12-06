@@ -4,6 +4,7 @@
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
+#include <set>
 
 #include "../Component.h"
 #include "../types.h"
@@ -136,6 +137,17 @@ public:
 	RefVector<T> get_components_by_type() const;
 
 private:
+	template <typename T>
+	std::set<game_object_id_t> get_objects_by_predicate(const std::function<bool (const T &)> & pred) const;
+
+	std::set<game_object_id_t> get_objects_by_name(const std::string & name) const;
+	std::set<game_object_id_t> get_objects_by_tag(const std::string & tag) const;
+
+private:
+	template <typename T>
+	using by_type = std::unordered_map<std::type_index, T>;
+	template <typename T>
+	using by_id_index = std::vector<T>;
 	/**
 	 * \brief The components
 	 * 
@@ -146,8 +158,7 @@ private:
 	 * The first vector is for the ids of the GameObjects and the second vector is for the
 	 * components (because a GameObject might have multiple components).
 	 */
-	std::unordered_map<std::type_index, std::vector<std::vector<std::unique_ptr<Component>>>>
-		components;
+	by_type<by_id_index<std::vector<std::unique_ptr<Component>>>> components;
 
 	//! Persistent flag for each GameObject
 	std::unordered_map<game_object_id_t, bool> persistent;
@@ -155,6 +166,9 @@ private:
 	//! ID of next GameObject allocated by \c ComponentManager::new_object
 	game_object_id_t next_id = 0;
 };
+
+// template <>
+// RefVector<Component> ComponentManager::get_components_by_id(game_object_id_t id) const;
 
 } // namespace crepe
 

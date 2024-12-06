@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #define protected public
+#define private public
 
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
@@ -386,4 +387,37 @@ TEST_F(ECSTest, resetPersistent) {
 
 	EXPECT_EQ(metadata.size(), 0);
 	EXPECT_EQ(transform.size(), 0);
+}
+
+TEST_F(ECSTest, GetByName) {
+	GameObject foo = mgr.new_object("foo");
+	GameObject bar = mgr.new_object("bar");
+
+	{
+		auto objects = mgr.get_objects_by_name("");
+		EXPECT_EQ(objects.size(), 0);
+	}
+
+	{
+		auto objects = mgr.get_objects_by_name("foo");
+		EXPECT_EQ(objects.size(), 1);
+		EXPECT_TRUE(objects.contains(foo.id));
+	}
+}
+
+TEST_F(ECSTest, GetByTag) {
+	GameObject foo = mgr.new_object("foo", "common tag");
+	GameObject bar = mgr.new_object("bar", "common tag");
+
+	{
+		auto objects = mgr.get_objects_by_tag("");
+		EXPECT_EQ(objects.size(), 0);
+	}
+
+	{
+		auto objects = mgr.get_objects_by_tag("common tag");
+		EXPECT_EQ(objects.size(), 2);
+		EXPECT_TRUE(objects.contains(foo.id));
+		EXPECT_TRUE(objects.contains(bar.id));
+	}
 }
