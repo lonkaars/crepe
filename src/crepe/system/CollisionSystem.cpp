@@ -191,7 +191,7 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 	}
 
 	Direction resolution_direction = Direction::NONE;
-	if (resolution.x != 0 && resolution.y > 0) {
+	if (resolution.x != 0 && resolution.y != 0) {
 		resolution_direction = Direction::BOTH;
 	} else if (resolution.x != 0) {
 		resolution_direction = Direction::X_DIRECTION;
@@ -306,7 +306,7 @@ void CollisionSystem::determine_collision_handler(CollisionInfo & info) {
 	if (info.this_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) return;
 	// If second body is static perform the static collision handler in this system
 	if (info.other_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) {
-		static_collision_handler(info);
+		this->static_collision_handler(info);
 	};
 	// Call collision event for user
 	CollisionEvent data(info);
