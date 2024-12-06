@@ -1,30 +1,30 @@
-#include "../facade/SDLContext.h"
-
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
+#include "../system/InputSystem.h"
 #include "../system/ParticleSystem.h"
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
 
 #include "LoopManager.h"
-#include "LoopTimer.h"
 
 using namespace crepe;
 using namespace std;
 
 LoopManager::LoopManager() {
+	this->mediator.component_manager = this->component_manager;
+	this->mediator.scene_manager = this->scene_manager;
+
 	this->load_system<AnimatorSystem>();
 	this->load_system<CollisionSystem>();
 	this->load_system<ParticleSystem>();
 	this->load_system<PhysicsSystem>();
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
+	this->load_system<InputSystem>();
 }
 
-void LoopManager::process_input() {
-	SDLContext::get_instance().handle_events(this->game_running);
-}
+void LoopManager::process_input() { this->get_system<InputSystem>().update(); }
 
 void LoopManager::start() {
 	this->setup();
@@ -35,7 +35,7 @@ void LoopManager::set_running(bool running) { this->game_running = running; }
 void LoopManager::fixed_update() {}
 
 void LoopManager::loop() {
-	LoopTimer & timer = LoopTimer::get_instance();
+	LoopTimer & timer = this->loop_timer;
 	timer.start();
 
 	while (game_running) {
@@ -55,19 +55,18 @@ void LoopManager::loop() {
 }
 
 void LoopManager::setup() {
+	LoopTimer & timer = this->loop_timer;
+
 	this->game_running = true;
-	LoopTimer::get_instance().start();
-	LoopTimer::get_instance().set_fps(200);
+	timer.start();
+	timer.set_fps(200);
 	this->scene_manager.load_next_scene();
 }
 
 void LoopManager::render() {
-	if (this->game_running) {
-		this->get_system<RenderSystem>().update();
-	}
+	if (!this->game_running) return;
+
+	this->get_system<RenderSystem>().update();
 }
 
-void LoopManager::update() {
-	LoopTimer & timer = LoopTimer::get_instance();
-	this->get_system<AnimatorSystem>().update();
-}
+void LoopManager::update() {}

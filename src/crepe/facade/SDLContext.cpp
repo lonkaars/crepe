@@ -1,13 +1,17 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_blendmode.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_video.h>
+#include <array>
 #include <cmath>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -15,9 +19,11 @@
 #include "../api/Config.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
+#include "../manager/EventManager.h"
 #include "../util/Log.h"
 
 #include "SDLContext.h"
+#include "api/Color.h"
 #include "types.h"
 
 using namespace crepe;
@@ -72,25 +78,141 @@ SDLContext::~SDLContext() {
 	IMG_Quit();
 	SDL_Quit();
 }
-void SDLContext::handle_events(bool & running) {
-	//TODO: wouter i need events
-	/*
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	switch (event.type) {
-		case SDL_QUIT:
-			running = false;
-			break;
-		case SDL_KEYDOWN:
-			triggerEvent(KeyPressedEvent(getCustomKey(event.key.keysym.sym)));
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			int x, y;
-			SDL_GetMouseState(&x, &y);
-			triggerEvent(MousePressedEvent(x, y));
-			break;
+
+Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
+	static const std::array<Keycode, SDL_NUM_SCANCODES> LOOKUP_TABLE = [] {
+		std::array<Keycode, SDL_NUM_SCANCODES> table{};
+		table.fill(Keycode::NONE);
+
+		table[SDL_SCANCODE_SPACE] = Keycode::SPACE;
+		table[SDL_SCANCODE_APOSTROPHE] = Keycode::APOSTROPHE;
+		table[SDL_SCANCODE_COMMA] = Keycode::COMMA;
+		table[SDL_SCANCODE_MINUS] = Keycode::MINUS;
+		table[SDL_SCANCODE_PERIOD] = Keycode::PERIOD;
+		table[SDL_SCANCODE_SLASH] = Keycode::SLASH;
+		table[SDL_SCANCODE_0] = Keycode::D0;
+		table[SDL_SCANCODE_1] = Keycode::D1;
+		table[SDL_SCANCODE_2] = Keycode::D2;
+		table[SDL_SCANCODE_3] = Keycode::D3;
+		table[SDL_SCANCODE_4] = Keycode::D4;
+		table[SDL_SCANCODE_5] = Keycode::D5;
+		table[SDL_SCANCODE_6] = Keycode::D6;
+		table[SDL_SCANCODE_7] = Keycode::D7;
+		table[SDL_SCANCODE_8] = Keycode::D8;
+		table[SDL_SCANCODE_9] = Keycode::D9;
+		table[SDL_SCANCODE_SEMICOLON] = Keycode::SEMICOLON;
+		table[SDL_SCANCODE_EQUALS] = Keycode::EQUAL;
+		table[SDL_SCANCODE_A] = Keycode::A;
+		table[SDL_SCANCODE_B] = Keycode::B;
+		table[SDL_SCANCODE_C] = Keycode::C;
+		table[SDL_SCANCODE_D] = Keycode::D;
+		table[SDL_SCANCODE_E] = Keycode::E;
+		table[SDL_SCANCODE_F] = Keycode::F;
+		table[SDL_SCANCODE_G] = Keycode::G;
+		table[SDL_SCANCODE_H] = Keycode::H;
+		table[SDL_SCANCODE_I] = Keycode::I;
+		table[SDL_SCANCODE_J] = Keycode::J;
+		table[SDL_SCANCODE_K] = Keycode::K;
+		table[SDL_SCANCODE_L] = Keycode::L;
+		table[SDL_SCANCODE_M] = Keycode::M;
+		table[SDL_SCANCODE_N] = Keycode::N;
+		table[SDL_SCANCODE_O] = Keycode::O;
+		table[SDL_SCANCODE_P] = Keycode::P;
+		table[SDL_SCANCODE_Q] = Keycode::Q;
+		table[SDL_SCANCODE_R] = Keycode::R;
+		table[SDL_SCANCODE_S] = Keycode::S;
+		table[SDL_SCANCODE_T] = Keycode::T;
+		table[SDL_SCANCODE_U] = Keycode::U;
+		table[SDL_SCANCODE_V] = Keycode::V;
+		table[SDL_SCANCODE_W] = Keycode::W;
+		table[SDL_SCANCODE_X] = Keycode::X;
+		table[SDL_SCANCODE_Y] = Keycode::Y;
+		table[SDL_SCANCODE_Z] = Keycode::Z;
+		table[SDL_SCANCODE_LEFTBRACKET] = Keycode::LEFT_BRACKET;
+		table[SDL_SCANCODE_BACKSLASH] = Keycode::BACKSLASH;
+		table[SDL_SCANCODE_RIGHTBRACKET] = Keycode::RIGHT_BRACKET;
+		table[SDL_SCANCODE_GRAVE] = Keycode::GRAVE_ACCENT;
+		table[SDL_SCANCODE_ESCAPE] = Keycode::ESCAPE;
+		table[SDL_SCANCODE_RETURN] = Keycode::ENTER;
+		table[SDL_SCANCODE_TAB] = Keycode::TAB;
+		table[SDL_SCANCODE_BACKSPACE] = Keycode::BACKSPACE;
+		table[SDL_SCANCODE_INSERT] = Keycode::INSERT;
+		table[SDL_SCANCODE_DELETE] = Keycode::DELETE;
+		table[SDL_SCANCODE_RIGHT] = Keycode::RIGHT;
+		table[SDL_SCANCODE_LEFT] = Keycode::LEFT;
+		table[SDL_SCANCODE_DOWN] = Keycode::DOWN;
+		table[SDL_SCANCODE_UP] = Keycode::UP;
+		table[SDL_SCANCODE_PAGEUP] = Keycode::PAGE_UP;
+		table[SDL_SCANCODE_PAGEDOWN] = Keycode::PAGE_DOWN;
+		table[SDL_SCANCODE_HOME] = Keycode::HOME;
+		table[SDL_SCANCODE_END] = Keycode::END;
+		table[SDL_SCANCODE_CAPSLOCK] = Keycode::CAPS_LOCK;
+		table[SDL_SCANCODE_SCROLLLOCK] = Keycode::SCROLL_LOCK;
+		table[SDL_SCANCODE_NUMLOCKCLEAR] = Keycode::NUM_LOCK;
+		table[SDL_SCANCODE_PRINTSCREEN] = Keycode::PRINT_SCREEN;
+		table[SDL_SCANCODE_PAUSE] = Keycode::PAUSE;
+		table[SDL_SCANCODE_F1] = Keycode::F1;
+		table[SDL_SCANCODE_F2] = Keycode::F2;
+		table[SDL_SCANCODE_F3] = Keycode::F3;
+		table[SDL_SCANCODE_F4] = Keycode::F4;
+		table[SDL_SCANCODE_F5] = Keycode::F5;
+		table[SDL_SCANCODE_F6] = Keycode::F6;
+		table[SDL_SCANCODE_F7] = Keycode::F7;
+		table[SDL_SCANCODE_F8] = Keycode::F8;
+		table[SDL_SCANCODE_F9] = Keycode::F9;
+		table[SDL_SCANCODE_F10] = Keycode::F10;
+		table[SDL_SCANCODE_F11] = Keycode::F11;
+		table[SDL_SCANCODE_F12] = Keycode::F12;
+		table[SDL_SCANCODE_KP_0] = Keycode::KP0;
+		table[SDL_SCANCODE_KP_1] = Keycode::KP1;
+		table[SDL_SCANCODE_KP_2] = Keycode::KP2;
+		table[SDL_SCANCODE_KP_3] = Keycode::KP3;
+		table[SDL_SCANCODE_KP_4] = Keycode::KP4;
+		table[SDL_SCANCODE_KP_5] = Keycode::KP5;
+		table[SDL_SCANCODE_KP_6] = Keycode::KP6;
+		table[SDL_SCANCODE_KP_7] = Keycode::KP7;
+		table[SDL_SCANCODE_KP_8] = Keycode::KP8;
+		table[SDL_SCANCODE_KP_9] = Keycode::KP9;
+		table[SDL_SCANCODE_LSHIFT] = Keycode::LEFT_SHIFT;
+		table[SDL_SCANCODE_LCTRL] = Keycode::LEFT_CONTROL;
+		table[SDL_SCANCODE_LALT] = Keycode::LEFT_ALT;
+		table[SDL_SCANCODE_LGUI] = Keycode::LEFT_SUPER;
+		table[SDL_SCANCODE_RSHIFT] = Keycode::RIGHT_SHIFT;
+		table[SDL_SCANCODE_RCTRL] = Keycode::RIGHT_CONTROL;
+		table[SDL_SCANCODE_RALT] = Keycode::RIGHT_ALT;
+		table[SDL_SCANCODE_RGUI] = Keycode::RIGHT_SUPER;
+		table[SDL_SCANCODE_MENU] = Keycode::MENU;
+
+		return table;
+	}();
+
+	if (sdl_key < 0 || sdl_key >= SDL_NUM_SCANCODES) {
+		return Keycode::NONE;
 	}
-	*/
+
+	return LOOKUP_TABLE[sdl_key];
+}
+
+MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
+	static const std::array<MouseButton, 5> MOUSE_BUTTON_LOOKUP_TABLE = [] {
+		std::array<MouseButton, 5> table{};
+		table.fill(MouseButton::NONE);
+
+		table[SDL_BUTTON_LEFT] = MouseButton::LEFT_MOUSE;
+		table[SDL_BUTTON_RIGHT] = MouseButton::RIGHT_MOUSE;
+		table[SDL_BUTTON_MIDDLE] = MouseButton::MIDDLE_MOUSE;
+		table[SDL_BUTTON_X1] = MouseButton::X1_MOUSE;
+		table[SDL_BUTTON_X2] = MouseButton::X2_MOUSE;
+
+		return table;
+	}();
+
+	if (sdl_button >= MOUSE_BUTTON_LOOKUP_TABLE.size()) {
+		// Return NONE for invalid or unmapped button
+		return MouseButton::NONE;
+	}
+
+	return MOUSE_BUTTON_LOOKUP_TABLE[sdl_button];
 }
 
 void SDLContext::clear_screen() { SDL_RenderClear(this->game_renderer.get()); }
@@ -151,6 +273,7 @@ void SDLContext::draw(const RenderContext & ctx) {
 
 	double angle = ctx.angle + data.angle_offset;
 
+	this->set_color_texture(ctx.sprite.sprite_image, ctx.sprite.color);
 	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.texture.texture.get(), &srcrect,
 					  &dstrect, angle, NULL, render_flip);
 }
@@ -236,16 +359,79 @@ SDLContext::texture_from_path(const std::string & path) {
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> img_texture;
 	img_texture = {tmp_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
 
+	SDL_SetTextureBlendMode(img_texture.get(), SDL_BLENDMODE_BLEND);
 	return img_texture;
 }
-int SDLContext::get_width(const Texture & ctx) const {
-	int w;
-	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &w, NULL);
-	return w;
+
+ivec2 SDLContext::get_size(const Texture & ctx) {
+	ivec2 size;
+	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &size.x, &size.y);
+	return size;
 }
-int SDLContext::get_height(const Texture & ctx) const {
-	int h;
-	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, NULL, &h);
-	return h;
-}
+
 void SDLContext::delay(int ms) const { SDL_Delay(ms); }
+
+std::vector<SDLContext::EventData> SDLContext::get_events() {
+	std::vector<SDLContext::EventData> event_list;
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+			case SDL_QUIT:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::SHUTDOWN,
+				});
+				break;
+			case SDL_KEYDOWN:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::KEYDOWN,
+					.key = sdl_to_keycode(event.key.keysym.scancode),
+					.key_repeat = (event.key.repeat != 0),
+				});
+				break;
+			case SDL_KEYUP:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::KEYUP,
+					.key = sdl_to_keycode(event.key.keysym.scancode),
+				});
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::MOUSEDOWN,
+					.mouse_button = sdl_to_mousebutton(event.button.button),
+					.mouse_position = {event.button.x, event.button.y},
+				});
+				break;
+			case SDL_MOUSEBUTTONUP: {
+				int x, y;
+				SDL_GetMouseState(&x, &y);
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::MOUSEUP,
+					.mouse_button = sdl_to_mousebutton(event.button.button),
+					.mouse_position = {event.button.x, event.button.y},
+				});
+			} break;
+
+			case SDL_MOUSEMOTION: {
+				event_list.push_back(
+					EventData{.event_type = SDLContext::EventType::MOUSEMOVE,
+							  .mouse_position = {event.motion.x, event.motion.y},
+							  .rel_mouse_move = {event.motion.xrel, event.motion.yrel}});
+			} break;
+
+			case SDL_MOUSEWHEEL: {
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::MOUSEWHEEL,
+					.mouse_position = {event.motion.x, event.motion.y},
+					// TODO: why is this needed?
+					.scroll_direction = event.wheel.y < 0 ? -1 : 1,
+					.scroll_delta = event.wheel.preciseY,
+				});
+			} break;
+		}
+	}
+	return event_list;
+}
+void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
+	SDL_SetTextureColorMod(texture.texture.get(), color.r, color.g, color.b);
+	SDL_SetTextureAlphaMod(texture.texture.get(), color.a);
+}
