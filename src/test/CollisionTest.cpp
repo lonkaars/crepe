@@ -7,14 +7,14 @@
 #define private public
 #define protected public
 
-#include <crepe/manager/ComponentManager.h>
-#include <crepe/manager/Mediator.h>
 #include <crepe/api/Event.h>
-#include <crepe/manager/EventManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Transform.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/EventManager.h>
+#include <crepe/manager/Mediator.h>
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/system/ScriptSystem.h>
 #include <crepe/types.h>

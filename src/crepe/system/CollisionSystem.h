@@ -6,11 +6,11 @@
 
 #include "api/BoxCollider.h"
 #include "api/CircleCollider.h"
+#include "api/Event.h"
 #include "api/Metadata.h"
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
 #include "api/Vector2.h"
-#include "api/Event.h"
 
 #include "Collider.h"
 #include "System.h"
@@ -183,8 +183,8 @@ private:
 		*/
 	vec2 get_circle_box_resolution(const CircleCollider & circle_collider,
 								   const BoxCollider & box_collider,
-								   const vec2 & circle_position,
-								   const vec2 & box_position,bool inverse) const;
+								   const vec2 & circle_position, const vec2 & box_position,
+								   bool inverse) const;
 
 	/**
 		* \brief Determines the appropriate collision handler for a collision.

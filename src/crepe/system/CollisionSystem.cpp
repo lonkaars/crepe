@@ -6,6 +6,8 @@
 #include <utility>
 #include <variant>
 
+#include "../manager/ComponentManager.h"
+#include "../manager/EventManager.h"
 #include "api/BoxCollider.h"
 #include "api/CircleCollider.h"
 #include "api/Event.h"
@@ -13,8 +15,6 @@
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
 #include "api/Vector2.h"
-#include "../manager/ComponentManager.h"
-#include "../manager/EventManager.h"
 
 #include "Collider.h"
 #include "CollisionSystem.h"
@@ -27,17 +27,14 @@ void CollisionSystem::update() {
 	std::vector<CollisionInternal> all_colliders;
 	game_object_id_t id = 0;
 	ComponentManager & mgr = this->mediator.component_manager;
-	RefVector<Rigidbody> rigidbodies
-		= mgr.get_components_by_type<Rigidbody>();
+	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
 	// Collisions can only happen on object with a rigidbody
 	for (Rigidbody & rigidbody : rigidbodies) {
 		if (!rigidbody.active) continue;
 		id = rigidbody.game_object_id;
-		Transform & transform
-			= mgr.get_components_by_id<Transform>(id).front().get();
+		Transform & transform = mgr.get_components_by_id<Transform>(id).front().get();
 		// Check if the boxcollider is active and has the same id as the rigidbody.
-		RefVector<BoxCollider> boxcolliders
-			= mgr.get_components_by_type<BoxCollider>();
+		RefVector<BoxCollider> boxcolliders = mgr.get_components_by_type<BoxCollider>();
 		for (BoxCollider & boxcollider : boxcolliders) {
 			if (boxcollider.game_object_id != id) continue;
 			if (!boxcollider.active) continue;
@@ -159,7 +156,7 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
 															data2.rigidbody);
 			resolution = this->get_circle_box_resolution(collider2, collider1, collider_pos2,
-														 collider_pos1,true);
+														 collider_pos1, true);
 			break;
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE: {
@@ -185,7 +182,7 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
 															data2.rigidbody);
 			resolution = this->get_circle_box_resolution(collider1, collider2, collider_pos1,
-														 collider_pos2,false);
+														 collider_pos2, false);
 			break;
 		}
 	}
@@ -261,7 +258,6 @@ vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider & circle
 
 	// Normalize the delta vector to get the collision direction
 	vec2 collision_normal = delta / distance;
-	
 
 	// Compute the resolution vector
 	vec2 resolution = -collision_normal * penetration_depth;
@@ -272,7 +268,8 @@ vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider & circle
 vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_collider,
 												const BoxCollider & box_collider,
 												const vec2 & circle_position,
-												const vec2 & box_position,bool inverse) const {
+												const vec2 & box_position,
+												bool inverse) const {
 	vec2 delta = circle_position - box_position;
 
 	// Compute half-dimensions of the box
@@ -294,7 +291,7 @@ vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_co
 
 	// Compute penetration depth
 	float penetration_depth = circle_collider.radius - distance;
-	if(inverse) collision_normal = -collision_normal;
+	if (inverse) collision_normal = -collision_normal;
 	// Compute the resolution vector
 	vec2 resolution = collision_normal * penetration_depth;
 
@@ -311,8 +308,7 @@ void CollisionSystem::determine_collision_handler(CollisionInfo & info) {
 	// Call collision event for user
 	CollisionEvent data(info);
 	EventManager & emgr = this->mediator.event_manager;
-	emgr.trigger_event<CollisionEvent>(
-		data, info.this_collider.game_object_id);
+	emgr.trigger_event<CollisionEvent>(data, info.this_collider.game_object_id);
 }
 
 void CollisionSystem::static_collision_handler(CollisionInfo & info) {
@@ -389,14 +385,14 @@ CollisionSystem::gather_collisions(std::vector<CollisionInternal> & colliders) {
 
 bool CollisionSystem::have_common_layer(const std::set<int> & layers1,
 										const std::set<int> & layers2) {
-	
+
 	// Check if any number is equal in the layers
 	for (int num : layers1) {
-			if (layers2.contains(num)) {
-					// Common layer found
-					return true;
-					break;
-			}
+		if (layers2.contains(num)) {
+			// Common layer found
+			return true;
+			break;
+		}
 	}
 	// No common layer found
 	return false;
@@ -512,7 +508,7 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 	float distance_squared = distance_x * distance_x + distance_y * distance_y;
 
 	// Compare distance squared with the square of the circle's radius
-	return distance_squared <= circle2.radius * circle2.radius-1;
+	return distance_squared <= circle2.radius * circle2.radius - 1;
 }
 
 bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1,

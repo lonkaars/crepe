@@ -9,14 +9,14 @@
 #define private public
 #define protected public
 
-#include <crepe/manager/ComponentManager.h>
 #include <crepe/api/Event.h>
-#include <crepe/manager/EventManager.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Transform.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/EventManager.h>
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/system/ScriptSystem.h>
 #include <crepe/types.h>
@@ -162,7 +162,7 @@ TEST_F(Profiling, Profiling_2) {
 				.body_type = Rigidbody::BodyType::STATIC,
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
-			
+
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
 			auto img = Texture("asset/texture/green_square.png");
