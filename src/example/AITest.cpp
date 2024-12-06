@@ -1,18 +1,32 @@
 #include <SDL2/SDL_timer.h>
 #include <chrono>
 #include <crepe/api/AI.h>
+#include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/LoopManager.h>
 #include <crepe/api/Scene.h>
+#include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
-#include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
 
 using namespace crepe;
 using namespace std;
+
+class Script1 : public Script {
+	bool shutdown(const ShutDownEvent & event) {
+		// Very dirty way of shutting down the game
+		throw "ShutDownEvent";
+		return true;
+	}
+
+	void init() {
+		subscribe<ShutDownEvent>(
+			[this](const ShutDownEvent & ev) -> bool { return this->shutdown(ev); });
+	}
+};
 
 class Scene1 : public Scene {
 public:
@@ -30,6 +44,7 @@ public:
 
 		game_object2.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{1036, 780},
 										   1.0f);
+		game_object2.add_component<BehaviorScript>().set_script<Script1>();
 	}
 
 	string get_name() const override { return "Scene1"; }
