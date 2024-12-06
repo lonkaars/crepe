@@ -16,7 +16,7 @@ class GameObject;
 
 /**
  * \brief Manages all components
- * 
+ *
  * This class manages all components. It provides methods to add, delete and get components.
  */
 class ComponentManager : public Manager {
@@ -56,10 +56,10 @@ protected:
 	friend class GameObject;
 	/**
 	 * \brief Add a component to the ComponentManager
-	 * 
+	 *
 	 * This method adds a component to the ComponentManager. The component is created with the
 	 * given arguments and added to the ComponentManager.
-	 * 
+	 *
 	 * \tparam T The type of the component
 	 * \tparam Args The types of the arguments
 	 * \param id The id of the GameObject this component belongs to
@@ -70,9 +70,9 @@ protected:
 	T & add_component(game_object_id_t id, Args &&... args);
 	/**
 	 * \brief Delete all components of a specific type and id
-	 * 
+	 *
 	 * This method deletes all components of a specific type and id.
-	 * 
+	 *
 	 * \tparam T The type of the component
 	 * \param id The id of the GameObject this component belongs to
 	 */
@@ -80,24 +80,24 @@ protected:
 	void delete_components_by_id(game_object_id_t id);
 	/**
 	 * \brief Delete all components of a specific type
-	 * 
+	 *
 	 * This method deletes all components of a specific type.
-	 * 
+	 *
 	 * \tparam T The type of the component
 	 */
 	template <typename T>
 	void delete_components();
 	/**
 	 * \brief Delete all components of a specific id
-	 * 
+	 *
 	 * This method deletes all components of a specific id.
-	 * 
+	 *
 	 * \param id The id of the GameObject this component belongs to
 	 */
 	void delete_all_components_of_id(game_object_id_t id);
 	/**
 	 * \brief Delete all components
-	 * 
+	 *
 	 * This method deletes all components.
 	 */
 	void delete_all_components();
@@ -115,9 +115,9 @@ protected:
 public:
 	/**
 	 * \brief Get all components of a specific type and id
-	 * 
+	 *
 	 * This method gets all components of a specific type and id.
-	 * 
+	 *
 	 * \tparam T The type of the component
 	 * \param id The id of the GameObject this component belongs to
 	 * \return A vector of all components of the specific type and id
@@ -126,9 +126,9 @@ public:
 	RefVector<T> get_components_by_id(game_object_id_t id) const;
 	/**
 	 * \brief Get all components of a specific type
-	 * 
+	 *
 	 * This method gets all components of a specific type.
-	 * 
+	 *
 	 * \tparam T The type of the component
 	 * \return A vector of all components of the specific type
 	 */
@@ -138,7 +138,7 @@ public:
 private:
 	/**
 	 * \brief The components
-	 * 
+	 *
 	 * This unordered_map stores all components. The key is the type of the component and the
 	 * value is a vector of vectors of unique pointers to the components.
 	 *

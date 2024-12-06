@@ -11,7 +11,7 @@ class Button : public UIObject {
 public:
 	/**
 	 * \brief Constructs a Button with the specified game object ID and dimensions.
-	 * 
+	 *
 	 * \param id The unique ID of the game object associated with this button.
 	 * \param dimensions The width and height of the UIObject
 	 * \param offset The offset relative this GameObjects Transform
@@ -23,7 +23,7 @@ public:
 
 	/**
 	 * \brief Indicates if the button is a toggle button (can be pressed and released).
-	 * 
+	 *
 	 * A toggle button allows for a pressed/released state, whereas a regular button
 	 * typically only has an on-click state.
 	 */
@@ -31,7 +31,7 @@ public:
 	// TODO: create separate toggle button class
 	/**
 	 * \brief The callback function to be executed when the button is clicked.
-	 * 
+	 *
 	 * This function is invoked whenever the button is clicked. It can be set to any
 	 * function that matches the signature `void()`.
 	 */
