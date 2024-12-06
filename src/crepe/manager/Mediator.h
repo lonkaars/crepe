@@ -6,6 +6,7 @@
 #include "../facade/SDLContext.h"
 #include "EventManager.h"
 #include "SaveManager.h"
+#include "api/LoopTimer.h"
 
 namespace crepe {
 
@@ -30,6 +31,7 @@ struct Mediator {
 	OptionalRef<SaveManager> save_manager = SaveManager::get_instance();
 	OptionalRef<EventManager> event_manager = EventManager::get_instance();
 	OptionalRef<SDLContext> sdl_context = SDLContext::get_instance();
+	OptionalRef<LoopTimer> timer = LoopTimer::get_instance();
 };
 
 } // namespace crepe

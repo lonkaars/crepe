@@ -1,9 +1,10 @@
 #pragma once
 
+#include <sys/types.h>
+
 #include "Component.h"
 #include "Sprite.h"
 #include "types.h"
-#include <sys/types.h>
 
 namespace crepe {
 
@@ -25,10 +26,10 @@ public:
 		unsigned int fps = 1;
 
 		//! The current col being animated.
-		unsigned int curr_col = 0;
+		unsigned int col = 0;
 
 		//! The current row being animated.
-		unsigned int curr_row = 0;
+		unsigned int row = 0;
 
 		//! should the animation loop
 		bool looping = false;
@@ -105,26 +106,30 @@ public:
 	 * \param ss the reference to the spritesheet
 	 * \param max_row maximum of rows inside the given spritesheet
 	 * \param max_col maximum of columns inside the given spritesheet
-	 * \param ctx extra animation data for more control
+	 * \param data extra animation data for more control
 	 *
 	 * This constructor sets up the Animator with the given parameters, and initializes the
 	 * animation system.
 	 */
 	Animator(game_object_id_t id, Sprite & ss, unsigned int max_row, unsigned int max_col,
-			 const Animator::Data & ctx);
+			 const Animator::Data & data);
 	~Animator(); // dbg_trace
 
 public:
+	//! The maximum number of columns in the sprite sheet.
+	const unsigned int max_columns;
+
+	//! The maximum number of rows in the sprite sheet.
+	const unsigned int max_rows;
+
+	Animator::Data data;
+
+private:
 	//! A reference to the Sprite sheet containing.
 	Sprite & spritesheet;
 
-	//! The maximum number of columns in the sprite sheet.
-	const unsigned int col;
-
-	//! The maximum number of rows in the sprite sheet.
-	const unsigned int row;
-
-	Animator::Data data;
+	// uses the spritesheet
+	friend AnimatorSystem;
 };
 } // namespace crepe
 //

@@ -28,8 +28,15 @@ public:
 		bool flip_y = false;
 	};
 
+	//! Sprite data that does not have to be set in the constructor
 	struct Data {
-		//! Color tint of the sprite
+		/**
+		 * \color tint of the sprite 
+		 *
+		 * the default value is white because of the color multiplier.
+		 * this means that the orginal image will be shown. if color is BLACK for example
+		 * then it turns the image black because of the Color channels being 0.
+		 */
 		Color color = Color::WHITE;
 
 		//! Flip settings for the sprite
@@ -44,10 +51,10 @@ public:
 		/**
 	 	* \size width and height of the sprite in game units
 	 	*
-	 	* if height is filled in and not width it will multiply width by aspect_ratio.
-	 	* if width is filled in and not height it will multiply height by aspect_ratio.
-	 	* if neither is filled it will not show sprite because size will be zero
-	 	* if both are filled will it use the width and height without making sure the aspect_ratio
+	 	* - if height is filled in and not width it will multiply width by aspect_ratio.
+	 	* - if width is filled in and not height it will multiply height by aspect_ratio.
+	 	* - if neither is filled it will not show sprite because size will be zero
+	 	* - if both are filled will it use the width and height without making sure the aspect_ratio
 	 	* is correct
 	 	*/
 		vec2 size;
@@ -69,7 +76,7 @@ public:
 	 * \param texture asset of the image
 	 * \param ctx all the sprite data
 	 */
-	Sprite(game_object_id_t id, Texture & texture, const Data & ctx);
+	Sprite(game_object_id_t id, Texture & texture, const Data & data);
 	~Sprite();
 
 	//! Texture used for the sprite
@@ -79,11 +86,12 @@ public:
 
 private:
 	/**
-		* \aspect_ratio ratio of the img so that scaling will not become weird
-		*
-		* cannot be const because if Animator component is addded then ratio becomes scuffed and
-		* does it need to be calculated again in the Animator
-		*/
+	* \aspect_ratio ratio of the img
+	* 
+	*  - This will multiply one of \c size variable if it is 0.
+	*  - Will be adjusted if \c Animator component is added to an GameObject
+	*  that is why this value cannot be const. 
+	*/
 	float aspect_ratio;
 
 	//! Reads the mask of sprite

@@ -15,13 +15,13 @@
 #include <stdexcept>
 
 #include "../api/Camera.h"
+#include "../api/Color.h"
 #include "../api/Config.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../util/Log.h"
 
 #include "SDLContext.h"
-#include "api/Color.h"
 #include "types.h"
 
 using namespace crepe;
@@ -230,14 +230,17 @@ SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
 	};
 }
 
-SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
+SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
 
-	vec2 size = {data.size.x == 0 && data.size.y != 0 ? data.size.y * ctx.sprite.aspect_ratio
-													  : data.size.x,
-				 data.size.y == 0 && data.size.x != 0 ? data.size.x / ctx.sprite.aspect_ratio
-													  : data.size.y};
+	vec2 size;
+	if (data.size.x == 0 && data.size.y != 0) {
+		size.x = data.size.y * ctx.sprite.aspect_ratio;
+	}
+	if (data.size.y == 0 && data.size.x != 0) {
+		size.y = data.size.x / ctx.sprite.aspect_ratio;
+	}
 
 	const CameraValues & cam = ctx.cam;
 
@@ -264,7 +267,7 @@ void SDLContext::draw(const RenderContext & ctx) {
 							  | (SDL_FLIP_VERTICAL * data.flip.flip_y));
 
 	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
-	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DstRect{
+	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData{
 		.sprite = ctx.sprite,
 		.cam = ctx.cam,
 		.pos = ctx.pos,
@@ -294,8 +297,8 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 	vec2 & render_scale = ret_cam.render_scale;
 
 	zoomed_viewport = cam.viewport_size * cam_data.zoom;
-	double screen_aspect = static_cast<double>(cam.screen.x) / cam.screen.y;
-	double viewport_aspect = zoomed_viewport.x / zoomed_viewport.y;
+	float screen_aspect = static_cast<float>(cam.screen.x) / cam.screen.y;
+	float viewport_aspect = zoomed_viewport.x / zoomed_viewport.y;
 
 	// calculate black bars
 	if (screen_aspect > viewport_aspect) {

@@ -66,7 +66,7 @@ public:
 
 	//! default window settings
 	struct {
-		//TODO make this constexpr because this will never change
+		//! default screen size in pixels
 		ivec2 default_size = {1280, 720};
 		std::string window_title = "Jetpack joyride clone";
 

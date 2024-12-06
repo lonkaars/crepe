@@ -1,7 +1,6 @@
 #pragma once
 
 #include "System.h"
-#include "api/LoopTimer.h"
 
 namespace crepe {
 
@@ -25,8 +24,6 @@ public:
 	 */
 	void update() override;
 
-private:
-	LoopTimer & timer = LoopTimer::get_instance();
 };
 
 } // namespace crepe
