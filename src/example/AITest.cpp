@@ -27,7 +27,7 @@ class Script1 : public Script {
 	bool mousemove(const MouseMoveEvent & event) {
 		RefVector<AI> aivec = this->get_components<AI>();
 		AI & ai = aivec.front().get();
-		ai.seek_target
+		ai.flee_target
 			= vec2{static_cast<float>(event.mouse_x), static_cast<float>(event.mouse_y)};
 		return true;
 	}
@@ -52,7 +52,9 @@ public:
 		Texture img = Texture("asset/texture/test_ap43.png");
 		game_object1.add_component<Sprite>(img, Color::MAGENTA,
 										   Sprite::FlipSettings{false, false}, 1, 1, 195);
-		game_object1.add_component<AI>(30).seek_on();
+		AI & ai = game_object1.add_component<AI>(30);
+		ai.arrive_on();
+		ai.flee_on();
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 0.5f, .max_linear_velocity = {21, 21}, // sqrt(21^2 + 21^2) = 30
 		});
