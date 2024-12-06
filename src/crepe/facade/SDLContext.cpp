@@ -243,8 +243,10 @@ SDL_FRect SDLContext::get_dst_rect(const DstRect & ctx) const {
 
 	size *= cam.render_scale * ctx.img_scale * data.scale_offset;
 
-	vec2 screen_pos = (ctx.pos + data.position_offset - cam.cam_pos + (cam.zoomed_viewport) / 2) * cam.render_scale
-					  - size / 2 + cam.bar_size;
+	vec2 screen_pos
+		= (ctx.pos + data.position_offset - cam.cam_pos + (cam.zoomed_viewport) / 2)
+			  * cam.render_scale
+		  - size / 2 + cam.bar_size;
 
 	return SDL_FRect{
 		.x = screen_pos.x,

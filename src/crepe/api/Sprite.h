@@ -27,7 +27,7 @@ public:
 		//! vertical flip
 		bool flip_y = false;
 	};
-	
+
 	struct Data {
 		//! Color tint of the sprite
 		Color color = Color::WHITE;
@@ -58,7 +58,7 @@ public:
 		//! independent sprite scale multiplier
 		float scale_offset = 1;
 
-		//! independent sprite offset position 
+		//! independent sprite offset position
 		vec2 position_offset;
 	};
 

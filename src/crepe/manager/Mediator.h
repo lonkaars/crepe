@@ -3,9 +3,9 @@
 #include "../util/OptionalRef.h"
 
 // TODO: remove these singletons:
+#include "../facade/SDLContext.h"
 #include "EventManager.h"
 #include "SaveManager.h"
-#include "../facade/SDLContext.h"
 
 namespace crepe {
 

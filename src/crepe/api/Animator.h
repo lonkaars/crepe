@@ -110,7 +110,8 @@ public:
 	 * This constructor sets up the Animator with the given parameters, and initializes the
 	 * animation system.
 	 */
-	Animator(game_object_id_t id, Sprite & ss, unsigned int max_row, unsigned int max_col, const Animator::Data & ctx);
+	Animator(game_object_id_t id, Sprite & ss, unsigned int max_row, unsigned int max_col,
+			 const Animator::Data & ctx);
 	~Animator(); // dbg_trace
 
 public:
@@ -124,7 +125,6 @@ public:
 	const unsigned int row;
 
 	Animator::Data data;
-
 };
 } // namespace crepe
 //
