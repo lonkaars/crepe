@@ -26,6 +26,7 @@ feature.
 	- \ref feature_gameobject \n\copybrief feature_gameobject
 
 
+- Camera
 - Sprite
 	- \ref feature_sprite_creation \n\copybrief feature_sprite_creation
 	- \ref feature_sprite_color \n\copybrief feature_sprite_color
@@ -34,6 +35,12 @@ feature.
 	- \ref feature_sprite_scale \n\copybrief feature_sprite_scale
 	- \ref feature_sprite_angle \n\copybrief feature_sprite_angle
 
-- Camera
 - Animator
+	- \ref feature_animator_creation \n\copybrief feature_animator_creation
+	- \ref feature_animator_speed \n\copybrief feature_animator_speed
+	- \ref feature_animator_cycle \n\copybrief feature_animator_cycle
+	- \ref feature_animator_next_anim \n\copybrief feature_animator_next_anim
+	- \ref feature_animator_running \n\copybrief feature_animator_running
+	- \ref feature_animator_looping \n\copybrief feature_animator_looping
+
 */

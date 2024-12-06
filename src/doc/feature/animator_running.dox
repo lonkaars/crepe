@@ -1,0 +1,56 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note This feature showcases how the \c Animator::play, \c Animator::pause, \c
+Animator::stop. works
+
+\defgroup feature_animator_running Animator Play/Stop/Pause
+\ingroup feature
+\brief Playing/Stopping/Pausing the animation
+
+\par Common use cases for this feature include:
+- Play animation after stopping or pausing animation
+- Charachter dies stopping animation
+- Pause animation during slow-motion gameplay
+
+\see GameObject
+\see Sprite
+\see Animator
+\see Animator::Data
+
+\par example
+
+The \c Animator::play(), \c Animator::stop(), \c Animator::pause()
+functionalities example.
+
+\note this page builds on top of the example shown in \ref
+feature_animator_creation
+
+```cpp
+#include <crepe/api/Animator.h>
+ 
+using namespace crepe;
+
+int main(int argc, char * argv[]){
+
+	// runs the default values of Animator::Data
+	Animator & anim = game_object.add_component<Animator>(spritesheet, max_rows, max_cols, Animator::Data{});
+
+	// runs one cycle of the first column in the spritesheet. sets active true
+	// only runs when AnimatorSystem calls update
+	anim.play(); 
+	
+	// Sets the active variable to false and resets the current rows and columns
+	anim.stop();
+	
+	// sets the active variable to false;
+	anim.pause();
+}
+
+```
+
+*/
+}
+
+

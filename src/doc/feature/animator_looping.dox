@@ -1,0 +1,54 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note This feature showcases the looping variable inside the \ref Animator::Data
+struct.
+
+\defgroup feature_animator_looping Animator looping
+\ingroup feature
+\brief Looping or cycle once through animation
+
+\par Common use cases for this feature include:
+
+
+
+\see GameObject
+\see Sprite
+\see Animator
+
+\par example
+
+The looping variable inside the \ref Animator::Data example.
+
+\note this page builds on top of the example shown in \ref
+feature_animator_creation
+
+```cpp
+#include <crepe/api/Animator.h>
+ 
+using namespace crepe;
+
+int main(int argc, char * argv[]){
+
+	// runs the default values of Animator::Data
+	// By default runs the animation only once because of looping is set false
+	Animator & anim = game_object.add_component<Animator>(spritesheet, max_rows, max_cols, 
+				Animator::Data{
+					.looping = false // default value
+					//.looping = true // continous animation
+				});
+	
+	// this sets the Animator::Data looping to true
+	anim.loop();
+	
+
+
+}
+
+```
+
+*/
+}
+
+

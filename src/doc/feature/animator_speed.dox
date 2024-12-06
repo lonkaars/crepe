@@ -1,0 +1,54 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note This feature showcases how the \ref Animator::Data fps variable works.
+
+\defgroup feature_animator_speed Animator speed
+\ingroup feature
+\brief Animation speed feature
+
+\par Common use cases for this feature include:
+- Speeding up charachter Animation speed after power up.
+- Decreasing charachter Animation speed.
+
+\see GameObject
+\see Sprite
+\see Animator
+\see Animator::Data
+
+\par example
+
+The \ref Animator::Data fps variable
+
+\note this page builds on top of the example shown in \ref
+feature_animator_creation
+
+```cpp
+
+#include <crepe/api/Animator.h>
+ 
+using namespace crepe;
+
+int main(int argc, char * argv[]){
+
+	// maximum of rows inside the given spritesheet
+	int max_rows = 4;
+	// maximum of columns inside the given spritesheet
+	int max_cols = 4;
+
+	// spritesheet is an Sprite component that is an Spritesheet
+	game_object.add_component<Animator>(spritesheet, max_rows, max_cols, 
+				Animator::Data{
+					.fps = 1, // default value (slower animation)
+					//.fps = 20, // faster Animation
+				});
+}
+
+
+```
+
+*/
+}
+
+
