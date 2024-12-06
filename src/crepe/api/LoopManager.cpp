@@ -66,6 +66,7 @@ void LoopManager::setup() {
 void LoopManager::render() {
 	if (!this->game_running) return;
 
+	this->get_system<AnimatorSystem>().update();
 	this->get_system<RenderSystem>().update();
 }
 
