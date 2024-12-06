@@ -7,7 +7,6 @@
 
 #include "types.h"
 
-
 namespace crepe {
 
 /**
