@@ -8,7 +8,7 @@ namespace crepe {
 
 /**
  * \brief A class representing a box-shaped collider.
- * 
+ *
  * This class is used for collision detection with other colliders (e.g., CircleCollider).
  */
 class BoxCollider : public Collider {

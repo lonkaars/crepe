@@ -1,8 +1,10 @@
 #pragma once
 
-#include "../util/Log.h"
-#include "types.h"
 #include <string>
+
+#include "../util/Log.h"
+
+#include "types.h"
 
 namespace crepe {
 
@@ -69,7 +71,6 @@ public:
 		//! default screen size in pixels
 		ivec2 default_size = {1280, 720};
 		std::string window_title = "Jetpack joyride clone";
-
 	} window_settings;
 
 	//! Asset loading options

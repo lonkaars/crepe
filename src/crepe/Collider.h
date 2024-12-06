@@ -15,7 +15,7 @@ public:
 	*
 	* The `offset` defines the positional shift applied to the collider relative to the position of the rigidbody it is attached to.
 	* This allows the collider to be placed at a different position than the rigidbody.
-	* 
+	*
 	*/
 	vec2 offset;
 };

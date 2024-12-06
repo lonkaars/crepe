@@ -31,11 +31,10 @@ public:
 	//! Sprite data that does not have to be set in the constructor
 	struct Data {
 		/**
-		 * \color tint of the sprite 
+		 * \brief Sprite tint (multiplied)
 		 *
-		 * the default value is white because of the color multiplier.
-		 * this means that the orginal image will be shown. if color is BLACK for example
-		 * then it turns the image black because of the Color channels being 0.
+		 * The sprite texture's pixels are multiplied by this color before being displayed
+		 * (including alpha channel for transparency).
 		 */
 		Color color = Color::WHITE;
 
@@ -49,15 +48,15 @@ public:
 		const int order_in_layer = 0;
 
 		/**
-	 	* \size width and height of the sprite in game units
-	 	*
-	 	* - if height is filled in and not width it will multiply width by aspect_ratio.
-	 	* - if width is filled in and not height it will multiply height by aspect_ratio.
-	 	* - if neither is filled it will not show sprite because size will be zero
-	 	* - if both are filled will it use the width and height without making sure the aspect_ratio
-	 	* is correct
-	 	*/
-		vec2 size;
+		 * \brief width and height of the sprite in game units
+		 *
+		 * - if exclusively width is specified, the height is calculated using the texture's aspect
+		 *   ratio
+		 * - if exclusively height is specified, the width is calculated using the texture's aspect
+		 *   ratio
+		 * - if both are specified the texture is streched to fit the specified size
+		 */
+		vec2 size = {0, 0};
 
 		//! independent sprite angle. rotating clockwise direction in degrees
 		float angle_offset = 0;
@@ -71,7 +70,6 @@ public:
 
 public:
 	/**
-	 * \brief Constructs a Sprite with specified parameters.
 	 * \param game_id Unique identifier for the game object this sprite belongs to.
 	 * \param texture asset of the image
 	 * \param ctx all the sprite data
@@ -86,12 +84,12 @@ public:
 
 private:
 	/**
-	* \aspect_ratio ratio of the img
-	* 
-	*  - This will multiply one of \c size variable if it is 0.
-	*  - Will be adjusted if \c Animator component is added to an GameObject
-	*  that is why this value cannot be const. 
-	*/
+	 * \brief ratio of the img
+	 *
+	 * - This will multiply one of \c size variable if it is 0.
+	 * - Will be adjusted if \c Animator component is added to an GameObject that is why this
+	 *   value cannot be const.
+	 */
 	float aspect_ratio;
 
 	//! Reads the mask of sprite
