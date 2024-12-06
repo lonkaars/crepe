@@ -1,3 +1,4 @@
+#include "types.h"
 #include <functional>
 #include <gtest/gtest.h>
 #include <memory>
@@ -141,10 +142,8 @@ TEST_F(RenderSystemTest, sorting_sprites) {
 }
 
 TEST_F(RenderSystemTest, Update) {
-	entity1.add_component<Camera>(Camera::Data{.bg_color = Color::WHITE,
-											   .screen = ivec2{1080, 720},
-											   .viewport_size = vec2{2000, 2000},
-											   .zoom = 1.0f});
+	entity1.add_component<Camera>(ivec2{100, 100}, vec2{100, 100},
+								  Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
 	{
 		vector<reference_wrapper<Sprite>> sprites = this->mgr.get_components_by_type<Sprite>();
 		ASSERT_EQ(sprites.size(), 4);
@@ -172,10 +171,9 @@ TEST_F(RenderSystemTest, Camera) {
 		EXPECT_NE(cameras.size(), 1);
 	}
 	{
-		entity1.add_component<Camera>(Camera::Data{.bg_color = Color::WHITE,
-												   .screen = ivec2{1080, 720},
-												   .viewport_size = vec2{2000, 2000},
-												   .zoom = 1.0f});
+		entity1.add_component<Camera>(ivec2{100, 100}, vec2{100, 100},
+									  Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+
 		auto cameras = this->mgr.get_components_by_type<Camera>();
 		EXPECT_EQ(cameras.size(), 1);
 	}
@@ -183,10 +181,9 @@ TEST_F(RenderSystemTest, Camera) {
 	//TODO improve with newer version
 }
 TEST_F(RenderSystemTest, Color) {
-	entity1.add_component<Camera>(Camera::Data{.bg_color = Color::WHITE,
-											   .screen = ivec2{1080, 720},
-											   .viewport_size = vec2{2000, 2000},
-											   .zoom = 1.0f});
+	entity1.add_component<Camera>(ivec2{100, 100}, vec2{100, 100},
+								  Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+
 	auto & sprite = this->mgr.get_components_by_id<Sprite>(entity1.id).front().get();
 	ASSERT_NE(sprite.texture.texture.get(), nullptr);
 
