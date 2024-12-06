@@ -15,10 +15,10 @@ class Transform : public Component {
 public:
 	//! Translation (shift)
 	vec2 position = {0, 0};
-	//! Rotation, in degrees
-	double rotation = 0;
+	//! Rotation, in degrees clockwise
+	float rotation = 0;
 	//! Multiplication factor
-	double scale = 0;
+	float scale = 0;
 
 protected:
 	/**

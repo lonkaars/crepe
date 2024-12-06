@@ -65,11 +65,13 @@ void LoopManager::setup() {
 	this->scene_manager.load_next_scene();
 	timer.start();
 	timer.set_fps(200);
+	this->scene_manager.load_next_scene();
 }
 
 void LoopManager::render() {
 	if (!this->game_running) return;
 
+	this->get_system<AnimatorSystem>().update();
 	this->get_system<RenderSystem>().update();
 }
 

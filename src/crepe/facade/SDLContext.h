@@ -9,11 +9,9 @@
 #include <functional>
 #include <memory>
 #include <string>
-#include <utility>
 
 #include "api/Camera.h"
 #include "api/Color.h"
-#include "api/Event.h"
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Texture.h"
@@ -33,10 +31,38 @@ class InputSystem;
  */
 class SDLContext {
 public:
+	//! data that the camera component cannot hold
+	struct CameraValues {
+
+		//! zoomed in viewport in game_units
+		vec2 zoomed_viewport;
+
+		/**
+		 * \render_scale scaling factor
+		 *
+		 * depending on the black bars type will the scaling be different.
+		 * - lettorboxing --> scaling on the y-as 
+		 * - pillarboxing --> scaling on the x-as 
+		 */
+		vec2 render_scale;
+
+		/**
+		 * \bar_size size of calculated black bars
+		 *
+		 * depending on the black bars type will the size be different
+		 * - lettorboxing --> {0, bar_height}
+		 * - pillarboxing --> {bar_width , 0}
+		 */
+		vec2 bar_size;
+
+		//! Calculated camera position
+		vec2 cam_pos;
+	};
+
+	//! rendering data needed to render on screen
 	struct RenderContext {
 		const Sprite & sprite;
-		const Camera & cam;
-		const vec2 & cam_pos;
+		const CameraValues & cam;
 		const vec2 & pos;
 		const double & angle;
 		const double & scale;
@@ -114,8 +140,6 @@ private:
 	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
 
 private:
-	//! Will only use get_ticks
-	friend class AnimatorSystem;
 	//! Will only use delay
 	friend class LoopTimer;
 	/**
@@ -170,7 +194,7 @@ private:
 
 	/**
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
-	 * \param RenderCtx Reference to rendering data to draw
+	 * \param RenderContext Reference to rendering data to draw
 	 */
 	void draw(const RenderContext & ctx);
 
@@ -184,9 +208,16 @@ private:
 	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	void set_camera(const Camera & camera);
+	CameraValues set_camera(const Camera & camera);
 
 private:
+	//! the data needed to construct a sdl dst rectangle
+	struct DestinationRectangleData {
+		const Sprite & sprite;
+		const CameraValues & cam;
+		const vec2 & pos;
+		const double & img_scale;
+	};
 	/**
 	 * \brief calculates the sqaure size of the image
 	 *
@@ -205,8 +236,7 @@ private:
 	 * \param img_scale the image multiplier for increasing img size 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_Rect get_dst_rect(const Sprite & sprite, const vec2 & pos, const Camera & cam,
-						  const vec2 & cam_pos, const double & img_scale) const;
+	SDL_FRect get_dst_rect(const DestinationRectangleData & data) const;
 	/**
 	 * \brief Set an additional color value multiplied into render copy operations.
 	 *
@@ -221,6 +251,9 @@ private:
 
 	//! renderer for the crepe engine
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
+
+	//! black bars rectangle to draw
+	SDL_FRect black_bars[2] = {};
 };
 
 } // namespace crepe
