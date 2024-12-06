@@ -188,7 +188,7 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 	}
 
 	Direction resolution_direction = Direction::NONE;
-	if (resolution.x != 0 && resolution.y > 0) {
+	if (resolution.x != 0 && resolution.y != 0) {
 		resolution_direction = Direction::BOTH;
 	} else if (resolution.x != 0) {
 		resolution_direction = Direction::X_DIRECTION;
@@ -303,7 +303,7 @@ void CollisionSystem::determine_collision_handler(CollisionInfo & info) {
 	if (info.this_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) return;
 	// If second body is static perform the static collision handler in this system
 	if (info.other_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) {
-		static_collision_handler(info);
+		this->static_collision_handler(info);
 	};
 	// Call collision event for user
 	CollisionEvent data(info);
@@ -508,7 +508,7 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 	float distance_squared = distance_x * distance_x + distance_y * distance_y;
 
 	// Compare distance squared with the square of the circle's radius
-	return distance_squared <= circle2.radius * circle2.radius - 1;
+	return distance_squared < circle2.radius * circle2.radius;
 }
 
 bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1,
@@ -529,7 +529,7 @@ bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1
 	float radius_sum = circle1.radius + circle2.radius;
 
 	// Check if the distance between the centers is less than or equal to the sum of the radii
-	return distance_squared <= radius_sum * radius_sum - 1;
+	return distance_squared < radius_sum * radius_sum;
 }
 
 vec2 CollisionSystem::get_current_position(const vec2 & collider_offset,
@@ -550,3 +550,5 @@ vec2 CollisionSystem::get_current_position(const vec2 & collider_offset,
 	// Final positions considering scaling and rotation
 	return (transform.position + vec2(rotated_total_offset_x1, rotated_total_offset_y1));
 }
+
+
