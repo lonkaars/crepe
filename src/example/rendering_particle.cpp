@@ -1,21 +1,16 @@
-#include "api/Animator.h"
-#include "api/Camera.h"
-#include "api/LoopManager.h"
-#include "api/LoopTimer.h"
-#include "system/AnimatorSystem.h"
-#include "system/ParticleSystem.h"
-#include <SDL2/SDL_timer.h>
-#include <crepe/ComponentManager.h>
-
 #include <crepe/Component.h>
+#include <crepe/api/Animator.h>
+#include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/LoopManager.hpp>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
-#include <crepe/system/RenderSystem.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/Mediator.h>
 #include <crepe/types.h>
 
 using namespace crepe;
@@ -46,7 +41,8 @@ using namespace std;
 class TestScene : public Scene {
 public:
 	void load_scene() {
-		ComponentManager & mgr = this->component_manager;
+		Mediator & mediator = this->mediator;
+		ComponentManager & mgr = mediator.component_manager;
 		GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 
 		Color color(255, 255, 255, 255);
@@ -84,15 +80,5 @@ int main(int argc, char * argv[]) {
 	LoopManager engine;
 	engine.add_scene<TestScene>();
 	engine.start();
-
-	/*
-	game_object
-		.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"), color,
-		.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"), color,
-							   FlipSettings{false, false})
-		.order_in_layer
-		= 6;
-	*/
-
 	return 0;
 }

@@ -11,7 +11,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -19,7 +18,6 @@
 #include "../api/Config.h"
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
-#include "../manager/EventManager.h"
 #include "../util/Log.h"
 
 #include "SDLContext.h"
@@ -273,7 +271,7 @@ void SDLContext::draw(const RenderContext & ctx) {
 
 	double angle = ctx.angle + data.angle_offset;
 
-	this->set_color_texture(ctx.sprite.sprite_image, ctx.sprite.color);
+	this->set_color_texture(ctx.sprite.texture, ctx.sprite.data.color);
 	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.texture.texture.get(), &srcrect,
 					  &dstrect, angle, NULL, render_flip);
 }
