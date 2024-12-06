@@ -55,11 +55,11 @@ vec2 AISystem::calculate(AI & ai) {
 		}
 	}
 	if (ai.on(AI::BehaviorType::PATH_FOLLOW)) {
-		/*vec2 force_to_add = this->path_follow(ai);
+		vec2 force_to_add = this->path_follow(ai);
 
 		if (!this->accumulate_force(ai, force, force_to_add)) {
 			return force;
-		}*/
+		}
 	}
 
 	return force;
@@ -137,4 +137,34 @@ vec2 AISystem::arrive(const AI & ai) {
 	}
 
 	return vec2{0, 0};
+}
+
+vec2 AISystem::path_follow(AI & ai) {
+	const Mediator & mediator = this->mediator;
+	ComponentManager & mgr = mediator.component_manager;
+	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
+	Transform & transform = transforms.front().get();
+	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_id<Rigidbody>(ai.game_object_id);
+	Rigidbody & rigidbody = rigidbodies.front().get();
+
+	if (ai.path.empty()) {
+		return vec2{0, 0};
+	}
+
+	vec2 to_target = ai.path.at(ai.path_index) - transform.position;
+	if (to_target.length_squared() > ai.path_node_distance * ai.path_node_distance) {
+		ai.seek_target = ai.path.at(ai.path_index);
+	} else {
+		ai.path_index++;
+		if (ai.path_index >= ai.path.size()) {
+			if (ai.path_loop) {
+				ai.path_index = 0;
+			} else {
+				ai.path_index = ai.path.size() - 1;
+				return this->arrive(ai);
+			}
+		}
+	}
+
+	return this->seek(ai);
 }

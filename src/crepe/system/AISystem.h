@@ -20,7 +20,7 @@ private:
 	vec2 seek(const AI & ai);
 	vec2 flee(const AI & ai);
 	vec2 arrive(const AI & ai);
-	vec2 path_follow(const AI & ai);
+	vec2 path_follow(AI & ai);
 };
 
 } // namespace crepe

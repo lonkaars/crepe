@@ -36,6 +36,8 @@ public:
 		if (on(PATH_FOLLOW)) flags ^= PATH_FOLLOW;
 	}
 
+	void add_path_node(vec2 node) { path.push_back(node); }
+
 public:
 	float max_force;
 
@@ -47,9 +49,21 @@ public:
 	float square_flee_panic_distance = 200.0f * 200.0f;
 	// The deceleration rate for the arrive behavior (higher values will make the entity decelerate faster (less overshoot))
 	float arrive_deceleration = 40.0f;
+	// The path to follow
+	std::vector<vec2> path;
+	// The distance from the path node at which the entity will move to the next node
+	float path_node_distance = 400.0f;
+	// Looping behavior for the path
+	bool path_loop = true;
 
 private:
+	// The flags for the behaviors
 	int flags = 0;
+	// The current path index
+	size_t path_index = 0;
+
+	// The AISystem is the only class that can access the private members of AI
+	friend class AISystem;
 };
 
 } // namespace crepe
