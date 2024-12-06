@@ -25,10 +25,10 @@ class Script1 : public Script {
 	}
 
 	bool mousemove(const MouseMoveEvent & event) {
-		RefVector<AI> aivec = this->get_components<AI>();
+		/*RefVector<AI> aivec = this->get_components<AI>();
 		AI & ai = aivec.front().get();
 		ai.flee_target
-			= vec2{static_cast<float>(event.mouse_x), static_cast<float>(event.mouse_y)};
+			= vec2{static_cast<float>(event.mouse_x), static_cast<float>(event.mouse_y)};*/
 		return true;
 	}
 
@@ -46,21 +46,26 @@ public:
 		Mediator & mediator = this->mediator;
 		ComponentManager & mgr = mediator.component_manager;
 
-		GameObject game_object1 = mgr.new_object("", "", vec2{250, 250}, 0, 1);
+		GameObject game_object1 = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 		GameObject game_object2 = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 
 		Texture img = Texture("asset/texture/test_ap43.png");
 		game_object1.add_component<Sprite>(img, Color::MAGENTA,
 										   Sprite::FlipSettings{false, false}, 1, 1, 195);
-		AI & ai = game_object1.add_component<AI>(30);
-		ai.arrive_on();
-		ai.flee_on();
+		AI & ai = game_object1.add_component<AI>(300);
+		// ai.arrive_on();
+		// ai.flee_on();
+		ai.path_follow_on();
+		ai.add_path_node(vec2{1200, 1200});
+		ai.add_path_node(vec2{-1200, 1200});
+		ai.add_path_node(vec2{1200, -1200});
+		ai.add_path_node(vec2{-1200, -1200});
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
-			.mass = 0.5f, .max_linear_velocity = {21, 21}, // sqrt(21^2 + 21^2) = 30
+			.mass = 0.5f, .max_linear_velocity = {50, 50}, // sqrt(21^2 + 21^2) = 30
 		});
 		game_object1.add_component<BehaviorScript>().set_script<Script1>();
 
-		game_object2.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{1036, 780},
+		game_object2.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{5000, 5000},
 										   1.0f);
 	}
 
