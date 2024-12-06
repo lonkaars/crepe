@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cmath>
+#include <set>
+
 #include "../Component.h"
 
 #include "types.h"
@@ -34,11 +37,11 @@ public:
 	 * the systems will not move the object.
 	 */
 	struct PhysicsConstraints {
-		//! X constraint
+		//! Prevent movement along X axis
 		bool x = false;
-		//! Y constraint
+		//! Prevent movement along Y axis
 		bool y = false;
-		//! rotation constraint
+		//! Prevent rotation
 		bool rotation = false;
 	};
 
@@ -50,29 +53,93 @@ public:
 	 */
 	struct Data {
 		//! objects mass
-		double mass = 0.0;
-		//! gravtiy scale
-		double gravity_scale = 0.0;
-		//! Changes if physics apply
+		float mass = 0.0;
+		/**
+		* \brief Gravity scale factor.
+		*
+		* The `gravity_scale` controls how much gravity affects the object. It is a multiplier applied to the default
+		* gravity force, allowing for fine-grained control over how the object responds to gravity.
+		* 
+		*/
+		float gravity_scale = 0;
+
+		//! Defines the type of the physics body, which determines how the physics system interacts with the object.
 		BodyType body_type = BodyType::DYNAMIC;
-		//! linear velocity of object
+
+		/**
+		* \name Linear (positional) motion
+		*
+		* These variables define the linear motion (movement along the position) of an object.
+		* The linear velocity is applied to the object's position in each update of the PhysicsSystem.
+		* The motion is affected by the object's linear velocity, its maximum velocity, and a coefficient
+		* that can scale the velocity over time.
+		*
+		* \{
+		*/
+		//! Linear velocity of the object (speed and direction).
 		vec2 linear_velocity;
-		//! maximum linear velocity of object
-		vec2 max_linear_velocity;
-		//! linear damping of object
-		vec2 linear_damping;
-		//! angular velocity of object
-		double angular_velocity = 0.0;
-		//! max angular velocity of object
-		double max_angular_velocity = 0.0;
-		//! angular damping of object
-		double angular_damping = 0.0;
-		//! movements constraints of object
+		//! Maximum linear velocity of the object. This limits the object's speed.
+		vec2 max_linear_velocity = {INFINITY, INFINITY};
+		//! Linear velocity coefficient. This scales the object's velocity for adjustment or damping.
+		vec2 linear_velocity_coefficient = {1, 1};
+		//! \}
+
+		/**
+		* \name Angular (rotational) motion
+		*
+		* These variables define the angular motion (rotation) of an object.
+		* The angular velocity determines how quickly the object rotates, while the maximum angular velocity
+		* sets a limit on the rotation speed. The angular velocity coefficient applies damping or scaling
+		* to the angular velocity, which can be used to simulate friction or other effects that slow down rotation.
+		*
+		* \{
+		*/
+		//! Angular velocity of the object, representing the rate of rotation (in degrees).
+		float angular_velocity = 0;
+		//! Maximum angular velocity of the object. This limits the maximum rate of rotation.
+		float max_angular_velocity = INFINITY;
+		//! Angular velocity coefficient. This scales the object's angular velocity, typically used for damping.
+		float angular_velocity_coefficient = 1;
+		//! \}
+
+		/**
+		* \brief Movement constraints for an object.
+		*
+		* The `PhysicsConstraints` struct defines the constraints that restrict an object's movement
+		* in certain directions or prevent rotation. These constraints effect only the physics system
+		* to prevent the object from moving or rotating in specified ways.
+		* 
+		*/
 		PhysicsConstraints constraints;
-		//! if gravity applies
-		bool use_gravity = true;
-		//! if object bounces
-		bool bounce = false;
+
+		/**
+		* \brief Elasticity factor of the material (bounce factor).
+		*
+		* The `elasticity_coefficient` controls how much of the object's velocity is retained after a collision.
+		* It represents the material's ability to bounce or recover velocity upon impact. The coefficient is a value
+		* above 0.0.
+		*
+		*/
+		float elastisity_coefficient = 0.0;
+
+		/**
+		* \brief Offset of all colliders relative to the object's transform position.
+		*
+		* The `offset` defines a positional shift applied to all colliders associated with the object, relative to the object's
+		* transform position. This allows for the colliders to be placed at a different position than the object's actual
+		* position, without modifying the object's transform itself.
+		* 
+		*/
+		vec2 offset;
+
+		/**
+		 * \brief Defines the collision layers of a GameObject.
+		 *
+		 * The `collision_layers` specifies the layers that the GameObject will collide with.
+		 * Each element represents a layer ID, and the GameObject will only detect 
+		 * collisions with other GameObjects that belong to these layers.
+		 */
+		std::set<int> collision_layers;
 	};
 
 public:
@@ -96,7 +163,16 @@ public:
 	 * 
 	 * \param force Vector2 that is added to the angular force.
 	 */
-	void add_force_angular(double force);
+	void add_force_angular(float force);
+
+protected:
+	/**
+	* Ensures there is at most one Rigidbody component per entity.
+	* \return Always returns 1, indicating this constraint.
+	*/
+	virtual int get_instances_max() const { return 1; }
+	//! ComponentManager instantiates all components
+	friend class ComponentManager;
 };
 
 } // namespace crepe
