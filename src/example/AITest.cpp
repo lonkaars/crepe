@@ -12,6 +12,7 @@
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
 #include <crepe/manager/Mediator.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 using namespace std;
@@ -23,9 +24,19 @@ class Script1 : public Script {
 		return true;
 	}
 
+	bool mousemove(const MouseMoveEvent & event) {
+		RefVector<AI> aivec = this->get_components<AI>();
+		AI & ai = aivec.front().get();
+		ai.seek_target
+			= vec2{static_cast<float>(event.mouse_x), static_cast<float>(event.mouse_y)};
+		return true;
+	}
+
 	void init() {
 		subscribe<ShutDownEvent>(
 			[this](const ShutDownEvent & ev) -> bool { return this->shutdown(ev); });
+		subscribe<MouseMoveEvent>(
+			[this](const MouseMoveEvent & ev) -> bool { return this->mousemove(ev); });
 	}
 };
 
@@ -41,14 +52,14 @@ public:
 		Texture img = Texture("asset/texture/test_ap43.png");
 		game_object1.add_component<Sprite>(img, Color::MAGENTA,
 										   Sprite::FlipSettings{false, false}, 1, 1, 195);
-		game_object1.add_component<AI>(200).seek_on();
+		game_object1.add_component<AI>(30).seek_on();
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
-			.mass = 1.0f, .max_linear_velocity = {21, 21}, // sqrt(21^2 + 21^2) = 30
+			.mass = 0.5f, .max_linear_velocity = {21, 21}, // sqrt(21^2 + 21^2) = 30
 		});
+		game_object1.add_component<BehaviorScript>().set_script<Script1>();
 
 		game_object2.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{1036, 780},
 										   1.0f);
-		game_object2.add_component<BehaviorScript>().set_script<Script1>();
 	}
 
 	string get_name() const override { return "Scene1"; }
