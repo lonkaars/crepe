@@ -3,8 +3,8 @@
 #include <vector>
 
 #include "../manager/EventManager.h"
-#include "../system/CollisionSystem.h"
 #include "../manager/Mediator.h"
+#include "../system/CollisionSystem.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
 

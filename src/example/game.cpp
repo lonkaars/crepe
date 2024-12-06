@@ -1,6 +1,6 @@
 #include "api/CircleCollider.h"
-#include "manager/ComponentManager.h"
 #include "api/Scene.h"
+#include "manager/ComponentManager.h"
 #include "manager/Mediator.h"
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
@@ -28,66 +28,60 @@ class MyScript1 : public Script {
 	bool keypressed(const KeyPressEvent & test) {
 		Log::logf("Box script keypressed()");
 		switch (test.key) {
-			case Keycode::A:
-			{
+			case Keycode::A: {
 				Transform & tf = this->get_component<Transform>();
 				tf.position.x -= 1;
 				break;
 			}
-			case Keycode::W:
-			{
+			case Keycode::W: {
 				Transform & tf = this->get_component<Transform>();
 				tf.position.y -= 1;
 				break;
 			}
-			case Keycode::S:
-			{
+			case Keycode::S: {
 				Transform & tf = this->get_component<Transform>();
 				tf.position.y += 1;
 				break;
 			}
-			case Keycode::D:
-			{
+			case Keycode::D: {
 				Transform & tf = this->get_component<Transform>();
 				tf.position.x += 1;
 				break;
 			}
-			case Keycode::E:
-			{
-				if(flip){
+			case Keycode::E: {
+				if (flip) {
 					flip = false;
 					this->get_component<BoxCollider>().active = true;
 					this->get_components<Sprite>()[0].get().active = true;
 					this->get_component<CircleCollider>().active = false;
 					this->get_components<Sprite>()[1].get().active = false;
-				}
-				else {
+				} else {
 					flip = true;
 					this->get_component<BoxCollider>().active = false;
 					this->get_components<Sprite>()[0].get().active = false;
 					this->get_component<CircleCollider>().active = true;
 					this->get_components<Sprite>()[1].get().active = true;
 				}
-				
-				
+
 				//add collider switch
 				break;
 			}
 			default:
-			break;
+				break;
 		}
 		return false;
-	} 
+	}
 
 	void init() {
 		Log::logf("init");
-		subscribe<CollisionEvent>([this](const CollisionEvent & ev) -> bool { return this->oncollision(ev); });
-		subscribe<KeyPressEvent>([this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
+		subscribe<CollisionEvent>(
+			[this](const CollisionEvent & ev) -> bool { return this->oncollision(ev); });
+		subscribe<KeyPressEvent>(
+			[this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
 	}
 	void update() {
 		// Retrieve component from the same GameObject this script is on
 	}
-	
 };
 
 class MyScript2 : public Script {
@@ -99,74 +93,68 @@ class MyScript2 : public Script {
 	bool keypressed(const KeyPressEvent & test) {
 		Log::logf("Box script keypressed()");
 		switch (test.key) {
-			case Keycode::LEFT:
-			{
+			case Keycode::LEFT: {
 				Transform & tf = this->get_component<Transform>();
 				tf.position.x -= 1;
 				break;
 			}
-			case Keycode::UP:
-			{
+			case Keycode::UP: {
 				Transform & tf = this->get_component<Transform>();
 				tf.position.y -= 1;
 				break;
 			}
-			case Keycode::DOWN:
-			{
+			case Keycode::DOWN: {
 				Transform & tf = this->get_component<Transform>();
 				tf.position.y += 1;
 				break;
 			}
-			case Keycode::RIGHT:
-			{
+			case Keycode::RIGHT: {
 				Transform & tf = this->get_component<Transform>();
 				tf.position.x += 1;
 				break;
 			}
-			case Keycode::PAUSE:
-			{
-				if(flip){
+			case Keycode::PAUSE: {
+				if (flip) {
 					flip = false;
 					this->get_component<BoxCollider>().active = true;
 					this->get_components<Sprite>()[0].get().active = true;
 					this->get_component<CircleCollider>().active = false;
 					this->get_components<Sprite>()[1].get().active = false;
-				}
-				else {
+				} else {
 					flip = true;
 					this->get_component<BoxCollider>().active = false;
 					this->get_components<Sprite>()[0].get().active = false;
 					this->get_component<CircleCollider>().active = true;
 					this->get_components<Sprite>()[1].get().active = true;
 				}
-				
-				
+
 				//add collider switch
 				break;
 			}
 			default:
-			break;
+				break;
 		}
 		return false;
-	} 
+	}
 
 	void init() {
 		Log::logf("init");
-		subscribe<CollisionEvent>([this](const CollisionEvent & ev) -> bool { return this->oncollision(ev); });
-		subscribe<KeyPressEvent>([this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
+		subscribe<CollisionEvent>(
+			[this](const CollisionEvent & ev) -> bool { return this->oncollision(ev); });
+		subscribe<KeyPressEvent>(
+			[this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
 	}
 	void update() {
 		// Retrieve component from the same GameObject this script is on
 	}
-	
 };
 
 class ConcreteScene1 : public Scene {
 public:
 	using Scene::Scene;
-	
+
 	void load_scene() {
-		
+
 		Mediator & m = this->mediator;
 		ComponentManager & mgr = m.component_manager;
 		Color color(0, 0, 0, 255);
@@ -195,7 +183,10 @@ public:
 			vec2{world_collider, world_collider}); // Left
 		world.add_component<BoxCollider>(vec2{screen_size_width / 2 + world_collider / 2, 0},
 										 vec2{world_collider, world_collider}); // right
-		world.add_component<Camera>(Color::WHITE, ivec2{static_cast<int>(screen_size_width), static_cast<int>(screen_size_height)}, vec2{screen_size_width, screen_size_height}, 1.0f);
+		world.add_component<Camera>(
+			Color::WHITE,
+			ivec2{static_cast<int>(screen_size_width), static_cast<int>(screen_size_height)},
+			vec2{screen_size_width, screen_size_height}, 1.0f);
 
 		GameObject game_object1 = mgr.new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
@@ -219,10 +210,10 @@ public:
 		//add circle with cirlcecollider deactiveated
 		game_object1.add_component<CircleCollider>(vec2{0, 0}, 10).active = false;
 		auto img2 = Texture("asset/texture/circle.png");
-		game_object1.add_component<Sprite>(img2, color, Sprite::FlipSettings{false, false}, 1,
-										   1, 20).active = false;
-
-
+		game_object1
+			.add_component<Sprite>(img2, color, Sprite::FlipSettings{false, false}, 1, 1, 20)
+			.active
+			= false;
 
 		GameObject game_object2 = mgr.new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
@@ -246,9 +237,10 @@ public:
 		//add circle with cirlcecollider deactiveated
 		game_object2.add_component<CircleCollider>(vec2{0, 0}, 10).active = false;
 		auto img4 = Texture("asset/texture/circle.png");
-		game_object2.add_component<Sprite>(img4, color, Sprite::FlipSettings{false, false}, 1,
-										   1, 20).active = false;
-
+		game_object2
+			.add_component<Sprite>(img4, color, Sprite::FlipSettings{false, false}, 1, 1, 20)
+			.active
+			= false;
 	}
 
 	string get_name() const { return "scene1"; }
