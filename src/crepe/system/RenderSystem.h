@@ -77,9 +77,6 @@ private:
 	 * \todo Implement a text component and a button component.
 	 * \todo Consider adding text input functionality.
 	 */
-
-private:
-	SDLContext & context = this->mediator.sdl_context;
 };
 
 } // namespace crepe

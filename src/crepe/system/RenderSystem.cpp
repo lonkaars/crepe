@@ -17,13 +17,19 @@
 using namespace crepe;
 using namespace std;
 
-void RenderSystem::clear_screen() { this->context.clear_screen(); }
+void RenderSystem::clear_screen() {
+	SDLContext & ctx = this->mediator.sdl_context;
+	ctx.clear_screen();
+}
 
-void RenderSystem::present_screen() { this->context.present_screen(); }
+void RenderSystem::present_screen() {
+	SDLContext & ctx = this->mediator.sdl_context;
+	ctx.present_screen();
+}
 
 SDLContext::CameraValues RenderSystem::update_camera() {
 	ComponentManager & mgr = this->mediator.component_manager;
-
+	SDLContext & ctx = this->mediator.sdl_context;
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 
 	if (cameras.size() == 0) throw std::runtime_error("No cameras in current scene");
@@ -32,7 +38,7 @@ SDLContext::CameraValues RenderSystem::update_camera() {
 		if (!cam.active) continue;
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(cam.game_object_id).front().get();
-		SDLContext::CameraValues cam_val = this->context.set_camera(cam);
+		SDLContext::CameraValues cam_val = ctx.set_camera(cam);
 		cam_val.cam_pos = transform.position + cam.data.postion_offset;
 		return cam_val;
 	}
@@ -64,6 +70,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 								   const double & scale) {
 
 	ComponentManager & mgr = this->mediator.component_manager;
+	SDLContext & ctx = this->mediator.sdl_context;
 
 	vector<reference_wrapper<ParticleEmitter>> emitters
 		= mgr.get_components_by_id<ParticleEmitter>(sprite.game_object_id);
@@ -78,7 +85,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
 
-			this->context.draw(SDLContext::RenderContext{
+			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,
 				.cam = cam,
 				.pos = p.position,
@@ -91,7 +98,8 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 }
 void RenderSystem::render_normal(const Sprite & sprite, const SDLContext::CameraValues & cam,
 								 const Transform & tm) {
-	this->context.draw(SDLContext::RenderContext{
+	SDLContext & ctx = this->mediator.sdl_context;
+	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
 		.cam = cam,
 		.pos = tm.position,

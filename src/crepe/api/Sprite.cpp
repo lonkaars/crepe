@@ -11,10 +11,10 @@
 using namespace std;
 using namespace crepe;
 
-Sprite::Sprite(game_object_id_t id, Texture & texture, const Sprite::Data & ctx)
+Sprite::Sprite(game_object_id_t id, Texture & texture, const Sprite::Data & data)
 	: Component(id),
 	  texture(std::move(texture)),
-	  data(ctx) {
+	  data(data) {
 
 	dbg_trace();
 

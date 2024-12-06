@@ -9,11 +9,9 @@
 #include <functional>
 #include <memory>
 #include <string>
-#include <utility>
 
 #include "api/Camera.h"
 #include "api/Color.h"
-#include "api/Event.h"
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Texture.h"
@@ -35,12 +33,33 @@ class SDLContext {
 public:
 	//! data that the camera component cannot hold
 	struct CameraValues {
+
+		//! zoomed in viewport in game_units
 		vec2 zoomed_viewport;
+
+		/**
+		 * \render_scale scaling factor
+		 *
+		 * depending on the black bars type will the scaling be different.
+		 * - lettorboxing --> scaling on the y-as 
+		 * - pillarboxing --> scaling on the x-as 
+		 */
 		vec2 render_scale;
+
+		/**
+		 * \bar_size size of calculated black bars
+		 *
+		 * depending on the black bars type will the size be different
+		 * - lettorboxing --> {0, bar_height}
+		 * - pillarboxing --> {bar_width , 0}
+		 */
 		vec2 bar_size;
+
+		//! Calculated camera position
 		vec2 cam_pos;
 	};
-
+	
+	//! rendering data needed to render on screen
 	struct RenderContext {
 		const Sprite & sprite;
 		const CameraValues & cam;
@@ -192,7 +211,8 @@ private:
 	CameraValues set_camera(const Camera & camera);
 
 private:
-	struct DstRect {
+	//! the data needed to construct a sdl dst rectangle
+	struct DestinationRectangleData {
 		const Sprite & sprite;
 		const CameraValues & cam;
 		const vec2 & pos;
@@ -216,7 +236,7 @@ private:
 	 * \param img_scale the image multiplier for increasing img size 
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
-	SDL_FRect get_dst_rect(const DstRect & ctx) const;
+	SDL_FRect get_dst_rect(const DestinationRectangleData & data) const;
 	/**
 	 * \brief Set an additional color value multiplied into render copy operations.
 	 *
@@ -233,7 +253,7 @@ private:
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
 
 	//! black bars rectangle to draw
-	SDL_FRect black_bars[2];
+	SDL_FRect black_bars[2] = {};
 };
 
 } // namespace crepe
