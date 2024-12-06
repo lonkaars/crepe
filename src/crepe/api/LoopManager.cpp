@@ -12,9 +12,6 @@ using namespace crepe;
 using namespace std;
 
 LoopManager::LoopManager() {
-	this->mediator.component_manager = this->component_manager;
-	this->mediator.scene_manager = this->scene_manager;
-
 	this->load_system<AnimatorSystem>();
 	this->load_system<CollisionSystem>();
 	this->load_system<ParticleSystem>();
