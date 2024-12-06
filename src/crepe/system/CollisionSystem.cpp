@@ -509,10 +509,10 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 	// Calculate the distance squared between the circle's center and the closest point on the box
 	float distance_x = final_position2.x - closest_x;
 	float distance_y = final_position2.y - closest_y;
-	float distance_squared = distance_x * distance_x + distance_y * distance_y;
+	float distance_squared = std::round(distance_x * distance_x + distance_y * distance_y);
 
 	// Compare distance squared with the square of the circle's radius
-	return distance_squared <= circle2.radius * circle2.radius;
+	return distance_squared < std::round(circle2.radius * circle2.radius);
 }
 
 bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1,
@@ -527,13 +527,13 @@ bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1
 
 	float distance_x = final_position1.x - final_position2.x;
 	float distance_y = final_position1.y - final_position2.y;
-	float distance_squared = distance_x * distance_x + distance_y * distance_y;
+	float distance_squared = std::round(distance_x * distance_x + distance_y * distance_y);
 
 	// Calculate the sum of the radii
 	float radius_sum = circle1.radius + circle2.radius;
 
 	// Check if the distance between the centers is less than or equal to the sum of the radii
-	return distance_squared <= radius_sum * radius_sum;
+	return distance_squared < std::round(radius_sum * radius_sum);
 }
 
 vec2 CollisionSystem::get_current_position(const vec2 & collider_offset,
@@ -554,3 +554,5 @@ vec2 CollisionSystem::get_current_position(const vec2 & collider_offset,
 	// Final positions considering scaling and rotation
 	return (transform.position + vec2(rotated_total_offset_x1, rotated_total_offset_y1));
 }
+
+
