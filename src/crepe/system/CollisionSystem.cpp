@@ -512,7 +512,7 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 	float distance_squared = distance_x * distance_x + distance_y * distance_y;
 
 	// Compare distance squared with the square of the circle's radius
-	return distance_squared <= circle2.radius * circle2.radius-1;
+	return distance_squared <= circle2.radius * circle2.radius;
 }
 
 bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1,
@@ -533,7 +533,7 @@ bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1
 	float radius_sum = circle1.radius + circle2.radius;
 
 	// Check if the distance between the centers is less than or equal to the sum of the radii
-	return distance_squared <= radius_sum * radius_sum - 1;
+	return distance_squared <= radius_sum * radius_sum;
 }
 
 vec2 CollisionSystem::get_current_position(const vec2 & collider_offset,
