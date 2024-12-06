@@ -24,7 +24,7 @@ typedef size_t event_channel_t;
 /**
  * \class EventManager
  * \brief Manages event subscriptions, triggers, and queues, enabling decoupled event handling.
- * 
+ *
  * The `EventManager` acts as a centralized event system. It allows for registering callbacks
  * for specific event types, triggering events synchronously, queueing events for later
  * processing, and managing subscriptions via unique identifiers.
@@ -35,20 +35,20 @@ public:
 
 	/**
 	 * \brief Get the singleton instance of the EventManager.
-	 * 
+	 *
 	 * This method returns the unique instance of the EventManager, creating it if it
 	 * doesn't already exist. Ensures only one instance is active in the program.
-	 * 
+	 *
 	 * \return Reference to the singleton instance of the EventManager.
 	 */
 	static EventManager & get_instance();
 
 	/**
 	 * \brief Subscribe to a specific event type.
-	 * 
+	 *
 	 * Registers a callback for a given event type and optional channel. Each callback
 	 * is assigned a unique subscription ID that can be used for later unsubscription.
-	 * 
+	 *
 	 * \tparam EventType The type of the event to subscribe to.
 	 * \param callback The callback function to be invoked when the event is triggered.
 	 * \param channel The channel number to subscribe to (default is CHANNEL_ALL, which listens to all channels).
@@ -60,18 +60,18 @@ public:
 
 	/**
 	 * \brief Unsubscribe a previously registered callback.
-	 * 
+	 *
 	 * Removes a callback from the subscription list based on its unique subscription ID.
-	 * 
+	 *
 	 * \param event_id The unique subscription ID of the callback to remove.
 	 */
 	void unsubscribe(subscription_t event_id);
 
 	/**
 	 * \brief Trigger an event immediately.
-	 * 
+	 *
 	 * Synchronously invokes all registered callbacks for the given event type on the specified channel.
-	 * 
+	 *
 	 * \tparam EventType The type of the event to trigger.
 	 * \param event The event instance to pass to the callbacks.
 	 * \param channel The channel to trigger the event on (default is CHANNEL_ALL, which triggers on all channels).
@@ -81,9 +81,9 @@ public:
 
 	/**
 	 * \brief Queue an event for later processing.
-	 * 
+	 *
 	 * Adds an event to the event queue to be processed during the next call to `dispatch_events`.
-	 * 
+	 *
 	 * \tparam EventType The type of the event to queue.
 	 * \param event The event instance to queue.
 	 * \param channel The channel to associate with the event (default is CHANNEL_ALL).
@@ -93,7 +93,7 @@ public:
 
 	/**
 	 * \brief Process all queued events.
-	 * 
+	 *
 	 * Iterates through the event queue and triggers callbacks for each queued event.
 	 * Events are removed from the queue once processed.
 	 */
@@ -101,7 +101,7 @@ public:
 
 	/**
 	 * \brief Clear all subscriptions.
-	 * 
+	 *
 	 * Removes all registered event handlers and clears the subscription list.
 	 */
 	void clear();
@@ -109,7 +109,7 @@ public:
 private:
 	/**
 	 * \brief Default constructor for the EventManager.
-	 * 
+	 *
 	 * Constructor is private to enforce the singleton pattern.
 	 */
 	EventManager() = default;

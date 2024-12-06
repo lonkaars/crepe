@@ -9,7 +9,7 @@ namespace crepe {
 
 /**
  * \brief Metadata component
- * 
+ *
  * This class represents the Metadata component. It stores the name, tag, parent and children
  * of a GameObject.
  */
