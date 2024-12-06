@@ -34,6 +34,7 @@ void LoopManager::start() {
 void LoopManager::set_running(bool running) { this->game_running = running; }
 
 void LoopManager::fixed_update() {
+	// TODO: retrieve EventManager from direct member after singleton refactor
 	EventManager & ev = this->mediator.event_manager;
 	ev.dispatch_events();
 	this->get_system<ScriptSystem>().update();

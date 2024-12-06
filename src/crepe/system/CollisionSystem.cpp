@@ -158,8 +158,8 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 															data1.rigidbody);
 			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
 															data2.rigidbody);
-			resolution = this->get_circle_box_resolution(collider2, collider1, collider_pos2,
-														 collider_pos1,true);
+			resolution = -this->get_circle_box_resolution(collider2, collider1, collider_pos2,
+														 collider_pos1);
 			break;
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE: {
@@ -185,7 +185,7 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
 															data2.rigidbody);
 			resolution = this->get_circle_box_resolution(collider1, collider2, collider_pos1,
-														 collider_pos2,false);
+														 collider_pos2);
 			break;
 		}
 	}
@@ -272,7 +272,7 @@ vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider & circle
 vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_collider,
 												const BoxCollider & box_collider,
 												const vec2 & circle_position,
-												const vec2 & box_position,bool inverse) const {
+												const vec2 & box_position) const {
 	vec2 delta = circle_position - box_position;
 
 	// Compute half-dimensions of the box
@@ -294,7 +294,7 @@ vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_co
 
 	// Compute penetration depth
 	float penetration_depth = circle_collider.radius - distance;
-	if(inverse) collision_normal = -collision_normal;
+
 	// Compute the resolution vector
 	vec2 resolution = collision_normal * penetration_depth;
 

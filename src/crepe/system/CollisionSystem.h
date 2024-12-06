@@ -184,7 +184,7 @@ private:
 	vec2 get_circle_box_resolution(const CircleCollider & circle_collider,
 								   const BoxCollider & box_collider,
 								   const vec2 & circle_position,
-								   const vec2 & box_position,bool inverse) const;
+								   const vec2 & box_position) const;
 
 	/**
 		* \brief Determines the appropriate collision handler for a collision.
@@ -219,14 +219,14 @@ private:
 	/**
 	 * \brief Checks if two collision layers have at least one common layer.
 	 * 
-	 * This function checks if there is any overlapping layer between the two input 
-	 * collision layer vectors. It compares each layer from the first vector to see 
-	 * if it exists in the second vector. If at least one common layer is found, 
+	 * This function checks if there is any overlapping layer between the two inputs.
+	 * It compares each layer from the first input to see 
+	 * if it exists in the second input. If at least one common layer is found, 
 	 * the function returns true, indicating that the two colliders share a common 
 	 * collision layer.
 	 * 
-	 * \param layers1 A vector of collision layers for the first collider.
-	 * \param layers2 A vector of collision layers for the second collider.
+	 * \param layers1 all collision layers for the first collider.
+	 * \param layers2 all collision layers for the second collider.
 	 * \return Returns true if there is at least one common layer, false otherwise.
 	 */
 
