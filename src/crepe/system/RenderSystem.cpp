@@ -5,12 +5,12 @@
 #include <stdexcept>
 #include <vector>
 
-#include "../ComponentManager.h"
 #include "../api/Camera.h"
 #include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
+#include "../manager/ComponentManager.h"
 
 #include "RenderSystem.h"
 
@@ -22,7 +22,7 @@ void RenderSystem::clear_screen() { this->context.clear_screen(); }
 void RenderSystem::present_screen() { this->context.present_screen(); }
 
 SDLContext::CameraValues RenderSystem::update_camera() {
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 
@@ -63,7 +63,7 @@ void RenderSystem::update() {
 bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::CameraValues & cam,
 								   const double & scale) {
 
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 
 	vector<reference_wrapper<ParticleEmitter>> emitters
 		= mgr.get_components_by_id<ParticleEmitter>(sprite.game_object_id);
@@ -71,7 +71,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 	bool rendering_particles = false;
 
 	for (const ParticleEmitter & em : emitters) {
-		if (!(&em.data.sprite == &sprite)) continue;
+		if (&em.data.sprite != &sprite) continue;
 		rendering_particles = true;
 		if (!em.active) continue;
 
@@ -101,7 +101,7 @@ void RenderSystem::render_normal(const Sprite & sprite, const SDLContext::Camera
 }
 
 void RenderSystem::render() {
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 	const SDLContext::CameraValues & cam = this->update_camera();
 
 	RefVector<Sprite> sprites = mgr.get_components_by_type<Sprite>();

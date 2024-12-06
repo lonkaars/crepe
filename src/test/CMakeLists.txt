@@ -12,4 +12,7 @@ target_sources(test_main PUBLIC
 	ValueBrokerTest.cpp
 	DBTest.cpp
 	Vector2Test.cpp
+	InputTest.cpp
+	ScriptEventTest.cpp
+	ScriptSceneTest.cpp
 )

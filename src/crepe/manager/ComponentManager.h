@@ -5,8 +5,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Component.h"
-#include "types.h"
+#include "../Component.h"
+#include "../types.h"
+
+#include "Manager.h"
 
 namespace crepe {
 
@@ -17,7 +19,7 @@ class GameObject;
  * 
  * This class manages all components. It provides methods to add, delete and get components.
  */
-class ComponentManager {
+class ComponentManager : public Manager {
 	// TODO: This relation should be removed! I (loek) believe that the scene manager should
 	// create/destroy components because the GameObject's are stored in concrete Scene classes,
 	// which will in turn call GameObject's destructor, which will in turn call
@@ -26,7 +28,7 @@ class ComponentManager {
 	friend class SceneManager;
 
 public:
-	ComponentManager(); // dbg_trace
+	ComponentManager(Mediator & mediator);
 	~ComponentManager(); // dbg_trace
 
 	/**

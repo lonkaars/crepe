@@ -1,14 +1,15 @@
 
 
-#include "api/Animator.h"
+#include "../api/Animator.h"
+#include "../facade/SDLContext.h"
+#include "../manager/ComponentManager.h"
 
 #include "AnimatorSystem.h"
-#include "ComponentManager.h"
 
 using namespace crepe;
 
 void AnimatorSystem::update() {
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Animator> animations = mgr.get_components_by_type<Animator>();
 

@@ -2,9 +2,12 @@
 
 #include <memory>
 
-#include "../ComponentManager.h"
+#include "../facade/SDLContext.h"
+#include "../manager/ComponentManager.h"
+#include "../manager/SceneManager.h"
 #include "../system/System.h"
-#include "api/SceneManager.h"
+
+#include "LoopTimer.h"
 
 namespace crepe {
 
@@ -85,10 +88,18 @@ private:
 	bool game_running = false;
 
 private:
+	//! Global context
+	Mediator mediator;
+
 	//! Component manager instance
-	ComponentManager component_manager{};
+	ComponentManager component_manager{mediator};
 	//! Scene manager instance
-	SceneManager scene_manager{component_manager};
+	SceneManager scene_manager{mediator};
+
+	//! SDL context \todo no more singletons!
+	SDLContext & sdl_context = SDLContext::get_instance();
+	//! Loop timer \todo no more singletons!
+	LoopTimer & loop_timer = LoopTimer::get_instance();
 
 private:
 	/**

@@ -8,3 +8,10 @@ Welcome to the documentation for the crêpe game engine.
 \see feature
 
 */
+
+/**
+
+\namespace crepe
+\brief Engine namespace
+
+*/
