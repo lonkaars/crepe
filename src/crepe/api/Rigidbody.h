@@ -11,7 +11,7 @@ namespace crepe {
 
 /**
  * \brief Rigidbody class
- * 
+ *
  * This class is used by the physics sytem and collision system. It configures how to system
  * interact with the gameobject for movement and collisions.
  */
@@ -19,7 +19,7 @@ class Rigidbody : public Component {
 public:
 	/**
 	 * \brief BodyType enum
-	 * 
+	 *
 	 * This enum provides three bodytypes the physics sytem and collision system use.
 	 */
 	enum class BodyType {
@@ -32,7 +32,7 @@ public:
 	};
 	/**
 	 * \brief PhysicsConstraints to constrain movement
-	 * 
+	 *
 	 * This struct configures the movement constraint for this object. If a constraint is enabled
 	 * the systems will not move the object.
 	 */
@@ -46,9 +46,9 @@ public:
 	};
 
 public:
-	/** 
+	/**
 	 * \brief struct for Rigidbody data
-	 * 
+	 *
 	 * This struct holds the data for the Rigidbody.
 	 */
 	struct Data {
@@ -59,7 +59,7 @@ public:
 		*
 		* The `gravity_scale` controls how much gravity affects the object. It is a multiplier applied to the default
 		* gravity force, allowing for fine-grained control over how the object responds to gravity.
-		* 
+		*
 		*/
 		float gravity_scale = 0;
 
@@ -108,7 +108,7 @@ public:
 		* The `PhysicsConstraints` struct defines the constraints that restrict an object's movement
 		* in certain directions or prevent rotation. These constraints effect only the physics system
 		* to prevent the object from moving or rotating in specified ways.
-		* 
+		*
 		*/
 		PhysicsConstraints constraints;
 
@@ -128,7 +128,7 @@ public:
 		* The `offset` defines a positional shift applied to all colliders associated with the object, relative to the object's
 		* transform position. This allows for the colliders to be placed at a different position than the object's actual
 		* position, without modifying the object's transform itself.
-		* 
+		*
 		*/
 		vec2 offset;
 
@@ -136,14 +136,14 @@ public:
 		 * \brief Defines the collision layers of a GameObject.
 		 *
 		 * The `collision_layers` specifies the layers that the GameObject will collide with.
-		 * Each element represents a layer ID, and the GameObject will only detect 
+		 * Each element represents a layer ID, and the GameObject will only detect
 		 * collisions with other GameObjects that belong to these layers.
 		 */
 		std::set<int> collision_layers;
 	};
 
 public:
-	/** 
+	/**
 	 * \param game_object_id id of the gameobject the rigibody is added to.
 	 * \param data struct to configure the rigidbody.
 	 */
@@ -152,15 +152,15 @@ public:
 	Data data;
 
 public:
-	/** 
+	/**
 	 * \brief add a linear force to the Rigidbody.
-	 * 
+	 *
 	 * \param force Vector2 that is added to the linear force.
 	 */
 	void add_force_linear(const vec2 & force);
-	/** 
+	/**
 	 * \brief add a angular force to the Rigidbody.
-	 * 
+	 *
 	 * \param force Vector2 that is added to the angular force.
 	 */
 	void add_force_angular(float force);

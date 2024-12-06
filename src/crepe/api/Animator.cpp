@@ -7,10 +7,10 @@
 
 using namespace crepe;
 
-Animator::Animator(uint32_t id, Sprite & ss, unsigned int max_row, unsigned int max_col,
-				   const Animator::Data & data)
+Animator::Animator(game_object_id_t id, Sprite & spritesheet, unsigned int max_row,
+				   unsigned int max_col, const Animator::Data & data)
 	: Component(id),
-	  spritesheet(ss),
+	  spritesheet(spritesheet),
 	  max_rows(max_row),
 	  max_columns(max_col),
 	  data(data) {

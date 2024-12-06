@@ -1,10 +1,9 @@
 #pragma once
 
-#include <sys/types.h>
+#include "../types.h"
 
 #include "Component.h"
 #include "Sprite.h"
-#include "types.h"
 
 namespace crepe {
 
@@ -21,55 +20,31 @@ class SDLContext;
 class Animator : public Component {
 public:
 	struct Data {
-
 		//! frames per second for animation
 		unsigned int fps = 1;
-
 		//! The current col being animated.
 		unsigned int col = 0;
-
 		//! The current row being animated.
 		unsigned int row = 0;
-
 		//! should the animation loop
 		bool looping = false;
-
 		//! starting frame for cycling
 		unsigned int cycle_start = 0;
-
-		//! end frame for cycling (-1 --> use last frame)
+		//! end frame for cycling (-1 = use last frame)
 		int cycle_end = -1;
-
-		//! offset in pixels.
-		// TODO implement
-		unsigned int white_space = 0;
 	};
 
 public:
-	/**
-	 * \brief Animator will repeat the animation 
-	 *
-	 */
+	//! Animator will repeat the animation
 	void loop();
-
-	/**
-	 * \brief starts the animation
-	 *
-	 */
+	//! starts the animation
 	void play();
-	/**
-	 * \brief pauses the animation
-	 *
-	 * sets the active false
-	 *
-	 */
+	//! pauses the animation
 	void pause();
-
 	/**
 	 * \brief stops the animation
 	 *
 	 * sets the active on false and resets all the current rows and columns
-	 *
 	 */
 	void stop();
 	/**
@@ -81,8 +56,8 @@ public:
 	/**
 	 * \brief set the range in the row
 	 *
-	 * \param  start of row animation
-	 * \param  end of row animation	
+	 * \param start of row animation
+	 * \param end of row animation
 	 */
 	void set_cycle_range(int start, int end);
 	/**
@@ -91,11 +66,7 @@ public:
 	 * \param col animation column
 	 */
 	void set_anim(int col);
-
-	/**
-	 * \brief will go to the next animaiton of current row 
-	 *
-	 */
+	//! will go to the next animaiton of current row
 	void next_anim();
 
 public:
@@ -103,7 +74,7 @@ public:
 	 * \brief Constructs an Animator object that will control animations for a sprite sheet.
 	 *
 	 * \param id The unique identifier for the component, typically assigned automatically.
-	 * \param ss the reference to the spritesheet
+	 * \param spritesheet the reference to the spritesheet
 	 * \param max_row maximum of rows inside the given spritesheet
 	 * \param max_col maximum of columns inside the given spritesheet
 	 * \param data extra animation data for more control
@@ -111,25 +82,22 @@ public:
 	 * This constructor sets up the Animator with the given parameters, and initializes the
 	 * animation system.
 	 */
-	Animator(game_object_id_t id, Sprite & ss, unsigned int max_row, unsigned int max_col,
-			 const Animator::Data & data);
+	Animator(game_object_id_t id, Sprite & spritesheet, unsigned int max_row,
+			 unsigned int max_col, const Animator::Data & data);
 	~Animator(); // dbg_trace
 
 public:
 	//! The maximum number of columns in the sprite sheet.
 	const unsigned int max_columns;
-
 	//! The maximum number of rows in the sprite sheet.
 	const unsigned int max_rows;
-
 	Animator::Data data;
 
 private:
 	//! A reference to the Sprite sheet containing.
 	Sprite & spritesheet;
-
-	// uses the spritesheet
+	//! Uses the spritesheet
 	friend AnimatorSystem;
 };
+
 } // namespace crepe
-//

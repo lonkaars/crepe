@@ -70,8 +70,11 @@ public:
 	void SetUp() override {
 
 		GameObject do_not_use = mgr.new_object("DO_NOT_USE", "", {0, 0});
-		do_not_use.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{2000, 2000},
-										 1.0f);
+		do_not_use.add_component<Camera>(ivec2{1080, 720}, vec2{2000, 2000},
+										 Camera::Data{
+											 .bg_color = Color::WHITE,
+											 .zoom = 1.0f,
+										 });
 		// initialize systems here:
 		//calls init
 		script_sys.update();
@@ -164,10 +167,15 @@ TEST_F(DISABLED_ProfilingTest, Profiling_2) {
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			Color color(0, 0, 0, 0);
 			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
+				img, Sprite::Data{
+						 .color = {0, 0, 0, 0},
+						 .flip = {.flip_x = false, .flip_y = false},
+						 .sorting_in_layer = 1,
+						 .order_in_layer = 1,
+						 .size = {.y = 500},
+					 });
 		}
 
 		this->game_object_count++;
@@ -197,10 +205,15 @@ TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			Color color(0, 0, 0, 0);
 			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
+				img, Sprite::Data{
+						 .color = {0, 0, 0, 0},
+						 .flip = {.flip_x = false, .flip_y = false},
+						 .sorting_in_layer = 1,
+						 .order_in_layer = 1,
+						 .size = {.y = 500},
+					 });
 			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
 				.max_particles = 10,
 				.emission_rate = 100,
