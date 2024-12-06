@@ -58,7 +58,7 @@ public:
 		//! Calculated camera position
 		vec2 cam_pos;
 	};
-	
+
 	//! rendering data needed to render on screen
 	struct RenderContext {
 		const Sprite & sprite;
