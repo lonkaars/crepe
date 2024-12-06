@@ -201,7 +201,7 @@ public:
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
-			.gravity_scale = 0.05,
+			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
