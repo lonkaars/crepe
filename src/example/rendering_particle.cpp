@@ -57,7 +57,7 @@ public:
 					 .order_in_layer = 2,
 					 .size = {0, 100},
 					 .angle_offset = 0,
-					 .position_offset = {100,0},
+					 .position_offset = {100, 0},
 				 });
 
 		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4,
