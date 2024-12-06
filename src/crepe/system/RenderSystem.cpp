@@ -33,7 +33,7 @@ SDLContext::CameraValues RenderSystem::update_camera() {
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(cam.game_object_id).front().get();
 		SDLContext::CameraValues cam_val = this->context.set_camera(cam);
-		cam_val.cam_pos = transform.position + cam.data.offset;
+		cam_val.cam_pos = transform.position + cam.data.postion_offset;
 		return cam_val;
 	}
 	throw std::runtime_error("No active cameras in current scene");

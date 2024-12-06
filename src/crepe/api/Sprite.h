@@ -20,11 +20,14 @@ class AnimatorSystem;
  */
 class Sprite : public Component {
 public:
+	//! settings to flip the image
 	struct FlipSettings {
+		//! horizantal flip
 		bool flip_x = false;
+		//! vertical flip
 		bool flip_y = false;
 	};
-
+	
 	struct Data {
 		//! Color tint of the sprite
 		Color color = Color::WHITE;
@@ -50,10 +53,13 @@ public:
 		vec2 size;
 
 		//! independent sprite angle. rotating clockwise direction in degrees
-		double angle_offset = 0;
+		float angle_offset = 0;
 
 		//! independent sprite scale multiplier
-		double scale_offset = 1;
+		float scale_offset = 1;
+
+		//! independent sprite offset position 
+		vec2 position_offset;
 	};
 
 public:

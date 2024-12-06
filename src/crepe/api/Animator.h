@@ -2,6 +2,8 @@
 
 #include "Component.h"
 #include "Sprite.h"
+#include "types.h"
+#include <sys/types.h>
 
 namespace crepe {
 
@@ -20,26 +22,26 @@ public:
 	struct Data {
 
 		//! frames per second for animation
-		int fps = 1;
+		unsigned int fps = 1;
 
 		//! The current col being animated.
-		int curr_col = 0;
+		unsigned int curr_col = 0;
 
 		//! The current row being animated.
-		int curr_row = 0;
+		unsigned int curr_row = 0;
 
 		//! should the animation loop
 		bool looping = false;
 
 		//! starting frame for cycling
-		int cycle_start = 0;
+		unsigned int cycle_start = 0;
 
 		//! end frame for cycling (-1 --> use last frame)
 		int cycle_end = -1;
 
 		//! offset in pixels.
 		// TODO implement
-		int offset_x = 0;
+		unsigned int white_space = 0;
 	};
 
 public:
@@ -100,12 +102,15 @@ public:
 	 * \brief Constructs an Animator object that will control animations for a sprite sheet.
 	 *
 	 * \param id The unique identifier for the component, typically assigned automatically.
-	 * \param ctx animator data
+	 * \param ss the reference to the spritesheet
+	 * \param max_row maximum of rows inside the given spritesheet
+	 * \param max_col maximum of columns inside the given spritesheet
+	 * \param ctx extra animation data for more control
 	 *
 	 * This constructor sets up the Animator with the given parameters, and initializes the
 	 * animation system.
 	 */
-	Animator(uint32_t id, Sprite & ss, int max_row, int max_col, const Animator::Data & ctx);
+	Animator(game_object_id_t id, Sprite & ss, unsigned int max_row, unsigned int max_col, const Animator::Data & ctx);
 	~Animator(); // dbg_trace
 
 public:
@@ -113,16 +118,13 @@ public:
 	Sprite & spritesheet;
 
 	//! The maximum number of columns in the sprite sheet.
-	const int col;
+	const unsigned int col;
 
 	//! The maximum number of rows in the sprite sheet.
-	const int row;
+	const unsigned int row;
 
 	Animator::Data data;
 
-private:
-	//! AnimatorSystem adjust the private member parameters of Animator;
-	friend class AnimatorSystem;
 };
 } // namespace crepe
 //
