@@ -41,7 +41,7 @@ class TestScript : public Script {
 	}
 };
 
-class Profiling : public Test {
+class DISABLED_ProfilingTest : public Test {
 public:
 	// Config for test
 	// Minimum amount to let test pass
@@ -127,7 +127,7 @@ public:
 	}
 };
 
-TEST_F(Profiling, Profiling_1) {
+TEST_F(DISABLED_ProfilingTest, Profiling_1) {
 	while (this->total_time / this->average < this->duration) {
 
 		{
@@ -150,7 +150,7 @@ TEST_F(Profiling, Profiling_1) {
 	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
-TEST_F(Profiling, Profiling_2) {
+TEST_F(DISABLED_ProfilingTest, Profiling_2) {
 	while (this->total_time / this->average < this->duration) {
 
 		{
@@ -184,7 +184,7 @@ TEST_F(Profiling, Profiling_2) {
 	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
-TEST_F(Profiling, Profiling_3) {
+TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 	while (this->total_time / this->average < this->duration) {
 
 		{

@@ -16,5 +16,5 @@ target_sources(test_main PUBLIC
 	InputTest.cpp
 	ScriptEventTest.cpp
 	ScriptSceneTest.cpp
-	# Profiling.cpp #disabled for saving time
+	Profiling.cpp
 )
