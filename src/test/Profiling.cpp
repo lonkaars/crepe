@@ -165,7 +165,7 @@ TEST_F(Profiling, Profiling_2) {
 			
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
-			auto img = Texture("asset/texture/green_square.png");
+			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
 				img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
 		}
@@ -198,7 +198,7 @@ TEST_F(Profiling, Profiling_3) {
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Color color(0, 0, 0, 0);
-			auto img = Texture("asset/texture/green_square.png");
+			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
 				img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
 			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
