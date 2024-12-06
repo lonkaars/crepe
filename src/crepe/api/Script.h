@@ -85,6 +85,13 @@ protected:
 	RefVector<T> get_components() const;
 
 	/**
+	 * \copydoc ComponentManager::get_components_by_id
+	 * \see ComponentManager::get_components_by_id
+	 */
+	template <typename T>
+	RefVector<T> get_components_by_id(game_object_id_t id) const;
+
+	/**
 	 * \brief Log a message using Log::logf
 	 *
 	 * \tparam Args Log::logf parameters

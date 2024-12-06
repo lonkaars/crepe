@@ -1,4 +1,5 @@
 #include "../api/GameObject.h"
+#include "../api/Metadata.h"
 #include "../types.h"
 #include "../util/Log.h"
 
@@ -61,3 +62,16 @@ GameObject ComponentManager::new_object(const string & name, const string & tag,
 void ComponentManager::set_persistent(game_object_id_t id, bool persistent) {
 	this->persistent[id] = persistent;
 }
+
+set<game_object_id_t> ComponentManager::get_objects_by_name(const string & name) const {
+	return this->get_objects_by_predicate<Metadata>([name](const Metadata & data) {
+		return data.name == name;
+	});
+}
+
+set<game_object_id_t> ComponentManager::get_objects_by_tag(const string & tag) const {
+	return this->get_objects_by_predicate<Metadata>([tag](const Metadata & data) {
+		return data.tag == tag;
+	});
+}
+
