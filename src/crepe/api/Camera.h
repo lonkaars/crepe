@@ -23,7 +23,7 @@ public:
 		double zoom = 1;
 
 		//! offset postion from the game object transform component
-		vec2 offset;
+		vec2 postion_offset;
 	};
 
 public:

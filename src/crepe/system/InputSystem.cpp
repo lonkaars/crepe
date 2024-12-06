@@ -24,9 +24,9 @@ void InputSystem::update() {
 	RefVector<Transform> transform_vec
 		= mgr.get_components_by_id<Transform>(current_cam.game_object_id);
 	Transform & cam_transform = transform_vec.front().get();
-	int camera_origin_x = cam_transform.position.x + current_cam.data.offset.x
+	int camera_origin_x = cam_transform.position.x + current_cam.data.postion_offset.x
 						  - (current_cam.viewport_size.x / 2);
-	int camera_origin_y = cam_transform.position.y + current_cam.data.offset.y
+	int camera_origin_y = cam_transform.position.y + current_cam.data.postion_offset.y
 						  - (current_cam.viewport_size.y / 2);
 
 	for (const SDLContext::EventData & event : event_list) {

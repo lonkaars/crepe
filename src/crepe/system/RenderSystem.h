@@ -79,8 +79,7 @@ private:
 	 */
 
 private:
-	// FIXME: retrieve sdlcontext via mediator after #PR57
-	SDLContext & context = SDLContext::get_instance();
+	SDLContext & context = this->mediator.sdl_context;
 };
 
 } // namespace crepe
