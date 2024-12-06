@@ -13,6 +13,8 @@ target_sources(crepe PUBLIC
 	Metadata.cpp
 	Camera.cpp
 	Animator.cpp
+	BoxCollider.cpp
+	CircleCollider.cpp
 	IKeyListener.cpp
 	IMouseListener.cpp
 	LoopManager.cpp
@@ -44,6 +46,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Metadata.h
 	Camera.h
 	Animator.h
+	BoxCollider.h
+	CircleCollider.h
 	EventHandler.h
 	EventHandler.hpp
 	Event.h
