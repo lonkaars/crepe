@@ -1,9 +1,19 @@
 #pragma once
 
 #include <chrono>
-#include "../manager/Manager.h"
+
+#include "Manager.h"
+
 namespace crepe {
 
+/**
+ * \brief Manages timing and frame rate for the game loop.
+ * 
+ * The LoopTimerManager class is responsible for calculating and managing timing functions 
+ * such as delta time, frames per second (FPS), fixed time steps, and time scaling. It ensures 
+ * consistent frame updates and supports game loop operations, such as handling fixed updates 
+ * for physics and other time-sensitive operations.
+ */
 class LoopTimerManager : public Manager {
 public:
 	LoopTimerManager(Mediator & mediator);
@@ -49,6 +59,8 @@ public:
 	/**
 	 * \brief Set the time scale.
 	 *
+	 * time_scale is a value that changes the delta time that can be retrieved using get_delta_time function. 
+	 * 
 	 * \param game_scale The desired time scale (0 = pause, 1 = normal speed, > 1 = speed up).
 	 */
 	void set_time_scale(double game_scale);
