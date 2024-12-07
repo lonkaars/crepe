@@ -73,4 +73,3 @@ TEST_F(ScriptTest, UpdateInactive) {
 		system.update();
 	}
 }
-

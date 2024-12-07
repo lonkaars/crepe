@@ -4,8 +4,8 @@
 
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/GameObject.h>
-#include <crepe/api/Script.h>
 #include <crepe/api/Metadata.h>
+#include <crepe/api/Script.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/system/ScriptSystem.h>
 
@@ -32,8 +32,7 @@ TEST_F(ScriptECSTest, GetOwnComponent) {
 TEST_F(ScriptECSTest, GetOwnComponents) {
 	const unsigned COUNT = 4;
 
-	for (unsigned i = 0; i < COUNT; i++)
-		entity.add_component<TestComponent>();
+	for (unsigned i = 0; i < COUNT; i++) entity.add_component<TestComponent>();
 
 	MyScript & script = this->script;
 	RefVector<TestComponent> components = script.get_components<TestComponent>();
