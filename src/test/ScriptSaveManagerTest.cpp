@@ -4,8 +4,8 @@
 #define private public
 #define protected public
 
-#include <crepe/manager/SaveManager.h>
 #include <crepe/facade/DB.h>
+#include <crepe/manager/SaveManager.h>
 
 #include "ScriptTest.h"
 
@@ -33,4 +33,3 @@ TEST_F(ScriptSaveManagerTest, GetSaveManager) {
 
 	EXPECT_EQ(&mgr, &save_mgr);
 }
-
