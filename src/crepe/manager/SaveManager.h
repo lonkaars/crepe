@@ -91,16 +91,9 @@ private:
 	template <typename T>
 	T deserialize(const std::string & value) const noexcept;
 
-public:
-	SaveManager(const SaveManager &) = delete;
-	SaveManager(SaveManager &&) = delete;
-	SaveManager & operator=(const SaveManager &) = delete;
-	SaveManager & operator=(SaveManager &&) = delete;
-
 protected:
 	//! Create or return DB
 	virtual DB & get_db();
-
 private:
 	//! Database
 	std::unique_ptr<DB> db = nullptr;
