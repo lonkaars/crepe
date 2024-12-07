@@ -101,7 +101,8 @@ RefVector<T> ComponentManager::get_components_by_id(game_object_id_t id) const {
 	type_index type = typeid(T);
 	if (!this->components.contains(type)) return {};
 
-	const by_id_index<vector<unique_ptr<Component>>> & components_by_id = this->components.at(type);
+	const by_id_index<vector<unique_ptr<Component>>> & components_by_id
+		= this->components.at(type);
 	if (id >= components_by_id.size()) return {};
 
 	RefVector<T> out = {};
@@ -151,7 +152,8 @@ RefVector<T> ComponentManager::get_components_by_type() const {
 }
 
 template <typename T>
-std::set<game_object_id_t> ComponentManager::get_objects_by_predicate(const std::function<bool (const T &)> & pred) const {
+std::set<game_object_id_t>
+ComponentManager::get_objects_by_predicate(const std::function<bool(const T &)> & pred) const {
 	using namespace std;
 
 	set<game_object_id_t> objects = {};
@@ -168,9 +170,10 @@ std::set<game_object_id_t> ComponentManager::get_objects_by_predicate(const std:
 }
 
 template <typename T>
-RefVector<T> ComponentManager::get_components_by_ids(const std::set<game_object_id_t> & ids) const {
+RefVector<T>
+ComponentManager::get_components_by_ids(const std::set<game_object_id_t> & ids) const {
 	using namespace std;
-	
+
 	RefVector<T> out = {};
 	for (game_object_id_t id : ids) {
 		RefVector<T> components = get_components_by_id<T>(id);

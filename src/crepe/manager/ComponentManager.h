@@ -1,10 +1,10 @@
 #pragma once
 
 #include <memory>
+#include <set>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
-#include <set>
 
 #include "../Component.h"
 #include "../types.h"
@@ -156,7 +156,8 @@ public:
 
 private:
 	template <typename T>
-	std::set<game_object_id_t> get_objects_by_predicate(const std::function<bool (const T &)> & pred) const;
+	std::set<game_object_id_t>
+	get_objects_by_predicate(const std::function<bool(const T &)> & pred) const;
 	template <typename T>
 	RefVector<T> get_components_by_ids(const std::set<game_object_id_t> & ids) const;
 

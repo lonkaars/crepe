@@ -28,4 +28,3 @@ TEST_F(ScriptSceneTest, Default) {
 	script.set_next_scene(non_default_value);
 	EXPECT_EQ(non_default_value, scene_manager.next_scene);
 }
-

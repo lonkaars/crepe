@@ -466,4 +466,3 @@ TEST_F(ECSTest, ComponentsByTag) {
 		EXPECT_EQ(objects.size(), 3);
 	}
 }
-
