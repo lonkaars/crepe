@@ -11,11 +11,12 @@
 using namespace crepe;
 
 void PhysicsSystem::update() {
+	double dt = LoopTimer::get_instance().get_delta_time();
 	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
 	RefVector<Transform> transforms = mgr.get_components_by_type<Transform>();
 
-	double gravity = Config::get_instance().physics.gravity;
+	float gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
 		if (!rigidbody.active) continue;
 
@@ -28,17 +29,27 @@ void PhysicsSystem::update() {
 						if (rigidbody.data.gravity_scale > 0) {
 							rigidbody.data.linear_velocity.y
 								+= (rigidbody.data.mass * rigidbody.data.gravity_scale
-									* gravity);
+									* gravity * dt);
 						}
-						// Add damping
+						// Add coefficient rotation
 						if (rigidbody.data.angular_velocity_coefficient > 0) {
 							rigidbody.data.angular_velocity
-								*= rigidbody.data.angular_velocity_coefficient;
+								*= std::pow(rigidbody.data.angular_velocity_coefficient, dt);
+								
 						}
-						if (rigidbody.data.linear_velocity_coefficient.x > 0
-							&& rigidbody.data.linear_velocity_coefficient.y > 0) {
-							rigidbody.data.linear_velocity
-								*= rigidbody.data.linear_velocity_coefficient;
+
+						// Add coefficient movement horizontal
+						if (rigidbody.data.linear_velocity_coefficient.x > 0)
+						{
+							rigidbody.data.linear_velocity.x
+									*= std::pow(rigidbody.data.linear_velocity_coefficient.x, dt);
+						}
+
+						// Add coefficient movement horizontal
+						if (rigidbody.data.linear_velocity_coefficient.y > 0)
+						{
+							rigidbody.data.linear_velocity.y
+									*= std::pow(rigidbody.data.linear_velocity_coefficient.y, dt);
 						}
 
 						// Max velocity check
@@ -51,40 +62,26 @@ void PhysicsSystem::update() {
 							rigidbody.data.angular_velocity
 								= -rigidbody.data.max_angular_velocity;
 						}
-
-						if (rigidbody.data.linear_velocity.x
-							> rigidbody.data.max_linear_velocity.x) {
-							rigidbody.data.linear_velocity.x
-								= rigidbody.data.max_linear_velocity.x;
-						} else if (rigidbody.data.linear_velocity.x
-								   < -rigidbody.data.max_linear_velocity.x) {
-							rigidbody.data.linear_velocity.x
-								= -rigidbody.data.max_linear_velocity.x;
-						}
-
-						if (rigidbody.data.linear_velocity.y
-							> rigidbody.data.max_linear_velocity.y) {
-							rigidbody.data.linear_velocity.y
-								= rigidbody.data.max_linear_velocity.y;
-						} else if (rigidbody.data.linear_velocity.y
-								   < -rigidbody.data.max_linear_velocity.y) {
-							rigidbody.data.linear_velocity.y
-								= -rigidbody.data.max_linear_velocity.y;
+						
+						// Set max velocity to maximum length
+						if(rigidbody.data.linear_velocity.length() > rigidbody.data.max_linear_velocity) {
+							rigidbody.data.linear_velocity.normalize();
+							rigidbody.data.linear_velocity *= rigidbody.data.max_linear_velocity;
 						}
 
 						// Move object
 						if (!rigidbody.data.constraints.rotation) {
-							transform.rotation += rigidbody.data.angular_velocity;
+							transform.rotation += rigidbody.data.angular_velocity * dt;
 							transform.rotation = std::fmod(transform.rotation, 360.0);
 							if (transform.rotation < 0) {
 								transform.rotation += 360.0;
 							}
 						}
 						if (!rigidbody.data.constraints.x) {
-							transform.position.x += rigidbody.data.linear_velocity.x;
+							transform.position.x += rigidbody.data.linear_velocity.x * dt;
 						}
 						if (!rigidbody.data.constraints.y) {
-							transform.position.y += rigidbody.data.linear_velocity.y;
+							transform.position.y += rigidbody.data.linear_velocity.y * dt;
 						}
 					}
 				}
