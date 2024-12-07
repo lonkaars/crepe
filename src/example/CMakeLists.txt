@@ -18,4 +18,5 @@ endfunction()
 
 add_example(savemgr)
 add_example(rendering_particle)
+add_example(game)
 add_example(button)

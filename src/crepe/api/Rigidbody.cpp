@@ -10,6 +10,4 @@ void crepe::Rigidbody::add_force_linear(const vec2 & force) {
 	this->data.linear_velocity += force;
 }
 
-void crepe::Rigidbody::add_force_angular(double force) {
-	this->data.angular_velocity += force;
-}
+void crepe::Rigidbody::add_force_angular(float force) { this->data.angular_velocity += force; }

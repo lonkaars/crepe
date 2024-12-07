@@ -58,10 +58,9 @@ struct Config final {
 
 	//! default window settings
 	struct {
-		//TODO make this constexpr because this will never change
-		ivec2 default_size = {1080, 720};
+		//! default screen size in pixels
+		ivec2 default_size = {1280, 720};
 		std::string window_title = "Jetpack joyride clone";
-
 	} window_settings;
 
 	//! Asset loading options
