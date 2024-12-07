@@ -155,18 +155,55 @@ public:
 	RefVector<T> get_components_by_tag(const std::string & tag) const;
 
 private:
+	/**
+	 * \brief Get object IDs by predicate function
+	 *
+	 * This function calls the predicate function \c pred for all components matching type \c T,
+	 * and adds their parent game_object_id to a \c std::set if the predicate returns true.
+	 *
+	 * \tparam T The type of the component to check the predicate against
+	 * \param pred Predicate function
+	 *
+	 * \note The predicate function may be called for multiple components with the same \c
+	 * game_object_id. In this case, the ID is added if *any* call returns \c true.
+	 *
+	 * \returns game_object_id for all components where the predicate returned true
+	 */
 	template <typename T>
 	std::set<game_object_id_t>
 	get_objects_by_predicate(const std::function<bool(const T &)> & pred) const;
+
+	/**
+	 * \brief Get components of type \c T for multiple game object IDs
+	 *
+	 * \tparam T The type of the components to return
+	 * \param ids The object IDs
+	 *
+	 * \return All components matching type \c T and one of the IDs in \c ids
+	 */
 	template <typename T>
 	RefVector<T> get_components_by_ids(const std::set<game_object_id_t> & ids) const;
 
+	/**
+	 * \brief Get object IDs for objects with name \c name
+	 *
+	 * \param name Object name to match
+	 * \returns Object IDs where Metadata::name is equal to \c name
+	 */
 	std::set<game_object_id_t> get_objects_by_name(const std::string & name) const;
+	/**
+	 * \brief Get object IDs for objects with tag \c tag
+	 *
+	 * \param tag Object tag to match
+	 * \returns Object IDs where Metadata::tag is equal to \c tag
+	 */
 	std::set<game_object_id_t> get_objects_by_tag(const std::string & tag) const;
 
 private:
+	//! By Component \c std::type_index (readability helper type)
 	template <typename T>
 	using by_type = std::unordered_map<std::type_index, T>;
+	//! By \c game_object_id index (readability helper type)
 	template <typename T>
 	using by_id_index = std::vector<T>;
 	/**
@@ -187,9 +224,6 @@ private:
 	//! ID of next GameObject allocated by \c ComponentManager::new_object
 	game_object_id_t next_id = 0;
 };
-
-// template <>
-// RefVector<Component> ComponentManager::get_components_by_id(game_object_id_t id) const;
 
 } // namespace crepe
 
