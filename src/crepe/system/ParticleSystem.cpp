@@ -23,13 +23,12 @@ void ParticleSystem::update() {
 			= mgr.get_components_by_id<Transform>(emitter.game_object_id).front().get();
 
 		// Emit particles based on emission_rate
-		int spawn_amount = emitter.data.emission_rate * dt;
+		emitter.data.spawn_accumulator = emitter.data.emission_rate * dt;
 		while (emitter.data.spawn_accumulator >= 1.0) {
-			emit_particle(emitter, transform);
+			this->emit_particle(emitter, transform);
 			emitter.data.spawn_accumulator -= 1.0;
     }
 		
-
 		// Update all particles
 		for (Particle & particle : emitter.data.particles) {
 			if (particle.active) {
@@ -48,9 +47,9 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & 
 	constexpr float DEG_TO_RAD = M_PI / 180.0;
 
 	vec2 initial_position = emitter.data.position + transform.position;
-	float random_angle = generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
+	float random_angle = this->generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
 
-	float random_speed = generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);
+	float random_speed = this->generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);
 	float angle_radians = random_angle * DEG_TO_RAD;
 
 	vec2 velocity
@@ -79,7 +78,6 @@ void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & t
 		const vec2 & position = particle.position;
 		bool within_bounds = (position.x >= LEFT && position.x <= RIGHT && position.y >= TOP
 							  && position.y <= BOTTOM);
-
 		if (!within_bounds) {
 			if (emitter.data.boundary.reset_on_exit) {
 				particle.active = false;
