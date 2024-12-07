@@ -37,10 +37,10 @@ void LoopManager::fixed_update() {
 	// TODO: retrieve EventManager from direct member after singleton refactor
 	EventManager & ev = this->mediator.event_manager;
 	ev.dispatch_events();
-	this->get_system<ScriptSystem>().update();
-	this->get_system<AISystem>().update();
-	this->get_system<PhysicsSystem>().update();
-	this->get_system<CollisionSystem>().update();
+	this->get_system<ScriptSystem>().update(); // past velocity en locatie aan.
+	this->get_system<AISystem>().update(); // past velocity aan (2x) maxforce 
+	this->get_system<PhysicsSystem>().update(); // past velocity aan en locatie
+	this->get_system<CollisionSystem>().update(); // past velocity aan en locate
 }
 
 void LoopManager::loop() {
