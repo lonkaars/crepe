@@ -7,6 +7,7 @@
 #include "../system/CollisionSystem.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
+#include "../ValueBroker.h"
 
 namespace crepe {
 
@@ -112,6 +113,9 @@ protected:
 	 * \see SceneManager::set_next_scene
 	 */
 	void set_next_scene(const std::string & name);
+
+	//! Retrieve SaveManager reference
+	SaveManager & get_save_manager() const;
 
 	//! \}
 
