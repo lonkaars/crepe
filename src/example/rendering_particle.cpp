@@ -1,43 +1,22 @@
-#include "api/Animator.h"
-#include "api/Camera.h"
-#include "system/AnimatorSystem.h"
-#include "system/ParticleSystem.h"
-#include <SDL2/SDL_timer.h>
-#include <crepe/ComponentManager.h>
-
 #include <crepe/Component.h>
+#include <crepe/api/Animator.h>
+#include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/LoopManager.hpp>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
-#include <crepe/system/RenderSystem.h>
+#include <crepe/manager/ComponentManager.h>
+#include <crepe/manager/Mediator.h>
 #include <crepe/types.h>
-
-#include <chrono>
 
 using namespace crepe;
 using namespace std;
 
-int main(int argc, char * argv[]) {
-	ComponentManager mgr;
-	GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
-	RenderSystem sys{mgr};
-	ParticleSystem psys{mgr};
-	AnimatorSystem asys{mgr};
-
-	Color color(255, 255, 255, 100);
-
-	auto img = Texture("asset/texture/test_ap43.png");
-	Sprite & test_sprite = game_object.add_component<Sprite>(
-		img, color, Sprite::FlipSettings{true, true}, 1, 1, 500);
-
-	//game_object.add_component<Animator>(test_sprite, 4, 1, 0).active = true;
-	game_object.add_component<Animator>(test_sprite, 1, 1, 0).active = true;
-
-	/*
+/*
 	auto & test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
 		.max_particles = 10,
@@ -59,25 +38,48 @@ int main(int argc, char * argv[]) {
 	});
 	*/
 
-	auto & cam = game_object.add_component<Camera>(Color::RED, ivec2{1080, 720},
-												   vec2{2000, 2000}, 1.0f);
+class TestScene : public Scene {
+public:
+	void load_scene() {
+		Mediator & mediator = this->mediator;
+		ComponentManager & mgr = mediator.component_manager;
+		GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 
-	/*
-	game_object
-		.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"), color,
-		.add_component<Sprite>(make_shared<Texture>("asset/texture/img.png"), color,
-							   FlipSettings{false, false})
-		.order_in_layer
-		= 6;
-	*/
+		Color color(255, 255, 255, 255);
 
-	auto start = std::chrono::steady_clock::now();
-	while (std::chrono::steady_clock::now() - start < std::chrono::seconds(5)) {
-		psys.update();
-		asys.update();
-		sys.update();
-		SDL_Delay(10);
+		auto img = Texture("asset/spritesheet/pokemon_spritesheet.png");
+
+		Sprite & test_sprite = game_object.add_component<Sprite>(
+			img, Sprite::Data{
+					 .color = color,
+					 .flip = Sprite::FlipSettings{false, false},
+					 .sorting_in_layer = 2,
+					 .order_in_layer = 2,
+					 .size = {0, 100},
+					 .angle_offset = 0,
+					 .position_offset = {100, 0},
+				 });
+
+		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4,
+														  Animator::Data{
+															  .fps = 1,
+															  .looping = false,
+														  });
+		anim.set_anim(2);
+		anim.active = false;
+
+		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
+													   Camera::Data{
+														   .bg_color = Color::WHITE,
+													   });
 	}
 
+	string get_name() const { return "TestScene"; };
+};
+
+int main(int argc, char * argv[]) {
+	LoopManager engine;
+	engine.add_scene<TestScene>();
+	engine.start();
 	return 0;
 }

@@ -14,32 +14,48 @@ namespace crepe {
  * position, and zoom level. It controls what part of the game world is visible on the screen.
  */
 class Camera : public Component {
+public:
+	struct Data {
+		/**
+		 * \bg_color background color of the game
+		 *
+		 * This will make the background the same color as the given value.
+		 */
+		const Color bg_color = Color::BLACK;
+
+		/**
+		 * \zoom Zooming level of the game
+		 *
+		 * zoom = 1 --> no zoom.
+		 * zoom < 1 --> zoom out
+		 * zoom > 1 --> zoom in
+		 */
+		double zoom = 1;
+
+		//! offset postion from the game object transform component
+		vec2 postion_offset;
+	};
 
 public:
 	/**
 	 * \brief Constructs a Camera with the specified ID and background color.
 	 * \param id Unique identifier for the camera component.
-	 * \param bg_color Background color for the camera view.
+	 * \param screen is the actual screen size in pixels
+	 * \param viewport_size is the view of the world in game units
+	 * \param data the camera component data
 	 */
-	Camera(game_object_id_t id, const Color & bg_color, const ivec2 & screen,
-		   const vec2 & viewport_size, const double & zoom, const vec2 & offset = {0, 0});
+	Camera(game_object_id_t id, const ivec2 & screen, const vec2 & viewport_size,
+		   const Camera::Data & data);
 	~Camera(); // dbg_trace only
 
 public:
-	//! Background color of the camera view.
-	const Color bg_color;
-
-	//! offset postion from the game object transform component
-	vec2 offset;
+	Camera::Data data;
 
 	//! screen the display size in pixels ( output resolution )
 	const ivec2 screen;
 
 	//! viewport is the area of the world visible through the camera (in world units)
 	const vec2 viewport_size;
-
-	//! Zoom level of the camera view.
-	const double zoom;
 
 public:
 	/**
