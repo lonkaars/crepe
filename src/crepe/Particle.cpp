@@ -15,16 +15,17 @@ void Particle::reset(unsigned int lifespan, const vec2 & position, const vec2 & 
 	this->force_over_time = {0, 0};
 }
 
-void Particle::update() {
+void Particle::update(double dt) {
 	// Deactivate particle if it has exceeded its lifespan
-	if (++time_in_life >= lifespan) {
+	time_in_life += dt;
+	if (time_in_life >= lifespan) {
 		this->active = false;
 		return;
 	}
 
 	// Update velocity based on accumulated force and update position
-	this->velocity += force_over_time;
-	this->position += velocity;
+	this->velocity += force_over_time * dt;
+	this->position += velocity * dt;
 }
 
 void Particle::stop_movement() {

@@ -24,11 +24,11 @@ public:
 	//! Accumulated force affecting the particle over time.
 	vec2 force_over_time;
 	//! Total lifespan of the particle in milliseconds.
-	unsigned int lifespan;
+	float lifespan;
 	//! Active state of the particle; true if it is in use, false otherwise.
 	bool active = false;
 	//! The time the particle has been alive, in milliseconds.
-	unsigned int time_in_life = 0;
+	float time_in_life = 0;
 	//! The angle at which the particle is oriented or moving.
 	float angle = 0;
 
@@ -49,8 +49,9 @@ public:
 	 *
 	 * Advances the particle's position based on its velocity and applies accumulated forces.
 	 * Deactivates the particle if its lifespan has expired.
+	 * \param dt The amount of fixed delta time that has passed.
 	 */
-	void update();
+	void update(double dt);
 	/**
 	 * \brief Stops the particle's movement.
 	 *

@@ -23,6 +23,7 @@ public:
 	void update() override;
 
 private:
+
 	/**
 	 * \brief Emits a particle from the specified emitter based on its emission properties.
 	 *
@@ -30,16 +31,6 @@ private:
 	 * \param transform Const reference to the Transform component associated with the emitter.
 	 */
 	void emit_particle(ParticleEmitter & emitter, const Transform & transform);
-
-	/**
-	 * \brief Calculates the number of times particles should be emitted based on emission rate
-	 * and update count.
-	 *
-	 * \param count Current update count.
-	 * \param emission Emission rate.
-	 * \return The number of particles to emit.
-	 */
-	int calculate_update(int count, float emission) const;
 
 	/**
 	 * \brief Checks whether particles are within the emitter’s boundary, resets or stops

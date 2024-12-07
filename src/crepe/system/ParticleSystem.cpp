@@ -12,8 +12,10 @@ using namespace crepe;
 
 void ParticleSystem::update() {
 	// Get all emitters
+	
 	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<ParticleEmitter> emitters = mgr.get_components_by_type<ParticleEmitter>();
+	double dt = LoopTimer::get_instance().get_fixed_delta_time();
 
 	for (ParticleEmitter & emitter : emitters) {
 		// Get transform linked to emitter
@@ -21,15 +23,17 @@ void ParticleSystem::update() {
 			= mgr.get_components_by_id<Transform>(emitter.game_object_id).front().get();
 
 		// Emit particles based on emission_rate
-		int updates = this->calculate_update(this->update_count, emitter.data.emission_rate);
-		for (size_t i = 0; i < updates; i++) {
-			this->emit_particle(emitter, transform);
-		}
+		int spawn_amount = emitter.data.emission_rate * dt;
+		while (emitter.data.spawn_accumulator >= 1.0) {
+			emit_particle(emitter, transform);
+			emitter.data.spawn_accumulator -= 1.0;
+    }
+		
 
 		// Update all particles
 		for (Particle & particle : emitter.data.particles) {
 			if (particle.active) {
-				particle.update();
+				particle.update(dt);
 			}
 		}
 
@@ -59,18 +63,6 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & 
 			break;
 		}
 	}
-}
-
-int ParticleSystem::calculate_update(int count, float emission) const {
-	float integer_part = std::floor(emission);
-	float fractional_part = emission - integer_part;
-
-	if (fractional_part > 0) {
-		int denominator = static_cast<int>(1.0 / fractional_part);
-		return (count % denominator == 0) ? 1 : 0;
-	}
-
-	return static_cast<int>(emission);
 }
 
 void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & transform) {
