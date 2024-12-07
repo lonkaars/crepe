@@ -7,6 +7,7 @@
 #include "../system/CollisionSystem.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
+#include "system/CollisionSystem.h"
 
 namespace crepe {
 
