@@ -51,7 +51,7 @@ public:
 	/**
 	 * \brief Get the current time scale.
 	 *
-	 * \return The current time scale, where 0 = paused, 1 = normal speed, and values > 1 speed
+	 * \return The current time scale, where (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up).
 	 * up the game.
 	 */
 	double get_time_scale() const;
@@ -61,9 +61,9 @@ public:
 	 *
 	 * time_scale is a value that changes the delta time that can be retrieved using get_delta_time function. 
 	 * 
-	 * \param game_scale The desired time scale (0 = pause, 1 = normal speed, > 1 = speed up).
+	 * \param time_scale The desired time scale (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up).
 	 */
-	void set_time_scale(double game_scale);
+	void set_time_scale(double time_scale);
 
 private:
 	friend class LoopManager;
@@ -123,8 +123,8 @@ private:
 	int target_fps = 50;
 	//! Actual frames per second
 	int actual_fps = 0;
-	//! Current game scale
-	double game_scale = 1;
+	//! time scale for speeding up or slowing down the game (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up)
+	double time_scale = 1;
 	//! Maximum delta time in seconds to avoid large jumps
 	std::chrono::duration<double> maximum_delta_time{0.25};
 	//! Delta time for the current frame in seconds

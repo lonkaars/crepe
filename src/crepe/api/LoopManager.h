@@ -94,13 +94,14 @@ private:
 	ComponentManager component_manager{mediator};
 	//! Scene manager instance
 	SceneManager scene_manager{mediator};
-
-	//! SDL context \todo no more singletons!
-	SDLContext & sdl_context = SDLContext::get_instance();
-	//! LoopTimer instance
+	//! LoopTimerManager instance
 	LoopTimerManager loop_timer{mediator};
 	//! EventManager instance
 	EventManager event_manager{mediator};
+	
+	//! SDL context \todo no more singletons!
+	SDLContext & sdl_context = SDLContext::get_instance();
+
 
 private:
 	/**

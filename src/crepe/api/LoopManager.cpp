@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../facade/SDLContext.h"
 
 #include "../manager/EventManager.h"
