@@ -35,7 +35,7 @@ public:
 	void play();
 	/**
 	 * \brief Reset playhead position
-	 * 
+	 *
 	 * Resets the playhead position so that calling \c play() after this function makes it play
 	 * from the start of the sample. If the sound is not paused before calling this function,
 	 * this function will stop playback.

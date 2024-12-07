@@ -4,6 +4,7 @@
 
 #include "../manager/EventManager.h"
 #include "../manager/Mediator.h"
+#include "../system/CollisionSystem.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
 
@@ -19,7 +20,7 @@ class ComponentManager;
  * This class is used as a base class for user-defined scripts that can be added to game
  * objects using the \c BehaviorScript component.
  *
- * \info Additional *events* (like Unity's OnDisable and OnEnable) should be implemented as
+ * \note Additional *events* (like Unity's OnDisable and OnEnable) should be implemented as
  * member or lambda methods in derivative user script classes and registered in \c init().
  *
  * \warning Concrete scripts are allowed do create a custom constructor, but the utility
