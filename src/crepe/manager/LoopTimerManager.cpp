@@ -8,10 +8,10 @@
 
 using namespace crepe;
 
-LoopTimerManager::LoopTimerManager(Mediator & mediator) : Manager(mediator) { 
+LoopTimerManager::LoopTimerManager(Mediator & mediator) : Manager(mediator) {
 	this->mediator.loop_timer = *this;
-	dbg_trace(); 
-	}
+	dbg_trace();
+}
 
 void LoopTimerManager::start() {
 	this->last_frame_time = std::chrono::steady_clock::now();
@@ -38,13 +38,19 @@ void LoopTimerManager::update() {
 	this->last_frame_time = current_frame_time;
 }
 
-double LoopTimerManager::get_delta_time() const { return this->delta_time.count() * this->time_scale; }
+double LoopTimerManager::get_delta_time() const {
+	return this->delta_time.count() * this->time_scale;
+}
 
 double LoopTimerManager::get_current_time() const { return this->elapsed_time.count(); }
 
-void LoopTimerManager::advance_fixed_update() { this->elapsed_fixed_time += this->fixed_delta_time; }
+void LoopTimerManager::advance_fixed_update() {
+	this->elapsed_fixed_time += this->fixed_delta_time;
+}
 
-double LoopTimerManager::get_fixed_delta_time() const { return this->fixed_delta_time.count(); }
+double LoopTimerManager::get_fixed_delta_time() const {
+	return this->fixed_delta_time.count();
+}
 
 void LoopTimerManager::set_target_fps(int fps) {
 	this->target_fps = fps;

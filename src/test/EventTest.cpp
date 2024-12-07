@@ -1,8 +1,8 @@
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
 #include <crepe/api/Event.h>
 #include <crepe/manager/EventManager.h>
 #include <crepe/manager/Mediator.h>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 using namespace std;
 using namespace std::chrono_literals;
 using namespace crepe;
@@ -53,13 +53,11 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_all_channels) {
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
-	event_mgr.subscribe<MouseClickEvent>(mouse_handler,
-															EventManager::CHANNEL_ALL);
+	event_mgr.subscribe<MouseClickEvent>(mouse_handler, EventManager::CHANNEL_ALL);
 
 	MouseClickEvent click_event{
 		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
-	event_mgr.trigger_event<MouseClickEvent>(click_event,
-																EventManager::CHANNEL_ALL);
+	event_mgr.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
 	EXPECT_TRUE(triggered);
 }
@@ -77,8 +75,7 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_one_channel) {
 
 	MouseClickEvent click_event{
 		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
-	event_mgr.trigger_event<MouseClickEvent>(click_event,
-																EventManager::CHANNEL_ALL);
+	event_mgr.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
 	EXPECT_FALSE(triggered);
 	event_mgr.trigger_event<MouseClickEvent>(click_event, test_channel);

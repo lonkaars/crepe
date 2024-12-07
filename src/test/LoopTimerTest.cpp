@@ -1,6 +1,6 @@
 #include <chrono>
-#include <thread>
 #include <gtest/gtest.h>
+#include <thread>
 #define private public
 #define protected public
 #include <crepe/manager/LoopTimerManager.h>
@@ -26,7 +26,7 @@ TEST_F(LoopTimerTest, EnforcesTargetFrameRate) {
 	auto elapsed_ms = duration_cast<milliseconds>(elapsed_time).count();
 
 	// For 60 FPS, the target frame time is around 16.67ms
-	ASSERT_NEAR(elapsed_ms,16.7,1);
+	ASSERT_NEAR(elapsed_ms, 16.7, 1);
 }
 TEST_F(LoopTimerTest, SetTargetFps) {
 	// Set the target FPS to 120

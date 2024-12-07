@@ -27,9 +27,7 @@ LoopManager::LoopManager() {
 		[this](const ShutDownEvent & event) { return this->on_shutdown(event); });
 }
 
-void LoopManager::process_input() { 
-	this->get_system<InputSystem>().update();
-}
+void LoopManager::process_input() { this->get_system<InputSystem>().update(); }
 
 void LoopManager::start() {
 	this->setup();
@@ -45,7 +43,6 @@ void LoopManager::fixed_update() {
 }
 
 void LoopManager::loop() {
-	
 
 	while (game_running) {
 		this->loop_timer.update();
