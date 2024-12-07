@@ -1,3 +1,5 @@
+#include "../facade/SDLContext.h"
+#include "../system/AISystem.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/InputSystem.h"
@@ -20,6 +22,7 @@ LoopManager::LoopManager() {
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
 	this->load_system<InputSystem>();
+	this->load_system<AISystem>();
 }
 
 void LoopManager::process_input() { this->get_system<InputSystem>().update(); }
@@ -34,9 +37,10 @@ void LoopManager::fixed_update() {
 	// TODO: retrieve EventManager from direct member after singleton refactor
 	EventManager & ev = this->mediator.event_manager;
 	ev.dispatch_events();
-	this->get_system<ScriptSystem>().update();
-	this->get_system<PhysicsSystem>().update();
-	this->get_system<CollisionSystem>().update();
+	this->get_system<ScriptSystem>().update(); // past velocity en locatie aan.
+	this->get_system<AISystem>().update(); // past velocity aan (2x) maxforce 
+	this->get_system<PhysicsSystem>().update(); // past velocity aan en locatie
+	this->get_system<CollisionSystem>().update(); // past velocity aan en locate
 }
 
 void LoopManager::loop() {
@@ -75,4 +79,4 @@ void LoopManager::render() {
 	this->get_system<RenderSystem>().update();
 }
 
-void LoopManager::update() {}
+void LoopManager::update() { this->get_system<AnimatorSystem>().update(); }

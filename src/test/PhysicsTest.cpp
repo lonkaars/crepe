@@ -27,7 +27,7 @@ public:
 				.mass = 1,
 				.gravity_scale = 1,
 				.body_type = Rigidbody::BodyType::DYNAMIC,
-				.max_linear_velocity = vec2{10, 10},
+				.max_linear_velocity = 10,
 				.max_angular_velocity = 10,
 				.constraints = {0, 0},
 			});

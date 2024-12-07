@@ -63,7 +63,7 @@ public:
 		 *
 		 * Gravity value of game.
 		 */
-		double gravity = 1;
+		float gravity = 1;
 	} physics;
 
 	//! default window settings

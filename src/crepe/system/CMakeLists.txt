@@ -7,6 +7,7 @@ target_sources(crepe PUBLIC
 	RenderSystem.cpp
 	AnimatorSystem.cpp
 	InputSystem.cpp
+	AISystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -17,4 +18,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	RenderSystem.h
 	AnimatorSystem.h
 	InputSystem.h
+	AISystem.h
 )
