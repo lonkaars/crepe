@@ -375,65 +375,83 @@ ivec2 SDLContext::get_size(const Texture & ctx) {
 void SDLContext::delay(int ms) const { SDL_Delay(ms); }
 
 std::vector<SDLContext::EventData> SDLContext::get_events() {
-	std::vector<SDLContext::EventData> event_list;
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
-			case SDL_QUIT:
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::SHUTDOWN,
-				});
-				break;
-			case SDL_KEYDOWN:
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::KEYDOWN,
-					.key = sdl_to_keycode(event.key.keysym.scancode),
-					.key_repeat = (event.key.repeat != 0),
-				});
-				break;
-			case SDL_KEYUP:
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::KEYUP,
-					.key = sdl_to_keycode(event.key.keysym.scancode),
-				});
-				break;
-			case SDL_MOUSEBUTTONDOWN:
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::MOUSEDOWN,
-					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = {event.button.x, event.button.y},
-				});
-				break;
-			case SDL_MOUSEBUTTONUP: {
-				int x, y;
-				SDL_GetMouseState(&x, &y);
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::MOUSEUP,
-					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = {event.button.x, event.button.y},
-				});
-			} break;
+    std::vector<SDLContext::EventData> event_list;
+    SDL_Event event;
 
-			case SDL_MOUSEMOTION: {
-				event_list.push_back(
-					EventData{.event_type = SDLContext::EventType::MOUSEMOVE,
-							  .mouse_position = {event.motion.x, event.motion.y},
-							  .rel_mouse_move = {event.motion.xrel, event.motion.yrel}});
-			} break;
+    // Handle general SDL events
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT:
+                event_list.push_back({SDLContext::EventType::SHUTDOWN, {}, {}, {}});
+                break;
+            case SDL_KEYDOWN:
+                event_list.push_back({SDLContext::EventType::KEYDOWN, 
+                                      {sdl_to_keycode(event.key.keysym.scancode), event.key.repeat != 0}, {}, {}});
+                break;
+            case SDL_KEYUP:
+                event_list.push_back({SDLContext::EventType::KEYUP, 
+                                      {sdl_to_keycode(event.key.keysym.scancode), false}, {}, {}});
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                event_list.push_back({SDLContext::EventType::MOUSEDOWN, {}, 
+                                      {sdl_to_mousebutton(event.button.button), {event.button.x, event.button.y}}, {}});
+                break;
+            case SDL_MOUSEBUTTONUP:
+                event_list.push_back({SDLContext::EventType::MOUSEUP, {}, 
+                                      {sdl_to_mousebutton(event.button.button), {event.button.x, event.button.y}}, {}});
+                break;
+            case SDL_MOUSEMOTION:
+                event_list.push_back({SDLContext::EventType::MOUSEMOVE, {}, 
+                                      {{}, {event.motion.x, event.motion.y}, -1, INFINITY, {event.motion.xrel, event.motion.yrel}}, {}});
+                break;
+            case SDL_MOUSEWHEEL:
+                event_list.push_back({SDLContext::EventType::MOUSEWHEEL, {}, 
+                                      {{}, {}, event.wheel.y < 0 ? -1 : 1, event.wheel.preciseY, {}}, {}});
+                break;
 
-			case SDL_MOUSEWHEEL: {
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::MOUSEWHEEL,
-					.mouse_position = {event.motion.x, event.motion.y},
-					// TODO: why is this needed?
-					.scroll_direction = event.wheel.y < 0 ? -1 : 1,
-					.scroll_delta = event.wheel.preciseY,
-				});
-			} break;
-		}
-	}
-	return event_list;
+            // Forward window events for further processing
+            case SDL_WINDOWEVENT:
+                handle_window_event(event.window, event_list);
+                break;
+        }
+    }
+
+    return event_list;
 }
+
+// Separate function for SDL_WINDOWEVENT subtypes
+void SDLContext::handle_window_event(const SDL_WindowEvent& window_event,
+                                     std::vector<SDLContext::EventData>& event_list) {
+    switch (window_event.event) {
+        case SDL_WINDOWEVENT_EXPOSED:
+            event_list.push_back({SDLContext::EventType::WINDOW_EXPOSE, {}, {}, {}});
+            break;
+        case SDL_WINDOWEVENT_RESIZED:
+            event_list.push_back({SDLContext::EventType::WINDOW_RESIZE, {}, {}, 
+                                  {{}, {window_event.data1, window_event.data2}}});
+            break;
+        case SDL_WINDOWEVENT_MOVED:
+            event_list.push_back({SDLContext::EventType::WINDOW_MOVE, {}, {}, 
+                                  {{window_event.data1, window_event.data2}, {}}});
+            break;
+        case SDL_WINDOWEVENT_MINIMIZED:
+            event_list.push_back({SDLContext::EventType::WINDOW_MINIMIZE, {}, {}, {}});
+            break;
+        case SDL_WINDOWEVENT_MAXIMIZED:
+            event_list.push_back({SDLContext::EventType::WINDOW_MAXIMIZE, {}, {}, {}});
+            break;
+        case SDL_WINDOWEVENT_FOCUS_GAINED:
+            event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_GAIN, {}, {}, {}});
+            break;
+        case SDL_WINDOWEVENT_FOCUS_LOST:
+            event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_LOST, {}, {}, {}});
+            break;
+    }
+}
+
+
+
+
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
 	SDL_SetTextureColorMod(texture.texture.get(), color.r, color.g, color.b);
 	SDL_SetTextureAlphaMod(texture.texture.get(), color.a);
