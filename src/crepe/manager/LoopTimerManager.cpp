@@ -38,7 +38,7 @@ void LoopTimerManager::update() {
 	this->last_frame_time = current_frame_time;
 }
 
-double LoopTimerManager::get_delta_time() const { return this->delta_time.count() * this->game_scale; }
+double LoopTimerManager::get_delta_time() const { return this->delta_time.count() * this->time_scale; }
 
 double LoopTimerManager::get_current_time() const { return this->elapsed_time.count(); }
 
@@ -54,9 +54,9 @@ void LoopTimerManager::set_target_fps(int fps) {
 
 int LoopTimerManager::get_fps() const { return this->actual_fps; }
 
-void LoopTimerManager::set_time_scale(double value) { this->game_scale = value; }
+void LoopTimerManager::set_time_scale(double value) { this->time_scale = value; }
 
-double LoopTimerManager::get_time_scale() const { return this->game_scale; }
+double LoopTimerManager::get_time_scale() const { return this->time_scale; }
 void LoopTimerManager::enforce_frame_rate() {
 	auto current_frame_time = std::chrono::steady_clock::now();
 	auto frame_duration = current_frame_time - this->last_frame_time;
