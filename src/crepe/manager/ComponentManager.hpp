@@ -167,4 +167,27 @@ std::set<game_object_id_t> ComponentManager::get_objects_by_predicate(const std:
 	return objects;
 }
 
+template <typename T>
+RefVector<T> ComponentManager::get_components_by_ids(const std::set<game_object_id_t> & ids) const {
+	using namespace std;
+	
+	RefVector<T> out = {};
+	for (game_object_id_t id : ids) {
+		RefVector<T> components = get_components_by_id<T>(id);
+		out.insert(out.end(), components.begin(), components.end());
+	}
+
+	return out;
+}
+
+template <typename T>
+RefVector<T> ComponentManager::get_components_by_name(const std::string & name) const {
+	return this->get_components_by_ids<T>(this->get_objects_by_name(name));
+}
+
+template <typename T>
+RefVector<T> ComponentManager::get_components_by_tag(const std::string & tag) const {
+	return this->get_components_by_ids<T>(this->get_objects_by_tag(tag));
+}
+
 } // namespace crepe

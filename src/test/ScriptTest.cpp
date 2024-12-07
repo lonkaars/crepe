@@ -6,7 +6,6 @@
 #define protected public
 
 #include "ScriptTest.h"
-#include <crepe/api/GameObject.h>
 
 using namespace std;
 using namespace crepe;
@@ -14,7 +13,6 @@ using namespace testing;
 
 void ScriptTest::SetUp() {
 	auto & mgr = this->component_manager;
-	GameObject entity = mgr.new_object("name");
 	BehaviorScript & component = entity.add_component<BehaviorScript>();
 
 	this->behaviorscript = component;
@@ -75,3 +73,4 @@ TEST_F(ScriptTest, UpdateInactive) {
 		system.update();
 	}
 }
+
