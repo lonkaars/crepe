@@ -3,8 +3,12 @@
 
 \htmlonly
 <style>
-table.memberdecls { display: none; }
-ul { margin: 1ex 0pt; }
+table.memberdecls,
+.groupheader
+{ display: none; }
+ul,
+li
+{ margin: 1ex 0pt; }
 </style>
 \endhtmlonly
 
@@ -14,15 +18,46 @@ ul { margin: 1ex 0pt; }
 This page lists engine features and contains usage instructions for each
 feature.
 
-\par Features
+- Basics
+	- \todo Hello world / engine initialization
+
+	- \todo Engine configuration options
+
+- Scenes
+	- \ref feature_scene \n\copybrief feature_scene
+	- \todo Navigating between scenes
+
+- Input
+	- \todo Key/Mouse events (w/ Script)
+
+- Actors / game objects
+	- \ref feature_gameobject \n\copybrief feature_gameobject
+
+- \todo HUD
+
+- Animation
+	- \todo Animation using spritesheet
+
+	- \todo Particle effects
+
+- Save data
+	- \todo SaveManager usage
+
+- Audio
+	- \todo Playing sound effects
+
+	- \todo Adding background music to a scene
+
+- \todo AI
+
+- \todo Physics
 
 - Scripting
 	- \ref feature_script \n\copybrief feature_script
+	- \ref feature_script_ecs \n\copybrief feature_script_ecs
 
-- Game flow management
-	- \ref feature_scene \n\copybrief feature_scene
+	- \todo Subscribing to *any* event inside Script
 
-- Entity
-	- \ref feature_gameobject \n\copybrief feature_gameobject
+- \todo Replay
 
 */
