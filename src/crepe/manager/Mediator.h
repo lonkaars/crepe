@@ -4,9 +4,8 @@
 
 // TODO: remove these singletons:
 #include "../facade/SDLContext.h"
-//#include "EventManager.h"
+
 #include "SaveManager.h"
-//#include "LoopTimerManager.h"
 
 namespace crepe {
 
