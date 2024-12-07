@@ -2,7 +2,6 @@
 
 #include <vector>
 
-#include "../ValueBroker.h"
 #include "../manager/EventManager.h"
 #include "../manager/Mediator.h"
 #include "../system/CollisionSystem.h"
