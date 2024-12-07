@@ -112,10 +112,6 @@ public:
 	//! scroll amount in y axis (from and away from the person).
 	float scroll_delta = 0;
 };
-/**
- * \brief Event triggered during a collision between objects.
- */
-class CollisionEvent : public Event {};
 
 /**
  * \brief Event triggered when text is submitted, e.g., from a text input.

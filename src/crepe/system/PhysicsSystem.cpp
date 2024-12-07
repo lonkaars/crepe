@@ -25,17 +25,20 @@ void PhysicsSystem::update() {
 					if (transform.game_object_id == rigidbody.game_object_id) {
 
 						// Add gravity
-						if (rigidbody.data.use_gravity) {
+						if (rigidbody.data.gravity_scale > 0) {
 							rigidbody.data.linear_velocity.y
 								+= (rigidbody.data.mass * rigidbody.data.gravity_scale
 									* gravity);
 						}
 						// Add damping
-						if (rigidbody.data.angular_damping != 0) {
-							rigidbody.data.angular_velocity *= rigidbody.data.angular_damping;
+						if (rigidbody.data.angular_velocity_coefficient > 0) {
+							rigidbody.data.angular_velocity
+								*= rigidbody.data.angular_velocity_coefficient;
 						}
-						if (rigidbody.data.linear_damping != vec2{0, 0}) {
-							rigidbody.data.linear_velocity *= rigidbody.data.linear_damping;
+						if (rigidbody.data.linear_velocity_coefficient.x > 0
+							&& rigidbody.data.linear_velocity_coefficient.y > 0) {
+							rigidbody.data.linear_velocity
+								*= rigidbody.data.linear_velocity_coefficient;
 						}
 
 						// Max velocity check
