@@ -1,12 +1,12 @@
 #pragma once
 
 #include <chrono>
-
+#include "../manager/Manager.h"
 namespace crepe {
 
-class LoopTimer {
+class LoopTimerManager : public Manager {
 public:
-	LoopTimer();
+	LoopTimerManager(Mediator & mediator);
 	/**
 	 * \brief Get the current delta time for the current frame.
 	 *
@@ -39,19 +39,19 @@ public:
 	int get_fps() const;
 
 	/**
-	 * \brief Get the current game scale.
+	 * \brief Get the current time scale.
 	 *
-	 * \return The current game scale, where 0 = paused, 1 = normal speed, and values > 1 speed
+	 * \return The current time scale, where 0 = paused, 1 = normal speed, and values > 1 speed
 	 * up the game.
 	 */
-	double get_game_scale() const;
+	double get_time_scale() const;
 
 	/**
-	 * \brief Set the game scale.
+	 * \brief Set the time scale.
 	 *
-	 * \param game_scale The desired game scale (0 = pause, 1 = normal speed, > 1 = speed up).
+	 * \param game_scale The desired time scale (0 = pause, 1 = normal speed, > 1 = speed up).
 	 */
-	void set_game_scale(double game_scale);
+	void set_time_scale(double game_scale);
 
 private:
 	friend class LoopManager;
