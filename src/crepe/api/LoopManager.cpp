@@ -3,10 +3,12 @@
 #include "../manager/EventManager.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
+#include "../system/InputSystem.h"
 #include "../system/ParticleSystem.h"
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
+#include "manager/EventManager.h"
 
 #include "LoopManager.h"
 
@@ -20,20 +22,27 @@ LoopManager::LoopManager() {
 	this->load_system<PhysicsSystem>();
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
+	this->load_system<InputSystem>();
 	this->event_manager.subscribe<ShutDownEvent>(
 		[this](const ShutDownEvent & event) { return this->on_shutdown(event); });
 }
 
 void LoopManager::process_input() { 
-	
-	this->sdl_context.handle_events(this->game_running); }
+	this->get_system<InputSystem>().update();
+}
 
 void LoopManager::start() {
 	this->setup();
 	this->loop();
 }
 
-void LoopManager::fixed_update() {}
+void LoopManager::fixed_update() {
+	EventManager & ev = this->mediator.event_manager;
+	ev.dispatch_events();
+	this->get_system<ScriptSystem>().update();
+	this->get_system<PhysicsSystem>().update();
+	this->get_system<CollisionSystem>().update();
+}
 
 void LoopManager::loop() {
 	
@@ -55,14 +64,15 @@ void LoopManager::loop() {
 }
 
 void LoopManager::setup() {
-
 	this->game_running = true;
 	this->loop_timer.start();
+	this->scene_manager.load_next_scene();
 }
 
 void LoopManager::render() {
 	if (!this->game_running) return;
 
+	this->get_system<AnimatorSystem>().update();
 	this->get_system<RenderSystem>().update();
 }
 bool LoopManager::on_shutdown(const ShutDownEvent & e) {

@@ -20,7 +20,6 @@ protected:
     };
 
     TestGameLoop test_loop;
-	// LoopManager test_loop;
     void SetUp() override {
 		
     }

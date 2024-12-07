@@ -24,14 +24,15 @@ public:
 	using System::System;
 
 	/**
-     * \brief Updates the system, processing all input events.
-     * This method processes all events and triggers corresponding actions.
-     */
+	 * \brief Updates the system, processing all input events.
+	 * This method processes all events and triggers corresponding actions.
+	 */
 	void update() override;
 
 private:
 	//! Stores the last position of the mouse when the button was pressed.
 	ivec2 last_mouse_down_position;
+	// TODO: specify world/hud space and make regular `vec2`
 
 	//! Stores the last mouse button pressed.
 	MouseButton last_mouse_button = MouseButton::NONE;
