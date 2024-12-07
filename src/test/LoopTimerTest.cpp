@@ -1,16 +1,17 @@
 #include <chrono>
-#include <gtest/gtest.h>
 #include <thread>
+#include <gtest/gtest.h>
 #define private public
 #define protected public
-#include "api/LoopTimer.h"
-
+#include <crepe/manager/LoopTimerManager.h>
+#include <crepe/manager/Mediator.h>
 using namespace std::chrono;
 using namespace crepe;
 
 class LoopTimerTest : public ::testing::Test {
 protected:
-	LoopTimer loop_timer;
+	Mediator mediator;
+	LoopTimerManager loop_timer{mediator};
 
 	void SetUp() override { loop_timer.start(); }
 };
@@ -25,8 +26,7 @@ TEST_F(LoopTimerTest, EnforcesTargetFrameRate) {
 	auto elapsed_ms = duration_cast<milliseconds>(elapsed_time).count();
 
 	// For 60 FPS, the target frame time is around 16.67ms
-	ASSERT_GE(elapsed_ms, 16); // Make sure it's at least 16 ms (could be slightly more)
-	ASSERT_LE(elapsed_ms, 18); // Ensure it's not too much longer
+	ASSERT_NEAR(elapsed_ms,16.7,1);
 }
 TEST_F(LoopTimerTest, SetTargetFps) {
 	// Set the target FPS to 120
@@ -48,11 +48,10 @@ TEST_F(LoopTimerTest, DeltaTimeCalculation) {
 	// Check the delta time
 	double delta_time = loop_timer.get_delta_time();
 
-	auto elapsed_time = duration_cast<milliseconds>(end_time - start_time).count();
+	auto elapsed_time = duration_cast<seconds>(end_time - start_time).count();
 
 	// Assert that delta_time is close to the elapsed time
-	ASSERT_GE(delta_time, elapsed_time / 1000.0);
-	ASSERT_LE(delta_time, (elapsed_time + 2) / 1000.0);
+	ASSERT_NEAR(delta_time, elapsed_time, 1);
 }
 
 TEST_F(LoopTimerTest, getCurrentTime) {

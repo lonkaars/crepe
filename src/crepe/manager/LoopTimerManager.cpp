@@ -4,13 +4,16 @@
 #include "../facade/SDLContext.h"
 #include "../util/Log.h"
 
-#include "LoopTimer.h"
+#include "LoopTimerManager.h"
 
 using namespace crepe;
 
-LoopTimer::LoopTimer() { dbg_trace(); }
+LoopTimerManager::LoopTimerManager(Mediator & mediator) : Manager(mediator) { 
+	this->mediator.loop_timer = *this;
+	dbg_trace(); 
+	}
 
-void LoopTimer::start() {
+void LoopTimerManager::start() {
 	this->last_frame_time = std::chrono::steady_clock::now();
 
 	this->elapsed_time = std::chrono::milliseconds(0);
@@ -20,7 +23,7 @@ void LoopTimer::start() {
 	this->delta_time = std::chrono::milliseconds(0);
 }
 
-void LoopTimer::update() {
+void LoopTimerManager::update() {
 	auto current_frame_time = std::chrono::steady_clock::now();
 	// Convert to duration in seconds for delta time
 	this->delta_time = std::chrono::duration_cast<std::chrono::duration<double>>(
@@ -31,31 +34,30 @@ void LoopTimer::update() {
 	}
 	this->actual_fps = 1.0 / this->delta_time.count();
 
-	this->delta_time *= this->game_scale;
 	this->elapsed_time += this->delta_time;
 	this->last_frame_time = current_frame_time;
 }
 
-double LoopTimer::get_delta_time() const { return this->delta_time.count(); }
+double LoopTimerManager::get_delta_time() const { return this->delta_time.count() * this->game_scale; }
 
-double LoopTimer::get_current_time() const { return this->elapsed_time.count(); }
+double LoopTimerManager::get_current_time() const { return this->elapsed_time.count(); }
 
-void LoopTimer::advance_fixed_update() { this->elapsed_fixed_time += this->fixed_delta_time; }
+void LoopTimerManager::advance_fixed_update() { this->elapsed_fixed_time += this->fixed_delta_time; }
 
-double LoopTimer::get_fixed_delta_time() const { return this->fixed_delta_time.count(); }
+double LoopTimerManager::get_fixed_delta_time() const { return this->fixed_delta_time.count(); }
 
-void LoopTimer::set_target_fps(int fps) {
+void LoopTimerManager::set_target_fps(int fps) {
 	this->target_fps = fps;
 	// target time per frame in seconds
 	this->frame_target_time = std::chrono::duration<double>(1.0) / this->target_fps;
 }
 
-int LoopTimer::get_fps() const { return this->actual_fps; }
+int LoopTimerManager::get_fps() const { return this->actual_fps; }
 
-void LoopTimer::set_game_scale(double value) { this->game_scale = value; }
+void LoopTimerManager::set_time_scale(double value) { this->game_scale = value; }
 
-double LoopTimer::get_game_scale() const { return this->game_scale; }
-void LoopTimer::enforce_frame_rate() {
+double LoopTimerManager::get_time_scale() const { return this->game_scale; }
+void LoopTimerManager::enforce_frame_rate() {
 	auto current_frame_time = std::chrono::steady_clock::now();
 	auto frame_duration = current_frame_time - this->last_frame_time;
 
@@ -70,6 +72,6 @@ void LoopTimer::enforce_frame_rate() {
 	}
 }
 
-double LoopTimer::get_lag() const {
+double LoopTimerManager::get_lag() const {
 	return (this->elapsed_time - this->elapsed_fixed_time).count();
 }

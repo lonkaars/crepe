@@ -3,11 +3,9 @@
 using namespace crepe;
 using namespace std;
 
-EventManager & EventManager::get_instance() {
-	static EventManager instance;
-	return instance;
+EventManager::EventManager(Mediator & mediator) : Manager(mediator){
+	this->mediator.event_manager = *this;
 }
-
 void EventManager::dispatch_events() {
 	for (auto & event : this->events_queue) {
 		this->handle_event(event.type, event.channel, *event.event.get());

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../facade/SDLContext.h"
 
 #include "../manager/EventManager.h"
@@ -20,10 +21,8 @@ LoopManager::LoopManager() {
 	this->load_system<PhysicsSystem>();
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
-	EventManager::get_instance().subscribe<ShutDownEvent>(
+	this->event_manager.subscribe<ShutDownEvent>(
 		[this](const ShutDownEvent & event) { return this->on_shutdown(event); });
-	this->loop_timer = make_unique<LoopTimer>();
-	this->mediator.loop_timer = *loop_timer;
 }
 
 void LoopManager::process_input() { 
@@ -38,27 +37,28 @@ void LoopManager::start() {
 void LoopManager::fixed_update() {}
 
 void LoopManager::loop() {
-	this->loop_timer->start();
+	
 
 	while (game_running) {
-		this->loop_timer->update();
+		this->loop_timer.update();
 
-		while (this->loop_timer->get_lag() >= this->loop_timer->get_fixed_delta_time()) {
+		while (this->loop_timer.get_lag() >= this->loop_timer.get_fixed_delta_time()) {
 			this->process_input();
+			event_manager.dispatch_events();
 			this->fixed_update();
-			this->loop_timer->advance_fixed_update();
+			this->loop_timer.advance_fixed_update();
 		}
 
 		this->update();
 		this->render();
-		this->loop_timer->enforce_frame_rate();
+		this->loop_timer.enforce_frame_rate();
 	}
 }
 
 void LoopManager::setup() {
 
 	this->game_running = true;
-	this->loop_timer->start();
+	this->loop_timer.start();
 }
 
 void LoopManager::render() {

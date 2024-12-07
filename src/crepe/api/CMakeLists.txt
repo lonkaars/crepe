@@ -13,10 +13,7 @@ target_sources(crepe PUBLIC
 	Metadata.cpp
 	Camera.cpp
 	Animator.cpp
-	IKeyListener.cpp
-	IMouseListener.cpp
 	LoopManager.cpp
-	LoopTimer.cpp
 	Asset.cpp
 	EventHandler.cpp
 	Script.cpp
@@ -45,9 +42,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	EventHandler.h
 	EventHandler.hpp
 	Event.h
-	IKeyListener.h
-	IMouseListener.h
 	LoopManager.h
-	LoopTimer.h
 	Asset.h
 )

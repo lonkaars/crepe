@@ -5,10 +5,11 @@
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/SceneManager.h"
+#include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
 #include "../system/System.h"
 
 #include "api/Event.h"
-#include "api/LoopTimer.h"
 
 namespace crepe {
 /**
@@ -96,8 +97,10 @@ private:
 
 	//! SDL context \todo no more singletons!
 	SDLContext & sdl_context = SDLContext::get_instance();
-	//! loop timer instance
-	std::unique_ptr<LoopTimer> loop_timer;
+	//! LoopTimer instance
+	LoopTimerManager loop_timer{mediator};
+	//! EventManager instance
+	EventManager event_manager{mediator};
 
 private:
 	/**
