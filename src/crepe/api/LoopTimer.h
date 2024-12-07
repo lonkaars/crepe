@@ -58,6 +58,16 @@ public:
 	 * \param game_scale The desired game scale (0 = pause, 1 = normal speed, > 1 = speed up).
 	 */
 	void set_game_scale(double game_scale);
+	
+	/**
+	 * \brief Get the fixed delta time for consistent updates.
+	 *
+	 * Fixed delta time is used for operations that require uniform time steps, such as physics
+	 * calculations.
+	 *
+	 * \return Fixed delta time in seconds.
+	 */
+	double get_fixed_delta_time() const;
 
 private:
 	friend class LoopManager;
@@ -77,15 +87,6 @@ private:
 	 */
 	void enforce_frame_rate();
 
-	/**
-	 * \brief Get the fixed delta time for consistent updates.
-	 *
-	 * Fixed delta time is used for operations that require uniform time steps, such as physics
-	 * calculations.
-	 *
-	 * \return Fixed delta time in seconds.
-	 */
-	double get_fixed_delta_time() const;
 
 	/**
 	 * \brief Get the accumulated lag in the game loop.
