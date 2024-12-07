@@ -1,0 +1,59 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\todo texture needs adjusting
+
+\note Creating a \ref Sprite for showcasing entities on the screen.
+
+\defgroup feature_sprite_creation Sprite Creation
+\ingroup feature
+\brief Demonstrates how to create a sprite component for a game object.
+
+\par Description
+The purpose of this feature is to showcase how to be able to render a object to the screen.
+Common use cases for this feature include:
+- Displaying charachters
+- Displaying items
+- Displaying backgrounds
+
+
+\see GameObject 
+\see Sprite
+
+
+\par example
+
+This example shows how to add a \ref Sprite component to a game object. 
+The \ref Sprite::Data struct can be customized but these features are shown \ref
+others. 
+
+\note this page builds on top of the example shown in \ref feature_gameobject_creation
+
+\warning Before this example can be run a \ref Camera component needs to be
+added to a \ref GameObject in the current \ref Scene otherwise the program will
+crash with the following warning **No active cameras in current scene**. this \ref feature_camera_creation page showcases the feature.
+
+```cpp
+
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Sprite.h>
+
+int main(){
+
+	// Define the texture for the sprite.
+	auto img = Texture("asset/texture/personal_img.png");
+
+	// Add a sprite component to the game object.
+	Sprite &test_sprite = game_object.add_component<Sprite>(
+		img, Sprite::Data{}
+);
+
+}
+
+```
+
+*/
+}
+
+

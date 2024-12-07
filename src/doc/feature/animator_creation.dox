@@ -1,0 +1,58 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note This feature showcases how to add an Animator component to a GameObject.
+
+\defgroup feature_animator_creation Animator creation
+\ingroup feature
+\brief Adding a Animator component to a GameObject
+
+\par Common use cases for this feature include:
+- Charachter animation
+- Enviromental effects (animating water sprites to simulate water)
+- UI elements (Health bar changes)
+- Projectile effects (animating a trail behind Projectiles)
+
+\par Restrictions:
+- \ref Animator only supports row based animations.
+- Only one \ref Animator per \ref Sprite component
+
+
+\see GameObject
+\see Sprite
+\see Animator
+
+\par example
+
+This example shows how to add a \ref Animator component to a game object. 
+The \ref Animator::Data struct can be customized but these features are shown (\ref feature_animator_looping, \ref feature_animator_cycle, \ref
+feature_animator_speed, \ref feature_animator_running, \ref
+feature_animator_next_anim).
+
+\note this page builds on top of the example shown in \ref
+feature_sprite_creation
+
+```cpp
+
+#include <crepe/api/Animator.h>
+ 
+using namespace crepe;
+
+int main(int argc, char * argv[]){
+
+	// maximum of rows inside the given spritesheet
+	int max_rows = 4;
+	// maximum of columns inside the given spritesheet
+	int max_cols = 4;
+
+	// spritesheet is an Sprite component that is an Spritesheet
+	game_object.add_component<Animator>(spritesheet, max_rows, max_cols, Animator::Data{});
+}
+
+
+```
+
+*/
+}
+
