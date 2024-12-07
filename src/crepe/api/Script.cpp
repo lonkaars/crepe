@@ -24,7 +24,4 @@ void Script::set_next_scene(const string & name) {
 	mgr.set_next_scene(name);
 }
 
-SaveManager & Script::get_save_manager() const {
-	return this->mediator->save_manager;
-}
-
+SaveManager & Script::get_save_manager() const { return this->mediator->save_manager; }

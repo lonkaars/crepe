@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include <crepe/manager/SaveManager.h>
-#include <crepe/facade/DB.h>
 #include <crepe/ValueBroker.h>
+#include <crepe/facade/DB.h>
+#include <crepe/manager/SaveManager.h>
 
 using namespace std;
 using namespace crepe;
@@ -38,4 +38,3 @@ TEST_F(SaveManagerTest, DefaultValue) {
 	value.set(5);
 	ASSERT_EQ(value.get(), 5);
 }
-
