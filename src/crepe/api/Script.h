@@ -90,6 +90,18 @@ protected:
 	 */
 	template <typename T>
 	RefVector<T> get_components_by_id(game_object_id_t id) const;
+	/**
+	 * \copydoc ComponentManager::get_components_by_name
+	 * \see ComponentManager::get_components_by_name
+	 */
+	template <typename T>
+	RefVector<T> get_components_by_name(const std::string & name) const;
+	/**
+	 * \copydoc ComponentManager::get_components_by_tag
+	 * \see ComponentManager::get_components_by_tag
+	 */
+	template <typename T>
+	RefVector<T> get_components_by_tag(const std::string & tag) const;
 
 	/**
 	 * \brief Log a message using Log::logf

@@ -135,10 +135,30 @@ public:
 	 */
 	template <typename T>
 	RefVector<T> get_components_by_type() const;
+	/**
+	 * \brief Get all components of a specific type on a GameObject with name \c name
+	 * 
+	 * \tparam T The type of the component
+	 * \param name Metadata::name for the same game_object_id as the returned components
+	 * \return Components matching criteria
+	 */
+	template <typename T>
+	RefVector<T> get_components_by_name(const std::string & name) const;
+	/**
+	 * \brief Get all components of a specific type on a GameObject with tag \c tag
+	 * 
+	 * \tparam T The type of the component
+	 * \param name Metadata::tag for the same game_object_id as the returned components
+	 * \return Components matching criteria
+	 */
+	template <typename T>
+	RefVector<T> get_components_by_tag(const std::string & tag) const;
 
 private:
 	template <typename T>
 	std::set<game_object_id_t> get_objects_by_predicate(const std::function<bool (const T &)> & pred) const;
+	template <typename T>
+	RefVector<T> get_components_by_ids(const std::set<game_object_id_t> & ids) const;
 
 	std::set<game_object_id_t> get_objects_by_name(const std::string & name) const;
 	std::set<game_object_id_t> get_objects_by_tag(const std::string & tag) const;

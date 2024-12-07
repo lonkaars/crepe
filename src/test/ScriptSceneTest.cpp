@@ -18,7 +18,7 @@ public:
 	class MyScene : public Scene {};
 };
 
-TEST_F(ScriptSceneTest, Inactive) {
+TEST_F(ScriptSceneTest, Default) {
 	BehaviorScript & behaviorscript = this->behaviorscript;
 	MyScript & script = this->script;
 
@@ -28,3 +28,4 @@ TEST_F(ScriptSceneTest, Inactive) {
 	script.set_next_scene(non_default_value);
 	EXPECT_EQ(non_default_value, scene_manager.next_scene);
 }
+

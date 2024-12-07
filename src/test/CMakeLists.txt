@@ -15,4 +15,5 @@ target_sources(test_main PUBLIC
 	InputTest.cpp
 	ScriptEventTest.cpp
 	ScriptSceneTest.cpp
+	ScriptECSTest.cpp
 )
