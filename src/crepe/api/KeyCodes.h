@@ -1,5 +1,5 @@
 #pragma once
-
+namespace crepe {
 //! Enumeration for mouse button inputs, including standard and extended buttons.
 enum class MouseButton {
 	NONE = 0, //!< No mouse button input.
@@ -85,9 +85,9 @@ enum class Keycode {
 	PRINT_SCREEN = 283, //!< Print Screen key.
 	PAUSE = 284, //!< Pause key.
 	/**
-	 * \name Function keys (F1-F25).
-	 * \{
-	 */
+		 * \name Function keys (F1-F25).
+		 * \{
+		 */
 	F1 = 290,
 	F2 = 291,
 	F3 = 292,
@@ -115,9 +115,9 @@ enum class Keycode {
 	F25 = 314,
 	/// \}
 	/**
-	 * \name Keypad digits and operators.
-	 * \{
-	 */
+		 * \name Keypad digits and operators.
+		 * \{
+		 */
 	KP0 = 320,
 	KP1 = 321,
 	KP2 = 322,
@@ -137,9 +137,9 @@ enum class Keycode {
 	KP_EQUAL = 336,
 	/// \}
 	/**
-	 * \name Modifier keys.
-	 * \{
-	 */
+		 * \name Modifier keys.
+		 * \{
+		 */
 	LEFT_SHIFT = 340,
 	LEFT_CONTROL = 341,
 	LEFT_ALT = 342,
@@ -151,3 +151,4 @@ enum class Keycode {
 	/// \}
 	MENU = 348, //!< Menu key.
 };
+} // namespace crepe

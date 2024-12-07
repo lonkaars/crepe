@@ -8,6 +8,7 @@
 #include "../manager/EventManager.h"
 #include "../manager/LoopTimerManager.h"
 #include "../system/System.h"
+#include "../manager/Mediator.h"
 
 #include "api/Event.h"
 
@@ -98,7 +99,7 @@ private:
 	LoopTimerManager loop_timer{mediator};
 	//! EventManager instance
 	EventManager event_manager{mediator};
-	
+
 	//! SDL context \todo no more singletons!
 	SDLContext & sdl_context = SDLContext::get_instance();
 

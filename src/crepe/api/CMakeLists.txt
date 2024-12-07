@@ -13,10 +13,14 @@ target_sources(crepe PUBLIC
 	Metadata.cpp
 	Camera.cpp
 	Animator.cpp
+	BoxCollider.cpp
+	CircleCollider.cpp
 	LoopManager.cpp
 	Asset.cpp
 	EventHandler.cpp
 	Script.cpp
+	Button.cpp
+	UIObject.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -32,16 +36,20 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.h
 	Vector2.hpp
 	Color.h
-	Texture.h 
-	AssetManager.h 
+	Texture.h
+	AssetManager.h
 	AssetManager.hpp
 	Scene.h
 	Metadata.h
 	Camera.h
 	Animator.h
+	BoxCollider.h
+	CircleCollider.h
 	EventHandler.h
 	EventHandler.hpp
 	Event.h
 	LoopManager.h
 	Asset.h
+	Button.h
+	UIObject.h
 )

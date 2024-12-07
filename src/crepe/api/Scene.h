@@ -12,7 +12,7 @@ class ComponentManager;
 
 /**
  * \brief Represents a Scene
- * 
+ *
  * This class represents a Scene. The Scene class is only used as an interface for the game
  * programmer.
  */
@@ -41,7 +41,7 @@ public:
 protected:
 	/**
 	 * \name Late references
-	 * 
+	 *
 	 * These references are set by SceneManager immediately after calling the constructor of Scene.
 	 *
 	 * \note Scene must have a constructor without arguments so the game programmer doesn't need to

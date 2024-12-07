@@ -8,7 +8,7 @@ class Script;
 
 /**
  * \brief Script system
- * 
+ *
  * The script system is responsible for all \c BehaviorScript components, and
  * calls the methods on classes derived from \c Script.
  */
