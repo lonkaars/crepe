@@ -98,7 +98,6 @@ public:
 	void clear();
 
 private:
-
 	/**
 	 * \struct QueueEntry
 	 * \brief Represents an entry in the event queue.

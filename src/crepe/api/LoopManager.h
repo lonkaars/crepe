@@ -4,11 +4,11 @@
 
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
-#include "../manager/SceneManager.h"
 #include "../manager/EventManager.h"
 #include "../manager/LoopTimerManager.h"
-#include "../system/System.h"
 #include "../manager/Mediator.h"
+#include "../manager/SceneManager.h"
+#include "../system/System.h"
 
 #include "api/Event.h"
 
@@ -102,7 +102,6 @@ private:
 
 	//! SDL context \todo no more singletons!
 	SDLContext & sdl_context = SDLContext::get_instance();
-
 
 private:
 	/**

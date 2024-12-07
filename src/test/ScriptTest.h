@@ -6,8 +6,8 @@
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Script.h>
 #include <crepe/manager/ComponentManager.h>
-#include <crepe/system/ScriptSystem.h>
 #include <crepe/manager/EventManager.h>
+#include <crepe/system/ScriptSystem.h>
 class ScriptTest : public testing::Test {
 protected:
 	crepe::Mediator mediator;

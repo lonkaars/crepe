@@ -3,7 +3,7 @@
 using namespace crepe;
 using namespace std;
 
-EventManager::EventManager(Mediator & mediator) : Manager(mediator){
+EventManager::EventManager(Mediator & mediator) : Manager(mediator) {
 	this->mediator.event_manager = *this;
 }
 void EventManager::dispatch_events() {
