@@ -27,7 +27,10 @@ LoopManager::LoopManager() {
 		[this](const ShutDownEvent & event) { return this->on_shutdown(event); });
 }
 
-void LoopManager::process_input() { this->get_system<InputSystem>().update(); }
+void LoopManager::process_input() { 
+	this->get_system<InputSystem>().update(); 
+	this->event_manager.dispatch_events();
+	}
 
 void LoopManager::start() {
 	this->setup();
@@ -35,8 +38,6 @@ void LoopManager::start() {
 }
 
 void LoopManager::fixed_update() {
-	EventManager & ev = this->mediator.event_manager;
-	ev.dispatch_events();
 	this->get_system<ScriptSystem>().update();
 	this->get_system<PhysicsSystem>().update();
 	this->get_system<CollisionSystem>().update();
@@ -49,7 +50,6 @@ void LoopManager::loop() {
 
 		while (this->loop_timer.get_lag() >= this->loop_timer.get_fixed_delta_time()) {
 			this->process_input();
-			event_manager.dispatch_events();
 			this->fixed_update();
 			this->loop_timer.advance_fixed_update();
 		}
