@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <vector>
 
 #include "Component.h"
@@ -26,14 +27,17 @@ public:
 	 */
 	struct Boundary {
 		//! boundary width (midpoint is emitter location)
-		double width = 0.0;
+		float width = INFINITY;
 		//! boundary height (midpoint is emitter location)
-		double height = 0.0;
+		float height = INFINITY;
 		//! boundary offset from particle emitter location
 		vec2 offset;
 		//! reset on exit or stop velocity and set max postion
 		bool reset_on_exit = false;
 	};
+
+	//! sprite reference of displayed sprite
+	const Sprite & sprite;
 
 	/**
 	 * \brief Holds parameters that control particle emission.
@@ -45,29 +49,28 @@ public:
 		//! position of the emitter
 		vec2 position;
 		//! maximum number of particles
-		const unsigned int max_particles = 0;
+		const unsigned int max_particles = 256;
 		//! rate of particle emission per update (Lowest value = 0.001 any lower is ignored)
-		double emission_rate = 0;
+		float emission_rate = 1;
 		//! min speed of the particles
-		double min_speed = 0;
+		float min_speed = 1;
 		//! min speed of the particles
-		double max_speed = 0;
+		float max_speed = 2;
 		//! min angle of particle emission
-		double min_angle = 0;
+		float min_angle = 0;
 		//! max angle of particle emission
-		double max_angle = 0;
+		float max_angle = 0;
 		//! begin Lifespan of particle (only visual)
-		double begin_lifespan = 0.0;
+		float begin_lifespan = 0.0;
 		//! end Lifespan of particle
-		double end_lifespan = 0.0;
+		float end_lifespan = 10.0;
 		//! force over time (physics)
 		vec2 force_over_time;
 		//! particle boundary
 		Boundary boundary;
 		//! collection of particles
 		std::vector<Particle> particles;
-		//! sprite reference
-		const Sprite & sprite;
+		
 	};
 
 public:
@@ -75,7 +78,7 @@ public:
 	 * \param game_object_id  Identifier for the game object using this emitter.
 	 * \param data            Configuration data defining particle properties.
 	 */
-	ParticleEmitter(game_object_id_t game_object_id, const Data & data);
+	ParticleEmitter(game_object_id_t game_object_id, const Sprite & sprite,const Data & data);
 
 public:
 	//! Configuration data for particle emission settings.

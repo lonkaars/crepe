@@ -39,7 +39,7 @@ private:
 	 * \param emission Emission rate.
 	 * \return The number of particles to emit.
 	 */
-	int calculate_update(int count, double emission) const;
+	int calculate_update(int count, float emission) const;
 
 	/**
 	 * \brief Checks whether particles are within the emitter’s boundary, resets or stops
@@ -57,7 +57,7 @@ private:
 	 * \param max_angle Maximum emission angle in degrees.
 	 * \return Random angle in degrees.
 	 */
-	double generate_random_angle(double min_angle, double max_angle) const;
+	float generate_random_angle(float min_angle, float max_angle) const;
 
 	/**
 	 * \brief Generates a random speed for particle emission within the specified range.
@@ -66,7 +66,7 @@ private:
 	 * \param max_speed Maximum emission speed.
 	 * \return Random speed.
 	 */
-	double generate_random_speed(double min_speed, double max_speed) const;
+	float generate_random_speed(float min_speed, float max_speed) const;
 
 private:
 	//! Counter to count updates to determine how many times emit_particle is
