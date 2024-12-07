@@ -79,19 +79,37 @@ public:
 		KEYUP,
 		KEYDOWN,
 		SHUTDOWN,
-
+		WINDOW_MINIMIZE,
+		WINDOW_MAXIMIZE,
+		WINDOW_FOCUS_GAIN,
+		WINDOW_FOCUS_LOST,
+		WINDOW_MOVE,
+		WINDOW_RESIZE,
+		WINDOW_EXPOSE,
 	};
-	//! EventData struct for passing event data from facade
-	struct EventData {
-		SDLContext::EventType event_type = SDLContext::EventType::NONE;
+	struct KeyData{
 		Keycode key = Keycode::NONE;
 		bool key_repeat = false;
+	};
+	struct MouseData{
 		MouseButton mouse_button = MouseButton::NONE;
 		ivec2 mouse_position = {-1, -1};
 		int scroll_direction = -1;
 		float scroll_delta = INFINITY;
 		ivec2 rel_mouse_move = {-1, -1};
 	};
+	struct WindowData{
+		ivec2 move_delta;
+		ivec2 resize_dimension;
+	};
+	//! EventData struct for passing event data from facade
+	struct EventData {
+		SDLContext::EventType event_type = SDLContext::EventType::NONE;
+		KeyData key_data;
+		MouseData mouse_data;
+		WindowData window_data;
+	};
+	
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
 	 * \return Reference to the SDLContext instance.
@@ -116,7 +134,14 @@ private:
 	 * \return Events that occurred since last call to `get_events()`
 	 */
 	std::vector<SDLContext::EventData> get_events();
-
+	/**
+	 * \brief Fills event_list with triggered window events
+	 *
+	 * This method checks if any window events are triggered and adds them to the event_list.
+	 *
+	 */
+	void handle_window_event(const SDL_WindowEvent& window_event,
+                                     std::vector<SDLContext::EventData>& event_list);
 	/**
 	 * \brief Converts an SDL key code to the custom Keycode type.
 	 *
