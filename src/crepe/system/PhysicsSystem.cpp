@@ -11,7 +11,7 @@
 using namespace crepe;
 
 void PhysicsSystem::update() {
-	double dt = LoopTimer::get_instance().get_delta_time();
+	double dt = LoopTimer::get_instance().get_fixed_delta_time();
 	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
 	
