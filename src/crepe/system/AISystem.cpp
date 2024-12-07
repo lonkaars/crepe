@@ -130,7 +130,7 @@ vec2 AISystem::arrive(const AI & ai) {
 	float distance = to_target.length();
 	if (distance > 0.0f) {
 		float speed = distance / ai.arrive_deceleration;
-		speed = std::min(speed, rigidbody.data.max_linear_velocity.length());
+		speed = std::min(speed, rigidbody.data.max_linear_velocity);
 		vec2 desired_velocity = to_target * (speed / distance);
 
 		return desired_velocity - rigidbody.data.linear_velocity;
