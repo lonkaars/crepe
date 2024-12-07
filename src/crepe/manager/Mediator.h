@@ -5,13 +5,13 @@
 // TODO: remove these singletons:
 #include "../facade/SDLContext.h"
 #include "EventManager.h"
-#include "SaveManager.h"
 #include "api/LoopTimer.h"
 
 namespace crepe {
 
 class ComponentManager;
 class SceneManager;
+class SaveManager;
 
 /**
  * Struct to pass references to classes that would otherwise need to be singletons down to
@@ -28,7 +28,7 @@ class SceneManager;
 struct Mediator {
 	OptionalRef<ComponentManager> component_manager;
 	OptionalRef<SceneManager> scene_manager;
-	OptionalRef<SaveManager> save_manager = SaveManager::get_instance();
+	OptionalRef<SaveManager> save_manager;
 	OptionalRef<EventManager> event_manager = EventManager::get_instance();
 	OptionalRef<SDLContext> sdl_context = SDLContext::get_instance();
 	OptionalRef<LoopTimer> timer = LoopTimer::get_instance();

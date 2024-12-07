@@ -17,4 +17,5 @@ target_sources(test_main PUBLIC
 	ScriptEventTest.cpp
 	ScriptSceneTest.cpp
 	Profiling.cpp
+	SaveManagerTest.cpp
 )
