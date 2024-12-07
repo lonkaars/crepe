@@ -21,9 +21,9 @@ void ParticleSystem::update() {
 			= mgr.get_components_by_id<Transform>(emitter.game_object_id).front().get();
 
 		// Emit particles based on emission_rate
-		int updates = calculate_update(this->update_count, emitter.data.emission_rate);
+		int updates = this->calculate_update(this->update_count, emitter.data.emission_rate);
 		for (size_t i = 0; i < updates; i++) {
-			emit_particle(emitter, transform);
+			this->emit_particle(emitter, transform);
 		}
 
 		// Update all particles
@@ -34,7 +34,7 @@ void ParticleSystem::update() {
 		}
 
 		// Check if within boundary
-		check_bounds(emitter, transform);
+		this->check_bounds(emitter, transform);
 	}
 
 	this->update_count = (this->update_count + 1) % this->MAX_UPDATE_COUNT;
@@ -61,9 +61,9 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & 
 	}
 }
 
-int ParticleSystem::calculate_update(int count, double emission) const {
-	double integer_part = std::floor(emission);
-	double fractional_part = emission - integer_part;
+int ParticleSystem::calculate_update(int count, float emission) const {
+	float integer_part = std::floor(emission);
+	float fractional_part = emission - integer_part;
 
 	if (fractional_part > 0) {
 		int denominator = static_cast<int>(1.0 / fractional_part);
@@ -75,13 +75,13 @@ int ParticleSystem::calculate_update(int count, double emission) const {
 
 void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & transform) {
 	vec2 offset = emitter.data.boundary.offset + transform.position + emitter.data.position;
-	double half_width = emitter.data.boundary.width / 2.0;
-	double half_height = emitter.data.boundary.height / 2.0;
+	float half_width = emitter.data.boundary.width / 2.0;
+	float half_height = emitter.data.boundary.height / 2.0;
 
-	const double LEFT = offset.x - half_width;
-	const double RIGHT = offset.x + half_width;
-	const double TOP = offset.y - half_height;
-	const double BOTTOM = offset.y + half_height;
+	const float LEFT = offset.x - half_width;
+	const float RIGHT = offset.x + half_width;
+	const float TOP = offset.y - half_height;
+	const float BOTTOM = offset.y + half_height;
 
 	for (Particle & particle : emitter.data.particles) {
 		const vec2 & position = particle.position;
@@ -102,25 +102,25 @@ void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & t
 	}
 }
 
-double ParticleSystem::generate_random_angle(double min_angle, double max_angle) const {
+float ParticleSystem::generate_random_angle(float min_angle, float max_angle) const {
 	if (min_angle == max_angle) {
 		return min_angle;
 	} else if (min_angle < max_angle) {
 		return min_angle
-			   + static_cast<double>(std::rand() % static_cast<int>(max_angle - min_angle));
+			   + static_cast<float>(std::rand() % static_cast<int>(max_angle - min_angle));
 	} else {
-		double angle_offset = (360 - min_angle) + max_angle;
-		double random_angle
-			= min_angle + static_cast<double>(std::rand() % static_cast<int>(angle_offset));
+		float angle_offset = (360 - min_angle) + max_angle;
+		float random_angle
+			= min_angle + static_cast<float>(std::rand() % static_cast<int>(angle_offset));
 		return (random_angle >= 360) ? random_angle - 360 : random_angle;
 	}
 }
 
-double ParticleSystem::generate_random_speed(double min_speed, double max_speed) const {
+float ParticleSystem::generate_random_speed(float min_speed, float max_speed) const {
 	if (min_speed == max_speed) {
 		return min_speed;
 	} else {
 		return min_speed
-			   + static_cast<double>(std::rand() % static_cast<int>(max_speed - min_speed));
+			   + static_cast<float>(std::rand() % static_cast<int>(max_speed - min_speed));
 	}
 }
