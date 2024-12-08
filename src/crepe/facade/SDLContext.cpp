@@ -11,6 +11,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -324,6 +325,8 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 		render_scale.x = render_scale.y = scale;
 	}
 
+	//cout << render_scale.x << " " << bar_size.x << " " << bar_size.y << endl;	
+
 	SDL_SetRenderDrawColor(this->game_renderer.get(), cam_data.bg_color.r, cam_data.bg_color.g,
 						   cam_data.bg_color.b, cam_data.bg_color.a);
 
@@ -373,6 +376,7 @@ ivec2 SDLContext::get_size(const Texture & ctx) {
 }
 
 void SDLContext::delay(int ms) const { SDL_Delay(ms); }
+
 
 std::vector<SDLContext::EventData> SDLContext::get_events() {
 	std::vector<SDLContext::EventData> event_list;
