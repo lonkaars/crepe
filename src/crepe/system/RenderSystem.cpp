@@ -11,6 +11,9 @@
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
+#include "api/Texture.h"
+#include "manager/ResourceManager.h"
+#include "util/Log.h"
 
 #include "RenderSystem.h"
 
@@ -62,6 +65,7 @@ RefVector<Sprite> RenderSystem::sort(RefVector<Sprite> & objs) const {
 }
 
 void RenderSystem::update() {
+	dbg_trace();
 	this->clear_screen();
 	this->render();
 	this->present_screen();
@@ -72,6 +76,8 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
+	ResourceManager & resource_manager = this->mediator.resource_manager;
+	Texture & res = resource_manager.get<Texture>(sprite.source);
 
 	vector<reference_wrapper<ParticleEmitter>> emitters
 		= mgr.get_components_by_id<ParticleEmitter>(sprite.game_object_id);
@@ -88,6 +94,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 
 			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,
+				.texture = res,
 				.cam = cam,
 				.pos = p.position,
 				.angle = p.angle,
@@ -100,8 +107,12 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 void RenderSystem::render_normal(const Sprite & sprite, const SDLContext::CameraValues & cam,
 								 const Transform & tm) {
 	SDLContext & ctx = this->mediator.sdl_context;
+	ResourceManager & resource_manager = this->mediator.resource_manager;
+	Texture & res = resource_manager.get<Texture>(sprite.source);
+
 	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
+		.texture = res,
 		.cam = cam,
 		.pos = tm.position,
 		.angle = tm.rotation,

@@ -11,6 +11,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -22,19 +23,16 @@
 #include "../util/Log.h"
 
 #include "SDLContext.h"
+#include "manager/Manager.h"
+#include "manager/Mediator.h"
 #include "types.h"
 
 using namespace crepe;
 using namespace std;
 
-SDLContext & SDLContext::get_instance() {
-	static SDLContext instance;
-	return instance;
-}
-
-SDLContext::SDLContext() {
+SDLContext::SDLContext(Mediator & mediator) : Manager(mediator){
 	dbg_trace();
-
+	mediator.sdl_context = *this;
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
@@ -261,6 +259,8 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 void SDLContext::draw(const RenderContext & ctx) {
 
+	if (!ctx.texture.loaded) ctx.texture.load(this->texture_from_path(ctx.sprite.source.get_path()));
+
 	const Sprite::Data & data = ctx.sprite.data;
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
@@ -276,8 +276,8 @@ void SDLContext::draw(const RenderContext & ctx) {
 
 	double angle = ctx.angle + data.angle_offset;
 
-	this->set_color_texture(ctx.sprite.texture, ctx.sprite.data.color);
-	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.texture.texture.get(), &srcrect,
+	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
+	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.texture.get(), &srcrect,
 					  &dstrect, angle, NULL, render_flip);
 }
 

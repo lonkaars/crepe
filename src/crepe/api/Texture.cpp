@@ -1,16 +1,16 @@
-#include "../facade/SDLContext.h"
 #include "../util/Log.h"
 
 #include "Asset.h"
+#include "Resource.h"
 #include "Texture.h"
 #include "types.h"
+#include <utility>
 
 using namespace crepe;
 using namespace std;
 
-Texture::Texture(const Asset & src) {
+Texture::Texture(const Asset & src) : Resource(src) {
 	dbg_trace();
-	this->load(src);
 }
 
 Texture::~Texture() {
@@ -18,21 +18,12 @@ Texture::~Texture() {
 	this->texture.reset();
 }
 
-Texture::Texture(Texture && other) noexcept : texture(std::move(other.texture)) {}
-
-Texture & Texture::operator=(Texture && other) noexcept {
-	if (this != &other) {
-		texture = std::move(other.texture);
-	}
-	return *this;
-}
-
-void Texture::load(const Asset & res) {
-	SDLContext & ctx = SDLContext::get_instance();
-	this->texture = ctx.texture_from_path(res.get_path());
+void Texture::load(std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> texture) {
+	this->texture = std::move(texture);
+	this->loaded = true;
 }
 
 ivec2 Texture::get_size() const {
 	if (this->texture == nullptr) return {};
-	return SDLContext::get_instance().get_size(*this);
+	return {};
 }

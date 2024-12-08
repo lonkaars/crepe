@@ -4,6 +4,7 @@
 
 #include "Color.h"
 #include "Texture.h"
+#include "api/Asset.h"
 #include "types.h"
 
 namespace crepe {
@@ -74,11 +75,11 @@ public:
 	 * \param texture asset of the image
 	 * \param ctx all the sprite data
 	 */
-	Sprite(game_object_id_t id, Texture & texture, const Data & data);
+	Sprite(game_object_id_t id, const Asset & texture, const Data & data);
 	~Sprite();
 
 	//! Texture used for the sprite
-	const Texture texture;
+	const Asset source;
 
 	Data data;
 

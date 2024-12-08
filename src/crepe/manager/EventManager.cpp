@@ -1,9 +1,11 @@
 #include "EventManager.h"
+#include "util/Log.h"
 
 using namespace crepe;
 using namespace std;
 
 EventManager & EventManager::get_instance() {
+	dbg_trace();
 	static EventManager instance;
 	return instance;
 }
