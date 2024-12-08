@@ -52,19 +52,22 @@ public:
 
 		Color color(255, 255, 255, 255);
 
-		Asset img{"asset/texture/img.png"};
+		Asset img{"asset/texture/test_ap43.png"};
 
-		Sprite & test_sprite = game_object.add_component<Sprite>(
-			img, Sprite::Data{
-					 .color = color,
-					 .flip = Sprite::FlipSettings{false, false},
-					 .sorting_in_layer = 2,
-					 .order_in_layer = 2,
-					 .size = {0, 100},
-					 .angle_offset = 0,
-					 .position_offset = {100, 0},
-				 });
-		
+		Sprite & test_sprite
+			= game_object.add_component<Sprite>(img, ivec2{259, 195},
+												Sprite::Data{
+													.color = color,
+													.flip = Sprite::FlipSettings{false, false},
+													.sorting_in_layer = 2,
+													.order_in_layer = 2,
+													.size = {0, 100},
+													.angle_offset = 0,
+													.position_offset = {0, 0},
+												});
+
+		/*
+
 		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4,
 														  Animator::Data{
 															  .fps = 1,
@@ -72,6 +75,7 @@ public:
 														  });
 		anim.set_anim(2);
 		anim.active = false;
+		*/
 
 		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
 													   Camera::Data{

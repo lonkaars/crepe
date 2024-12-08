@@ -75,7 +75,7 @@ public:
 	 * \param texture asset of the image
 	 * \param ctx all the sprite data
 	 */
-	Sprite(game_object_id_t id, const Asset & texture, const Data & data);
+	Sprite(game_object_id_t id, const Asset & texture, const ivec2 & size, const Data & data);
 	~Sprite();
 
 	//! Texture used for the sprite

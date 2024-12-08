@@ -15,6 +15,7 @@ namespace crepe {
 
 class SDLContext;
 class Animator;
+class Mediator;
 
 /**
  * \class Texture
@@ -30,31 +31,19 @@ public:
 	 * \brief Constructs a Texture from an Asset resource.
 	 * \param src Asset with texture data to load.
 	 */
-	Texture(const Asset & src);
+	Texture(const Asset & src, Mediator & mediator);
 
 	/**
 	 * \brief Destroys the Texture instance, freeing associated resources.
 	 */
 	~Texture();
 
-	/**
-	 * \brief Gets the width and height of the texture.
-	 * \return Width and height of the texture in pixels.
-	 */
-	ivec2 get_size() const;
-
-private:
-	/**
-	 * \brief Loads the texture from an Asset resource.
-	 * \param res Unique pointer to an Asset resource to load the texture from.
-	 */
-	void load(std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> texture);
-	
 private:
 	//! The texture of the class from the library
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> texture;
 
-	bool loaded = false;
+	// texture size in pixel
+	ivec2 size;
 
 	//! Grants SDLContext access to private members.
 	friend class SDLContext;

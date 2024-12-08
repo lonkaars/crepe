@@ -102,7 +102,7 @@ private:
 	ResourceManager res_man {mediator};
 
 	//! Loop timer \todo no more singletons!
-	LoopTimer & loop_timer = LoopTimer::get_instance();
+	LoopTimer loop_timer {mediator};
 
 private:
 	/**

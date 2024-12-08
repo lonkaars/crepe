@@ -64,7 +64,7 @@ public:
 	//! rendering data needed to render on screen
 	struct RenderContext {
 		const Sprite & sprite;
-		Texture & texture;
+		const Texture & texture;
 		const CameraValues & cam;
 		const vec2 & pos;
 		const double & angle;
