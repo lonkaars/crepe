@@ -65,6 +65,35 @@ public:
 	 */
 	void set_time_scale(double time_scale);
 
+	/**
+	 * \brief Get the scaled fixed delta time om seconds.
+	 *
+	 * The fixed delta time is used for operations that require uniform time steps, 
+	 * such as physics calculations, and is scaled by the current time scale.
+	 *
+	 * \return The fixed delta time, scaled by time scale, in seconds.
+	 */
+	double get_scaled_fixed_delta_time() const;
+
+	/**
+	 * \brief Get the fixed delta time in seconds without scaling by the time scale.
+	 *
+	 * This value is used in the LoopManager to determine how many times 
+	 * the fixed_update should be called within a given interval.
+	 *
+	 * \return The unscaled fixed delta time in seconds.
+	 */
+	double get_fixed_delta_time() const;
+
+	/**
+	 * \brief Set the fixed_delta_time in seconds.
+	 * 
+	 * \param ms fixed_delta_time in seconds.
+	 * 
+	 * The fixed_delta_time value is used to determine how many times per second the fixed_update and process_input functions are called.
+	 */
+	void set_fixed_delta_time(int seconds);
+
 private:
 	friend class LoopManager;
 
@@ -81,17 +110,6 @@ private:
 	 * necessary.
 	 */
 	void enforce_frame_rate();
-
-	/**
-	 * \brief Get the fixed delta time for consistent updates.
-	 *
-	 * Fixed delta time is used for operations that require uniform time steps, such as physics
-	 * calculations.
-	 *
-	 * \return Fixed delta time in seconds.
-	 */
-	double get_fixed_delta_time() const;
-
 	/**
 	 * \brief Get the accumulated lag in the game loop.
 	 *
@@ -123,7 +141,7 @@ private:
 	int target_fps = 50;
 	//! Actual frames per second
 	int actual_fps = 0;
-	//! time scale for speeding up or slowing down the game (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up)
+	//! Time scale for speeding up or slowing down the game (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up)
 	double time_scale = 1;
 	//! Maximum delta time in seconds to avoid large jumps
 	std::chrono::duration<double> maximum_delta_time{0.25};
