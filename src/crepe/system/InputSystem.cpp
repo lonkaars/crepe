@@ -9,7 +9,6 @@
 using namespace crepe;
 
 void InputSystem::update() {
-	dbg_trace();
 	ComponentManager & mgr = this->mediator.component_manager;
 	EventManager & event_mgr = this->mediator.event_manager;
 	SDLContext & context = this->mediator.sdl_context;

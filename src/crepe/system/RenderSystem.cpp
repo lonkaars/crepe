@@ -13,8 +13,6 @@
 #include "../manager/ComponentManager.h"
 #include "api/Texture.h"
 #include "manager/ResourceManager.h"
-#include "util/Log.h"
-
 #include "RenderSystem.h"
 
 using namespace crepe;
@@ -65,7 +63,6 @@ RefVector<Sprite> RenderSystem::sort(RefVector<Sprite> & objs) const {
 }
 
 void RenderSystem::update() {
-	dbg_trace();
 	this->clear_screen();
 	this->render();
 	this->present_screen();
@@ -108,7 +105,7 @@ void RenderSystem::render_normal(const Sprite & sprite, const SDLContext::Camera
 								 const Transform & tm) {
 	SDLContext & ctx = this->mediator.sdl_context;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
-	Texture & res = resource_manager.get<Texture>(sprite.source);
+	const Texture & res = resource_manager.get<Texture>(sprite.source);
 
 	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,

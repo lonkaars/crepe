@@ -8,7 +8,7 @@ using namespace std;
 using namespace crepe;
 
 void ScriptSystem::update() {
-	dbg_trace();
+	//dbg_trace();
 
 	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<BehaviorScript> behavior_scripts = mgr.get_components_by_type<BehaviorScript>();

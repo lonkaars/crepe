@@ -30,7 +30,7 @@
 using namespace crepe;
 using namespace std;
 
-SDLContext::SDLContext(Mediator & mediator) : Manager(mediator){
+SDLContext::SDLContext(Mediator & mediator) : Manager(mediator) {
 	dbg_trace();
 	mediator.sdl_context = *this;
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -232,7 +232,7 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
 
-	vec2 size;
+	vec2 size = {data.size.x , data.size.y};
 	if (data.size.x == 0 && data.size.y != 0) {
 		size.x = data.size.y * ctx.sprite.aspect_ratio;
 	}
@@ -258,9 +258,6 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 }
 
 void SDLContext::draw(const RenderContext & ctx) {
-
-	if (!ctx.texture.loaded) ctx.texture.load(this->texture_from_path(ctx.sprite.source.get_path()));
-
 	const Sprite::Data & data = ctx.sprite.data;
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
@@ -274,11 +271,12 @@ void SDLContext::draw(const RenderContext & ctx) {
 		.img_scale = ctx.scale,
 	});
 
+	cout << dstrect.w << " " << dstrect.h << " " << dstrect.x << " " << dstrect.y << endl;
 	double angle = ctx.angle + data.angle_offset;
 
 	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
-	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.texture.get(), &srcrect,
-					  &dstrect, angle, NULL, render_flip);
+	int error = SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.texture.get(),
+								  &srcrect, &dstrect, angle, NULL, render_flip);
 }
 
 SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {

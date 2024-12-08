@@ -3,27 +3,21 @@
 #include "Asset.h"
 #include "Resource.h"
 #include "Texture.h"
+#include "facade/SDLContext.h"
+#include "manager/Mediator.h"
 #include "types.h"
-#include <utility>
 
 using namespace crepe;
 using namespace std;
 
-Texture::Texture(const Asset & src) : Resource(src) {
+Texture::Texture(const Asset & src, Mediator & mediator) : Resource(src, mediator) {
 	dbg_trace();
+	SDLContext & ctx = mediator.sdl_context;
+	this->texture = ctx.texture_from_path(src.get_path());
+	this->size = ctx.get_size(*this);
 }
 
 Texture::~Texture() {
 	dbg_trace();
 	this->texture.reset();
-}
-
-void Texture::load(std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> texture) {
-	this->texture = std::move(texture);
-	this->loaded = true;
-}
-
-ivec2 Texture::get_size() const {
-	if (this->texture == nullptr) return {};
-	return {};
 }
