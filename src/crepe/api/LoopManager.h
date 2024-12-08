@@ -8,6 +8,7 @@
 #include "../system/System.h"
 
 #include "LoopTimer.h"
+#include "manager/ResourceManager.h"
 
 namespace crepe {
 
@@ -96,8 +97,10 @@ private:
 	//! Scene manager instance
 	SceneManager scene_manager{mediator};
 
-	//! SDL context \todo no more singletons!
-	SDLContext & sdl_context = SDLContext::get_instance();
+	SDLContext sdl_context {mediator};
+
+	ResourceManager res_man {mediator};
+
 	//! Loop timer \todo no more singletons!
 	LoopTimer & loop_timer = LoopTimer::get_instance();
 

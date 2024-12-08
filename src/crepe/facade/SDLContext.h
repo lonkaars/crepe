@@ -14,14 +14,16 @@
 #include "api/Color.h"
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
-#include "api/Texture.h"
 #include "api/Transform.h"
+
+#include "manager/Manager.h"
+#include "manager/Mediator.h"
 #include "types.h"
 
 namespace crepe {
 
-class LoopManager;
-class InputSystem;
+class Texture;
+
 /**
  * \class SDLContext
  * \brief Facade for the SDL library
@@ -29,7 +31,7 @@ class InputSystem;
  * SDLContext is a singleton that handles the SDL window and renderer, provides methods for
  * event handling, and rendering to the screen. It is never used directly by the user
  */
-class SDLContext {
+class SDLContext : public Manager {
 public:
 	//! data that the camera component cannot hold
 	struct CameraValues {
@@ -62,6 +64,7 @@ public:
 	//! rendering data needed to render on screen
 	struct RenderContext {
 		const Sprite & sprite;
+		Texture & texture;
 		const CameraValues & cam;
 		const vec2 & pos;
 		const double & angle;
@@ -92,20 +95,27 @@ public:
 		float scroll_delta = INFINITY;
 		ivec2 rel_mouse_move = {-1, -1};
 	};
-	/**
-	 * \brief Gets the singleton instance of SDLContext.
-	 * \return Reference to the SDLContext instance.
-	 */
-	static SDLContext & get_instance();
 
+public:
 	SDLContext(const SDLContext &) = delete;
 	SDLContext(SDLContext &&) = delete;
 	SDLContext & operator=(const SDLContext &) = delete;
 	SDLContext & operator=(SDLContext &&) = delete;
 
-private:
-	//! will only use get_events
-	friend class InputSystem;
+public:
+	/**
+	 * \brief Constructs an SDLContext instance.
+	 * Initializes SDL, creates a window and renderer.
+	 */
+	SDLContext(Mediator & mediator);
+
+	/**
+	 * \brief Destroys the SDLContext instance.
+	 * Cleans up SDL resources, including the window and renderer.
+	 */
+	~SDLContext();
+
+public:
 	/**
 	 * \brief Retrieves a list of all events from the SDL context.
 	 *
@@ -139,9 +149,7 @@ private:
 	 */
 	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
 
-private:
-	//! Will only use delay
-	friend class LoopTimer;
+public:
 	/**
 	 * \brief Gets the current SDL ticks since the program started.
 	 * \return Current ticks in milliseconds as a constant uint64_t.
@@ -157,23 +165,8 @@ private:
 	 */
 	void delay(int ms) const;
 
-private:
-	/**
-	 * \brief Constructs an SDLContext instance.
-	 * Initializes SDL, creates a window and renderer.
-	 */
-	SDLContext();
 
-	/**
-	 * \brief Destroys the SDLContext instance.
-	 * Cleans up SDL resources, including the window and renderer.
-	 */
-	~SDLContext();
-
-private:
-	//! Will use the funtions: texture_from_path, get_width,get_height.
-	friend class Texture;
-
+public:
 	/**
 	 * \brief Loads a texture from a file path.
 	 * \param path Path to the image file.
@@ -188,10 +181,7 @@ private:
 	 */
 	ivec2 get_size(const Texture & ctx);
 
-private:
-	//! Will use draw,clear_screen, present_screen, camera.
-	friend class RenderSystem;
-
+public:
 	/**
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
 	 * \param RenderContext Reference to rendering data to draw
@@ -210,7 +200,7 @@ private:
 	 */
 	CameraValues set_camera(const Camera & camera);
 
-private:
+public:
 	//! the data needed to construct a sdl dst rectangle
 	struct DestinationRectangleData {
 		const Sprite & sprite;

@@ -1,6 +1,5 @@
 #include <chrono>
 
-#include "../facade/SDLContext.h"
 #include "../util/Log.h"
 
 #include "LoopTimer.h"
@@ -67,7 +66,7 @@ void LoopTimer::enforce_frame_rate() {
 			= std::chrono::duration_cast<std::chrono::milliseconds>(this->frame_target_time
 																	- frame_duration);
 		if (delay_time.count() > 0) {
-			SDLContext::get_instance().delay(delay_time.count());
+			//SDLContext::get_instance().delay(delay_time.count());
 		}
 	}
 

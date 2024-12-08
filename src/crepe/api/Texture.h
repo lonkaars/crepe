@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "Asset.h"
+#include "Resource.h"
 #include "types.h"
 
 namespace crepe {
@@ -22,7 +23,7 @@ class Animator;
  * The Texture class is responsible for loading an image from a source and providing access to
  * its dimensions. Textures can be used for rendering.
  */
-class Texture {
+class Texture : public Resource {
 
 public:
 	/**
@@ -35,12 +36,6 @@ public:
 	 * \brief Destroys the Texture instance, freeing associated resources.
 	 */
 	~Texture();
-	// FIXME: this constructor shouldn't be necessary because this class doesn't manage memory
-
-	Texture(Texture && other) noexcept;
-	Texture & operator=(Texture && other) noexcept;
-	Texture(const Texture &) = delete;
-	Texture & operator=(const Texture &) = delete;
 
 	/**
 	 * \brief Gets the width and height of the texture.
@@ -53,11 +48,13 @@ private:
 	 * \brief Loads the texture from an Asset resource.
 	 * \param res Unique pointer to an Asset resource to load the texture from.
 	 */
-	void load(const Asset & res);
-
+	void load(std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> texture);
+	
 private:
 	//! The texture of the class from the library
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> texture;
+
+	bool loaded = false;
 
 	//! Grants SDLContext access to private members.
 	friend class SDLContext;
