@@ -27,10 +27,10 @@ LoopManager::LoopManager() {
 		[this](const ShutDownEvent & event) { return this->on_shutdown(event); });
 }
 
-void LoopManager::process_input() { 
-	this->get_system<InputSystem>().update(); 
+void LoopManager::process_input() {
+	this->get_system<InputSystem>().update();
 	this->event_manager.dispatch_events();
-	}
+}
 
 void LoopManager::start() {
 	this->setup();
