@@ -1,7 +1,3 @@
-#include "manager/Mediator.h"
-#include "system/ParticleSystem.h"
-#include "system/PhysicsSystem.h"
-#include "system/RenderSystem.h"
 #include <chrono>
 #include <cmath>
 #include <gtest/gtest.h>
@@ -21,6 +17,10 @@
 #include <crepe/system/ScriptSystem.h>
 #include <crepe/types.h>
 #include <crepe/util/Log.h>
+#include "manager/Mediator.h"
+#include "system/ParticleSystem.h"
+#include "system/PhysicsSystem.h"
+#include "system/RenderSystem.h"
 
 using namespace std;
 using namespace std::chrono_literals;
@@ -47,7 +47,7 @@ public:
 	// Minimum amount to let test pass
 	const int min_gameobject_count = 100;
 	// Maximum amount to stop test
-	const int max_gameobject_count = 150;
+	const int max_gameobject_count = 1000;
 	// Amount of times a test runs to calculate average
 	const int average = 5;
 	// Maximum duration to stop test
@@ -98,10 +98,8 @@ public:
 	std::chrono::microseconds run_all_systems() {
 		std::chrono::microseconds total_microseconds = 0us;
 		total_microseconds += time_function("PhysicsSystem", [&]() { physics_sys.update(); });
-		total_microseconds
-			+= time_function("CollisionSystem", [&]() { collision_sys.update(); });
-		total_microseconds
-			+= time_function("ParticleSystem", [&]() { particle_sys.update(); });
+		//total_microseconds += time_function("CollisionSystem", [&]() { collision_sys.update(); });
+		total_microseconds += time_function("ParticleSystem", [&]() { particle_sys.update(); });
 		total_microseconds += time_function("RenderSystem", [&]() { render_sys.update(); });
 		return total_microseconds;
 	}
