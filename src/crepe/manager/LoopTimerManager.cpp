@@ -82,10 +82,9 @@ void LoopTimerManager::enforce_frame_rate() {
 double LoopTimerManager::get_lag() const {
 	return (this->elapsed_time - this->elapsed_fixed_time).count();
 }
-double LoopTimerManager::get_scaled_fixed_delta_time() const{
+double LoopTimerManager::get_scaled_fixed_delta_time() const {
 	return this->fixed_delta_time.count() * this->time_scale;
 }
 void LoopTimerManager::set_fixed_delta_time(int seconds) {
-    this->fixed_delta_time = std::chrono::duration<double>(seconds);
+	this->fixed_delta_time = std::chrono::duration<double>(seconds);
 }
-
