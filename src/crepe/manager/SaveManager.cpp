@@ -133,9 +133,32 @@ template void SaveManager::set(const string &, const float &);
 template void SaveManager::set(const string &, const double &);
 
 template <typename T>
+T SaveManager::get(const string & key) {
+	return this->deserialize<T>(this->get_db().get(key));
+}
+template uint8_t SaveManager::get(const string &);
+template int8_t SaveManager::get(const string &);
+template uint16_t SaveManager::get(const string &);
+template int16_t SaveManager::get(const string &);
+template uint32_t SaveManager::get(const string &);
+template int32_t SaveManager::get(const string &);
+template uint64_t SaveManager::get(const string &);
+template int64_t SaveManager::get(const string &);
+template float SaveManager::get(const string &);
+template double SaveManager::get(const string &);
+template string SaveManager::get(const string &);
+
+template <typename T>
 ValueBroker<T> SaveManager::get(const string & key, const T & default_value) {
 	if (!this->has(key)) this->set<T>(key, default_value);
-	return this->get<T>(key);
+	T value;
+	return {
+		[this, key](const T & target) { this->set<T>(key, target); },
+		[this, key, value]() mutable -> const T & {
+			value = this->get<T>(key);
+			return value;
+		},
+	};
 }
 template ValueBroker<uint8_t> SaveManager::get(const string &, const uint8_t &);
 template ValueBroker<int8_t> SaveManager::get(const string &, const int8_t &);
@@ -148,26 +171,3 @@ template ValueBroker<int64_t> SaveManager::get(const string &, const int64_t &);
 template ValueBroker<float> SaveManager::get(const string &, const float &);
 template ValueBroker<double> SaveManager::get(const string &, const double &);
 template ValueBroker<string> SaveManager::get(const string &, const string &);
-
-template <typename T>
-ValueBroker<T> SaveManager::get(const string & key) {
-	T value;
-	return {
-		[this, key](const T & target) { this->set<T>(key, target); },
-		[this, key, value]() mutable -> const T & {
-			value = this->deserialize<T>(this->get_db().get(key));
-			return value;
-		},
-	};
-}
-template ValueBroker<uint8_t> SaveManager::get(const string &);
-template ValueBroker<int8_t> SaveManager::get(const string &);
-template ValueBroker<uint16_t> SaveManager::get(const string &);
-template ValueBroker<int16_t> SaveManager::get(const string &);
-template ValueBroker<uint32_t> SaveManager::get(const string &);
-template ValueBroker<int32_t> SaveManager::get(const string &);
-template ValueBroker<uint64_t> SaveManager::get(const string &);
-template ValueBroker<int64_t> SaveManager::get(const string &);
-template ValueBroker<float> SaveManager::get(const string &);
-template ValueBroker<double> SaveManager::get(const string &);
-template ValueBroker<string> SaveManager::get(const string &);

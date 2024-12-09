@@ -41,7 +41,7 @@ feature.
 	- \todo Particle effects
 
 - Save data
-	- \todo SaveManager usage
+	- \ref feature_savemgr \n\copybrief feature_savemgr
 
 - Audio
 	- \todo Playing sound effects
@@ -58,6 +58,13 @@ feature.
 
 	- \todo Subscribing to *any* event inside Script
 
+	- \todo Creating and dispatching custom events
+
 - \todo Replay
+
+- Utilities
+	- \todo Logging
+
+	- \ref feature_proxy \n\copybrief feature_proxy
 
 */

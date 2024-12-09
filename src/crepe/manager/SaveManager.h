@@ -33,17 +33,17 @@ public:
 	ValueBroker<T> get(const std::string & key, const T & default_value);
 
 	/**
-	 * \brief Get a read/write reference to a value
+	 * \brief Get a value directly
 	 *
 	 * \param key  The value key
 	 *
-	 * \return Read/write reference to the value
+	 * \return The value
 	 *
 	 * \note Attempting to read this value before it is initialized (i.e. set) will result in an
 	 * exception
 	 */
 	template <typename T>
-	ValueBroker<T> get(const std::string & key);
+	T get(const std::string & key);
 
 	/**
 	 * \brief Set a value directly
