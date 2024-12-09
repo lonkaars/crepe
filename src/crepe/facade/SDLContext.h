@@ -135,14 +135,14 @@ private:
 	 * \return Events that occurred since last call to `get_events()`
 	 */
 	std::vector<SDLContext::EventData> get_events();
-	// /**
-	//  * \brief Fills event_list with triggered window events
-	//  *
-	//  * This method checks if any window events are triggered and adds them to the event_list.
-	//  *
-	//  */
-	// void handle_window_event(const SDL_WindowEvent& window_event,
-    //                                  std::vector<SDLContext::EventData>& event_list);
+	/**
+	 * \brief Fills event_list with triggered window events
+	 *
+	 * This method checks if any window events are triggered and adds them to the event_list.
+	 *
+	 */
+	void handle_window_event(const SDL_WindowEvent& window_event,
+                                     std::vector<SDLContext::EventData>& event_list);
 	/**
 	 * \brief Converts an SDL key code to the custom Keycode type.
 	 *

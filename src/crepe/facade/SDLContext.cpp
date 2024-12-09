@@ -427,36 +427,7 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 
             // Forward window events for further processing
             case SDL_WINDOWEVENT:
-                switch (event.window.event) {
-					case SDL_WINDOWEVENT_EXPOSED:
-						event_list.push_back({SDLContext::EventType::WINDOW_EXPOSE, {}, {}, {}});
-						break;
-					case SDL_WINDOWEVENT_RESIZED:
-					{
-						std::cout << "window resize" << std::endl;
-						SDLContext::EventData event_data;
-						event_data.event_type = SDLContext::EventType::WINDOW_RESIZE;
-						event_data.window_data.resize_dimension = {event.window.data1,event.window.data2};
-						event_list.push_back(event_data);
-						break;
-					}
-					case SDL_WINDOWEVENT_MOVED:
-						event_list.push_back({SDLContext::EventType::WINDOW_MOVE, {}, {}, 
-											{{event.window.data1, event.window.data2}, {}}});
-						break;
-					case SDL_WINDOWEVENT_MINIMIZED:
-						event_list.push_back({SDLContext::EventType::WINDOW_MINIMIZE, {}, {}, {}});
-						break;
-					case SDL_WINDOWEVENT_MAXIMIZED:
-						event_list.push_back({SDLContext::EventType::WINDOW_MAXIMIZE, {}, {}, {}});
-						break;
-					case SDL_WINDOWEVENT_FOCUS_GAINED:
-						event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_GAIN, {}, {}, {}});
-						break;
-					case SDL_WINDOWEVENT_FOCUS_LOST:
-						event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_LOST, {}, {}, {}});
-						break;
-				}
+                this->handle_window_event(event.window, event_list);
                 break;
         }
     }
@@ -464,10 +435,36 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
     return event_list;
 }
 
-// // Separate function for SDL_WINDOWEVENT subtypes
-// void SDLContext::handle_event(const SDL_WindowEvent& event,
-//                                      std::vector<SDLContext::EventData>& event_list) {
-// }
+// Separate function for SDL_WINDOWEVENT subtypes
+void SDLContext::handle_window_event(const SDL_WindowEvent& window_event,
+                                     std::vector<SDLContext::EventData>& event_list) {
+    switch (window_event.event) {
+        case SDL_WINDOWEVENT_EXPOSED:
+            event_list.push_back({SDLContext::EventType::WINDOW_EXPOSE, {}, {}, {}});
+            break;
+        case SDL_WINDOWEVENT_RESIZED:
+			std::cout << "window resize" << std::endl;
+            event_list.push_back({SDLContext::EventType::WINDOW_RESIZE, {}, {}, 
+                                  {{}, {window_event.data1, window_event.data2}}});
+            break;
+        case SDL_WINDOWEVENT_MOVED:
+            event_list.push_back({SDLContext::EventType::WINDOW_MOVE, {}, {}, 
+                                  {{window_event.data1, window_event.data2}, {}}});
+            break;
+        case SDL_WINDOWEVENT_MINIMIZED:
+            event_list.push_back({SDLContext::EventType::WINDOW_MINIMIZE, {}, {}, {}});
+            break;
+        case SDL_WINDOWEVENT_MAXIMIZED:
+            event_list.push_back({SDLContext::EventType::WINDOW_MAXIMIZE, {}, {}, {}});
+            break;
+        case SDL_WINDOWEVENT_FOCUS_GAINED:
+            event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_GAIN, {}, {}, {}});
+            break;
+        case SDL_WINDOWEVENT_FOCUS_LOST:
+            event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_LOST, {}, {}, {}});
+            break;
+    }
+}
 
 
 
