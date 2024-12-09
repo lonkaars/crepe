@@ -48,10 +48,6 @@ void LoopTimerManager::advance_fixed_update() {
 	this->elapsed_fixed_time += this->fixed_delta_time;
 }
 
-double LoopTimerManager::get_fixed_delta_time() const {
-	return this->fixed_delta_time.count();
-}
-
 void LoopTimerManager::set_target_fps(int fps) {
 	this->target_fps = fps;
 	// target time per frame in seconds
@@ -82,9 +78,13 @@ void LoopTimerManager::enforce_frame_rate() {
 double LoopTimerManager::get_lag() const {
 	return (this->elapsed_time - this->elapsed_fixed_time).count();
 }
-double LoopTimerManager::get_scaled_fixed_delta_time() const {
+double LoopTimerManager::get_fixed_delta_time() const {
 	return this->fixed_delta_time.count() * this->time_scale;
 }
 void LoopTimerManager::set_fixed_delta_time(int seconds) {
 	this->fixed_delta_time = std::chrono::duration<double>(seconds);
+}
+
+double LoopTimerManager::get_fixed_loop_interval() const {
+	return this->fixed_delta_time.count();
 }

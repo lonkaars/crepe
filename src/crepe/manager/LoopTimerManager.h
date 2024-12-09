@@ -73,7 +73,7 @@ public:
 	 *
 	 * \return The fixed delta time, scaled by time scale, in seconds.
 	 */
-	double get_scaled_fixed_delta_time() const;
+	double get_fixed_loop_interval() const;
 
 	/**
 	 * \brief Get the fixed delta time in seconds without scaling by the time scale.
