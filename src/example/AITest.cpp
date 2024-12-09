@@ -59,8 +59,8 @@ public:
 		// ai.arrive_on();
 		// ai.flee_on();
 		ai.path_follow_on();
-		ai.make_circle_path(1000, {0, -1000}, 1.5707, true);
-		ai.make_circle_path(1000, {0, 1000}, 4.7124, false);
+		ai.make_oval_path(500, 1000, {0, -1000}, 1.5708, true);
+		ai.make_oval_path(1000, 500, {0, 500}, 4.7124, false);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 0.1f,
 			.max_linear_velocity = {40, 40},
