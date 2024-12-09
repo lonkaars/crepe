@@ -81,6 +81,20 @@ public:
 	 */
 	void make_circle_path(float radius, vec2 center = {0, 0}, float start_angle = 0,
 						  bool clockwise = true);
+	/**
+	 * \brief Make an oval path (for the path following behavior)
+	 *
+	 * \note The path is not relative to the entity's position (it is an absolute path)
+	 *
+	 * \param radius_x The x radius of the oval (in game units)
+	 * \param radius_y The y radius of the oval (in game units)
+	 * \param center The center of the oval (in game units)
+	 * \param start_angle The start angle of the oval (in radians)
+	 * \param clockwise The direction of the oval
+	 * \param rotation The rotation of the oval (in radians)
+	 */
+	void make_oval_path(float radius_x, float radius_y, vec2 center = {0, 0},
+						float start_angle = 0, bool clockwise = true, float rotation = 0);
 
 public:
 	//! The maximum force that can be applied to the entity (higher values will make the entity adjust faster)
