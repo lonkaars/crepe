@@ -138,7 +138,7 @@ private:
 
 private:
 	//! Target frames per second
-	int target_fps = 50;
+	int target_fps = 60;
 	//! Actual frames per second
 	int actual_fps = 0;
 	//! Time scale for speeding up or slowing down the game (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up)

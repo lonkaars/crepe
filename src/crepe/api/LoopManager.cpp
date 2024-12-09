@@ -1,5 +1,4 @@
 #include "../facade/SDLContext.h"
-
 #include "../manager/EventManager.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
