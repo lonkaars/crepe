@@ -31,6 +31,9 @@ void LoopTimerManager::update() {
 	if (this->delta_time > this->maximum_delta_time) {
 		this->delta_time = this->maximum_delta_time;
 	}
+	if(this->delta_time.count() <= 0){
+		this->delta_time = std::chrono::duration<double>(0.0);
+	}
 	this->actual_fps = 1.0 / this->delta_time.count();
 
 	this->elapsed_time += this->delta_time;
@@ -49,6 +52,10 @@ void LoopTimerManager::advance_fixed_update() {
 
 void LoopTimerManager::set_target_fps(int fps) {
 	this->target_fps = fps;
+	//check if fps is lower or equals 0
+	if(fps <= 0){
+		return;
+	}
 	// target time per frame in seconds
 	this->frame_target_time = std::chrono::duration<double>(1.0) / this->target_fps;
 }
