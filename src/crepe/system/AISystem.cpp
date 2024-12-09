@@ -17,6 +17,7 @@ void AISystem::update() {
 	ComponentManager & mgr = mediator.component_manager;
 	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 
+	//TODO: Use fixed loop dt (this is not available at master at the moment)
 	double dt = LoopTimer::get_instance().get_delta_time();
 
 	for (AI & ai : ai_components) {

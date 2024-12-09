@@ -52,16 +52,14 @@ public:
 		Texture img = Texture("asset/texture/test_ap43.png");
 		game_object1.add_component<Sprite>(img, Color::MAGENTA,
 										   Sprite::FlipSettings{false, false}, 1, 1, 195);
-		AI & ai = game_object1.add_component<AI>(300);
+		AI & ai = game_object1.add_component<AI>(3000);
 		// ai.arrive_on();
 		// ai.flee_on();
 		ai.path_follow_on();
-		ai.add_path_node(vec2{1200, 1200});
-		ai.add_path_node(vec2{-1200, 1200});
-		ai.add_path_node(vec2{1200, -1200});
-		ai.add_path_node(vec2{-1200, -1200});
+		ai.make_circle_path(1000, {0, -1000}, 1.5707, true);
+		ai.make_circle_path(1000, {0, 1000}, 4.7124, false);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
-			.mass = 0.5f, .max_linear_velocity = {50, 50}, // sqrt(21^2 + 21^2) = 30
+			.mass = 0.5f, .max_linear_velocity = {40, 40}, // sqrt(21^2 + 21^2) = 30
 		});
 		game_object1.add_component<BehaviorScript>().set_script<Script1>();
 
