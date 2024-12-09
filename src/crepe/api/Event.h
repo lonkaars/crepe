@@ -39,7 +39,7 @@ public:
 class MousePressEvent : public Event {
 public:
 	//! mouse position
-	ivec2 mouse_pos = {0,0};
+	ivec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was pressed.
 	MouseButton button = MouseButton::NONE;
@@ -51,7 +51,7 @@ public:
 class MouseClickEvent : public Event {
 public:
 	//! mouse position
-	ivec2 mouse_pos = {0,0};
+	ivec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was clicked.
 	MouseButton button = MouseButton::NONE;
@@ -63,7 +63,7 @@ public:
 class MouseReleaseEvent : public Event {
 public:
 	//! mouse position
-	ivec2 mouse_pos = {0,0};
+	ivec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was released.
 	MouseButton button = MouseButton::NONE;
@@ -75,9 +75,9 @@ public:
 class MouseMoveEvent : public Event {
 public:
 	//! new mouse position
-	ivec2 mouse_pos = {0,0};
+	ivec2 mouse_pos = {0, 0};
 	//! The change in mouse position relative to the last position (in pixels).
-	ivec2 mouse_delta = {0,0};
+	ivec2 mouse_delta = {0, 0};
 };
 
 /**
@@ -86,7 +86,7 @@ public:
 class MouseScrollEvent : public Event {
 public:
 	//! mouse position when the scroll happened.
-	ivec2 mouse_pos = {0,0};
+	ivec2 mouse_pos = {0, 0};
 	//! scroll direction (-1 = down, 1 = up)
 	int scroll_direction = 0;
 	//! scroll amount in y axis (from and away from the person).
@@ -112,35 +112,35 @@ class ShutDownEvent : public Event {};
  * 
  * When two windows overlap the bottom window gets distorted and that window has to be redrawn.
  */
-class WindowExposeEvent : public Event{};
+class WindowExposeEvent : public Event {};
 
 /**
  * \brief Event triggered to indicate the window is resized.
  */
-class WindowResizeEvent : public Event{
-	public:
+class WindowResizeEvent : public Event {
+public:
 	//! new window dimensions
-	ivec2 dimensions = {0,0};
+	ivec2 dimensions = {0, 0};
 };
 
 /**
  * \brief Event triggered to indicate the window is moved.
  */
-class WindowMoveEvent : public Event{
-	public:
+class WindowMoveEvent : public Event {
+public:
 	//! The change in position relative to the last position (in pixels).
-	ivec2 delta_move = {0,0};
+	ivec2 delta_move = {0, 0};
 };
 
 /**
  * \brief Event triggered to indicate the window is minimized.
  */
-class WindowMinimizeEvent : public Event{};
+class WindowMinimizeEvent : public Event {};
 
 /**
  * \brief Event triggered to indicate the window is maximized
  */
-class WindowMaximizeEvent : public Event{};
+class WindowMaximizeEvent : public Event {};
 
 /**
  * \brief Event triggered to indicate the window gained focus
@@ -148,7 +148,7 @@ class WindowMaximizeEvent : public Event{};
  * This event is triggered when the window receives focus, meaning it becomes the active window
  * for user interaction.
  */
-class WindowFocusGainEvent : public Event{};
+class WindowFocusGainEvent : public Event {};
 
 /**
  * \brief Event triggered to indicate the window lost focus
@@ -156,6 +156,6 @@ class WindowFocusGainEvent : public Event{};
  * This event is triggered when the window loses focus, meaning it is no longer the active window
  * for user interaction.
  */
-class WindowFocusLostEvent : public Event{};
+class WindowFocusLostEvent : public Event {};
 
 } // namespace crepe

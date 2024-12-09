@@ -31,9 +31,7 @@ public:
 	//GameObject camera;
 
 protected:
-	void SetUp() override {
-		event_manager.clear();
-	}
+	void SetUp() override { event_manager.clear(); }
 
 	void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
 		SDL_Event event;
@@ -299,12 +297,12 @@ TEST_F(InputTest, WindowResizeTest) {
 	};
 	event_manager.subscribe<WindowResizeEvent>(on_window_resize);
 	SDL_Event resize_event;
-    SDL_zero(resize_event);
-    resize_event.type = SDL_WINDOWEVENT;
-    resize_event.window.event = SDL_WINDOWEVENT_RESIZED;
-    resize_event.window.data1 = 800; // new width
-    resize_event.window.data2 = 600; // new height
-    SDL_PushEvent(&resize_event);
+	SDL_zero(resize_event);
+	resize_event.type = SDL_WINDOWEVENT;
+	resize_event.window.event = SDL_WINDOWEVENT_RESIZED;
+	resize_event.window.data1 = 800; // new width
+	resize_event.window.data2 = 600; // new height
+	SDL_PushEvent(&resize_event);
 	input_system.update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(callback_triggered);
@@ -323,12 +321,12 @@ TEST_F(InputTest, WindowMoveTest) {
 	};
 	event_manager.subscribe<WindowMoveEvent>(on_window_move);
 	SDL_Event resize_event;
-    SDL_zero(resize_event);
-    resize_event.type = SDL_WINDOWEVENT;
-    resize_event.window.event = SDL_WINDOWEVENT_MOVED;
-    resize_event.window.data1 = 800; // new width
-    resize_event.window.data2 = 600; // new height
-    SDL_PushEvent(&resize_event);
+	SDL_zero(resize_event);
+	resize_event.type = SDL_WINDOWEVENT;
+	resize_event.window.event = SDL_WINDOWEVENT_MOVED;
+	resize_event.window.data1 = 800; // new width
+	resize_event.window.data2 = 600; // new height
+	SDL_PushEvent(&resize_event);
 	input_system.update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(callback_triggered);

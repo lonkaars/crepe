@@ -71,7 +71,7 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_all_channels) {
 	EventManager::get_instance().subscribe<MouseClickEvent>(mouse_handler,
 															EventManager::CHANNEL_ALL);
 
-	MouseClickEvent click_event{.mouse_pos = {100,200}, .button = MouseButton::LEFT_MOUSE};
+	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
 	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event,
 																EventManager::CHANNEL_ALL);
 
@@ -89,7 +89,7 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_one_channel) {
 	};
 	EventManager::get_instance().subscribe<MouseClickEvent>(mouse_handler, test_channel);
 
-	MouseClickEvent click_event{.mouse_pos = {100,200}, .button = MouseButton::LEFT_MOUSE};
+	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
 	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event,
 																EventManager::CHANNEL_ALL);
 
@@ -122,7 +122,7 @@ TEST_F(EventManagerTest, EventManagerTest_callback_propagation) {
 	};
 
 	// Test event
-	MouseClickEvent click_event{.mouse_pos = {100,200}, .button = MouseButton::LEFT_MOUSE};
+	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
 	event_manager.subscribe<MouseClickEvent>(mouse_handler_true, EventManager::CHANNEL_ALL);
 	event_manager.subscribe<MouseClickEvent>(mouse_handler_false, EventManager::CHANNEL_ALL);
 
@@ -217,7 +217,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 
 	// Queue events
 	event_manager.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_pos = {100,200}, .button = MouseButton::LEFT_MOUSE});
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 
 	// Dispatch events - both handlers should be triggered
 	event_manager.dispatch_events();
@@ -233,7 +233,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 
 	// Queue the same event again
 	event_manager.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_pos = {100,200}, .button = MouseButton::LEFT_MOUSE});
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 
 	// Dispatch events - only handler 2 should be triggered, handler 1 should NOT
 	event_manager.dispatch_events();
@@ -248,7 +248,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 
 	// Queue the event again
 	event_manager.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_pos = {100,200}, .button = MouseButton::LEFT_MOUSE});
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 
 	// Dispatch events - no handler should be triggered
 	event_manager.dispatch_events();

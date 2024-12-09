@@ -81,128 +81,128 @@ SDLContext::~SDLContext() {
 // Function that uses the shared table
 Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
 	static const std::array<Keycode, SDL_NUM_SCANCODES> LOOKUP_TABLE = [] {
-        std::array<Keycode, SDL_NUM_SCANCODES> table{};
-        table.fill(Keycode::NONE);
+		std::array<Keycode, SDL_NUM_SCANCODES> table{};
+		table.fill(Keycode::NONE);
 
-        // Map all SDL scancodes to Keycodes
-        table[SDL_SCANCODE_SPACE] = Keycode::SPACE;
-        table[SDL_SCANCODE_APOSTROPHE] = Keycode::APOSTROPHE;
-        table[SDL_SCANCODE_COMMA] = Keycode::COMMA;
-        table[SDL_SCANCODE_MINUS] = Keycode::MINUS;
-        table[SDL_SCANCODE_PERIOD] = Keycode::PERIOD;
-        table[SDL_SCANCODE_SLASH] = Keycode::SLASH;
-        table[SDL_SCANCODE_0] = Keycode::D0;
-        table[SDL_SCANCODE_1] = Keycode::D1;
-        table[SDL_SCANCODE_2] = Keycode::D2;
-        table[SDL_SCANCODE_3] = Keycode::D3;
-        table[SDL_SCANCODE_4] = Keycode::D4;
-        table[SDL_SCANCODE_5] = Keycode::D5;
-        table[SDL_SCANCODE_6] = Keycode::D6;
-        table[SDL_SCANCODE_7] = Keycode::D7;
-        table[SDL_SCANCODE_8] = Keycode::D8;
-        table[SDL_SCANCODE_9] = Keycode::D9;
-        table[SDL_SCANCODE_SEMICOLON] = Keycode::SEMICOLON;
-        table[SDL_SCANCODE_EQUALS] = Keycode::EQUAL;
-        table[SDL_SCANCODE_A] = Keycode::A;
-        table[SDL_SCANCODE_B] = Keycode::B;
-        table[SDL_SCANCODE_C] = Keycode::C;
-        table[SDL_SCANCODE_D] = Keycode::D;
-        table[SDL_SCANCODE_E] = Keycode::E;
-        table[SDL_SCANCODE_F] = Keycode::F;
-        table[SDL_SCANCODE_G] = Keycode::G;
-        table[SDL_SCANCODE_H] = Keycode::H;
-        table[SDL_SCANCODE_I] = Keycode::I;
-        table[SDL_SCANCODE_J] = Keycode::J;
-        table[SDL_SCANCODE_K] = Keycode::K;
-        table[SDL_SCANCODE_L] = Keycode::L;
-        table[SDL_SCANCODE_M] = Keycode::M;
-        table[SDL_SCANCODE_N] = Keycode::N;
-        table[SDL_SCANCODE_O] = Keycode::O;
-        table[SDL_SCANCODE_P] = Keycode::P;
-        table[SDL_SCANCODE_Q] = Keycode::Q;
-        table[SDL_SCANCODE_R] = Keycode::R;
-        table[SDL_SCANCODE_S] = Keycode::S;
-        table[SDL_SCANCODE_T] = Keycode::T;
-        table[SDL_SCANCODE_U] = Keycode::U;
-        table[SDL_SCANCODE_V] = Keycode::V;
-        table[SDL_SCANCODE_W] = Keycode::W;
-        table[SDL_SCANCODE_X] = Keycode::X;
-        table[SDL_SCANCODE_Y] = Keycode::Y;
-        table[SDL_SCANCODE_Z] = Keycode::Z;
-        table[SDL_SCANCODE_LEFTBRACKET] = Keycode::LEFT_BRACKET;
-        table[SDL_SCANCODE_BACKSLASH] = Keycode::BACKSLASH;
-        table[SDL_SCANCODE_RIGHTBRACKET] = Keycode::RIGHT_BRACKET;
-        table[SDL_SCANCODE_GRAVE] = Keycode::GRAVE_ACCENT;
-        table[SDL_SCANCODE_ESCAPE] = Keycode::ESCAPE;
-        table[SDL_SCANCODE_RETURN] = Keycode::ENTER;
-        table[SDL_SCANCODE_TAB] = Keycode::TAB;
-        table[SDL_SCANCODE_BACKSPACE] = Keycode::BACKSPACE;
-        table[SDL_SCANCODE_INSERT] = Keycode::INSERT;
-        table[SDL_SCANCODE_DELETE] = Keycode::DELETE;
-        table[SDL_SCANCODE_RIGHT] = Keycode::RIGHT;
-        table[SDL_SCANCODE_LEFT] = Keycode::LEFT;
-        table[SDL_SCANCODE_DOWN] = Keycode::DOWN;
-        table[SDL_SCANCODE_UP] = Keycode::UP;
-        table[SDL_SCANCODE_PAGEUP] = Keycode::PAGE_UP;
-        table[SDL_SCANCODE_PAGEDOWN] = Keycode::PAGE_DOWN;
-        table[SDL_SCANCODE_HOME] = Keycode::HOME;
-        table[SDL_SCANCODE_END] = Keycode::END;
-        table[SDL_SCANCODE_CAPSLOCK] = Keycode::CAPS_LOCK;
-        table[SDL_SCANCODE_SCROLLLOCK] = Keycode::SCROLL_LOCK;
-        table[SDL_SCANCODE_NUMLOCKCLEAR] = Keycode::NUM_LOCK;
-        table[SDL_SCANCODE_PRINTSCREEN] = Keycode::PRINT_SCREEN;
-        table[SDL_SCANCODE_PAUSE] = Keycode::PAUSE;
-        table[SDL_SCANCODE_F1] = Keycode::F1;
-        table[SDL_SCANCODE_F2] = Keycode::F2;
-        table[SDL_SCANCODE_F3] = Keycode::F3;
-        table[SDL_SCANCODE_F4] = Keycode::F4;
-        table[SDL_SCANCODE_F5] = Keycode::F5;
-        table[SDL_SCANCODE_F6] = Keycode::F6;
-        table[SDL_SCANCODE_F7] = Keycode::F7;
-        table[SDL_SCANCODE_F8] = Keycode::F8;
-        table[SDL_SCANCODE_F9] = Keycode::F9;
-        table[SDL_SCANCODE_F10] = Keycode::F10;
-        table[SDL_SCANCODE_F11] = Keycode::F11;
-        table[SDL_SCANCODE_F12] = Keycode::F12;
-        table[SDL_SCANCODE_KP_0] = Keycode::KP0;
-        table[SDL_SCANCODE_KP_1] = Keycode::KP1;
-        table[SDL_SCANCODE_KP_2] = Keycode::KP2;
-        table[SDL_SCANCODE_KP_3] = Keycode::KP3;
-        table[SDL_SCANCODE_KP_4] = Keycode::KP4;
-        table[SDL_SCANCODE_KP_5] = Keycode::KP5;
-        table[SDL_SCANCODE_KP_6] = Keycode::KP6;
-        table[SDL_SCANCODE_KP_7] = Keycode::KP7;
-        table[SDL_SCANCODE_KP_8] = Keycode::KP8;
-        table[SDL_SCANCODE_KP_9] = Keycode::KP9;
-        table[SDL_SCANCODE_LSHIFT] = Keycode::LEFT_SHIFT;
-        table[SDL_SCANCODE_LCTRL] = Keycode::LEFT_CONTROL;
-        table[SDL_SCANCODE_LALT] = Keycode::LEFT_ALT;
-        table[SDL_SCANCODE_LGUI] = Keycode::LEFT_SUPER;
-        table[SDL_SCANCODE_RSHIFT] = Keycode::RIGHT_SHIFT;
-        table[SDL_SCANCODE_RCTRL] = Keycode::RIGHT_CONTROL;
-        table[SDL_SCANCODE_RALT] = Keycode::RIGHT_ALT;
-        table[SDL_SCANCODE_RGUI] = Keycode::RIGHT_SUPER;
-        table[SDL_SCANCODE_MENU] = Keycode::MENU;
+		// Map all SDL scancodes to Keycodes
+		table[SDL_SCANCODE_SPACE] = Keycode::SPACE;
+		table[SDL_SCANCODE_APOSTROPHE] = Keycode::APOSTROPHE;
+		table[SDL_SCANCODE_COMMA] = Keycode::COMMA;
+		table[SDL_SCANCODE_MINUS] = Keycode::MINUS;
+		table[SDL_SCANCODE_PERIOD] = Keycode::PERIOD;
+		table[SDL_SCANCODE_SLASH] = Keycode::SLASH;
+		table[SDL_SCANCODE_0] = Keycode::D0;
+		table[SDL_SCANCODE_1] = Keycode::D1;
+		table[SDL_SCANCODE_2] = Keycode::D2;
+		table[SDL_SCANCODE_3] = Keycode::D3;
+		table[SDL_SCANCODE_4] = Keycode::D4;
+		table[SDL_SCANCODE_5] = Keycode::D5;
+		table[SDL_SCANCODE_6] = Keycode::D6;
+		table[SDL_SCANCODE_7] = Keycode::D7;
+		table[SDL_SCANCODE_8] = Keycode::D8;
+		table[SDL_SCANCODE_9] = Keycode::D9;
+		table[SDL_SCANCODE_SEMICOLON] = Keycode::SEMICOLON;
+		table[SDL_SCANCODE_EQUALS] = Keycode::EQUAL;
+		table[SDL_SCANCODE_A] = Keycode::A;
+		table[SDL_SCANCODE_B] = Keycode::B;
+		table[SDL_SCANCODE_C] = Keycode::C;
+		table[SDL_SCANCODE_D] = Keycode::D;
+		table[SDL_SCANCODE_E] = Keycode::E;
+		table[SDL_SCANCODE_F] = Keycode::F;
+		table[SDL_SCANCODE_G] = Keycode::G;
+		table[SDL_SCANCODE_H] = Keycode::H;
+		table[SDL_SCANCODE_I] = Keycode::I;
+		table[SDL_SCANCODE_J] = Keycode::J;
+		table[SDL_SCANCODE_K] = Keycode::K;
+		table[SDL_SCANCODE_L] = Keycode::L;
+		table[SDL_SCANCODE_M] = Keycode::M;
+		table[SDL_SCANCODE_N] = Keycode::N;
+		table[SDL_SCANCODE_O] = Keycode::O;
+		table[SDL_SCANCODE_P] = Keycode::P;
+		table[SDL_SCANCODE_Q] = Keycode::Q;
+		table[SDL_SCANCODE_R] = Keycode::R;
+		table[SDL_SCANCODE_S] = Keycode::S;
+		table[SDL_SCANCODE_T] = Keycode::T;
+		table[SDL_SCANCODE_U] = Keycode::U;
+		table[SDL_SCANCODE_V] = Keycode::V;
+		table[SDL_SCANCODE_W] = Keycode::W;
+		table[SDL_SCANCODE_X] = Keycode::X;
+		table[SDL_SCANCODE_Y] = Keycode::Y;
+		table[SDL_SCANCODE_Z] = Keycode::Z;
+		table[SDL_SCANCODE_LEFTBRACKET] = Keycode::LEFT_BRACKET;
+		table[SDL_SCANCODE_BACKSLASH] = Keycode::BACKSLASH;
+		table[SDL_SCANCODE_RIGHTBRACKET] = Keycode::RIGHT_BRACKET;
+		table[SDL_SCANCODE_GRAVE] = Keycode::GRAVE_ACCENT;
+		table[SDL_SCANCODE_ESCAPE] = Keycode::ESCAPE;
+		table[SDL_SCANCODE_RETURN] = Keycode::ENTER;
+		table[SDL_SCANCODE_TAB] = Keycode::TAB;
+		table[SDL_SCANCODE_BACKSPACE] = Keycode::BACKSPACE;
+		table[SDL_SCANCODE_INSERT] = Keycode::INSERT;
+		table[SDL_SCANCODE_DELETE] = Keycode::DELETE;
+		table[SDL_SCANCODE_RIGHT] = Keycode::RIGHT;
+		table[SDL_SCANCODE_LEFT] = Keycode::LEFT;
+		table[SDL_SCANCODE_DOWN] = Keycode::DOWN;
+		table[SDL_SCANCODE_UP] = Keycode::UP;
+		table[SDL_SCANCODE_PAGEUP] = Keycode::PAGE_UP;
+		table[SDL_SCANCODE_PAGEDOWN] = Keycode::PAGE_DOWN;
+		table[SDL_SCANCODE_HOME] = Keycode::HOME;
+		table[SDL_SCANCODE_END] = Keycode::END;
+		table[SDL_SCANCODE_CAPSLOCK] = Keycode::CAPS_LOCK;
+		table[SDL_SCANCODE_SCROLLLOCK] = Keycode::SCROLL_LOCK;
+		table[SDL_SCANCODE_NUMLOCKCLEAR] = Keycode::NUM_LOCK;
+		table[SDL_SCANCODE_PRINTSCREEN] = Keycode::PRINT_SCREEN;
+		table[SDL_SCANCODE_PAUSE] = Keycode::PAUSE;
+		table[SDL_SCANCODE_F1] = Keycode::F1;
+		table[SDL_SCANCODE_F2] = Keycode::F2;
+		table[SDL_SCANCODE_F3] = Keycode::F3;
+		table[SDL_SCANCODE_F4] = Keycode::F4;
+		table[SDL_SCANCODE_F5] = Keycode::F5;
+		table[SDL_SCANCODE_F6] = Keycode::F6;
+		table[SDL_SCANCODE_F7] = Keycode::F7;
+		table[SDL_SCANCODE_F8] = Keycode::F8;
+		table[SDL_SCANCODE_F9] = Keycode::F9;
+		table[SDL_SCANCODE_F10] = Keycode::F10;
+		table[SDL_SCANCODE_F11] = Keycode::F11;
+		table[SDL_SCANCODE_F12] = Keycode::F12;
+		table[SDL_SCANCODE_KP_0] = Keycode::KP0;
+		table[SDL_SCANCODE_KP_1] = Keycode::KP1;
+		table[SDL_SCANCODE_KP_2] = Keycode::KP2;
+		table[SDL_SCANCODE_KP_3] = Keycode::KP3;
+		table[SDL_SCANCODE_KP_4] = Keycode::KP4;
+		table[SDL_SCANCODE_KP_5] = Keycode::KP5;
+		table[SDL_SCANCODE_KP_6] = Keycode::KP6;
+		table[SDL_SCANCODE_KP_7] = Keycode::KP7;
+		table[SDL_SCANCODE_KP_8] = Keycode::KP8;
+		table[SDL_SCANCODE_KP_9] = Keycode::KP9;
+		table[SDL_SCANCODE_LSHIFT] = Keycode::LEFT_SHIFT;
+		table[SDL_SCANCODE_LCTRL] = Keycode::LEFT_CONTROL;
+		table[SDL_SCANCODE_LALT] = Keycode::LEFT_ALT;
+		table[SDL_SCANCODE_LGUI] = Keycode::LEFT_SUPER;
+		table[SDL_SCANCODE_RSHIFT] = Keycode::RIGHT_SHIFT;
+		table[SDL_SCANCODE_RCTRL] = Keycode::RIGHT_CONTROL;
+		table[SDL_SCANCODE_RALT] = Keycode::RIGHT_ALT;
+		table[SDL_SCANCODE_RGUI] = Keycode::RIGHT_SUPER;
+		table[SDL_SCANCODE_MENU] = Keycode::MENU;
 
-        return table;
-    }();
-    if (sdl_key < 0 || sdl_key >= SDL_NUM_SCANCODES) {
-        return Keycode::NONE;
-    }
-    return LOOKUP_TABLE[sdl_key];
+		return table;
+	}();
+	if (sdl_key < 0 || sdl_key >= SDL_NUM_SCANCODES) {
+		return Keycode::NONE;
+	}
+	return LOOKUP_TABLE[sdl_key];
 }
 std::array<bool, Keycode::NUM_KEYCODES> SDLContext::get_keyboard_state() {
-    // Array to hold the key states (true if pressed, false if not)
-    std::array<bool, SDL_NUM_SCANCODES> keyState;
+	// Array to hold the key states (true if pressed, false if not)
+	std::array<bool, SDL_NUM_SCANCODES> keyState;
 
-    const Uint8* current_state = SDL_GetKeyboardState(nullptr);
+	const Uint8 * current_state = SDL_GetKeyboardState(nullptr);
 
-    for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
-        // Set true if the key is pressed, false if not
-        keyState[i] = current_state[i] != 0;
-    }
+	for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
+		// Set true if the key is pressed, false if not
+		keyState[i] = current_state[i] != 0;
+	}
 
-    return keyState;
+	return keyState;
 }
 
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
@@ -389,82 +389,103 @@ ivec2 SDLContext::get_size(const Texture & ctx) {
 void SDLContext::delay(int ms) const { SDL_Delay(ms); }
 
 std::vector<SDLContext::EventData> SDLContext::get_events() {
-    std::vector<SDLContext::EventData> event_list;
-    SDL_Event event;
+	std::vector<SDLContext::EventData> event_list;
+	SDL_Event event;
 
-    // Handle general SDL events
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                event_list.push_back({SDLContext::EventType::SHUTDOWN, {}, {}, {}});
-                break;
-            case SDL_KEYDOWN:
-                event_list.push_back({SDLContext::EventType::KEYDOWN, 
-                                      {sdl_to_keycode(event.key.keysym.scancode), event.key.repeat != 0}, {}, {}});
-                break;
-            case SDL_KEYUP:
-                event_list.push_back({SDLContext::EventType::KEYUP, 
-                                      {sdl_to_keycode(event.key.keysym.scancode), false}, {}, {}});
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                event_list.push_back({SDLContext::EventType::MOUSEDOWN, {}, 
-                                      {sdl_to_mousebutton(event.button.button), {event.button.x, event.button.y}}, {}});
-                break;
-            case SDL_MOUSEBUTTONUP:
-                event_list.push_back({SDLContext::EventType::MOUSEUP, {}, 
-                                      {sdl_to_mousebutton(event.button.button), {event.button.x, event.button.y}}, {}});
-                break;
-            case SDL_MOUSEMOTION:
-                event_list.push_back({SDLContext::EventType::MOUSEMOVE, {}, 
-                                      {{}, {event.motion.x, event.motion.y}, -1, INFINITY, {event.motion.xrel, event.motion.yrel}}, {}});
-                break;
-            case SDL_MOUSEWHEEL:
-                event_list.push_back({SDLContext::EventType::MOUSEWHEEL, {}, 
-                                      {{}, {}, event.wheel.y < 0 ? -1 : 1, event.wheel.preciseY, {}}, {}});
-                break;
+	// Handle general SDL events
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+			case SDL_QUIT:
+				event_list.push_back({SDLContext::EventType::SHUTDOWN, {}, {}, {}});
+				break;
+			case SDL_KEYDOWN:
+				event_list.push_back(
+					{SDLContext::EventType::KEYDOWN,
+					 {sdl_to_keycode(event.key.keysym.scancode), event.key.repeat != 0},
+					 {},
+					 {}});
+				break;
+			case SDL_KEYUP:
+				event_list.push_back({SDLContext::EventType::KEYUP,
+									  {sdl_to_keycode(event.key.keysym.scancode), false},
+									  {},
+									  {}});
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				event_list.push_back({SDLContext::EventType::MOUSEDOWN,
+									  {},
+									  {sdl_to_mousebutton(event.button.button),
+									   {event.button.x, event.button.y}},
+									  {}});
+				break;
+			case SDL_MOUSEBUTTONUP:
+				event_list.push_back({SDLContext::EventType::MOUSEUP,
+									  {},
+									  {sdl_to_mousebutton(event.button.button),
+									   {event.button.x, event.button.y}},
+									  {}});
+				break;
+			case SDL_MOUSEMOTION:
+				event_list.push_back({SDLContext::EventType::MOUSEMOVE,
+									  {},
+									  {{},
+									   {event.motion.x, event.motion.y},
+									   -1,
+									   INFINITY,
+									   {event.motion.xrel, event.motion.yrel}},
+									  {}});
+				break;
+			case SDL_MOUSEWHEEL:
+				event_list.push_back(
+					{SDLContext::EventType::MOUSEWHEEL,
+					 {},
+					 {{}, {}, event.wheel.y < 0 ? -1 : 1, event.wheel.preciseY, {}},
+					 {}});
+				break;
 
-            // Forward window events for further processing
-            case SDL_WINDOWEVENT:
-                this->handle_window_event(event.window, event_list);
-                break;
-        }
-    }
+			// Forward window events for further processing
+			case SDL_WINDOWEVENT:
+				this->handle_window_event(event.window, event_list);
+				break;
+		}
+	}
 
-    return event_list;
+	return event_list;
 }
 
 // Separate function for SDL_WINDOWEVENT subtypes
-void SDLContext::handle_window_event(const SDL_WindowEvent& window_event,
-                                     std::vector<SDLContext::EventData>& event_list) {
-    switch (window_event.event) {
-        case SDL_WINDOWEVENT_EXPOSED:
-            event_list.push_back({SDLContext::EventType::WINDOW_EXPOSE, {}, {}, {}});
-            break;
-        case SDL_WINDOWEVENT_RESIZED:
-            event_list.push_back({SDLContext::EventType::WINDOW_RESIZE, {}, {}, 
-                                  {{}, {window_event.data1, window_event.data2}}});
-            break;
-        case SDL_WINDOWEVENT_MOVED:
-            event_list.push_back({SDLContext::EventType::WINDOW_MOVE, {}, {}, 
-                                  {{window_event.data1, window_event.data2}, {}}});
-            break;
-        case SDL_WINDOWEVENT_MINIMIZED:
-            event_list.push_back({SDLContext::EventType::WINDOW_MINIMIZE, {}, {}, {}});
-            break;
-        case SDL_WINDOWEVENT_MAXIMIZED:
-            event_list.push_back({SDLContext::EventType::WINDOW_MAXIMIZE, {}, {}, {}});
-            break;
-        case SDL_WINDOWEVENT_FOCUS_GAINED:
-            event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_GAIN, {}, {}, {}});
-            break;
-        case SDL_WINDOWEVENT_FOCUS_LOST:
-            event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_LOST, {}, {}, {}});
-            break;
-    }
+void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
+									 std::vector<SDLContext::EventData> & event_list) {
+	switch (window_event.event) {
+		case SDL_WINDOWEVENT_EXPOSED:
+			event_list.push_back({SDLContext::EventType::WINDOW_EXPOSE, {}, {}, {}});
+			break;
+		case SDL_WINDOWEVENT_RESIZED:
+			event_list.push_back({SDLContext::EventType::WINDOW_RESIZE,
+								  {},
+								  {},
+								  {{}, {window_event.data1, window_event.data2}}});
+			break;
+		case SDL_WINDOWEVENT_MOVED:
+			event_list.push_back({SDLContext::EventType::WINDOW_MOVE,
+								  {},
+								  {},
+								  {{window_event.data1, window_event.data2}, {}}});
+			break;
+		case SDL_WINDOWEVENT_MINIMIZED:
+			event_list.push_back({SDLContext::EventType::WINDOW_MINIMIZE, {}, {}, {}});
+			break;
+		case SDL_WINDOWEVENT_MAXIMIZED:
+			event_list.push_back({SDLContext::EventType::WINDOW_MAXIMIZE, {}, {}, {}});
+			break;
+		case SDL_WINDOWEVENT_FOCUS_GAINED:
+			event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_GAIN, {}, {}, {}});
+			break;
+		case SDL_WINDOWEVENT_FOCUS_LOST:
+			event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_LOST, {}, {}, {}});
+			break;
+	}
 }
-
-
-
 
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
 	SDL_SetTextureColorMod(texture.texture.get(), color.r, color.g, color.b);
