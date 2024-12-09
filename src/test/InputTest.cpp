@@ -233,9 +233,6 @@ TEST_F(InputTest, testButtonClick) {
 
 	bool hover = false;
 	button.active = true;
-
-	button.is_pressed = false;
-	button.is_toggle = false;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
 	input_system.update();
 	event_manager.dispatch_events();
@@ -258,8 +255,6 @@ TEST_F(InputTest, testButtonHover) {
 	auto & button
 		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click, false);
 	button.active = true;
-	button.is_pressed = false;
-	button.is_toggle = false;
 
 	// Mouse not on button
 	SDL_Event event;
