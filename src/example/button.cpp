@@ -15,7 +15,6 @@
 #include <crepe/system/InputSystem.h>
 #include <crepe/system/RenderSystem.h>
 #include <crepe/types.h>
-#include <iostream>
 using namespace crepe;
 using namespace std;
 
