@@ -5,6 +5,7 @@
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
+#include "manager/EventManager.h"
 
 #include "LoopManager.h"
 
@@ -12,9 +13,6 @@ using namespace crepe;
 using namespace std;
 
 LoopManager::LoopManager() {
-	this->mediator.component_manager = this->component_manager;
-	this->mediator.scene_manager = this->scene_manager;
-
 	this->load_system<AnimatorSystem>();
 	this->load_system<CollisionSystem>();
 	this->load_system<ParticleSystem>();
@@ -32,7 +30,14 @@ void LoopManager::start() {
 }
 void LoopManager::set_running(bool running) { this->game_running = running; }
 
-void LoopManager::fixed_update() {}
+void LoopManager::fixed_update() {
+	// TODO: retrieve EventManager from direct member after singleton refactor
+	EventManager & ev = this->mediator.event_manager;
+	ev.dispatch_events();
+	this->get_system<ScriptSystem>().update();
+	this->get_system<PhysicsSystem>().update();
+	this->get_system<CollisionSystem>().update();
+}
 
 void LoopManager::loop() {
 	LoopTimer & timer = this->loop_timer;
@@ -56,15 +61,17 @@ void LoopManager::loop() {
 
 void LoopManager::setup() {
 	LoopTimer & timer = this->loop_timer;
-
 	this->game_running = true;
+	this->scene_manager.load_next_scene();
 	timer.start();
 	timer.set_fps(200);
+	this->scene_manager.load_next_scene();
 }
 
 void LoopManager::render() {
 	if (!this->game_running) return;
 
+	this->get_system<AnimatorSystem>().update();
 	this->get_system<RenderSystem>().update();
 }
 

@@ -1,11 +1,10 @@
 #pragma once
 
-#include <cstdint>
-
 #include "../Component.h"
 
 #include "Color.h"
 #include "Texture.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -20,60 +19,79 @@ class AnimatorSystem;
  * flip settings, and is managed in layers with defined sorting orders.
  */
 class Sprite : public Component {
-
 public:
+	//! settings to flip the image
 	struct FlipSettings {
+		//! horizantal flip
 		bool flip_x = false;
+		//! vertical flip
 		bool flip_y = false;
 	};
 
-public:
-	// TODO: Loek comment in github #27 will be looked another time
-	// about shared_ptr Texture
-	/**
-	 * \brief Constructs a Sprite with specified parameters.
-	 * \param game_id Unique identifier for the game object this sprite belongs to.
-	 * \param image Shared pointer to the texture for this sprite.
-	 * \param color Color tint applied to the sprite.
-	 * \param flip Flip settings for horizontal and vertical orientation.
-	 * \param order_layer decides the sorting in layer of the sprite.
-	 * \param sort_layer decides the order in layer of the sprite.
-	 * \param height the height of the image in game units
-	 */
-	Sprite(game_object_id_t id, Texture & image, const Color & color,
-		   const FlipSettings & flip, int sort_layer, int order_layer, int height);
+	//! Sprite data that does not have to be set in the constructor
+	struct Data {
+		/**
+		 * \brief Sprite tint (multiplied)
+		 *
+		 * The sprite texture's pixels are multiplied by this color before being displayed
+		 * (including alpha channel for transparency).
+		 */
+		Color color = Color::WHITE;
 
+		//! Flip settings for the sprite
+		FlipSettings flip;
+
+		//! Layer sorting level of the sprite
+		const int sorting_in_layer = 0;
+
+		//! Order within the sorting layer
+		const int order_in_layer = 0;
+
+		/**
+		 * \brief width and height of the sprite in game units
+		 *
+		 * - if exclusively width is specified, the height is calculated using the texture's aspect
+		 *   ratio
+		 * - if exclusively height is specified, the width is calculated using the texture's aspect
+		 *   ratio
+		 * - if both are specified the texture is streched to fit the specified size
+		 */
+		vec2 size = {0, 0};
+
+		//! independent sprite angle. rotating clockwise direction in degrees
+		float angle_offset = 0;
+
+		//! independent sprite scale multiplier
+		float scale_offset = 1;
+
+		//! independent sprite offset position
+		vec2 position_offset;
+	};
+
+public:
 	/**
-	 * \brief Destroys the Sprite instance.
+	 * \param game_id Unique identifier for the game object this sprite belongs to.
+	 * \param texture asset of the image
+	 * \param ctx all the sprite data
 	 */
+	Sprite(game_object_id_t id, Texture & texture, const Data & data);
 	~Sprite();
 
 	//! Texture used for the sprite
-	const Texture sprite_image;
+	const Texture texture;
 
-	//! Color tint of the sprite
-	Color color;
-
-	//! Flip settings for the sprite
-	FlipSettings flip;
-
-	//! Layer sorting level of the sprite
-	const int sorting_in_layer;
-	//! Order within the sorting layer
-	const int order_in_layer;
-
-	//! height in world units
-	const int height;
-
-	/**
-	 * \aspect_ratio ratio of the img so that scaling will not become weird
-	 *
-	 * cannot be const because if Animator component is addded then ratio becomes scuffed and
-	 * does it need to be calculated again in the Animator
-	 */
-	double aspect_ratio;
+	Data data;
 
 private:
+	/**
+	 * \brief ratio of the img
+	 *
+	 * - This will multiply one of \c size variable if it is 0.
+	 * - Will be adjusted if \c Animator component is added to an GameObject that is why this
+	 *   value cannot be const.
+	 */
+	float aspect_ratio;
+
 	//! Reads the mask of sprite
 	friend class SDLContext;
 

@@ -1,20 +1,17 @@
-#include "types.h"
 #include "util/Log.h"
 
 #include "Camera.h"
-#include "Color.h"
 #include "Component.h"
+#include "types.h"
 
 using namespace crepe;
 
-Camera::Camera(game_object_id_t id, const Color & bg_color, const ivec2 & screen,
-			   const vec2 & viewport_size, const double & zoom, const vec2 & offset)
+Camera::Camera(game_object_id_t id, const ivec2 & screen, const vec2 & viewport_size,
+			   const Data & data)
 	: Component(id),
-	  bg_color(bg_color),
-	  offset(offset),
 	  screen(screen),
 	  viewport_size(viewport_size),
-	  zoom(zoom) {
+	  data(data) {
 	dbg_trace();
 }
 
