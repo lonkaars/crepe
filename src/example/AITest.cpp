@@ -57,7 +57,8 @@ public:
 		ai.make_circle_path(1000, {0, -1000}, 1.5707, true);
 		ai.make_circle_path(1000, {0, 1000}, 4.7124, false);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
-			.mass = 0.5f, .max_linear_velocity = {40, 40}, // sqrt(21^2 + 21^2) = 30
+			.mass = 0.5f,
+			.max_linear_velocity = {40, 40},
 		});
 		game_object1.add_component<BehaviorScript>().set_script<Script1>();
 
