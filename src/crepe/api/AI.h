@@ -30,7 +30,7 @@ public:
 	AI(game_object_id_t id, float max_force);
 
 	/**
-	 * \brief Check if a behavior is on/activated
+	 * \brief Check if a behavior is on (aka activated)
 	 *
 	 * \param behavior The behavior to check
 	 * \return true if the behavior is on, false otherwise
@@ -62,7 +62,7 @@ public:
 	}
 
 	/**
-	 * \brief Add a path node
+	 * \brief Add a path node (for the path following behavior)
 	 *
 	 * \note The path is not relative to the entity's position (it is an absolute path)
 	 *
@@ -70,7 +70,7 @@ public:
 	 */
 	void add_path_node(vec2 node) { path.push_back(node); }
 	/**
-	 * \brief Make a circle path
+	 * \brief Make a circle path (for the path following behavior)
 	 *
 	 * \note The path is not relative to the entity's position (it is an absolute path)
 	 *
@@ -94,9 +94,9 @@ public:
 	float square_flee_panic_distance = 200.0f * 200.0f;
 	//! The deceleration rate for the arrive behavior (higher values will make the entity decelerate faster (less overshoot))
 	float arrive_deceleration = 40.0f;
-	//! The path to follow
+	//! The path to follow (for the path following behavior)
 	std::vector<vec2> path;
-	//! The distance from the path node at which the entity will move to the next node
+	//! The distance from the path node at which the entity will move to the next node (automatically set by make_circle_path())
 	float path_node_distance = 400.0f;
 	//! Looping behavior for the path
 	bool path_loop = true;
