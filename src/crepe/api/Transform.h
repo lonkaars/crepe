@@ -13,14 +13,6 @@ namespace crepe {
  */
 class Transform : public Component {
 public:
-	//! Specifies the coordinate space for transformations.
-	enum Space {
-		//! coordinates are relative to the active camera
-		HUD,
-		//! coordinates are relative to the game world
-		WORLD,
-	};
-	Space coordinate_space = Space::WORLD;
 	//! Translation (shift)
 	vec2 position = {0, 0};
 	//! Rotation, in degrees clockwise
