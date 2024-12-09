@@ -69,22 +69,22 @@ public:
 	void set_time_scale(double time_scale);
 
 	/**
-	 * \brief Get the scaled fixed delta time in seconds.
-	 *
-	 * The fixed delta time is used for operations that require uniform time steps, 
-	 * such as physics calculations, and is scaled by the current time scale.
-	 *
-	 * \return The fixed delta time, scaled by time scale, in seconds.
-	 */
-	double get_fixed_loop_interval() const;
-
-	/**
 	 * \brief Get the fixed delta time in seconds without scaling by the time scale.
 	 *
 	 * This value is used in the LoopManager to determine how many times 
 	 * the fixed_update should be called within a given interval.
 	 *
 	 * \return The unscaled fixed delta time in seconds.
+	 */
+	double get_fixed_loop_interval() const;
+
+	/**
+	 * \brief Get the scaled fixed delta time in seconds.
+	 *
+	 * The fixed delta time is used for operations that require uniform time steps, 
+	 * such as physics calculations, and is scaled by the current time scale.
+	 *
+	 * \return The fixed delta time, scaled by time scale, in seconds.
 	 */
 	double get_fixed_delta_time() const;
 
