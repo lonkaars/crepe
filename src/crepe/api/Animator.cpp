@@ -7,8 +7,9 @@
 
 using namespace crepe;
 
-Animator::Animator(game_object_id_t id, Sprite & spritesheet, unsigned int max_row,
-				   unsigned int max_col, const Animator::Data & data)
+Animator::Animator(game_object_id_t id, Sprite & spritesheet, unsigned int pixel_frame_x,
+				   unsigned int pixel_frame_y, unsigned int max_row, unsigned int max_col,
+				   const Animator::Data & data)
 	: Component(id),
 	  spritesheet(spritesheet),
 	  max_rows(max_row),
@@ -16,14 +17,10 @@ Animator::Animator(game_object_id_t id, Sprite & spritesheet, unsigned int max_r
 	  data(data) {
 	dbg_trace();
 
-	this->spritesheet.mask.h /= this->max_columns;
-	this->spritesheet.mask.w /= this->max_rows;
+	this->spritesheet.mask.h = this->max_columns * pixel_frame_y;
+	this->spritesheet.mask.w /= this->max_rows * pixel_frame_x;
 	this->spritesheet.mask.x = this->data.row * this->spritesheet.mask.w;
 	this->spritesheet.mask.y = this->data.col * this->spritesheet.mask.h;
-
-	// need to do this for to get the aspect ratio for a single clipping in the spritesheet
-	this->spritesheet.aspect_ratio
-		= static_cast<double>(this->spritesheet.mask.w) / this->spritesheet.mask.h;
 }
 
 Animator::~Animator() { dbg_trace(); }

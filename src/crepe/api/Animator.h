@@ -82,8 +82,9 @@ public:
 	 * This constructor sets up the Animator with the given parameters, and initializes the
 	 * animation system.
 	 */
-	Animator(game_object_id_t id, Sprite & spritesheet, unsigned int max_row,
-			 unsigned int max_col, const Animator::Data & data);
+	Animator(game_object_id_t id, Sprite & spritesheet, unsigned int pixel_frame_x,
+			 unsigned int pixel_frame_y, unsigned int max_row, unsigned int max_col,
+			 const Animator::Data & data);
 	~Animator(); // dbg_trace
 
 public:
@@ -96,6 +97,7 @@ public:
 private:
 	//! A reference to the Sprite sheet containing.
 	Sprite & spritesheet;
+
 	//! Uses the spritesheet
 	friend AnimatorSystem;
 };
