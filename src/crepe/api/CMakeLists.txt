@@ -40,8 +40,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.h
 	Vector2.hpp
 	Color.h
-	Texture.h 
-	AssetManager.h 
+	Texture.h
+	AssetManager.h
 	AssetManager.hpp
 	Scene.h
 	Metadata.h

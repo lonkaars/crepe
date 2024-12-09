@@ -37,7 +37,7 @@ private:
 
 	/**
 		* \brief A structure to store the collision data of a single collider.
-		* 
+		*
 		* This structure all components and id that are for needed within this system when calculating or handeling collisions.
 		* The transform and rigidbody are mostly needed for location and rotation.
 		* In rigidbody additional info is written about what the body of the object is,
@@ -65,7 +65,7 @@ private:
 public:
 	/**
 		* \brief Structure representing detailed collision information between two colliders.
-		* 
+		*
 		* Includes information about the colliding objects and the resolution data for handling the collision.
 		*/
 	struct CollisionInfo {
@@ -90,9 +90,9 @@ public:
 private:
 	/**
 		* \brief Determines the type of collider pair from two colliders.
-		* 
+		*
 		* Uses std::holds_alternative to identify the types of the provided colliders.
-		* 
+		*
 		* \param collider1 First collider variant (BoxCollider or CircleCollider).
 		* \param collider2 Second collider variant (BoxCollider or CircleCollider).
 		* \return The combined type of the two colliders.
@@ -102,9 +102,9 @@ private:
 
 	/**
 		* \brief Calculates the current position of a collider.
-		* 
+		*
 		* Combines the Collider offset, Transform position, and Rigidbody offset to compute the position of the collider.
-		* 
+		*
 		* \param collider_offset The offset of the collider.
 		* \param transform The Transform of the associated game object.
 		* \param rigidbody The Rigidbody of the associated game object.
@@ -116,9 +116,9 @@ private:
 private:
 	/**
 		* \brief Handles collision resolution between two colliders.
-		* 
+		*
 		* Processes collision data and adjusts objects to resolve collisions and/or calls the user oncollision script function.
-		* 
+		*
 		* \param data1 Collision data for the first collider.
 		* \param data2 Collision data for the second collider.
 		*/
@@ -126,9 +126,9 @@ private:
 
 	/**
 		* \brief Resolves collision between two colliders and calculates the movement required.
-		* 
+		*
 		* Determines the displacement and direction needed to separate colliders based on their types.
-		* 
+		*
 		* \param data1 Collision data for the first collider.
 		* \param data2 Collision data for the second collider.
 		* \param type The type of collider pair.
@@ -140,9 +140,9 @@ private:
 
 	/**
 		* \brief Calculates the resolution vector for two BoxColliders.
-		* 
+		*
 		* Computes the displacement required to separate two overlapping BoxColliders.
-		* 
+		*
 		* \param box_collider1 The first BoxCollider.
 		* \param box_collider2 The second BoxCollider.
 		* \param position1 The position of the first BoxCollider.
@@ -155,13 +155,13 @@ private:
 
 	/**
 		* \brief Calculates the resolution vector for two CircleCollider.
-		* 
+		*
 		* Computes the displacement required to separate two overlapping CircleCollider.
-		* 
+		*
 		* \param circle_collider1 The first CircleCollider.
 		* \param circle_collider2 The second CircleCollider.
-		* \param position1 The position of the first CircleCollider.
-		* \param position2 The position of the second CircleCollider.
+		* \param final_position1 The position of the first CircleCollider.
+		* \param final_position2 The position of the second CircleCollider.
 		* \return The resolution vector for the collision.
 		*/
 	vec2 get_circle_circle_resolution(const CircleCollider & circle_collider1,
@@ -171,35 +171,34 @@ private:
 
 	/**
 		* \brief Calculates the resolution vector for two CircleCollider.
-		* 
+		*
 		* Computes the displacement required to separate two overlapping CircleCollider.
-		* 
+		*
 		* \param circle_collider The first CircleCollider.
 		* \param box_collider The second CircleCollider.
 		* \param circle_position The position of the CircleCollider.
 		* \param box_position The position of the BoxCollider.
-		* \param inverse Inverted true if box circle collision, false if circle box collision (inverts the direction).
 		* \return The resolution vector for the collision.
 		*/
 	vec2 get_circle_box_resolution(const CircleCollider & circle_collider,
 								   const BoxCollider & box_collider,
-								   const vec2 & circle_position, const vec2 & box_position,
-								   bool inverse) const;
+								   const vec2 & circle_position,
+								   const vec2 & box_position) const;
 
 	/**
 		* \brief Determines the appropriate collision handler for a collision.
-		* 
+		*
 		* Decides the correct resolution process based on the dynamic or static nature of the colliders involved.
-		* 
+		*
 		* \param info Collision information containing data about both colliders.
 		*/
 	void determine_collision_handler(CollisionInfo & info);
 
 	/**
 		* \brief Handles collisions involving static objects.
-		* 
+		*
 		* Resolves collisions by adjusting positions and modifying velocities if bounce is enabled.
-		* 
+		*
 		* \param info Collision information containing data about both colliders.
 		*/
 	void static_collision_handler(CollisionInfo & info);
@@ -207,9 +206,9 @@ private:
 private:
 	/**
 		* \brief Checks for collisions between colliders.
-		* 
+		*
 		* Identifies collisions and generates pairs of colliding objects for further processing.
-		* 
+		*
 		* \param colliders A collection of all active colliders.
 		* \return A list of collision pairs with their associated data.
 		*/
@@ -218,15 +217,15 @@ private:
 
 	/**
 	 * \brief Checks if two collision layers have at least one common layer.
-	 * 
-	 * This function checks if there is any overlapping layer between the two input 
-	 * collision layer vectors. It compares each layer from the first vector to see 
-	 * if it exists in the second vector. If at least one common layer is found, 
-	 * the function returns true, indicating that the two colliders share a common 
+	 *
+	 * This function checks if there is any overlapping layer between the two inputs.
+	 * It compares each layer from the first input to see
+	 * if it exists in the second input. If at least one common layer is found,
+	 * the function returns true, indicating that the two colliders share a common
 	 * collision layer.
-	 * 
-	 * \param layers1 A vector of collision layers for the first collider.
-	 * \param layers2 A vector of collision layers for the second collider.
+	 *
+	 * \param layers1 all collision layers for the first collider.
+	 * \param layers2 all collision layers for the second collider.
 	 * \return Returns true if there is at least one common layer, false otherwise.
 	 */
 
@@ -234,9 +233,9 @@ private:
 
 	/**
 		* \brief Checks for collision between two colliders.
-		* 
+		*
 		* Calls the appropriate collision detection function based on the collider types.
-		* 
+		*
 		* \param first_info Collision data for the first collider.
 		* \param second_info Collision data for the second collider.
 		* \param type The type of collider pair.
@@ -248,7 +247,7 @@ private:
 
 	/**
 		* \brief Detects collisions between two BoxColliders.
-		* 
+		*
 		* \param box1 The first BoxCollider.
 		* \param box2 The second BoxCollider.
 		* \param transform1 Transform of the first object.

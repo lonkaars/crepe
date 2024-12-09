@@ -8,7 +8,7 @@ class ComponentManager;
 
 /**
  * \brief Base class for all components
- * 
+ *
  * This class is the base class for all components. It provides a common interface for all
  * components.
  */
