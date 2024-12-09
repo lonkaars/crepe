@@ -9,6 +9,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <array>
 
 #include "api/Camera.h"
 #include "api/Color.h"
@@ -134,14 +135,14 @@ private:
 	 * \return Events that occurred since last call to `get_events()`
 	 */
 	std::vector<SDLContext::EventData> get_events();
-	/**
-	 * \brief Fills event_list with triggered window events
-	 *
-	 * This method checks if any window events are triggered and adds them to the event_list.
-	 *
-	 */
-	void handle_window_event(const SDL_WindowEvent& window_event,
-                                     std::vector<SDLContext::EventData>& event_list);
+	// /**
+	//  * \brief Fills event_list with triggered window events
+	//  *
+	//  * This method checks if any window events are triggered and adds them to the event_list.
+	//  *
+	//  */
+	// void handle_window_event(const SDL_WindowEvent& window_event,
+    //                                  std::vector<SDLContext::EventData>& event_list);
 	/**
 	 * \brief Converts an SDL key code to the custom Keycode type.
 	 *
@@ -152,8 +153,19 @@ private:
 	 * \return The corresponding `Keycode` value or `Keycode::NONE` if the key is unrecognized.
 	 */
 	Keycode sdl_to_keycode(SDL_Keycode sdl_key);
-	static const std::array<Keycode, SDL_NUM_SCANCODES>& get_lookup_table();
-	std::array<Keycode, SDL_NUM_SCANCODES> get_keyboard_state();
+	/**
+	 * \brief Retrieves the current state of the keyboard.
+	 *
+	 * This method returns the state of all keys on the keyboard, represented as a
+	 * `std::array` of boolean values. Each element of the array corresponds to a
+	 * specific key defined in the `Keycode` enum, and the value indicates whether
+	 * the key is currently pressed (true) or not pressed (false).
+	 *
+	 * \return A `std::array<bool, Keycode::NUM_KEYCODES>` representing the state of
+	 *         each key on the keyboard, where `true` means the key is pressed, and
+	 *         `false` means it is not pressed.
+	 */
+	std::array<bool, Keycode::NUM_KEYCODES> get_keyboard_state();
 	/**
 	 * \brief Converts an SDL mouse button code to the custom MouseButton type.
 	 *

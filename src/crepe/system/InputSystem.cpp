@@ -1,3 +1,6 @@
+
+#include <iostream>
+
 #include "../api/Button.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/EventManager.h"
@@ -34,6 +37,7 @@ void InputSystem::update() {
 						  - (current_cam.viewport_size.x / 2);
 
 	for (const SDLContext::EventData & event : event_list) {
+		std::cout << "event type: " << event.event_type << std::endl;
 		// Only calculate mouse coordinates for relevant events
 		if (event.event_type == SDLContext::EventType::MOUSEDOWN 
 			|| event.event_type == SDLContext::EventType::MOUSEUP
@@ -102,6 +106,7 @@ void InputSystem::update() {
 					break;
 			}
 		} else {
+			std::cout << "non mouse event" << std::endl;
 			// Handle non-mouse events
 			switch (event.event_type) {
 				case SDLContext::EventType::KEYDOWN:
@@ -117,7 +122,8 @@ void InputSystem::update() {
 					event_mgr.queue_event<WindowExposeEvent>({});
 					break;
 				case SDLContext::EventType::WINDOW_RESIZE:
-					event_mgr.queue_event<WindowResizeEvent>({.dimensions = event.window_data.resize_dimension});
+					std::cout << "input system queue" << std::endl;
+					event_mgr.queue_event<WindowResizeEvent>(WindowResizeEvent{.dimensions = event.window_data.resize_dimension});
 					break;
 				case SDLContext::EventType::WINDOW_MOVE:
 					event_mgr.queue_event<WindowMoveEvent>({.delta_move = event.window_data.move_delta});

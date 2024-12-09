@@ -1,4 +1,7 @@
 #include <gtest/gtest.h>
+
+#include <iostream>
+
 #define protected public
 #define private public
 #include "api/KeyCodes.h"
@@ -32,8 +35,6 @@ public:
 
 protected:
 	void SetUp() override {
-		mediator.event_manager = event_manager;
-		mediator.component_manager = mgr;
 		event_manager.clear();
 	}
 
@@ -290,4 +291,26 @@ TEST_F(InputTest, testButtonHover) {
 	input_system.update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button.hover);
+}
+
+TEST_F(InputTest, WindowResizeTest) {
+	bool callback_triggered = false;
+	EventHandler<WindowResizeEvent> on_window_resize = [&](const WindowResizeEvent & event) {
+		std::cout << "test callback" << std::endl;
+		callback_triggered = true;
+		EXPECT_EQ(event.dimensions.x, 0);
+		EXPECT_EQ(event.dimensions.y, 0);
+		return false;
+	};
+	event_manager.subscribe<WindowResizeEvent>(on_window_resize);
+	SDL_Event resize_event;
+    SDL_zero(resize_event);
+    resize_event.type = SDL_WINDOWEVENT;
+    resize_event.window.event = SDL_WINDOWEVENT_RESIZED;
+    resize_event.window.data1 = 800; // new width
+    resize_event.window.data2 = 600; // new height
+    SDL_PushEvent(&resize_event);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_TRUE(callback_triggered);
 }

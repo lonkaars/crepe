@@ -6,6 +6,9 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_video.h>
+
+#include <iostream>
+
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -77,8 +80,9 @@ SDLContext::~SDLContext() {
 	SDL_Quit();
 }
 
-static const std::array<Keycode, SDL_NUM_SCANCODES>& get_lookup_table() {
-    static const std::array<Keycode, SDL_NUM_SCANCODES> LOOKUP_TABLE = [] {
+// Function that uses the shared table
+Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
+	static const std::array<Keycode, SDL_NUM_SCANCODES> LOOKUP_TABLE = [] {
         std::array<Keycode, SDL_NUM_SCANCODES> table{};
         table.fill(Keycode::NONE);
 
@@ -184,25 +188,20 @@ static const std::array<Keycode, SDL_NUM_SCANCODES>& get_lookup_table() {
 
         return table;
     }();
-    return LOOKUP_TABLE;
-}
-
-// Function that uses the shared table
-Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
     if (sdl_key < 0 || sdl_key >= SDL_NUM_SCANCODES) {
         return Keycode::NONE;
     }
-    return get_lookup_table()[sdl_key];
+    return LOOKUP_TABLE[sdl_key];
 }
-std::array<bool, SDL_NUM_SCANCODES> SDLContext::get_keyboard_state() {
+std::array<bool, Keycode::NUM_KEYCODES> SDLContext::get_keyboard_state() {
     // Array to hold the key states (true if pressed, false if not)
     std::array<bool, SDL_NUM_SCANCODES> keyState;
 
     const Uint8* current_state = SDL_GetKeyboardState(nullptr);
-	
+
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
         // Set true if the key is pressed, false if not
-        keyState[i] = currentState[i] != 0;
+        keyState[i] = current_state[i] != 0;
     }
 
     return keyState;
@@ -428,7 +427,36 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 
             // Forward window events for further processing
             case SDL_WINDOWEVENT:
-                handle_window_event(event.window, event_list);
+                switch (event.window.event) {
+					case SDL_WINDOWEVENT_EXPOSED:
+						event_list.push_back({SDLContext::EventType::WINDOW_EXPOSE, {}, {}, {}});
+						break;
+					case SDL_WINDOWEVENT_RESIZED:
+					{
+						std::cout << "window resize" << std::endl;
+						SDLContext::EventData event_data;
+						event_data.event_type = SDLContext::EventType::WINDOW_RESIZE;
+						event_data.window_data.resize_dimension = {event.window.data1,event.window.data2};
+						event_list.push_back(event_data);
+						break;
+					}
+					case SDL_WINDOWEVENT_MOVED:
+						event_list.push_back({SDLContext::EventType::WINDOW_MOVE, {}, {}, 
+											{{event.window.data1, event.window.data2}, {}}});
+						break;
+					case SDL_WINDOWEVENT_MINIMIZED:
+						event_list.push_back({SDLContext::EventType::WINDOW_MINIMIZE, {}, {}, {}});
+						break;
+					case SDL_WINDOWEVENT_MAXIMIZED:
+						event_list.push_back({SDLContext::EventType::WINDOW_MAXIMIZE, {}, {}, {}});
+						break;
+					case SDL_WINDOWEVENT_FOCUS_GAINED:
+						event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_GAIN, {}, {}, {}});
+						break;
+					case SDL_WINDOWEVENT_FOCUS_LOST:
+						event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_LOST, {}, {}, {}});
+						break;
+				}
                 break;
         }
     }
@@ -436,35 +464,10 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
     return event_list;
 }
 
-// Separate function for SDL_WINDOWEVENT subtypes
-void SDLContext::handle_window_event(const SDL_WindowEvent& window_event,
-                                     std::vector<SDLContext::EventData>& event_list) {
-    switch (window_event.event) {
-        case SDL_WINDOWEVENT_EXPOSED:
-            event_list.push_back({SDLContext::EventType::WINDOW_EXPOSE, {}, {}, {}});
-            break;
-        case SDL_WINDOWEVENT_RESIZED:
-            event_list.push_back({SDLContext::EventType::WINDOW_RESIZE, {}, {}, 
-                                  {{}, {window_event.data1, window_event.data2}}});
-            break;
-        case SDL_WINDOWEVENT_MOVED:
-            event_list.push_back({SDLContext::EventType::WINDOW_MOVE, {}, {}, 
-                                  {{window_event.data1, window_event.data2}, {}}});
-            break;
-        case SDL_WINDOWEVENT_MINIMIZED:
-            event_list.push_back({SDLContext::EventType::WINDOW_MINIMIZE, {}, {}, {}});
-            break;
-        case SDL_WINDOWEVENT_MAXIMIZED:
-            event_list.push_back({SDLContext::EventType::WINDOW_MAXIMIZE, {}, {}, {}});
-            break;
-        case SDL_WINDOWEVENT_FOCUS_GAINED:
-            event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_GAIN, {}, {}, {}});
-            break;
-        case SDL_WINDOWEVENT_FOCUS_LOST:
-            event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_LOST, {}, {}, {}});
-            break;
-    }
-}
+// // Separate function for SDL_WINDOWEVENT subtypes
+// void SDLContext::handle_event(const SDL_WindowEvent& event,
+//                                      std::vector<SDLContext::EventData>& event_list) {
+// }
 
 
 
