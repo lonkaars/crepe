@@ -5,11 +5,11 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <array>
 #include <cmath>
 #include <functional>
 #include <memory>
 #include <string>
-#include <array>
 
 #include "api/Camera.h"
 #include "api/Color.h"
@@ -88,18 +88,18 @@ public:
 		WINDOW_RESIZE,
 		WINDOW_EXPOSE,
 	};
-	struct KeyData{
+	struct KeyData {
 		Keycode key = Keycode::NONE;
 		bool key_repeat = false;
 	};
-	struct MouseData{
+	struct MouseData {
 		MouseButton mouse_button = MouseButton::NONE;
 		ivec2 mouse_position = {-1, -1};
 		int scroll_direction = -1;
 		float scroll_delta = INFINITY;
 		ivec2 rel_mouse_move = {-1, -1};
 	};
-	struct WindowData{
+	struct WindowData {
 		ivec2 move_delta;
 		ivec2 resize_dimension;
 	};
@@ -110,7 +110,7 @@ public:
 		MouseData mouse_data;
 		WindowData window_data;
 	};
-	
+
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
 	 * \return Reference to the SDLContext instance.
@@ -141,8 +141,8 @@ private:
 	 * This method checks if any window events are triggered and adds them to the event_list.
 	 *
 	 */
-	void handle_window_event(const SDL_WindowEvent& window_event,
-                                     std::vector<SDLContext::EventData>& event_list);
+	void handle_window_event(const SDL_WindowEvent & window_event,
+							 std::vector<SDLContext::EventData> & event_list);
 	/**
 	 * \brief Converts an SDL key code to the custom Keycode type.
 	 *

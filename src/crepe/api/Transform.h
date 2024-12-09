@@ -14,9 +14,9 @@ namespace crepe {
 class Transform : public Component {
 public:
 	//! Specifies the coordinate space for transformations.
-	enum Space { 
+	enum Space {
 		//! coordinates are relative to the active camera
-		HUD, 
+		HUD,
 		//! coordinates are relative to the game world
 		WORLD,
 	};
