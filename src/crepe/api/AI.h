@@ -61,9 +61,24 @@ public:
 		if (on(PATH_FOLLOW)) flags ^= PATH_FOLLOW;
 	}
 
-	//! Add a path node to the path
+	/**
+	 * \brief Add a path node
+	 *
+	 * \note The path is not relative to the entity's position (it is an absolute path)
+	 *
+	 * \param node The path node to add
+	 */
 	void add_path_node(vec2 node) { path.push_back(node); }
-	//! Create a circle path
+	/**
+	 * \brief Make a circle path
+	 *
+	 * \note The path is not relative to the entity's position (it is an absolute path)
+	 *
+	 * \param radius The radius of the circle (in game units)
+	 * \param center The center of the circle (in game units)
+	 * \param start_angle The start angle of the circle (in radians)
+	 * \param clockwise The direction of the circle
+	 */
 	void make_circle_path(float radius, vec2 center = {0, 0}, float start_angle = 0,
 						  bool clockwise = true);
 
