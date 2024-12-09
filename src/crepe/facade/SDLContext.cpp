@@ -21,10 +21,10 @@
 #include "../api/Sprite.h"
 #include "../api/Texture.h"
 #include "../util/Log.h"
-
-#include "SDLContext.h"
 #include "manager/Manager.h"
 #include "manager/Mediator.h"
+
+#include "SDLContext.h"
 #include "types.h"
 
 using namespace crepe;
@@ -219,25 +219,26 @@ void SDLContext::present_screen() {
 	SDL_RenderPresent(this->game_renderer.get());
 }
 
-SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
-	return SDL_Rect{
-		.x = sprite.mask.x,
-		.y = sprite.mask.y,
-		.w = sprite.mask.w,
-		.h = sprite.mask.h,
-	};
+SDL_Rect * SDLContext::get_src_rect(const Sprite & sprite) {
+	if (sprite.mask.w == 0 && sprite.mask.h == 0) return NULL;
+
+	this->mask.x = sprite.mask.x;
+	this->mask.y = sprite.mask.y;
+	this->mask.w = sprite.mask.w;
+	this->mask.h = sprite.mask.h;
+	return &this->mask;
 }
 
 SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
 
-	vec2 size = {data.size.x , data.size.y};
+	vec2 size = {data.size.x, data.size.y};
 	if (data.size.x == 0 && data.size.y != 0) {
-		size.x = data.size.y * ctx.sprite.aspect_ratio;
+		size.x = data.size.y * ctx.texture.get_ratio();
 	}
 	if (data.size.y == 0 && data.size.x != 0) {
-		size.y = data.size.x / ctx.sprite.aspect_ratio;
+		size.y = data.size.x / ctx.texture.get_ratio();
 	}
 
 	const CameraValues & cam = ctx.cam;
@@ -263,9 +264,10 @@ void SDLContext::draw(const RenderContext & ctx) {
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * data.flip.flip_y));
 
-	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
+	SDL_Rect * srcrect = this->get_src_rect(ctx.sprite);
 	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData{
 		.sprite = ctx.sprite,
+		.texture = ctx.texture,
 		.cam = ctx.cam,
 		.pos = ctx.pos,
 		.img_scale = ctx.scale,
@@ -275,8 +277,8 @@ void SDLContext::draw(const RenderContext & ctx) {
 	double angle = ctx.angle + data.angle_offset;
 
 	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
-	int error = SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.texture.get(),
-								  &srcrect, &dstrect, angle, NULL, render_flip);
+	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect, &dstrect,
+					  angle, NULL, render_flip);
 }
 
 SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
@@ -366,7 +368,7 @@ SDLContext::texture_from_path(const std::string & path) {
 
 ivec2 SDLContext::get_size(const Texture & ctx) {
 	ivec2 size;
-	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &size.x, &size.y);
+	SDL_QueryTexture(ctx.get_img(), NULL, NULL, &size.x, &size.y);
 	return size;
 }
 
@@ -433,6 +435,6 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 	return event_list;
 }
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
-	SDL_SetTextureColorMod(texture.texture.get(), color.r, color.g, color.b);
-	SDL_SetTextureAlphaMod(texture.texture.get(), color.a);
+	SDL_SetTextureColorMod(texture.get_img(), color.r, color.g, color.b);
+	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
 }

@@ -4,7 +4,6 @@
 // headers won't be bundled with crepe. Why is this facade in the API namespace?
 
 #include <SDL2/SDL_render.h>
-#include <functional>
 #include <memory>
 
 #include "Asset.h"
@@ -13,8 +12,6 @@
 
 namespace crepe {
 
-class SDLContext;
-class Animator;
 class Mediator;
 
 /**
@@ -30,13 +27,35 @@ public:
 	/**
 	 * \brief Constructs a Texture from an Asset resource.
 	 * \param src Asset with texture data to load.
+	 * \param mediator use the SDLContext reference to load the image
 	 */
 	Texture(const Asset & src, Mediator & mediator);
 
 	/**
-	 * \brief Destroys the Texture instance, freeing associated resources.
+	 * \brief Destroys the Texture instance
 	 */
 	~Texture();
+
+	/**
+	 * \brief get width and height of image in pixels
+	 * \return pixel size width and height
+	 *
+	 */
+	const ivec2 & get_size() const noexcept;
+
+	/**
+	 * \brief aspect_ratio of image
+	 * \return ratio
+	 *
+	 */
+	const float & get_ratio() const noexcept;
+
+	/**
+	 * \brief get the image texture
+	 * \return SDL_Texture
+	 *
+	 */
+	SDL_Texture * get_img() const noexcept;
 
 private:
 	//! The texture of the class from the library
@@ -45,11 +64,8 @@ private:
 	// texture size in pixel
 	ivec2 size;
 
-	//! Grants SDLContext access to private members.
-	friend class SDLContext;
-
-	//! Grants Animator access to private members.
-	friend class Animator;
+	//! ratio of image
+	float aspect_ratio;
 };
 
 } // namespace crepe

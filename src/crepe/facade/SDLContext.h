@@ -15,14 +15,14 @@
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
-
 #include "manager/Manager.h"
-#include "manager/Mediator.h"
+
 #include "types.h"
 
 namespace crepe {
 
 class Texture;
+class Mediator;
 
 /**
  * \class SDLContext
@@ -165,7 +165,6 @@ public:
 	 */
 	void delay(int ms) const;
 
-
 public:
 	/**
 	 * \brief Loads a texture from a file path.
@@ -177,7 +176,7 @@ public:
 	/**
 	 * \brief Gets the size of a texture.
 	 * \param texture Reference to the Texture object.
-	 * \return Width and height of the texture as an integer.
+	 * \return Width and height of the texture as an integer in pixels.
 	 */
 	ivec2 get_size(const Texture & ctx);
 
@@ -197,6 +196,7 @@ public:
 	/**
 	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
+	 * \return camera data the component cannot store
 	 */
 	CameraValues set_camera(const Camera & camera);
 
@@ -204,6 +204,7 @@ public:
 	//! the data needed to construct a sdl dst rectangle
 	struct DestinationRectangleData {
 		const Sprite & sprite;
+		const Texture & texture;
 		const CameraValues & cam;
 		const vec2 & pos;
 		const double & img_scale;
@@ -214,16 +215,12 @@ public:
 	 * \param sprite Reference to the sprite to calculate the rectangle
 	 * \return sdl rectangle to draw a src image
 	 */
-	SDL_Rect get_src_rect(const Sprite & sprite) const;
+	SDL_Rect * get_src_rect(const Sprite & sprite);
 
 	/**
 	 * \brief calculates the sqaure size of the image for destination
 	 *
-	 * \param sprite Reference to the sprite to calculate rectangle
-	 * \param pos the pos in world units
-	 * \param cam the camera of the current scene
-	 * \param cam_pos the current postion of the camera
-	 * \param img_scale the image multiplier for increasing img size
+	 * \param data needed to calculate a destination rectangle
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
 	SDL_FRect get_dst_rect(const DestinationRectangleData & data) const;
@@ -241,6 +238,8 @@ private:
 
 	//! renderer for the crepe engine
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
+
+	SDL_Rect mask = {};
 
 	//! black bars rectangle to draw
 	SDL_FRect black_bars[2] = {};
