@@ -234,7 +234,7 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
 
-	vec2 size;
+	vec2 size = data.size;
 	if (data.size.x == 0 && data.size.y != 0) {
 		size.x = data.size.y * ctx.sprite.aspect_ratio;
 	}
