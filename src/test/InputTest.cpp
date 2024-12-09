@@ -332,30 +332,30 @@ TEST_F(InputTest, WindowMoveTest) {
 	EXPECT_TRUE(callback_triggered);
 }
 TEST_F(InputTest, KeyboardStateTest) {
-	SDLContext& sdl_context = this->mediator.sdl_context;
-    // Simulate pressing a key
-    SDL_Event key_down_event;
-    SDL_zero(key_down_event);
-    key_down_event.type = SDL_KEYDOWN;
-    key_down_event.key.keysym.scancode = SDL_SCANCODE_A;
+	SDLContext & sdl_context = this->mediator.sdl_context;
+	// Simulate pressing a key
+	SDL_Event key_down_event;
+	SDL_zero(key_down_event);
+	key_down_event.type = SDL_KEYDOWN;
+	key_down_event.key.keysym.scancode = SDL_SCANCODE_A;
 	key_down_event.key.keysym.sym = SDL_SCANCODE_A;
-    SDL_PushEvent(&key_down_event);
+	SDL_PushEvent(&key_down_event);
 
-    // Check the keyboard state
-    auto keyboard_state = sdl_context.get_keyboard_state();
+	// Check the keyboard state
+	auto keyboard_state = sdl_context.get_keyboard_state();
 
-    // Verify the state of the 'A' key
-    EXPECT_TRUE(keyboard_state[Keycode::A]);
+	// Verify the state of the 'A' key
+	EXPECT_TRUE(keyboard_state[Keycode::A]);
 
-    // Simulate releasing a key
-    SDL_Event key_up_event;
-    SDL_zero(key_up_event);
-    key_up_event.type = SDL_KEYUP;
-    key_up_event.key.keysym.scancode = SDL_SCANCODE_A; // Simulate releasing 'A' key
-    SDL_PushEvent(&key_up_event);
-    // Check the keyboard state again
-    keyboard_state = sdl_context.get_keyboard_state();
+	// Simulate releasing a key
+	SDL_Event key_up_event;
+	SDL_zero(key_up_event);
+	key_up_event.type = SDL_KEYUP;
+	key_up_event.key.keysym.scancode = SDL_SCANCODE_A; // Simulate releasing 'A' key
+	SDL_PushEvent(&key_up_event);
+	// Check the keyboard state again
+	keyboard_state = sdl_context.get_keyboard_state();
 
-    // Verify the state of the 'A' key
-    EXPECT_FALSE(keyboard_state[Keycode::A]);
+	// Verify the state of the 'A' key
+	EXPECT_FALSE(keyboard_state[Keycode::A]);
 }
