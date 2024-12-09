@@ -1,4 +1,3 @@
-#include "../facade/SDLContext.h"
 #include "../system/AISystem.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
