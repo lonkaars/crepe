@@ -8,7 +8,6 @@
 #include "manager/Mediator.h"
 
 #include "AISystem.h"
-#include "types.h"
 
 using namespace crepe;
 
