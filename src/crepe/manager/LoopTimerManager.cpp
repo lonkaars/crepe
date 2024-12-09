@@ -23,7 +23,7 @@ void LoopTimerManager::start() {
 }
 
 void LoopTimerManager::update() {
-	auto current_frame_time = std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point current_frame_time = std::chrono::steady_clock::now();
 	// Convert to duration in seconds for delta time
 	this->delta_time = std::chrono::duration_cast<std::chrono::duration<double>>(
 		current_frame_time - last_frame_time);
