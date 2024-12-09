@@ -4,6 +4,7 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
 #include <cmath>
 #include <functional>
@@ -188,6 +189,9 @@ private:
 	 */
 	ivec2 get_size(const Texture & ctx);
 
+	std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>>
+	font_from_path(const std::string & path);
+
 private:
 	//! Will use draw,clear_screen, present_screen, camera.
 	friend class RenderSystem;
@@ -197,6 +201,8 @@ private:
 	 * \param RenderContext Reference to rendering data to draw
 	 */
 	void draw(const RenderContext & ctx);
+
+	void draw_text(const 
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
@@ -208,7 +214,7 @@ private:
 	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
 	 */
-	CameraValues set_camera(const Camera & camera);
+	CameraValues & set_camera(const Camera & camera);
 
 private:
 	//! the data needed to construct a sdl dst rectangle
@@ -254,6 +260,8 @@ private:
 
 	//! black bars rectangle to draw
 	SDL_FRect black_bars[2] = {};
+
+	CameraValues camera_val;
 };
 
 } // namespace crepe

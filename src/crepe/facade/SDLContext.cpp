@@ -1,4 +1,6 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_pixels.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_blendmode.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_keycode.h>
@@ -62,6 +64,10 @@ SDLContext::SDLContext() {
 	if (!(IMG_Init(img_flags) & img_flags)) {
 		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
+
+	if (TTF_Init() != 0) {
+		throw runtime_error("SDLContext: TTF could not initialize!");
+	}
 }
 
 SDLContext::~SDLContext() {
@@ -73,6 +79,7 @@ SDLContext::~SDLContext() {
 	// TODO: how are we going to ensure that these are called from the same
 	// thread that SDL_Init() was called on? This has caused problems for me
 	// before.
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -281,10 +288,9 @@ void SDLContext::draw(const RenderContext & ctx) {
 					  &dstrect, angle, NULL, render_flip);
 }
 
-SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
+SDLContext::CameraValues & SDLContext::set_camera(const Camera & cam) {
 
 	const Camera::Data & cam_data = cam.data;
-	CameraValues ret_cam;
 	// resize window
 	int w, h;
 	SDL_GetWindowSize(this->game_window.get(), &w, &h);
@@ -292,9 +298,9 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
 	}
 
-	vec2 & zoomed_viewport = ret_cam.zoomed_viewport;
-	vec2 & bar_size = ret_cam.bar_size;
-	vec2 & render_scale = ret_cam.render_scale;
+	vec2 & zoomed_viewport = this->camera_val.zoomed_viewport;
+	vec2 & bar_size = this->camera_val.bar_size;
+	vec2 & render_scale = this->camera_val.render_scale;
 
 	zoomed_viewport = cam.viewport_size * cam_data.zoom;
 	float screen_aspect = static_cast<float>(cam.screen.x) / cam.screen.y;
@@ -337,7 +343,7 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
 
-	return ret_cam;
+	return this->camera_val;
 }
 
 uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
@@ -366,6 +372,19 @@ SDLContext::texture_from_path(const std::string & path) {
 	return img_texture;
 }
 
+std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>>
+SDLContext::font_from_path(const std::string & path) {
+
+	TTF_Font * lib_font = TTF_OpenFont(path.c_str(), 72);
+	if (!lib_font) {
+		throw runtime_error(format("SDLContext: font cannot be load from {}", path));
+	}
+	std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>> font;
+	font = {lib_font, [](TTF_Font * f){}};
+
+	return font;
+}
+
 ivec2 SDLContext::get_size(const Texture & ctx) {
 	ivec2 size;
 	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &size.x, &size.y);
@@ -377,7 +396,11 @@ void SDLContext::delay(int ms) const { SDL_Delay(ms); }
 std::vector<SDLContext::EventData> SDLContext::get_events() {
 	std::vector<SDLContext::EventData> event_list;
 	SDL_Event event;
+	const CameraValues & cam = this->camera_val;
 	while (SDL_PollEvent(&event)) {
+		ivec2 mouse_pos;
+		mouse_pos.x = (event.button.x - cam.bar_size.x) / cam.render_scale.x;
+		mouse_pos.y = (event.button.y - cam.bar_size.y) / cam.render_scale.y;
 		switch (event.type) {
 			case SDL_QUIT:
 				event_list.push_back(EventData{
@@ -401,7 +424,7 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 				event_list.push_back(EventData{
 					.event_type = SDLContext::EventType::MOUSEDOWN,
 					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = {event.button.x, event.button.y},
+					.mouse_position = mouse_pos,
 				});
 				break;
 			case SDL_MOUSEBUTTONUP: {
@@ -410,21 +433,21 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 				event_list.push_back(EventData{
 					.event_type = SDLContext::EventType::MOUSEUP,
 					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = {event.button.x, event.button.y},
+					.mouse_position = mouse_pos,
 				});
 			} break;
 
 			case SDL_MOUSEMOTION: {
 				event_list.push_back(
 					EventData{.event_type = SDLContext::EventType::MOUSEMOVE,
-							  .mouse_position = {event.motion.x, event.motion.y},
+							  .mouse_position = mouse_pos,
 							  .rel_mouse_move = {event.motion.xrel, event.motion.yrel}});
 			} break;
 
 			case SDL_MOUSEWHEEL: {
 				event_list.push_back(EventData{
 					.event_type = SDLContext::EventType::MOUSEWHEEL,
-					.mouse_position = {event.motion.x, event.motion.y},
+					.mouse_position = mouse_pos,
 					// TODO: why is this needed?
 					.scroll_direction = event.wheel.y < 0 ? -1 : 1,
 					.scroll_delta = event.wheel.preciseY,
