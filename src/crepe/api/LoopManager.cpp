@@ -78,4 +78,6 @@ bool LoopManager::on_shutdown(const ShutDownEvent & e) {
 	return false;
 }
 
-void LoopManager::frame_update() {}
+void LoopManager::frame_update() {
+	this->scene_manager.load_next_scene();
+}
