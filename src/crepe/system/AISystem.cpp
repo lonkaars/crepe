@@ -152,9 +152,10 @@ vec2 AISystem::path_follow(AI & ai) {
 		return vec2{0, 0};
 	}
 
-	vec2 to_target = ai.path.at(ai.path_index) - transform.position;
+	vec2 target = ai.path.at(ai.path_index);
+	vec2 to_target = target - transform.position;
 	if (to_target.length_squared() > ai.path_node_distance * ai.path_node_distance) {
-		ai.seek_target = ai.path.at(ai.path_index);
+		ai.seek_target = target;
 	} else {
 		ai.path_index++;
 		if (ai.path_index >= ai.path.size()) {
