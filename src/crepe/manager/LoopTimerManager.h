@@ -16,7 +16,10 @@ namespace crepe {
  */
 class LoopTimerManager : public Manager {
 public:
-	LoopTimerManager(Mediator & mediator);
+	/**
+	 * \param mediator A reference to a Mediator object used for transfering managers.
+	 */
+	LoopTimerManager(Mediator &mediator);
 	/**
 	 * \brief Get the current delta time for the current frame.
 	 *
@@ -66,7 +69,7 @@ public:
 	void set_time_scale(double time_scale);
 
 	/**
-	 * \brief Get the scaled fixed delta time om seconds.
+	 * \brief Get the scaled fixed delta time in seconds.
 	 *
 	 * The fixed delta time is used for operations that require uniform time steps, 
 	 * such as physics calculations, and is scaled by the current time scale.
@@ -88,13 +91,14 @@ public:
 	/**
 	 * \brief Set the fixed_delta_time in seconds.
 	 * 
-	 * \param ms fixed_delta_time in seconds.
+	 * \param seconds fixed_delta_time in seconds.
 	 * 
 	 * The fixed_delta_time value is used to determine how many times per second the fixed_update and process_input functions are called.
 	 */
-	void set_fixed_delta_time(int seconds);
+	void set_fixed_delta_time(double seconds);
 
 private:
+	//! Friend relation to use start,enforce_frame_rate,get_lag,update,advance_fixed_update.
 	friend class LoopManager;
 
 	/**

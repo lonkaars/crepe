@@ -33,6 +33,9 @@ typedef size_t event_channel_t;
 class EventManager : public Manager {
 public:
 	static constexpr const event_channel_t CHANNEL_ALL = -1;
+	/**
+	 * \param mediator A reference to a Mediator object used for transfering managers.
+	 */
 	EventManager(Mediator & mediator);
 	/**
 	 * \brief Subscribe to a specific event type.
