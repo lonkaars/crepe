@@ -1,5 +1,3 @@
-#include <SDL2/SDL_timer.h>
-#include <chrono>
 #include <crepe/api/AI.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Camera.h>
