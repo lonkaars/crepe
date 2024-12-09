@@ -15,7 +15,6 @@ target_sources(test_main PUBLIC
 	Vector2Test.cpp
 	LoopManagerTest.cpp
 	LoopTimerTest.cpp
-	
 	InputTest.cpp
 	ScriptEventTest.cpp
 	ScriptSceneTest.cpp
