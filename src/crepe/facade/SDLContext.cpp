@@ -39,10 +39,10 @@ SDLContext::SDLContext() {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
 
-	auto & cfg = Config::get_instance().window_settings;
+	auto & cfg = Config::get_instance().window;
 	SDL_Window * tmp_window
-		= SDL_CreateWindow(cfg.window_title.c_str(), SDL_WINDOWPOS_CENTERED,
-						   SDL_WINDOWPOS_CENTERED, cfg.default_size.x, cfg.default_size.y, 0);
+		= SDL_CreateWindow(cfg.title.c_str(), SDL_WINDOWPOS_CENTERED,
+						   SDL_WINDOWPOS_CENTERED, cfg.size.x, cfg.size.y, 0);
 	if (!tmp_window) {
 		throw runtime_error(format("SDLContext: SDL_Window error: {}", SDL_GetError()));
 	}

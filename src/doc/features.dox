@@ -21,7 +21,7 @@ feature.
 - Basics
 	- \todo Hello world / engine initialization
 
-	- \todo Engine configuration options
+	- \ref feature_config \n\copybrief feature_config
 
 - Scenes
 	- \ref feature_scene \n\copybrief feature_scene

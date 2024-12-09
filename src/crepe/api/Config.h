@@ -3,34 +3,21 @@
 #include <string>
 
 #include "../util/Log.h"
-
-#include "types.h"
+#include "../types.h"
 
 namespace crepe {
 
 /**
  * \brief Global configuration interface
  *
- * This class stores engine default settings. Properties on this class are only supposed to be
- * modified *before* execution is handed over from the game programmer to the engine (i.e. the
- * main loop is started).
+ * This struct stores both engine default settings and global configuration parameters.
  */
-class Config final {
-public:
+struct Config {
 	//! Retrieve handle to global Config instance
 	static Config & get_instance();
 
-private:
-	Config() = default;
-	~Config() = default;
-	Config(const Config &) = default;
-	Config(Config &&) = default;
-	Config & operator=(const Config &) = default;
-	Config & operator=(Config &&) = default;
-
-public:
 	//! Logging-related settings
-	struct {
+	struct log { // NOLINT
 		/**
 		 * \brief Log level
 		 *
@@ -38,7 +25,7 @@ public:
 		 */
 		Log::Level level = Log::Level::INFO;
 		/**
-		 * \brief Colored log output
+		 * \brief Enable colored log output
 		 *
 		 * Enables log coloring using ANSI escape codes.
 		 */
@@ -46,7 +33,7 @@ public:
 	} log;
 
 	//! Save manager
-	struct {
+	struct savemgr { // NOLINT
 		/**
 		 * \brief Save file location
 		 *
@@ -56,25 +43,22 @@ public:
 		std::string location = "save.crepe.db";
 	} savemgr;
 
-	//! physics-related settings
-	struct {
-		/**
-		 * \brief gravity value of physics system
-		 *
-		 * Gravity value of game.
-		 */
+	//! Physics-related settings
+	struct physics { // NOLINT
+		//! Gravity value of physics system
 		double gravity = 1;
 	} physics;
 
-	//! default window settings
-	struct {
-		//! default screen size in pixels
-		ivec2 default_size = {1280, 720};
-		std::string window_title = "Jetpack joyride clone";
-	} window_settings;
+	//! Default window settings
+	struct window { // NOLINT
+		//! Default window size (in pixels)
+		ivec2 size = {1280, 720};
+		//! Default window title
+		std::string title = "Jetpack joyride clone";
+	} window;
 
 	//! Asset loading options
-	struct {
+	struct asset { // NOLINT
 		/**
 		 * \brief Pattern to match for Asset base directory
 		 *
