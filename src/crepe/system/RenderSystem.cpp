@@ -27,7 +27,7 @@ void RenderSystem::present_screen() {
 	ctx.present_screen();
 }
 
-SDLContext::CameraValues RenderSystem::update_camera() {
+SDLContext::CameraValues & RenderSystem::update_camera() {
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
@@ -38,7 +38,7 @@ SDLContext::CameraValues RenderSystem::update_camera() {
 		if (!cam.active) continue;
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(cam.game_object_id).front().get();
-		SDLContext::CameraValues cam_val = ctx.set_camera(cam);
+		SDLContext::CameraValues & cam_val = ctx.set_camera(cam);
 		cam_val.cam_pos = transform.position + cam.data.postion_offset;
 		return cam_val;
 	}

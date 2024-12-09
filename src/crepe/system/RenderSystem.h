@@ -37,7 +37,7 @@ private:
 	void present_screen();
 
 	//! Updates the active camera used for rendering.
-	SDLContext::CameraValues update_camera();
+	SDLContext::CameraValues & update_camera();
 
 	//! Renders the whole screen
 	void render();
