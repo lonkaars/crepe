@@ -1,7 +1,4 @@
 #include <gtest/gtest.h>
-
-#include <iostream>
-
 #define protected public
 #define private public
 #include "api/KeyCodes.h"
@@ -294,12 +291,15 @@ TEST_F(InputTest, testButtonHover) {
 }
 
 TEST_F(InputTest, WindowResizeTest) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto & camera = obj.add_component<Camera>(
+		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+	camera.active = true;
 	bool callback_triggered = false;
 	EventHandler<WindowResizeEvent> on_window_resize = [&](const WindowResizeEvent & event) {
-		std::cout << "test callback" << std::endl;
 		callback_triggered = true;
-		EXPECT_EQ(event.dimensions.x, 0);
-		EXPECT_EQ(event.dimensions.y, 0);
+		EXPECT_EQ(event.dimensions.x, 800);
+		EXPECT_EQ(event.dimensions.y, 600);
 		return false;
 	};
 	event_manager.subscribe<WindowResizeEvent>(on_window_resize);
@@ -307,6 +307,30 @@ TEST_F(InputTest, WindowResizeTest) {
     SDL_zero(resize_event);
     resize_event.type = SDL_WINDOWEVENT;
     resize_event.window.event = SDL_WINDOWEVENT_RESIZED;
+    resize_event.window.data1 = 800; // new width
+    resize_event.window.data2 = 600; // new height
+    SDL_PushEvent(&resize_event);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_TRUE(callback_triggered);
+}
+TEST_F(InputTest, WindowMoveTest) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto & camera = obj.add_component<Camera>(
+		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+	camera.active = true;
+	bool callback_triggered = false;
+	EventHandler<WindowMoveEvent> on_window_move = [&](const WindowMoveEvent & event) {
+		callback_triggered = true;
+		EXPECT_EQ(event.delta_move.x, 800);
+		EXPECT_EQ(event.delta_move.y, 600);
+		return false;
+	};
+	event_manager.subscribe<WindowMoveEvent>(on_window_move);
+	SDL_Event resize_event;
+    SDL_zero(resize_event);
+    resize_event.type = SDL_WINDOWEVENT;
+    resize_event.window.event = SDL_WINDOWEVENT_MOVED;
     resize_event.window.data1 = 800; // new width
     resize_event.window.data2 = 600; // new height
     SDL_PushEvent(&resize_event);

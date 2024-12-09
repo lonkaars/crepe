@@ -7,8 +7,6 @@
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_video.h>
 
-#include <iostream>
-
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -443,7 +441,6 @@ void SDLContext::handle_window_event(const SDL_WindowEvent& window_event,
             event_list.push_back({SDLContext::EventType::WINDOW_EXPOSE, {}, {}, {}});
             break;
         case SDL_WINDOWEVENT_RESIZED:
-			std::cout << "window resize" << std::endl;
             event_list.push_back({SDLContext::EventType::WINDOW_RESIZE, {}, {}, 
                                   {{}, {window_event.data1, window_event.data2}}});
             break;
