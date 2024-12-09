@@ -91,7 +91,6 @@ public:
 		//! The maximum number of pixels the mouse can move between MouseDown and MouseUp events to be considered a click.
 		int tolerance = 5;
 	} click_tolerance;
-
 };
 
 } // namespace crepe

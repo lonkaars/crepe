@@ -165,7 +165,7 @@ private:
 	 * \return The corresponding `Keycode` value or `Keycode::NONE` if the key is unrecognized.
 	 */
 	Keycode sdl_to_keycode(SDL_Scancode sdl_key);
-	
+
 	/**
 	 * \brief Converts an SDL mouse button code to the custom MouseButton type.
 	 *

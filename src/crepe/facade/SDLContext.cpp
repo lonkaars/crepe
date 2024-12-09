@@ -191,22 +191,21 @@ Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
 	return LOOKUP_TABLE[sdl_key];
 }
 std::array<bool, Keycode::NUM_KEYCODES> SDLContext::get_keyboard_state() {
-    // Array to hold the key states (true if pressed, false if not)
-    std::array<bool, Keycode::NUM_KEYCODES> keyState{};
-    SDL_PumpEvents();
-    const Uint8 *current_state = SDL_GetKeyboardState(nullptr);
-    
-    for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
-        Keycode key = sdl_to_keycode(static_cast<SDL_Scancode>(i));
-        
-        if (key != Keycode::NONE) {
-            keyState[key] = current_state[i] != 0;
-        }
-    }
-    
-    return keyState;
-}
+	// Array to hold the key states (true if pressed, false if not)
+	std::array<bool, Keycode::NUM_KEYCODES> keyState{};
+	SDL_PumpEvents();
+	const Uint8 * current_state = SDL_GetKeyboardState(nullptr);
 
+	for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
+		Keycode key = sdl_to_keycode(static_cast<SDL_Scancode>(i));
+
+		if (key != Keycode::NONE) {
+			keyState[key] = current_state[i] != 0;
+		}
+	}
+
+	return keyState;
+}
 
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
 	static const std::array<MouseButton, 5> MOUSE_BUTTON_LOOKUP_TABLE = [] {

@@ -1,9 +1,9 @@
 #pragma once
 
+#include "../api/Config.h"
 #include "../facade/SDLContext.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
-#include "../api/Config.h"
 
 #include "System.h"
 
