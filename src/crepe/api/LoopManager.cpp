@@ -77,4 +77,4 @@ void LoopManager::render() {
 	this->get_system<RenderSystem>().update();
 }
 
-void LoopManager::update() { this->get_system<AnimatorSystem>().update(); }
+void LoopManager::update() {}
