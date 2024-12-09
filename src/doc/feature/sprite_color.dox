@@ -1,0 +1,65 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note Adjusting the \ref Sprite::Data \ref Color variable to make the \ref
+Texture a different Color.
+
+\defgroup feature_sprite_color sprite color 
+\ingroup feature
+\brief Additional color value multiplied into render copy operations
+
+\par Description
+The purpose of this feature is to showcase how to be able to use the \ref Color
+variable in the \ref Sprite::Data struct.
+
+Common use cases for this feature include:
+- Dynamic State Indication. (For example add a red tint to indicate danger or
+damage)
+- Environmental Adaptation (For example desaturation for foggy or grayscale
+areas, darker tones for night scenes)
+- Highlighting and Emphasis (  For example a temporary glow effect during
+interactions or pickups)
+
+\see feature_sprite_creation
+\see GameObject 
+\see Sprite
+\see Color
+
+\par example
+
+This example shows what the variable \ref Color in the \ref Sprite::Data struct
+does.
+
+\note this page builds on top of the example shown in \ref
+feature_sprite_creation
+
+```cpp
+
+#include <crepe/api/Sprite.h>
+#include <crepe/api/Color.h>
+
+int main(){
+
+	// Define the texture for the sprite.
+	auto img = Texture("asset/texture/personal_img.png");
+
+	// Add a sprite component to the game object.
+	Sprite &test_sprite = game_object.add_component<Sprite>(
+		img, Sprite::Data{
+			// default value.
+			.color = Color::WHITE, // this will render the texture normally
+			//.color = Color::BLACK, // texture without any color only black
+			//.color = Color(255,0,0,255), // texture will be fully red
+			//.color = Color(0,0,0,0), // texture is black and invisible
+		}
+);
+
+}
+
+```
+
+*/
+}
+
+

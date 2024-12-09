@@ -1,0 +1,79 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note This feature showcases how the \ref Animator::Data range animation works.
+
+\defgroup feature_animator_cycle animation cycle
+\ingroup feature
+\brief Animation range between
+
+\par Common use cases for this feature include:
+- One animation clip from a spritesheet
+- Spritesheet has column less than maximum rows
+
+\see GameObject
+\see Sprite
+\see Animator
+\see Animator::Data
+
+\par example
+
+The \ref Animator::Data cycle_start and cycle_end variables.
+
+\note this page builds on top of the example shown in \ref
+feature_animator_creation
+
+
+\subsection subc_option1 Option 1:
+ 
+```cpp
+#include <crepe/api/Animator.h>
+ 
+using namespace crepe;
+
+int main(int argc, char * argv[]){
+
+	// maximum of rows inside the given spritesheet
+	int max_rows = 4;
+	// maximum of columns inside the given spritesheet
+	int max_cols = 4;
+
+	// spritesheet is an Sprite component that is an Spritesheet
+	game_object.add_component<Animator>(spritesheet, max_rows, max_cols, 
+				Animator::Data{
+					.cycle_start = 0, // default value
+					.cycle_end = 1, // default value, this represents max_rows
+					//.cycle_start = 1, // animation starts at 1 instead of 0.
+					//.cycle_end = 2, // animation ends at 2 instead of 3 =(max_rows - 1)
+				});
+}
+
+```
+\subsection subc_option2 Option 2:
+
+```cpp
+#include <crepe/api/Animator.h>
+ 
+using namespace crepe;
+
+int main(int argc, char * argv[]){
+
+	// maximum of rows inside the given spritesheet
+	int max_rows = 4;
+	// maximum of columns inside the given spritesheet
+	int max_cols = 4;
+
+	// spritesheet is an Sprite component that is an Spritesheet
+	Animator & anim = game_object.add_component<Animator>(spritesheet, max_rows, max_cols, Animator::Data{});
+	anim.set_cycle_range(0,-1); // default values
+	// anim.set_cycle_range(1,2); // animation ends at 2 instead of 3 = max_rows -1
+}
+
+```
+}
+
+*/
+}
+
+

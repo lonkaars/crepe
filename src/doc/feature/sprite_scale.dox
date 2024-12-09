@@ -1,0 +1,84 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note Adjusting the \ref Sprite::Data struct \ref size to change the original
+image size and the \ref scale_offset variable
+
+\defgroup feature_sprite_scale sprite scaling
+\ingroup feature
+\brief scaling sprites based on the size
+
+Common use cases for this feature include:
+- Increase/Decrease image size
+- Damage indicator
+
+\see feature_sprite_creation
+\see GameObject 
+\see Sprite
+
+\par example
+
+\note this page builds on top of the example shown in \ref
+feature_sprite_creation
+
+```cpp
+
+#include <crepe/api/Sprite.h>
+
+int main(){
+
+	// Define the texture for the sprite.
+	auto img = Texture("asset/texture/personal_img.png");
+
+	// this will render the background first
+	game_object.add_component<Sprite>(
+		img, Sprite::Data{
+			// will not show image because size is 0
+			.size = {0,0},
+			// height is 100 game units and width = aspect_ratio * height
+			//.size = {0,100},
+			// width is 100 game units and height = aspect_ratio * width
+            //.size = {100,0},
+			// width and height is 100 game units but no aspect_ratio is taking
+			// into account
+            //.size = {100,100},
+		});
+}                                                                 
+
+```
+
+```cpp
+
+#include <crepe/api/Sprite.h>
+
+int main(){
+
+	// Define the texture for the sprite.
+	auto img = Texture("asset/texture/personal_img.png");
+
+	// this will render the background first
+	game_object.add_component<Sprite>(
+		img, Sprite::Data{
+			.scale_offset = 1, // default value
+			//.scale_offset = 0.5, // size becomes half
+			//.scale_offset = 2.0, // size becomes twice as large
+
+		});
+}                                                                 
+
+```
+
+
+
+
+
+
+
+*/
+}
+
+
+
+
+
