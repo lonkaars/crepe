@@ -113,6 +113,9 @@ protected:
 	 */
 	void set_next_scene(const std::string & name);
 
+	//! Retrieve SaveManager reference
+	SaveManager & get_save_manager() const;
+
 	//! \}
 
 private:
