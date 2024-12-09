@@ -15,9 +15,6 @@ using namespace crepe;
 using namespace std;
 
 LoopManager::LoopManager() {
-	this->mediator.component_manager = this->component_manager;
-	this->mediator.scene_manager = this->scene_manager;
-
 	this->load_system<AnimatorSystem>();
 	this->load_system<CollisionSystem>();
 	this->load_system<ParticleSystem>();
@@ -37,6 +34,7 @@ void LoopManager::start() {
 void LoopManager::set_running(bool running) { this->game_running = running; }
 
 void LoopManager::fixed_update() {
+	// TODO: retrieve EventManager from direct member after singleton refactor
 	EventManager & ev = this->mediator.event_manager;
 	ev.dispatch_events();
 	this->get_system<ScriptSystem>().update();
@@ -76,6 +74,7 @@ void LoopManager::setup() {
 void LoopManager::render() {
 	if (!this->game_running) return;
 
+	this->get_system<AnimatorSystem>().update();
 	this->get_system<RenderSystem>().update();
 }
 

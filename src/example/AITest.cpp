@@ -48,8 +48,13 @@ public:
 		GameObject game_object2 = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 
 		Texture img = Texture("asset/texture/test_ap43.png");
-		game_object1.add_component<Sprite>(img, Color::MAGENTA,
-										   Sprite::FlipSettings{false, false}, 1, 1, 195);
+		game_object1.add_component<Sprite>(img, Sprite::Data{
+													.color = Color::MAGENTA,
+													.flip = Sprite::FlipSettings{false, false},
+													.sorting_in_layer = 1,
+													.order_in_layer = 1,
+													.size = {0, 195},
+												});
 		AI & ai = game_object1.add_component<AI>(3000);
 		// ai.arrive_on();
 		// ai.flee_on();
@@ -57,13 +62,16 @@ public:
 		ai.make_circle_path(1000, {0, -1000}, 1.5707, true);
 		ai.make_circle_path(1000, {0, 1000}, 4.7124, false);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
-			.mass = 0.5f,
+			.mass = 0.1f,
 			.max_linear_velocity = {40, 40},
 		});
 		game_object1.add_component<BehaviorScript>().set_script<Script1>();
 
-		game_object2.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{5000, 5000},
-										   1.0f);
+		game_object2.add_component<Camera>(ivec2{1080, 720}, vec2{5000, 5000},
+										   Camera::Data{
+											   .bg_color = Color::WHITE,
+											   .zoom = 1,
+										   });
 	}
 
 	string get_name() const override { return "Scene1"; }
