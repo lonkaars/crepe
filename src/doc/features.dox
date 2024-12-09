@@ -44,9 +44,8 @@ feature.
 	- \ref feature_savemgr \n\copybrief feature_savemgr
 
 - Audio
-	- \todo Playing sound effects
-
-	- \todo Adding background music to a scene
+	- \ref feature_sfx \n\copybrief feature_sfx
+	- \ref feature_bgm \n\copybrief feature_bgm
 
 - \todo AI
 

@@ -6,7 +6,9 @@ namespace crepe {
 \ingroup feature
 \brief Use ValueBroker as if it were a regular variable
 
-\todo Long description
+Proxy provides operators that allow you to use a ValueBroker instance as if it
+were a regular variable. Proxy implements a constructor that allows it to be
+used as a substitute return type for any function that returns ValueBroker.
 
 \see ValueBroker
 \see Proxy
@@ -30,6 +32,9 @@ void anywhere() {
 
 	// implicitly calls .get()
 	int out = calculation(foo);
+
+	// explicitly cast (also calls .get())
+	int casted = int(foo);
 }
 
 ```
