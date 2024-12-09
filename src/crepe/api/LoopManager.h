@@ -4,13 +4,15 @@
 
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
+#include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
+#include "../manager/Mediator.h"
 #include "../manager/SceneManager.h"
 #include "../system/System.h"
 
-#include "LoopTimer.h"
+#include "api/Event.h"
 
 namespace crepe {
-
 /**
  * \brief Main game loop manager
  *
@@ -18,8 +20,14 @@ namespace crepe {
  */
 class LoopManager {
 public:
-	void start();
 	LoopManager();
+	/**
+	 * \brief Start the gameloop
+	 *
+	 * This is the start of the engine where the setup is called and then the loop keeps running until the game stops running.
+	 * Developers need to call this function to run the game.
+	 */
+	void start();
 
 	/**
 	 * \brief Add a new concrete scene to the scene manager
@@ -55,35 +63,20 @@ private:
 	 *
 	 * Updates the game state based on the elapsed time since the last frame.
 	 */
-	void update();
-
-	/**
-	 * \brief Late update which is called after update().
-	 *
-	 * This function can be used for final adjustments before rendering.
-	 */
-	void late_update();
+	virtual void frame_update();
 
 	/**
 	 * \brief Fixed update executed at a fixed rate.
 	 *
 	 * This function updates physics and game logic based on LoopTimer's fixed_delta_time.
 	 */
-	void fixed_update();
-
-	/**
-	 * \brief Set game running variable
-	 *
-	 * \param running running (false = game shutdown, true = game running)
-	 */
-	void set_running(bool running);
-
+	virtual void fixed_update();
 	/**
 	 * \brief Function for executing render-related systems.
 	 *
 	 * Renders the current state of the game to the screen.
 	 */
-	void render();
+	virtual void render();
 
 	bool game_running = false;
 
@@ -95,18 +88,26 @@ private:
 	ComponentManager component_manager{mediator};
 	//! Scene manager instance
 	SceneManager scene_manager{mediator};
+	//! LoopTimerManager instance
+	LoopTimerManager loop_timer{mediator};
+	//! EventManager instance
+	EventManager event_manager{mediator};
 
 	//! SDL context \todo no more singletons!
 	SDLContext & sdl_context = SDLContext::get_instance();
-	//! Loop timer \todo no more singletons!
-	LoopTimer & loop_timer = LoopTimer::get_instance();
 
 private:
+	/**
+	 * \brief Callback function for ShutDownEvent
+	 *
+	 * This function sets the game_running variable to false, stopping the gameloop and therefor quitting the game.
+	 */
+	bool on_shutdown(const ShutDownEvent & e);
 	/**
 	 * \brief Collection of System instances
 	 *
 	 * This map holds System instances indexed by the system's class typeid. It is filled in the
-	 * constructor of \c LoopManager using LoopManager::load_system.
+	 * constructor of LoopManager using LoopManager::load_system.
 	 */
 	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
 	/**

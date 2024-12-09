@@ -2,7 +2,7 @@
 
 #include "../api/Animator.h"
 #include "../manager/ComponentManager.h"
-#include "api/LoopTimer.h"
+#include "../manager/LoopTimerManager.h"
 
 #include "AnimatorSystem.h"
 
@@ -10,7 +10,7 @@ using namespace crepe;
 
 void AnimatorSystem::update() {
 	ComponentManager & mgr = this->mediator.component_manager;
-	LoopTimer & timer = this->mediator.timer;
+	LoopTimerManager & timer = this->mediator.loop_timer;
 	RefVector<Animator> animations = mgr.get_components_by_type<Animator>();
 
 	double elapsed_time = timer.get_current_time();

@@ -1,3 +1,5 @@
+#include "../facade/SDLContext.h"
+#include "../manager/EventManager.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/InputSystem.h"
@@ -20,51 +22,48 @@ LoopManager::LoopManager() {
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
 	this->load_system<InputSystem>();
+	this->event_manager.subscribe<ShutDownEvent>(
+		[this](const ShutDownEvent & event) { return this->on_shutdown(event); });
 }
 
-void LoopManager::process_input() { this->get_system<InputSystem>().update(); }
+void LoopManager::process_input() {
+	this->get_system<InputSystem>().update();
+	this->event_manager.dispatch_events();
+}
 
 void LoopManager::start() {
 	this->setup();
 	this->loop();
 }
-void LoopManager::set_running(bool running) { this->game_running = running; }
 
 void LoopManager::fixed_update() {
-	// TODO: retrieve EventManager from direct member after singleton refactor
-	EventManager & ev = this->mediator.event_manager;
-	ev.dispatch_events();
 	this->get_system<ScriptSystem>().update();
 	this->get_system<PhysicsSystem>().update();
 	this->get_system<CollisionSystem>().update();
 }
 
 void LoopManager::loop() {
-	LoopTimer & timer = this->loop_timer;
-	timer.start();
 
 	while (game_running) {
-		timer.update();
+		this->loop_timer.update();
 
-		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
+		while (this->loop_timer.get_lag() >= this->loop_timer.get_fixed_loop_interval()) {
 			this->process_input();
 			this->fixed_update();
-			timer.advance_fixed_update();
+			this->loop_timer.advance_fixed_update();
 		}
 
-		this->update();
+		this->frame_update();
 		this->render();
-
-		timer.enforce_frame_rate();
+		this->loop_timer.enforce_frame_rate();
 	}
 }
 
 void LoopManager::setup() {
-	LoopTimer & timer = this->loop_timer;
 	this->game_running = true;
+	this->loop_timer.start();
 	this->scene_manager.load_next_scene();
-	timer.start();
-	timer.set_fps(200);
+	this->loop_timer.start();
 }
 
 void LoopManager::render() {
@@ -74,4 +73,11 @@ void LoopManager::render() {
 	this->get_system<RenderSystem>().update();
 }
 
-void LoopManager::update() {}
+bool LoopManager::on_shutdown(const ShutDownEvent & e) {
+	this->game_running = false;
+	return false;
+}
+
+void LoopManager::frame_update() {
+	this->scene_manager.load_next_scene();
+}

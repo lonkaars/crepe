@@ -2,17 +2,24 @@
 
 #include <chrono>
 
+#include "Manager.h"
+
 namespace crepe {
 
-class LoopTimer {
+/**
+ * \brief Manages timing and frame rate for the game loop.
+ * 
+ * The LoopTimerManager class is responsible for calculating and managing timing functions 
+ * such as delta time, frames per second (FPS), fixed time steps, and time scaling. It ensures 
+ * consistent frame updates and supports game loop operations, such as handling fixed updates 
+ * for physics and other time-sensitive operations.
+ */
+class LoopTimerManager : public Manager {
 public:
 	/**
-	 * \brief Get the singleton instance of LoopTimer.
-	 *
-	 * \return A reference to the LoopTimer instance.
+	 * \param mediator A reference to a Mediator object used for transfering managers.
 	 */
-	static LoopTimer & get_instance();
-
+	LoopTimerManager(Mediator &mediator);
 	/**
 	 * \brief Get the current delta time for the current frame.
 	 *
@@ -35,7 +42,7 @@ public:
 	 *
 	 * \param fps The desired frames rendered per second.
 	 */
-	void set_fps(int fps);
+	void set_target_fps(int fps);
 
 	/**
 	 * \brief Get the current frames per second (FPS).
@@ -45,21 +52,53 @@ public:
 	int get_fps() const;
 
 	/**
-	 * \brief Get the current game scale.
+	 * \brief Get the current time scale.
 	 *
-	 * \return The current game scale, where 0 = paused, 1 = normal speed, and values > 1 speed
+	 * \return The current time scale, where (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up).
 	 * up the game.
 	 */
-	double get_game_scale() const;
+	double get_time_scale() const;
 
 	/**
-	 * \brief Set the game scale.
+	 * \brief Set the time scale.
 	 *
-	 * \param game_scale The desired game scale (0 = pause, 1 = normal speed, > 1 = speed up).
+	 * time_scale is a value that changes the delta time that can be retrieved using get_delta_time function. 
+	 * 
+	 * \param time_scale The desired time scale (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up).
 	 */
-	void set_game_scale(double game_scale);
+	void set_time_scale(double time_scale);
+
+	/**
+	 * \brief Get the fixed delta time in seconds without scaling by the time scale.
+	 *
+	 * This value is used in the LoopManager to determine how many times 
+	 * the fixed_update should be called within a given interval.
+	 *
+	 * \return The unscaled fixed delta time in seconds.
+	 */
+	double get_fixed_loop_interval() const;
+
+	/**
+	 * \brief Get the scaled fixed delta time in seconds.
+	 *
+	 * The fixed delta time is used for operations that require uniform time steps, 
+	 * such as physics calculations, and is scaled by the current time scale.
+	 *
+	 * \return The fixed delta time, scaled by time scale, in seconds.
+	 */
+	double get_fixed_delta_time() const;
+
+	/**
+	 * \brief Set the fixed_delta_time in seconds.
+	 * 
+	 * \param seconds fixed_delta_time in seconds.
+	 * 
+	 * The fixed_delta_time value is used to determine how many times per second the fixed_update and process_input functions are called.
+	 */
+	void set_fixed_delta_time(double seconds);
 
 private:
+	//! Friend relation to use start,enforce_frame_rate,get_lag,update,advance_fixed_update.
 	friend class LoopManager;
 
 	/**
@@ -68,7 +107,6 @@ private:
 	 * Initializes the timer to begin tracking frame times.
 	 */
 	void start();
-
 	/**
 	 * \brief Enforce the frame rate limit.
 	 *
@@ -76,17 +114,6 @@ private:
 	 * necessary.
 	 */
 	void enforce_frame_rate();
-
-	/**
-	 * \brief Get the fixed delta time for consistent updates.
-	 *
-	 * Fixed delta time is used for operations that require uniform time steps, such as physics
-	 * calculations.
-	 *
-	 * \return Fixed delta time in seconds.
-	 */
-	double get_fixed_delta_time() const;
-
 	/**
 	 * \brief Get the accumulated lag in the game loop.
 	 *
@@ -96,13 +123,6 @@ private:
 	 * \return Accumulated lag in seconds.
 	 */
 	double get_lag() const;
-
-	/**
-	 * \brief Construct a new LoopTimer object.
-	 *
-	 * Private constructor for singleton pattern to restrict instantiation outside the class.
-	 */
-	LoopTimer();
 
 	/**
 	 * \brief Update the timer to the current frame.
@@ -121,16 +141,19 @@ private:
 	void advance_fixed_update();
 
 private:
-	//! Current frames per second
-	int fps = 50;
-	//! Current game scale
-	double game_scale = 1;
+	//! Target frames per second
+	int target_fps = 60;
+	//! Actual frames per second
+	int actual_fps = 0;
+	//! Time scale for speeding up or slowing down the game (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up)
+	double time_scale = 1;
 	//! Maximum delta time in seconds to avoid large jumps
 	std::chrono::duration<double> maximum_delta_time{0.25};
 	//! Delta time for the current frame in seconds
 	std::chrono::duration<double> delta_time{0.0};
 	//! Target time per frame in seconds
-	std::chrono::duration<double> frame_target_time = std::chrono::duration<double>(1.0) / fps;
+	std::chrono::duration<double> frame_target_time
+		= std::chrono::duration<double>(1.0) / target_fps;
 	//! Fixed delta time for fixed updates in seconds
 	std::chrono::duration<double> fixed_delta_time = std::chrono::duration<double>(1.0) / 50.0;
 	//! Total elapsed game time in seconds

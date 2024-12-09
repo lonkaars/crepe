@@ -8,6 +8,8 @@
 #include "../api/Event.h"
 #include "../api/EventHandler.h"
 
+#include "Manager.h"
+
 namespace crepe {
 
 //! Event listener unique ID
@@ -22,27 +24,19 @@ typedef size_t subscription_t;
 typedef size_t event_channel_t;
 
 /**
- * \class EventManager
  * \brief Manages event subscriptions, triggers, and queues, enabling decoupled event handling.
  *
  * The `EventManager` acts as a centralized event system. It allows for registering callbacks
  * for specific event types, triggering events synchronously, queueing events for later
  * processing, and managing subscriptions via unique identifiers.
  */
-class EventManager {
+class EventManager : public Manager {
 public:
 	static constexpr const event_channel_t CHANNEL_ALL = -1;
-
 	/**
-	 * \brief Get the singleton instance of the EventManager.
-	 *
-	 * This method returns the unique instance of the EventManager, creating it if it
-	 * doesn't already exist. Ensures only one instance is active in the program.
-	 *
-	 * \return Reference to the singleton instance of the EventManager.
+	 * \param mediator A reference to a Mediator object used for transfering managers.
 	 */
-	static EventManager & get_instance();
-
+	EventManager(Mediator & mediator);
 	/**
 	 * \brief Subscribe to a specific event type.
 	 *
@@ -107,13 +101,6 @@ public:
 	void clear();
 
 private:
-	/**
-	 * \brief Default constructor for the EventManager.
-	 *
-	 * Constructor is private to enforce the singleton pattern.
-	 */
-	EventManager() = default;
-
 	/**
 	 * \struct QueueEntry
 	 * \brief Represents an entry in the event queue.
