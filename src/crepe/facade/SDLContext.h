@@ -152,7 +152,8 @@ private:
 	 * \return The corresponding `Keycode` value or `Keycode::NONE` if the key is unrecognized.
 	 */
 	Keycode sdl_to_keycode(SDL_Keycode sdl_key);
-
+	static const std::array<Keycode, SDL_NUM_SCANCODES>& get_lookup_table();
+	std::array<Keycode, SDL_NUM_SCANCODES> get_keyboard_state();
 	/**
 	 * \brief Converts an SDL mouse button code to the custom MouseButton type.
 	 *
