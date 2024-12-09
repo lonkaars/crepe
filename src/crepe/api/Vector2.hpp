@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "Vector2.h"
 
 namespace crepe {
@@ -113,6 +115,52 @@ bool Vector2<T>::operator==(const Vector2<T> & other) const {
 template <class T>
 bool Vector2<T>::operator!=(const Vector2<T> & other) const {
 	return !(*this == other);
+}
+
+template <class T>
+void Vector2<T>::truncate(T max) {
+	if (length() > max) {
+		normalize();
+		*this *= max;
+	}
+}
+
+template <class T>
+void Vector2<T>::normalize() {
+	T len = length();
+	if (len > 0) {
+		*this /= len;
+	}
+}
+
+template <class T>
+T Vector2<T>::length() const {
+	return std::sqrt(x * x + y * y);
+}
+
+template <class T>
+T Vector2<T>::length_squared() const {
+	return x * x + y * y;
+}
+
+template <class T>
+T Vector2<T>::dot(const Vector2<T> & other) const {
+	return x * other.x + y * other.y;
+}
+
+template <class T>
+T Vector2<T>::distance(const Vector2<T> & other) const {
+	return (*this - other).length();
+}
+
+template <class T>
+T Vector2<T>::distance_squared(const Vector2<T> & other) const {
+	return (*this - other).length_squared();
+}
+
+template <class T>
+Vector2<T> Vector2<T>::perpendicular() const {
+	return {-y, x};
 }
 
 } // namespace crepe

@@ -1,3 +1,4 @@
+#include "../system/AISystem.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/InputSystem.h"
@@ -20,6 +21,7 @@ LoopManager::LoopManager() {
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
 	this->load_system<InputSystem>();
+	this->load_system<AISystem>();
 }
 
 void LoopManager::process_input() { this->get_system<InputSystem>().update(); }
@@ -35,6 +37,7 @@ void LoopManager::fixed_update() {
 	EventManager & ev = this->mediator.event_manager;
 	ev.dispatch_events();
 	this->get_system<ScriptSystem>().update();
+	this->get_system<AISystem>().update();
 	this->get_system<PhysicsSystem>().update();
 	this->get_system<CollisionSystem>().update();
 }
