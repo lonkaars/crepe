@@ -48,13 +48,13 @@ void LoopManager::loop() {
 	while (game_running) {
 		this->loop_timer.update();
 
-		while (this->loop_timer.get_lag() >= this->loop_timer.get_scaled_fixed_delta_time()) {
+		while (this->loop_timer.get_lag() >= this->loop_timer.get_fixed_loop_interval()) {
 			this->process_input();
 			this->fixed_update();
 			this->loop_timer.advance_fixed_update();
 		}
 
-		this->update();
+		this->frame_update();
 		this->render();
 		this->loop_timer.enforce_frame_rate();
 	}
@@ -72,9 +72,10 @@ void LoopManager::render() {
 	this->get_system<AnimatorSystem>().update();
 	this->get_system<RenderSystem>().update();
 }
+
 bool LoopManager::on_shutdown(const ShutDownEvent & e) {
 	this->game_running = false;
 	return false;
 }
 
-void LoopManager::update() {}
+void LoopManager::frame_update() {}

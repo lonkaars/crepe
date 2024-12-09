@@ -15,7 +15,7 @@ protected:
 	class TestGameLoop : public crepe::LoopManager {
 	public:
 		MOCK_METHOD(void, fixed_update, (), (override));
-		MOCK_METHOD(void, update, (), (override));
+		MOCK_METHOD(void, frame_update, (), (override));
 		MOCK_METHOD(void, render, (), (override));
 	};
 
@@ -29,7 +29,7 @@ TEST_F(LoopManagerTest, FixedUpdate) {
 
 	// Set expectations for the mock calls
 	EXPECT_CALL(test_loop, render).Times(::testing::Exactly(60));
-	EXPECT_CALL(test_loop, update).Times(::testing::Exactly(60));
+	EXPECT_CALL(test_loop, frame_update).Times(::testing::Exactly(60));
 	EXPECT_CALL(test_loop, fixed_update).Times(::testing::Exactly(50));
 
 	// Start the loop in a separate thread
@@ -51,7 +51,7 @@ TEST_F(LoopManagerTest, ScaledFixedUpdate) {
 
 	// Set expectations for the mock calls
 	EXPECT_CALL(test_loop, render).Times(::testing::Exactly(60));
-	EXPECT_CALL(test_loop, update).Times(::testing::Exactly(60));
+	EXPECT_CALL(test_loop, frame_update).Times(::testing::Exactly(60));
 	EXPECT_CALL(test_loop, fixed_update).Times(::testing::Exactly(50));
 
 	// Start the loop in a separate thread
@@ -72,7 +72,7 @@ TEST_F(LoopManagerTest, ShutDown) {
 	test_loop.loop_timer.set_target_fps(60);
 
 	EXPECT_CALL(test_loop, render).Times(::testing::AtLeast(1));
-	EXPECT_CALL(test_loop, update).Times(::testing::AtLeast(1));
+	EXPECT_CALL(test_loop, frame_update).Times(::testing::AtLeast(1));
 	EXPECT_CALL(test_loop, fixed_update).Times(::testing::AtLeast(1));
 	// Start the loop in a separate thread
 	std::thread loop_thread([&]() { test_loop.start(); });

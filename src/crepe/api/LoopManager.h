@@ -63,14 +63,7 @@ private:
 	 *
 	 * Updates the game state based on the elapsed time since the last frame.
 	 */
-	virtual void update();
-
-	/**
-	 * \brief Late update which is called after update().
-	 *
-	 * This function can be used for final adjustments before rendering.
-	 */
-	void late_update();
+	virtual void frame_update();
 
 	/**
 	 * \brief Fixed update executed at a fixed rate.
