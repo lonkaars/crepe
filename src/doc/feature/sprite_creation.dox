@@ -39,6 +39,8 @@ crash with the following warning **No active cameras in current scene**. this \r
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Sprite.h>
 
+using namespace crepe;
+
 int main(){
 
 	// Define the texture for the sprite.
