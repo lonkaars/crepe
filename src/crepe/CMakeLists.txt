@@ -2,6 +2,7 @@ target_sources(crepe PUBLIC
 	Particle.cpp
 	Component.cpp
 	Collider.cpp
+	Resource.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -9,6 +10,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Collider.h
 	ValueBroker.h
 	ValueBroker.hpp
+	Resource.h
 )
 
 add_subdirectory(api)
