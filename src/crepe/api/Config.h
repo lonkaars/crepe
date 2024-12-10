@@ -12,7 +12,7 @@ namespace crepe {
  *
  * This struct stores both engine default settings and global configuration parameters.
  */
-struct Config {
+struct Config final {
 	//! Retrieve handle to global Config instance
 	static Config & get_instance();
 
@@ -70,6 +70,12 @@ struct Config {
 		 */
 		std::string root_pattern = ".crepe-root";
 	} asset;
+
+	//! Audio system settings
+	struct {
+		//! Max amount of simultanious voices
+		unsigned int voices = 32;
+	} audio;
 };
 
 } // namespace crepe
