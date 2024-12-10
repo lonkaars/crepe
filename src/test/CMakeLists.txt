@@ -19,4 +19,5 @@ target_sources(test_main PUBLIC
 	ScriptEventTest.cpp
 	ScriptSceneTest.cpp
 	Profiling.cpp
+	ScriptECSTest.cpp
 )

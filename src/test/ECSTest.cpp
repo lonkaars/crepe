@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #define protected public
+#define private public
 
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
@@ -16,6 +17,10 @@ class ECSTest : public ::testing::Test {
 
 public:
 	ComponentManager mgr{m};
+
+	class TestComponent : public Component {
+		using Component::Component;
+	};
 };
 
 TEST_F(ECSTest, createGameObject) {
@@ -386,4 +391,78 @@ TEST_F(ECSTest, resetPersistent) {
 
 	EXPECT_EQ(metadata.size(), 0);
 	EXPECT_EQ(transform.size(), 0);
+}
+
+TEST_F(ECSTest, IDByName) {
+	GameObject foo = mgr.new_object("foo");
+	GameObject bar = mgr.new_object("bar");
+
+	{
+		auto objects = mgr.get_objects_by_name("");
+		EXPECT_EQ(objects.size(), 0);
+	}
+
+	{
+		auto objects = mgr.get_objects_by_name("foo");
+		EXPECT_EQ(objects.size(), 1);
+		EXPECT_TRUE(objects.contains(foo.id));
+	}
+}
+
+TEST_F(ECSTest, IDByTag) {
+	GameObject foo = mgr.new_object("foo", "common tag");
+	GameObject bar = mgr.new_object("bar", "common tag");
+
+	{
+		auto objects = mgr.get_objects_by_tag("");
+		EXPECT_EQ(objects.size(), 0);
+	}
+
+	{
+		auto objects = mgr.get_objects_by_tag("common tag");
+		EXPECT_EQ(objects.size(), 2);
+		EXPECT_TRUE(objects.contains(foo.id));
+		EXPECT_TRUE(objects.contains(bar.id));
+	}
+}
+
+TEST_F(ECSTest, ComponentsByName) {
+	GameObject foo = mgr.new_object("foo");
+	foo.add_component<TestComponent>();
+	GameObject bar = mgr.new_object("bar");
+	bar.add_component<TestComponent>();
+	bar.add_component<TestComponent>();
+
+	{
+		auto objects = mgr.get_components_by_name<TestComponent>("");
+		EXPECT_EQ(objects.size(), 0);
+	}
+
+	{
+		auto objects = mgr.get_components_by_name<TestComponent>("foo");
+		EXPECT_EQ(objects.size(), 1);
+	}
+
+	{
+		auto objects = mgr.get_components_by_name<TestComponent>("bar");
+		EXPECT_EQ(objects.size(), 2);
+	}
+}
+
+TEST_F(ECSTest, ComponentsByTag) {
+	GameObject foo = mgr.new_object("foo", "common tag");
+	foo.add_component<TestComponent>();
+	GameObject bar = mgr.new_object("bar", "common tag");
+	bar.add_component<TestComponent>();
+	bar.add_component<TestComponent>();
+
+	{
+		auto objects = mgr.get_components_by_tag<TestComponent>("");
+		EXPECT_EQ(objects.size(), 0);
+	}
+
+	{
+		auto objects = mgr.get_components_by_tag<TestComponent>("common tag");
+		EXPECT_EQ(objects.size(), 3);
+	}
 }
