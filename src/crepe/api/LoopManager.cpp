@@ -63,7 +63,6 @@ void LoopManager::setup() {
 	this->game_running = true;
 	this->loop_timer.start();
 	this->scene_manager.load_next_scene();
-	this->loop_timer.start();
 }
 
 void LoopManager::render() {
