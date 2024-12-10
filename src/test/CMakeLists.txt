@@ -21,4 +21,5 @@ target_sources(test_main PUBLIC
 	Profiling.cpp
 	SaveManagerTest.cpp
 	ScriptSaveManagerTest.cpp
+	ScriptECSTest.cpp
 )
