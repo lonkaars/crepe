@@ -13,7 +13,7 @@ enum class MouseButton {
 };
 
 //! Enumeration for keyboard key inputs, including printable characters, function keys, and keypad keys.
-enum class Keycode {
+typedef enum {
 	NONE = 0, //!< No key input.
 	SPACE = 32, //!< Spacebar.
 	APOSTROPHE = 39, //!< Apostrophe (').
@@ -150,5 +150,7 @@ enum class Keycode {
 	RIGHT_SUPER = 347,
 	/// \}
 	MENU = 348, //!< Menu key.
-};
+	//! Not actually a key instead its the amount of keycodes there are for array indexing
+	NUM_KEYCODES = 512,
+} Keycode;
 } // namespace crepe

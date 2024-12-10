@@ -31,11 +31,7 @@ public:
 	//GameObject camera;
 
 protected:
-	void SetUp() override {
-		mediator.event_manager = event_manager;
-		mediator.component_manager = mgr;
-		event_manager.clear();
-	}
+	void SetUp() override { event_manager.clear(); }
 
 	void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
 		SDL_Event event;
@@ -67,8 +63,8 @@ TEST_F(InputTest, MouseDown) {
 	EventHandler<MousePressEvent> on_mouse_down = [&](const MousePressEvent & event) {
 		mouse_triggered = true;
 		//middle of the screen = 0,0
-		EXPECT_EQ(event.mouse_x, 0);
-		EXPECT_EQ(event.mouse_y, 0);
+		EXPECT_EQ(event.mouse_pos.x, 0);
+		EXPECT_EQ(event.mouse_pos.y, 0);
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -96,8 +92,8 @@ TEST_F(InputTest, MouseUp) {
 	bool function_triggered = false;
 	EventHandler<MouseReleaseEvent> on_mouse_release = [&](const MouseReleaseEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_x, 0);
-		EXPECT_EQ(e.mouse_y, 0);
+		EXPECT_EQ(e.mouse_pos.x, 0);
+		EXPECT_EQ(e.mouse_pos.y, 0);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -124,10 +120,10 @@ TEST_F(InputTest, MouseMove) {
 	bool function_triggered = false;
 	EventHandler<MouseMoveEvent> on_mouse_move = [&](const MouseMoveEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_x, 0);
-		EXPECT_EQ(e.mouse_y, 0);
-		EXPECT_EQ(e.delta_x, 10);
-		EXPECT_EQ(e.delta_y, 10);
+		EXPECT_EQ(e.mouse_pos.x, 0);
+		EXPECT_EQ(e.mouse_pos.y, 0);
+		EXPECT_EQ(e.mouse_delta.x, 10);
+		EXPECT_EQ(e.mouse_delta.y, 10);
 		return false;
 	};
 	event_manager.subscribe<MouseMoveEvent>(on_mouse_move);
@@ -210,8 +206,8 @@ TEST_F(InputTest, MouseClick) {
 	EventHandler<MouseClickEvent> on_mouse_click = [&](const MouseClickEvent & event) {
 		on_click_triggered = true;
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
-		EXPECT_EQ(event.mouse_x, 0);
-		EXPECT_EQ(event.mouse_y, 0);
+		EXPECT_EQ(event.mouse_pos.x, 0);
+		EXPECT_EQ(event.mouse_pos.y, 0);
 		return false;
 	};
 	event_manager.subscribe<MouseClickEvent>(on_mouse_click);
@@ -235,9 +231,6 @@ TEST_F(InputTest, testButtonClick) {
 
 	bool hover = false;
 	button.active = true;
-
-	button.is_pressed = false;
-	button.is_toggle = false;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
 	input_system.update();
 	event_manager.dispatch_events();
@@ -260,8 +253,6 @@ TEST_F(InputTest, testButtonHover) {
 	auto & button
 		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click, false);
 	button.active = true;
-	button.is_pressed = false;
-	button.is_toggle = false;
 
 	// Mouse not on button
 	SDL_Event event;
@@ -290,4 +281,53 @@ TEST_F(InputTest, testButtonHover) {
 	input_system.update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button.hover);
+}
+
+TEST_F(InputTest, WindowResizeTest) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto & camera = obj.add_component<Camera>(
+		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+	camera.active = true;
+	bool callback_triggered = false;
+	EventHandler<WindowResizeEvent> on_window_resize = [&](const WindowResizeEvent & event) {
+		callback_triggered = true;
+		EXPECT_EQ(event.dimensions.x, 800);
+		EXPECT_EQ(event.dimensions.y, 600);
+		return false;
+	};
+	event_manager.subscribe<WindowResizeEvent>(on_window_resize);
+	SDL_Event resize_event;
+	SDL_zero(resize_event);
+	resize_event.type = SDL_WINDOWEVENT;
+	resize_event.window.event = SDL_WINDOWEVENT_RESIZED;
+	resize_event.window.data1 = 800; // new width
+	resize_event.window.data2 = 600; // new height
+	SDL_PushEvent(&resize_event);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_TRUE(callback_triggered);
+}
+TEST_F(InputTest, WindowMoveTest) {
+	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	auto & camera = obj.add_component<Camera>(
+		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+	camera.active = true;
+	bool callback_triggered = false;
+	EventHandler<WindowMoveEvent> on_window_move = [&](const WindowMoveEvent & event) {
+		callback_triggered = true;
+		EXPECT_EQ(event.delta_move.x, 800);
+		EXPECT_EQ(event.delta_move.y, 600);
+		return false;
+	};
+	event_manager.subscribe<WindowMoveEvent>(on_window_move);
+	SDL_Event resize_event;
+	SDL_zero(resize_event);
+	resize_event.type = SDL_WINDOWEVENT;
+	resize_event.window.event = SDL_WINDOWEVENT_MOVED;
+	resize_event.window.data1 = 800; // new width
+	resize_event.window.data2 = 600; // new height
+	SDL_PushEvent(&resize_event);
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_TRUE(callback_triggered);
 }

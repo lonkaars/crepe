@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../api/Config.h"
 #include "../facade/SDLContext.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
@@ -37,8 +38,8 @@ private:
 	//! Stores the last mouse button pressed.
 	MouseButton last_mouse_button = MouseButton::NONE;
 
-	//! The maximum allowable distance between mouse down and mouse up to register as a click.
-	const int click_tolerance = 5;
+	//! The maximum allowable distance between mouse down and mouse up to register as a click. This can be changed using the Config.
+	int click_tolerance = Config::get_instance().click_tolerance.tolerance;
 
 	/**
 	* \brief Handles the mouse click event.

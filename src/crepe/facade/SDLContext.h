@@ -5,6 +5,7 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <array>
 #include <cmath>
 #include <functional>
 #include <memory>
@@ -79,19 +80,49 @@ public:
 		KEYUP,
 		KEYDOWN,
 		SHUTDOWN,
-
+		WINDOW_MINIMIZE,
+		WINDOW_MAXIMIZE,
+		WINDOW_FOCUS_GAIN,
+		WINDOW_FOCUS_LOST,
+		WINDOW_MOVE,
+		WINDOW_RESIZE,
+		WINDOW_EXPOSE,
 	};
-	//! EventData struct for passing event data from facade
-	struct EventData {
-		SDLContext::EventType event_type = SDLContext::EventType::NONE;
+	struct KeyData {
 		Keycode key = Keycode::NONE;
 		bool key_repeat = false;
+	};
+	struct MouseData {
 		MouseButton mouse_button = MouseButton::NONE;
 		ivec2 mouse_position = {-1, -1};
 		int scroll_direction = -1;
 		float scroll_delta = INFINITY;
 		ivec2 rel_mouse_move = {-1, -1};
 	};
+	struct WindowData {
+		ivec2 move_delta;
+		ivec2 resize_dimension;
+	};
+	//! EventData struct for passing event data from facade
+	struct EventData {
+		SDLContext::EventType event_type = SDLContext::EventType::NONE;
+		KeyData key_data;
+		MouseData mouse_data;
+		WindowData window_data;
+	};
+	/**
+	 * \brief Retrieves the current state of the keyboard.
+	 *
+	 * This method returns the state of all keys on the keyboard, represented as a
+	 * `std::array` of boolean values. Each element of the array corresponds to a
+	 * specific key defined in the `Keycode` enum, and the value indicates whether
+	 * the key is currently pressed (true) or not pressed (false).
+	 *
+	 * \return A `std::array<bool, Keycode::NUM_KEYCODES>` representing the state of
+	 *         each key on the keyboard, where `true` means the key is pressed, and
+	 *         `false` means it is not pressed.
+	 */
+	std::array<bool, Keycode::NUM_KEYCODES> get_keyboard_state();
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
 	 * \return Reference to the SDLContext instance.
@@ -116,17 +147,24 @@ private:
 	 * \return Events that occurred since last call to `get_events()`
 	 */
 	std::vector<SDLContext::EventData> get_events();
-
 	/**
-	 * \brief Converts an SDL key code to the custom Keycode type.
+	 * \brief Fills event_list with triggered window events
 	 *
-	 * This method maps an SDL key code to the corresponding `Keycode` enum value,
+	 * This method checks if any window events are triggered and adds them to the event_list.
+	 *
+	 */
+	void handle_window_event(const SDL_WindowEvent & window_event,
+							 std::vector<SDLContext::EventData> & event_list);
+	/**
+	 * \brief Converts an SDL scan code to the custom Keycode type.
+	 *
+	 * This method maps an SDL scan code to the corresponding `Keycode` enum value,
 	 * which is used internally by the system to identify the keys.
 	 *
-	 * \param sdl_key The SDL key code to convert.
+	 * \param sdl_key The SDL scan code to convert.
 	 * \return The corresponding `Keycode` value or `Keycode::NONE` if the key is unrecognized.
 	 */
-	Keycode sdl_to_keycode(SDL_Keycode sdl_key);
+	Keycode sdl_to_keycode(SDL_Scancode sdl_key);
 
 	/**
 	 * \brief Converts an SDL mouse button code to the custom MouseButton type.
