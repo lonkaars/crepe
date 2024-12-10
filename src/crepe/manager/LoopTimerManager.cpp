@@ -34,7 +34,7 @@ void LoopTimerManager::update() {
 	if (this->delta_time.count() > 0.0) {
 		this->actual_fps = 1.0 / this->delta_time.count();
 	} else {
-		this->actual_fps = INFINITY;
+		this->actual_fps = 0;
 	}
 
 	this->elapsed_time += this->delta_time;
