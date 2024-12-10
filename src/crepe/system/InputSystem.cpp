@@ -6,7 +6,7 @@
 
 using namespace crepe;
 
-void InputSystem::update() {
+void InputSystem::fixed_update() {
 	ComponentManager & mgr = this->mediator.component_manager;
 	EventManager & event_mgr = this->mediator.event_manager;
 	std::vector<SDLContext::EventData> event_list = SDLContext::get_instance().get_events();

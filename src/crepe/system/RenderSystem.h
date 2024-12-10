@@ -27,7 +27,7 @@ public:
 	 * \brief Updates the RenderSystem for the current frame.
 	 * This method is called to perform all rendering operations for the current game frame.
 	 */
-	void update() override;
+	void frame_update() override;
 
 private:
 	//! Clears the screen in preparation for rendering.

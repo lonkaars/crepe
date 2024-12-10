@@ -39,7 +39,7 @@ TEST_F(ScriptTest, UpdateOnce) {
 
 		EXPECT_CALL(script, init()).Times(1);
 		EXPECT_CALL(script, update()).Times(1);
-		system.update();
+		system.fixed_update();
 	}
 
 	{
@@ -47,7 +47,7 @@ TEST_F(ScriptTest, UpdateOnce) {
 
 		EXPECT_CALL(script, init()).Times(0);
 		EXPECT_CALL(script, update()).Times(1);
-		system.update();
+		system.fixed_update();
 	}
 }
 
@@ -61,7 +61,7 @@ TEST_F(ScriptTest, UpdateInactive) {
 		EXPECT_CALL(script, init()).Times(0);
 		EXPECT_CALL(script, update()).Times(0);
 		behaviorscript.active = false;
-		system.update();
+		system.fixed_update();
 	}
 
 	{
@@ -70,6 +70,6 @@ TEST_F(ScriptTest, UpdateInactive) {
 		EXPECT_CALL(script, init()).Times(1);
 		EXPECT_CALL(script, update()).Times(1);
 		behaviorscript.active = true;
-		system.update();
+		system.fixed_update();
 	}
 }

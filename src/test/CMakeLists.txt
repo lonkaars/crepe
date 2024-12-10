@@ -20,4 +20,5 @@ target_sources(test_main PUBLIC
 	ScriptSceneTest.cpp
 	Profiling.cpp
 	ScriptECSTest.cpp
+	ReplayManagerTest.cpp
 )

@@ -18,7 +18,7 @@ public:
 	 *
 	 * It calculates new velocties and changes the postion in the transform.
 	 */
-	void update() override;
+	void fixed_update() override;
 };
 
 } // namespace crepe

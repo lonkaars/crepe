@@ -54,10 +54,10 @@ TEST_F(PhysicsTest, gravity) {
 	ASSERT_FALSE(transforms.empty());
 	EXPECT_EQ(transform.position.y, 0);
 
-	system.update();
+	system.fixed_update();
 	EXPECT_EQ(transform.position.y, 1);
 
-	system.update();
+	system.fixed_update();
 	EXPECT_EQ(transform.position.y, 3);
 }
 
@@ -70,14 +70,14 @@ TEST_F(PhysicsTest, max_velocity) {
 
 	rigidbody.add_force_linear({100, 100});
 	rigidbody.add_force_angular(100);
-	system.update();
+	system.fixed_update();
 	EXPECT_EQ(rigidbody.data.linear_velocity.y, 10);
 	EXPECT_EQ(rigidbody.data.linear_velocity.x, 10);
 	EXPECT_EQ(rigidbody.data.angular_velocity, 10);
 
 	rigidbody.add_force_linear({-100, -100});
 	rigidbody.add_force_angular(-100);
-	system.update();
+	system.fixed_update();
 	EXPECT_EQ(rigidbody.data.linear_velocity.y, -10);
 	EXPECT_EQ(rigidbody.data.linear_velocity.x, -10);
 	EXPECT_EQ(rigidbody.data.angular_velocity, -10);
@@ -95,7 +95,7 @@ TEST_F(PhysicsTest, movement) {
 
 	rigidbody.add_force_linear({1, 1});
 	rigidbody.add_force_angular(1);
-	system.update();
+	system.fixed_update();
 	EXPECT_EQ(transform.position.x, 1);
 	EXPECT_EQ(transform.position.y, 1);
 	EXPECT_EQ(transform.rotation, 1);
@@ -108,7 +108,7 @@ TEST_F(PhysicsTest, movement) {
 	rigidbody.data.linear_velocity_coefficient.x = 0.5;
 	rigidbody.data.linear_velocity_coefficient.y = 0.5;
 	rigidbody.data.angular_velocity_coefficient = 0.5;
-	system.update();
+	system.fixed_update();
 	EXPECT_EQ(rigidbody.data.linear_velocity.x, 0.5);
 	EXPECT_EQ(rigidbody.data.linear_velocity.y, 0.5);
 	EXPECT_EQ(rigidbody.data.angular_velocity, 0.5);
@@ -117,10 +117,10 @@ TEST_F(PhysicsTest, movement) {
 	rigidbody.data.angular_velocity_coefficient = 0;
 	rigidbody.data.max_angular_velocity = 1000;
 	rigidbody.data.angular_velocity = 360;
-	system.update();
+	system.fixed_update();
 	EXPECT_EQ(transform.rotation, 1);
 
 	rigidbody.data.angular_velocity = -360;
-	system.update();
+	system.fixed_update();
 	EXPECT_EQ(transform.rotation, 1);
 }

@@ -10,7 +10,7 @@
 
 using namespace crepe;
 
-void PhysicsSystem::update() {
+void PhysicsSystem::fixed_update() {
 	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
 	RefVector<Transform> transforms = mgr.get_components_by_type<Transform>();

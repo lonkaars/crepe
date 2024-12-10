@@ -99,7 +99,7 @@ TEST_F(RenderSystemTest, expected_throws) {
 	});
 
 	// No camera
-	EXPECT_ANY_THROW({ this->sys.update(); });
+	EXPECT_ANY_THROW({ this->sys.frame_update(); });
 }
 
 TEST_F(RenderSystemTest, make_sprites) {}
@@ -153,7 +153,7 @@ TEST_F(RenderSystemTest, Update) {
 		EXPECT_EQ(sprites[2].get().game_object_id, 2);
 		EXPECT_EQ(sprites[3].get().game_object_id, 3);
 	}
-	this->sys.update();
+	this->sys.frame_update();
 	{
 		vector<reference_wrapper<Sprite>> sprites = this->mgr.get_components_by_type<Sprite>();
 		ASSERT_EQ(sprites.size(), 4);
@@ -192,7 +192,7 @@ TEST_F(RenderSystemTest, Color) {
 	EXPECT_EQ(sprite.data.color.g, Color::GREEN.g);
 	EXPECT_EQ(sprite.data.color.b, Color::GREEN.b);
 	EXPECT_EQ(sprite.data.color.a, Color::GREEN.a);
-	this->sys.update();
+	this->sys.frame_update();
 	EXPECT_EQ(sprite.data.color.r, Color::GREEN.r);
 	EXPECT_EQ(sprite.data.color.g, Color::GREEN.g);
 	EXPECT_EQ(sprite.data.color.b, Color::GREEN.b);
