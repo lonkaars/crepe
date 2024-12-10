@@ -61,7 +61,7 @@ RefVector<Sprite> RenderSystem::sort(RefVector<Sprite> & objs) const {
 	return sorted_objs;
 }
 
-void RenderSystem::update() {
+void RenderSystem::frame_update() {
 	this->clear_screen();
 	this->render();
 	this->present_screen();

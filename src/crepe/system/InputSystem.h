@@ -27,7 +27,7 @@ public:
 	 * \brief Updates the system, processing all input events.
 	 * This method processes all events and triggers corresponding actions.
 	 */
-	void update() override;
+	void fixed_update() override;
 
 private:
 	//! Stores the last position of the mouse when the button was pressed.

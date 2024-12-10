@@ -5,6 +5,7 @@ target_sources(crepe PUBLIC
 	SaveManager.cpp
 	SceneManager.cpp
 	ResourceManager.cpp
+	ReplayManager.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -19,5 +20,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	SceneManager.hpp
 	ResourceManager.h
 	ResourceManager.hpp
+	ReplayManager.h
 )
 

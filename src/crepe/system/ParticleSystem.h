@@ -20,7 +20,7 @@ public:
 	 * \brief Updates all particle emitters by emitting particles, updating particle states, and
 	 * checking bounds.
 	 */
-	void update() override;
+	void frame_update() override;
 
 private:
 	/**

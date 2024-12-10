@@ -22,7 +22,7 @@ public:
 	 * method. It also calls Script::init() if this has not been done before on
 	 * the \c BehaviorScript instance.
 	 */
-	void update() override;
+	void fixed_update() override;
 };
 
 } // namespace crepe

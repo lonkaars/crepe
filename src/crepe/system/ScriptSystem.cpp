@@ -7,7 +7,7 @@
 using namespace std;
 using namespace crepe;
 
-void ScriptSystem::update() {
+void ScriptSystem::fixed_update() {
 	dbg_trace();
 
 	ComponentManager & mgr = this->mediator.component_manager;
