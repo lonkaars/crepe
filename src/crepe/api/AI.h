@@ -14,8 +14,7 @@ namespace crepe {
 class AI : public Component {
 public:
 	//! The different types of behaviors that can be used
-	enum BehaviorType {
-		NONE = 0x00000,
+	enum BehaviorTypeMask {
 		SEEK = 0x00002,
 		FLEE = 0x00004,
 		ARRIVE = 0x00008,
@@ -35,7 +34,7 @@ public:
 	 * \param behavior The behavior to check
 	 * \return true if the behavior is on, false otherwise
 	 */
-	bool on(BehaviorType behavior) const { return (flags & behavior) == behavior; }
+	bool on(BehaviorTypeMask behavior) const { return (flags & behavior); }
 	//! Turn on the seek behavior
 	void seek_on() { flags |= SEEK; }
 	//! Turn off the seek behavior
@@ -92,8 +91,10 @@ public:
 	//! The maximum force that can be applied to the entity (higher values will make the entity adjust faster)
 	float max_force;
 
-	//! The target to seek or arrive at
+	//! The target to seek at
 	vec2 seek_target;
+	//! The target to arrive at
+	vec2 arrive_target;
 	//! The target to flee from
 	vec2 flee_target;
 	//! The distance at which the entity will start to flee from the target
