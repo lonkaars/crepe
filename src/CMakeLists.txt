@@ -13,6 +13,7 @@ find_package(SoLoud REQUIRED)
 find_package(GTest REQUIRED)
 find_package(whereami REQUIRED)
 find_library(BERKELEY_DB db)
+find_package(Fontconfig REQUIRED)
 
 add_library(crepe SHARED)
 add_executable(test_main EXCLUDE_FROM_ALL)
@@ -27,6 +28,7 @@ target_link_libraries(crepe
 	PUBLIC SDL2_image
 	PUBLIC ${BERKELEY_DB}
 	PUBLIC whereami
+	PUBLIC ${Fontconfig_LIBRARIES}
 )
 
 add_subdirectory(crepe)

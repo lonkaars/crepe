@@ -3,6 +3,7 @@ target_sources(crepe PUBLIC
 	SoundContext.cpp
 	SDLContext.cpp
 	DB.cpp
+	SDLFontContext.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -10,5 +11,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	SoundContext.h
 	SDLContext.h
 	DB.h
+	SDLFontContext.h
 )
 
