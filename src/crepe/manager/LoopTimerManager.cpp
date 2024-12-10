@@ -92,6 +92,6 @@ void LoopTimerManager::set_fixed_delta_time(double seconds) {
 	this->fixed_delta_time = std::chrono::duration<double>(seconds);
 }
 
-double LoopTimerManager::get_fixed_loop_interval() const {
+double LoopTimerManager::get_fixed_delta_time() const {
 	return this->fixed_delta_time.count();
 }

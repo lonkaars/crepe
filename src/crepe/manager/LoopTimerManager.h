@@ -22,7 +22,10 @@ public:
 	LoopTimerManager(Mediator &mediator);
 	/**
 	 * \brief Get the current delta time for the current frame.
-	 *
+	 *	
+	 * This value represents the estimated frame duration of the current frame.
+	 * This value can be used in the frame_update to convert pixel based values to time based values.
+	 * 
 	 * \return Delta time in seconds since the last frame.
 	 */
 	double get_delta_time() const;
@@ -73,18 +76,9 @@ public:
 	 *
 	 * This value is used in the LoopManager to determine how many times 
 	 * the fixed_update should be called within a given interval.
+	 * This value is also the timing value which is used in the fixed_loop to convert pixels to time.
 	 *
 	 * \return The unscaled fixed delta time in seconds.
-	 */
-	double get_fixed_loop_interval() const;
-
-	/**
-	 * \brief Get the scaled fixed delta time in seconds.
-	 *
-	 * The fixed delta time is used for operations that require uniform time steps, 
-	 * such as physics calculations, and is scaled by the current time scale.
-	 *
-	 * \return The fixed delta time, scaled by time scale, in seconds.
 	 */
 	double get_fixed_delta_time() const;
 
@@ -94,8 +88,20 @@ public:
 	 * \param seconds fixed_delta_time in seconds.
 	 * 
 	 * The fixed_delta_time value is used to determine how many times per second the fixed_update and process_input functions are called.
+	 * This value is also the timing value which is used in the fixed_loop to convert pixels to time.
 	 */
 	void set_fixed_delta_time(double seconds);
+
+	/**
+	 * \brief Retrieves the scaled fixed delta time in seconds.
+	 *
+	 * The scaled fixed delta time is the timing value used within the `fixed_update` function. 
+	 * It is adjusted by the time_scale to account for any changes in the simulation's 
+	 * speed.
+	 *
+	 * \return The fixed delta time, scaled by the current time scale, in seconds.
+	 */
+	double get_scaled_fixed_delta_time() const;
 
 private:
 	//! Friend relation to use start,enforce_frame_rate,get_lag,update,advance_fixed_update.
