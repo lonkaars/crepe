@@ -37,7 +37,7 @@ private:
 	 * \param force_to_add The force to add
 	 * \return true if the force was added, false otherwise
 	 */
-	bool accumulate_force(const AI & ai, vec2 & running_total, vec2 force_to_add);
+	bool accumulate_force(const AI & ai, vec2 & running_total, vec2 & force_to_add);
 
 	/**
 	 * \brief Calculate the seek force
