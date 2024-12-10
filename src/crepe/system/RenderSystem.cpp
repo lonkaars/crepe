@@ -10,9 +10,10 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
+#include "../facade/Texture.h"
 #include "../manager/ComponentManager.h"
-#include "api/Texture.h"
-#include "manager/ResourceManager.h"
+#include "../manager/ResourceManager.h"
+
 #include "RenderSystem.h"
 
 using namespace crepe;

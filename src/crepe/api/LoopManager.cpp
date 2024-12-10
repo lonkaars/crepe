@@ -65,7 +65,6 @@ void LoopManager::setup() {
 	this->scene_manager.load_next_scene();
 	timer.start();
 	timer.set_fps(200);
-	this->scene_manager.load_next_scene();
 }
 
 void LoopManager::render() {

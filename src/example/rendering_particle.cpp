@@ -1,5 +1,4 @@
 #include "api/Asset.h"
-#include "manager/ResourceManager.h"
 #include <crepe/Component.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Camera.h>
@@ -9,7 +8,6 @@
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
-#include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
@@ -52,7 +50,7 @@ public:
 
 		Color color(255, 255, 255, 255);
 
-		Asset img{"asset/texture/test_ap43.png"};
+		Asset img{"asset/spritesheet/spritesheet_test.png"};
 
 		Sprite & test_sprite = game_object.add_component<Sprite>(
 			img, Sprite::Data{
@@ -65,16 +63,8 @@ public:
 					 .position_offset = {0, 0},
 				 });
 
-		/*
-
-		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4,
-														  Animator::Data{
-															  .fps = 1,
-															  .looping = false,
-														  });
-		anim.set_anim(2);
-		anim.active = false;
-		*/
+		auto & anim = game_object.add_component<Animator>(test_sprite,ivec2{32, 64}, uvec2{4,1}, Animator::Data{});
+		anim.set_anim(0);
 
 		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
 													   Camera::Data{

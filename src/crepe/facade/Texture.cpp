@@ -2,7 +2,6 @@
 #include "manager/Mediator.h"
 #include "facade/SDLContext.h"
 
-#include "Asset.h"
 #include "Resource.h"
 #include "Texture.h"
 #include "types.h"
