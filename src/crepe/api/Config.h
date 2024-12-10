@@ -86,6 +86,17 @@ public:
 		 */
 		std::string root_pattern = ".crepe-root";
 	} asset;
+	//! Default font options
+	struct {
+		/**
+		 * \brief Default font size
+		 *
+		 * using the SDL_ttf library the font size needs to be set when loading the font. 
+		 * This config option is the font size at which all fonts will be loaded initially.
+		 * 
+		 */
+		int font_size = 16;
+	} font;
 };
 
 } // namespace crepe
