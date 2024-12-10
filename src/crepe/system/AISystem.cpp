@@ -80,7 +80,7 @@ vec2 AISystem::calculate(AI & ai, const Rigidbody & rigidbody) {
 	return force;
 }
 
-bool AISystem::accumulate_force(const AI & ai, vec2 & running_total, vec2 force_to_add) {
+bool AISystem::accumulate_force(const AI & ai, vec2 & running_total, vec2 & force_to_add) {
 	float magnitude = running_total.length();
 	float magnitude_remaining = ai.max_force - magnitude;
 
