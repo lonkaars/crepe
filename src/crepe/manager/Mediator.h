@@ -7,11 +7,14 @@
 #include "EventManager.h"
 #include "SaveManager.h"
 #include "api/LoopTimer.h"
+#include "EventManager.h"
+#include "SaveManager.h"
 
 namespace crepe {
 
 class ComponentManager;
 class SceneManager;
+class ResourceManager;
 
 /**
  * Struct to pass references to classes that would otherwise need to be singletons down to
@@ -32,6 +35,7 @@ struct Mediator {
 	OptionalRef<EventManager> event_manager = EventManager::get_instance();
 	OptionalRef<SDLContext> sdl_context = SDLContext::get_instance();
 	OptionalRef<LoopTimer> timer = LoopTimer::get_instance();
+	OptionalRef<ResourceManager> resource_manager;
 };
 
 } // namespace crepe
