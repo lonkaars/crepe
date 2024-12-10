@@ -31,10 +31,11 @@ void LoopTimerManager::update() {
 	if (this->delta_time > this->maximum_delta_time) {
 		this->delta_time = this->maximum_delta_time;
 	}
-	if(this->delta_time.count() <= 0){
-		this->delta_time = std::chrono::duration<double>(0.0);
+	if (this->delta_time.count() > 0.0) {
+		this->actual_fps = 1.0 / this->delta_time.count();
+	} else {
+		this->actual_fps = INFINITY;
 	}
-	this->actual_fps = 1.0 / this->delta_time.count();
 
 	this->elapsed_time += this->delta_time;
 	this->last_frame_time = current_frame_time;
