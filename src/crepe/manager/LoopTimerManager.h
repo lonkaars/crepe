@@ -19,7 +19,7 @@ public:
 	/**
 	 * \param mediator A reference to a Mediator object used for transfering managers.
 	 */
-	LoopTimerManager(Mediator &mediator);
+	LoopTimerManager(Mediator & mediator);
 	/**
 	 * \brief Get the current delta time for the current frame.
 	 *	
@@ -145,7 +145,6 @@ private:
 	 * to elapsed_fixed_time, ensuring the fixed update catches up with the elapsed time.
 	 */
 	void advance_fixed_elapsed_time();
-
 
 private:
 	//! Target frames per second
