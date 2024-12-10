@@ -26,12 +26,12 @@ void AudioSystem::diff_update(AudioSource & component, Sound & resource) {
 	SoundContext & context = this->get_context();
 
 	if (component.active != component.last_active) {
-		if (component.active) {
-			component.oneshot_play = component.play_on_awake;
-		} else {
+		if (!component.active) {
 			context.stop(component.voice);
 			return;
 		}
+		if (component.play_on_awake)
+			component.oneshot_play = true;
 	}
 	if (!component.active) return;
 
