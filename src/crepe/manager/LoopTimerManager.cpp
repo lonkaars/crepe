@@ -47,7 +47,7 @@ double LoopTimerManager::get_delta_time() const {
 
 double LoopTimerManager::get_current_time() const { return this->elapsed_time.count(); }
 
-void LoopTimerManager::advance_fixed_update() {
+void LoopTimerManager::advance_fixed_elapsed_time() {
 	this->elapsed_fixed_time += this->fixed_delta_time;
 }
 
@@ -68,13 +68,15 @@ void LoopTimerManager::set_time_scale(double value) { this->time_scale = value; 
 double LoopTimerManager::get_time_scale() const { return this->time_scale; }
 
 void LoopTimerManager::enforce_frame_rate() {
-	auto current_frame_time = std::chrono::steady_clock::now();
-	auto frame_duration = current_frame_time - this->last_frame_time;
+	std::chrono::steady_clock::time_point current_frame_time = std::chrono::steady_clock::now();
+	std::chrono::duration<double> frame_duration = current_frame_time - this->last_frame_time;
+
 
 	// Check if frame duration is less than the target frame time
 	if (frame_duration < this->frame_target_time) {
-		auto delay_time = std::chrono::duration_cast<std::chrono::microseconds>(
-			this->frame_target_time - frame_duration);
+		std::chrono::microseconds delay_time = std::chrono::duration_cast<std::chrono::microseconds>(
+    	this->frame_target_time - frame_duration);
+
 
 		if (delay_time.count() > 0) {
 			std::this_thread::sleep_for(delay_time);
@@ -85,7 +87,7 @@ void LoopTimerManager::enforce_frame_rate() {
 double LoopTimerManager::get_lag() const {
 	return (this->elapsed_time - this->elapsed_fixed_time).count();
 }
-double LoopTimerManager::get_fixed_delta_time() const {
+double LoopTimerManager::get_scaled_fixed_delta_time() const {
 	return this->fixed_delta_time.count() * this->time_scale;
 }
 void LoopTimerManager::set_fixed_delta_time(double seconds) {

@@ -50,7 +50,7 @@ void LoopManager::loop() {
 		while (this->loop_timer.get_lag() >= this->loop_timer.get_fixed_delta_time()) {
 			this->process_input();
 			this->fixed_update();
-			this->loop_timer.advance_fixed_update();
+			this->loop_timer.advance_fixed_elapsed_time();
 		}
 
 		this->frame_update();

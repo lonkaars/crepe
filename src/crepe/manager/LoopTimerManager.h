@@ -139,12 +139,13 @@ private:
 	void update();
 
 	/**
-	 * \brief Advance the game loop by a fixed update interval.
+	 * \brief Progress the elapsed fixed time by the fixed delta time interval.
 	 *
-	 * This method progresses the game state by a consistent, fixed time step, allowing for
-	 * stable updates independent of frame rate fluctuations.
+	 * This method advances the game's fixed update loop by adding the fixed_delta_time 
+	 * to elapsed_fixed_time, ensuring the fixed update catches up with the elapsed time.
 	 */
-	void advance_fixed_update();
+	void advance_fixed_elapsed_time();
+
 
 private:
 	//! Target frames per second
