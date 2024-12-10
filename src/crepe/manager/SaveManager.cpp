@@ -14,9 +14,12 @@ SaveManager::SaveManager(Mediator & mediator) : Manager(mediator) {
 DB & SaveManager::get_db() {
 	if (this->db == nullptr) {
 		Config & cfg = Config::get_instance();
-		this->db = make_unique<DB>(cfg.savemgr.location);
+		this->db = {
+			new DB(cfg.savemgr.location),
+			[](void * db){ delete static_cast<DB *>(db); }
+		};
 	}
-	return *this->db;
+	return *static_cast<DB *>(this->db.get());
 }
 
 template <>
