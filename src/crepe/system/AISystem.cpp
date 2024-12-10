@@ -30,6 +30,9 @@ void AISystem::update() {
 				"AI component must be attached to a GameObject with a Rigidbody component");
 		}
 		Rigidbody & rigidbody = rigidbodies.front().get();
+		if (!rigidbody.active) {
+			continue;
+		}
 		if (rigidbody.data.mass <= 0) {
 			throw std::runtime_error("Mass must be greater than 0");
 		}
@@ -52,28 +55,28 @@ vec2 AISystem::calculate(AI & ai, const Rigidbody & rigidbody) {
 	vec2 force;
 
 	// Run all the behaviors that are on, and stop if the force gets too high
-	if (ai.on(AI::BehaviorType::FLEE)) {
+	if (ai.on(AI::BehaviorTypeMask::FLEE)) {
 		vec2 force_to_add = this->flee(ai, rigidbody, transform);
 
 		if (!this->accumulate_force(ai, force, force_to_add)) {
 			return force;
 		}
 	}
-	if (ai.on(AI::BehaviorType::ARRIVE)) {
+	if (ai.on(AI::BehaviorTypeMask::ARRIVE)) {
 		vec2 force_to_add = this->arrive(ai, rigidbody, transform);
 
 		if (!this->accumulate_force(ai, force, force_to_add)) {
 			return force;
 		}
 	}
-	if (ai.on(AI::BehaviorType::SEEK)) {
+	if (ai.on(AI::BehaviorTypeMask::SEEK)) {
 		vec2 force_to_add = this->seek(ai, rigidbody, transform);
 
 		if (!this->accumulate_force(ai, force, force_to_add)) {
 			return force;
 		}
 	}
-	if (ai.on(AI::BehaviorType::PATH_FOLLOW)) {
+	if (ai.on(AI::BehaviorTypeMask::PATH_FOLLOW)) {
 		vec2 force_to_add = this->path_follow(ai, rigidbody, transform);
 
 		if (!this->accumulate_force(ai, force, force_to_add)) {
@@ -132,7 +135,7 @@ vec2 AISystem::flee(const AI & ai, const Rigidbody & rigidbody,
 vec2 AISystem::arrive(const AI & ai, const Rigidbody & rigidbody,
 					  const Transform & transform) const {
 	// Calculate the desired velocity (taking into account the deceleration rate)
-	vec2 to_target = ai.seek_target - transform.position;
+	vec2 to_target = ai.arrive_target - transform.position;
 	float distance = to_target.length();
 	if (distance > 0.0f) {
 		if (ai.arrive_deceleration <= 0.0f) {
@@ -161,6 +164,7 @@ vec2 AISystem::path_follow(AI & ai, const Rigidbody & rigidbody, const Transform
 	if (to_target.length_squared() > ai.path_node_distance * ai.path_node_distance) {
 		// If the entity is not close enough to the target node, seek it
 		ai.seek_target = target;
+		ai.arrive_target = target;
 	} else {
 		// If the entity is close enough to the target node, move to the next node
 		ai.path_index++;
