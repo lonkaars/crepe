@@ -6,13 +6,14 @@
 #include <SDL2/SDL_render.h>
 #include <memory>
 
-#include "Asset.h"
-#include "Resource.h"
+#include "../Resource.h"
+
 #include "types.h"
 
 namespace crepe {
 
 class Mediator;
+class Asset;
 
 /**
  * \class Texture

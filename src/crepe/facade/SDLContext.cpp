@@ -19,12 +19,12 @@
 #include "../api/Color.h"
 #include "../api/Config.h"
 #include "../api/Sprite.h"
-#include "../api/Texture.h"
 #include "../util/Log.h"
 #include "manager/Manager.h"
 #include "manager/Mediator.h"
 
 #include "SDLContext.h"
+#include "Texture.h"
 #include "types.h"
 
 using namespace crepe;
@@ -273,7 +273,7 @@ void SDLContext::draw(const RenderContext & ctx) {
 		.img_scale = ctx.scale,
 	});
 
-	cout << dstrect.w << " " << dstrect.h << " " << dstrect.x << " " << dstrect.y << endl;
+	cout << srcrect->w << " " << srcrect->h << " " << srcrect->x << " " << srcrect->y << endl;
 	double angle = ctx.angle + data.angle_offset;
 
 	this->set_color_texture(ctx.texture, ctx.sprite.data.color);

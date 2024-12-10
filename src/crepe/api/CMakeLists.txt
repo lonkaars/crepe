@@ -6,7 +6,6 @@ target_sources(crepe PUBLIC
 	ParticleEmitter.cpp
 	Transform.cpp
 	Color.cpp
-	Texture.cpp
 	Sprite.cpp
 	Config.cpp
 	Metadata.cpp
@@ -38,7 +37,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.h
 	Vector2.hpp
 	Color.h
-	Texture.h
 	Scene.h
 	Metadata.h
 	Camera.h
