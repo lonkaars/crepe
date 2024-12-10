@@ -39,27 +39,19 @@ public:
 	//! Turn on the seek behavior
 	void seek_on() { flags |= SEEK; }
 	//! Turn off the seek behavior
-	void seek_off() {
-		if (on(SEEK)) flags ^= SEEK;
-	}
+	void seek_off() { flags &= ~SEEK; }
 	//! Turn on the flee behavior
 	void flee_on() { flags |= FLEE; }
 	//! Turn off the flee behavior
-	void flee_off() {
-		if (on(FLEE)) flags ^= FLEE;
-	}
+	void flee_off() { flags &= ~FLEE; }
 	//! Turn on the arrive behavior
 	void arrive_on() { flags |= ARRIVE; }
 	//! Turn off the arrive behavior
-	void arrive_off() {
-		if (on(ARRIVE)) flags ^= ARRIVE;
-	}
+	void arrive_off() { flags &= ~ARRIVE; }
 	//! Turn on the path follow behavior
 	void path_follow_on() { flags |= PATH_FOLLOW; }
 	//! Turn off the path follow behavior
-	void path_follow_off() {
-		if (on(PATH_FOLLOW)) flags ^= PATH_FOLLOW;
-	}
+	void path_follow_off() { flags &= ~PATH_FOLLOW; }
 
 	/**
 	 * \brief Add a path node (for the path following behavior)
