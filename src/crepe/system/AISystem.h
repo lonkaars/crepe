@@ -4,6 +4,7 @@
 #include "api/Rigidbody.h"
 
 #include "System.h"
+#include "api/Transform.h"
 #include "types.h"
 
 namespace crepe {
@@ -44,33 +45,37 @@ private:
 	 *
 	 * \param ai The AI component
 	 * \param rigidbody The Rigidbody component
+	 * \param transform The Transform component
 	 * \return The seek force
 	 */
-	vec2 seek(const AI & ai, const Rigidbody & rigidbody) const;
+	vec2 seek(const AI & ai, const Rigidbody & rigidbody, const Transform & transform) const;
 	/**
 	 * \brief Calculate the flee force
 	 *
 	 * \param ai The AI component
 	 * \param rigidbody The Rigidbody component
+	 * \param transform The Transform component
 	 * \return The flee force
 	 */
-	vec2 flee(const AI & ai, const Rigidbody & rigidbody) const;
+	vec2 flee(const AI & ai, const Rigidbody & rigidbody, const Transform & transform) const;
 	/**
 	 * \brief Calculate the arrive force
 	 *
 	 * \param ai The AI component
 	 * \param rigidbody The Rigidbody component
+	 * \param transform The Transform component
 	 * \return The arrive force
 	 */
-	vec2 arrive(const AI & ai, const Rigidbody & rigidbody) const;
+	vec2 arrive(const AI & ai, const Rigidbody & rigidbody, const Transform & transform) const;
 	/**
 	 * \brief Calculate the path follow force
 	 *
 	 * \param ai The AI component
 	 * \param rigidbody The Rigidbody component
+	 * \param transform The Transform component
 	 * \return The path follow force
 	 */
-	vec2 path_follow(AI & ai, const Rigidbody & rigidbody);
+	vec2 path_follow(AI & ai, const Rigidbody & rigidbody, const Transform & transform);
 };
 
 } // namespace crepe

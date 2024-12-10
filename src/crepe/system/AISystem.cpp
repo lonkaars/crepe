@@ -2,7 +2,6 @@
 #include <cmath>
 
 #include "api/LoopTimer.h"
-#include "api/Transform.h"
 #include "manager/ComponentManager.h"
 #include "manager/Mediator.h"
 
@@ -45,32 +44,37 @@ void AISystem::update() {
 }
 
 vec2 AISystem::calculate(AI & ai, const Rigidbody & rigidbody) {
+	const Mediator & mediator = this->mediator;
+	ComponentManager & mgr = mediator.component_manager;
+	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
+	Transform & transform = transforms.front().get();
+
 	vec2 force;
 
 	// Run all the behaviors that are on, and stop if the force gets too high
 	if (ai.on(AI::BehaviorType::FLEE)) {
-		vec2 force_to_add = this->flee(ai, rigidbody);
+		vec2 force_to_add = this->flee(ai, rigidbody, transform);
 
 		if (!this->accumulate_force(ai, force, force_to_add)) {
 			return force;
 		}
 	}
 	if (ai.on(AI::BehaviorType::ARRIVE)) {
-		vec2 force_to_add = this->arrive(ai, rigidbody);
+		vec2 force_to_add = this->arrive(ai, rigidbody, transform);
 
 		if (!this->accumulate_force(ai, force, force_to_add)) {
 			return force;
 		}
 	}
 	if (ai.on(AI::BehaviorType::SEEK)) {
-		vec2 force_to_add = this->seek(ai, rigidbody);
+		vec2 force_to_add = this->seek(ai, rigidbody, transform);
 
 		if (!this->accumulate_force(ai, force, force_to_add)) {
 			return force;
 		}
 	}
 	if (ai.on(AI::BehaviorType::PATH_FOLLOW)) {
-		vec2 force_to_add = this->path_follow(ai, rigidbody);
+		vec2 force_to_add = this->path_follow(ai, rigidbody, transform);
 
 		if (!this->accumulate_force(ai, force, force_to_add)) {
 			return force;
@@ -102,12 +106,8 @@ bool AISystem::accumulate_force(const AI & ai, vec2 & running_total, vec2 & forc
 	return true;
 }
 
-vec2 AISystem::seek(const AI & ai, const Rigidbody & rigidbody) const {
-	const Mediator & mediator = this->mediator;
-	ComponentManager & mgr = mediator.component_manager;
-	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
-	Transform & transform = transforms.front().get();
-
+vec2 AISystem::seek(const AI & ai, const Rigidbody & rigidbody,
+					const Transform & transform) const {
 	// Calculate the desired velocity
 	vec2 desired_velocity = ai.seek_target - transform.position;
 	desired_velocity.normalize();
@@ -116,12 +116,8 @@ vec2 AISystem::seek(const AI & ai, const Rigidbody & rigidbody) const {
 	return desired_velocity - rigidbody.data.linear_velocity;
 }
 
-vec2 AISystem::flee(const AI & ai, const Rigidbody & rigidbody) const {
-	const Mediator & mediator = this->mediator;
-	ComponentManager & mgr = mediator.component_manager;
-	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
-	Transform & transform = transforms.front().get();
-
+vec2 AISystem::flee(const AI & ai, const Rigidbody & rigidbody,
+					const Transform & transform) const {
 	// Calculate the desired velocity if the entity is within the panic distance
 	vec2 desired_velocity = transform.position - ai.flee_target;
 	if (desired_velocity.length_squared() > ai.square_flee_panic_distance) {
@@ -133,12 +129,8 @@ vec2 AISystem::flee(const AI & ai, const Rigidbody & rigidbody) const {
 	return desired_velocity - rigidbody.data.linear_velocity;
 }
 
-vec2 AISystem::arrive(const AI & ai, const Rigidbody & rigidbody) const {
-	const Mediator & mediator = this->mediator;
-	ComponentManager & mgr = mediator.component_manager;
-	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
-	Transform & transform = transforms.front().get();
-
+vec2 AISystem::arrive(const AI & ai, const Rigidbody & rigidbody,
+					  const Transform & transform) const {
 	// Calculate the desired velocity (taking into account the deceleration rate)
 	vec2 to_target = ai.seek_target - transform.position;
 	float distance = to_target.length();
@@ -157,12 +149,7 @@ vec2 AISystem::arrive(const AI & ai, const Rigidbody & rigidbody) const {
 	return vec2{0, 0};
 }
 
-vec2 AISystem::path_follow(AI & ai, const Rigidbody & rigidbody) {
-	const Mediator & mediator = this->mediator;
-	ComponentManager & mgr = mediator.component_manager;
-	RefVector<Transform> transforms = mgr.get_components_by_id<Transform>(ai.game_object_id);
-	Transform & transform = transforms.front().get();
-
+vec2 AISystem::path_follow(AI & ai, const Rigidbody & rigidbody, const Transform & transform) {
 	if (ai.path.empty()) {
 		return vec2{0, 0};
 	}
@@ -184,11 +171,11 @@ vec2 AISystem::path_follow(AI & ai, const Rigidbody & rigidbody) {
 			} else {
 				// If the path is not looping, arrive at the last node
 				ai.path_index = ai.path.size() - 1;
-				return this->arrive(ai, rigidbody);
+				return this->arrive(ai, rigidbody, transform);
 			}
 		}
 	}
 
 	// Seek the target node
-	return this->seek(ai, rigidbody);
+	return this->seek(ai, rigidbody, transform);
 }
