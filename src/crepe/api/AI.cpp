@@ -1,10 +1,17 @@
+#include <stdexcept>
+
 #include "AI.h"
 
 namespace crepe {
 
 AI::AI(game_object_id_t id, float max_force) : Component(id), max_force(max_force) {}
 
-void AI::make_circle_path(float radius, vec2 center, float start_angle, bool clockwise) {
+void AI::make_circle_path(float radius, const vec2 & center, float start_angle,
+						  bool clockwise) {
+	if (radius <= 0) {
+		throw std::runtime_error("Radius must be greater than 0");
+	}
+
 	// The step size is determined by the radius (step size is in radians)
 	float step = 400.0f / radius;
 	// Force at least 16 steps (in case of a small radius)
@@ -27,8 +34,12 @@ void AI::make_circle_path(float radius, vec2 center, float start_angle, bool clo
 	}
 }
 
-void AI::make_oval_path(float radius_x, float radius_y, vec2 center, float start_angle,
+void AI::make_oval_path(float radius_x, float radius_y, const vec2 & center, float start_angle,
 						bool clockwise, float rotation) {
+	if (radius_x <= 0 && radius_y <= 0) {
+		throw std::runtime_error("Radius must be greater than 0");
+	}
+
 	float max_radius = std::max(radius_x, radius_y);
 	// The step size is determined by the radius (step size is in radians)
 	float step = 400.0f / max_radius;
