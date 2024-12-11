@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <cmath>
 
-#include "manager/LoopTimerManager.h"
 #include "manager/ComponentManager.h"
+#include "manager/LoopTimerManager.h"
 #include "manager/Mediator.h"
 
 #include "AISystem.h"

@@ -1,4 +1,6 @@
 #include "../facade/SDLContext.h"
+#include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
 #include "../system/AISystem.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/AudioSystem.h"
@@ -8,8 +10,6 @@
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
-#include "../manager/EventManager.h"
-#include "../manager/LoopTimerManager.h"
 #include "../util/Log.h"
 
 #include "LoopManager.h"
@@ -54,7 +54,7 @@ void LoopManager::loop() {
 			this->frame_update();
 			this->loop_timer.enforce_frame_rate();
 		}
-	}catch(const exception & e){
+	} catch (const exception & e) {
 		Log::logf(Log::Level::ERROR, "Exception caught in main loop: {}", e.what());
 		this->event_manager.trigger_event<ShutDownEvent>(ShutDownEvent{});
 	}
@@ -72,7 +72,7 @@ void LoopManager::fixed_update() {
 }
 
 // will be called every frame
-void LoopManager::frame_update() { 
+void LoopManager::frame_update() {
 	this->scene_manager.load_next_scene();
 	this->get_system<AnimatorSystem>().update();
 	//render

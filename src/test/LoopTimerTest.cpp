@@ -71,9 +71,8 @@ TEST_F(LoopTimerTest, getCurrentTime) {
 	auto end_time = steady_clock::now();
 
 	// Get the elapsed time in seconds as a double
-	auto elapsed_time = std::chrono::duration_cast<elapsed_time_t>(end_time - start_time).count();
-
+	auto elapsed_time
+		= std::chrono::duration_cast<elapsed_time_t>(end_time - start_time).count();
 
 	ASSERT_NEAR(loop_timer.get_elapsed_time().count(), elapsed_time, 5);
 }
-
