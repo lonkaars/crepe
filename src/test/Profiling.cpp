@@ -1,11 +1,11 @@
+#include <chrono>
+#include <cmath>
 #include <crepe/api/Asset.h>
 #include <crepe/manager/Mediator.h>
+#include <crepe/manager/ResourceManager.h>
 #include <crepe/system/ParticleSystem.h>
 #include <crepe/system/PhysicsSystem.h>
 #include <crepe/system/RenderSystem.h>
-#include <crepe/manager/ResourceManager.h>
-#include <chrono>
-#include <cmath>
 #include <gtest/gtest.h>
 
 #define private public
@@ -172,13 +172,14 @@ TEST_F(DISABLED_ProfilingTest, Profiling_2) {
 
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				Asset{"asset/texture/square.png"}, Sprite::Data{
-						 .color = {0, 0, 0, 0},
-						 .flip = {.flip_x = false, .flip_y = false},
-						 .sorting_in_layer = 1,
-						 .order_in_layer = 1,
-						 .size = {.y = 500},
-					 });
+				Asset{"asset/texture/square.png"},
+				Sprite::Data{
+					.color = {0, 0, 0, 0},
+					.flip = {.flip_x = false, .flip_y = false},
+					.sorting_in_layer = 1,
+					.order_in_layer = 1,
+					.size = {.y = 500},
+				});
 		}
 
 		this->game_object_count++;
@@ -209,13 +210,14 @@ TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				Asset{"asset/texture/square.png"}, Sprite::Data{
-						 .color = {0, 0, 0, 0},
-						 .flip = {.flip_x = false, .flip_y = false},
-						 .sorting_in_layer = 1,
-						 .order_in_layer = 1,
-						 .size = {.y = 500},
-					 });
+				Asset{"asset/texture/square.png"},
+				Sprite::Data{
+					.color = {0, 0, 0, 0},
+					.flip = {.flip_x = false, .flip_y = false},
+					.sorting_in_layer = 1,
+					.order_in_layer = 1,
+					.size = {.y = 500},
+				});
 			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
 				.max_particles = 10,
 				.emission_rate = 100,
