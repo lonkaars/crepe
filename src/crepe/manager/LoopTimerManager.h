@@ -158,8 +158,7 @@ private:
 	//! Delta time for the current frame in seconds.
 	Duration_t delta_time{0.0};
 	//! Target time per frame in seconds
-	Duration_t frame_target_time
-		= Duration_t(1.0) / target_fps;
+	Duration_t frame_target_time = Duration_t(1.0) / target_fps;
 	//! Fixed delta time for fixed updates in seconds.
 	Duration_t fixed_delta_time = Duration_t(1.0) / 50.0;
 	//! Total elapsed game time in microseconds.

@@ -1,4 +1,6 @@
 #include "../facade/SDLContext.h"
+#include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
 #include "../system/AISystem.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/AudioSystem.h"
@@ -8,8 +10,6 @@
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
-#include "../manager/EventManager.h"
-#include "../manager/LoopTimerManager.h"
 #include "../util/Log.h"
 
 #include "LoopManager.h"
@@ -44,18 +44,18 @@ void LoopManager::setup() {
 void LoopManager::loop() {
 	try {
 
-	while (game_running) {
-		this->loop_timer.update();
+		while (game_running) {
+			this->loop_timer.update();
 
-		while (this->loop_timer.get_lag() >= this->loop_timer.get_fixed_delta_time()) {
-			this->fixed_update();
-			this->loop_timer.advance_fixed_elapsed_time();
+			while (this->loop_timer.get_lag() >= this->loop_timer.get_fixed_delta_time()) {
+				this->fixed_update();
+				this->loop_timer.advance_fixed_elapsed_time();
+			}
+
+			this->frame_update();
+			this->loop_timer.enforce_frame_rate();
 		}
-
-		this->frame_update();
-		this->loop_timer.enforce_frame_rate();
-	}
-	}catch(const exception & e){
+	} catch (const exception & e) {
 		Log::logf(Log::Level::ERROR, "Exception caught in main loop: %s", e.what());
 		this->event_manager.trigger_event<ShutDownEvent>(ShutDownEvent{});
 	}
@@ -73,7 +73,7 @@ void LoopManager::fixed_update() {
 }
 
 // will be called every frame
-void LoopManager::frame_update() { 
+void LoopManager::frame_update() {
 	this->scene_manager.load_next_scene();
 	this->get_system<AnimatorSystem>().update();
 	//render
