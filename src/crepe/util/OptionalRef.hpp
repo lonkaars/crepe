@@ -19,6 +19,13 @@ OptionalRef<T>::operator T &() const {
 }
 
 template <typename T>
+T * OptionalRef<T>::operator->() const {
+	if (this->ref == nullptr)
+		throw std::runtime_error("OptionalRef: attempt to dereference nullptr");
+	return this->ref;
+}
+
+template <typename T>
 OptionalRef<T> & OptionalRef<T>::operator=(T & ref) {
 	this->ref = &ref;
 	return *this;
