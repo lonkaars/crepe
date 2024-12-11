@@ -8,8 +8,8 @@
 
 using namespace crepe;
 
-LoopTimer::LoopTimer(Mediator & mediator) : Manager(mediator){ 
-	dbg_trace(); 
+LoopTimer::LoopTimer(Mediator & mediator) : Manager(mediator) {
+	dbg_trace();
 	mediator.timer = *this;
 }
 
