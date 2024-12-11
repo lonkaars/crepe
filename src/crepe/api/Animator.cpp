@@ -8,10 +8,10 @@
 using namespace crepe;
 
 Animator::Animator(game_object_id_t id, Sprite & spritesheet, const ivec2 & single_frame_size,
-				   const uvec2 & max_cell_size, const Animator::Data & data)
+				   const uvec2 & grid_size, const Animator::Data & data)
 	: Component(id),
 	  spritesheet(spritesheet),
-	  max_cell_size(max_cell_size),
+	  grid_size(grid_size),
 	  data(data) {
 	dbg_trace();
 
@@ -52,6 +52,6 @@ void Animator::set_anim(int col) {
 
 void Animator::next_anim() {
 	Animator::Data & ctx = this->data;
-	ctx.row = ctx.row++ % this->max_cell_size.x;
+	ctx.row = ctx.row++ % this->grid_size.x;
 	this->spritesheet.mask.x = ctx.row * this->spritesheet.mask.w;
 }

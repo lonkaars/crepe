@@ -15,7 +15,6 @@
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
-#include "manager/Manager.h"
 
 #include "types.h"
 
@@ -31,7 +30,7 @@ class Mediator;
  * SDLContext is a singleton that handles the SDL window and renderer, provides methods for
  * event handling, and rendering to the screen. It is never used directly by the user
  */
-class SDLContext : public Manager {
+class SDLContext {
 public:
 	//! data that the camera component cannot hold
 	struct CameraValues {
@@ -209,13 +208,6 @@ public:
 		const vec2 & pos;
 		const double & img_scale;
 	};
-	/**
-	 * \brief calculates the sqaure size of the image
-	 *
-	 * \param sprite Reference to the sprite to calculate the rectangle
-	 * \return sdl rectangle to draw a src image
-	 */
-	SDL_Rect * get_src_rect(const Sprite & sprite);
 
 	/**
 	 * \brief calculates the sqaure size of the image for destination
@@ -238,8 +230,6 @@ private:
 
 	//! renderer for the crepe engine
 	std::unique_ptr<SDL_Renderer, std::function<void(SDL_Renderer *)>> game_renderer;
-
-	SDL_Rect mask = {};
 
 	//! black bars rectangle to draw
 	SDL_FRect black_bars[2] = {};
