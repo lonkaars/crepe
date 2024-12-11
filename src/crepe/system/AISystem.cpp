@@ -1,21 +1,23 @@
 #include <algorithm>
 #include <cmath>
 
-#include "api/LoopTimer.h"
 #include "manager/ComponentManager.h"
+#include "manager/LoopTimerManager.h"
 #include "manager/Mediator.h"
 
 #include "AISystem.h"
 
 using namespace crepe;
+using namespace std::chrono;
 
 void AISystem::update() {
 	const Mediator & mediator = this->mediator;
 	ComponentManager & mgr = mediator.component_manager;
 	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
+	LoopTimerManager & loop_timer = mediator.loop_timer;
 
 	//TODO: Use fixed loop dt (this is not available at master at the moment)
-	double dt = LoopTimer::get_instance().get_delta_time();
+	duration_t dt = loop_timer.get_delta_time();
 
 	// Loop through all AI components
 	for (AI & ai : ai_components) {
@@ -42,7 +44,7 @@ void AISystem::update() {
 		// Calculate the acceleration (using the above calculated force)
 		vec2 acceleration = force / rigidbody.data.mass;
 		// Finally, update Rigidbody's velocity
-		rigidbody.data.linear_velocity += acceleration * dt;
+		rigidbody.data.linear_velocity += acceleration * duration_cast<seconds>(dt).count();
 	}
 }
 
