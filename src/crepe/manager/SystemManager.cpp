@@ -8,6 +8,7 @@
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
 #include "../system/EventSystem.h"
+#include "../system/ReplaySystem.h"
 
 #include "SystemManager.h"
 
@@ -15,6 +16,7 @@ using namespace crepe;
 using namespace std;
 
 SystemManager::SystemManager(Mediator & mediator) : Manager(mediator) {
+	this->load_system<ReplaySystem>();
 	this->load_system<ScriptSystem>();
 	this->load_system<AISystem>();
 	this->load_system<PhysicsSystem>();
@@ -40,6 +42,26 @@ void SystemManager::frame_update() {
 	for (auto & [type, system] : this->systems) {
 		if (!system->active) continue;
 		system->frame_update();
+	}
+}
+
+SystemManager::Snapshot SystemManager::save() {
+	Snapshot snapshot;
+	for (auto & [type, system] : this->systems) {
+		snapshot[type] = system->active;
+	}
+	return snapshot;
+}
+
+void SystemManager::restore(const Snapshot & snapshot) {
+	for (auto & [type, active] : snapshot) {
+		this->systems[type]->active = active;
+	}
+}
+
+void SystemManager::disable_all() {
+	for (auto & [type, system] : this->systems) {
+		system->active = false;
 	}
 }
 

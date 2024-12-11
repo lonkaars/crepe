@@ -1,8 +1,8 @@
-#include "ScriptSystem.h"
-
+#include "../util/Log.h"
 #include "../manager/ReplayManager.h"
 #include "../manager/SystemManager.h"
 
+#include "RenderSystem.h"
 #include "ReplaySystem.h"
 
 using namespace crepe;
@@ -45,6 +45,7 @@ void ReplaySystem::update_playing() {
 	ReplayManager::Recording & recording = replay.recording;
 
 	if (recording.frames.size() == recording.frame) {
+		dbg_log("Finished playback");
 		this->playback_end();
 		return;
 	}
@@ -52,27 +53,33 @@ void ReplaySystem::update_playing() {
 	ComponentManager & components = this->mediator.component_manager;
 	ComponentManager::Snapshot & frame = recording.frames.at(recording.frame);
 
+	dbg_logf("Playing recording frame {}", recording.frame);
 	components.restore(frame);
 	recording.frame++;
 }
 
 void ReplaySystem::playback_begin() {
 	SystemManager & systems = this->mediator.system_manager;
-	systems.get_system<ScriptSystem>().active = false;
-	// TODO: store system active state
-	// TODO: disable most systems
-	// TODO: store components snapshot
+	ComponentManager & components = this->mediator.component_manager;
+
+	this->playback = {
+		.components = components.save(),
+		.systems = systems.save(),
+	};
+
+	systems.disable_all();
+	systems.get_system<RenderSystem>().active = true;
+	systems.get_system<ReplaySystem>().active = true;
 }
 
 void ReplaySystem::playback_end() {
-	ReplayManager & replay = this->mediator.replay_manager;
-
-	replay.state = ReplayManager::IDLE;
-
 	SystemManager & systems = this->mediator.system_manager;
-	systems.get_system<ScriptSystem>().active = true;
+	ComponentManager & components = this->mediator.component_manager;
 
-	// TODO: restore system active state snapshot
-	// TODO: restore components snapshot
+	components.restore(this->playback.components);
+	systems.restore(this->playback.systems);
+
+	ReplayManager & replay = this->mediator.replay_manager;
+	replay.state = ReplayManager::IDLE;
 }
 
