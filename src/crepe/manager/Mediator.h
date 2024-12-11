@@ -5,17 +5,15 @@
 // TODO: remove these singletons:
 #include "../facade/SDLContext.h"
 
-#include "SaveManager.h"
-
 namespace crepe {
 
 class ComponentManager;
 class SceneManager;
+class EventManager;
+class LoopTimerManager;
 class SaveManager;
 class ResourceManager;
 
-class LoopTimerManager;
-class EventManager;
 /**
  * Struct to pass references to classes that would otherwise need to be singletons down to
  * other classes within the engine hierarchy. Made to prevent constant changes to subclasses to
