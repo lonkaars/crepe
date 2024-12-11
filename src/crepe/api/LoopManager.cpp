@@ -43,7 +43,6 @@ void LoopManager::setup() {
 
 void LoopManager::loop() {
 	try {
-
 		while (game_running) {
 			this->loop_timer.update();
 
@@ -56,7 +55,7 @@ void LoopManager::loop() {
 			this->loop_timer.enforce_frame_rate();
 		}
 	} catch (const exception & e) {
-		Log::logf(Log::Level::ERROR, "Exception caught in main loop: %s", e.what());
+		Log::logf(Log::Level::ERROR, "Exception caught in main loop: {}", e.what());
 		this->event_manager.trigger_event<ShutDownEvent>(ShutDownEvent{});
 	}
 }
