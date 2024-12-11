@@ -2,17 +2,15 @@
 
 #include "../util/OptionalRef.h"
 
-// TODO: remove these singletons:
-#include "EventManager.h"
-
 namespace crepe {
 
 class ComponentManager;
 class SceneManager;
+class EventManager;
+class LoopTimerManager;
 class SaveManager;
 class ResourceManager;
 class SDLContext;
-class LoopTimer;
 
 /**
  * Struct to pass references to classes that would otherwise need to be singletons down to
@@ -30,10 +28,10 @@ struct Mediator {
 	OptionalRef<SDLContext> sdl_context;
 	OptionalRef<ComponentManager> component_manager;
 	OptionalRef<SceneManager> scene_manager;
+	OptionalRef<EventManager> event_manager;
+	OptionalRef<LoopTimerManager> loop_timer;
 	OptionalRef<SaveManager> save_manager;
-	OptionalRef<EventManager> event_manager = EventManager::get_instance();
 	OptionalRef<ResourceManager> resource_manager;
-	OptionalRef<LoopTimer> timer;
 };
 
 } // namespace crepe
