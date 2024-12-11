@@ -24,6 +24,7 @@ class InputTest : public ::testing::Test {
 public:
 	Mediator mediator;
 	ComponentManager mgr{mediator};
+	SDLContext sdl_context{mediator};
 
 	InputSystem input_system{mediator};
 

@@ -6,7 +6,6 @@ target_sources(crepe PUBLIC
 	ParticleEmitter.cpp
 	Transform.cpp
 	Color.cpp
-	Texture.cpp
 	Sprite.cpp
 	Config.cpp
 	Metadata.cpp
@@ -23,6 +22,7 @@ target_sources(crepe PUBLIC
 	Script.cpp
 	Button.cpp
 	UIObject.cpp
+	AI.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -38,7 +38,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.h
 	Vector2.hpp
 	Color.h
-	Texture.h
 	Scene.h
 	Metadata.h
 	Camera.h
@@ -55,4 +54,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Asset.h
 	Button.h
 	UIObject.h
+	AI.h
 )

@@ -9,7 +9,6 @@
 #include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
-#include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
@@ -41,19 +40,19 @@ class Timeline : public Script {
 		switch (i++) {
 			default: break;
 			case 10:
-							 mgr.record_start();
+							 // mgr.record_start();
 							 Log::logf("start");
 							 break;
 			case 60:
-							 this->recording = mgr.record_end();
+							 // this->recording = mgr.record_end();
 							 Log::logf("stop");
 							 break;
 			case 70:
-							 mgr.play(this->recording);
+							 // mgr.play(this->recording);
 							 Log::logf("play");
 							 break;
 			case 71:
-							 mgr.release(this->recording);
+							 // mgr.release(this->recording);
 							 Log::logf("end");
 							 break;
 			case 72:
@@ -78,10 +77,12 @@ public:
 		});
 
 		GameObject square = mgr.new_object("square");
-		Texture texture{"asset/texture/square.png"};
-		square.add_component<Sprite>(texture, Sprite::Data{
-			.size = { 0.5, 0.5 },
-		});
+		square.add_component<Sprite>(
+			Asset{"asset/texture/square.png"},
+			Sprite::Data{
+				.size = { 0.5, 0.5 },
+			}
+		);
 		square.add_component<BehaviorScript>().set_script<AnimationScript>();
 
 		GameObject scapegoat = mgr.new_object("");

@@ -10,6 +10,7 @@ target_sources(crepe PUBLIC
 	InputSystem.cpp
 	EventSystem.cpp
 	ReplaySystem.cpp
+	AISystem.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -22,4 +23,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	AnimatorSystem.h
 	InputSystem.h
 	EventSystem.h
+	AISystem.h
 )

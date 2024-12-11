@@ -21,7 +21,7 @@ void AnimatorSystem::frame_update() {
 
 		int last_frame = ctx.row;
 
-		int cycle_end = (ctx.cycle_end == -1) ? a.max_rows : ctx.cycle_end;
+		int cycle_end = (ctx.cycle_end == -1) ? a.grid_size.x : ctx.cycle_end;
 		int total_frames = cycle_end - ctx.cycle_start;
 
 		int curr_frame = static_cast<int>(elapsed_time / frame_duration) % total_frames;

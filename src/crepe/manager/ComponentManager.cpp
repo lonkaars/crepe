@@ -53,7 +53,7 @@ GameObject ComponentManager::new_object(const string & name, const string & tag,
 		this->next_id++;
 	}
 
-	GameObject object{*this, this->next_id, name, tag, position, rotation, scale};
+	GameObject object{this->mediator, this->next_id, name, tag, position, rotation, scale};
 	this->next_id++;
 
 	return object;
