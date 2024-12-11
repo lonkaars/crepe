@@ -4,13 +4,10 @@
 #include "ComponentManager.h"
 #include "SceneManager.h"
 
-#include "util/Log.h"
-
 using namespace crepe;
 using namespace std;
 
 SceneManager::SceneManager(Mediator & mediator) : Manager(mediator) {
-	dbg_trace();
 	mediator.scene_manager = *this;
 }
 
