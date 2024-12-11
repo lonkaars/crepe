@@ -7,6 +7,8 @@
 namespace crepe {
 
 class Mediator;
+class Transform;
+class Metadata;
 
 /**
  * \brief Represents a GameObject
@@ -33,6 +35,13 @@ private:
 			   double rotation, double scale);
 	//! ComponentManager instances GameObject
 	friend class ComponentManager;
+
+public:
+	//! The id of the GameObject
+	const game_object_id_t id;
+
+	Transform & transform;
+	Metadata & metadata;
 
 public:
 	/**
@@ -67,10 +76,6 @@ public:
 	 * \param persistent The persistent flag
 	 */
 	void set_persistent(bool persistent = true);
-
-public:
-	//! The id of the GameObject
-	const game_object_id_t id;
 
 protected:
 	Mediator & mediator;
