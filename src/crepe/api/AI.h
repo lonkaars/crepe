@@ -116,6 +116,9 @@ private:
 
 	//! The AISystem is the only class that should access the flags and path_index variables
 	friend class AISystem;
+
+	static constexpr const int MIN_STEP = 16;
+	static constexpr const float RADIUS_TO_STEP = 400.0f;
 };
 
 } // namespace crepe
