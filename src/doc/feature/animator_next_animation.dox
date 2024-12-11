@@ -1,0 +1,52 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note This feature showcases how the \c Animator::set_anim(int col) \c
+Animator::next_anim() works
+
+\defgroup feature_animator_next_anim Selected animation
+\ingroup feature
+\brief Setting column and rows
+
+\par Common use cases for this feature include:
+- Change column in spritesheet to showcase other animation
+- Change row animation without the use of AnimatorSystem.
+
+\see GameObject
+\see Sprite
+\see Animator
+
+\par example
+
+The \c Animator::set_anim(int col), \c Animator::next_anim() functionalities example.
+
+\note this page builds on top of the example shown in \ref
+feature_animator_creation
+
+```cpp
+#include <crepe/api/Animator.h>
+ 
+using namespace crepe;
+
+int main(int argc, char * argv[]){
+
+	// runs the default values of Animator::Data
+	Animator & anim = game_object.add_component<Animator>(spritesheet, max_rows, max_cols, Animator::Data{});
+
+	// sets Animator::curr_col to 1 instead of default 0
+	// this does not work if current Animator is inactive
+	anim.set_anim(1);
+	
+	// sets the curr_row to the next row
+	// this works without the AnimatorSystem
+	anim.next_anim();
+
+}
+
+```
+
+*/
+}
+
+

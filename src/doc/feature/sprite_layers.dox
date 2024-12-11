@@ -1,0 +1,75 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note Adjusting the \ref Sprite::Data \ref order_in_layer and \ref
+sorting_in_layer variables to make have different rendering layers.
+
+\defgroup feature_sprite_layers sprite layers 
+\ingroup feature
+\brief Sorting Layers 
+
+Common use cases for this feature include:
+- Background layer.
+- Sprite layer.
+- Enemies layer.
+
+\see feature_sprite_creation
+\see GameObject 
+\see Sprite
+\see Color
+
+\par example
+
+This example shows what the variables \ref order_in_layer and \ref sorting_in_layer in the \ref Sprite::Data struct
+does with three different 
+
+\note this page builds on top of the example shown in \ref
+feature_sprite_creation
+
+```cpp
+
+#include <crepe/api/Sprite.h>
+
+int main(){
+
+	// Define the texture for the sprite.
+	auto img = Texture("asset/texture/personal_img.png");
+
+	// this will render the background first
+	bg_object.add_component<Sprite>(
+		img, Sprite::Data{
+			// default value.
+			.sorting_in_layer = 0, 
+			.order_in_layer = 0, 
+		});
+
+	// this will be rendered last because of the order_in_layer being > enemy_object
+	player_object.add_component<Sprite>(
+		img, Sprite::Data{
+			// default value.
+			.sorting_in_layer = 1, 
+			.order_in_layer = 5, 
+		});
+	
+	// this will be rendered second because of the order_in_layer < players
+	enemy_object.add_component<Sprite>(
+		img, Sprite::Data{
+			// default value.
+			.sorting_in_layer = 1,                                        
+			.order_in_layer = 4, 
+			});
+}                                                                 
+
+```
+
+\note As seen in the example above:
+- Sprites with higher \ref sorting_in_layer values are rendered on top of those with lower values.
+- If multiple sprites share the same \ref sorting_in_layer value, their rendering order is determined by the \ref order_in_layer value. 
+- Within the same sorting layer, sprites with higher \ref order_in_layer values are rendered on top of those with lower values.
+
+*/
+}
+
+
+
