@@ -5,11 +5,13 @@
 // TODO: remove these singletons:
 #include "EventManager.h"
 #include "SaveManager.h"
+#include "api/LoopTimer.h"
 
 namespace crepe {
 
 class ComponentManager;
 class SceneManager;
+class SaveManager;
 class ResourceManager;
 class SDLContext;
 class LoopTimer;
@@ -30,7 +32,7 @@ struct Mediator {
 	OptionalRef<SDLContext> sdl_context;
 	OptionalRef<ComponentManager> component_manager;
 	OptionalRef<SceneManager> scene_manager;
-	OptionalRef<SaveManager> save_manager = SaveManager::get_instance();
+	OptionalRef<SaveManager> save_manager;
 	OptionalRef<EventManager> event_manager = EventManager::get_instance();
 	OptionalRef<ResourceManager> resource_manager;
 	OptionalRef<LoopTimer> timer;
