@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../manager/ReplayManager.h"
+#include "../manager/SystemManager.h"
 
 #include "System.h"
 
@@ -17,7 +18,12 @@ private:
 	void update_recording();
 	void update_playing();
 
-	std::unordered_map<std::type_index, bool> system_active_snapshot;
+	struct Snapshot {
+		ComponentManager::Snapshot components;
+		SystemManager::Snapshot systems;
+	};
+	Snapshot playback;
+
 	void playback_begin();
 	void playback_end();
 };

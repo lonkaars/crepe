@@ -45,20 +45,20 @@ public:
 		switch (i++) {
 			default: break;
 			case 10:
-							 mgr.record_start();
-							 break;
+				mgr.record_start();
+				break;
 			case 60:
-							 this->recording = mgr.record_end();
-							 break;
+				this->recording = mgr.record_end();
+				break;
 			case 70:
-							 mgr.play(this->recording);
-							 break;
+				mgr.play(this->recording);
+				break;
 			case 71:
-							 mgr.release(this->recording);
-							 break;
+				mgr.release(this->recording);
+				break;
 			case 72:
-							 throw;
-							 break;
+				throw;
+				break;
 		};
 	}
 };

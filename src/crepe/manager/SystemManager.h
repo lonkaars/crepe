@@ -48,6 +48,12 @@ public:
 	 */
 	template <class T>
 	T & get_system();
+
+public:
+	typedef std::unordered_map<std::type_index, bool> Snapshot;
+	Snapshot save();
+	void restore(const Snapshot & snapshot);
+	void disable_all();
 };
 
 } // namespace crepe
