@@ -2,13 +2,14 @@
 
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
+#include "../manager/ReplayManager.h"
+#include "../manager/ResourceManager.h"
 #include "../manager/ResourceManager.h"
 #include "../manager/SaveManager.h"
 #include "../manager/SceneManager.h"
 #include "../system/System.h"
 
 #include "LoopTimer.h"
-#include "manager/ResourceManager.h"
 
 namespace crepe {
 
@@ -76,6 +77,8 @@ private:
 	SDLContext sdl_context{mediator};
 	//! LoopTimer instance
 	LoopTimer loop_timer{mediator};
+	//! ReplayManager instance
+	ReplayManager replay_manager{mediator};
 
 private:
 	/**

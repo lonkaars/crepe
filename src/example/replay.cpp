@@ -33,26 +33,30 @@ class AnimationScript : public Script {
 
 class Timeline : public Script {
 	unsigned i = 0;
-	OptionalRef<ReplayManager> mgr;
+	ReplayManager & mgr;
 	recording_t recording;
+
+public:
+	Timeline(ReplayManager & mgr)
+		: mgr(mgr) {}
+
 	void update() {
-		ReplayManager & mgr = this->mgr;
 		switch (i++) {
 			default: break;
 			case 10:
-							 // mgr.record_start();
+							 mgr.record_start();
 							 Log::logf("start");
 							 break;
 			case 60:
-							 // this->recording = mgr.record_end();
+							 this->recording = mgr.record_end();
 							 Log::logf("stop");
 							 break;
 			case 70:
-							 // mgr.play(this->recording);
+							 mgr.play(this->recording);
 							 Log::logf("play");
 							 break;
 			case 71:
-							 // mgr.release(this->recording);
+							 mgr.release(this->recording);
 							 Log::logf("end");
 							 break;
 			case 72:
@@ -68,8 +72,8 @@ public:
 	using Scene::Scene;
 
 	void load_scene() {
-		Mediator & m = this->mediator;
-		ComponentManager & mgr = m.component_manager;
+		Mediator & mediator = this->mediator;
+		ComponentManager & mgr = mediator.component_manager;
 
 		GameObject cam = mgr.new_object("cam");
 		cam.add_component<Camera>(ivec2{640,480},vec2{3,3}, Camera::Data{
@@ -86,7 +90,7 @@ public:
 		square.add_component<BehaviorScript>().set_script<AnimationScript>();
 
 		GameObject scapegoat = mgr.new_object("");
-		scapegoat.add_component<BehaviorScript>().set_script<Timeline>();
+		scapegoat.add_component<BehaviorScript>().set_script<Timeline>(mediator.replay_manager);
 	}
 
 	string get_name() const { return "scene1"; }
