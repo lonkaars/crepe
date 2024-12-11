@@ -103,12 +103,12 @@ private:
 	//! Save manager instance
 	SaveManager save_manager{mediator};
 
-	SDLContext sdl_context {mediator};
+	SDLContext sdl_context{mediator};
 
-	ResourceManager res_man {mediator};
+	ResourceManager res_man{mediator};
 
 	//! Loop timer \todo no more singletons!
-	LoopTimer loop_timer {mediator};
+	LoopTimer loop_timer{mediator};
 
 private:
 	/**

@@ -92,7 +92,6 @@ private:
 	//! Reads the all the variables plus the  mask
 	friend class AnimatorSystem;
 
-
 	/**
 	 * \aspect_ratio the ratio of the sprite image
 	 *
