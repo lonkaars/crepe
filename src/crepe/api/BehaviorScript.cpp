@@ -10,6 +10,6 @@ BehaviorScript::BehaviorScript(game_object_id_t id, Mediator & mediator)
 
 template <>
 BehaviorScript & GameObject::add_component<BehaviorScript>() {
-	ComponentManager & mgr = this->component_manager;
-	return mgr.add_component<BehaviorScript>(this->id, mgr.mediator);
+	ComponentManager & mgr = this->mediator.component_manager;
+	return mgr.add_component<BehaviorScript>(this->id, this->mediator);
 }

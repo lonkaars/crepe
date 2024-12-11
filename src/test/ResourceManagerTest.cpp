@@ -1,3 +1,4 @@
+#include "manager/Mediator.h"
 #include <gtest/gtest.h>
 
 #define private public
@@ -30,7 +31,9 @@ public:
 
 	public:
 		const unsigned instance;
-		TestResource(const Asset & src) : Resource(src), instance(this->instances++) {}
+		TestResource(const Asset & src, Mediator & mediator)
+			: Resource(src, mediator),
+			  instance(this->instances++) {}
 		~TestResource() { this->instances--; }
 		bool operator==(const TestResource & other) const {
 			return this->instance == other.instance;

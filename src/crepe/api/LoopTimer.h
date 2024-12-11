@@ -1,18 +1,12 @@
 #pragma once
 
+#include "manager/Manager.h"
 #include <chrono>
 
 namespace crepe {
 
-class LoopTimer {
+class LoopTimer : public Manager {
 public:
-	/**
-	 * \brief Get the singleton instance of LoopTimer.
-	 *
-	 * \return A reference to the LoopTimer instance.
-	 */
-	static LoopTimer & get_instance();
-
 	/**
 	 * \brief Get the current delta time for the current frame.
 	 *
@@ -102,7 +96,7 @@ private:
 	 *
 	 * Private constructor for singleton pattern to restrict instantiation outside the class.
 	 */
-	LoopTimer();
+	LoopTimer(Mediator & mediator);
 
 	/**
 	 * \brief Update the timer to the current frame.

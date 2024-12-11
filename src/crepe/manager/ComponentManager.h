@@ -143,7 +143,6 @@ public:
 	RefVector<T> get_components_by_tag(const std::string & tag) const;
 
 	struct SnapshotComponent {
-		by_type<by_id_index<std::vector<std::unique_ptr<Component>>>> components;
 		Component component;
 	};
 	struct Snapshot {

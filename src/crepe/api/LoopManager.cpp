@@ -1,3 +1,4 @@
+#include "../system/AISystem.h"
 #include "../system/AnimatorSystem.h"
 #include "../system/AudioSystem.h"
 #include "../system/CollisionSystem.h"
@@ -15,6 +16,7 @@ using namespace std;
 
 LoopManager::LoopManager() {
 	this->load_system<ScriptSystem>();
+	this->load_system<AISystem>();
 	this->load_system<PhysicsSystem>();
 	this->load_system<CollisionSystem>();
 	this->load_system<AnimatorSystem>();

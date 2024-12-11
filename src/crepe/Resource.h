@@ -4,6 +4,7 @@ namespace crepe {
 
 class ResourceManager;
 class Asset;
+class Mediator;
 
 /**
  * \brief Resource interface
@@ -17,7 +18,7 @@ class Asset;
  */
 class Resource {
 public:
-	Resource(const Asset & src);
+	Resource(const Asset & src, Mediator & mediator);
 	virtual ~Resource() = default;
 
 	Resource(const Resource &) = delete;

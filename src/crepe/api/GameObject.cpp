@@ -7,20 +7,20 @@
 using namespace crepe;
 using namespace std;
 
-GameObject::GameObject(ComponentManager & component_manager, game_object_id_t id,
+GameObject::GameObject(Mediator & mediator, game_object_id_t id,
 					   const std::string & name, const std::string & tag,
 					   const vec2 & position, double rotation, double scale)
 	: id(id),
-	  component_manager(component_manager) {
+	  mediator(mediator) {
 
 	// Add Transform and Metadata components
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 	mgr.add_component<Transform>(this->id, position, rotation, scale);
 	mgr.add_component<Metadata>(this->id, name, tag);
 }
 
 void GameObject::set_parent(const GameObject & parent) {
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 
 	// Set parent on own Metadata component
 	RefVector<Metadata> this_metadata = mgr.get_components_by_id<Metadata>(this->id);
@@ -32,7 +32,7 @@ void GameObject::set_parent(const GameObject & parent) {
 }
 
 void GameObject::set_persistent(bool persistent) {
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 
 	mgr.set_persistent(this->id, persistent);
 }
