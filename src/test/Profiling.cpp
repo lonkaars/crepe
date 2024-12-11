@@ -1,3 +1,4 @@
+#include "api/Asset.h"
 #include "manager/Mediator.h"
 #include "system/ParticleSystem.h"
 #include "system/PhysicsSystem.h"
@@ -167,7 +168,7 @@ TEST_F(DISABLED_ProfilingTest, Profiling_2) {
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			auto img = Texture("asset/texture/square.png");
+			auto img = Asset("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
 				img, Sprite::Data{
 						 .color = {0, 0, 0, 0},
@@ -205,7 +206,7 @@ TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			auto img = Texture("asset/texture/square.png");
+			auto img = Asset("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
 				img, Sprite::Data{
 						 .color = {0, 0, 0, 0},
