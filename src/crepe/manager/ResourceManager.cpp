@@ -6,8 +6,8 @@ using namespace crepe;
 using namespace std;
 
 ResourceManager::ResourceManager(Mediator & mediator) : Manager(mediator) {
-	mediator.resource_manager = *this;
 	dbg_trace();
+	mediator.resource_manager = *this;
 }
 ResourceManager::~ResourceManager() { dbg_trace(); }
 
