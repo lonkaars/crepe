@@ -1,6 +1,8 @@
 #include <stdexcept>
+#include <type_traits>
 
 #include "AI.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -19,7 +21,7 @@ void AI::make_circle_path(float radius, const vec2 & center, float start_angle,
 		step = 2 * M_PI / MIN_STEP;
 	}
 	// The path node distance is determined by the step size and the radius
-	path_node_distance = radius * step * 0.75f;
+	this->path_node_distance = radius * step * PATH_NODE_DISTANCE_FACTOR;
 
 	if (clockwise) {
 		for (float i = start_angle; i < 2 * M_PI + start_angle; i += step) {
@@ -47,10 +49,10 @@ void AI::make_oval_path(float radius_x, float radius_y, const vec2 & center, flo
 	if (step > 2 * M_PI / MIN_STEP) {
 		step = 2 * M_PI / MIN_STEP;
 	}
-	// The path node distance is determined by the step size times the radius times 75%
-	this->path_node_distance = max_radius * step * 0.75f;
+	// The path node distance is determined by the step size and the radius
+	this->path_node_distance = max_radius * step * PATH_NODE_DISTANCE_FACTOR;
 
-	auto rotate_point = [rotation](vec2 point, vec2 center) {
+	std::function<vec2(vec2, vec2)> rotate_point = [rotation](vec2 point, vec2 center) {
 		float s = sin(rotation);
 		float c = cos(rotation);
 
