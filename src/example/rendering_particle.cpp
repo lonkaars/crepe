@@ -71,21 +71,21 @@ public:
 		anim.set_anim(2);
 		anim.pause();
 
-		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
+		auto & cam = game_object.add_component<Camera>(ivec2{720, 1280}, vec2{400, 400},
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
 													   });
 
-		function<void()> on_click = [&](){ cout << "button clicked" << std::endl; };
-		function<void()> on_enter = [&](){ cout << "enter" << std::endl; };
-		function<void()> on_exit = [&](){ cout << "exit" << std::endl; };
+		function<void()> on_click = [&]() { cout << "button clicked" << std::endl; };
+		function<void()> on_enter = [&]() { cout << "enter" << std::endl; };
+		function<void()> on_exit = [&]() { cout << "exit" << std::endl; };
 
-		auto & button = game_object.add_component<Button>(vec2{200,200}, vec2{0,0}, on_click, false);
+		auto & button
+			= game_object.add_component<Button>(vec2{200, 200}, vec2{0, 0}, on_click, false);
 		button.on_mouse_enter = on_enter;
 		button.on_mouse_exit = on_exit;
 		button.is_toggle = true;
 		button.active = true;
-
 	}
 
 	string get_name() const { return "TestScene"; };
