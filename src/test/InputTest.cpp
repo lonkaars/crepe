@@ -1,3 +1,4 @@
+#include "facade/SDLContext.h"
 #include <gtest/gtest.h>
 #define protected public
 #define private public
@@ -24,6 +25,7 @@ class InputTest : public ::testing::Test {
 public:
 	Mediator mediator;
 	ComponentManager mgr{mediator};
+	SDLContext context {mediator};
 
 	InputSystem input_system{mediator};
 

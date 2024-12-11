@@ -1,5 +1,7 @@
 #include "api/Asset.h"
+#include "facade/SDLContext.h"
 #include "manager/Mediator.h"
+#include "manager/ResourceManager.h"
 #include "system/ParticleSystem.h"
 #include "system/PhysicsSystem.h"
 #include "system/RenderSystem.h"
@@ -56,6 +58,8 @@ public:
 
 	Mediator m;
 	ComponentManager mgr{m};
+	ResourceManager resource_manager {m};
+	SDLContext context{m};
 	// Add system used for profling tests
 	CollisionSystem collision_sys{m};
 	PhysicsSystem physics_sys{m};
