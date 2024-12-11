@@ -1,6 +1,8 @@
 #include "../api/Button.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/EventManager.h"
+#include "facade/SDLContext.h"
+#include "util/Log.h"
 
 #include "InputSystem.h"
 
@@ -9,7 +11,8 @@ using namespace crepe;
 void InputSystem::update() {
 	ComponentManager & mgr = this->mediator.component_manager;
 	EventManager & event_mgr = this->mediator.event_manager;
-	std::vector<SDLContext::EventData> event_list = SDLContext::get_instance().get_events();
+	SDLContext & context = this->mediator.sdl_context;
+	std::vector<SDLContext::EventData> event_list = context.get_events();
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 	OptionalRef<Camera> curr_cam_ref;

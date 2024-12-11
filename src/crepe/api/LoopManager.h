@@ -12,7 +12,7 @@
 #include "../manager/SceneManager.h"
 #include "../system/System.h"
 
-#include "api/Event.h"
+#include "LoopTimer.h"
 
 namespace crepe {
 /**
@@ -86,9 +86,8 @@ private:
 	ResourceManager resource_manager{mediator};
 	//! Save manager instance
 	SaveManager save_manager{mediator};
-
-	//! SDL context \todo no more singletons!
-	SDLContext & sdl_context = SDLContext::get_instance();
+	//! SDLContext instance
+	SDLContext sdl_context{mediator};
 
 private:
 	/**
