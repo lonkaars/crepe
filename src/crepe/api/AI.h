@@ -121,6 +121,8 @@ private:
 	static constexpr int MIN_STEP = 16;
 	//! The radius to step size ratio for the path following behavior
 	static constexpr float RADIUS_TO_STEP = 400.0f;
+	//! The path node distance factor for the path following behavior
+	static constexpr float PATH_NODE_DISTANCE_FACTOR = 0.75f;
 };
 
 } // namespace crepe
