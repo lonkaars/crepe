@@ -13,8 +13,8 @@
 #include "../facade/Texture.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/ResourceManager.h"
-#include "types.h"
 
+#include "types.h"
 #include "RenderSystem.h"
 
 using namespace crepe;
