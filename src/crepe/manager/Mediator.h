@@ -14,7 +14,7 @@ class ResourceManager;
 class SDLContext;
 class LoopTimer;
 class ReplayManager;
-class LoopManager;
+class SystemManager;
 
 /**
  * Struct to pass references to classes that would otherwise need to be singletons down to
@@ -37,7 +37,7 @@ struct Mediator {
 	OptionalRef<ResourceManager> resource_manager;
 	OptionalRef<LoopTimer> timer;
 	OptionalRef<ReplayManager> replay_manager;
-	OptionalRef<LoopManager> loop_manager;
+	OptionalRef<SystemManager> system_manager;
 };
 
 } // namespace crepe

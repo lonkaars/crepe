@@ -15,7 +15,7 @@ target_sources(crepe PUBLIC
 	CircleCollider.cpp
 	IKeyListener.cpp
 	IMouseListener.cpp
-	LoopManager.cpp
+	Engine.cpp
 	LoopTimer.cpp
 	Asset.cpp
 	EventHandler.cpp
@@ -49,7 +49,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Event.h
 	IKeyListener.h
 	IMouseListener.h
-	LoopManager.h
+	Engine.h
+	Engine.hpp
 	LoopTimer.h
 	Asset.h
 	Button.h

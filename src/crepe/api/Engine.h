@@ -7,21 +7,20 @@
 #include "../manager/ResourceManager.h"
 #include "../manager/SaveManager.h"
 #include "../manager/SceneManager.h"
-#include "../system/System.h"
+#include "../manager/SystemManager.h"
 
 #include "LoopTimer.h"
 
 namespace crepe {
 
 /**
- * \brief Main game loop manager
+ * \brief Main game entrypoint
  *
  * This class is responsible for managing the game loop, including initialization and updating.
  */
-class LoopManager {
+class Engine {
 public:
 	void start();
-	LoopManager();
 
 	/**
 	 * \brief Add a new concrete scene to the scene manager
@@ -45,20 +44,6 @@ private:
 	 */
 	void loop();
 
-	/**
-	 * \brief Per-frame update.
-	 *
-	 * Updates the game state based on the elapsed time since the last frame.
-	 */
-	void frame_update();
-
-	/**
-	 * \brief Fixed update executed at a fixed rate.
-	 *
-	 * This function updates physics and game logic based on LoopTimer's fixed_delta_time.
-	 */
-	void fixed_update();
-
 	bool game_running = false;
 
 private:
@@ -79,31 +64,10 @@ private:
 	LoopTimer loop_timer{mediator};
 	//! ReplayManager instance
 	ReplayManager replay_manager{mediator};
-
-private:
-	/**
-	 * \brief Collection of System instances
-	 *
-	 * This map holds System instances indexed by the system's class typeid. It is filled in the
-	 * constructor of \c LoopManager using LoopManager::load_system.
-	 */
-	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
-	/**
-	 * \brief Initialize a system
-	 * \tparam T System type (must be derivative of \c System)
-	 */
-	template <class T>
-	void load_system();
-	/**
-	 * \brief Retrieve a reference to ECS system
-	 * \tparam T System type
-	 * \returns Reference to system instance
-	 * \throws std::runtime_error if the System is not initialized
-	 */
-	template <class T>
-	T & get_system();
+	//! SystemManager
+	SystemManager system_manager{mediator};
 };
 
 } // namespace crepe
 
-#include "LoopManager.hpp"
+#include "Engine.hpp"

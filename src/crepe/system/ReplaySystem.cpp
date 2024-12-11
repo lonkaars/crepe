@@ -1,10 +1,9 @@
-#include "system/ScriptSystem.h"
+#include "ScriptSystem.h"
 
 #include "../manager/ReplayManager.h"
+#include "../manager/SystemManager.h"
 
 #include "ReplaySystem.h"
-
-#include "../api/LoopManager.h"
 
 using namespace crepe;
 using namespace std;
@@ -58,7 +57,8 @@ void ReplaySystem::update_playing() {
 }
 
 void ReplaySystem::playback_begin() {
-	LoopManager & loop_manager = this->mediator.loop_manager;
+	SystemManager & systems = this->mediator.system_manager;
+	systems.get_system<ScriptSystem>().active = false;
 	// TODO: store system active state
 	// TODO: disable most systems
 	// TODO: store components snapshot
@@ -69,7 +69,8 @@ void ReplaySystem::playback_end() {
 
 	replay.state = ReplayManager::IDLE;
 
-	LoopManager & loop_manager = this->mediator.loop_manager;
+	SystemManager & systems = this->mediator.system_manager;
+	systems.get_system<ScriptSystem>().active = true;
 
 	// TODO: restore system active state snapshot
 	// TODO: restore components snapshot

@@ -54,7 +54,7 @@ public:
 	void set_game_scale(double game_scale);
 
 private:
-	friend class LoopManager;
+	friend class Engine;
 
 	/**
 	 * \brief Start the loop timer.
