@@ -30,8 +30,7 @@ void AudioSystem::diff_update(AudioSource & component, Sound & resource) {
 			context.stop(component.voice);
 			return;
 		}
-		if (component.play_on_awake)
-			component.oneshot_play = true;
+		if (component.play_on_awake) component.oneshot_play = true;
 	}
 	if (!component.active) return;
 

@@ -5,10 +5,12 @@
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/ResourceManager.h"
+#include "../manager/SaveManager.h"
 #include "../manager/SceneManager.h"
 #include "../system/System.h"
 
 #include "LoopTimer.h"
+#include "manager/ResourceManager.h"
 
 namespace crepe {
 
@@ -98,11 +100,12 @@ private:
 	SceneManager scene_manager{mediator};
 	//! Resource manager instance
 	ResourceManager resource_manager{mediator};
-
-	//! SDL context \todo no more singletons!
-	SDLContext & sdl_context = SDLContext::get_instance();
-	//! Loop timer \todo no more singletons!
-	LoopTimer & loop_timer = LoopTimer::get_instance();
+	//! Save manager instance
+	SaveManager save_manager{mediator};
+	//! SDLContext instance
+	SDLContext sdl_context{mediator};
+	//! LoopTimer instance
+	LoopTimer loop_timer{mediator};
 
 private:
 	/**

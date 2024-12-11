@@ -8,8 +8,7 @@ using namespace crepe;
 using namespace std;
 
 Script::~Script() {
-	Mediator & mediator = this->mediator;
-	EventManager & mgr = mediator.event_manager;
+	EventManager & mgr = this->mediator->event_manager;
 	for (auto id : this->listeners) {
 		mgr.unsubscribe(id);
 	}
@@ -21,7 +20,8 @@ void Script::subscribe(const EventHandler<CollisionEvent> & callback) {
 }
 
 void Script::set_next_scene(const string & name) {
-	Mediator & mediator = this->mediator;
-	SceneManager & mgr = mediator.scene_manager;
+	SceneManager & mgr = this->mediator->scene_manager;
 	mgr.set_next_scene(name);
 }
+
+SaveManager & Script::get_save_manager() const { return this->mediator->save_manager; }

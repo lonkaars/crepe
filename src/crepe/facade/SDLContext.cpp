@@ -18,23 +18,18 @@
 #include "../api/Color.h"
 #include "../api/Config.h"
 #include "../api/Sprite.h"
-#include "../api/Texture.h"
 #include "../util/Log.h"
+#include "manager/Mediator.h"
 
 #include "SDLContext.h"
+#include "Texture.h"
 #include "types.h"
 
 using namespace crepe;
 using namespace std;
 
-SDLContext & SDLContext::get_instance() {
-	static SDLContext instance;
-	return instance;
-}
-
-SDLContext::SDLContext() {
+SDLContext::SDLContext(Mediator & mediator) {
 	dbg_trace();
-
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
@@ -62,6 +57,8 @@ SDLContext::SDLContext() {
 	if (!(IMG_Init(img_flags) & img_flags)) {
 		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
+
+	mediator.sdl_context = *this;
 }
 
 SDLContext::~SDLContext() {
@@ -221,25 +218,19 @@ void SDLContext::present_screen() {
 	SDL_RenderPresent(this->game_renderer.get());
 }
 
-SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
-	return SDL_Rect{
-		.x = sprite.mask.x,
-		.y = sprite.mask.y,
-		.w = sprite.mask.w,
-		.h = sprite.mask.h,
-	};
-}
-
 SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
 
+	float aspect_ratio
+		= (ctx.sprite.aspect_ratio == 0) ? ctx.texture.get_ratio() : ctx.sprite.aspect_ratio;
+
 	vec2 size = data.size;
 	if (data.size.x == 0 && data.size.y != 0) {
-		size.x = data.size.y * ctx.sprite.aspect_ratio;
+		size.x = data.size.y * aspect_ratio;
 	}
 	if (data.size.y == 0 && data.size.x != 0) {
-		size.y = data.size.x / ctx.sprite.aspect_ratio;
+		size.y = data.size.x / aspect_ratio;
 	}
 
 	const CameraValues & cam = ctx.cam;
@@ -260,15 +251,24 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 }
 
 void SDLContext::draw(const RenderContext & ctx) {
-
 	const Sprite::Data & data = ctx.sprite.data;
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * data.flip.flip_y));
 
-	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
+	SDL_Rect srcrect;
+	SDL_Rect * srcrect_ptr = NULL;
+	if (ctx.sprite.mask.w != 0 || ctx.sprite.mask.h != 0) {
+		srcrect.w = ctx.sprite.mask.w;
+		srcrect.h = ctx.sprite.mask.h;
+		srcrect.x = ctx.sprite.mask.x;
+		srcrect.y = ctx.sprite.mask.y;
+		srcrect_ptr = &srcrect;
+	}
+
 	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData{
 		.sprite = ctx.sprite,
+		.texture = ctx.texture,
 		.cam = ctx.cam,
 		.pos = ctx.pos,
 		.img_scale = ctx.scale,
@@ -276,9 +276,9 @@ void SDLContext::draw(const RenderContext & ctx) {
 
 	double angle = ctx.angle + data.angle_offset;
 
-	this->set_color_texture(ctx.sprite.texture, ctx.sprite.data.color);
-	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.texture.texture.get(), &srcrect,
-					  &dstrect, angle, NULL, render_flip);
+	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
+	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect_ptr, &dstrect,
+					  angle, NULL, render_flip);
 }
 
 SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
@@ -368,7 +368,7 @@ SDLContext::texture_from_path(const std::string & path) {
 
 ivec2 SDLContext::get_size(const Texture & ctx) {
 	ivec2 size;
-	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &size.x, &size.y);
+	SDL_QueryTexture(ctx.get_img(), NULL, NULL, &size.x, &size.y);
 	return size;
 }
 
@@ -435,6 +435,6 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 	return event_list;
 }
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
-	SDL_SetTextureColorMod(texture.texture.get(), color.r, color.g, color.b);
-	SDL_SetTextureAlphaMod(texture.texture.get(), color.a);
+	SDL_SetTextureColorMod(texture.get_img(), color.r, color.g, color.b);
+	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
 }
