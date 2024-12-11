@@ -47,8 +47,8 @@ void AI::make_oval_path(float radius_x, float radius_y, const vec2 & center, flo
 	if (step > 2 * M_PI / MIN_STEP) {
 		step = 2 * M_PI / MIN_STEP;
 	}
-	// The path node distance is determined by the step size and the radius
-	path_node_distance = max_radius * step * 0.75f;
+	// The path node distance is determined by the step size times the radius times 75%
+	this->path_node_distance = max_radius * step * 0.75f;
 
 	auto rotate_point = [rotation](vec2 point, vec2 center) {
 		float s = sin(rotation);
