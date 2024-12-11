@@ -9,6 +9,7 @@
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
+#include <crepe/api/Button.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/types.h>

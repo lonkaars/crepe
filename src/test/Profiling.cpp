@@ -21,6 +21,7 @@
 #include <crepe/manager/EventManager.h>
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/system/ScriptSystem.h>
+#include <crepe/facade/SDLContext.h>
 #include <crepe/types.h>
 #include <crepe/util/Log.h>
 
