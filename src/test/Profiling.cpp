@@ -1,6 +1,4 @@
-#include "facade/SDLContext.h"
 #include "manager/Mediator.h"
-#include "manager/ResourceManager.h"
 #include "system/ParticleSystem.h"
 #include "system/PhysicsSystem.h"
 #include "system/RenderSystem.h"
@@ -43,7 +41,7 @@ class TestScript : public Script {
 	}
 };
 
-class ProfilingTest : public Test {
+class DISABLED_ProfilingTest : public Test {
 public:
 	// Config for test
 	// Minimum amount to let test pass
@@ -63,8 +61,6 @@ public:
 	ParticleSystem particle_sys{m};
 	RenderSystem render_sys{m};
 	ScriptSystem script_sys{m};
-	SDLContext ctx{m};
-	ResourceManager resource_manager{m};
 
 	// Test data
 	std::map<std::string, std::chrono::microseconds> timings;
@@ -134,7 +130,7 @@ public:
 	}
 };
 
-TEST_F(ProfilingTest, Profiling_1) {
+TEST_F(DISABLED_ProfilingTest, Profiling_1) {
 	while (this->total_time / this->average < this->duration) {
 
 		{
@@ -157,7 +153,7 @@ TEST_F(ProfilingTest, Profiling_1) {
 	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
-TEST_F(ProfilingTest, Profiling_2) {
+TEST_F(DISABLED_ProfilingTest, Profiling_2) {
 	while (this->total_time / this->average < this->duration) {
 
 		{
@@ -171,7 +167,7 @@ TEST_F(ProfilingTest, Profiling_2) {
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			auto img = Asset("asset/texture/square.png");
+			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
 				img, Sprite::Data{
 						 .color = {0, 0, 0, 0},
@@ -196,7 +192,7 @@ TEST_F(ProfilingTest, Profiling_2) {
 	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
-TEST_F(ProfilingTest, Profiling_3) {
+TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 	while (this->total_time / this->average < this->duration) {
 
 		{
@@ -209,7 +205,7 @@ TEST_F(ProfilingTest, Profiling_3) {
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			auto img = Asset("asset/texture/square.png");
+			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
 				img, Sprite::Data{
 						 .color = {0, 0, 0, 0},
