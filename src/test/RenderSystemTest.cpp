@@ -1,3 +1,6 @@
+#include "api/Asset.h"
+#include "facade/SDLContext.h"
+#include "manager/ResourceManager.h"
 #include "types.h"
 #include <functional>
 #include <gtest/gtest.h>
@@ -11,7 +14,6 @@
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Sprite.h>
-#include <crepe/api/Texture.h>
 #include <crepe/manager/ComponentManager.h>
 
 #include <crepe/system/RenderSystem.h>
@@ -25,6 +27,8 @@ class RenderSystemTest : public Test {
 
 public:
 	ComponentManager mgr{m};
+	SDLContext ctx{m};
+	ResourceManager resource_manager{m};
 	RenderSystem sys{m};
 	GameObject entity1 = this->mgr.new_object("name");
 	GameObject entity2 = this->mgr.new_object("name");
@@ -32,10 +36,10 @@ public:
 	GameObject entity4 = this->mgr.new_object("name");
 
 	void SetUp() override {
-		auto s1 = Texture("asset/texture/img.png");
-		auto s2 = Texture("asset/texture/img.png");
-		auto s3 = Texture("asset/texture/img.png");
-		auto s4 = Texture("asset/texture/img.png");
+		auto s1 = Asset("asset/texture/img.png");
+		auto s2 = Asset("asset/texture/img.png");
+		auto s3 = Asset("asset/texture/img.png");
+		auto s4 = Asset("asset/texture/img.png");
 		auto & sprite1
 			= entity1.add_component<Sprite>(s1, Sprite::Data{
 													.color = Color(0, 0, 0, 0),
@@ -45,7 +49,6 @@ public:
 													.size = {10, 10},
 												});
 
-		ASSERT_NE(sprite1.texture.texture.get(), nullptr);
 		EXPECT_EQ(sprite1.data.order_in_layer, 5);
 		EXPECT_EQ(sprite1.data.sorting_in_layer, 5);
 		auto & sprite2
@@ -55,7 +58,6 @@ public:
 													.sorting_in_layer = 2,
 													.order_in_layer = 1,
 												});
-		ASSERT_NE(sprite2.texture.texture.get(), nullptr);
 		EXPECT_EQ(sprite2.data.sorting_in_layer, 2);
 		EXPECT_EQ(sprite2.data.order_in_layer, 1);
 
@@ -66,7 +68,6 @@ public:
 													.sorting_in_layer = 1,
 													.order_in_layer = 2,
 												});
-		ASSERT_NE(sprite3.texture.texture.get(), nullptr);
 		EXPECT_EQ(sprite3.data.sorting_in_layer, 1);
 		EXPECT_EQ(sprite3.data.order_in_layer, 2);
 
@@ -77,27 +78,12 @@ public:
 													.sorting_in_layer = 1,
 													.order_in_layer = 1,
 												});
-		ASSERT_NE(sprite4.texture.texture.get(), nullptr);
 		EXPECT_EQ(sprite4.data.sorting_in_layer, 1);
 		EXPECT_EQ(sprite4.data.order_in_layer, 1);
 	}
 };
 
-TEST_F(RenderSystemTest, expected_throws) {
-	GameObject entity1 = this->mgr.new_object("NAME");
-
-	// no texture img
-	EXPECT_ANY_THROW({
-		auto test = Texture("");
-		auto & sprite1 = entity1.add_component<Sprite>(
-			test, Sprite::Data{
-					  .color = Color(0, 0, 0, 0),
-					  .flip = Sprite::FlipSettings{false, false},
-					  .sorting_in_layer = 1,
-					  .order_in_layer = 1,
-				  });
-	});
-
+TEST_F(RenderSystemTest, NoCamera) {
 	// No camera
 	EXPECT_ANY_THROW({ this->sys.update(); });
 }
@@ -185,7 +171,7 @@ TEST_F(RenderSystemTest, Color) {
 								  Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
 
 	auto & sprite = this->mgr.get_components_by_id<Sprite>(entity1.id).front().get();
-	ASSERT_NE(sprite.texture.texture.get(), nullptr);
+	//ASSERT_NE(sprite.texture.texture.get(), nullptr);
 
 	sprite.data.color = Color::GREEN;
 	EXPECT_EQ(sprite.data.color.r, Color::GREEN.r);

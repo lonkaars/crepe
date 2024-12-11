@@ -1,9 +1,11 @@
-#include "manager/Mediator.h"
-#include "system/ParticleSystem.h"
-#include "system/PhysicsSystem.h"
-#include "system/RenderSystem.h"
 #include <chrono>
 #include <cmath>
+#include <crepe/api/Asset.h>
+#include <crepe/manager/Mediator.h>
+#include <crepe/manager/ResourceManager.h>
+#include <crepe/system/ParticleSystem.h>
+#include <crepe/system/PhysicsSystem.h>
+#include <crepe/system/RenderSystem.h>
 #include <gtest/gtest.h>
 
 #define private public
@@ -15,6 +17,7 @@
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Transform.h>
+#include <crepe/facade/SDLContext.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/EventManager.h>
 #include <crepe/system/CollisionSystem.h>
@@ -54,6 +57,8 @@ public:
 	const std::chrono::microseconds duration = 16000us;
 
 	Mediator m;
+	SDLContext sdl_context{m};
+	ResourceManager resman{m};
 	ComponentManager mgr{m};
 	// Add system used for profling tests
 	CollisionSystem collision_sys{m};
@@ -167,15 +172,15 @@ TEST_F(DISABLED_ProfilingTest, Profiling_2) {
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				img, Sprite::Data{
-						 .color = {0, 0, 0, 0},
-						 .flip = {.flip_x = false, .flip_y = false},
-						 .sorting_in_layer = 1,
-						 .order_in_layer = 1,
-						 .size = {.y = 500},
-					 });
+				Asset{"asset/texture/square.png"},
+				Sprite::Data{
+					.color = {0, 0, 0, 0},
+					.flip = {.flip_x = false, .flip_y = false},
+					.sorting_in_layer = 1,
+					.order_in_layer = 1,
+					.size = {.y = 500},
+				});
 		}
 
 		this->game_object_count++;
@@ -205,15 +210,15 @@ TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				img, Sprite::Data{
-						 .color = {0, 0, 0, 0},
-						 .flip = {.flip_x = false, .flip_y = false},
-						 .sorting_in_layer = 1,
-						 .order_in_layer = 1,
-						 .size = {.y = 500},
-					 });
+				Asset{"asset/texture/square.png"},
+				Sprite::Data{
+					.color = {0, 0, 0, 0},
+					.flip = {.flip_x = false, .flip_y = false},
+					.sorting_in_layer = 1,
+					.order_in_layer = 1,
+					.size = {.y = 500},
+				});
 			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
 				.max_particles = 10,
 				.emission_rate = 100,

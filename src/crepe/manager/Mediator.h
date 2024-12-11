@@ -2,16 +2,15 @@
 
 #include "../util/OptionalRef.h"
 
-// TODO: remove these singletons:
-#include "../facade/SDLContext.h"
-#include "EventManager.h"
-#include "SaveManager.h"
-#include "api/LoopTimer.h"
-
 namespace crepe {
 
 class ComponentManager;
 class SceneManager;
+class EventManager;
+class LoopTimerManager;
+class SaveManager;
+class ResourceManager;
+class SDLContext;
 
 /**
  * Struct to pass references to classes that would otherwise need to be singletons down to
@@ -26,12 +25,13 @@ class SceneManager;
  * \warning This class should never be directly accessible from the API
  */
 struct Mediator {
+	OptionalRef<SDLContext> sdl_context;
 	OptionalRef<ComponentManager> component_manager;
 	OptionalRef<SceneManager> scene_manager;
-	OptionalRef<SaveManager> save_manager = SaveManager::get_instance();
-	OptionalRef<EventManager> event_manager = EventManager::get_instance();
-	OptionalRef<SDLContext> sdl_context = SDLContext::get_instance();
-	OptionalRef<LoopTimer> timer = LoopTimer::get_instance();
+	OptionalRef<EventManager> event_manager;
+	OptionalRef<LoopTimerManager> loop_timer;
+	OptionalRef<SaveManager> save_manager;
+	OptionalRef<ResourceManager> resource_manager;
 };
 
 } // namespace crepe
