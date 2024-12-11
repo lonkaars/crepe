@@ -118,9 +118,9 @@ private:
 	friend class AISystem;
 
 	//! The minimum amount of steps for the path following behavior
-	static constexpr const int MIN_STEP = 16;
+	static constexpr int MIN_STEP = 16;
 	//! The radius to step size ratio for the path following behavior
-	static constexpr const float RADIUS_TO_STEP = 400.0f;
+	static constexpr float RADIUS_TO_STEP = 400.0f;
 };
 
 } // namespace crepe
