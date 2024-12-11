@@ -8,6 +8,7 @@
 namespace crepe {
 
 class SoundContext;
+class Mediator;
 
 /**
  * \brief Sound resource facade
@@ -17,7 +18,7 @@ class SoundContext;
  */
 class Sound : public Resource {
 public:
-	Sound(const Asset & src);
+	Sound(const Asset & src, Mediator & mediator);
 	~Sound(); // dbg_trace
 
 private:

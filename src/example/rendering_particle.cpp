@@ -1,4 +1,4 @@
-#include "api/Button.h"
+#include "api/Asset.h"
 #include <crepe/Component.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Camera.h>
@@ -8,12 +8,10 @@
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
-#include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/types.h>
-#include <functional>
 #include <iostream>
 
 using namespace crepe;
@@ -44,13 +42,15 @@ using namespace std;
 class TestScene : public Scene {
 public:
 	void load_scene() {
+
+		cout << "TestScene" << endl;
 		Mediator & mediator = this->mediator;
 		ComponentManager & mgr = mediator.component_manager;
 		GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 
 		Color color(255, 255, 255, 255);
 
-		auto img = Texture("asset/spritesheet/pokemon_spritesheet.png");
+		Asset img{"asset/spritesheet/spritesheet_test.png"};
 
 		Sprite & test_sprite = game_object.add_component<Sprite>(
 			img, Sprite::Data{
@@ -63,13 +63,8 @@ public:
 					 .position_offset = {0, 0},
 				 });
 
-		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4,
-														  Animator::Data{
-															  .fps = 1,
-															  .looping = false,
-														  });
-		anim.set_anim(2);
-		anim.pause();
+		//auto & anim = game_object.add_component<Animator>(test_sprite,ivec2{32, 64}, uvec2{4,1}, Animator::Data{});
+		//anim.set_anim(0);
 
 		auto & cam = game_object.add_component<Camera>(ivec2{720, 1280}, vec2{400, 400},
 													   Camera::Data{

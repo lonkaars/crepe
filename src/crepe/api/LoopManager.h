@@ -10,6 +10,7 @@
 #include "../system/System.h"
 
 #include "LoopTimer.h"
+#include "manager/ResourceManager.h"
 
 namespace crepe {
 
@@ -101,11 +102,10 @@ private:
 	ResourceManager resource_manager{mediator};
 	//! Save manager instance
 	SaveManager save_manager{mediator};
-
-	//! SDL context \todo no more singletons!
-	SDLContext & sdl_context = SDLContext::get_instance();
-	//! Loop timer \todo no more singletons!
-	LoopTimer & loop_timer = LoopTimer::get_instance();
+	//! SDLContext instance
+	SDLContext sdl_context{mediator};
+	//! LoopTimer instance
+	LoopTimer loop_timer{mediator};
 
 private:
 	/**
