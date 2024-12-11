@@ -13,12 +13,10 @@ using namespace std::chrono;
 void AISystem::update() {
 	const Mediator & mediator = this->mediator;
 	ComponentManager & mgr = mediator.component_manager;
-	LoopTimerManager & timer = mediator.loop_timer;
-	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 	LoopTimerManager & loop_timer = mediator.loop_timer;
+	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 
-	//TODO: Use fixed loop dt (this is not available at master at the moment)
-	duration_t dt = loop_timer.get_delta_time();
+	duration_t dt = loop_timer.get_scaled_fixed_delta_time();
 
 	// Loop through all AI components
 	for (AI & ai : ai_components) {

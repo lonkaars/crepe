@@ -5,17 +5,24 @@
 #include "../api/Transform.h"
 #include "../api/Vector2.h"
 #include "../manager/ComponentManager.h"
+#include "../manager/LoopTimerManager.h"
+#include "../manager/Mediator.h"
 
 #include "PhysicsSystem.h"
 
 using namespace crepe;
+using namespace std::chrono;
 
 void PhysicsSystem::update() {
-	double dt = LoopTimer::get_instance().get_fixed_delta_time();
-	ComponentManager & mgr = this->mediator.component_manager;
-	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
-	
 
+	const Mediator & mediator = this->mediator;
+	ComponentManager & mgr = mediator.component_manager;
+	LoopTimerManager & loop_timer = mediator.loop_timer;
+	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
+
+	duration_t delta_time = loop_timer.get_scaled_fixed_delta_time();
+	float dt = duration_cast<seconds>(delta_time).count();
+	
 	float gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
 		if (!rigidbody.active) continue;
@@ -25,6 +32,15 @@ void PhysicsSystem::update() {
 			case Rigidbody::BodyType::DYNAMIC:
 				if (transform.game_object_id == rigidbody.game_object_id) {
 					// Add gravity
+
+					if (rigidbody.data.mass <= 0) {
+						throw std::runtime_error("Mass must be greater than 0");
+					}
+
+					if (gravity <= 0) {
+						throw std::runtime_error("Config Gravity must be greater than 0");
+					}
+
 					if (rigidbody.data.gravity_scale > 0) {
 						rigidbody.data.linear_velocity.y
 							+= (rigidbody.data.mass * rigidbody.data.gravity_scale
