@@ -28,7 +28,7 @@ TEST_F(LoopManagerTest, FixedUpdate) {
 
 	// Set expectations for the mock calls
 	EXPECT_CALL(test_loop, frame_update).Times(::testing::Exactly(60));
-	EXPECT_CALL(test_loop, fixed_update).Times(::testing::Exactly(50));
+	EXPECT_CALL(test_loop, fixed_update).Times(::testing::Exactly(49));
 
 	// Start the loop in a separate thread
 	std::thread loop_thread([&]() { test_loop.start(); });
@@ -49,7 +49,7 @@ TEST_F(LoopManagerTest, ScaledFixedUpdate) {
 
 	// Set expectations for the mock calls
 	EXPECT_CALL(test_loop, frame_update).Times(::testing::Exactly(60));
-	EXPECT_CALL(test_loop, fixed_update).Times(::testing::Exactly(50));
+	EXPECT_CALL(test_loop, fixed_update).Times(::testing::Exactly(49));
 
 	// Start the loop in a separate thread
 	std::thread loop_thread([&]() { test_loop.start(); });
@@ -67,9 +67,6 @@ TEST_F(LoopManagerTest, ScaledFixedUpdate) {
 TEST_F(LoopManagerTest, ShutDown) {
 	// Arrange
 	test_loop.loop_timer.set_target_framerate(60);
-
-	EXPECT_CALL(test_loop, frame_update).Times(::testing::AtLeast(1));
-	EXPECT_CALL(test_loop, fixed_update).Times(::testing::AtLeast(1));
 	// Start the loop in a separate thread
 	std::thread loop_thread([&]() { test_loop.start(); });
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));

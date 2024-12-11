@@ -6,7 +6,7 @@
 
 namespace crepe {
 
-typedef std::chrono::duration<float> duration_t;
+typedef std::chrono::duration<double> duration_t;
 typedef std::chrono::duration<unsigned long long, std::micro> elapsed_time_t;
 
 /**

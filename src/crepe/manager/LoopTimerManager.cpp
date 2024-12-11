@@ -18,13 +18,12 @@ void LoopTimerManager::start() {
 	this->last_frame_time = std::chrono::steady_clock::now();
 
 	this->elapsed_time = elapsed_time_t{0};
-	// by starting the elapsed_fixed_time at (0 - fixed_delta_time) in milliseconds it calls a fixed update at the start of the loop.
-	// this->elapsed_fixed_time = -this->fixed_delta_time;
+	this->elapsed_fixed_time = elapsed_time_t{0};
 	this->delta_time = duration_t{0};
 }
 
 void LoopTimerManager::update() {
-	TimePoint_t current_frame_time
+	time_point_t current_frame_time
 		= std::chrono::steady_clock::now();
 	// Convert to duration in seconds for delta time
 	this->delta_time = current_frame_time - last_frame_time;
@@ -41,12 +40,12 @@ void LoopTimerManager::update() {
 	this->last_frame_time = current_frame_time;
 }
 
-Duration_t LoopTimerManager::get_delta_time() const {return this->delta_time * this->time_scale;}
+duration_t LoopTimerManager::get_delta_time() const {return this->delta_time * this->time_scale;}
 
 elapsed_time_t LoopTimerManager::get_elapsed_time() const { return this->elapsed_time; }
 
 void LoopTimerManager::advance_fixed_elapsed_time() {
-	this->elapsed_fixed_time += std::chrono::duration_cast<ElapsedTime_t>(this->fixed_delta_time);
+	this->elapsed_fixed_time += std::chrono::duration_cast<elapsed_time_t>(this->fixed_delta_time);
 }
 
 void LoopTimerManager::set_target_framerate(unsigned fps) {
@@ -64,9 +63,9 @@ void LoopTimerManager::set_time_scale(double value) { this->time_scale = value; 
 float LoopTimerManager::get_time_scale() const { return this->time_scale; }
 
 void LoopTimerManager::enforce_frame_rate() {
-	TimePoint_t current_frame_time
+	time_point_t current_frame_time
 		= std::chrono::steady_clock::now();
-	Duration_t frame_duration = current_frame_time - this->last_frame_time;
+	duration_t frame_duration = current_frame_time - this->last_frame_time;
 	// Check if frame duration is less than the target frame time
 	if (frame_duration < this->frame_target_time) {
 		duration_t delay_time = this->frame_target_time - frame_duration;
@@ -88,6 +87,6 @@ void LoopTimerManager::set_fixed_delta_time(float seconds) {
 	this->fixed_delta_time = duration_t(seconds);
 }
 
-Duration_t LoopTimerManager::get_fixed_delta_time() const {
+duration_t LoopTimerManager::get_fixed_delta_time() const {
 	return this->fixed_delta_time;
 }
