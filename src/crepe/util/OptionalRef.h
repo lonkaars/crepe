@@ -25,13 +25,21 @@ public:
 	 */
 	OptionalRef<T> & operator=(T & ref);
 	/**
-	 * \brief Retrieve this reference
+	 * \brief Retrieve this reference (cast)
 	 *
 	 * \returns Internal reference if it is set
 	 *
 	 * \throws std::runtime_error if this function is called while the reference it not set
 	 */
 	operator T &() const;
+	/**
+	 * \brief Retrieve this reference (member access)
+	 *
+	 * \returns Internal reference if it is set
+	 *
+	 * \throws std::runtime_error if this function is called while the reference it not set
+	 */
+	T * operator->() const;
 	/**
 	 * \brief Check if this reference is not empty
 	 *

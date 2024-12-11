@@ -95,32 +95,25 @@ template <typename T>
 RefVector<T> ComponentManager::get_components_by_id(game_object_id_t id) const {
 	using namespace std;
 
-	// Determine the type of T (this is used as the key of the unordered_map<>)
+	static_assert(is_base_of<Component, T>::value,
+				  "get_components_by_id must recieve a derivative class of Component");
+
 	type_index type = typeid(T);
+	if (!this->components.contains(type)) return {};
 
-	// Create an empty vector<>
-	RefVector<T> component_vector;
+	const by_id_index<vector<unique_ptr<Component>>> & components_by_id
+		= this->components.at(type);
+	if (id >= components_by_id.size()) return {};
 
-	if (this->components.find(type) == this->components.end()) return component_vector;
-
-	// Get the correct vector<>
-	const vector<vector<unique_ptr<Component>>> & component_array = this->components.at(type);
-
-	// Make sure that the id (that we are looking for) is within the boundaries of the vector<>
-	if (id >= component_array.size()) return component_vector;
-
-	// Loop trough the whole vector<>
-	for (const unique_ptr<Component> & component_ptr : component_array[id]) {
-		// Cast the unique_ptr to a raw pointer
-		T * casted_component = static_cast<T *>(component_ptr.get());
-
-		if (casted_component == nullptr) continue;
-
-		// Add the dereferenced raw pointer to the vector<>
-		component_vector.push_back(*casted_component);
+	RefVector<T> out = {};
+	const vector<unique_ptr<Component>> & components = components_by_id.at(id);
+	for (auto & component_ptr : components) {
+		if (component_ptr == nullptr) continue;
+		Component & component = *component_ptr.get();
+		out.push_back(static_cast<T &>(component));
 	}
 
-	return component_vector;
+	return out;
 }
 
 template <typename T>
@@ -156,6 +149,48 @@ RefVector<T> ComponentManager::get_components_by_type() const {
 
 	// Return the vector<>
 	return component_vector;
+}
+
+template <typename T>
+std::set<game_object_id_t>
+ComponentManager::get_objects_by_predicate(const std::function<bool(const T &)> & pred) const {
+	using namespace std;
+
+	set<game_object_id_t> objects = {};
+	RefVector<T> components = this->get_components_by_type<T>();
+
+	for (const T & component : components) {
+		game_object_id_t id = dynamic_cast<const Component &>(component).game_object_id;
+		if (objects.contains(id)) continue;
+		if (!pred(component)) continue;
+		objects.insert(id);
+	}
+
+	return objects;
+}
+
+template <typename T>
+RefVector<T>
+ComponentManager::get_components_by_ids(const std::set<game_object_id_t> & ids) const {
+	using namespace std;
+
+	RefVector<T> out = {};
+	for (game_object_id_t id : ids) {
+		RefVector<T> components = get_components_by_id<T>(id);
+		out.insert(out.end(), components.begin(), components.end());
+	}
+
+	return out;
+}
+
+template <typename T>
+RefVector<T> ComponentManager::get_components_by_name(const std::string & name) const {
+	return this->get_components_by_ids<T>(this->get_objects_by_name(name));
+}
+
+template <typename T>
+RefVector<T> ComponentManager::get_components_by_tag(const std::string & tag) const {
+	return this->get_components_by_ids<T>(this->get_objects_by_tag(tag));
 }
 
 } // namespace crepe
