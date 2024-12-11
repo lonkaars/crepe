@@ -13,6 +13,7 @@ class SaveManager;
 class ResourceManager;
 class SDLContext;
 class LoopTimer;
+class ReplayManager;
 
 /**
  * Struct to pass references to classes that would otherwise need to be singletons down to
@@ -34,6 +35,7 @@ struct Mediator {
 	OptionalRef<EventManager> event_manager = EventManager::get_instance();
 	OptionalRef<ResourceManager> resource_manager;
 	OptionalRef<LoopTimer> timer;
+	OptionalRef<ReplayManager> replay_manager;
 };
 
 } // namespace crepe
