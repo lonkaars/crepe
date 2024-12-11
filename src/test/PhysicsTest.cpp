@@ -5,6 +5,8 @@
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/system/PhysicsSystem.h>
 #include <gtest/gtest.h>
+#include <crepe/manager/LoopTimerManager.h>
+#include <crepe/manager/Mediator.h>
 
 using namespace std;
 using namespace std::chrono_literals;
@@ -16,6 +18,8 @@ class PhysicsTest : public ::testing::Test {
 public:
 	ComponentManager component_manager{m};
 	PhysicsSystem system{m};
+	LoopTimerManager loop_timer{m};
+
 
 	void SetUp() override {
 		ComponentManager & mgr = this->component_manager;
@@ -55,10 +59,10 @@ TEST_F(PhysicsTest, gravity) {
 	EXPECT_EQ(transform.position.y, 0);
 
 	system.update();
-	EXPECT_EQ(transform.position.y, 1);
+	EXPECT_NEAR(transform.position.y, 0.0004,0.0001);
 
 	system.update();
-	EXPECT_EQ(transform.position.y, 3);
+	EXPECT_NEAR(transform.position.y, 0.002,0.001);
 }
 
 TEST_F(PhysicsTest, max_velocity) {

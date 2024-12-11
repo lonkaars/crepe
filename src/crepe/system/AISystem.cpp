@@ -43,7 +43,8 @@ void AISystem::update() {
 		// Calculate the acceleration (using the above calculated force)
 		vec2 acceleration = force / rigidbody.data.mass;
 		// Finally, update Rigidbody's velocity
-		rigidbody.data.linear_velocity += acceleration * duration_cast<seconds>(dt).count();
+		rigidbody.data.linear_velocity += acceleration * duration<float>(dt).count();
+
 	}
 }
 
