@@ -4,6 +4,8 @@
 
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
+#include "../manager/ResourceManager.h"
+#include "../manager/SaveManager.h"
 #include "../manager/SceneManager.h"
 #include "../system/System.h"
 
@@ -95,6 +97,10 @@ private:
 	ComponentManager component_manager{mediator};
 	//! Scene manager instance
 	SceneManager scene_manager{mediator};
+	//! Resource manager instance
+	ResourceManager resource_manager{mediator};
+	//! Save manager instance
+	SaveManager save_manager{mediator};
 
 	//! SDL context \todo no more singletons!
 	SDLContext & sdl_context = SDLContext::get_instance();

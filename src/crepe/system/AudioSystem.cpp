@@ -26,12 +26,11 @@ void AudioSystem::diff_update(AudioSource & component, Sound & resource) {
 	SoundContext & context = this->get_context();
 
 	if (component.active != component.last_active) {
-		if (component.active) {
-			component.oneshot_play = component.play_on_awake;
-		} else {
+		if (!component.active) {
 			context.stop(component.voice);
 			return;
 		}
+		if (component.play_on_awake) component.oneshot_play = true;
 	}
 	if (!component.active) return;
 
@@ -58,8 +57,6 @@ void AudioSystem::update_last(AudioSource & component) {
 }
 
 SoundContext & AudioSystem::get_context() {
-	if (this->context == nullptr)
-		this->context = make_unique<SoundContext>();
+	if (this->context == nullptr) this->context = make_unique<SoundContext>();
 	return *this->context.get();
 }
-

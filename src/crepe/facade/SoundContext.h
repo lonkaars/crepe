@@ -4,8 +4,8 @@
 
 #include "../api/Config.h"
 
-#include "SoundHandle.h"
 #include "Sound.h"
+#include "SoundHandle.h"
 
 namespace crepe {
 
@@ -76,7 +76,6 @@ private:
 	std::unordered_map<SoundHandle, SoLoud::handle> registry;
 	//! Unique handle counter
 	SoundHandle next_handle = 0;
-
 };
 
 } // namespace crepe

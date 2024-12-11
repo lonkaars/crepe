@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../Component.h"
-#include "../types.h"
 #include "../facade/SoundHandle.h"
+#include "../types.h"
 
 #include "Asset.h"
 #include "GameObject.h"
@@ -69,7 +69,6 @@ private:
 	//! \}
 	//! This source's voice handle
 	SoundHandle voice{};
-
 };
 
 } // namespace crepe
