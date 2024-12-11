@@ -27,8 +27,7 @@ public:
 	SDLContext sdl_context{mediator};
 
 	InputSystem input_system{mediator};
-
-	EventManager & event_manager = EventManager::get_instance();
+	EventManager event_manager{mediator};
 	//GameObject camera;
 
 protected:

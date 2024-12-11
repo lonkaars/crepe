@@ -335,8 +335,6 @@ void SDLContext::update_camera_view(const Camera & cam, const vec2 & new_pos) {
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
 }
 
-uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
-
 std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
 SDLContext::texture_from_path(const std::string & path) {
 
@@ -366,8 +364,6 @@ ivec2 SDLContext::get_size(const Texture & ctx) {
 	SDL_QueryTexture(ctx.get_img(), NULL, NULL, &size.x, &size.y);
 	return size;
 }
-
-void SDLContext::delay(int ms) const { SDL_Delay(ms); }
 
 std::vector<SDLContext::EventData> SDLContext::get_events() {
 	std::vector<SDLContext::EventData> event_list;
