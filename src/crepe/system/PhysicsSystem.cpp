@@ -21,7 +21,7 @@ void PhysicsSystem::update() {
 	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
 
 	duration_t delta_time = loop_timer.get_scaled_fixed_delta_time();
-	float dt = duration_cast<seconds>(delta_time).count();
+	float dt = duration<float>(delta_time).count();
 	
 	float gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
