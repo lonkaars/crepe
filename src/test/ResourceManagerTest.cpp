@@ -17,6 +17,10 @@ class ResourceManagerTest : public Test {
 public:
 	ResourceManager resource_manager{mediator};
 
+	class Unrelated : public Resource {
+		using Resource::Resource;
+	};
+
 	Asset asset_a{"asset/texture/img.png"};
 	Asset asset_b{"asset/texture/ERROR.png"};
 
@@ -68,4 +72,10 @@ TEST_F(ResourceManagerTest, Persistent) {
 
 	resource_manager.clear_all();
 	EXPECT_EQ(TestResource::instances, 0);
+}
+
+TEST_F(ResourceManagerTest, UnmatchedType) {
+	EXPECT_NO_THROW({ resource_manager.get<TestResource>(asset_a); });
+
+	EXPECT_THROW({ resource_manager.get<Unrelated>(asset_a); }, runtime_error);
 }

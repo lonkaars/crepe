@@ -50,8 +50,6 @@ public:
 	 * \return The maximum number of instances for this component
 	 */
 	virtual int get_instances_max() const { return -1; }
-	//! Only ComponentManager needs to know the max instance count
-	friend class ComponentManager;
 };
 
 } // namespace crepe

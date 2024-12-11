@@ -9,5 +9,4 @@ namespace crepe {
  */
 typedef size_t SoundHandle;
 
-}
-
+} // namespace crepe

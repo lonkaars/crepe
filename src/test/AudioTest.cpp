@@ -150,3 +150,12 @@ TEST_F(AudioTest, PlayOnActive) {
 		system.update();
 	}
 }
+
+TEST_F(AudioTest, PlayImmediately) {
+	component.play_on_awake = false;
+	component.play();
+
+	EXPECT_CALL(context, play(_)).Times(1);
+
+	system.update();
+}
