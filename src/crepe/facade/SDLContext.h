@@ -24,7 +24,6 @@ class Texture;
 class Mediator;
 
 /**
- * \class SDLContext
  * \brief Facade for the SDL library
  *
  * SDLContext is a singleton that handles the SDL window and renderer, provides methods for
