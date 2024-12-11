@@ -1,6 +1,7 @@
 #include "../facade/SDLContext.h"
-#include "../manager/EventManager.h"
+#include "../system/AISystem.h"
 #include "../system/AnimatorSystem.h"
+#include "../system/AudioSystem.h"
 #include "../system/CollisionSystem.h"
 #include "../system/InputSystem.h"
 #include "../system/ParticleSystem.h"
@@ -8,6 +9,7 @@
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
 #include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
 #include "../util/Log.h"
 
 #include "LoopManager.h"
@@ -25,6 +27,8 @@ LoopManager::LoopManager() {
 	this->load_system<InputSystem>();
 	this->event_manager.subscribe<ShutDownEvent>(
 		[this](const ShutDownEvent & event) { return this->on_shutdown(event); });
+	this->load_system<AudioSystem>();
+	this->load_system<AISystem>();
 }
 void LoopManager::start() {
 	this->setup();
@@ -62,8 +66,10 @@ void LoopManager::fixed_update() {
 	this->get_system<InputSystem>().update();
 	this->event_manager.dispatch_events();
 	this->get_system<ScriptSystem>().update();
+	this->get_system<AISystem>().update();
 	this->get_system<PhysicsSystem>().update();
 	this->get_system<CollisionSystem>().update();
+	this->get_system<AudioSystem>().update();
 }
 
 // will be called every frame

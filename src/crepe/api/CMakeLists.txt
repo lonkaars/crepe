@@ -1,5 +1,5 @@
 target_sources(crepe PUBLIC
-	# AudioSource.cpp
+	AudioSource.cpp
 	BehaviorScript.cpp
 	GameObject.cpp
 	Rigidbody.cpp
@@ -7,7 +7,6 @@ target_sources(crepe PUBLIC
 	Transform.cpp
 	Color.cpp
 	Texture.cpp
-	AssetManager.cpp
 	Sprite.cpp
 	Config.cpp
 	Metadata.cpp
@@ -21,10 +20,11 @@ target_sources(crepe PUBLIC
 	Script.cpp
 	Button.cpp
 	UIObject.cpp
+	AI.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
-	# AudioSource.h
+	AudioSource.h
 	BehaviorScript.h
 	Config.h
 	Script.h
@@ -37,8 +37,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.hpp
 	Color.h
 	Texture.h
-	AssetManager.h
-	AssetManager.hpp
 	Scene.h
 	Metadata.h
 	Camera.h
@@ -52,4 +50,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Asset.h
 	Button.h
 	UIObject.h
+	AI.h
 )

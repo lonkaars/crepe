@@ -11,11 +11,14 @@
 class ScriptTest : public testing::Test {
 protected:
 	crepe::Mediator mediator;
+	static constexpr const char * OBJ_NAME = "foo";
 
 public:
 	crepe::ComponentManager component_manager{mediator};
 	crepe::ScriptSystem system{mediator};
 	crepe::EventManager event_mgr{mediator};
+	crepe::GameObject entity = component_manager.new_object(OBJ_NAME);
+
 	class MyScript : public crepe::Script {
 		// NOTE: explicitly stating `public:` is not required on actual scripts
 

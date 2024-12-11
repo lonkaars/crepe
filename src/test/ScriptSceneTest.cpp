@@ -18,7 +18,7 @@ public:
 	class MyScene : public Scene {};
 };
 
-TEST_F(ScriptSceneTest, Inactive) {
+TEST_F(ScriptSceneTest, Default) {
 	BehaviorScript & behaviorscript = this->behaviorscript;
 	MyScript & script = this->script;
 
