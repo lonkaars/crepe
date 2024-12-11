@@ -12,7 +12,6 @@ class Sprite;
 class Transform;
 
 /**
- * \class RenderSystem
  * \brief Manages rendering operations for all game objects.
  *
  * RenderSystem is responsible for rendering, clearing and presenting the screen, and
