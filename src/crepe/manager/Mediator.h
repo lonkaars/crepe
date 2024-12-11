@@ -11,7 +11,6 @@ class LoopTimerManager;
 class SaveManager;
 class ResourceManager;
 class SDLContext;
-class LoopTimer;
 
 /**
  * Struct to pass references to classes that would otherwise need to be singletons down to
