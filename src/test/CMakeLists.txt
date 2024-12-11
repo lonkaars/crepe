@@ -4,7 +4,9 @@ target_sources(test_main PUBLIC
 	PhysicsTest.cpp
 	ScriptTest.cpp
 	ParticleTest.cpp
+	AudioTest.cpp
 	AssetTest.cpp
+	ResourceManagerTest.cpp
 	OptionalRefTest.cpp
 	RenderSystemTest.cpp
 	EventTest.cpp
@@ -17,4 +19,7 @@ target_sources(test_main PUBLIC
 	ScriptEventTest.cpp
 	ScriptSceneTest.cpp
 	Profiling.cpp
+	SaveManagerTest.cpp
+	ScriptSaveManagerTest.cpp
+	ScriptECSTest.cpp
 )
