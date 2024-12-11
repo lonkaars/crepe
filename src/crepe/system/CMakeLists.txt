@@ -5,6 +5,7 @@ target_sources(crepe PUBLIC
 	PhysicsSystem.cpp
 	CollisionSystem.cpp
 	RenderSystem.cpp
+	AudioSystem.cpp
 	AnimatorSystem.cpp
 	InputSystem.cpp
 	AISystem.cpp
@@ -16,6 +17,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	PhysicsSystem.h
 	CollisionSystem.h
 	RenderSystem.h
+	AudioSystem.h
 	AnimatorSystem.h
 	InputSystem.h
 	AISystem.h

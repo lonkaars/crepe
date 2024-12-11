@@ -1,12 +1,26 @@
 #include "../ValueBroker.h"
 #include "../api/Config.h"
 #include "../facade/DB.h"
-#include "../util/Log.h"
 
 #include "SaveManager.h"
 
 using namespace std;
 using namespace crepe;
+
+SaveManager::SaveManager(Mediator & mediator) : Manager(mediator) {
+	mediator.save_manager = *this;
+}
+
+DB & SaveManager::get_db() {
+	if (this->db == nullptr) {
+		Config & cfg = Config::get_instance();
+		this->db = {
+			new DB(cfg.savemgr.location),
+			[](void * db){ delete static_cast<DB *>(db); }
+		};
+	}
+	return *static_cast<DB *>(this->db.get());
+}
 
 template <>
 string SaveManager::serialize(const string & value) const noexcept {
@@ -90,22 +104,6 @@ int32_t SaveManager::deserialize(const string & value) const noexcept {
 	return deserialize<int64_t>(value);
 }
 
-SaveManager::SaveManager() { dbg_trace(); }
-
-SaveManager & SaveManager::get_instance() {
-	dbg_trace();
-	static SaveManager instance;
-	return instance;
-}
-
-DB & SaveManager::get_db() {
-	Config & cfg = Config::get_instance();
-	// TODO: make this path relative to XDG_DATA_HOME on Linux and whatever the
-	// default equivalent is on Windows using some third party library
-	static DB db(cfg.savemgr.location);
-	return db;
-}
-
 bool SaveManager::has(const string & key) {
 	DB & db = this->get_db();
 	return db.has(key);
@@ -155,7 +153,8 @@ ValueBroker<T> SaveManager::get(const string & key) {
 	return {
 		[this, key](const T & target) { this->set<T>(key, target); },
 		[this, key, value]() mutable -> const T & {
-			value = this->deserialize<T>(this->get_db().get(key));
+			DB & db = this->get_db();
+			value = this->deserialize<T>(db.get(key));
 			return value;
 		},
 	};
