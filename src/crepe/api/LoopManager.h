@@ -69,6 +69,7 @@ private:
 
 	//! Indicates whether the game is running.
 	bool game_running = false;
+
 private:
 	//! Global context
 	Mediator mediator;
@@ -90,7 +91,6 @@ private:
 	SDLContext & sdl_context = SDLContext::get_instance();
 
 private:
-	
 	/**
 	 * \brief Callback function for ShutDownEvent
 	 *
