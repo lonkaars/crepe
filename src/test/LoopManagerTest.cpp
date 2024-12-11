@@ -16,7 +16,6 @@ protected:
 	public:
 		MOCK_METHOD(void, fixed_update, (), (override));
 		MOCK_METHOD(void, frame_update, (), (override));
-		MOCK_METHOD(void, render, (), (override));
 	};
 
 	TestGameLoop test_loop;
@@ -25,10 +24,9 @@ protected:
 
 TEST_F(LoopManagerTest, FixedUpdate) {
 	// Arrange
-	test_loop.loop_timer.set_target_fps(60);
+	test_loop.loop_timer.set_target_framerate(60);
 
 	// Set expectations for the mock calls
-	EXPECT_CALL(test_loop, render).Times(::testing::Exactly(60));
 	EXPECT_CALL(test_loop, frame_update).Times(::testing::Exactly(60));
 	EXPECT_CALL(test_loop, fixed_update).Times(::testing::Exactly(50));
 
@@ -47,10 +45,9 @@ TEST_F(LoopManagerTest, FixedUpdate) {
 }
 TEST_F(LoopManagerTest, ScaledFixedUpdate) {
 	// Arrange
-	test_loop.loop_timer.set_target_fps(60);
+	test_loop.loop_timer.set_target_framerate(60);
 
 	// Set expectations for the mock calls
-	EXPECT_CALL(test_loop, render).Times(::testing::Exactly(60));
 	EXPECT_CALL(test_loop, frame_update).Times(::testing::Exactly(60));
 	EXPECT_CALL(test_loop, fixed_update).Times(::testing::Exactly(50));
 
@@ -69,9 +66,8 @@ TEST_F(LoopManagerTest, ScaledFixedUpdate) {
 }
 TEST_F(LoopManagerTest, ShutDown) {
 	// Arrange
-	test_loop.loop_timer.set_target_fps(60);
+	test_loop.loop_timer.set_target_framerate(60);
 
-	EXPECT_CALL(test_loop, render).Times(::testing::AtLeast(1));
 	EXPECT_CALL(test_loop, frame_update).Times(::testing::AtLeast(1));
 	EXPECT_CALL(test_loop, fixed_update).Times(::testing::AtLeast(1));
 	// Start the loop in a separate thread
@@ -80,6 +76,4 @@ TEST_F(LoopManagerTest, ShutDown) {
 	test_loop.event_manager.trigger_event<ShutDownEvent>(ShutDownEvent{});
 	// Wait for the loop thread to finish
 	loop_thread.join();
-
-	// Test finished
 }
