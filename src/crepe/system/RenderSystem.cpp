@@ -10,7 +10,9 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
+#include "../facade/Texture.h"
 #include "../manager/ComponentManager.h"
+#include "../manager/ResourceManager.h"
 #include "types.h"
 
 #include "RenderSystem.h"
@@ -72,6 +74,8 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
+	ResourceManager & resource_manager = this->mediator.resource_manager;
+	Texture & res = resource_manager.get<Texture>(sprite.source);
 
 	vector<reference_wrapper<ParticleEmitter>> emitters
 		= mgr.get_components_by_id<ParticleEmitter>(sprite.game_object_id);
@@ -88,6 +92,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 
 			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,
+				.texture = res,
 				.pos = p.position,
 				.angle = p.angle,
 				.scale = scale,
@@ -98,8 +103,12 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 }
 void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 	SDLContext & ctx = this->mediator.sdl_context;
+	ResourceManager & resource_manager = this->mediator.resource_manager;
+	const Texture & res = resource_manager.get<Texture>(sprite.source);
+
 	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
+		.texture = res,
 		.pos = tm.position,
 		.angle = tm.rotation,
 		.scale = tm.scale,

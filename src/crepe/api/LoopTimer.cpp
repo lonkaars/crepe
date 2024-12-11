@@ -1,17 +1,16 @@
 #include <chrono>
 
-#include "../facade/SDLContext.h"
 #include "../util/Log.h"
+#include "facade/SDLContext.h"
+#include "manager/Manager.h"
 
 #include "LoopTimer.h"
 
 using namespace crepe;
 
-LoopTimer::LoopTimer() { dbg_trace(); }
-
-LoopTimer & LoopTimer::get_instance() {
-	static LoopTimer instance;
-	return instance;
+LoopTimer::LoopTimer(Mediator & mediator) : Manager(mediator) {
+	dbg_trace();
+	mediator.timer = *this;
 }
 
 void LoopTimer::start() {
@@ -67,7 +66,8 @@ void LoopTimer::enforce_frame_rate() {
 			= std::chrono::duration_cast<std::chrono::milliseconds>(this->frame_target_time
 																	- frame_duration);
 		if (delay_time.count() > 0) {
-			SDLContext::get_instance().delay(delay_time.count());
+			SDLContext & ctx = this->mediator.sdl_context;
+			ctx.delay(delay_time.count());
 		}
 	}
 
