@@ -11,13 +11,9 @@ GameObject::GameObject(Mediator & mediator, game_object_id_t id,
 					   const std::string & name, const std::string & tag,
 					   const vec2 & position, double rotation, double scale)
 	: id(id),
-	  mediator(mediator) {
-
-	// Add Transform and Metadata components
-	ComponentManager & mgr = this->mediator.component_manager;
-	mgr.add_component<Transform>(this->id, position, rotation, scale);
-	mgr.add_component<Metadata>(this->id, name, tag);
-}
+	  mediator(mediator),
+		transform(mediator.component_manager->add_component<Transform>(this->id, position, rotation, scale)),
+		metadata(mediator.component_manager->add_component<Metadata>(this->id, name, tag)) { }
 
 void GameObject::set_parent(const GameObject & parent) {
 	ComponentManager & mgr = this->mediator.component_manager;

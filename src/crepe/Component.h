@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "types.h"
 
 namespace crepe {
@@ -32,14 +34,15 @@ protected:
 	//! Only ComponentManager can create components
 	friend class ComponentManager;
 
-	// create snapshot
-	Component(const Component &) = default;
-	// restore snapshot
-	virtual Component & operator=(const Component &);
-
 	// components are never moved
 	Component(Component &&) = delete;
 	virtual Component & operator=(Component &&) = delete;
+
+protected:
+	virtual std::unique_ptr<Component> save() const;
+	Component(const Component &) = default;
+	virtual void restore(const Component & snapshot);
+	virtual Component & operator=(const Component &);
 
 public:
 	virtual ~Component() = default;

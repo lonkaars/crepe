@@ -25,6 +25,8 @@ LoopManager::LoopManager() {
 	this->load_system<InputSystem>();
 	this->load_system<EventSystem>();
 	this->load_system<AudioSystem>();
+
+	this->mediator.loop_manager = *this;
 }
 
 void LoopManager::start() {

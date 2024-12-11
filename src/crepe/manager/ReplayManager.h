@@ -1,13 +1,14 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "Manager.h"
 #include "ComponentManager.h"
-#include <unordered_map>
+#include "util/OptionalRef.h"
 
 namespace crepe {
 
 class ReplaySystem;
-class Memento;
 
 typedef size_t recording_t;
 
@@ -20,11 +21,20 @@ protected:
 	void record_frame();
 
 private:
-	typedef std::vector<ComponentManager::Snapshot> Recording;
+	struct Recording {
+		size_t frame = 0;
+		std::vector<ComponentManager::Snapshot> frames;
+	};
 
-	bool recording = false;
-	recording_t current_recording = -1;
+	enum State {
+		IDLE,
+		RECORDING,
+		PLAYING,
+	};
 
+	State state = IDLE;
+	OptionalRef<Recording> recording;
+	recording_t id = -1;
 
 	std::unordered_map<recording_t, std::unique_ptr<Recording>> memory;
 public:

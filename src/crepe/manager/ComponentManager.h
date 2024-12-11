@@ -143,10 +143,15 @@ public:
 	RefVector<T> get_components_by_tag(const std::string & tag) const;
 
 	struct SnapshotComponent {
-		Component component;
+		std::type_index type;
+		game_object_id_t id;
+		size_t index;
+		std::unique_ptr<Component> component;
 	};
 	struct Snapshot {
-		
+		// TODO: some kind of hash code that ensures components exist in all the same places as
+		// this snapshot
+		std::vector<SnapshotComponent> components;
 	};
 	Snapshot save();
 	void restore(const Snapshot &);

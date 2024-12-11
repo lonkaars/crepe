@@ -1,4 +1,4 @@
-#include "../util/Log.h"
+#include <format>
 
 #include "ReplayManager.h"
 #include "Manager.h"
@@ -11,26 +11,29 @@ ReplayManager::ReplayManager(Mediator & mediator) : Manager(mediator) {
 }
 
 void ReplayManager::record_start() {
-	if (this->recording) this->release(this->current_recording);
-	this->current_recording++;
-	this->recording = true;
+	if (this->state == RECORDING) this->release(this->id);
+	this->id++;
+	this->memory[this->id] = make_unique<Recording>();
+	this->recording = *this->memory.at(this->id);
+	this->state = RECORDING;
 }
 
 recording_t ReplayManager::record_end() {
-	this->recording = false;
-	return this->current_recording;
+	this->state = IDLE;
+	return this->id;
 }
 
 void ReplayManager::play(recording_t handle) {
 	if (!this->memory.contains(handle))
 		throw out_of_range(format("ReplayManager: no recording for handle {}", handle));
-	Recording & recording = *this->memory.at(handle);
-
-	dbg_log("TODO: magic");
+	this->recording = *this->memory.at(handle);
+	this->recording->frame = 0;
+	this->state = PLAYING;
 }
 
 void ReplayManager::release(recording_t handle) {
-	dbg_log("release");
-
+	if (!this->memory.contains(handle))
+		return;
+	this->memory.erase(handle);
 }
 
