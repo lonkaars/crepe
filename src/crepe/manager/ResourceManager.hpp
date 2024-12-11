@@ -13,7 +13,7 @@ T & ResourceManager::get(const Asset & asset) {
 				  "cache must recieve a derivative class of Resource");
 
 	CacheEntry & entry = this->get_entry(asset);
-	if (entry.resource == nullptr) entry.resource = make_unique<T>(asset);
+	if (entry.resource == nullptr) entry.resource = make_unique<T>(asset, this->mediator);
 
 	T * concrete_resource = dynamic_cast<T *>(entry.resource.get());
 	if (concrete_resource == nullptr)

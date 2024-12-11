@@ -14,14 +14,15 @@
 #include "api/Color.h"
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
-#include "api/Texture.h"
 #include "api/Transform.h"
+
 #include "types.h"
 
 namespace crepe {
 
-class LoopManager;
-class InputSystem;
+class Texture;
+class Mediator;
+
 /**
  * \class SDLContext
  * \brief Facade for the SDL library
@@ -62,6 +63,7 @@ public:
 	//! rendering data needed to render on screen
 	struct RenderContext {
 		const Sprite & sprite;
+		const Texture & texture;
 		const CameraValues & cam;
 		const vec2 & pos;
 		const double & angle;
@@ -92,20 +94,27 @@ public:
 		float scroll_delta = INFINITY;
 		ivec2 rel_mouse_move = {-1, -1};
 	};
-	/**
-	 * \brief Gets the singleton instance of SDLContext.
-	 * \return Reference to the SDLContext instance.
-	 */
-	static SDLContext & get_instance();
 
+public:
 	SDLContext(const SDLContext &) = delete;
 	SDLContext(SDLContext &&) = delete;
 	SDLContext & operator=(const SDLContext &) = delete;
 	SDLContext & operator=(SDLContext &&) = delete;
 
-private:
-	//! will only use get_events
-	friend class InputSystem;
+public:
+	/**
+	 * \brief Constructs an SDLContext instance.
+	 * Initializes SDL, creates a window and renderer.
+	 */
+	SDLContext(Mediator & mediator);
+
+	/**
+	 * \brief Destroys the SDLContext instance.
+	 * Cleans up SDL resources, including the window and renderer.
+	 */
+	~SDLContext();
+
+public:
 	/**
 	 * \brief Retrieves a list of all events from the SDL context.
 	 *
@@ -139,23 +148,23 @@ private:
 	 */
 	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
 
-private:
+public:
 	/**
-	 * \brief Constructs an SDLContext instance.
-	 * Initializes SDL, creates a window and renderer.
+	 * \brief Gets the current SDL ticks since the program started.
+	 * \return Current ticks in milliseconds as a constant uint64_t.
 	 */
-	SDLContext();
-
+	uint64_t get_ticks() const;
 	/**
-	 * \brief Destroys the SDLContext instance.
-	 * Cleans up SDL resources, including the window and renderer.
+	 * \brief Pauses the execution for a specified duration.
+	 *
+	 * This function uses SDL's delay function to halt the program execution for a given number
+	 * of milliseconds, allowing for frame rate control or other timing-related functionality.
+	 *
+	 * \param ms Duration of the delay in milliseconds.
 	 */
-	~SDLContext();
+	void delay(int ms) const;
 
-private:
-	//! Will use the funtions: texture_from_path, get_width,get_height.
-	friend class Texture;
-
+public:
 	/**
 	 * \brief Loads a texture from a file path.
 	 * \param path Path to the image file.
@@ -166,14 +175,11 @@ private:
 	/**
 	 * \brief Gets the size of a texture.
 	 * \param texture Reference to the Texture object.
-	 * \return Width and height of the texture as an integer.
+	 * \return Width and height of the texture as an integer in pixels.
 	 */
 	ivec2 get_size(const Texture & ctx);
 
-private:
-	//! Will use draw,clear_screen, present_screen, camera.
-	friend class RenderSystem;
-
+public:
 	/**
 	 * \brief Draws a sprite to the screen using the specified transform and camera.
 	 * \param RenderContext Reference to rendering data to draw
@@ -189,33 +195,24 @@ private:
 	/**
 	 * \brief sets the background of the camera (will be adjusted in future PR)
 	 * \param camera Reference to the Camera object.
+	 * \return camera data the component cannot store
 	 */
 	CameraValues set_camera(const Camera & camera);
 
-private:
+public:
 	//! the data needed to construct a sdl dst rectangle
 	struct DestinationRectangleData {
 		const Sprite & sprite;
+		const Texture & texture;
 		const CameraValues & cam;
 		const vec2 & pos;
 		const double & img_scale;
 	};
-	/**
-	 * \brief calculates the sqaure size of the image
-	 *
-	 * \param sprite Reference to the sprite to calculate the rectangle
-	 * \return sdl rectangle to draw a src image
-	 */
-	SDL_Rect get_src_rect(const Sprite & sprite) const;
 
 	/**
 	 * \brief calculates the sqaure size of the image for destination
 	 *
-	 * \param sprite Reference to the sprite to calculate rectangle
-	 * \param pos the pos in world units
-	 * \param cam the camera of the current scene
-	 * \param cam_pos the current postion of the camera
-	 * \param img_scale the image multiplier for increasing img size
+	 * \param data needed to calculate a destination rectangle
 	 * \return sdl rectangle to draw a dst image to draw on the screen
 	 */
 	SDL_FRect get_dst_rect(const DestinationRectangleData & data) const;
