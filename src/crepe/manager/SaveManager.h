@@ -1,8 +1,11 @@
 #pragma once
 
 #include <memory>
+#include <functional>
 
 #include "../ValueBroker.h"
+
+#include "Manager.h"
 
 namespace crepe {
 
@@ -18,7 +21,7 @@ class DB;
  *
  * The underlying database is a key-value store.
  */
-class SaveManager {
+class SaveManager : public Manager {
 public:
 	/**
 	 * \brief Get a read/write reference to a value and initialize it if it does not yet exist
@@ -63,8 +66,8 @@ public:
 	 */
 	bool has(const std::string & key);
 
-private:
-	SaveManager();
+public:
+	SaveManager(Mediator & mediator);
 	virtual ~SaveManager() = default;
 
 private:
@@ -89,26 +92,12 @@ private:
 	template <typename T>
 	T deserialize(const std::string & value) const noexcept;
 
-public:
-	// singleton
-	static SaveManager & get_instance();
-	SaveManager(const SaveManager &) = delete;
-	SaveManager(SaveManager &&) = delete;
-	SaveManager & operator=(const SaveManager &) = delete;
-	SaveManager & operator=(SaveManager &&) = delete;
-
+protected:
+	//! Create or return DB
+	virtual DB & get_db();
 private:
-	/**
-	 * \brief Create an instance of DB and return its reference
-	 *
-	 * \returns DB instance
-	 *
-	 * This function exists because DB is a facade class, which can't directly be used in the API
-	 * without workarounds
-	 *
-	 * TODO: better solution
-	 */
-	static DB & get_db();
+	//! Database
+	std::unique_ptr<void, std::function<void(void*)>> db = nullptr;
 };
 
 } // namespace crepe

@@ -16,7 +16,6 @@ function(add_example target_name)
 	add_dependencies(examples ${target_name})
 endfunction()
 
-add_example(savemgr)
 add_example(rendering_particle)
 add_example(game)
 add_example(button)

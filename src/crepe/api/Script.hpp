@@ -31,8 +31,7 @@ void Script::logf(Args &&... args) {
 template <typename EventType>
 void Script::subscribe_internal(const EventHandler<EventType> & callback,
 								event_channel_t channel) {
-	Mediator & mediator = this->mediator;
-	EventManager & mgr = mediator.event_manager;
+	EventManager & mgr = this->mediator->event_manager;
 	subscription_t listener = mgr.subscribe<EventType>(
 		[this, callback](const EventType & data) -> bool {
 			bool & active = this->active;
