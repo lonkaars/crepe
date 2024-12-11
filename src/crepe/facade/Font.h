@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "../api/Asset.h"
+#include "../api/Config.h"
 
 namespace crepe {
 
@@ -14,18 +15,19 @@ namespace crepe {
  */
 class Font : public Resource{
 public:
-    /**
-     * \param res A unique pointer to an Asset holding the font resource.
-     */
+    /**.
+	 * \param src Asset with texture data to load.
+	 * \param mediator use the SDLContext reference to load the image
+	 */
     Font(const Asset & src, Mediator & mediator);
 
-    /**
-     * \brief Destructor to clean up font resources.
-     */
-    ~Font() = default;
+
+    ~Font() = default
+	const TTF_Font& get_font() const;
 private:
 	//! The SDL_ttf font object with custom deleter.
-    std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)> font; 
+    std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)> font;
+	int default_font_size = Config::get_instance().font.font_size;
 };
 
 } // namespace crepe

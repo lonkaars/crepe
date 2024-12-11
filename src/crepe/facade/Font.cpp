@@ -19,3 +19,6 @@ Font::Font(const char* src){
 Font::Font(std::unique_ptr<Asset> res){
 	this->load(std::move(res));
 }
+const TTF_Font& Font::get_font() const{
+	return this->font;
+}
