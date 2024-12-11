@@ -2,6 +2,7 @@
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
+#include <crepe/api/Config.h>
 #include <crepe/api/Event.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/LoopManager.h>
@@ -45,22 +46,17 @@ public:
 			default: break;
 			case 10:
 							 mgr.record_start();
-							 Log::logf("start");
 							 break;
 			case 60:
 							 this->recording = mgr.record_end();
-							 Log::logf("stop");
 							 break;
 			case 70:
 							 mgr.play(this->recording);
-							 Log::logf("play");
 							 break;
 			case 71:
 							 mgr.release(this->recording);
-							 Log::logf("end");
 							 break;
 			case 72:
-							 Log::logf("exit");
 							 throw;
 							 break;
 		};
@@ -97,6 +93,8 @@ public:
 };
 
 int main(int argc, char * argv[]) {
+	Config & cfg = Config::get_instance();
+	cfg.log.level = Log::Level::DEBUG;
 	LoopManager gameloop;
 
 	gameloop.add_scene<TestScene>();
