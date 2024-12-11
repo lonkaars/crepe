@@ -5,8 +5,6 @@
 
 namespace crepe {
 
-class Mediator;
-
 class LoopTimer : public Manager {
 public:
 	/**

@@ -1,8 +1,5 @@
 #pragma once
 
-// FIXME: this header can't be included because this is an API header, and SDL2 development
-// headers won't be bundled with crepe. Why is this facade in the API namespace?
-
 #include <SDL2/SDL_render.h>
 #include <memory>
 

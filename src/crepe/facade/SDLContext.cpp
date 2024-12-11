@@ -11,7 +11,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -20,7 +19,6 @@
 #include "../api/Config.h"
 #include "../api/Sprite.h"
 #include "../util/Log.h"
-#include "manager/Manager.h"
 #include "manager/Mediator.h"
 
 #include "SDLContext.h"
@@ -30,9 +28,8 @@
 using namespace crepe;
 using namespace std;
 
-SDLContext::SDLContext(Mediator & mediator) : Manager(mediator) {
+SDLContext::SDLContext(Mediator & mediator) {
 	dbg_trace();
-	mediator.sdl_context = *this;
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
@@ -60,6 +57,8 @@ SDLContext::SDLContext(Mediator & mediator) : Manager(mediator) {
 	if (!(IMG_Init(img_flags) & img_flags)) {
 		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
+
+	mediator.sdl_context = *this;
 }
 
 SDLContext::~SDLContext() {
@@ -219,16 +218,6 @@ void SDLContext::present_screen() {
 	SDL_RenderPresent(this->game_renderer.get());
 }
 
-SDL_Rect * SDLContext::get_src_rect(const Sprite & sprite) {
-	if (sprite.mask.w == 0 && sprite.mask.h == 0) return NULL;
-
-	this->mask.x = sprite.mask.x;
-	this->mask.y = sprite.mask.y;
-	this->mask.w = sprite.mask.w;
-	this->mask.h = sprite.mask.h;
-	return &this->mask;
-}
-
 SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
@@ -267,7 +256,16 @@ void SDLContext::draw(const RenderContext & ctx) {
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * data.flip.flip_y));
 
-	SDL_Rect * srcrect = this->get_src_rect(ctx.sprite);
+	SDL_Rect srcrect;
+	SDL_Rect * srcrect_ptr = NULL;
+	if (ctx.sprite.mask.w != 0 || ctx.sprite.mask.h != 0) {
+		srcrect.w = ctx.sprite.mask.w;
+		srcrect.h = ctx.sprite.mask.h;
+		srcrect.x = ctx.sprite.mask.x;
+		srcrect.y = ctx.sprite.mask.y;
+		srcrect_ptr = &srcrect;
+	}
+
 	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData{
 		.sprite = ctx.sprite,
 		.texture = ctx.texture,
@@ -279,7 +277,7 @@ void SDLContext::draw(const RenderContext & ctx) {
 	double angle = ctx.angle + data.angle_offset;
 
 	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
-	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect, &dstrect,
+	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect_ptr, &dstrect,
 					  angle, NULL, render_flip);
 }
 
