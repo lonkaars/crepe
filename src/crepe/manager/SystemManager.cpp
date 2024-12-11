@@ -9,12 +9,12 @@
 #include "../system/ScriptSystem.h"
 #include "../system/EventSystem.h"
 
-#include "LoopManager.h"
+#include "SystemManager.h"
 
 using namespace crepe;
 using namespace std;
 
-LoopManager::LoopManager() {
+SystemManager::SystemManager(Mediator & mediator) : Manager(mediator) {
 	this->load_system<ScriptSystem>();
 	this->load_system<AISystem>();
 	this->load_system<PhysicsSystem>();
@@ -26,50 +26,20 @@ LoopManager::LoopManager() {
 	this->load_system<EventSystem>();
 	this->load_system<AudioSystem>();
 
-	this->mediator.loop_manager = *this;
+	this->mediator.system_manager = *this;
 }
 
-void LoopManager::start() {
-	this->setup();
-	this->loop();
-}
-
-void LoopManager::fixed_update() {
+void SystemManager::fixed_update() {
 	for (auto & [type, system] : this->systems) {
 		if (!system->active) continue;
 		system->fixed_update();
 	}
 }
 
-void LoopManager::frame_update() {
+void SystemManager::frame_update() {
 	for (auto & [type, system] : this->systems) {
 		if (!system->active) continue;
 		system->frame_update();
-	}
-}
-
-void LoopManager::setup() {
-	LoopTimer & timer = this->loop_timer;
-	this->game_running = true;
-	this->scene_manager.load_next_scene();
-	timer.start();
-	timer.set_fps(200);
-}
-
-void LoopManager::loop() {
-	LoopTimer & timer = this->loop_timer;
-	timer.start();
-
-	while (game_running) {
-		timer.update();
-
-		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
-			this->fixed_update();
-			timer.advance_fixed_update();
-		}
-
-		this->frame_update();
-		timer.enforce_frame_rate();
 	}
 }
 

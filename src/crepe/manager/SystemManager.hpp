@@ -4,24 +4,18 @@
 #include <cassert>
 #include <format>
 
-#include "../system/System.h"
-#include "LoopManager.h"
+#include "SystemManager.h"
 
 namespace crepe {
 
 template <class T>
-void LoopManager::add_scene() {
-	this->scene_manager.add_scene<T>();
-}
-
-template <class T>
-T & LoopManager::get_system() {
+T & SystemManager::get_system() {
 	using namespace std;
 	static_assert(is_base_of<System, T>::value, "get_system must recieve a derivative class of System");
 
 	const type_info & type = typeid(T);
 	if (!this->systems.contains(type))
-		throw runtime_error(format("LoopManager: {} is not initialized", type.name()));
+		throw runtime_error(format("SystemManager: {} is not initialized", type.name()));
 
 	System * system = this->systems.at(type).get();
 	T * concrete_system = dynamic_cast<T *>(system);
@@ -31,14 +25,14 @@ T & LoopManager::get_system() {
 }
 
 template <class T>
-void LoopManager::load_system() {
+void SystemManager::load_system() {
 	using namespace std;
 	static_assert(is_base_of<System, T>::value,
 			"load_system must recieve a derivative class of System");
 
 	const type_info & type = typeid(T);
 	if (this->systems.contains(type))
-		throw runtime_error(format("LoopManager: {} is already initialized", type.name()));
+		throw runtime_error(format("SystemManager: {} is already initialized", type.name()));
 	System * system = new T(this->mediator);
 	this->systems[type] = unique_ptr<System>(system);
 }

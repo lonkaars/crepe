@@ -5,7 +5,7 @@
 #include <crepe/api/Config.h>
 #include <crepe/api/Event.h>
 #include <crepe/api/GameObject.h>
-#include <crepe/api/LoopManager.h>
+#include <crepe/api/Engine.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
@@ -95,9 +95,10 @@ public:
 int main(int argc, char * argv[]) {
 	Config & cfg = Config::get_instance();
 	cfg.log.level = Log::Level::DEBUG;
-	LoopManager gameloop;
 
-	gameloop.add_scene<TestScene>();
-	gameloop.start();
+	Engine engine;
+
+	engine.add_scene<TestScene>();
+	engine.start();
 	return 0;
 }
