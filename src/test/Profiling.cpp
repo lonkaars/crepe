@@ -58,7 +58,7 @@ public:
 
 	Mediator m;
 	ComponentManager mgr{m};
-	ResourceManager resource_manager {m};
+	ResourceManager resource_manager{m};
 	SDLContext context{m};
 	// Add system used for profling tests
 	CollisionSystem collision_sys{m};
