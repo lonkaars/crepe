@@ -1,8 +1,9 @@
-#include "api/Asset.h"
-#include "manager/Mediator.h"
-#include "system/ParticleSystem.h"
-#include "system/PhysicsSystem.h"
-#include "system/RenderSystem.h"
+#include <crepe/api/Asset.h>
+#include <crepe/manager/Mediator.h>
+#include <crepe/system/ParticleSystem.h>
+#include <crepe/system/PhysicsSystem.h>
+#include <crepe/system/RenderSystem.h>
+#include <crepe/manager/ResourceManager.h>
 #include <chrono>
 #include <cmath>
 #include <gtest/gtest.h>
@@ -55,6 +56,8 @@ public:
 	const std::chrono::microseconds duration = 16000us;
 
 	Mediator m;
+	SDLContext sdl_context{m};
+	ResourceManager resman{m};
 	ComponentManager mgr{m};
 	// Add system used for profling tests
 	CollisionSystem collision_sys{m};
@@ -168,9 +171,8 @@ TEST_F(DISABLED_ProfilingTest, Profiling_2) {
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			auto img = Asset("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				img, Sprite::Data{
+				Asset{"asset/texture/square.png"}, Sprite::Data{
 						 .color = {0, 0, 0, 0},
 						 .flip = {.flip_x = false, .flip_y = false},
 						 .sorting_in_layer = 1,
@@ -206,9 +208,8 @@ TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			auto img = Asset("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				img, Sprite::Data{
+				Asset{"asset/texture/square.png"}, Sprite::Data{
 						 .color = {0, 0, 0, 0},
 						 .flip = {.flip_x = false, .flip_y = false},
 						 .sorting_in_layer = 1,
