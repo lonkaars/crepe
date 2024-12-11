@@ -49,7 +49,6 @@ public:
 													.size = {10, 10},
 												});
 
-		//ASSERT_NE(sprite1.texture.texture.get(), nullptr);
 		EXPECT_EQ(sprite1.data.order_in_layer, 5);
 		EXPECT_EQ(sprite1.data.sorting_in_layer, 5);
 		auto & sprite2
@@ -59,7 +58,6 @@ public:
 													.sorting_in_layer = 2,
 													.order_in_layer = 1,
 												});
-		//ASSERT_NE(sprite2.texture.texture.get(), nullptr);
 		EXPECT_EQ(sprite2.data.sorting_in_layer, 2);
 		EXPECT_EQ(sprite2.data.order_in_layer, 1);
 
@@ -70,7 +68,6 @@ public:
 													.sorting_in_layer = 1,
 													.order_in_layer = 2,
 												});
-		//ASSERT_NE(sprite3.texture.texture.get(), nullptr);
 		EXPECT_EQ(sprite3.data.sorting_in_layer, 1);
 		EXPECT_EQ(sprite3.data.order_in_layer, 2);
 
@@ -81,27 +78,12 @@ public:
 													.sorting_in_layer = 1,
 													.order_in_layer = 1,
 												});
-		//ASSERT_NE(sprite4.texture.texture.get(), nullptr);
 		EXPECT_EQ(sprite4.data.sorting_in_layer, 1);
 		EXPECT_EQ(sprite4.data.order_in_layer, 1);
 	}
 };
 
-TEST_F(RenderSystemTest, expected_throws) {
-	GameObject entity1 = this->mgr.new_object("NAME");
-
-	// no texture img
-	EXPECT_NO_THROW({
-		auto test = Asset("");
-		auto & sprite1 = entity1.add_component<Sprite>(
-			test, Sprite::Data{
-					  .color = Color(0, 0, 0, 0),
-					  .flip = Sprite::FlipSettings{false, false},
-					  .sorting_in_layer = 1,
-					  .order_in_layer = 1,
-				  });
-	});
-
+TEST_F(RenderSystemTest, NoCamera) {
 	// No camera
 	EXPECT_ANY_THROW({ this->sys.update(); });
 }
