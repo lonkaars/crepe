@@ -92,6 +92,15 @@ private:
 	//! Reads the all the variables plus the  mask
 	friend class AnimatorSystem;
 
+
+	/**
+	 * \aspect_ratio the ratio of the sprite image
+	 *
+	 * - this value will only be set by the \c Animator component for the ratio of the Animation
+	 * - if \c Animator component is not added it will not use this ratio (because 0) and will use aspect_ratio of the Asset.
+	 */
+	float aspect_ratio = 0;
+
 	struct Rect {
 		int w = 0;
 		int h = 0;

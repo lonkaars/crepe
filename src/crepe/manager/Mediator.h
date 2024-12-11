@@ -4,8 +4,6 @@
 
 // TODO: remove these singletons:
 #include "EventManager.h"
-#include "SaveManager.h"
-#include "api/LoopTimer.h"
 
 namespace crepe {
 
