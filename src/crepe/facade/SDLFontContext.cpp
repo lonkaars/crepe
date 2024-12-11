@@ -7,16 +7,16 @@ using namespace crepe;
 using namespace std;
 
 SDLFontContext::SDLFontContext(){
-	
-}
-
-SDLFontContext::~SDLFontContext(){
-	
-}
-unique_ptr<Asset> SDLFontContext::get_font_asset(const std::string & font_family) {
 	if (!FcInit()) {
             throw std::runtime_error("Failed to initialize Fontconfig.");
     }
+}
+
+SDLFontContext::~SDLFontContext(){
+		FcFini();
+}
+unique_ptr<Asset> SDLFontContext::get_font_asset(const std::string & font_family) {
+	
     // Create a pattern to search for the font family
     FcPattern* pattern = FcNameParse(reinterpret_cast<const FcChar8*>(font_family.c_str()));
     if (!pattern) {
@@ -49,6 +49,5 @@ unique_ptr<Asset> SDLFontContext::get_font_asset(const std::string & font_family
     // Convert the file path to a std::string
     std::string font_file_path(reinterpret_cast<const char*>(file_path));
     FcPatternDestroy(matched_pattern);
-	FcFini();
     return std::move(make_unique<Asset>(font_file_path));
 }

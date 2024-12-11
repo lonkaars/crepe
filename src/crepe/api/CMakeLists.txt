@@ -20,6 +20,7 @@ target_sources(crepe PUBLIC
 	Button.cpp
 	UIObject.cpp
 	AI.cpp
+	Text.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -49,4 +50,5 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Button.h
 	UIObject.h
 	AI.h
+	Text.h
 )
