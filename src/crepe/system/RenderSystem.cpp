@@ -14,8 +14,8 @@
 #include "../manager/ComponentManager.h"
 #include "../manager/ResourceManager.h"
 
-#include "types.h"
 #include "RenderSystem.h"
+#include "types.h"
 
 using namespace crepe;
 using namespace std;
