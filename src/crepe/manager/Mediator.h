@@ -11,6 +11,8 @@ namespace crepe {
 
 class ComponentManager;
 class SceneManager;
+class SaveManager;
+class ResourceManager;
 
 class LoopTimerManager;
 class EventManager;
@@ -31,7 +33,8 @@ struct Mediator {
 	OptionalRef<SceneManager> scene_manager;
 	OptionalRef<EventManager> event_manager;
 	OptionalRef<LoopTimerManager> loop_timer;
-	OptionalRef<SaveManager> save_manager = SaveManager::get_instance();
+	OptionalRef<SaveManager> save_manager;
+	OptionalRef<ResourceManager> resource_manager;
 	OptionalRef<SDLContext> sdl_context = SDLContext::get_instance();
 };
 

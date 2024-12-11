@@ -7,6 +7,8 @@
 #include "../manager/EventManager.h"
 #include "../manager/LoopTimerManager.h"
 #include "../manager/Mediator.h"
+#include "../manager/ResourceManager.h"
+#include "../manager/SaveManager.h"
 #include "../manager/SceneManager.h"
 #include "../system/System.h"
 
@@ -79,6 +81,10 @@ private:
 	LoopTimerManager loop_timer{mediator};
 	//! EventManager instance
 	EventManager event_manager{mediator};
+	//! Resource manager instance
+	ResourceManager resource_manager{mediator};
+	//! Save manager instance
+	SaveManager save_manager{mediator};
 
 	//! SDL context \todo no more singletons!
 	SDLContext & sdl_context = SDLContext::get_instance();
