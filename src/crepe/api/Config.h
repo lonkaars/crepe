@@ -81,11 +81,11 @@ struct Config final {
 		/**
 		 * \brief Default font size
 		 *
-		 * using the SDL_ttf library the font size needs to be set when loading the font. 
+		 * Using the SDL_ttf library the font size needs to be set when loading the font. 
 		 * This config option is the font size at which all fonts will be loaded initially.
 		 * 
 		 */
-		int font_size = 16;
+		unsigned int size = 16;
 	} font;
 
 	//! Audio system settings

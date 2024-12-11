@@ -9,17 +9,17 @@
 namespace crepe {
 
 /**
- * \brief Font resource facade
+ * \brief Resource for managing font creation and destruction
  *
  * This class is a wrapper around an SDL_ttf font instance, encapsulating font loading and usage.
  */
 class Font : public Resource{
 public:
-    /**.
-	 * \param src Asset with texture data to load.
-	 * \param mediator use the SDLContext reference to load the image
+    /**
+	 * \param src Asset with font data to load.
+	 * \param mediator use the SDLContext reference to load text
 	 */
-    Font(const Asset & src, Mediator & mediator);
+    Font( src, Mediator & mediator);
 
 
     ~Font() = default
@@ -27,7 +27,7 @@ public:
 private:
 	//! The SDL_ttf font object with custom deleter.
     std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)> font;
-	int default_font_size = Config::get_instance().font.font_size;
+	unsigned int default_font_size = Config::get_instance().font.size;
 };
 
 } // namespace crepe

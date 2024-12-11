@@ -11,11 +11,11 @@
 namespace crepe{
 class Text : public UIObject{
 public:
-	Text(game_object_id_t id,const vec2 & dimensions, const vec2 & offset, const Asset & font, int font_size);
+	Text(game_object_id_t id,const vec2 & dimensions, const vec2 & offset, const Asset & font);
 
 	//! Label text.
 	std::string text;
-	//! Label text color
+	//! Label text color.
 	Color text_color = Color::BLACK;
 	/**
 	 *  \brief fontsize for text rendering
@@ -26,8 +26,8 @@ public:
 	 * The default font size that is loaded is set in the Config.
 	 * Instead this value is used to upscale the font texture which can cause blurring or distorted text when upscaling or downscaling too much.
 	 */
-	int font_size = 16;
-
+	unsigned int font_size = 16;
+	//! Font asset
 	const Asset source;
 private:
 };
