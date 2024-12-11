@@ -11,6 +11,7 @@
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
+#include "types.h"
 
 #include "RenderSystem.h"
 
@@ -27,7 +28,7 @@ void RenderSystem::present_screen() {
 	ctx.present_screen();
 }
 
-SDLContext::CameraValues & RenderSystem::update_camera() {
+void RenderSystem::update_camera() {
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
@@ -38,9 +39,9 @@ SDLContext::CameraValues & RenderSystem::update_camera() {
 		if (!cam.active) continue;
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(cam.game_object_id).front().get();
-		SDLContext::CameraValues & cam_val = ctx.set_camera(cam);
-		cam_val.cam_pos = transform.position + cam.data.postion_offset;
-		return cam_val;
+		vec2 new_camera_pos = transform.position + cam.data.postion_offset;
+		ctx.update_camera_view(cam, new_camera_pos);
+		return;
 	}
 	throw std::runtime_error("No active cameras in current scene");
 }
@@ -67,8 +68,7 @@ void RenderSystem::update() {
 	this->present_screen();
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::CameraValues & cam,
-								   const double & scale) {
+bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
 
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
@@ -88,7 +88,6 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 
 			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,
-				.cam = cam,
 				.pos = p.position,
 				.angle = p.angle,
 				.scale = scale,
@@ -97,12 +96,10 @@ bool RenderSystem::render_particle(const Sprite & sprite, const SDLContext::Came
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const SDLContext::CameraValues & cam,
-								 const Transform & tm) {
+void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 	SDLContext & ctx = this->mediator.sdl_context;
 	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
-		.cam = cam,
 		.pos = tm.position,
 		.angle = tm.rotation,
 		.scale = tm.scale,
@@ -111,7 +108,7 @@ void RenderSystem::render_normal(const Sprite & sprite, const SDLContext::Camera
 
 void RenderSystem::render() {
 	ComponentManager & mgr = this->mediator.component_manager;
-	const SDLContext::CameraValues & cam = this->update_camera();
+	this->update_camera();
 
 	RefVector<Sprite> sprites = mgr.get_components_by_type<Sprite>();
 	RefVector<Sprite> sorted_sprites = this->sort(sprites);
@@ -121,10 +118,10 @@ void RenderSystem::render() {
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
-		bool rendered_particles = this->render_particle(sprite, cam, transform.scale);
+		bool rendered_particles = this->render_particle(sprite, transform.scale);
 
 		if (rendered_particles) continue;
 
-		this->render_normal(sprite, cam, transform);
+		this->render_normal(sprite, transform);
 	}
 }
