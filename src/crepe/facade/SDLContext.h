@@ -24,7 +24,6 @@ class Texture;
 class Mediator;
 
 /**
- * \class SDLContext
  * \brief Facade for the SDL library
  *
  * SDLContext is a singleton that handles the SDL window and renderer, provides methods for
@@ -33,7 +32,7 @@ class Mediator;
 class SDLContext {
 public:
 	//! data that the camera component cannot hold
-	struct CameraValues {
+	struct CameraAuxiliaryData {
 
 		//! zoomed in viewport in game_units
 		vec2 zoomed_viewport;
@@ -64,7 +63,6 @@ public:
 	struct RenderContext {
 		const Sprite & sprite;
 		const Texture & texture;
-		const CameraValues & cam;
 		const vec2 & pos;
 		const double & angle;
 		const double & scale;
@@ -193,18 +191,20 @@ public:
 	void present_screen();
 
 	/**
-	 * \brief sets the background of the camera (will be adjusted in future PR)
-	 * \param camera Reference to the Camera object.
-	 * \return camera data the component cannot store
+	 * \brief calculates camera view settings. such as black_bars, zoomed_viewport, scaling and
+	 * adjusting window size.
+	 *
+	 * \note only supports windowed mode.
+	 * \param camera Reference to the current Camera object in the scene.
+	 * \param new_pos new camera position from transform and offset
 	 */
-	CameraValues set_camera(const Camera & camera);
+	void update_camera_view(const Camera & camera, const vec2 & new_pos);
 
 public:
 	//! the data needed to construct a sdl dst rectangle
 	struct DestinationRectangleData {
 		const Sprite & sprite;
 		const Texture & texture;
-		const CameraValues & cam;
 		const vec2 & pos;
 		const double & img_scale;
 	};
@@ -233,6 +233,13 @@ private:
 
 	//! black bars rectangle to draw
 	SDL_FRect black_bars[2] = {};
+
+	/**
+	 * \cam_aux_data extra data that the component cannot hold.
+	 *
+	 * - this is defined in this class because get_events() needs this information aswell
+	 */
+	CameraAuxiliaryData cam_aux_data;
 };
 
 } // namespace crepe
