@@ -25,7 +25,7 @@ public:
 	 * \brief Start the gameloop
 	 *
 	 * This is the start of the engine where the setup is called and then the loop keeps running until the game stops running.
-	 * Developers need to call this function to run the game.
+	 * The Game programmer needs to call this function to run the game. This should be done after creating and adding all scenes.
 	 */
 	void start();
 
@@ -52,13 +52,6 @@ private:
 	void loop();
 
 	/**
-	 * \brief Function for handling input-related system calls.
-	 *
-	 * Processes user inputs from keyboard and mouse.
-	 */
-	void process_input();
-
-	/**
 	 * \brief Per-frame update.
 	 *
 	 * Updates the game state based on the elapsed time since the last frame.
@@ -71,15 +64,9 @@ private:
 	 * This function updates physics and game logic based on LoopTimer's fixed_delta_time.
 	 */
 	virtual void fixed_update();
-	/**
-	 * \brief Function for executing render-related systems.
-	 *
-	 * Renders the current state of the game to the screen.
-	 */
-	virtual void render();
 
+	//! Indicates whether the game is running.
 	bool game_running = false;
-
 private:
 	//! Global context
 	Mediator mediator;
@@ -97,6 +84,7 @@ private:
 	SDLContext & sdl_context = SDLContext::get_instance();
 
 private:
+	
 	/**
 	 * \brief Callback function for ShutDownEvent
 	 *

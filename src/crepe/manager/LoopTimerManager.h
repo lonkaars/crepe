@@ -5,7 +5,9 @@
 #include "Manager.h"
 
 namespace crepe {
-
+typedef std::chrono::duration<float> Duration_t;
+typedef std::chrono::duration<unsigned long long, std::micro> ElapsedTime_t;
+typedef std::chrono::steady_clock::time_point TimePoint_t;
 /**
  * \brief Manages timing and frame rate for the game loop.
  * 
@@ -28,31 +30,31 @@ public:
 	 * 
 	 * \return Delta time in seconds since the last frame.
 	 */
-	double get_delta_time() const;
+	Duration_t get_delta_time() const;
 
 	/**
-	 * \brief Get the current game time.
+	 * \brief Get the current elapsed time (total time passed )
 	 *
 	 * \note The current game time may vary from real-world elapsed time. It is the cumulative
 	 * sum of each frame's delta time.
 	 *
 	 * \return Elapsed game time in seconds.
 	 */
-	double get_current_time() const;
+	ElapsedTime_t get_elapsed_time() const;
 
 	/**
 	 * \brief Set the target frames per second (FPS).
 	 *
 	 * \param fps The desired frames rendered per second.
 	 */
-	void set_target_fps(int fps);
+	void set_target_framerate(unsigned fps);
 
 	/**
 	 * \brief Get the current frames per second (FPS).
 	 *
 	 * \return Current FPS.
 	 */
-	int get_fps() const;
+	unsigned get_fps() const;
 
 	/**
 	 * \brief Get the current time scale.
@@ -60,7 +62,7 @@ public:
 	 * \return The current time scale, where (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up).
 	 * up the game.
 	 */
-	double get_time_scale() const;
+	float get_time_scale() const;
 
 	/**
 	 * \brief Set the time scale.
@@ -76,11 +78,10 @@ public:
 	 *
 	 * This value is used in the LoopManager to determine how many times 
 	 * the fixed_update should be called within a given interval.
-	 * This value is also the timing value which is used in the fixed_loop to convert pixels to time.
 	 *
 	 * \return The unscaled fixed delta time in seconds.
 	 */
-	double get_fixed_delta_time() const;
+	Duration_t get_fixed_delta_time() const;
 
 	/**
 	 * \brief Set the fixed_delta_time in seconds.
@@ -88,9 +89,9 @@ public:
 	 * \param seconds fixed_delta_time in seconds.
 	 * 
 	 * The fixed_delta_time value is used to determine how many times per second the fixed_update and process_input functions are called.
-	 * This value is also the timing value which is used in the fixed_loop to convert pixels to time.
+	 * 
 	 */
-	void set_fixed_delta_time(double seconds);
+	void set_fixed_delta_time(float seconds);
 
 	/**
 	 * \brief Retrieves the scaled fixed delta time in seconds.
@@ -101,12 +102,11 @@ public:
 	 *
 	 * \return The fixed delta time, scaled by the current time scale, in seconds.
 	 */
-	double get_scaled_fixed_delta_time() const;
+	Duration_t get_scaled_fixed_delta_time() const;
 
 private:
 	//! Friend relation to use start,enforce_frame_rate,get_lag,update,advance_fixed_update.
 	friend class LoopManager;
-
 	/**
 	 * \brief Start the loop timer.
 	 *
@@ -128,7 +128,7 @@ private:
 	 *
 	 * \return Accumulated lag in seconds.
 	 */
-	double get_lag() const;
+	Duration_t get_lag() const;
 
 	/**
 	 * \brief Update the timer to the current frame.
@@ -147,27 +147,27 @@ private:
 	void advance_fixed_elapsed_time();
 
 private:
-	//! Target frames per second
+	//! Target frames per second.
 	int target_fps = 60;
-	//! Actual frames per second
+	//! Actual frames per second.
 	int actual_fps = 0;
-	//! Time scale for speeding up or slowing down the game (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up)
-	double time_scale = 1;
-	//! Maximum delta time in seconds to avoid large jumps
-	std::chrono::duration<double> maximum_delta_time{0.25};
-	//! Delta time for the current frame in seconds
-	std::chrono::duration<double> delta_time{0.0};
+	//! Time scale for speeding up or slowing down the game (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up).
+	float time_scale = 1;
+	//! Maximum delta time in seconds to avoid large jumps.
+	Duration_t maximum_delta_time{0.25};
+	//! Delta time for the current frame in seconds.
+	Duration_t delta_time{0.0};
 	//! Target time per frame in seconds
-	std::chrono::duration<double> frame_target_time
-		= std::chrono::duration<double>(1.0) / target_fps;
-	//! Fixed delta time for fixed updates in seconds
-	std::chrono::duration<double> fixed_delta_time = std::chrono::duration<double>(1.0) / 50.0;
-	//! Total elapsed game time in seconds
-	std::chrono::duration<double> elapsed_time{0.0};
-	//! Total elapsed time for fixed updates in seconds
-	std::chrono::duration<double> elapsed_fixed_time{0.0};
-	//! Time of the last frame
-	std::chrono::steady_clock::time_point last_frame_time;
+	Duration_t frame_target_time
+		= Duration_t(1.0) / target_fps;
+	//! Fixed delta time for fixed updates in seconds.
+	Duration_t fixed_delta_time = Duration_t(1.0) / 50.0;
+	//! Total elapsed game time in microseconds.
+	ElapsedTime_t elapsed_time{0};
+	//! Total elapsed time for fixed updates in microseconds.
+	ElapsedTime_t elapsed_fixed_time{0};
+	//! Time of the last frame.
+	TimePoint_t last_frame_time;
 };
 
 } // namespace crepe

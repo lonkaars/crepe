@@ -11,6 +11,7 @@ namespace crepe {
 
 class ComponentManager;
 class SceneManager;
+
 class LoopTimerManager;
 class EventManager;
 /**

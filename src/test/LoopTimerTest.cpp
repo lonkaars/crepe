@@ -17,7 +17,7 @@ protected:
 };
 TEST_F(LoopTimerTest, EnforcesTargetFrameRate) {
 	// Set the target FPS to 60 (which gives a target time per frame of ~16.67 ms)
-	loop_timer.set_target_fps(60);
+	loop_timer.set_target_framerate(60);
 
 	auto start_time = steady_clock::now();
 	loop_timer.enforce_frame_rate();
@@ -30,33 +30,33 @@ TEST_F(LoopTimerTest, EnforcesTargetFrameRate) {
 }
 TEST_F(LoopTimerTest, SetTargetFps) {
 	// Set the target FPS to 120
-	loop_timer.set_target_fps(120);
+	loop_timer.set_target_framerate(120);
 
 	// Calculate the expected frame time (~8.33ms per frame)
-	auto expected_frame_time = std::chrono::duration<double>(1.0 / 120.0);
+	Duration_t expected_frame_time = std::chrono::duration<float>(1.0 / 120.0);
 
 	ASSERT_NEAR(loop_timer.frame_target_time.count(), expected_frame_time.count(), 0.001);
 }
 TEST_F(LoopTimerTest, DeltaTimeCalculation) {
 	// Set the target FPS to 60 (16.67 ms per frame)
-	loop_timer.set_target_fps(60);
+	loop_timer.set_target_framerate(60);
 
 	auto start_time = steady_clock::now();
 	loop_timer.update();
 	auto end_time = steady_clock::now();
 
 	// Check the delta time
-	double delta_time = loop_timer.get_delta_time();
+	Duration_t delta_time = loop_timer.get_delta_time();
 
 	auto elapsed_time = duration_cast<seconds>(end_time - start_time).count();
 
 	// Assert that delta_time is close to the elapsed time
-	ASSERT_NEAR(delta_time, elapsed_time, 1);
+	ASSERT_NEAR(delta_time.count(), elapsed_time, 1);
 }
 
 TEST_F(LoopTimerTest, getCurrentTime) {
 	// Set the target FPS to 60 (16.67 ms per frame)
-	loop_timer.set_target_fps(60);
+	loop_timer.set_target_framerate(60);
 
 	auto start_time = steady_clock::now();
 
@@ -68,8 +68,8 @@ TEST_F(LoopTimerTest, getCurrentTime) {
 	auto end_time = steady_clock::now();
 
 	// Get the elapsed time in seconds as a double
-	auto elapsed_time
-		= duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
+	auto elapsed_time = std::chrono::duration_cast<ElapsedTime_t>(end_time - start_time).count();
 
-	ASSERT_NEAR(loop_timer.get_current_time(), elapsed_time, 0.001);
+
+	ASSERT_NEAR(loop_timer.get_elapsed_time().count(), elapsed_time, 5);
 }
