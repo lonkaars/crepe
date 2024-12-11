@@ -12,7 +12,6 @@
 #include "../manager/SceneManager.h"
 #include "../system/System.h"
 
-#include "LoopTimer.h"
 
 namespace crepe {
 /**
