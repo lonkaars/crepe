@@ -1,7 +1,7 @@
 #pragma once
 
-#include <memory>
 #include <functional>
+#include <memory>
 
 #include "../ValueBroker.h"
 
@@ -95,9 +95,10 @@ private:
 protected:
 	//! Create or return DB
 	virtual DB & get_db();
+
 private:
 	//! Database
-	std::unique_ptr<void, std::function<void(void*)>> db = nullptr;
+	std::unique_ptr<void, std::function<void(void *)>> db = nullptr;
 };
 
 } // namespace crepe
