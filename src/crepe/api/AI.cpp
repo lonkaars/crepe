@@ -13,10 +13,10 @@ void AI::make_circle_path(float radius, const vec2 & center, float start_angle,
 	}
 
 	// The step size is determined by the radius (step size is in radians)
-	float step = 400.0f / radius;
-	// Force at least 16 steps (in case of a small radius)
-	if (step > 2 * M_PI / 16) {
-		step = 2 * M_PI / 16;
+	float step = RADIUS_TO_STEP / radius;
+	// Force at least MIN_STEP steps (in case of a small radius)
+	if (step > 2 * M_PI / MIN_STEP) {
+		step = 2 * M_PI / MIN_STEP;
 	}
 	// The path node distance is determined by the step size and the radius
 	path_node_distance = radius * step * 0.75f;
@@ -42,10 +42,10 @@ void AI::make_oval_path(float radius_x, float radius_y, const vec2 & center, flo
 
 	float max_radius = std::max(radius_x, radius_y);
 	// The step size is determined by the radius (step size is in radians)
-	float step = 400.0f / max_radius;
-	// Force at least 16 steps (in case of a small radius)
-	if (step > 2 * M_PI / 16) {
-		step = 2 * M_PI / 16;
+	float step = RADIUS_TO_STEP / max_radius;
+	// Force at least MIN_STEP steps (in case of a small radius)
+	if (step > 2 * M_PI / MIN_STEP) {
+		step = 2 * M_PI / MIN_STEP;
 	}
 	// The path node distance is determined by the step size and the radius
 	path_node_distance = max_radius * step * 0.75f;
