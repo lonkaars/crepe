@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_pixels.h>
-#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_blendmode.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_keycode.h>
@@ -64,10 +63,6 @@ SDLContext::SDLContext() {
 	if (!(IMG_Init(img_flags) & img_flags)) {
 		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
-
-	if (TTF_Init() != 0) {
-		throw runtime_error("SDLContext: TTF could not initialize!");
-	}
 }
 
 SDLContext::~SDLContext() {
@@ -79,7 +74,6 @@ SDLContext::~SDLContext() {
 	// TODO: how are we going to ensure that these are called from the same
 	// thread that SDL_Init() was called on? This has caused problems for me
 	// before.
-	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -249,14 +243,12 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 		size.y = data.size.x / ctx.sprite.aspect_ratio;
 	}
 
-	const CameraValues & cam = ctx.cam;
-
-	size *= cam.render_scale * ctx.img_scale * data.scale_offset;
+	size *= cam_aux_data.render_scale * ctx.img_scale * data.scale_offset;
 
 	vec2 screen_pos
-		= (ctx.pos + data.position_offset - cam.cam_pos + (cam.zoomed_viewport) / 2)
-			  * cam.render_scale
-		  - size / 2 + cam.bar_size;
+		= (ctx.pos + data.position_offset - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2)
+			  * cam_aux_data.render_scale
+		  - size / 2 + cam_aux_data.bar_size;
 
 	return SDL_FRect{
 		.x = screen_pos.x,
@@ -276,7 +268,6 @@ void SDLContext::draw(const RenderContext & ctx) {
 	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
 	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData{
 		.sprite = ctx.sprite,
-		.cam = ctx.cam,
 		.pos = ctx.pos,
 		.img_scale = ctx.scale,
 	});
@@ -288,7 +279,7 @@ void SDLContext::draw(const RenderContext & ctx) {
 					  &dstrect, angle, NULL, render_flip);
 }
 
-SDLContext::CameraValues & SDLContext::set_camera(const Camera & cam) {
+void SDLContext::update_camera_view(const Camera & cam, const vec2 & new_pos) {
 
 	const Camera::Data & cam_data = cam.data;
 	// resize window
@@ -298,9 +289,10 @@ SDLContext::CameraValues & SDLContext::set_camera(const Camera & cam) {
 		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
 	}
 
-	vec2 & zoomed_viewport = this->camera_val.zoomed_viewport;
-	vec2 & bar_size = this->camera_val.bar_size;
-	vec2 & render_scale = this->camera_val.render_scale;
+	vec2 & zoomed_viewport = this->cam_aux_data.zoomed_viewport;
+	vec2 & bar_size = this->cam_aux_data.bar_size;
+	vec2 & render_scale = this->cam_aux_data.render_scale;
+	this->cam_aux_data.cam_pos = new_pos;
 
 	zoomed_viewport = cam.viewport_size * cam_data.zoom;
 	float screen_aspect = static_cast<float>(cam.screen.x) / cam.screen.y;
@@ -342,8 +334,6 @@ SDLContext::CameraValues & SDLContext::set_camera(const Camera & cam) {
 
 	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
-
-	return this->camera_val;
 }
 
 uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
@@ -372,19 +362,6 @@ SDLContext::texture_from_path(const std::string & path) {
 	return img_texture;
 }
 
-std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>>
-SDLContext::font_from_path(const std::string & path) {
-
-	TTF_Font * lib_font = TTF_OpenFont(path.c_str(), 72);
-	if (!lib_font) {
-		throw runtime_error(format("SDLContext: font cannot be load from {}", path));
-	}
-	std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>> font;
-	font = {lib_font, [](TTF_Font * f){}};
-
-	return font;
-}
-
 ivec2 SDLContext::get_size(const Texture & ctx) {
 	ivec2 size;
 	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &size.x, &size.y);
@@ -396,7 +373,7 @@ void SDLContext::delay(int ms) const { SDL_Delay(ms); }
 std::vector<SDLContext::EventData> SDLContext::get_events() {
 	std::vector<SDLContext::EventData> event_list;
 	SDL_Event event;
-	const CameraValues & cam = this->camera_val;
+	const CameraAuxiliaryData & cam = this->cam_aux_data;
 	while (SDL_PollEvent(&event)) {
 		ivec2 mouse_pos;
 		mouse_pos.x = (event.button.x - cam.bar_size.x) / cam.render_scale.x;

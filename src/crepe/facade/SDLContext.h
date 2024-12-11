@@ -4,7 +4,6 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
-#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
 #include <cmath>
 #include <functional>
@@ -33,7 +32,7 @@ class InputSystem;
 class SDLContext {
 public:
 	//! data that the camera component cannot hold
-	struct CameraValues {
+	struct CameraAuxiliaryData {
 
 		//! zoomed in viewport in game_units
 		vec2 zoomed_viewport;
@@ -63,7 +62,6 @@ public:
 	//! rendering data needed to render on screen
 	struct RenderContext {
 		const Sprite & sprite;
-		const CameraValues & cam;
 		const vec2 & pos;
 		const double & angle;
 		const double & scale;
@@ -189,9 +187,6 @@ private:
 	 */
 	ivec2 get_size(const Texture & ctx);
 
-	std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>>
-	font_from_path(const std::string & path);
-
 private:
 	//! Will use draw,clear_screen, present_screen, camera.
 	friend class RenderSystem;
@@ -202,8 +197,6 @@ private:
 	 */
 	void draw(const RenderContext & ctx);
 
-	void draw_text(const 
-
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
 
@@ -211,16 +204,19 @@ private:
 	void present_screen();
 
 	/**
-	 * \brief sets the background of the camera (will be adjusted in future PR)
-	 * \param camera Reference to the Camera object.
+	 * \brief calculates camera view settings. such as black_bars, zoomed_viewport, scaling and
+	 * adjusting window size.
+	 *
+	 * \note only supports windowed mode.
+	 * \param camera Reference to the current Camera object in the scene.
+	 * \param new_pos new camera position from transform and offset
 	 */
-	CameraValues & set_camera(const Camera & camera);
+	void update_camera_view(const Camera & camera, const vec2 & new_pos);
 
 private:
 	//! the data needed to construct a sdl dst rectangle
 	struct DestinationRectangleData {
 		const Sprite & sprite;
-		const CameraValues & cam;
 		const vec2 & pos;
 		const double & img_scale;
 	};
@@ -261,7 +257,12 @@ private:
 	//! black bars rectangle to draw
 	SDL_FRect black_bars[2] = {};
 
-	CameraValues camera_val;
+	/**
+	 * \cam_aux_data extra data that the component cannot hold.
+	 *
+	 * - this is defined in this class because get_events() needs this information aswell
+	 */
+	CameraAuxiliaryData cam_aux_data;
 };
 
 } // namespace crepe
