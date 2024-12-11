@@ -32,9 +32,13 @@ protected:
 	//! Only ComponentManager can create components
 	friend class ComponentManager;
 
-	Component(const Component &) = delete;
+	// create snapshot
+	Component(const Component &) = default;
+	// restore snapshot
+	virtual Component & operator=(const Component &);
+
+	// components are never moved
 	Component(Component &&) = delete;
-	virtual Component & operator=(const Component &) = delete;
 	virtual Component & operator=(Component &&) = delete;
 
 public:

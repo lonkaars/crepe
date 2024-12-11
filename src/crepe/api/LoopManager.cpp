@@ -13,18 +13,17 @@
 using namespace crepe;
 using namespace std;
 
-LoopManager::LoopManager()
-	: systems({
-		ScriptSystem{this->mediator},
-		PhysicsSystem{this->mediator},
-		CollisionSystem{this->mediator},
-		AnimatorSystem{this->mediator},
-		ParticleSystem{this->mediator},
-		RenderSystem{this->mediator},
-		InputSystem{this->mediator},
-		EventSystem{this->mediator},
-		AudioSystem{this->mediator},
-	}) { }
+LoopManager::LoopManager() {
+	this->load_system<ScriptSystem>();
+	this->load_system<PhysicsSystem>();
+	this->load_system<CollisionSystem>();
+	this->load_system<AnimatorSystem>();
+	this->load_system<ParticleSystem>();
+	this->load_system<RenderSystem>();
+	this->load_system<InputSystem>();
+	this->load_system<EventSystem>();
+	this->load_system<AudioSystem>();
+}
 
 void LoopManager::start() {
 	this->setup();
@@ -32,16 +31,16 @@ void LoopManager::start() {
 }
 
 void LoopManager::fixed_update() {
-	for (System & system : this->systems) {
-		if (!system.active) continue;
-		system.fixed_update();
+	for (auto & [type, system] : this->systems) {
+		if (!system->active) continue;
+		system->fixed_update();
 	}
 }
 
 void LoopManager::frame_update() {
-	for (System & system : this->systems) {
-		if (!system.active) continue;
-		system.frame_update();
+	for (auto & [type, system] : this->systems) {
+		if (!system->active) continue;
+		system->frame_update();
 	}
 }
 

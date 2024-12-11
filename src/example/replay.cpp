@@ -1,4 +1,4 @@
-#include "util/OptionalRef.h"
+#include <crepe/util/OptionalRef.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
@@ -13,6 +13,7 @@
 #include <crepe/api/Transform.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
+#include <crepe/manager/ReplayManager.h>
 
 using namespace crepe;
 using namespace std;
@@ -22,14 +23,44 @@ class AnimationScript : public Script {
 	float t = 0;
 
 	void init() {
-		Log::logf("AnimationScript init");
 		transform = &get_component<Transform>();
 	}
 
 	void update() {
-		Log::logf("AnimationScript update");
-		t += 0.01;
+		t += 0.05;
 		transform->position = { sin(t), cos(t) };
+	}
+};
+
+class Timeline : public Script {
+	unsigned i = 0;
+	OptionalRef<ReplayManager> mgr;
+	recording_t recording;
+	void update() {
+		ReplayManager & mgr = this->mgr;
+		switch (i++) {
+			default: break;
+			case 10:
+							 mgr.record_start();
+							 Log::logf("start");
+							 break;
+			case 60:
+							 this->recording = mgr.record_end();
+							 Log::logf("stop");
+							 break;
+			case 70:
+							 mgr.play(this->recording);
+							 Log::logf("play");
+							 break;
+			case 71:
+							 mgr.release(this->recording);
+							 Log::logf("end");
+							 break;
+			case 72:
+							 Log::logf("exit");
+							 throw;
+							 break;
+		};
 	}
 };
 
@@ -38,10 +69,8 @@ public:
 	using Scene::Scene;
 
 	void load_scene() {
-		Log::logf("Initializing scene...");
 		Mediator & m = this->mediator;
 		ComponentManager & mgr = m.component_manager;
-
 
 		GameObject cam = mgr.new_object("cam");
 		cam.add_component<Camera>(ivec2{640,480},vec2{3,3}, Camera::Data{
@@ -54,7 +83,9 @@ public:
 			.size = { 0.5, 0.5 },
 		});
 		square.add_component<BehaviorScript>().set_script<AnimationScript>();
-		Log::logf("Done initializing scene");
+
+		GameObject scapegoat = mgr.new_object("");
+		scapegoat.add_component<BehaviorScript>().set_script<Timeline>();
 	}
 
 	string get_name() const { return "scene1"; }
