@@ -19,6 +19,8 @@ Animator::Animator(game_object_id_t id, Sprite & spritesheet, const ivec2 & sing
 	this->spritesheet.mask.h = single_frame_size.y;
 	this->spritesheet.mask.x = 0;
 	this->spritesheet.mask.y = 0;
+
+	this->spritesheet.aspect_ratio = static_cast<float>(single_frame_size.x) / single_frame_size.y;
 }
 
 Animator::~Animator() { dbg_trace(); }

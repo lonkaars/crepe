@@ -63,8 +63,8 @@ public:
 					 .position_offset = {0, 0},
 				 });
 
-		auto & anim = game_object.add_component<Animator>(test_sprite,ivec2{32, 64}, uvec2{4,1}, Animator::Data{});
-		anim.set_anim(0);
+		//auto & anim = game_object.add_component<Animator>(test_sprite,ivec2{32, 64}, uvec2{4,1}, Animator::Data{});
+		//anim.set_anim(0);
 
 		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
 													   Camera::Data{

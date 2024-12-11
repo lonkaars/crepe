@@ -12,10 +12,11 @@ using namespace crepe;
 void AISystem::update() {
 	const Mediator & mediator = this->mediator;
 	ComponentManager & mgr = mediator.component_manager;
+	LoopTimer & timer = mediator.timer;
 	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 
 	//TODO: Use fixed loop dt (this is not available at master at the moment)
-	double dt = LoopTimer::get_instance().get_delta_time();
+	double dt = timer.get_delta_time();
 
 	// Loop through all AI components
 	for (AI & ai : ai_components) {

@@ -5,7 +5,6 @@
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
-#include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/system/ParticleSystem.h>

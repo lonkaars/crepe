@@ -233,12 +233,14 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
 
+	float aspect_ratio = (ctx.sprite.aspect_ratio == 0) ? ctx.texture.get_ratio() : ctx.sprite.aspect_ratio;
+
 	vec2 size = data.size;
 	if (data.size.x == 0 && data.size.y != 0) {
-		size.x = data.size.y * ctx.texture.get_ratio();
+		size.x = data.size.y * aspect_ratio;
 	}
 	if (data.size.y == 0 && data.size.x != 0) {
-		size.y = data.size.x / ctx.texture.get_ratio();
+		size.y = data.size.x / aspect_ratio;
 	}
 
 	const CameraValues & cam = ctx.cam;
@@ -273,7 +275,6 @@ void SDLContext::draw(const RenderContext & ctx) {
 		.img_scale = ctx.scale,
 	});
 
-	cout << srcrect->w << " " << srcrect->h << " " << srcrect->x << " " << srcrect->y << endl;
 	double angle = ctx.angle + data.angle_offset;
 
 	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
