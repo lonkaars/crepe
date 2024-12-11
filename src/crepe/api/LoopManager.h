@@ -73,15 +73,32 @@ private:
 	SaveManager save_manager{mediator};
 
 	//! SDL context \todo no more singletons!
-	SDLContext & sdl_context = SDLContext::get_instance();
+	SDLContext & sdl_context = mediator.sdl_context;
 	//! Loop timer \todo no more singletons!
 	LoopTimer & loop_timer = LoopTimer::get_instance();
 
 private:
 	/**
 	 * \brief Collection of System instances
+	 *
+	 * This map holds System instances indexed by the system's class typeid. It is filled in the
+	 * constructor of \c LoopManager using LoopManager::load_system.
 	 */
-	std::vector<System> systems;
+	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
+	/**
+	 * \brief Initialize a system
+	 * \tparam T System type (must be derivative of \c System)
+	 */
+	template <class T>
+	void load_system();
+	/**
+	 * \brief Retrieve a reference to ECS system
+	 * \tparam T System type
+	 * \returns Reference to system instance
+	 * \throws std::runtime_error if the System is not initialized
+	 */
+	template <class T>
+	T & get_system();
 };
 
 } // namespace crepe

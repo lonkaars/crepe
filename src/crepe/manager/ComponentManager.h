@@ -21,13 +21,6 @@ class GameObject;
  * This class manages all components. It provides methods to add, delete and get components.
  */
 class ComponentManager : public Manager {
-	// TODO: This relation should be removed! I (loek) believe that the scene manager should
-	// create/destroy components because the GameObject's are stored in concrete Scene classes,
-	// which will in turn call GameObject's destructor, which will in turn call
-	// ComponentManager::delete_components_by_id or something. This is a pretty major change, so
-	// here is a comment and temporary fix instead :tada:
-	friend class SceneManager;
-
 public:
 	ComponentManager(Mediator & mediator);
 	~ComponentManager(); // dbg_trace
@@ -49,12 +42,7 @@ public:
 						  const vec2 & position = {0, 0}, double rotation = 0,
 						  double scale = 1);
 
-protected:
-	/**
-	 * GameObject is used as an interface to add/remove components, and the game programmer is
-	 * supposed to use it instead of interfacing with the component manager directly.
-	 */
-	friend class GameObject;
+public:
 	/**
 	 * \brief Add a component to the ComponentManager
 	 *
@@ -153,6 +141,16 @@ public:
 	 */
 	template <typename T>
 	RefVector<T> get_components_by_tag(const std::string & tag) const;
+
+	struct SnapshotComponent {
+		by_type<by_id_index<std::vector<std::unique_ptr<Component>>>> components;
+		Component component;
+	};
+	struct Snapshot {
+		
+	};
+	Snapshot save();
+	void restore(const Snapshot &);
 
 private:
 	/**
