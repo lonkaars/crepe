@@ -55,7 +55,7 @@ public:
 	 *
 	 * \return Current FPS.
 	 */
-	unsigned get_fps() const;
+	unsigned int get_fps() const;
 
 	/**
 	 * \brief Get the current time scale.
