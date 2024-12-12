@@ -1,6 +1,6 @@
 #titlearea,
-address {
-	display: none;
-}
+address,
+a[href="namespaces.html"]
+{ display: none; }
 
 h2.groupheader { margin-top: revert; }

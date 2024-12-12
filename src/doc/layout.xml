@@ -11,7 +11,7 @@
 			<tab type="modulelist" visible="yes" title="" intro=""/>
 			<tab type="modulemembers" visible="yes" title="" intro=""/>
 		</tab>
-		<tab type="namespaces" visible="no" title="">
+		<tab type="namespaces" visible="yes" title="">
 			<tab type="namespacelist" visible="yes" title="" intro=""/>
 			<tab type="namespacemembers" visible="yes" title="" intro=""/>
 		</tab>
@@ -56,10 +56,10 @@
 			<interfaces title=""/>
 			<publicslots title=""/>
 			<signals title=""/>
-			<publicmethods title=""/>
-			<publicstaticmethods title=""/>
 			<publicattributes title=""/>
 			<publicstaticattributes title=""/>
+			<publicmethods title=""/>
+			<publicstaticmethods title=""/>
 			<protectedtypes title=""/>
 			<protectedslots title=""/>
 			<protectedmethods title=""/>
@@ -102,11 +102,12 @@
 	</class>
 	<namespace>
 		<briefdescription visible="yes"/>
+		<detaileddescription title=""/>
 		<memberdecl>
 			<nestednamespaces visible="yes" title=""/>
 			<constantgroups visible="yes" title=""/>
 			<interfaces visible="yes" title=""/>
-			<classes visible="yes" title=""/>
+			<classes visible="no" title=""/>
 			<concepts visible="yes" title=""/>
 			<structs visible="yes" title=""/>
 			<exceptions visible="yes" title=""/>
@@ -119,7 +120,6 @@
 			<properties title=""/>
 			<membergroups visible="yes"/>
 		</memberdecl>
-		<detaileddescription title=""/>
 		<memberdef>
 			<inlineclasses title=""/>
 			<typedefs title=""/>

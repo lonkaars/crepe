@@ -2,9 +2,6 @@
 
 #include "System.h"
 
-//TODO:
-// control if flip works with animation system
-
 namespace crepe {
 
 /**

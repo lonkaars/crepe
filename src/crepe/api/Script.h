@@ -2,10 +2,11 @@
 
 #include <vector>
 
+#include "../manager/EventManager.h"
+#include "../manager/Mediator.h"
+#include "../system/CollisionSystem.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
-
-#include "EventManager.h"
 
 namespace crepe {
 
@@ -19,7 +20,7 @@ class ComponentManager;
  * This class is used as a base class for user-defined scripts that can be added to game
  * objects using the \c BehaviorScript component.
  *
- * \info Additional *events* (like Unity's OnDisable and OnEnable) should be implemented as
+ * \note Additional *events* (like Unity's OnDisable and OnEnable) should be implemented as
  * member or lambda methods in derivative user script classes and registered in \c init().
  *
  * \warning Concrete scripts are allowed do create a custom constructor, but the utility
@@ -85,6 +86,25 @@ protected:
 	RefVector<T> get_components() const;
 
 	/**
+	 * \copydoc ComponentManager::get_components_by_id
+	 * \see ComponentManager::get_components_by_id
+	 */
+	template <typename T>
+	RefVector<T> get_components_by_id(game_object_id_t id) const;
+	/**
+	 * \copydoc ComponentManager::get_components_by_name
+	 * \see ComponentManager::get_components_by_name
+	 */
+	template <typename T>
+	RefVector<T> get_components_by_name(const std::string & name) const;
+	/**
+	 * \copydoc ComponentManager::get_components_by_tag
+	 * \see ComponentManager::get_components_by_tag
+	 */
+	template <typename T>
+	RefVector<T> get_components_by_tag(const std::string & tag) const;
+
+	/**
 	 * \brief Log a message using Log::logf
 	 *
 	 * \tparam Args Log::logf parameters
@@ -105,6 +125,15 @@ protected:
 	 */
 	template <typename EventType>
 	void subscribe(const EventHandler<EventType> & callback);
+
+	/**
+	 * \brief Set the next scene using SceneManager
+	 * \see SceneManager::set_next_scene
+	 */
+	void set_next_scene(const std::string & name);
+
+	//! Retrieve SaveManager reference
+	SaveManager & get_save_manager() const;
 
 	//! \}
 
@@ -160,10 +189,8 @@ private:
 	game_object_id_t game_object_id;
 	//! Reference to parent component
 	OptionalRef<bool> active;
-	//! Reference to component manager instance
-	OptionalRef<ComponentManager> component_manager;
-	//! Reference to event manager instance
-	OptionalRef<EventManager> event_manager;
+	//! Mediator reference
+	OptionalRef<Mediator> mediator;
 	//! \}
 
 private:

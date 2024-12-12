@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ComponentManager.h"
+#include "../manager/ComponentManager.h"
 
 #include "GameObject.h"
 

@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "../manager/Mediator.h"
 #include "../util/OptionalRef.h"
 
 namespace crepe {
@@ -11,7 +12,7 @@ class ComponentManager;
 
 /**
  * \brief Represents a Scene
- * 
+ *
  * This class represents a Scene. The Scene class is only used as an interface for the game
  * programmer.
  */
@@ -34,10 +35,13 @@ public:
 	 */
 	virtual std::string get_name() const = 0;
 
+	// TODO: Late references should ALWAYS be private! This is currently kept as-is so unit tests
+	// keep passing, but this reference should not be directly accessible by the user!!!
+
 protected:
 	/**
 	 * \name Late references
-	 * 
+	 *
 	 * These references are set by SceneManager immediately after calling the constructor of Scene.
 	 *
 	 * \note Scene must have a constructor without arguments so the game programmer doesn't need to
@@ -46,8 +50,8 @@ protected:
 	 *
 	 * \{
 	 */
-	//! Reference to the ComponentManager
-	OptionalRef<ComponentManager> component_manager;
+	//! Mediator reference
+	OptionalRef<Mediator> mediator;
 	//! \}
 };
 

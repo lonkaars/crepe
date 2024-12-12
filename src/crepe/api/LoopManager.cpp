@@ -1,16 +1,18 @@
 #include "../facade/SDLContext.h"
-
+#include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
+#include "../system/AISystem.h"
 #include "../system/AnimatorSystem.h"
+#include "../system/AudioSystem.h"
 #include "../system/CollisionSystem.h"
+#include "../system/InputSystem.h"
 #include "../system/ParticleSystem.h"
 #include "../system/PhysicsSystem.h"
 #include "../system/RenderSystem.h"
 #include "../system/ScriptSystem.h"
-#include "..//system/PhysicsSystem.h"
-#include "../system/CollisionSystem.h"
+#include "../util/Log.h"
 
 #include "LoopManager.h"
-#include "LoopTimer.h"
 
 using namespace crepe;
 using namespace std;
@@ -22,55 +24,63 @@ LoopManager::LoopManager() {
 	this->load_system<PhysicsSystem>();
 	this->load_system<RenderSystem>();
 	this->load_system<ScriptSystem>();
+	this->load_system<InputSystem>();
+	this->event_manager.subscribe<ShutDownEvent>(
+		[this](const ShutDownEvent & event) { return this->on_shutdown(event); });
+	this->load_system<AudioSystem>();
+	this->load_system<AISystem>();
 }
-
-void LoopManager::process_input() {
-	SDLContext::get_instance().handle_events(this->game_running);
-}
-
 void LoopManager::start() {
 	this->setup();
 	this->loop();
 }
-void LoopManager::set_running(bool running) { this->game_running = running; }
-
-void LoopManager::fixed_update() {
-	this->get_system<ScriptSystem>().update();
-	this->get_system<PhysicsSystem>().update();
-	this->get_system<CollisionSystem>().update();
-}
-
-void LoopManager::loop() {
-	LoopTimer & timer = LoopTimer::get_instance();
-	timer.start();
-
-	while (game_running) {
-		timer.update();
-
-		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
-			this->process_input();
-			this->fixed_update();
-			timer.advance_fixed_update();
-		}
-
-		this->update();
-		this->render();
-
-		timer.enforce_frame_rate();
-	}
-}
 
 void LoopManager::setup() {
 	this->game_running = true;
-	LoopTimer::get_instance().start();
-	LoopTimer::get_instance().set_fps(200);
+	this->loop_timer.start();
 	this->scene_manager.load_next_scene();
 }
 
-void LoopManager::render() {
-	if (this->game_running) {
-		this->get_system<RenderSystem>().update();
+void LoopManager::loop() {
+	try {
+		while (game_running) {
+			this->loop_timer.update();
+
+			while (this->loop_timer.get_lag() >= this->loop_timer.get_fixed_delta_time()) {
+				this->fixed_update();
+				this->loop_timer.advance_fixed_elapsed_time();
+			}
+
+			this->frame_update();
+			this->loop_timer.enforce_frame_rate();
+		}
+	} catch (const exception & e) {
+		Log::logf(Log::Level::ERROR, "Exception caught in main loop: {}", e.what());
+		this->event_manager.trigger_event<ShutDownEvent>(ShutDownEvent{});
 	}
 }
 
-void LoopManager::update() { LoopTimer & timer = LoopTimer::get_instance(); }
+// will be called at a fixed interval
+void LoopManager::fixed_update() {
+	this->get_system<InputSystem>().update();
+	this->event_manager.dispatch_events();
+	this->get_system<ScriptSystem>().update();
+	this->get_system<AISystem>().update();
+	this->get_system<PhysicsSystem>().update();
+	this->get_system<CollisionSystem>().update();
+	this->get_system<AudioSystem>().update();
+}
+
+// will be called every frame
+void LoopManager::frame_update() {
+	this->scene_manager.load_next_scene();
+	this->get_system<AnimatorSystem>().update();
+	//render
+	this->get_system<RenderSystem>().update();
+}
+
+bool LoopManager::on_shutdown(const ShutDownEvent & e) {
+	this->game_running = false;
+	// propagate to possible user ShutDownEvent listeners
+	return false;
+}

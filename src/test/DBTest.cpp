@@ -1,5 +1,6 @@
-#include <crepe/facade/DB.h>
 #include <gtest/gtest.h>
+
+#include <crepe/facade/DB.h>
 
 using namespace std;
 using namespace crepe;
