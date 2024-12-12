@@ -6,6 +6,7 @@
 #include "../manager/ResourceManager.h"
 #include "../manager/ComponentManager.h"
 #include "../util/OptionalRef.h"
+
 #include "GameObject.h"
 
 namespace crepe {
