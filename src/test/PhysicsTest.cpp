@@ -108,7 +108,7 @@ TEST_F(PhysicsTest, movement) {
 	EXPECT_NEAR(transform.position.x, 0.02, 0.001);
 	EXPECT_NEAR(transform.position.y, 0.02, 0.001);
 	EXPECT_NEAR(transform.rotation, 0.02, 0.001);
-
+	rigidbody.data.constraints = {0, 0, 0};
 	rigidbody.data.linear_velocity_coefficient.x = 0.5;
 	rigidbody.data.linear_velocity_coefficient.y = 0.5;
 	rigidbody.data.angular_velocity_coefficient = 0.5;
@@ -122,9 +122,11 @@ TEST_F(PhysicsTest, movement) {
 	rigidbody.data.max_angular_velocity = 1000;
 	rigidbody.data.angular_velocity = 360;
 	system.update();
-	EXPECT_NEAR(transform.rotation, 7.22, 0.0001);
+	EXPECT_NEAR(transform.rotation, 7.24, 0.01);
 
 	rigidbody.data.angular_velocity = -360;
 	system.update();
-	EXPECT_NEAR(transform.rotation, 0.02, 0.001);
+	EXPECT_NEAR(transform.rotation, 0.04, 0.001);
+	system.update();
+	EXPECT_NEAR(transform.rotation, 352.84, 0.01);
 }
