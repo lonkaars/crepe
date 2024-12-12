@@ -8,6 +8,7 @@
 #include "../system/CollisionSystem.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
+#include "../util/Log.h"
 
 namespace crepe {
 
@@ -58,83 +59,85 @@ protected:
 
 protected:
 	/**
-	 * \name Utility functions
+	 * \name Component query functions
+	 * \see ComponentManager
 	 * \{
 	 */
-
 	/**
 	 * \brief Get single component of type \c T on this game object
-	 *
 	 * \tparam T Type of component
-	 *
 	 * \returns Reference to component
-	 *
 	 * \throws std::runtime_error if this game object does not have a component with type \c T
 	 */
 	template <typename T>
 	T & get_component() const;
-	// TODO: make get_component calls for component types that can have more than 1 instance
-	// cause compile-time errors
-
 	/**
 	 * \brief Get all components of type \c T on this game object
-	 *
 	 * \tparam T Type of component
-	 *
 	 * \returns List of component references
 	 */
 	template <typename T>
 	RefVector<T> get_components() const;
-
-	/**
-	 * \copydoc ComponentManager::get_components_by_id
-	 * \see ComponentManager::get_components_by_id
-	 */
+	//! \copydoc ComponentManager::get_components_by_id
 	template <typename T>
 	RefVector<T> get_components_by_id(game_object_id_t id) const;
-	/**
-	 * \copydoc ComponentManager::get_components_by_name
-	 * \see ComponentManager::get_components_by_name
-	 */
+	//! \copydoc ComponentManager::get_components_by_name
 	template <typename T>
 	RefVector<T> get_components_by_name(const std::string & name) const;
-	/**
-	 * \copydoc ComponentManager::get_components_by_tag
-	 * \see ComponentManager::get_components_by_tag
-	 */
+	//! \copydoc ComponentManager::get_components_by_tag
 	template <typename T>
 	RefVector<T> get_components_by_tag(const std::string & tag) const;
+	//! \}
 
 	/**
-	 * \brief Log a message using Log::logf
-	 *
-	 * \tparam Args Log::logf parameters
-	 * \param args  Log::logf parameters
+	 * \name Logging functions
+	 * \see Log
+	 * \{
 	 */
-	template <typename... Args>
-	void logf(Args &&... args);
+	//! \copydoc Log::logf
+	template <class... Args>
+	void logf(const Log::Level & level, std::format_string<Args...> fmt, Args &&... args);
+	//! \copydoc Log::logf
+	template <class... Args>
+	void logf(std::format_string<Args...> fmt, Args &&... args);
+	// \}
 
 	/**
-	 * \brief Subscribe to an event with an explicit channel
-	 * \see EventManager::subscribe
+	 * \name Event manager functions
+	 * \see EventManager
+	 * \{
 	 */
+	//! \copydoc EventManager::subscribe
 	template <typename EventType>
 	void subscribe(const EventHandler<EventType> & callback, event_channel_t channel);
-	/**
-	 * \brief Subscribe to an event on EventManager::CHANNEL_ALL
-	 * \see EventManager::subscribe
-	 */
+	//! \copydoc EventManager::subscribe
 	template <typename EventType>
 	void subscribe(const EventHandler<EventType> & callback);
+	//! \copydoc EventManager::trigger_event
+	template <typename EventType>
+	void trigger_event(const EventType & event = {}, event_channel_t channel = EventManager::CHANNEL_ALL);
+	//! \copydoc EventManager::queue_event
+	template <typename EventType>
+	void queue_event(const EventType & event = {}, event_channel_t channel = EventManager::CHANNEL_ALL);
+	//! \}
 
 	/**
-	 * \brief Set the next scene using SceneManager
-	 * \see SceneManager::set_next_scene
+	 * \name Scene-related functions
+	 * \see SceneManager
+	 * \{
 	 */
+	//! \copydoc SceneManager::set_next_scene
 	void set_next_scene(const std::string & name);
+	//! \}
 
+	/**
+	 * \name Save data management functions
+	 * \see SaveManager
+	 * \{
+	 */
 	//! Retrieve SaveManager reference
 	SaveManager & get_save_manager() const;
+	//! \}
 
 	//! Replay management functions
 	struct replay { // NOLINT
@@ -152,7 +155,6 @@ protected:
 		replay(OptionalRef<Mediator> & mediator) : mediator(mediator) {}
 		friend class Script;
 	} replay{mediator};
-
 	//! \}
 
 private:

@@ -1,7 +1,7 @@
 #include "../api/GameObject.h"
 #include "../api/Metadata.h"
 #include "../types.h"
-#include "../util/Log.h"
+#include "../util/dbg.h"
 
 #include "ComponentManager.h"
 
