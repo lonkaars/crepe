@@ -1,7 +1,5 @@
 #include "system/RenderSystem.h"
-#include <algorithm>
 #include <gtest/gtest.h>
-#include <iostream>
 #define protected public
 #define private public
 #include "api/KeyCodes.h"
