@@ -4,8 +4,8 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
-#include <SDL2/SDL_video.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_video.h>
 #include <cmath>
 #include <functional>
 #include <memory>
@@ -225,7 +225,6 @@ public:
 	void set_color_texture(const Texture & texture, const Color & color);
 
 private:
-
 	//! sdl Window
 	std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> game_window;
 

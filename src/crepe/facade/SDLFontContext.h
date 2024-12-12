@@ -1,17 +1,17 @@
 #pragma once
 
-#include <memory>
 #include <SDL2/SDL_ttf.h>
 #include <fontconfig/fontconfig.h>
+#include <memory>
 
 #include "../api/Asset.h"
 
 namespace crepe {
-	class SDLFontContext{
-	public:
-		SDLFontContext();
-		~SDLFontContext();
-		/**
+class SDLFontContext {
+public:
+	SDLFontContext();
+	~SDLFontContext();
+	/**
 		 * 
 		 * \brief Facade function to convert a font_family into an asset.
 		 * 
@@ -19,8 +19,9 @@ namespace crepe {
 		 * 
 		 * \param font_family Name of the font family name.
 		 */
-		std::unique_ptr<Asset> get_font_asset(const std::string & font_family);
-	private:
-	};
+	std::unique_ptr<Asset> get_font_asset(const std::string & font_family);
 
-}
+private:
+};
+
+} // namespace crepe
