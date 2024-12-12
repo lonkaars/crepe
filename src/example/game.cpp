@@ -66,6 +66,11 @@ class MyScript1 : public Script {
 				//add collider switch
 				break;
 			}
+			case Keycode::Q: {
+				Rigidbody & rg = this->get_component<Rigidbody>();
+				rg.data.angular_velocity = 1;
+				break;
+			}
 			default:
 				break;
 		}
