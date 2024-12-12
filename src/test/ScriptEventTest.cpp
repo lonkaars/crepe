@@ -26,7 +26,7 @@ public:
 	class MyEvent : public Event {};
 };
 
-TEST_F(ScriptEventTest, Inactive) {
+TEST_F(ScriptEventTest, Default) {
 	BehaviorScript & behaviorscript = this->behaviorscript;
 	MyScript & script = this->script;
 	EventManager & evmgr = this->event_manager;
