@@ -1,4 +1,7 @@
 #pragma once
+
+#include <unordered_map>
+
 namespace crepe {
 //! Enumeration for mouse button inputs, including standard and extended buttons.
 enum class MouseButton {
@@ -153,4 +156,6 @@ typedef enum {
 	//! Not actually a key instead its the amount of keycodes there are for array indexing
 	NUM_KEYCODES = 512,
 } Keycode;
+
+typedef std::unordered_map<Keycode, bool> keyboard_state_t;
 } // namespace crepe

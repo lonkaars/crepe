@@ -10,6 +10,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include "api/Camera.h"
 #include "api/Color.h"
@@ -129,11 +130,11 @@ public:
 	 * specific key defined in the `Keycode` enum, and the value indicates whether
 	 * the key is currently pressed (true) or not pressed (false).
 	 *
-	 * \return A `std::array<bool, Keycode::NUM_KEYCODES>` representing the state of
+	 * \return A `keyboard_state_t` representing the state of
 	 *         each key on the keyboard, where `true` means the key is pressed, and
 	 *         `false` means it is not pressed.
 	 */
-	std::array<bool, Keycode::NUM_KEYCODES> get_keyboard_state();
+	keyboard_state_t get_keyboard_state();
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
 	 * \return Reference to the SDLContext instance.
@@ -294,6 +295,108 @@ private:
 	 * - this is defined in this class because get_events() needs this information aswell
 	 */
 	CameraAuxiliaryData cam_aux_data;
+private: 
+	keyboard_state_t keyboard_state;
+	const std::unordered_map<SDL_Scancode, Keycode> LOOKUP_TABLE = {
+        {SDL_SCANCODE_SPACE, Keycode::SPACE},
+        {SDL_SCANCODE_APOSTROPHE, Keycode::APOSTROPHE},
+        {SDL_SCANCODE_COMMA, Keycode::COMMA},
+        {SDL_SCANCODE_MINUS, Keycode::MINUS},
+        {SDL_SCANCODE_PERIOD, Keycode::PERIOD},
+        {SDL_SCANCODE_SLASH, Keycode::SLASH},
+        {SDL_SCANCODE_0, Keycode::D0},
+        {SDL_SCANCODE_1, Keycode::D1},
+        {SDL_SCANCODE_2, Keycode::D2},
+        {SDL_SCANCODE_3, Keycode::D3},
+        {SDL_SCANCODE_4, Keycode::D4},
+        {SDL_SCANCODE_5, Keycode::D5},
+        {SDL_SCANCODE_6, Keycode::D6},
+        {SDL_SCANCODE_7, Keycode::D7},
+        {SDL_SCANCODE_8, Keycode::D8},
+        {SDL_SCANCODE_9, Keycode::D9},
+        {SDL_SCANCODE_SEMICOLON, Keycode::SEMICOLON},
+        {SDL_SCANCODE_EQUALS, Keycode::EQUAL},
+        {SDL_SCANCODE_A, Keycode::A},
+        {SDL_SCANCODE_B, Keycode::B},
+        {SDL_SCANCODE_C, Keycode::C},
+        {SDL_SCANCODE_D, Keycode::D},
+        {SDL_SCANCODE_E, Keycode::E},
+        {SDL_SCANCODE_F, Keycode::F},
+        {SDL_SCANCODE_G, Keycode::G},
+        {SDL_SCANCODE_H, Keycode::H},
+        {SDL_SCANCODE_I, Keycode::I},
+        {SDL_SCANCODE_J, Keycode::J},
+        {SDL_SCANCODE_K, Keycode::K},
+        {SDL_SCANCODE_L, Keycode::L},
+        {SDL_SCANCODE_M, Keycode::M},
+        {SDL_SCANCODE_N, Keycode::N},
+        {SDL_SCANCODE_O, Keycode::O},
+        {SDL_SCANCODE_P, Keycode::P},
+        {SDL_SCANCODE_Q, Keycode::Q},
+        {SDL_SCANCODE_R, Keycode::R},
+        {SDL_SCANCODE_S, Keycode::S},
+        {SDL_SCANCODE_T, Keycode::T},
+        {SDL_SCANCODE_U, Keycode::U},
+        {SDL_SCANCODE_V, Keycode::V},
+        {SDL_SCANCODE_W, Keycode::W},
+        {SDL_SCANCODE_X, Keycode::X},
+        {SDL_SCANCODE_Y, Keycode::Y},
+        {SDL_SCANCODE_Z, Keycode::Z},
+        {SDL_SCANCODE_LEFTBRACKET, Keycode::LEFT_BRACKET},
+        {SDL_SCANCODE_BACKSLASH, Keycode::BACKSLASH},
+        {SDL_SCANCODE_RIGHTBRACKET, Keycode::RIGHT_BRACKET},
+        {SDL_SCANCODE_GRAVE, Keycode::GRAVE_ACCENT},
+        {SDL_SCANCODE_ESCAPE, Keycode::ESCAPE},
+        {SDL_SCANCODE_RETURN, Keycode::ENTER},
+        {SDL_SCANCODE_TAB, Keycode::TAB},
+        {SDL_SCANCODE_BACKSPACE, Keycode::BACKSPACE},
+        {SDL_SCANCODE_INSERT, Keycode::INSERT},
+        {SDL_SCANCODE_DELETE, Keycode::DELETE},
+        {SDL_SCANCODE_RIGHT, Keycode::RIGHT},
+        {SDL_SCANCODE_LEFT, Keycode::LEFT},
+        {SDL_SCANCODE_DOWN, Keycode::DOWN},
+        {SDL_SCANCODE_UP, Keycode::UP},
+        {SDL_SCANCODE_PAGEUP, Keycode::PAGE_UP},
+        {SDL_SCANCODE_PAGEDOWN, Keycode::PAGE_DOWN},
+        {SDL_SCANCODE_HOME, Keycode::HOME},
+        {SDL_SCANCODE_END, Keycode::END},
+        {SDL_SCANCODE_CAPSLOCK, Keycode::CAPS_LOCK},
+        {SDL_SCANCODE_SCROLLLOCK, Keycode::SCROLL_LOCK},
+        {SDL_SCANCODE_NUMLOCKCLEAR, Keycode::NUM_LOCK},
+        {SDL_SCANCODE_PRINTSCREEN, Keycode::PRINT_SCREEN},
+        {SDL_SCANCODE_PAUSE, Keycode::PAUSE},
+        {SDL_SCANCODE_F1, Keycode::F1},
+        {SDL_SCANCODE_F2, Keycode::F2},
+        {SDL_SCANCODE_F3, Keycode::F3},
+        {SDL_SCANCODE_F4, Keycode::F4},
+        {SDL_SCANCODE_F5, Keycode::F5},
+        {SDL_SCANCODE_F6, Keycode::F6},
+        {SDL_SCANCODE_F7, Keycode::F7},
+        {SDL_SCANCODE_F8, Keycode::F8},
+        {SDL_SCANCODE_F9, Keycode::F9},
+        {SDL_SCANCODE_F10, Keycode::F10},
+        {SDL_SCANCODE_F11, Keycode::F11},
+        {SDL_SCANCODE_F12, Keycode::F12},
+        {SDL_SCANCODE_KP_0, Keycode::KP0},
+        {SDL_SCANCODE_KP_1, Keycode::KP1},
+        {SDL_SCANCODE_KP_2, Keycode::KP2},
+        {SDL_SCANCODE_KP_3, Keycode::KP3},
+        {SDL_SCANCODE_KP_4, Keycode::KP4},
+        {SDL_SCANCODE_KP_5, Keycode::KP5},
+        {SDL_SCANCODE_KP_6, Keycode::KP6},
+        {SDL_SCANCODE_KP_7, Keycode::KP7},
+        {SDL_SCANCODE_KP_8, Keycode::KP8},
+        {SDL_SCANCODE_KP_9, Keycode::KP9},
+        {SDL_SCANCODE_LSHIFT, Keycode::LEFT_SHIFT},
+        {SDL_SCANCODE_LCTRL, Keycode::LEFT_CONTROL},
+        {SDL_SCANCODE_LALT, Keycode::LEFT_ALT},
+        {SDL_SCANCODE_LGUI, Keycode::LEFT_SUPER},
+        {SDL_SCANCODE_RSHIFT, Keycode::RIGHT_SHIFT},
+        {SDL_SCANCODE_RCTRL, Keycode::RIGHT_CONTROL},
+        {SDL_SCANCODE_RALT, Keycode::RIGHT_ALT},
+        {SDL_SCANCODE_RGUI, Keycode::RIGHT_SUPER},
+        {SDL_SCANCODE_MENU, Keycode::MENU}
+    };
 };
 
 } // namespace crepe
