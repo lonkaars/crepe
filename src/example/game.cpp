@@ -29,7 +29,7 @@ public:
 		Asset start_begin_asset{"asset/jetpack_joyride/background/start/titleFG_1_TVOS.png"};
 		start_begin.add_component<Sprite>(start_begin_asset, Sprite::Data{
 																 .sorting_in_layer = 0,
-																 .order_in_layer = 0,
+																 .order_in_layer = 1,
 																 .size = vec2(0, 800),
 															 });
 
@@ -37,7 +37,7 @@ public:
 		Asset start_end_asset{"asset/jetpack_joyride/background/start/titleFG_2_TVOS.png"};
 		start_end.add_component<Sprite>(start_end_asset, Sprite::Data{
 															 .sorting_in_layer = 0,
-															 .order_in_layer = 1,
+															 .order_in_layer = 2,
 															 .size = vec2(0, 800),
 														 });
 
@@ -46,9 +46,88 @@ public:
 			"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
 		hallway_begin.add_component<Sprite>(hallway_begin_asset, Sprite::Data{
 																	 .sorting_in_layer = 0,
-																	 .order_in_layer = 0,
+																	 .order_in_layer = 1,
 																	 .size = vec2(0, 800),
 																 });
+
+		GameObject hallway_middle
+			= mgr.new_object("hallway_middle", "background", vec2(1400, 0));
+		Asset hallway_middle_asset{
+			"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+		hallway_middle.add_component<Sprite>(hallway_middle_asset, Sprite::Data{
+																	   .sorting_in_layer = 0,
+																	   .order_in_layer = 2,
+																	   .size = vec2(0, 800),
+																   });
+
+		GameObject hallway_end = mgr.new_object("hallway_end", "background", vec2(2000, 0));
+		Asset hallway_end_asset{
+			"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
+		hallway_end.add_component<Sprite>(hallway_end_asset, Sprite::Data{
+																 .sorting_in_layer = 0,
+																 .order_in_layer = 1,
+																 .size = vec2(0, 800),
+															 });
+
+		GameObject forest_begin = mgr.new_object("forest_begin", "background", vec2(2600, 0));
+		Asset forest_begin_asset{
+			"asset/jetpack_joyride/background/forest/forestFG_1_TVOS.png"};
+		forest_begin.add_component<Sprite>(forest_begin_asset, Sprite::Data{
+																   .sorting_in_layer = 0,
+																   .order_in_layer = 2,
+																   .size = vec2(0, 800),
+															   });
+
+		GameObject forest_middle
+			= mgr.new_object("forest_middle", "background", vec2(3400, 0));
+		Asset forest_middle_asset{
+			"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
+		forest_middle.add_component<Sprite>(forest_middle_asset, Sprite::Data{
+																	 .sorting_in_layer = 0,
+																	 .order_in_layer = 2,
+																	 .size = vec2(0, 800),
+																 });
+
+		GameObject forest_end = mgr.new_object("forest_end", "background", vec2(4200, 0));
+		Asset forest_end_asset{"asset/jetpack_joyride/background/forest/forestFG_2_TVOS.png"};
+		forest_end.add_component<Sprite>(forest_end_asset, Sprite::Data{
+															   .sorting_in_layer = 0,
+															   .order_in_layer = 2,
+															   .size = vec2(0, 800),
+														   });
+
+		GameObject forest_background_1
+			= mgr.new_object("forest_background", "background", vec2(2600, 0));
+		Asset forest_background_1_asset{
+			"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
+		forest_background_1.add_component<Sprite>(forest_background_1_asset,
+												  Sprite::Data{
+													  .sorting_in_layer = 0,
+													  .order_in_layer = 0,
+													  .size = vec2(0, 800),
+												  });
+
+		GameObject forest_background_2
+			= mgr.new_object("forest_background", "background", vec2(3400, 0));
+		Asset forest_background_2_asset{
+			"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
+		forest_background_2.add_component<Sprite>(forest_background_2_asset,
+												  Sprite::Data{
+													  .sorting_in_layer = 0,
+													  .order_in_layer = 0,
+													  .size = vec2(0, 800),
+												  });
+
+		GameObject forest_background_3
+			= mgr.new_object("forest_background", "background", vec2(4200, 0));
+		Asset forest_background_3_asset{
+			"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
+		forest_background_3.add_component<Sprite>(forest_background_3_asset,
+												  Sprite::Data{
+													  .sorting_in_layer = 0,
+													  .order_in_layer = 0,
+													  .size = vec2(0, 800),
+												  });
 
 		GameObject camera = mgr.new_object("camera", "camera", vec2(600, 0));
 		camera.add_component<Camera>(ivec2(1700, 720), vec2(2000, 800),
@@ -56,7 +135,7 @@ public:
 										 .bg_color = Color::RED,
 									 });
 		camera.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(1, 0),
+			.linear_velocity = vec2(1.5, 0),
 		});
 	}
 
