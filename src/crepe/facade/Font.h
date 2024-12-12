@@ -17,17 +17,20 @@ class Font : public Resource{
 public:
     /**
 	 * \param src Asset with font data to load.
-	 * \param mediator use the SDLContext reference to load text
+	 * \param mediator use the SDLContext reference to get_font()
 	 */
-    Font( src, Mediator & mediator);
+    Font(const Asset & src, Mediator & mediator);
 
-
-    ~Font() = default
-	const TTF_Font& get_font() const;
+	/**
+	 * \brief getter for TTF_Font
+	 * 
+	 * \param src Asset with font data to load.
+	 * \param mediator use the SDLContext reference to get_font()
+	 */
+	TTF_Font* get_font() const;
 private:
 	//! The SDL_ttf font object with custom deleter.
     std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)> font;
-	unsigned int default_font_size = Config::get_instance().font.size;
 };
 
 } // namespace crepe
