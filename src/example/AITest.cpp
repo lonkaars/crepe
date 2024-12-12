@@ -8,7 +8,6 @@
 #include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
-#include <crepe/api/Texture.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/types.h>
 
@@ -47,14 +46,19 @@ public:
 		GameObject game_object1 = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 		GameObject game_object2 = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 
-		Texture img = Texture("asset/texture/test_ap43.png");
-		game_object1.add_component<Sprite>(img, Sprite::Data{
-													.color = Color::MAGENTA,
-													.flip = Sprite::FlipSettings{false, false},
-													.sorting_in_layer = 1,
-													.order_in_layer = 1,
-													.size = {0, 195},
-												});
+		Asset img{"asset/texture/test_ap43.png"};
+
+		Sprite & test_sprite = game_object1.add_component<Sprite>(
+			img, Sprite::Data{
+					 .color = Color::MAGENTA,
+					 .flip = Sprite::FlipSettings{false, false},
+					 .sorting_in_layer = 2,
+					 .order_in_layer = 2,
+					 .size = {0, 100},
+					 .angle_offset = 0,
+					 .position_offset = {0, 0},
+				 });
+
 		AI & ai = game_object1.add_component<AI>(3000);
 		// ai.arrive_on();
 		// ai.flee_on();
@@ -63,7 +67,7 @@ public:
 		ai.make_oval_path(1000, 500, {0, 500}, 4.7124, false);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 0.1f,
-			.max_linear_velocity = {40, 40},
+			.max_linear_velocity = 40,
 		});
 		game_object1.add_component<BehaviorScript>().set_script<Script1>();
 
