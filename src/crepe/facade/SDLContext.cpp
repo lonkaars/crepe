@@ -19,7 +19,7 @@
 #include "../api/Color.h"
 #include "../api/Config.h"
 #include "../api/Sprite.h"
-#include "../util/Log.h"
+#include "../util/dbg.h"
 #include "manager/Mediator.h"
 
 #include "SDLContext.h"

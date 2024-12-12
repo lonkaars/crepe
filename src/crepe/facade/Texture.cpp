@@ -1,4 +1,4 @@
-#include "../util/Log.h"
+#include "../util/dbg.h"
 #include "facade/SDLContext.h"
 #include "manager/Mediator.h"
 

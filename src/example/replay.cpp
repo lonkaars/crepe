@@ -27,17 +27,21 @@ class Timeline : public Script {
 		switch (i++) {
 			default: break;
 			case 10:
+				logf("record start");
 				replay.record_start();
 				break;
 			case 60:
+				logf("record end, playing recording");
 				this->recording = replay.record_end();
 				replay.play(this->recording);
 				break;
 			case 61:
+				logf("done, releasing recording");
 				replay.release(this->recording);
 				break;
 			case 72:
-				throw;
+				logf("exit");
+				queue_event<ShutDownEvent>();
 				break;
 		};
 	}
