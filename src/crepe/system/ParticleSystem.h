@@ -58,14 +58,6 @@ private:
 	 * \return Random speed.
 	 */
 	float generate_random_speed(float min_speed, float max_speed) const;
-
-private:
-	//! Counter to count updates to determine how many times emit_particle is
-	// called.
-	unsigned int update_count = 0;
-	//! Determines the lowest amount of emission rate (1000 = 0.001 = 1 particle per 1000
-	// updates).
-	static constexpr unsigned int MAX_UPDATE_COUNT = 100;
 };
 
 } // namespace crepe
