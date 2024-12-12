@@ -102,12 +102,14 @@ public:
 	// Run and profile all systems, return the total time in milliseconds
 	std::chrono::microseconds run_all_systems() {
 		std::chrono::microseconds total_microseconds = 0us;
-		total_microseconds += time_function("PhysicsSystem", [&]() { physics_sys.fixed_update(); });
+		total_microseconds
+			+= time_function("PhysicsSystem", [&]() { physics_sys.fixed_update(); });
 		total_microseconds
 			+= time_function("CollisionSystem", [&]() { collision_sys.fixed_update(); });
 		total_microseconds
 			+= time_function("ParticleSystem", [&]() { particle_sys.fixed_update(); });
-		total_microseconds += time_function("RenderSystem", [&]() { render_sys.frame_update(); });
+		total_microseconds
+			+= time_function("RenderSystem", [&]() { render_sys.frame_update(); });
 		return total_microseconds;
 	}
 

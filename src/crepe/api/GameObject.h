@@ -30,9 +30,8 @@ private:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	GameObject(Mediator & mediator, game_object_id_t id,
-			   const std::string & name, const std::string & tag, const vec2 & position,
-			   double rotation, double scale);
+	GameObject(Mediator & mediator, game_object_id_t id, const std::string & name,
+			   const std::string & tag, const vec2 & position, double rotation, double scale);
 	//! ComponentManager instances GameObject
 	friend class ComponentManager;
 

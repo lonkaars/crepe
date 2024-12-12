@@ -1,9 +1,9 @@
 #include "../manager/ReplayManager.h"
 #include "../manager/SystemManager.h"
 
+#include "EventSystem.h"
 #include "RenderSystem.h"
 #include "ReplaySystem.h"
-#include "EventSystem.h"
 
 using namespace crepe;
 using namespace std;
@@ -15,7 +15,8 @@ void ReplaySystem::fixed_update() {
 	this->last_state = state;
 
 	switch (state) {
-		case ReplayManager::IDLE: break;
+		case ReplayManager::IDLE:
+			break;
 		case ReplayManager::RECORDING: {
 			replay.frame_record();
 			break;
@@ -51,4 +52,3 @@ void ReplaySystem::playback_end() {
 	components.restore(this->playback.components);
 	systems.restore(this->playback.systems);
 }
-

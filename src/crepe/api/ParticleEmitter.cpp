@@ -23,4 +23,3 @@ ParticleEmitter & ParticleEmitter::operator=(const ParticleEmitter & other) {
 	data.particles = other.data.particles;
 	return *this;
 }
-

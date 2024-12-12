@@ -2,14 +2,13 @@
 
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
+#include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
 #include "../manager/ReplayManager.h"
-#include "../manager/ResourceManager.h"
 #include "../manager/ResourceManager.h"
 #include "../manager/SaveManager.h"
 #include "../manager/SceneManager.h"
 #include "../manager/SystemManager.h"
-#include "../manager/LoopTimerManager.h"
-#include "../manager/EventManager.h"
 
 namespace crepe {
 

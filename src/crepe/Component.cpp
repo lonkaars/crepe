@@ -14,7 +14,4 @@ unique_ptr<Component> Component::save() const {
 	return unique_ptr<Component>(new Component(*this));
 }
 
-void Component::restore(const Component & snapshot) {
-	*this = snapshot;
-}
-
+void Component::restore(const Component & snapshot) { *this = snapshot; }

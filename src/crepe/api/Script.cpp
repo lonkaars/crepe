@@ -45,4 +45,3 @@ void Script::replay::release(recording_t recording) {
 	ReplayManager & mgr = this->mediator->replay_manager;
 	return mgr.release(recording);
 }
-

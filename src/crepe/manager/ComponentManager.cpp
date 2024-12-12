@@ -97,4 +97,3 @@ void ComponentManager::restore(const Snapshot & snapshot) {
 		this->components[info.type][info.id][info.index]->restore(*info.component);
 	}
 }
-
