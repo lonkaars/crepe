@@ -1,0 +1,53 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note This feature is build upon \ref feature_creating_moveable_object
+
+\defgroup feature_moving_object Object moved by velocity
+\ingroup feature
+\brief Creating GameObject that is moved by its velocity.
+
+This feature introduces the ability to make objects in the game world move by setting a velocity.
+Velocity is applied through the PhysicsSystem using the properties of the Rigidbody component, such as linear_velocity and linear_velocity_coefficient. 
+
+\par Feature Explanation
+For objects moved by velocity, the Rigidbody must have its body_type set to DYNAMIC. 
+The combination of linear_velocity and linear_velocity_coefficient determines the velocityof the object. 
+Lighter objects (low mass) with a default gravity scale will accelerate more noticeably, while heavier objects or objects with reduced gravity scale will fall more slowly.
+
+Common use cases for this feature include:
+- Creating player characters or NPCs that are pulled by gravity.
+- Simulating physical objects like boxes, rocks, or other movable items in the game world.
+
+\see Component
+\see GameObject
+\see PhysicsSystem
+\see Rigidbody
+
+\par Example
+
+The example enables the gravity_scale and sets the mass.
+The PhysicsSystem will pull the object downwards like gravity.
+The amount of mass and the gravity_scale determine the amount of force applied 
+
+```cpp
+#include <crepe/api/Rigidbody.h>
+
+using namespace crepe;
+
+gameobject.add_component<Rigidbody>(Rigidbody::Data{
+	.body_type = Rigidbody::BodyType::DYNAMIC
+	.mass = 1;
+	.gravity_scale = 1;
+	});
+```
+
+\par Previous features
+\ref feature_gameobject \n
+
+\par Next features
+\ref feature_scene \n
+
+*/
+}

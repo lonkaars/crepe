@@ -1,0 +1,54 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\note This feature is build upon \ref feature_creating_moveable_object
+
+\defgroup feature_gravity_object Object affected by gravity
+\ingroup feature
+\brief Creating GameObject that is affected by gravity through physics.
+
+This feature introduces the ability to make objects in the game world subject to gravity.
+Gravity is applied through the PhysicsSystem using the properties of the Rigidbody component, such as mass and gravity_scale. 
+These properties allow customization how strongly the object is affected by gravity.
+
+\par Feature Explanation
+For objects affected by gravity, the Rigidbody must have its body_type set to DYNAMIC. 
+The combination of mass and gravity_scale determines the gravitational force applied to the object. 
+Lighter objects (low mass) with a default gravity scale will accelerate less noticeable, while heavier objects or objects with high gravity scale will fall faster.
+
+Common use cases for this feature include:
+- Creating player characters or NPCs that are pulled by gravity.
+- Simulating physical objects like boxes, rocks, or other movable items in the game world.
+
+\see Component
+\see GameObject
+\see PhysicsSystem
+\see Rigidbody
+
+\par Example
+
+The example enables the gravity_scale and sets the mass.
+The PhysicsSystem will pull the object downwards like gravity.
+The amount of mass and the gravity_scale determine the amount of force applied 
+
+```cpp
+#include <crepe/api/Rigidbody.h>
+
+using namespace crepe;
+
+gameobject.add_component<Rigidbody>(Rigidbody::Data{
+	.body_type = Rigidbody::BodyType::DYNAMIC
+	.mass = 1;
+	.gravity_scale = 1;
+	});
+```
+
+\par Previous features
+\ref feature_gameobject \n
+
+\par Next features
+\ref feature_scene \n
+
+*/
+}

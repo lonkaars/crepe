@@ -25,4 +25,7 @@ feature.
 - Entity
 	- \ref feature_gameobject \n\copybrief feature_gameobject
 
+- Physics
+	- \ref feature_creating_moveable_object \n\copybrief feature_creating_moveable_object
+	- \ref feature_gravity_object \n\copybrief feature_gravity_object
 */

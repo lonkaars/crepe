@@ -11,17 +11,34 @@ allowing it to interact with the game world through physics simulations.
 To enable this behavior, a Rigidbody Component must be added to the object.
 A System named PhysicsSystem will interact with an active Rigidbody to edit the Transform.
 
+\par Feature Explanation
+The Rigidbody component is responsible for defining the physical behavior of a GameObject. 
+For objects to be movable, the Rigidbody must have its body_type set to DYNAMIC.
+
 Common use cases for this feature include:
 - Characters that need to move and react to forces.
 - Falling objects.
 - Moving platforms.
 
+\see Component
+\see GameObject
+\see PhysicsSystem
+\see Rigidbody
+
 \par Example
 
-Adding a Rigidbody to a GameObject.
+The example will use all default values from the Rigidbody.
+The default Rigidbody is a moveable object which does start with any movement.
+To add a Rigidbody to a GameObject see the example code below
 
 ```cpp
-todo
+#include <crepe/api/Rigidbody.h>
+
+using namespace crepe;
+
+gameobject.add_component<Rigidbody>(Rigidbody::Data{
+	.body_type = Rigidbody::BodyType::DYNAMIC
+	});
 ```
 
 \par Previous features
