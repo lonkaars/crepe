@@ -2,6 +2,7 @@
 #include "api/Scene.h"
 #include "manager/ComponentManager.h"
 #include "manager/Mediator.h"
+#include "types.h"
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
@@ -11,7 +12,6 @@
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
-#include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
 
@@ -183,16 +183,16 @@ public:
 			vec2{world_collider, world_collider}); // Left
 		world.add_component<BoxCollider>(vec2{screen_size_width / 2 + world_collider / 2, 0},
 										 vec2{world_collider, world_collider}); // right
-		world.add_component<Camera>(
-			Color::WHITE,
-			ivec2{static_cast<int>(screen_size_width), static_cast<int>(screen_size_height)},
-			vec2{screen_size_width, screen_size_height}, 1.0f);
+		world.add_component<Camera>(ivec2{static_cast<int>(screen_size_width),static_cast<int>(screen_size_height)},vec2{screen_size_width,screen_size_height},Camera::Data{
+			.bg_color = Color::WHITE,
+			.zoom = 1,
+		});
 
 		GameObject game_object1 = mgr.new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
-			.gravity_scale = 0,
+			.gravity_scale = 1,
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
@@ -203,17 +203,19 @@ public:
 		// add box with boxcollider
 		game_object1.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
 		game_object1.add_component<BehaviorScript>().set_script<MyScript1>();
-		auto img1 = Texture("asset/texture/square.png");
-		game_object1.add_component<Sprite>(img1, color, Sprite::FlipSettings{false, false}, 1,
-										   1, 20);
+
+		Asset img1{"asset/texture/square.png"};
+		game_object1.add_component<Sprite>(img1,Sprite::Data{
+			.size = {20,20},
+		});
 
 		//add circle with cirlcecollider deactiveated
 		game_object1.add_component<CircleCollider>(vec2{0, 0}, 10).active = false;
-		auto img2 = Texture("asset/texture/circle.png");
+		Asset img2{"asset/texture/circle.png"};
 		game_object1
-			.add_component<Sprite>(img2, color, Sprite::FlipSettings{false, false}, 1, 1, 20)
-			.active
-			= false;
+			.add_component<Sprite>(img2,Sprite::Data{
+			.size = {20,20},
+		}).active = false;
 
 		GameObject game_object2 = mgr.new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
@@ -230,17 +232,17 @@ public:
 		// add box with boxcollider
 		game_object2.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
 		game_object2.add_component<BehaviorScript>().set_script<MyScript2>();
-		auto img3 = Texture("asset/texture/square.png");
-		game_object2.add_component<Sprite>(img3, color, Sprite::FlipSettings{false, false}, 1,
-										   1, 20);
+	
+		game_object2.add_component<Sprite>(img1,Sprite::Data{
+			.size = {20,20},
+		});
 
 		//add circle with cirlcecollider deactiveated
 		game_object2.add_component<CircleCollider>(vec2{0, 0}, 10).active = false;
-		auto img4 = Texture("asset/texture/circle.png");
-		game_object2
-			.add_component<Sprite>(img4, color, Sprite::FlipSettings{false, false}, 1, 1, 20)
-			.active
-			= false;
+	
+		game_object2.add_component<Sprite>(img2,Sprite::Data{
+			.size = {20,20},
+		}).active = false;
 	}
 
 	string get_name() const { return "scene1"; }
