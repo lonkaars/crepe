@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Scene.h"
 #include "../util/Log.h"
+#include "Scene.h"
 
 namespace crepe {
 
@@ -10,4 +10,4 @@ void Scene::logf(Args &&... args) {
 	Log::logf(std::forward<Args>(args)...);
 }
 
-}
+} // namespace crepe
