@@ -50,6 +50,7 @@
 		<inheritancegraph visible="yes"/>
 		<collaborationgraph visible="yes"/>
 		<memberdecl>
+			<publicmethods title=""/>
 			<nestedclasses visible="yes" title=""/>
 			<publictypes title=""/>
 			<services title=""/>
@@ -58,7 +59,6 @@
 			<signals title=""/>
 			<publicattributes title=""/>
 			<publicstaticattributes title=""/>
-			<publicmethods title=""/>
 			<publicstaticmethods title=""/>
 			<protectedtypes title=""/>
 			<protectedslots title=""/>
