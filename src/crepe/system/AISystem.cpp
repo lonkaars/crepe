@@ -13,12 +13,10 @@ using namespace std::chrono;
 void AISystem::update() {
 	const Mediator & mediator = this->mediator;
 	ComponentManager & mgr = mediator.component_manager;
-	LoopTimerManager & timer = mediator.loop_timer;
-	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 	LoopTimerManager & loop_timer = mediator.loop_timer;
+	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 
-	//TODO: Use fixed loop dt (this is not available at master at the moment)
-	duration_t dt = loop_timer.get_delta_time();
+	float dt = loop_timer.get_scaled_fixed_delta_time().count();
 
 	// Loop through all AI components
 	for (AI & ai : ai_components) {
@@ -45,7 +43,7 @@ void AISystem::update() {
 		// Calculate the acceleration (using the above calculated force)
 		vec2 acceleration = force / rigidbody.data.mass;
 		// Finally, update Rigidbody's velocity
-		rigidbody.data.linear_velocity += acceleration * duration_cast<seconds>(dt).count();
+		rigidbody.data.linear_velocity += acceleration * dt;
 	}
 }
 
@@ -146,7 +144,7 @@ vec2 AISystem::arrive(const AI & ai, const Rigidbody & rigidbody,
 		}
 
 		float speed = distance / ai.arrive_deceleration;
-		speed = std::min(speed, rigidbody.data.max_linear_velocity.length());
+		speed = std::min(speed, rigidbody.data.max_linear_velocity);
 		vec2 desired_velocity = to_target * (speed / distance);
 
 		return desired_velocity - rigidbody.data.linear_velocity;
