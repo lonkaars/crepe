@@ -2,9 +2,9 @@
 
 #include <string>
 
+#include "../manager/ComponentManager.h"
 #include "../manager/Mediator.h"
 #include "../manager/ResourceManager.h"
-#include "../manager/ComponentManager.h"
 #include "../util/OptionalRef.h"
 
 #include "GameObject.h"
@@ -60,15 +60,12 @@ private:
 	OptionalRef<Mediator> mediator;
 
 protected:
-
 	/**
 	* \brief Retrieve the reference to the SaveManager instance
 	*
 	* \returns A reference to the SaveManager instance held by the Mediator.
 	*/
-	SaveManager& get_save_manager() const{
-		return mediator->save_manager;
-	}
+	SaveManager & get_save_manager() const { return mediator->save_manager; }
 
 	/**
 	 * \brief Create a new game object using the component manager
@@ -84,8 +81,8 @@ protected:
 	 * \note This method automatically assigns a new entity ID
 	 */
 	GameObject new_object(const std::string & name, const std::string & tag = "",
-                          const vec2 & position = {0, 0}, double rotation = 0,
-                          double scale = 1) {
+						  const vec2 & position = {0, 0}, double rotation = 0,
+						  double scale = 1) {
 		// Forward the call to ComponentManager's new_object method
 		return mediator->component_manager->new_object(name, tag, position, rotation, scale);
 	}
@@ -96,7 +93,7 @@ protected:
 	 * \param asset Asset the concrete resource is instantiated from
 	 * \param persistent Whether this resource is persistent (true=keep, false=destroy)
 	 */
-	void set_persistent(const Asset & asset, bool persistent){
+	void set_persistent(const Asset & asset, bool persistent) {
 		mediator->resource_manager->set_persistent(asset, persistent);
 	}
 
@@ -108,10 +105,8 @@ protected:
 	 */
 	template <typename... Args>
 	void logf(Args &&... args);
-
 };
 
 } // namespace crepe
-
 
 #include "Scene.hpp"
