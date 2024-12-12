@@ -160,15 +160,13 @@ public:
 
 	void load_scene() {
 
-		Mediator & m = this->mediator;
-		ComponentManager & mgr = m.component_manager;
 		Color color(0, 0, 0, 255);
 
 		float screen_size_width = 320;
 		float screen_size_height = 240;
 		float world_collider = 1000;
 		//define playable world
-		GameObject world = mgr.new_object(
+		GameObject world = new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		world.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 0,
@@ -196,7 +194,7 @@ public:
 				.zoom = 1,
 			});
 
-		GameObject game_object1 = mgr.new_object(
+		GameObject game_object1 = new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
@@ -228,7 +226,7 @@ public:
 			.active
 			= false;
 
-		GameObject game_object2 = mgr.new_object(
+		GameObject game_object2 = new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		game_object2.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
