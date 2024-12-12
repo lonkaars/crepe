@@ -5,7 +5,8 @@ using namespace std;
 
 Component::Component(game_object_id_t id) : game_object_id(id) {}
 
-Component & Component::operator=(const Component &) {
+Component & Component::operator=(const Component & other) {
+	this->active = other.active;
 	return *this;
 }
 

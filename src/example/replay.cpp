@@ -1,19 +1,6 @@
-#include <crepe/util/OptionalRef.h>
-#include <crepe/api/BoxCollider.h>
-#include <crepe/api/Camera.h>
-#include <crepe/api/Color.h>
-#include <crepe/api/Config.h>
-#include <crepe/api/Event.h>
-#include <crepe/api/GameObject.h>
 #include <crepe/api/Engine.h>
-#include <crepe/api/Rigidbody.h>
-#include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
-#include <crepe/api/Sprite.h>
-#include <crepe/api/Transform.h>
-#include <crepe/manager/ComponentManager.h>
-#include <crepe/manager/Mediator.h>
-#include <crepe/manager/ReplayManager.h>
+#include <crepe/api/Config.h>
 
 using namespace crepe;
 using namespace std;
@@ -34,27 +21,20 @@ class AnimationScript : public Script {
 
 class Timeline : public Script {
 	unsigned i = 0;
-	ReplayManager & mgr;
 	recording_t recording;
-
-public:
-	Timeline(ReplayManager & mgr)
-		: mgr(mgr) {}
 
 	void update() {
 		switch (i++) {
 			default: break;
 			case 10:
-				mgr.record_start();
+				replay.record_start();
 				break;
 			case 60:
-				this->recording = mgr.record_end();
+				this->recording = replay.record_end();
+				replay.play(this->recording);
 				break;
-			case 70:
-				mgr.play(this->recording);
-				break;
-			case 71:
-				mgr.release(this->recording);
+			case 61:
+				replay.release(this->recording);
 				break;
 			case 72:
 				throw;
@@ -86,7 +66,7 @@ public:
 		square.add_component<BehaviorScript>().set_script<AnimationScript>();
 
 		GameObject scapegoat = mgr.new_object("");
-		scapegoat.add_component<BehaviorScript>().set_script<Timeline>(mediator.replay_manager);
+		scapegoat.add_component<BehaviorScript>().set_script<Timeline>();
 	}
 
 	string get_name() const { return "scene1"; }
@@ -100,5 +80,6 @@ int main(int argc, char * argv[]) {
 
 	engine.add_scene<TestScene>();
 	engine.start();
+
 	return 0;
 }

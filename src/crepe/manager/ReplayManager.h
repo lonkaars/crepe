@@ -12,7 +12,12 @@ class ReplaySystem;
 
 typedef size_t recording_t;
 
+/**
+ * \brief Replay manager
+ *
+ */
 class ReplayManager : public Manager {
+	// TODO: Delete recordings at end of scene
 public:
 	ReplayManager(Mediator & mediator);
 
