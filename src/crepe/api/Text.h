@@ -4,12 +4,10 @@
 
 #include "../Component.h"
 
-#include "Asset.h"
 #include "Color.h"
 #include "UIObject.h"
 
 namespace crepe {
-
 /**
  * \brief Text UIObject component for displaying text
  * 
