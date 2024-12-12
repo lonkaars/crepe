@@ -18,18 +18,23 @@
 #include "../api/Color.h"
 #include "../api/Config.h"
 #include "../api/Sprite.h"
+#include "../api/Texture.h"
 #include "../util/Log.h"
-#include "manager/Mediator.h"
 
 #include "SDLContext.h"
-#include "Texture.h"
 #include "types.h"
 
 using namespace crepe;
 using namespace std;
 
-SDLContext::SDLContext(Mediator & mediator) {
+SDLContext & SDLContext::get_instance() {
+	static SDLContext instance;
+	return instance;
+}
+
+SDLContext::SDLContext() {
 	dbg_trace();
+
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
@@ -57,8 +62,6 @@ SDLContext::SDLContext(Mediator & mediator) {
 	if (!(IMG_Init(img_flags) & img_flags)) {
 		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
-
-	mediator.sdl_context = *this;
 }
 
 SDLContext::~SDLContext() {
@@ -74,11 +77,12 @@ SDLContext::~SDLContext() {
 	SDL_Quit();
 }
 
-Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
+Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
 	static const std::array<Keycode, SDL_NUM_SCANCODES> LOOKUP_TABLE = [] {
 		std::array<Keycode, SDL_NUM_SCANCODES> table{};
 		table.fill(Keycode::NONE);
 
+		// Map all SDL scancodes to Keycodes
 		table[SDL_SCANCODE_SPACE] = Keycode::SPACE;
 		table[SDL_SCANCODE_APOSTROPHE] = Keycode::APOSTROPHE;
 		table[SDL_SCANCODE_COMMA] = Keycode::COMMA;
@@ -180,12 +184,26 @@ Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
 
 		return table;
 	}();
-
 	if (sdl_key < 0 || sdl_key >= SDL_NUM_SCANCODES) {
 		return Keycode::NONE;
 	}
-
 	return LOOKUP_TABLE[sdl_key];
+}
+std::array<bool, Keycode::NUM_KEYCODES> SDLContext::get_keyboard_state() {
+	// Array to hold the key states (true if pressed, false if not)
+	std::array<bool, Keycode::NUM_KEYCODES> keyState{};
+	SDL_PumpEvents();
+	const Uint8 * current_state = SDL_GetKeyboardState(nullptr);
+
+	for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
+		Keycode key = sdl_to_keycode(static_cast<SDL_Scancode>(i));
+
+		if (key != Keycode::NONE) {
+			keyState[key] = current_state[i] != 0;
+		}
+	}
+
+	return keyState;
 }
 
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
@@ -218,19 +236,25 @@ void SDLContext::present_screen() {
 	SDL_RenderPresent(this->game_renderer.get());
 }
 
+SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
+	return SDL_Rect{
+		.x = sprite.mask.x,
+		.y = sprite.mask.y,
+		.w = sprite.mask.w,
+		.h = sprite.mask.h,
+	};
+}
+
 SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
 
-	float aspect_ratio
-		= (ctx.sprite.aspect_ratio == 0) ? ctx.texture.get_ratio() : ctx.sprite.aspect_ratio;
-
 	vec2 size = data.size;
 	if (data.size.x == 0 && data.size.y != 0) {
-		size.x = data.size.y * aspect_ratio;
+		size.x = data.size.y * ctx.sprite.aspect_ratio;
 	}
 	if (data.size.y == 0 && data.size.x != 0) {
-		size.y = data.size.x / aspect_ratio;
+		size.y = data.size.x / ctx.sprite.aspect_ratio;
 	}
 
 	const CameraValues & cam = ctx.cam;
@@ -251,24 +275,15 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 }
 
 void SDLContext::draw(const RenderContext & ctx) {
+
 	const Sprite::Data & data = ctx.sprite.data;
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * data.flip.flip_y));
 
-	SDL_Rect srcrect;
-	SDL_Rect * srcrect_ptr = NULL;
-	if (ctx.sprite.mask.w != 0 || ctx.sprite.mask.h != 0) {
-		srcrect.w = ctx.sprite.mask.w;
-		srcrect.h = ctx.sprite.mask.h;
-		srcrect.x = ctx.sprite.mask.x;
-		srcrect.y = ctx.sprite.mask.y;
-		srcrect_ptr = &srcrect;
-	}
-
+	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
 	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData{
 		.sprite = ctx.sprite,
-		.texture = ctx.texture,
 		.cam = ctx.cam,
 		.pos = ctx.pos,
 		.img_scale = ctx.scale,
@@ -276,9 +291,9 @@ void SDLContext::draw(const RenderContext & ctx) {
 
 	double angle = ctx.angle + data.angle_offset;
 
-	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
-	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect_ptr, &dstrect,
-					  angle, NULL, render_flip);
+	this->set_color_texture(ctx.sprite.texture, ctx.sprite.data.color);
+	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.texture.texture.get(), &srcrect,
+					  &dstrect, angle, NULL, render_flip);
 }
 
 SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
@@ -340,6 +355,8 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 	return ret_cam;
 }
 
+uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
+
 std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
 SDLContext::texture_from_path(const std::string & path) {
 
@@ -366,71 +383,112 @@ SDLContext::texture_from_path(const std::string & path) {
 
 ivec2 SDLContext::get_size(const Texture & ctx) {
 	ivec2 size;
-	SDL_QueryTexture(ctx.get_img(), NULL, NULL, &size.x, &size.y);
+	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &size.x, &size.y);
 	return size;
 }
+
+void SDLContext::delay(int ms) const { SDL_Delay(ms); }
 
 std::vector<SDLContext::EventData> SDLContext::get_events() {
 	std::vector<SDLContext::EventData> event_list;
 	SDL_Event event;
+
+	// Handle general SDL events
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 			case SDL_QUIT:
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::SHUTDOWN,
-				});
+				event_list.push_back({SDLContext::EventType::SHUTDOWN, {}, {}, {}});
 				break;
 			case SDL_KEYDOWN:
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::KEYDOWN,
-					.key = sdl_to_keycode(event.key.keysym.scancode),
-					.key_repeat = (event.key.repeat != 0),
-				});
+				event_list.push_back(
+					{SDLContext::EventType::KEYDOWN,
+					 {sdl_to_keycode(event.key.keysym.scancode), event.key.repeat != 0},
+					 {},
+					 {}});
 				break;
 			case SDL_KEYUP:
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::KEYUP,
-					.key = sdl_to_keycode(event.key.keysym.scancode),
-				});
+				event_list.push_back({SDLContext::EventType::KEYUP,
+									  {sdl_to_keycode(event.key.keysym.scancode), false},
+									  {},
+									  {}});
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::MOUSEDOWN,
-					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = {event.button.x, event.button.y},
-				});
+				event_list.push_back({SDLContext::EventType::MOUSEDOWN,
+									  {},
+									  {sdl_to_mousebutton(event.button.button),
+									   {event.button.x, event.button.y}},
+									  {}});
 				break;
-			case SDL_MOUSEBUTTONUP: {
-				int x, y;
-				SDL_GetMouseState(&x, &y);
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::MOUSEUP,
-					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = {event.button.x, event.button.y},
-				});
-			} break;
-
-			case SDL_MOUSEMOTION: {
+			case SDL_MOUSEBUTTONUP:
+				event_list.push_back({SDLContext::EventType::MOUSEUP,
+									  {},
+									  {sdl_to_mousebutton(event.button.button),
+									   {event.button.x, event.button.y}},
+									  {}});
+				break;
+			case SDL_MOUSEMOTION:
+				event_list.push_back({SDLContext::EventType::MOUSEMOVE,
+									  {},
+									  {{},
+									   {event.motion.x, event.motion.y},
+									   -1,
+									   INFINITY,
+									   {event.motion.xrel, event.motion.yrel}},
+									  {}});
+				break;
+			case SDL_MOUSEWHEEL:
 				event_list.push_back(
-					EventData{.event_type = SDLContext::EventType::MOUSEMOVE,
-							  .mouse_position = {event.motion.x, event.motion.y},
-							  .rel_mouse_move = {event.motion.xrel, event.motion.yrel}});
-			} break;
+					{SDLContext::EventType::MOUSEWHEEL,
+					 {},
+					 {{}, {}, event.wheel.y < 0 ? -1 : 1, event.wheel.preciseY, {}},
+					 {}});
+				break;
 
-			case SDL_MOUSEWHEEL: {
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::MOUSEWHEEL,
-					.mouse_position = {event.motion.x, event.motion.y},
-					// TODO: why is this needed?
-					.scroll_direction = event.wheel.y < 0 ? -1 : 1,
-					.scroll_delta = event.wheel.preciseY,
-				});
-			} break;
+			// Forward window events for further processing
+			case SDL_WINDOWEVENT:
+				this->handle_window_event(event.window, event_list);
+				break;
 		}
 	}
+
 	return event_list;
 }
+
+// Separate function for SDL_WINDOWEVENT subtypes
+void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
+									 std::vector<SDLContext::EventData> & event_list) {
+	switch (window_event.event) {
+		case SDL_WINDOWEVENT_EXPOSED:
+			event_list.push_back({SDLContext::EventType::WINDOW_EXPOSE, {}, {}, {}});
+			break;
+		case SDL_WINDOWEVENT_RESIZED:
+			event_list.push_back({SDLContext::EventType::WINDOW_RESIZE,
+								  {},
+								  {},
+								  {{}, {window_event.data1, window_event.data2}}});
+			break;
+		case SDL_WINDOWEVENT_MOVED:
+			event_list.push_back({SDLContext::EventType::WINDOW_MOVE,
+								  {},
+								  {},
+								  {{window_event.data1, window_event.data2}, {}}});
+			break;
+		case SDL_WINDOWEVENT_MINIMIZED:
+			event_list.push_back({SDLContext::EventType::WINDOW_MINIMIZE, {}, {}, {}});
+			break;
+		case SDL_WINDOWEVENT_MAXIMIZED:
+			event_list.push_back({SDLContext::EventType::WINDOW_MAXIMIZE, {}, {}, {}});
+			break;
+		case SDL_WINDOWEVENT_FOCUS_GAINED:
+			event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_GAIN, {}, {}, {}});
+			break;
+		case SDL_WINDOWEVENT_FOCUS_LOST:
+			event_list.push_back({SDLContext::EventType::WINDOW_FOCUS_LOST, {}, {}, {}});
+			break;
+	}
+}
+
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
-	SDL_SetTextureColorMod(texture.get_img(), color.r, color.g, color.b);
-	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
+	SDL_SetTextureColorMod(texture.texture.get(), color.r, color.g, color.b);
+	SDL_SetTextureAlphaMod(texture.texture.get(), color.a);
 }
