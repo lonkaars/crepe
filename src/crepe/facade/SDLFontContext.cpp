@@ -13,7 +13,7 @@ SDLFontContext::SDLFontContext() {
 
 SDLFontContext::~SDLFontContext() { FcFini(); }
 
-unique_ptr<Asset> SDLFontContext::get_font_asset(const string & font_family) {
+unique_ptr<Asset> SDLFontContext::get_font_asset(const string font_family) {
 
 	// Create a pattern to search for the font family
 	FcPattern * pattern = FcNameParse(reinterpret_cast<const FcChar8 *>(font_family.c_str()));
