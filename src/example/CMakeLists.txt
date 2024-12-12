@@ -26,5 +26,6 @@ add_example(AITest)
 set(preview_sources
 	preview.cpp
 	PreviewScenes/StartingScreen.cpp
+	PreviewScenes/Scene1.cpp
 )
 add_example(preview ${preview_sources})

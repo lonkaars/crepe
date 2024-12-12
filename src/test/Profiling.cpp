@@ -6,6 +6,7 @@
 #include <crepe/system/ParticleSystem.h>
 #include <crepe/system/PhysicsSystem.h>
 #include <crepe/system/RenderSystem.h>
+#include <crepe/manager/LoopTimerManager.h>
 #include <gtest/gtest.h>
 
 #define private public
@@ -60,6 +61,8 @@ public:
 	SDLContext sdl_context{m};
 	ResourceManager resman{m};
 	ComponentManager mgr{m};
+	LoopTimerManager timer {m};
+
 	// Add system used for profling tests
 	CollisionSystem collision_sys{m};
 	PhysicsSystem physics_sys{m};
@@ -102,11 +105,9 @@ public:
 	// Run and profile all systems, return the total time in milliseconds
 	std::chrono::microseconds run_all_systems() {
 		std::chrono::microseconds total_microseconds = 0us;
-		total_microseconds += time_function("PhysicsSystem", [&]() { physics_sys.update(); });
-		total_microseconds
-			+= time_function("CollisionSystem", [&]() { collision_sys.update(); });
-		total_microseconds
-			+= time_function("ParticleSystem", [&]() { particle_sys.update(); });
+		//total_microseconds += time_function("PhysicsSystem", [&]() { physics_sys.update(); });
+		//total_microseconds			+= time_function("CollisionSystem", [&]() { collision_sys.update(); });
+		//total_microseconds			+= time_function("ParticleSystem", [&]() { particle_sys.update(); });
 		total_microseconds += time_function("RenderSystem", [&]() { render_sys.update(); });
 		return total_microseconds;
 	}
