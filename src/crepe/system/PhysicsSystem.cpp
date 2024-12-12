@@ -41,7 +41,7 @@ void PhysicsSystem::update() {
 						throw std::runtime_error("Config Gravity must be greater than 0");
 					}
 
-					if (rigidbody.data.gravity_scale > 0) {
+					if (rigidbody.data.gravity_scale > 0 && !rigidbody.data.constraints.y) {
 						rigidbody.data.linear_velocity.y
 							+= (rigidbody.data.mass * rigidbody.data.gravity_scale * gravity
 								* dt);
@@ -53,13 +53,15 @@ void PhysicsSystem::update() {
 					}
 
 					// Add coefficient movement horizontal
-					if (rigidbody.data.linear_velocity_coefficient.x > 0) {
+					if (rigidbody.data.linear_velocity_coefficient.x > 0
+						&& !rigidbody.data.constraints.x) {
 						rigidbody.data.linear_velocity.x
 							*= std::pow(rigidbody.data.linear_velocity_coefficient.x, dt);
 					}
 
 					// Add coefficient movement horizontal
-					if (rigidbody.data.linear_velocity_coefficient.y > 0) {
+					if (rigidbody.data.linear_velocity_coefficient.y > 0
+						&& !rigidbody.data.constraints.y) {
 						rigidbody.data.linear_velocity.y
 							*= std::pow(rigidbody.data.linear_velocity_coefficient.y, dt);
 					}
