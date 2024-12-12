@@ -8,16 +8,17 @@
 #include "Color.h"
 #include "UIObject.h"
 
-namespace crepe{
+namespace crepe {
 
 /**
  * \brief Text UIObject component for displaying text
  * 
  * This class can be used to display text on screen. By setting the font_family to a font already stored on the current device it will automatically be loaded in.
  */
-class Text : public UIObject{
+class Text : public UIObject {
 public:
-	Text(game_object_id_t id,const vec2 & dimensions, const vec2 & offset,std::string text,std::string font_family);
+	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset, std::string text,
+		 std::string font_family);
 	//! Text data that does not have to be set in the constructor
 	struct Data {
 		/**
@@ -40,6 +41,7 @@ public:
 		//! Label text color.
 		Color text_color = Color::BLACK;
 	};
+
 public:
 	//! font family name such as (Arial,Helvetica,Inter)
 	std::string font_family = "";

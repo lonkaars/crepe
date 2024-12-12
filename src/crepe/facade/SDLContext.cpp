@@ -32,8 +32,8 @@ using namespace std;
 SDLContext::SDLContext(Mediator & mediator) {
 	dbg_trace();
 	if (TTF_Init() == -1) {
-        throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
-    }
+		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
+	}
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
