@@ -80,8 +80,8 @@ duration_t LoopTimerManager::get_lag() const {
 	return this->elapsed_time - this->elapsed_fixed_time;
 }
 
-float LoopTimerManager::get_scaled_fixed_delta_time() const {
-	return (this->fixed_delta_time * this->time_scale).count();
+duration_t LoopTimerManager::get_scaled_fixed_delta_time() const {
+	return this->fixed_delta_time * this->time_scale;
 }
 
 void LoopTimerManager::set_fixed_delta_time(float seconds) {
