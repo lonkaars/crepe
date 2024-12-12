@@ -227,7 +227,7 @@ TEST_F(InputTest, testButtonClick) {
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
 	auto & button
-		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click, false);
+		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
 
 	bool hover = false;
 	button.active = true;
@@ -251,7 +251,7 @@ TEST_F(InputTest, testButtonHover) {
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
 	auto & button
-		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click, false);
+		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
 	button.active = true;
 
 	// Mouse not on button
