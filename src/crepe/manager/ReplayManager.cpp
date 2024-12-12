@@ -38,6 +38,9 @@ void ReplayManager::release(recording_t handle) {
 }
 
 void ReplayManager::frame_record() {
+	if (this->state != RECORDING)
+		throw runtime_error("ReplayManager: frame_step called while not playing");
+
 	ComponentManager & components = this->mediator.component_manager;
 	Recording & recording = this->recording;
 
@@ -46,6 +49,9 @@ void ReplayManager::frame_record() {
 }
 
 bool ReplayManager::frame_step() {
+	if (this->state != PLAYING)
+		throw runtime_error("ReplayManager: frame_step called while not playing");
+
 	ComponentManager & components = this->mediator.component_manager;
 	Recording & recording = this->recording;
 
@@ -58,6 +64,7 @@ bool ReplayManager::frame_step() {
 	// end of recording
 	recording.frame = 0;
 	this->state = IDLE;
+	this->recording.clear();
 	return true;
 }
 

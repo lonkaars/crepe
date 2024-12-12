@@ -20,13 +20,16 @@ namespace crepe {
  */
 class Engine {
 public:
-	void start();
-
 	/**
-	 * \brief Add a new concrete scene to the scene manager
+	 * \brief Engine entrypoint
 	 *
-	 * \tparam T  Type of concrete scene
+	 * This function is called by the game programmer after registering all scenes
+	 *
+	 * \returns process exit code
 	 */
+	int main() noexcept;
+
+	//! \copydoc SceneManager::add_scene
 	template <typename T>
 	void add_scene();
 
@@ -44,7 +47,8 @@ private:
 	 */
 	void loop();
 
-	bool game_running = false;
+	//! Game loop condition
+	bool game_running = true;
 
 private:
 	//! Global context

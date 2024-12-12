@@ -40,10 +40,17 @@ void Script::subscribe_internal(const EventHandler<EventType> & callback,
 	EventManager & mgr = this->mediator->event_manager;
 	subscription_t listener = mgr.subscribe<EventType>(
 		[this, callback](const EventType & data) -> bool {
+			// check if (parent) BehaviorScript component is active
 			bool & active = this->active;
 			if (!active) return false;
-			ReplayManager & replay = this->mediator->replay_manager;
-			if (replay.get_state() == ReplayManager::PLAYING) return false;
+
+			// check if replay manager is playing (if initialized)
+			try {
+				ReplayManager & replay = this->mediator->replay_manager;
+				if (replay.get_state() == ReplayManager::PLAYING) return false;
+			} catch (const std::runtime_error &) {}
+
+			// call user-provided callback
 			return callback(data);
 		},
 		channel);

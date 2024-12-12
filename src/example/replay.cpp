@@ -83,7 +83,5 @@ int main(int argc, char * argv[]) {
 	Engine engine;
 
 	engine.add_scene<TestScene>();
-	engine.start();
-
-	return 0;
+	return engine.main();
 }

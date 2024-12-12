@@ -41,7 +41,6 @@ protected:
 	Transform(const Transform &) = default;
 	virtual void restore(const Component & snapshot);
 	virtual Transform & operator=(const Transform &) = default;
-
 };
 
 } // namespace crepe
