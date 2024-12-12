@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Scene.h"
 #include "../util/Log.h"
+
+#include "Scene.h"
 
 namespace crepe {
 
