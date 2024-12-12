@@ -15,8 +15,8 @@ namespace crepe {
  */
 class Text : public UIObject {
 public:
-	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset, std::string text,
-		 std::string font_family);
+	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset, const std::string &,
+		 const std::string & font_family);
 	//! Text data that does not have to be set in the constructor
 	struct Data {
 		/**
