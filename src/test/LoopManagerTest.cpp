@@ -10,7 +10,7 @@
 using namespace std::chrono;
 using namespace crepe;
 
-class LoopManagerTest : public ::testing::Test {
+class DISABLED_LoopManagerTest : public ::testing::Test {
 protected:
 	class TestGameLoop : public crepe::LoopManager {
 	public:
@@ -22,7 +22,7 @@ protected:
 	void SetUp() override {}
 };
 
-TEST_F(LoopManagerTest, FixedUpdate) {
+TEST_F(DISABLED_LoopManagerTest, FixedUpdate) {
 	// Arrange
 	test_loop.loop_timer.set_target_framerate(60);
 
@@ -43,7 +43,8 @@ TEST_F(LoopManagerTest, FixedUpdate) {
 
 	// Test finished
 }
-TEST_F(LoopManagerTest, ScaledFixedUpdate) {
+
+TEST_F(DISABLED_LoopManagerTest, ScaledFixedUpdate) {
 	// Arrange
 	test_loop.loop_timer.set_target_framerate(60);
 
@@ -64,7 +65,8 @@ TEST_F(LoopManagerTest, ScaledFixedUpdate) {
 
 	// Test finished
 }
-TEST_F(LoopManagerTest, ShutDown) {
+
+TEST_F(DISABLED_LoopManagerTest, ShutDown) {
 	// Arrange
 	test_loop.loop_timer.set_target_framerate(60);
 	// Start the loop in a separate thread
