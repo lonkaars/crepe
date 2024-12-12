@@ -9,7 +9,6 @@
 namespace crepe {
 
 class ScriptSystem;
-class Mediator;
 class ComponentManager;
 class Script;
 

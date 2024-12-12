@@ -1,11 +1,21 @@
 #pragma once
 
+#include <typeindex>
+#include <unordered_map>
+#include <memory>
+
 #include "../system/System.h"
 
 #include "Manager.h"
 
 namespace crepe {
 
+/**
+ * \brief Collection of all systems
+ *
+ * This manager aggregates all systems and provides utility functions to retrieve references to
+ * and update systems.
+ */
 class SystemManager : public Manager {
 public:
 	SystemManager(Mediator &);
@@ -50,9 +60,23 @@ public:
 	T & get_system();
 
 public:
+	/**
+	 * \brief SystemManager snapshot
+	 *
+	 * The SystemManager snapshot only stores which systems are active
+	 */
 	typedef std::unordered_map<std::type_index, bool> Snapshot;
+	/**
+	 * \brief Save a snapshot of the systems' state
+	 * \returns Copy of each system's active property
+	 */
 	Snapshot save();
+	/**
+	 * \brief Restore system active state from a snapshot
+	 * \param snapshot Snapshot to restore from (as returned by \c save())
+	 */
 	void restore(const Snapshot & snapshot);
+	//! Disable all systems
 	void disable_all();
 };
 

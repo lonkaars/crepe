@@ -39,10 +39,27 @@ protected:
 	virtual Component & operator=(Component &&) = delete;
 
 protected:
+	/**
+	 * \name ReplayManager (Memento) functions
+	 * \{
+	 */
+	/**
+	 * \brief Save a snapshot of this component's state
+	 * \note This function should only be implemented on components that should be saved/restored
+	 * by ReplayManager.
+	 * \returns Unique pointer to a deep copy of this component
+	 */
 	virtual std::unique_ptr<Component> save() const;
+	//! Copy constructor (used by \c save())
 	Component(const Component &) = default;
+	/**
+	 * \brief Restore this component from a snapshot
+	 * \param snapshot Data to fill this component with (as returned by \c save())
+	 */
 	virtual void restore(const Component & snapshot);
+	//! Copy assignment operator (used by \c restore())
 	virtual Component & operator=(const Component &);
+	//! \}
 
 public:
 	virtual ~Component() = default;

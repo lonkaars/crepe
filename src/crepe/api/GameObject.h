@@ -39,8 +39,9 @@ private:
 public:
 	//! The id of the GameObject
 	const game_object_id_t id;
-
+	//! This entity's transform
 	Transform & transform;
+	//! This entity's metadata
 	Metadata & metadata;
 
 public:

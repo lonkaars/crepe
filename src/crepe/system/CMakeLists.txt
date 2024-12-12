@@ -23,5 +23,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	AnimatorSystem.h
 	InputSystem.h
 	EventSystem.h
+	ReplaySystem.h
 	AISystem.h
 )

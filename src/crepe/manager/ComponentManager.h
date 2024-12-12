@@ -142,19 +142,39 @@ public:
 	template <typename T>
 	RefVector<T> get_components_by_tag(const std::string & tag) const;
 
+	//! Snapshot of single component (including path in \c components)
 	struct SnapshotComponent {
+		//! \c components path
 		std::type_index type;
+		//! \c components path
 		game_object_id_t id;
+		//! \c components path
 		size_t index;
+		//! Actual component snapshot
 		std::unique_ptr<Component> component;
 	};
+	//! Snapshot of the entire component manager state
 	struct Snapshot {
+		//! All components
+		std::vector<SnapshotComponent> components;
 		// TODO: some kind of hash code that ensures components exist in all the same places as
 		// this snapshot
-		std::vector<SnapshotComponent> components;
 	};
+	/**
+	 * \name ReplayManager (Memento) functions
+	 * \{
+	 */
+	/**
+	 * \brief Save a snapshot of the component manager state
+	 * \returns Deep copy of the component manager's internal state
+	 */
 	Snapshot save();
-	void restore(const Snapshot &);
+	/**
+	 * \brief Restore component manager from a snapshot
+	 * \param snapshot Snapshot to restore from (as returned by \c save())
+	 */
+	void restore(const Snapshot & snapshot);
+	//! \}
 
 private:
 	/**

@@ -5,12 +5,12 @@
 using namespace crepe;
 using namespace std;
 
-void Engine::start() {
+int Engine::main() noexcept {
 	try {
 		this->setup();
 	} catch (const exception & e) {
 		Log::logf(Log::Level::ERROR, "Uncaught exception in setup: {}\n", e.what());
-		return;
+		return EXIT_FAILURE;
 	}
 
 	try {
@@ -19,10 +19,11 @@ void Engine::start() {
 		Log::logf(Log::Level::ERROR, "Uncaught exception in main loop: {}\n", e.what());
 		this->event_manager.trigger_event<ShutDownEvent>();
 	}
+
+	return EXIT_SUCCESS;
 }
 
 void Engine::setup() {
-	this->game_running = true;
 	this->loop_timer.start();
 	this->scene_manager.load_next_scene();
 
