@@ -16,17 +16,17 @@ using namespace crepe;
 using namespace std;
 
 SystemManager::SystemManager(Mediator & mediator) : Manager(mediator) {
-	this->load_system<ReplaySystem>();
+	this->load_system<InputSystem>();
+	this->load_system<EventSystem>();
 	this->load_system<ScriptSystem>();
 	this->load_system<AISystem>();
 	this->load_system<PhysicsSystem>();
 	this->load_system<CollisionSystem>();
+	this->load_system<AudioSystem>();
 	this->load_system<AnimatorSystem>();
 	this->load_system<ParticleSystem>();
 	this->load_system<RenderSystem>();
-	this->load_system<InputSystem>();
-	this->load_system<EventSystem>();
-	this->load_system<AudioSystem>();
+	this->load_system<ReplaySystem>();
 
 	this->mediator.system_manager = *this;
 }
