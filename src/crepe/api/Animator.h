@@ -75,27 +75,28 @@ public:
 	 *
 	 * \param id The unique identifier for the component, typically assigned automatically.
 	 * \param spritesheet the reference to the spritesheet
-	 * \param max_row maximum of rows inside the given spritesheet
-	 * \param max_col maximum of columns inside the given spritesheet
+	 * \param single_frame_size the width and height in pixels of a single frame inside the
+	 * spritesheet
+	 * \param grid_size the max rows and columns inside the given spritesheet
 	 * \param data extra animation data for more control
 	 *
 	 * This constructor sets up the Animator with the given parameters, and initializes the
 	 * animation system.
 	 */
-	Animator(game_object_id_t id, Sprite & spritesheet, unsigned int max_row,
-			 unsigned int max_col, const Animator::Data & data);
+	Animator(game_object_id_t id, Sprite & spritesheet, const ivec2 & single_frame_size,
+			 const uvec2 & grid_size, const Animator::Data & data);
 	~Animator(); // dbg_trace
 
 public:
-	//! The maximum number of columns in the sprite sheet.
-	const unsigned int max_columns;
-	//! The maximum number of rows in the sprite sheet.
-	const unsigned int max_rows;
 	Animator::Data data;
 
 private:
 	//! A reference to the Sprite sheet containing.
 	Sprite & spritesheet;
+
+	//! The maximum number of rows and columns inside the spritesheet
+	const uvec2 grid_size;
+
 	//! Uses the spritesheet
 	friend AnimatorSystem;
 };

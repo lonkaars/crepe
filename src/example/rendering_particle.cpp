@@ -1,5 +1,7 @@
+#include "api/Asset.h"
 #include <crepe/Component.h>
 #include <crepe/api/Animator.h>
+#include <crepe/api/Button.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
@@ -7,11 +9,11 @@
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
-#include <crepe/api/Texture.h>
 #include <crepe/api/Transform.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/types.h>
+#include <iostream>
 
 using namespace crepe;
 using namespace std;
@@ -41,13 +43,15 @@ using namespace std;
 class TestScene : public Scene {
 public:
 	void load_scene() {
+
+		cout << "TestScene" << endl;
 		Mediator & mediator = this->mediator;
 		ComponentManager & mgr = mediator.component_manager;
 		GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
 
 		Color color(255, 255, 255, 255);
 
-		auto img = Texture("asset/spritesheet/pokemon_spritesheet.png");
+		Asset img{"asset/spritesheet/spritesheet_test.png"};
 
 		Sprite & test_sprite = game_object.add_component<Sprite>(
 			img, Sprite::Data{
@@ -57,21 +61,27 @@ public:
 					 .order_in_layer = 2,
 					 .size = {0, 100},
 					 .angle_offset = 0,
-					 .position_offset = {100, 0},
+					 .position_offset = {0, 0},
 				 });
 
-		auto & anim = game_object.add_component<Animator>(test_sprite, 4, 4,
-														  Animator::Data{
-															  .fps = 1,
-															  .looping = false,
-														  });
-		anim.set_anim(2);
-		anim.active = false;
+		//auto & anim = game_object.add_component<Animator>(test_sprite,ivec2{32, 64}, uvec2{4,1}, Animator::Data{});
+		//anim.set_anim(0);
 
-		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
+		auto & cam = game_object.add_component<Camera>(ivec2{720, 1280}, vec2{400, 400},
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
 													   });
+
+		function<void()> on_click = [&]() { cout << "button clicked" << std::endl; };
+		function<void()> on_enter = [&]() { cout << "enter" << std::endl; };
+		function<void()> on_exit = [&]() { cout << "exit" << std::endl; };
+
+		auto & button
+			= game_object.add_component<Button>(vec2{200, 200}, vec2{0, 0}, on_click, false);
+		button.on_mouse_enter = on_enter;
+		button.on_mouse_exit = on_exit;
+		button.is_toggle = true;
+		button.active = true;
 	}
 
 	string get_name() const { return "TestScene"; };
