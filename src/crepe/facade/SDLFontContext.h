@@ -19,7 +19,7 @@ public:
 		 * 
 		 * \param font_family Name of the font family name.
 		 */
-	std::unique_ptr<Asset> get_font_asset(const std::string & font_family);
+	std::unique_ptr<Asset> get_font_asset(const std::string font_family);
 
 private:
 };
