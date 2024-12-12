@@ -11,7 +11,6 @@
 #include "PhysicsSystem.h"
 
 using namespace crepe;
-using namespace std::chrono;
 
 void PhysicsSystem::update() {
 
@@ -19,9 +18,7 @@ void PhysicsSystem::update() {
 	ComponentManager & mgr = mediator.component_manager;
 	LoopTimerManager & loop_timer = mediator.loop_timer;
 	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
-
-	duration_t delta_time = loop_timer.get_scaled_fixed_delta_time();
-	float dt = duration<float>(delta_time).count();
+	float dt = loop_timer.get_scaled_fixed_delta_time();
 
 	float gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
@@ -42,7 +39,7 @@ void PhysicsSystem::update() {
 						throw std::runtime_error("Config Gravity must be greater than 0");
 					}
 
-					if (rigidbody.data.gravity_scale > 0) {
+					if (rigidbody.data.gravity_scale > 0 && !rigidbody.data.constraints.y) {
 						rigidbody.data.linear_velocity.y
 							+= (rigidbody.data.mass * rigidbody.data.gravity_scale * gravity
 								* dt);
@@ -54,13 +51,15 @@ void PhysicsSystem::update() {
 					}
 
 					// Add coefficient movement horizontal
-					if (rigidbody.data.linear_velocity_coefficient.x > 0) {
+					if (rigidbody.data.linear_velocity_coefficient.x > 0
+						&& !rigidbody.data.constraints.x) {
 						rigidbody.data.linear_velocity.x
 							*= std::pow(rigidbody.data.linear_velocity_coefficient.x, dt);
 					}
 
 					// Add coefficient movement horizontal
-					if (rigidbody.data.linear_velocity_coefficient.y > 0) {
+					if (rigidbody.data.linear_velocity_coefficient.y > 0
+						&& !rigidbody.data.constraints.y) {
 						rigidbody.data.linear_velocity.y
 							*= std::pow(rigidbody.data.linear_velocity_coefficient.y, dt);
 					}

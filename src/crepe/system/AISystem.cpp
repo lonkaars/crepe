@@ -16,7 +16,7 @@ void AISystem::update() {
 	LoopTimerManager & loop_timer = mediator.loop_timer;
 	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 
-	duration_t dt = loop_timer.get_scaled_fixed_delta_time();
+	float dt = loop_timer.get_scaled_fixed_delta_time();
 
 	// Loop through all AI components
 	for (AI & ai : ai_components) {
@@ -43,7 +43,7 @@ void AISystem::update() {
 		// Calculate the acceleration (using the above calculated force)
 		vec2 acceleration = force / rigidbody.data.mass;
 		// Finally, update Rigidbody's velocity
-		rigidbody.data.linear_velocity += acceleration * duration<float>(dt).count();
+		rigidbody.data.linear_velocity += acceleration * dt;
 	}
 }
 
