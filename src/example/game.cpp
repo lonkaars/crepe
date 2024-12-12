@@ -171,6 +171,20 @@ public:
 	string get_name() const { return "scene1"; }
 };
 
+
+class Scene0 : public Scene {
+public:
+	void load_scene() {
+		Mediator & m = this->mediator;
+		ComponentManager & mgr = m.component_manager;
+
+		GameObject start_begin = mgr.new_object("start_begin", "background", vec2(0, 0));
+
+	}
+
+	string get_name() const { return "scene0"; }
+};
+
 int main(int argc, char * argv[]) {
 	LoopManager gameloop;
 	gameloop.add_scene<Scene1>();
