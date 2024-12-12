@@ -36,6 +36,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.hpp
 	Color.h
 	Scene.h
+	Scene.hpp
 	Metadata.h
 	Camera.h
 	Animator.h
