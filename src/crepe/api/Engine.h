@@ -8,8 +8,8 @@
 #include "../manager/SaveManager.h"
 #include "../manager/SceneManager.h"
 #include "../manager/SystemManager.h"
-
-#include "LoopTimer.h"
+#include "../manager/LoopTimerManager.h"
+#include "../manager/EventManager.h"
 
 namespace crepe {
 
@@ -54,14 +54,16 @@ private:
 	ComponentManager component_manager{mediator};
 	//! Scene manager instance
 	SceneManager scene_manager{mediator};
+	//! LoopTimerManager instance
+	LoopTimerManager loop_timer{mediator};
+	//! EventManager instance
+	EventManager event_manager{mediator};
 	//! Resource manager instance
 	ResourceManager resource_manager{mediator};
 	//! Save manager instance
 	SaveManager save_manager{mediator};
 	//! SDLContext instance
 	SDLContext sdl_context{mediator};
-	//! LoopTimer instance
-	LoopTimer loop_timer{mediator};
 	//! ReplayManager instance
 	ReplayManager replay_manager{mediator};
 	//! SystemManager

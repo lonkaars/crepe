@@ -1,3 +1,4 @@
+#include "../manager/EventManager.h"
 #include "EventSystem.h"
 
 using namespace crepe;

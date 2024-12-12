@@ -1,36 +1,60 @@
+#include "../util/Log.h"
+
 #include "Engine.h"
 
 using namespace crepe;
 using namespace std;
 
 void Engine::start() {
-	this->setup();
-	this->loop();
+	try {
+		this->setup();
+	} catch (const exception & e) {
+		Log::logf(Log::Level::ERROR, "Uncaught exception in setup: {}\n", e.what());
+		return;
+	}
+
+	try {
+		this->loop();
+	} catch (const exception & e) {
+		Log::logf(Log::Level::ERROR, "Uncaught exception in main loop: {}\n", e.what());
+		this->event_manager.trigger_event<ShutDownEvent>();
+	}
 }
 
 void Engine::setup() {
-	LoopTimer & timer = this->loop_timer;
 	this->game_running = true;
+	this->loop_timer.start();
 	this->scene_manager.load_next_scene();
-	timer.start();
-	timer.set_fps(200);
+
+	this->event_manager.subscribe<ShutDownEvent>([this](const ShutDownEvent & event) {
+		this->game_running = false;
+
+		// propagate to possible user ShutDownEvent listeners
+		return false;
+	});
 }
 
 void Engine::loop() {
-	LoopTimer & timer = this->loop_timer;
+	LoopTimerManager & timer = this->loop_timer;
 	SystemManager & systems = this->system_manager;
-
-	timer.start();
 
 	while (game_running) {
 		timer.update();
 
 		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
-			systems.fixed_update();
-			timer.advance_fixed_update();
+			try {
+				systems.fixed_update();
+			} catch (const exception & e) {
+				Log::logf(Log::Level::WARNING, "Uncaught exception in fixed update function: {}\n", e.what());
+			}
+			timer.advance_fixed_elapsed_time();
 		}
 
-		systems.frame_update();
+		try {
+			systems.frame_update();
+		} catch (const exception & e) {
+			Log::logf(Log::Level::WARNING, "Uncaught exception in frame update function: {}\n", e.what());
+		}
 		timer.enforce_frame_rate();
 	}
 }

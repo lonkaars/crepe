@@ -32,4 +32,7 @@ void SceneManager::load_next_scene() {
 
 	// Load the new scene
 	scene->load_scene();
+
+	//clear the next scene
+	next_scene.clear();
 }
