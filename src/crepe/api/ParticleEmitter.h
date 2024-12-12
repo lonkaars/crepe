@@ -3,9 +3,11 @@
 #include <cmath>
 #include <vector>
 
+#include "system/ParticleSystem.h"
+#include "system/RenderSystem.h"
+
 #include "Component.h"
 #include "Particle.h"
-#include "system/ParticleSystem.h"
 #include "types.h"
 
 namespace crepe {
@@ -69,9 +71,6 @@ public:
 		vec2 force_over_time;
 		//! particle boundary
 		Boundary boundary;
-		//! collection of particles
-		std::vector<Particle> particles;
-		
 	};
 
 public:
@@ -87,7 +86,10 @@ public:
 private:
 	//! Saves time left over from last update event.
 	friend ParticleSystem;
+	friend RenderSystem;
 	float spawn_accumulator  = 0;
+	//! collection of particles
+	std::vector<Particle> particles;
 };
 
 } // namespace crepe

@@ -87,7 +87,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 		rendering_particles = true;
 		if (!em.active) continue;
 
-		for (const Particle & p : em.data.particles) {
+		for (const Particle & p : em.particles) {
 			if (!p.active) continue;
 
 			ctx.draw(SDLContext::RenderContext{
