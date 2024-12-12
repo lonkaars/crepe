@@ -1,28 +1,25 @@
 #include "../api/Config.h"
 
-#include "font.h"
+#include "Font.h"
 
 using namespace std;
 using namespace crepe;
 
-void Font::load(unique_ptr<Asset> res){
-	const char* font_path = res->get_path();
-    this->font = std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)>(
-        TTF_OpenFont(font_path, this->default_font_size), &TTF_CloseFont); 
+Font::Font(const Asset& src, Mediator& mediator) 
+    : Resource(src, mediator), font(nullptr, TTF_CloseFont) {
+    // Get the font file path from the Asset
+    const std::string font_path = src.get_path();
 
-    if (!font) {
-        throw std::runtime_error("Failed to load font: " + std::string(TTF_GetError()));
+    // Attempt to load the font
+    this->font.reset(TTF_OpenFont(font_path.c_str(), Config::get_instance().font.size));
+
+    // Check if font loading failed
+    if (!this->font) {
+        throw runtime_error(format("Failed to load font from path: {}" 
+                                 ". SDL_ttf error: {}",font_path, TTF_GetError()));
     }
 }
 
-Font::Font(const char* src){
-	this->load(make_unique<Asset>(src));
-}
-
-Font::Font(std::unique_ptr<Asset> res){
-	this->load(std::move(res));
-}
-
-TTF_Font* Font::get_font() const{
-	return this->font.get();
+TTF_Font* Font::get_font() const {
+    return this->font.get();
 }

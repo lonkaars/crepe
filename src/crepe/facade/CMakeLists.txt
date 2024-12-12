@@ -5,6 +5,7 @@ target_sources(crepe PUBLIC
 	SDLContext.cpp
 	DB.cpp
 	SDLFontContext.cpp
+	Font.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -14,5 +15,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	SDLContext.h
 	DB.h
 	SDLFontContext.h
+	Font.h
 )
 

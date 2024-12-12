@@ -5,7 +5,7 @@
 
 #include "../api/Asset.h"
 #include "../api/Config.h"
-
+#include "../Resource.h"
 namespace crepe {
 
 /**
