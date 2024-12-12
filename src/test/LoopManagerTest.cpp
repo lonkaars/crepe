@@ -76,4 +76,3 @@ TEST_F(DISABLED_LoopManagerTest, ShutDown) {
 	// Wait for the loop thread to finish
 	loop_thread.join();
 }
-
