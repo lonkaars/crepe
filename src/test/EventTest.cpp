@@ -56,7 +56,7 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_all_channels) {
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler, EventManager::CHANNEL_ALL);
 
 	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
-	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event,
+	event_mgr.trigger_event<MouseClickEvent>(click_event,
 																EventManager::CHANNEL_ALL);
 
 	EXPECT_TRUE(triggered);
@@ -74,7 +74,7 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_one_channel) {
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler, test_channel);
 
 	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
-	EventManager::get_instance().trigger_event<MouseClickEvent>(click_event,
+	event_mgr.trigger_event<MouseClickEvent>(click_event,
 																EventManager::CHANNEL_ALL);
 
 	EXPECT_FALSE(triggered);
@@ -106,8 +106,8 @@ TEST_F(EventManagerTest, EventManagerTest_callback_propagation) {
 
 	// Test event
 	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
-	event_manager.subscribe<MouseClickEvent>(mouse_handler_true, EventManager::CHANNEL_ALL);
-	event_manager.subscribe<MouseClickEvent>(mouse_handler_false, EventManager::CHANNEL_ALL);
+	event_mgr.subscribe<MouseClickEvent>(mouse_handler_true, EventManager::CHANNEL_ALL);
+	event_mgr.subscribe<MouseClickEvent>(mouse_handler_false, EventManager::CHANNEL_ALL);
 
 	// Trigger event
 	event_mgr.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
@@ -137,15 +137,15 @@ TEST_F(EventManagerTest, EventManagerTest_queue_dispatch) {
 	int test_channel = 1;
 	EventHandler<MouseClickEvent> mouse_handler1 = [&](const MouseClickEvent & e) {
 		triggered1 = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false; // Allows propagation
 	};
 	EventHandler<MouseClickEvent> mouse_handler2 = [&](const MouseClickEvent & e) {
 		triggered2 = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false; // Allows propagation
 	};
@@ -153,9 +153,9 @@ TEST_F(EventManagerTest, EventManagerTest_queue_dispatch) {
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler2, test_channel);
 
 	event_mgr.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE});
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 	event_mgr.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE},
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE},
 		test_channel);
 	event_mgr.dispatch_events();
 	EXPECT_TRUE(triggered1);
@@ -189,7 +189,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 	subscription_t handler2_id = event_mgr.subscribe<MouseClickEvent>(mouse_handler2);
 
 	// Queue events
-	event_manager.queue_event<MouseClickEvent>(
+	event_mgr.queue_event<MouseClickEvent>(
 		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 
 	// Dispatch events - both handlers should be triggered
@@ -205,7 +205,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 	event_mgr.unsubscribe(handler1_id);
 
 	// Queue the same event again
-	event_manager.queue_event<MouseClickEvent>(
+	event_mgr.queue_event<MouseClickEvent>(
 		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 
 	// Dispatch events - only handler 2 should be triggered, handler 1 should NOT
@@ -220,7 +220,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 	event_mgr.unsubscribe(handler2_id);
 
 	// Queue the event again
-	event_manager.queue_event<MouseClickEvent>(
+	event_mgr.queue_event<MouseClickEvent>(
 		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 
 	// Dispatch events - no handler should be triggered
