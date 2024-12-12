@@ -17,7 +17,7 @@ void ParticleSystem::update() {
 	const Mediator & mediator = this->mediator;
 	LoopTimerManager & loop_timer = mediator.loop_timer;
 	ComponentManager & mgr = mediator.component_manager;
-	float dt = std::chrono::duration<float>(loop_timer.get_scaled_fixed_delta_time()).count();
+	float dt = loop_timer.get_scaled_fixed_delta_time();
 
 	RefVector<ParticleEmitter> emitters = mgr.get_components_by_type<ParticleEmitter>();
 
