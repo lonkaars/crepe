@@ -16,8 +16,9 @@
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
-
 #include "types.h"
+
+#include "SDLFontContext.h"
 
 namespace crepe {
 
@@ -226,6 +227,7 @@ public:
 	void set_color_texture(const Texture & texture, const Color & color);
 
 private:
+
 	//! sdl Window
 	std::unique_ptr<SDL_Window, std::function<void(SDL_Window *)>> game_window;
 
@@ -234,6 +236,7 @@ private:
 
 	//! black bars rectangle to draw
 	SDL_FRect black_bars[2] = {};
+	SDLFontContext font_facade{};
 };
 
 } // namespace crepe

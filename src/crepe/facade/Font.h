@@ -1,35 +1,40 @@
 #pragma once
-
-#include <memory>
 #include <SDL2/SDL_ttf.h>
+#include <memory>
 
 #include "../api/Asset.h"
 #include "../api/Config.h"
 #include "../Resource.h"
+
 namespace crepe {
 
 /**
  * \brief Resource for managing font creation and destruction
  *
  * This class is a wrapper around an SDL_ttf font instance, encapsulating font loading and usage.
+ * It loads a font from an Asset and manages its lifecycle. The font is automatically unloaded
+ * when this object is destroyed.
  */
 class Font : public Resource{
 public:
     /**
-	 * \param src Asset with font data to load.
-	 * \param mediator use the SDLContext reference to get_font()
-	 */
+     * \param src The Asset containing the font file path and metadata to load the font.
+     * \param mediator The Mediator object used for managing the SDL context or related systems.
+     */
     Font(const Asset & src, Mediator & mediator);
 
-	/**
-	 * \brief getter for TTF_Font
-	 * 
-	 * \param src Asset with font data to load.
-	 * \param mediator use the SDLContext reference to get_font()
-	 */
-	TTF_Font* get_font() const;
+    /**
+     * \brief Gets the underlying TTF_Font resource.
+     * 
+     * This function returns the raw pointer to the SDL_ttf TTF_Font object that represents
+     * the loaded font. This can be used with SDL_ttf functions to render text.
+     * 
+     * \return The raw TTF_Font object wrapped in a unique pointer.
+     */
+    TTF_Font* get_font() const;
+
 private:
-	//! The SDL_ttf font object with custom deleter.
+    //! The SDL_ttf font object with custom deleter.
     std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)> font;
 };
 
