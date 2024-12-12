@@ -16,7 +16,7 @@ void AISystem::update() {
 	LoopTimerManager & loop_timer = mediator.loop_timer;
 	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 
-	float dt = loop_timer.get_scaled_fixed_delta_time().count();
+	float dt = loop_timer.get_scaled_fixed_delta_time();
 
 	// Loop through all AI components
 	for (AI & ai : ai_components) {
