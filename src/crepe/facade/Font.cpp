@@ -16,8 +16,7 @@ Font::Font(const Asset & src, Mediator & mediator)
 
 	// Check if font loading failed
 	if (!this->font) {
-		throw runtime_error(format("Failed to load font from path: {}"
-								   ". SDL_ttf error: {}",
+		throw runtime_error(format("Failed to load font from path: {}. SDL_ttf error: {}",
 								   font_path, TTF_GetError()));
 	}
 }
