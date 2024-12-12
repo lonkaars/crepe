@@ -66,10 +66,6 @@ class MyScript1 : public Script {
 				//add collider switch
 				break;
 			}
-			case Keycode::Q: {
-				throw "Test";
-				break;
-			}
 			default:
 				break;
 		}

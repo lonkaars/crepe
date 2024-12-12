@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../Component.h"
+#include "api/Asset.h"
 
 #include "Color.h"
-#include "Texture.h"
 #include "types.h"
 
 namespace crepe {
@@ -74,24 +74,15 @@ public:
 	 * \param texture asset of the image
 	 * \param ctx all the sprite data
 	 */
-	Sprite(game_object_id_t id, Texture & texture, const Data & data);
+	Sprite(game_object_id_t id, const Asset & texture, const Data & data);
 	~Sprite();
 
 	//! Texture used for the sprite
-	const Texture texture;
+	const Asset source;
 
 	Data data;
 
 private:
-	/**
-	 * \brief ratio of the img
-	 *
-	 * - This will multiply one of \c size variable if it is 0.
-	 * - Will be adjusted if \c Animator component is added to an GameObject that is why this
-	 *   value cannot be const.
-	 */
-	float aspect_ratio;
-
 	//! Reads the mask of sprite
 	friend class SDLContext;
 
@@ -100,6 +91,14 @@ private:
 
 	//! Reads the all the variables plus the  mask
 	friend class AnimatorSystem;
+
+	/**
+	 * \aspect_ratio the ratio of the sprite image
+	 *
+	 * - this value will only be set by the \c Animator component for the ratio of the Animation
+	 * - if \c Animator component is not added it will not use this ratio (because 0) and will use aspect_ratio of the Asset.
+	 */
+	float aspect_ratio = 0;
 
 	struct Rect {
 		int w = 0;

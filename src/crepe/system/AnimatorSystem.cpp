@@ -2,7 +2,7 @@
 
 #include "../api/Animator.h"
 #include "../manager/ComponentManager.h"
-#include "api/LoopTimer.h"
+#include "../manager/LoopTimerManager.h"
 
 #include "AnimatorSystem.h"
 
@@ -10,10 +10,10 @@ using namespace crepe;
 
 void AnimatorSystem::update() {
 	ComponentManager & mgr = this->mediator.component_manager;
-	LoopTimer & timer = this->mediator.timer;
+	LoopTimerManager & timer = this->mediator.loop_timer;
 	RefVector<Animator> animations = mgr.get_components_by_type<Animator>();
 
-	double elapsed_time = timer.get_current_time();
+	unsigned long long elapsed_time = timer.get_elapsed_time().count();
 
 	for (Animator & a : animations) {
 		if (!a.active) continue;
@@ -23,7 +23,7 @@ void AnimatorSystem::update() {
 
 		int last_frame = ctx.row;
 
-		int cycle_end = (ctx.cycle_end == -1) ? a.max_rows : ctx.cycle_end;
+		int cycle_end = (ctx.cycle_end == -1) ? a.grid_size.x : ctx.cycle_end;
 		int total_frames = cycle_end - ctx.cycle_start;
 
 		int curr_frame = static_cast<int>(elapsed_time / frame_duration) % total_frames;

@@ -1,13 +1,11 @@
 target_sources(crepe PUBLIC
-	# AudioSource.cpp
+	AudioSource.cpp
 	BehaviorScript.cpp
 	GameObject.cpp
 	Rigidbody.cpp
 	ParticleEmitter.cpp
 	Transform.cpp
 	Color.cpp
-	Texture.cpp
-	AssetManager.cpp
 	Sprite.cpp
 	Config.cpp
 	Metadata.cpp
@@ -15,10 +13,7 @@ target_sources(crepe PUBLIC
 	Animator.cpp
 	BoxCollider.cpp
 	CircleCollider.cpp
-	IKeyListener.cpp
-	IMouseListener.cpp
 	LoopManager.cpp
-	LoopTimer.cpp
 	Asset.cpp
 	EventHandler.cpp
 	Script.cpp
@@ -28,7 +23,7 @@ target_sources(crepe PUBLIC
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
-	# AudioSource.h
+	AudioSource.h
 	BehaviorScript.h
 	Config.h
 	Script.h
@@ -40,9 +35,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.h
 	Vector2.hpp
 	Color.h
-	Texture.h
-	AssetManager.h
-	AssetManager.hpp
 	Scene.h
 	Metadata.h
 	Camera.h
@@ -52,10 +44,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	EventHandler.h
 	EventHandler.hpp
 	Event.h
-	IKeyListener.h
-	IMouseListener.h
 	LoopManager.h
-	LoopTimer.h
 	Asset.h
 	Button.h
 	UIObject.h
