@@ -16,7 +16,15 @@ function(add_example target_name)
 	add_dependencies(examples ${target_name})
 endfunction()
 
+set(preview_sources,)
+
 add_example(rendering_particle)
 add_example(game)
 add_example(button)
 add_example(AITest)
+
+set(preview_sources
+	preview.cpp
+	PreviewScenes/StartingScreen.cpp
+)
+add_example(preview ${preview_sources})
