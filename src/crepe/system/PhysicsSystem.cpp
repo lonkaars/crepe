@@ -18,7 +18,7 @@ void PhysicsSystem::update() {
 	ComponentManager & mgr = mediator.component_manager;
 	LoopTimerManager & loop_timer = mediator.loop_timer;
 	RefVector<Rigidbody> rigidbodies = mgr.get_components_by_type<Rigidbody>();
-	float dt = loop_timer.get_scaled_fixed_delta_time();
+	float dt = loop_timer.get_scaled_fixed_delta_time().count();
 
 	float gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
