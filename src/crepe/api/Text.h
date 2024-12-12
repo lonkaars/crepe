@@ -20,8 +20,6 @@ public:
 	Text(game_object_id_t id,const vec2 & dimensions, const vec2 & offset,std::string text,std::string font_family);
 	//! Text data that does not have to be set in the constructor
 	struct Data {
-		//! Label text color.
-		Color text_color = Color::BLACK;
 		/**
 		 *  \brief fontsize for text rendering
 		 * 
@@ -32,11 +30,15 @@ public:
 		 * Instead this value is used to upscale the font texture which can cause blurring or distorted text when upscaling or downscaling too much.
 		 */
 		unsigned int font_size = 16;
+
 		//! Layer sorting level of the text
 		const int sorting_in_layer = 0;
 
 		//! Order within the sorting text
 		const int order_in_layer = 0;
+
+		//! Label text color.
+		Color text_color = Color::BLACK;
 	};
 public:
 	//! font family name such as (Arial,Helvetica,Inter)
