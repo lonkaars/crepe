@@ -89,8 +89,8 @@ public:
 	//! Configuration for click tolerance.
 	struct {
 		//! The maximum number of pixels the mouse can move between MouseDown and MouseUp events to be considered a click.
-		int tolerance = 5;
-	} click_tolerance;
+		int click_tolerance = 5;
+	} input;
 };
 
 } // namespace crepe

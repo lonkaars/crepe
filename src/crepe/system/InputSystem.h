@@ -39,7 +39,7 @@ private:
 	MouseButton last_mouse_button = MouseButton::NONE;
 
 	//! The maximum allowable distance between mouse down and mouse up to register as a click. This can be changed using the Config.
-	int click_tolerance = Config::get_instance().click_tolerance.tolerance;
+	int click_tolerance = Config::get_instance().input.click_tolerance;
 
 	/**
 	* \brief Handles the mouse click event.
@@ -49,8 +49,7 @@ private:
 	*
 	* This method processes the mouse click event and triggers the corresponding button action.
 	*/
-	void handle_click(const MouseButton & mouse_button, const int world_mouse_x,
-					  const int world_mouse_y);
+	void handle_click(const MouseButton & mouse_button,const ivec2& mouse_pos);
 
 	/**
 	* \brief Handles the mouse movement event.
@@ -60,8 +59,7 @@ private:
 	*
 	* This method processes the mouse movement event and updates the button hover state.
 	*/
-	void handle_move(const SDLContext::EventData & event_data, const int world_mouse_x,
-					 const int world_mouse_y);
+	void handle_move(const SDLContext::EventData & event_data, const ivec2& mouse_pos);
 
 	/**
 	* \brief Checks if the mouse position is inside the bounds of the button.
@@ -71,7 +69,7 @@ private:
 	* \param transform The transform component of the button.
 	* \return True if the mouse is inside the button, false otherwise.
 	*/
-	bool is_mouse_inside_button(const int world_mouse_x, const int world_mouse_y,
+	bool is_mouse_inside_button(const ivec2& mouse_pos,
 								const Button & button, const Transform & transform);
 
 	/**
