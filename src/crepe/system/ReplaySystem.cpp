@@ -3,6 +3,7 @@
 
 #include "RenderSystem.h"
 #include "ReplaySystem.h"
+#include "EventSystem.h"
 
 using namespace crepe;
 using namespace std;
@@ -40,6 +41,7 @@ void ReplaySystem::playback_begin() {
 	systems.disable_all();
 	systems.get_system<RenderSystem>().active = true;
 	systems.get_system<ReplaySystem>().active = true;
+	systems.get_system<EventSystem>().active = true;
 }
 
 void ReplaySystem::playback_end() {
