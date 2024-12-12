@@ -2,6 +2,7 @@
 #include <SDL2/SDL_blendmode.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
@@ -236,15 +237,12 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 	if (data.size.y == 0 && data.size.x != 0) {
 		size.y = data.size.x / aspect_ratio;
 	}
+	size *= cam_aux_data.render_scale * ctx.img_scale * data.scale_offset;
 
-	const CameraValues & cam = ctx.cam;
-
-	size *= cam.render_scale * ctx.img_scale * data.scale_offset;
-
-	vec2 screen_pos
-		= (ctx.pos + data.position_offset - cam.cam_pos + (cam.zoomed_viewport) / 2)
-			  * cam.render_scale
-		  - size / 2 + cam.bar_size;
+	vec2 screen_pos = (ctx.pos + data.position_offset - cam_aux_data.cam_pos
+					   + (cam_aux_data.zoomed_viewport) / 2)
+						  * cam_aux_data.render_scale
+					  - size / 2 + cam_aux_data.bar_size;
 
 	return SDL_FRect{
 		.x = screen_pos.x,
@@ -273,7 +271,6 @@ void SDLContext::draw(const RenderContext & ctx) {
 	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData{
 		.sprite = ctx.sprite,
 		.texture = ctx.texture,
-		.cam = ctx.cam,
 		.pos = ctx.pos,
 		.img_scale = ctx.scale,
 	});
@@ -285,10 +282,9 @@ void SDLContext::draw(const RenderContext & ctx) {
 					  angle, NULL, render_flip);
 }
 
-SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
+void SDLContext::update_camera_view(const Camera & cam, const vec2 & new_pos) {
 
 	const Camera::Data & cam_data = cam.data;
-	CameraValues ret_cam;
 	// resize window
 	int w, h;
 	SDL_GetWindowSize(this->game_window.get(), &w, &h);
@@ -296,9 +292,10 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
 	}
 
-	vec2 & zoomed_viewport = ret_cam.zoomed_viewport;
-	vec2 & bar_size = ret_cam.bar_size;
-	vec2 & render_scale = ret_cam.render_scale;
+	vec2 & zoomed_viewport = this->cam_aux_data.zoomed_viewport;
+	vec2 & bar_size = this->cam_aux_data.bar_size;
+	vec2 & render_scale = this->cam_aux_data.render_scale;
+	this->cam_aux_data.cam_pos = new_pos;
 
 	zoomed_viewport = cam.viewport_size * cam_data.zoom;
 	float screen_aspect = static_cast<float>(cam.screen.x) / cam.screen.y;
@@ -340,8 +337,6 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 
 	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
-
-	return ret_cam;
 }
 
 std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
@@ -377,7 +372,11 @@ ivec2 SDLContext::get_size(const Texture & ctx) {
 std::vector<SDLContext::EventData> SDLContext::get_events() {
 	std::vector<SDLContext::EventData> event_list;
 	SDL_Event event;
+	const CameraAuxiliaryData & cam = this->cam_aux_data;
 	while (SDL_PollEvent(&event)) {
+		ivec2 mouse_pos;
+		mouse_pos.x = (event.button.x - cam.bar_size.x) / cam.render_scale.x;
+		mouse_pos.y = (event.button.y - cam.bar_size.y) / cam.render_scale.y;
 		switch (event.type) {
 			case SDL_QUIT:
 				event_list.push_back(EventData{
@@ -401,7 +400,7 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 				event_list.push_back(EventData{
 					.event_type = SDLContext::EventType::MOUSEDOWN,
 					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = {event.button.x, event.button.y},
+					.mouse_position = mouse_pos,
 				});
 				break;
 			case SDL_MOUSEBUTTONUP: {
@@ -410,21 +409,21 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 				event_list.push_back(EventData{
 					.event_type = SDLContext::EventType::MOUSEUP,
 					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = {event.button.x, event.button.y},
+					.mouse_position = mouse_pos,
 				});
 			} break;
 
 			case SDL_MOUSEMOTION: {
 				event_list.push_back(
 					EventData{.event_type = SDLContext::EventType::MOUSEMOVE,
-							  .mouse_position = {event.motion.x, event.motion.y},
+							  .mouse_position = mouse_pos,
 							  .rel_mouse_move = {event.motion.xrel, event.motion.yrel}});
 			} break;
 
 			case SDL_MOUSEWHEEL: {
 				event_list.push_back(EventData{
 					.event_type = SDLContext::EventType::MOUSEWHEEL,
-					.mouse_position = {event.motion.x, event.motion.y},
+					.mouse_position = mouse_pos,
 					// TODO: why is this needed?
 					.scroll_direction = event.wheel.y < 0 ? -1 : 1,
 					.scroll_delta = event.wheel.preciseY,
