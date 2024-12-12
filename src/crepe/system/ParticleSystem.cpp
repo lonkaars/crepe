@@ -1,3 +1,4 @@
+#include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
@@ -5,6 +6,7 @@
 #include "../api/ParticleEmitter.h"
 #include "../api/Transform.h"
 #include "../manager/ComponentManager.h"
+#include "../manager/LoopTimerManager.h"
 
 #include "ParticleSystem.h"
 
@@ -12,10 +14,12 @@ using namespace crepe;
 
 void ParticleSystem::update() {
 	// Get all emitters
-	
-	ComponentManager & mgr = this->mediator.component_manager;
+	const Mediator & mediator = this->mediator;
+	LoopTimerManager & loop_timer = mediator.loop_timer;
+	ComponentManager & mgr = mediator.component_manager;
+	float dt = std::chrono::duration<float>(loop_timer.get_scaled_fixed_delta_time()).count();
+
 	RefVector<ParticleEmitter> emitters = mgr.get_components_by_type<ParticleEmitter>();
-	double dt = LoopTimer::get_instance().get_fixed_delta_time();
 
 	for (ParticleEmitter & emitter : emitters) {
 		// Get transform linked to emitter
@@ -23,10 +27,10 @@ void ParticleSystem::update() {
 			= mgr.get_components_by_id<Transform>(emitter.game_object_id).front().get();
 
 		// Emit particles based on emission_rate
-		emitter.data.spawn_accumulator = emitter.data.emission_rate * dt;
-		while (emitter.data.spawn_accumulator >= 1.0) {
+		emitter.spawn_accumulator = emitter.data.emission_rate * dt;
+		while (emitter.spawn_accumulator >= 1.0) {
 			this->emit_particle(emitter, transform);
-			emitter.data.spawn_accumulator -= 1.0;
+			emitter.spawn_accumulator -= 1.0;
     }
 		
 		// Update all particles
