@@ -7,7 +7,7 @@
 
 class StartScene : public crepe::Scene {
 public:
-	~StartScene() = default;
+	using crepe::Scene::Scene;
 	void load_scene();
 	std::string get_name() const { return "Start Scene"; };
 };

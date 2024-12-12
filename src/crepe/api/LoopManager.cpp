@@ -54,8 +54,6 @@ void LoopManager::loop() {
 
 			this->frame_update();
 			this->loop_timer.enforce_frame_rate();
-
-			cout  << this->loop_timer.get_fps() << std::endl;
 		}
 	} catch (const exception & e) {
 		Log::logf(Log::Level::ERROR, "Exception caught in main loop: {}", e.what());
