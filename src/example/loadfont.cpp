@@ -19,6 +19,15 @@ int main() {
 		std::unique_ptr<Asset> asset = font_facade.get_font_asset(label->font_family);
 		std::cout << "path: " << asset->get_path() << std::endl;
 		std::unique_ptr<Font> font = std::make_unique<Font>(*asset, mediator);
+		// Get the TTF_Font from the Font object
+		TTF_Font* ttf_font = font->get_font();
+
+		// Check if the font is loaded properly
+		if (ttf_font != nullptr) {
+			std::cout << "Font successfully loaded!" << std::endl;
+		} else {
+			std::cout << "Failed to load font." << std::endl;
+		}
 	} catch (const std::exception & e) {
 		std::cout << "Standard exception thrown: " << e.what() << std::endl;
 	}
