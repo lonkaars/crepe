@@ -43,8 +43,6 @@ void ParticleSystem::update() {
 		// Check if within boundary
 		this->check_bounds(emitter, transform);
 	}
-
-	this->update_count = (this->update_count + 1) % this->MAX_UPDATE_COUNT;
 }
 
 void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & transform) {
