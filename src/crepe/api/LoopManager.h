@@ -12,7 +12,6 @@
 #include "../manager/SceneManager.h"
 #include "../system/System.h"
 
-
 namespace crepe {
 /**
  * \brief Main game loop manager

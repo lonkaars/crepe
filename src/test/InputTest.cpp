@@ -35,8 +35,9 @@ public:
 protected:
 	void SetUp() override {
 		GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
-		auto & camera = obj.add_component<Camera>(
-			ivec2{500, 500}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+		auto & camera
+			= obj.add_component<Camera>(ivec2{500, 500}, vec2{500, 500},
+										Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
 		render.update();
 		//mediator.event_manager = event_manager;
 		//mediator.component_manager = mgr;
