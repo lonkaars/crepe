@@ -61,9 +61,9 @@ public:
 		float min_angle = 0;
 		//! max angle of particle emission
 		float max_angle = 0;
-		//! begin Lifespan of particle (only visual)
+		//! begin Lifespan of particle in seconds (only visual)
 		float begin_lifespan = 0.0;
-		//! end Lifespan of particle
+		//! end Lifespan of particle in seconds
 		float end_lifespan = 10.0;
 		//! force over time (physics)
 		vec2 force_over_time;
