@@ -22,11 +22,12 @@ void PhysicsSystem::update() {
 
 	duration_t delta_time = loop_timer.get_scaled_fixed_delta_time();
 	float dt = duration<float>(delta_time).count();
-	
+
 	float gravity = Config::get_instance().physics.gravity;
 	for (Rigidbody & rigidbody : rigidbodies) {
 		if (!rigidbody.active) continue;
-		Transform & transform = mgr.get_components_by_id<Transform>(rigidbody.game_object_id).front().get();
+		Transform & transform
+			= mgr.get_components_by_id<Transform>(rigidbody.game_object_id).front().get();
 
 		switch (rigidbody.data.body_type) {
 			case Rigidbody::BodyType::DYNAMIC:
@@ -43,43 +44,39 @@ void PhysicsSystem::update() {
 
 					if (rigidbody.data.gravity_scale > 0) {
 						rigidbody.data.linear_velocity.y
-							+= (rigidbody.data.mass * rigidbody.data.gravity_scale
-								* gravity * dt);
+							+= (rigidbody.data.mass * rigidbody.data.gravity_scale * gravity
+								* dt);
 					}
 					// Add coefficient rotation
 					if (rigidbody.data.angular_velocity_coefficient > 0) {
 						rigidbody.data.angular_velocity
 							*= std::pow(rigidbody.data.angular_velocity_coefficient, dt);
-							
 					}
 
 					// Add coefficient movement horizontal
-					if (rigidbody.data.linear_velocity_coefficient.x > 0)
-					{
+					if (rigidbody.data.linear_velocity_coefficient.x > 0) {
 						rigidbody.data.linear_velocity.x
-								*= std::pow(rigidbody.data.linear_velocity_coefficient.x, dt);
+							*= std::pow(rigidbody.data.linear_velocity_coefficient.x, dt);
 					}
 
 					// Add coefficient movement horizontal
-					if (rigidbody.data.linear_velocity_coefficient.y > 0)
-					{
+					if (rigidbody.data.linear_velocity_coefficient.y > 0) {
 						rigidbody.data.linear_velocity.y
-								*= std::pow(rigidbody.data.linear_velocity_coefficient.y, dt);
+							*= std::pow(rigidbody.data.linear_velocity_coefficient.y, dt);
 					}
 
 					// Max velocity check
 					if (rigidbody.data.angular_velocity
 						> rigidbody.data.max_angular_velocity) {
-						rigidbody.data.angular_velocity
-							= rigidbody.data.max_angular_velocity;
+						rigidbody.data.angular_velocity = rigidbody.data.max_angular_velocity;
 					} else if (rigidbody.data.angular_velocity
-									< -rigidbody.data.max_angular_velocity) {
-						rigidbody.data.angular_velocity
-							= -rigidbody.data.max_angular_velocity;
+							   < -rigidbody.data.max_angular_velocity) {
+						rigidbody.data.angular_velocity = -rigidbody.data.max_angular_velocity;
 					}
-					
+
 					// Set max velocity to maximum length
-					if(rigidbody.data.linear_velocity.length() > rigidbody.data.max_linear_velocity) {
+					if (rigidbody.data.linear_velocity.length()
+						> rigidbody.data.max_linear_velocity) {
 						rigidbody.data.linear_velocity.normalize();
 						rigidbody.data.linear_velocity *= rigidbody.data.max_linear_velocity;
 					}
