@@ -34,7 +34,7 @@ void ParticleSystem::update() {
     }
 		
 		// Update all particles
-		for (Particle & particle : emitter.data.particles) {
+		for (Particle & particle : emitter.particles) {
 			if (particle.active) {
 				particle.update(dt);
 			}
@@ -57,7 +57,7 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & 
 	vec2 velocity
 		= {random_speed * std::cos(angle_radians), random_speed * std::sin(angle_radians)};
 
-	for (Particle & particle : emitter.data.particles) {
+	for (Particle & particle : emitter.particles) {
 		if (!particle.active) {
 			particle.reset(emitter.data.end_lifespan, initial_position, velocity,
 						   random_angle);
@@ -76,7 +76,7 @@ void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & t
 	const float TOP = offset.y - half_height;
 	const float BOTTOM = offset.y + half_height;
 
-	for (Particle & particle : emitter.data.particles) {
+	for (Particle & particle : emitter.particles) {
 		const vec2 & position = particle.position;
 		bool within_bounds = (position.x >= LEFT && position.x <= RIGHT && position.y >= TOP
 							  && position.y <= BOTTOM);

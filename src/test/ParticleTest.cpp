@@ -11,9 +11,13 @@
 #include <gtest/gtest.h>
 #include <math.h>
 
+#define protected public
+#define private public
+
 using namespace std;
 using namespace std::chrono_literals;
 using namespace crepe;
+
 
 class ParticlesTest : public ::testing::Test {
 	Mediator m;
@@ -57,6 +61,7 @@ public:
 				},
 				.sprite = test_sprite,
 			});
+			
 		}
 		transforms = mgr.get_components_by_id<Transform>(0);
 		Transform & transform = transforms.front().get();
@@ -76,7 +81,7 @@ public:
 		emitter.data.end_lifespan = 0;
 		emitter.data.force_over_time = vec2{0, 0};
 		emitter.data.boundary = {0, 0, vec2{0, 0}, false};
-		for (auto & particle : emitter.data.particles) {
+		for (auto & particle : emitter.particles) {
 			particle.active = false;
 		}
 	}
@@ -95,19 +100,19 @@ TEST_F(ParticlesTest, spawnParticle) {
 	emitter.data.max_angle = 10;
 	particle_system.update();
 	//check if nothing happend
-	EXPECT_EQ(emitter.data.particles[0].active, false);
+	EXPECT_EQ(emitter.particles[0].active, false);
 	emitter.data.emission_rate = 1;
 	//check particle spawnes
 	particle_system.update();
-	EXPECT_EQ(emitter.data.particles[0].active, true);
+	EXPECT_EQ(emitter.particles[0].active, true);
 	particle_system.update();
-	EXPECT_EQ(emitter.data.particles[1].active, true);
+	EXPECT_EQ(emitter.particles[1].active, true);
 	particle_system.update();
-	EXPECT_EQ(emitter.data.particles[2].active, true);
+	EXPECT_EQ(emitter.particles[2].active, true);
 	particle_system.update();
-	EXPECT_EQ(emitter.data.particles[3].active, true);
+	EXPECT_EQ(emitter.particles[3].active, true);
 
-	for (auto & particle : emitter.data.particles) {
+	for (auto & particle : emitter.particles) {
 		// Check velocity range
 		EXPECT_GE(particle.velocity.x, emitter.data.min_speed);
 		// Speed should be greater than or equal to min_speed
@@ -139,7 +144,7 @@ TEST_F(ParticlesTest, moveParticleHorizontal) {
 	emitter.data.emission_rate = 1;
 	for (int a = 1; a < emitter.data.boundary.width / 2; a++) {
 		particle_system.update();
-		EXPECT_EQ(emitter.data.particles[0].position.x, a);
+		EXPECT_EQ(emitter.particles[0].position.x, a);
 	}
 }
 
@@ -157,7 +162,7 @@ TEST_F(ParticlesTest, moveParticleVertical) {
 	emitter.data.emission_rate = 1;
 	for (int a = 1; a < emitter.data.boundary.width / 2; a++) {
 		particle_system.update();
-		EXPECT_EQ(emitter.data.particles[0].position.y, a);
+		EXPECT_EQ(emitter.particles[0].position.y, a);
 	}
 }
 
@@ -177,7 +182,7 @@ TEST_F(ParticlesTest, boundaryParticleReset) {
 	for (int a = 0; a < emitter.data.boundary.width / 2 + 1; a++) {
 		particle_system.update();
 	}
-	EXPECT_EQ(emitter.data.particles[0].active, false);
+	EXPECT_EQ(emitter.particles[0].active, false);
 }
 
 TEST_F(ParticlesTest, boundaryParticleStop) {
@@ -197,12 +202,12 @@ TEST_F(ParticlesTest, boundaryParticleStop) {
 		particle_system.update();
 	}
 	const double TOLERANCE = 0.01;
-	EXPECT_NEAR(emitter.data.particles[0].velocity.x, 0, TOLERANCE);
-	EXPECT_NEAR(emitter.data.particles[0].velocity.y, 0, TOLERANCE);
-	if (emitter.data.particles[0].velocity.x != 0)
-		EXPECT_NEAR(std::abs(emitter.data.particles[0].position.x),
+	EXPECT_NEAR(emitter.particles[0].velocity.x, 0, TOLERANCE);
+	EXPECT_NEAR(emitter.particles[0].velocity.y, 0, TOLERANCE);
+	if (emitter.particles[0].velocity.x != 0)
+		EXPECT_NEAR(std::abs(emitter.particles[0].position.x),
 					emitter.data.boundary.height / 2, TOLERANCE);
-	if (emitter.data.particles[0].velocity.y != 0)
-		EXPECT_NEAR(std::abs(emitter.data.particles[0].position.y),
+	if (emitter.particles[0].velocity.y != 0)
+		EXPECT_NEAR(std::abs(emitter.particles[0].position.y),
 					emitter.data.boundary.width / 2, TOLERANCE);
 }
