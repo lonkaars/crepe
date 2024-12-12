@@ -16,4 +16,3 @@
 #define dbg_log(str) _crepe_logf_here(crepe::Log::Level::DEBUG, ": {}", str)
 #define dbg_trace() _crepe_logf_here(crepe::Log::Level::TRACE, "", "")
 // NOLINTEND
-

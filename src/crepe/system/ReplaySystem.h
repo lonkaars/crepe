@@ -41,5 +41,4 @@ private:
 	void playback_end();
 };
 
-}
-
+} // namespace crepe

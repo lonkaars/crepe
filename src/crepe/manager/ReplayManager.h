@@ -2,8 +2,8 @@
 
 #include <unordered_map>
 
-#include "Manager.h"
 #include "ComponentManager.h"
+#include "Manager.h"
 #include "util/OptionalRef.h"
 
 namespace crepe {
@@ -19,6 +19,7 @@ typedef size_t recording_t;
  */
 class ReplayManager : public Manager {
 	// TODO: Delete recordings at end of scene
+
 public:
 	ReplayManager(Mediator & mediator);
 
@@ -40,7 +41,7 @@ public:
 	 * \param handle Handle to recording (as returned by \c record_end())
 	 */
 	void release(recording_t handle);
-	
+
 public:
 	//! Internal state
 	enum State {

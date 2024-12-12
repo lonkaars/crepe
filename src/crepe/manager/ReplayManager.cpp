@@ -1,7 +1,7 @@
 #include <format>
 
-#include "ReplayManager.h"
 #include "Manager.h"
+#include "ReplayManager.h"
 
 using namespace crepe;
 using namespace std;
@@ -32,8 +32,7 @@ void ReplayManager::play(recording_t handle) {
 }
 
 void ReplayManager::release(recording_t handle) {
-	if (!this->memory.contains(handle))
-		return;
+	if (!this->memory.contains(handle)) return;
 	this->memory.erase(handle);
 }
 
@@ -68,7 +67,4 @@ bool ReplayManager::frame_step() {
 	return true;
 }
 
-ReplayManager::State ReplayManager::get_state() const {
-	return this->state;
-}
-
+ReplayManager::State ReplayManager::get_state() const { return this->state; }

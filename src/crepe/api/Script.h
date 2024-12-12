@@ -2,13 +2,13 @@
 
 #include <vector>
 
-#include "../manager/ReplayManager.h"
 #include "../manager/EventManager.h"
 #include "../manager/Mediator.h"
+#include "../manager/ReplayManager.h"
 #include "../system/CollisionSystem.h"
 #include "../types.h"
-#include "../util/OptionalRef.h"
 #include "../util/Log.h"
+#include "../util/OptionalRef.h"
 
 namespace crepe {
 
@@ -115,10 +115,12 @@ protected:
 	void subscribe(const EventHandler<EventType> & callback);
 	//! \copydoc EventManager::trigger_event
 	template <typename EventType>
-	void trigger_event(const EventType & event = {}, event_channel_t channel = EventManager::CHANNEL_ALL);
+	void trigger_event(const EventType & event = {},
+					   event_channel_t channel = EventManager::CHANNEL_ALL);
 	//! \copydoc EventManager::queue_event
 	template <typename EventType>
-	void queue_event(const EventType & event = {}, event_channel_t channel = EventManager::CHANNEL_ALL);
+	void queue_event(const EventType & event = {},
+					 event_channel_t channel = EventManager::CHANNEL_ALL);
 	//! \}
 
 	/**

@@ -48,7 +48,8 @@ void Script::subscribe_internal(const EventHandler<EventType> & callback,
 			try {
 				ReplayManager & replay = this->mediator->replay_manager;
 				if (replay.get_state() == ReplayManager::PLAYING) return false;
-			} catch (const std::runtime_error &) {}
+			} catch (const std::runtime_error &) {
+			}
 
 			// call user-provided callback
 			return callback(data);

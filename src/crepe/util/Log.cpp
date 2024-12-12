@@ -3,8 +3,8 @@
 
 #include "../api/Config.h"
 
-#include "LogColor.h"
 #include "Log.h"
+#include "LogColor.h"
 
 using namespace crepe;
 using namespace std;

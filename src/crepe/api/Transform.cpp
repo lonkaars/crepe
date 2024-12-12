@@ -20,4 +20,3 @@ unique_ptr<Component> Transform::save() const {
 void Transform::restore(const Component & snapshot) {
 	*this = static_cast<const Transform &>(snapshot);
 }
-

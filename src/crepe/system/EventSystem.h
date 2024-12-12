@@ -18,5 +18,4 @@ public:
 	void fixed_update() override;
 };
 
-}
-
+} // namespace crepe
