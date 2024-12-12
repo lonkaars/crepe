@@ -37,6 +37,7 @@ unique_ptr<Asset> SDLFontContext::get_font_asset(const string & font_family) {
     FcPatternDestroy(pattern);
 
     if (!matched_pattern) {
+		FcPatternDestroy(matched_pattern);
         throw runtime_error("No matching font found.");
     }
 
