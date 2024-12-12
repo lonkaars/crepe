@@ -1,3 +1,4 @@
+#include "api/Button.h"
 #include "api/CircleCollider.h"
 #include "api/Scene.h"
 #include "manager/ComponentManager.h"
@@ -15,161 +16,163 @@
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
+#include <iostream>
+#include <mutex>
 
 using namespace crepe;
 using namespace std;
 
-class Scene1 : public Scene {
-public:
-	void load_scene() {
-		Mediator & m = this->mediator;
-		ComponentManager & mgr = m.component_manager;
+// class Scene1 : public Scene {
+// public:
+// 	void load_scene() {
+// 		Mediator & m = this->mediator;
+// 		ComponentManager & mgr = m.component_manager;
 
-		GameObject start_begin = mgr.new_object("start_begin", "background", vec2(0, 0));
-		Asset start_begin_asset{"asset/jetpack_joyride/background/start/titleFG_1_TVOS.png"};
-		start_begin.add_component<Sprite>(start_begin_asset, Sprite::Data{
-																 .sorting_in_layer = 0,
-																 .order_in_layer = 1,
-																 .size = vec2(0, 800),
-															 });
+// 		GameObject start_begin = mgr.new_object("start_begin", "background", vec2(0, 0));
+// 		Asset start_begin_asset{"asset/jetpack_joyride/background/start/titleFG_1_TVOS.png"};
+// 		start_begin.add_component<Sprite>(start_begin_asset, Sprite::Data{
+// 																 .sorting_in_layer = 0,
+// 																 .order_in_layer = 1,
+// 																 .size = vec2(0, 800),
+// 															 });
 
-		GameObject start_end = mgr.new_object("start_end", "background", vec2(700, 0));
-		Asset start_end_asset{"asset/jetpack_joyride/background/start/titleFG_2_TVOS.png"};
-		start_end.add_component<Sprite>(start_end_asset, Sprite::Data{
-															 .sorting_in_layer = 0,
-															 .order_in_layer = 2,
-															 .size = vec2(0, 800),
-														 });
+// 		GameObject start_end = mgr.new_object("start_end", "background", vec2(700, 0));
+// 		Asset start_end_asset{"asset/jetpack_joyride/background/start/titleFG_2_TVOS.png"};
+// 		start_end.add_component<Sprite>(start_end_asset, Sprite::Data{
+// 															 .sorting_in_layer = 0,
+// 															 .order_in_layer = 2,
+// 															 .size = vec2(0, 800),
+// 														 });
 
-		GameObject hallway_begin = mgr.new_object("hallway_begin", "background", vec2(800, 0));
-		Asset hallway_begin_asset{
-			"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
-		hallway_begin.add_component<Sprite>(hallway_begin_asset, Sprite::Data{
-																	 .sorting_in_layer = 0,
-																	 .order_in_layer = 1,
-																	 .size = vec2(0, 800),
-																 });
+// 		GameObject hallway_begin = mgr.new_object("hallway_begin", "background", vec2(800, 0));
+// 		Asset hallway_begin_asset{
+// 			"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
+// 		hallway_begin.add_component<Sprite>(hallway_begin_asset, Sprite::Data{
+// 																	 .sorting_in_layer = 0,
+// 																	 .order_in_layer = 1,
+// 																	 .size = vec2(0, 800),
+// 																 });
 
-		GameObject hallway_middle
-			= mgr.new_object("hallway_middle", "background", vec2(1400, 0));
-		Asset hallway_middle_asset{
-			"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
-		hallway_middle.add_component<Sprite>(hallway_middle_asset, Sprite::Data{
-																	   .sorting_in_layer = 0,
-																	   .order_in_layer = 2,
-																	   .size = vec2(0, 800),
-																   });
+// 		GameObject hallway_middle
+// 			= mgr.new_object("hallway_middle", "background", vec2(1400, 0));
+// 		Asset hallway_middle_asset{
+// 			"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+// 		hallway_middle.add_component<Sprite>(hallway_middle_asset, Sprite::Data{
+// 																	   .sorting_in_layer = 0,
+// 																	   .order_in_layer = 2,
+// 																	   .size = vec2(0, 800),
+// 																   });
 
-		GameObject hallway_end = mgr.new_object("hallway_end", "background", vec2(2000, 0));
-		Asset hallway_end_asset{
-			"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
-		hallway_end.add_component<Sprite>(hallway_end_asset, Sprite::Data{
-																 .sorting_in_layer = 0,
-																 .order_in_layer = 1,
-																 .size = vec2(0, 800),
-															 });
+// 		GameObject hallway_end = mgr.new_object("hallway_end", "background", vec2(2000, 0));
+// 		Asset hallway_end_asset{
+// 			"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
+// 		hallway_end.add_component<Sprite>(hallway_end_asset, Sprite::Data{
+// 																 .sorting_in_layer = 0,
+// 																 .order_in_layer = 1,
+// 																 .size = vec2(0, 800),
+// 															 });
 
-		GameObject forest_begin = mgr.new_object("forest_begin", "background", vec2(2600, 0));
-		Asset forest_begin_asset{
-			"asset/jetpack_joyride/background/forest/forestFG_1_TVOS.png"};
-		forest_begin.add_component<Sprite>(forest_begin_asset, Sprite::Data{
-																   .sorting_in_layer = 0,
-																   .order_in_layer = 2,
-																   .size = vec2(0, 800),
-															   });
+// 		GameObject forest_begin = mgr.new_object("forest_begin", "background", vec2(2600, 0));
+// 		Asset forest_begin_asset{
+// 			"asset/jetpack_joyride/background/forest/forestFG_1_TVOS.png"};
+// 		forest_begin.add_component<Sprite>(forest_begin_asset, Sprite::Data{
+// 																   .sorting_in_layer = 0,
+// 																   .order_in_layer = 2,
+// 																   .size = vec2(0, 800),
+// 															   });
 
-		GameObject forest_middle
-			= mgr.new_object("forest_middle", "background", vec2(3400, 0));
-		Asset forest_middle_asset{
-			"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
-		forest_middle.add_component<Sprite>(forest_middle_asset, Sprite::Data{
-																	 .sorting_in_layer = 0,
-																	 .order_in_layer = 2,
-																	 .size = vec2(0, 800),
-																 });
+// 		GameObject forest_middle
+// 			= mgr.new_object("forest_middle", "background", vec2(3400, 0));
+// 		Asset forest_middle_asset{
+// 			"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
+// 		forest_middle.add_component<Sprite>(forest_middle_asset, Sprite::Data{
+// 																	 .sorting_in_layer = 0,
+// 																	 .order_in_layer = 2,
+// 																	 .size = vec2(0, 800),
+// 																 });
 
-		GameObject forest_end = mgr.new_object("forest_end", "background", vec2(4200, 0));
-		Asset forest_end_asset{"asset/jetpack_joyride/background/forest/forestFG_2_TVOS.png"};
-		forest_end.add_component<Sprite>(forest_end_asset, Sprite::Data{
-															   .sorting_in_layer = 0,
-															   .order_in_layer = 2,
-															   .size = vec2(0, 800),
-														   });
+// 		GameObject forest_end = mgr.new_object("forest_end", "background", vec2(4200, 0));
+// 		Asset forest_end_asset{"asset/jetpack_joyride/background/forest/forestFG_2_TVOS.png"};
+// 		forest_end.add_component<Sprite>(forest_end_asset, Sprite::Data{
+// 															   .sorting_in_layer = 0,
+// 															   .order_in_layer = 2,
+// 															   .size = vec2(0, 800),
+// 														   });
 
-		GameObject forest_background_1
-			= mgr.new_object("forest_background", "background", vec2(2600, 0));
-		Asset forest_background_1_asset{
-			"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
-		forest_background_1.add_component<Sprite>(forest_background_1_asset,
-												  Sprite::Data{
-													  .sorting_in_layer = 0,
-													  .order_in_layer = 0,
-													  .size = vec2(0, 800),
-												  });
+// 		GameObject forest_background_1
+// 			= mgr.new_object("forest_background", "background", vec2(2600, 0));
+// 		Asset forest_background_1_asset{
+// 			"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
+// 		forest_background_1.add_component<Sprite>(forest_background_1_asset,
+// 												  Sprite::Data{
+// 													  .sorting_in_layer = 0,
+// 													  .order_in_layer = 0,
+// 													  .size = vec2(0, 800),
+// 												  });
 
-		GameObject forest_background_2
-			= mgr.new_object("forest_background", "background", vec2(3400, 0));
-		Asset forest_background_2_asset{
-			"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
-		forest_background_2.add_component<Sprite>(forest_background_2_asset,
-												  Sprite::Data{
-													  .sorting_in_layer = 0,
-													  .order_in_layer = 0,
-													  .size = vec2(0, 800),
-												  });
+// 		GameObject forest_background_2
+// 			= mgr.new_object("forest_background", "background", vec2(3400, 0));
+// 		Asset forest_background_2_asset{
+// 			"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
+// 		forest_background_2.add_component<Sprite>(forest_background_2_asset,
+// 												  Sprite::Data{
+// 													  .sorting_in_layer = 0,
+// 													  .order_in_layer = 0,
+// 													  .size = vec2(0, 800),
+// 												  });
 
-		GameObject forest_background_3
-			= mgr.new_object("forest_background", "background", vec2(4200, 0));
-		Asset forest_background_3_asset{
-			"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
-		forest_background_3.add_component<Sprite>(forest_background_3_asset,
-												  Sprite::Data{
-													  .sorting_in_layer = 0,
-													  .order_in_layer = 0,
-													  .size = vec2(0, 800),
-												  });
+// 		GameObject forest_background_3
+// 			= mgr.new_object("forest_background", "background", vec2(4200, 0));
+// 		Asset forest_background_3_asset{
+// 			"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
+// 		forest_background_3.add_component<Sprite>(forest_background_3_asset,
+// 												  Sprite::Data{
+// 													  .sorting_in_layer = 0,
+// 													  .order_in_layer = 0,
+// 													  .size = vec2(0, 800),
+// 												  });
 
-		GameObject aquarium_begin
-			= mgr.new_object("aquarium_begin", "background", vec2(4800, 0));
-		Asset aquarium_begin_asset{
-			"asset/jetpack_joyride/background/aquarium/glassTubeFG_1_TVOS.png"};
-		aquarium_begin.add_component<Sprite>(aquarium_begin_asset, Sprite::Data{
-																	   .sorting_in_layer = 0,
-																	   .order_in_layer = 1,
-																	   .size = vec2(0, 800),
-																   });
+// 		GameObject aquarium_begin
+// 			= mgr.new_object("aquarium_begin", "background", vec2(4800, 0));
+// 		Asset aquarium_begin_asset{
+// 			"asset/jetpack_joyride/background/aquarium/glassTubeFG_1_TVOS.png"};
+// 		aquarium_begin.add_component<Sprite>(aquarium_begin_asset, Sprite::Data{
+// 																	   .sorting_in_layer = 0,
+// 																	   .order_in_layer = 1,
+// 																	   .size = vec2(0, 800),
+// 																   });
 
-		GameObject aquarium_middle
-			= mgr.new_object("aquarium_middle", "background", vec2(5400, 0));
-		Asset aquarium_middle_asset{
-			"asset/jetpack_joyride/background/aquarium/glassTubeFG_3_TVOS.png"};
-		aquarium_middle.add_component<Sprite>(aquarium_middle_asset, Sprite::Data{
-																		 .sorting_in_layer = 0,
-																		 .order_in_layer = 1,
-																		 .size = vec2(0, 800),
-																	 });
+// 		GameObject aquarium_middle
+// 			= mgr.new_object("aquarium_middle", "background", vec2(5400, 0));
+// 		Asset aquarium_middle_asset{
+// 			"asset/jetpack_joyride/background/aquarium/glassTubeFG_3_TVOS.png"};
+// 		aquarium_middle.add_component<Sprite>(aquarium_middle_asset, Sprite::Data{
+// 																		 .sorting_in_layer = 0,
+// 																		 .order_in_layer = 1,
+// 																		 .size = vec2(0, 800),
+// 																	 });
 
-		GameObject aquarium_end = mgr.new_object("aquarium_end", "background", vec2(6000, 0));
-		Asset aquarium_end_asset{
-			"asset/jetpack_joyride/background/aquarium/glassTubeFG_2_TVOS.png"};
-		aquarium_end.add_component<Sprite>(aquarium_end_asset, Sprite::Data{
-																   .sorting_in_layer = 0,
-																   .order_in_layer = 1,
-																   .size = vec2(0, 800),
-															   });
+// 		GameObject aquarium_end = mgr.new_object("aquarium_end", "background", vec2(6000, 0));
+// 		Asset aquarium_end_asset{
+// 			"asset/jetpack_joyride/background/aquarium/glassTubeFG_2_TVOS.png"};
+// 		aquarium_end.add_component<Sprite>(aquarium_end_asset, Sprite::Data{
+// 																   .sorting_in_layer = 0,
+// 																   .order_in_layer = 1,
+// 																   .size = vec2(0, 800),
+// 															   });
 
-		GameObject camera = mgr.new_object("camera", "camera", vec2(600, 0));
-		camera.add_component<Camera>(ivec2(1700, 720), vec2(2000, 800),
-									 Camera::Data{
-										 .bg_color = Color::RED,
-									 });
-		camera.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(1.5, 0),
-		});
-	}
+// 		GameObject camera = mgr.new_object("camera", "camera", vec2(600, 0));
+// 		camera.add_component<Camera>(ivec2(1700, 720), vec2(2000, 800),
+// 									 Camera::Data{
+// 										 .bg_color = Color::RED,
+// 									 });
+// 		camera.add_component<Rigidbody>(Rigidbody::Data{
+// 			.linear_velocity = vec2(1.5, 0),
+// 		});
+// 	}
 
-	string get_name() const { return "scene1"; }
-};
+// 	string get_name() const { return "scene1"; }
+// };
 
 
 class Scene0 : public Scene {
@@ -178,7 +181,30 @@ public:
 		Mediator & m = this->mediator;
 		ComponentManager & mgr = m.component_manager;
 
-		GameObject start_begin = mgr.new_object("start_begin", "background", vec2(0, 0));
+		GameObject camera = mgr.new_object("camera", "camera", vec2(0, 360));
+		camera.add_component<Camera>(ivec2(1700, 720), vec2(2000, 800),
+									 Camera::Data{
+										 .bg_color = Color::RED,
+									 });
+
+		GameObject menu_background = mgr.new_object("menu_background", "background", vec2(0, 0));
+
+		GameObject button_start = mgr.new_object("button_start", "start", vec2{0, 0}, 0, 1);
+		Asset button_start_img{"asset/texture/test_ap43.png"};
+		button_start.add_component<Sprite>(button_start_img,Sprite::Data{
+			.sorting_in_layer = 1,
+			.order_in_layer = 1,
+			.size = {200,200}
+			
+		});
+
+		std::function<void()> on_click = [&]() { std::cout << "button clicked" << std::endl; };
+		std::function<void()> on_enter = [&]() { std::cout << "enter" << std::endl; };
+		std::function<void()> on_exit = [&]() { std::cout << "exit" << std::endl; };
+		Button & button_temp = button_start.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click, false);
+		button_temp.on_click = on_click;
+		button_temp.on_mouse_enter = on_enter;
+		button_temp.on_mouse_exit = on_exit;
 
 	}
 
@@ -187,7 +213,7 @@ public:
 
 int main(int argc, char * argv[]) {
 	LoopManager gameloop;
-	gameloop.add_scene<Scene1>();
+	gameloop.add_scene<Scene0>();
 	gameloop.start();
 	return 0;
 }
