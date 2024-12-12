@@ -13,10 +13,7 @@ target_sources(crepe PUBLIC
 	Animator.cpp
 	BoxCollider.cpp
 	CircleCollider.cpp
-	IKeyListener.cpp
-	IMouseListener.cpp
 	Engine.cpp
-	LoopTimer.cpp
 	Asset.cpp
 	EventHandler.cpp
 	Script.cpp
@@ -47,11 +44,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	EventHandler.h
 	EventHandler.hpp
 	Event.h
-	IKeyListener.h
-	IMouseListener.h
 	Engine.h
 	Engine.hpp
-	LoopTimer.h
 	Asset.h
 	Button.h
 	UIObject.h

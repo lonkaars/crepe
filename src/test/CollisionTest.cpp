@@ -50,6 +50,7 @@ public:
 class CollisionTest : public Test {
 public:
 	Mediator m;
+	EventManager event_mgr{m};
 	ComponentManager mgr{m};
 	CollisionSystem collision_sys{m};
 	ScriptSystem script_sys{m};

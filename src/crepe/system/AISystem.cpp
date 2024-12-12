@@ -1,22 +1,22 @@
 #include <algorithm>
 #include <cmath>
 
-#include "api/LoopTimer.h"
 #include "manager/ComponentManager.h"
+#include "manager/LoopTimerManager.h"
 #include "manager/Mediator.h"
 
 #include "AISystem.h"
 
 using namespace crepe;
+using namespace std::chrono;
 
 void AISystem::fixed_update() {
 	const Mediator & mediator = this->mediator;
 	ComponentManager & mgr = mediator.component_manager;
-	LoopTimer & timer = mediator.timer;
+	LoopTimerManager & loop_timer = mediator.loop_timer;
 	RefVector<AI> ai_components = mgr.get_components_by_type<AI>();
 
-	//TODO: Use fixed loop dt (this is not available at master at the moment)
-	double dt = timer.get_delta_time();
+	float dt = loop_timer.get_scaled_fixed_delta_time().count();
 
 	// Loop through all AI components
 	for (AI & ai : ai_components) {
@@ -144,7 +144,7 @@ vec2 AISystem::arrive(const AI & ai, const Rigidbody & rigidbody,
 		}
 
 		float speed = distance / ai.arrive_deceleration;
-		speed = std::min(speed, rigidbody.data.max_linear_velocity.length());
+		speed = std::min(speed, rigidbody.data.max_linear_velocity);
 		vec2 desired_velocity = to_target * (speed / distance);
 
 		return desired_velocity - rigidbody.data.linear_velocity;
