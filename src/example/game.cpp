@@ -188,10 +188,13 @@ public:
 			vec2{world_collider, world_collider}); // Left
 		world.add_component<BoxCollider>(vec2{screen_size_width / 2 + world_collider / 2, 0},
 										 vec2{world_collider, world_collider}); // right
-		world.add_component<Camera>(ivec2{static_cast<int>(screen_size_width),static_cast<int>(screen_size_height)},vec2{screen_size_width,screen_size_height},Camera::Data{
-			.bg_color = Color::WHITE,
-			.zoom = 1,
-		});
+		world.add_component<Camera>(
+			ivec2{static_cast<int>(screen_size_width), static_cast<int>(screen_size_height)},
+			vec2{screen_size_width, screen_size_height},
+			Camera::Data{
+				.bg_color = Color::WHITE,
+				.zoom = 1,
+			});
 
 		GameObject game_object1 = mgr.new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
@@ -210,17 +213,20 @@ public:
 		game_object1.add_component<BehaviorScript>().set_script<MyScript1>();
 
 		Asset img1{"asset/texture/square.png"};
-		game_object1.add_component<Sprite>(img1,Sprite::Data{
-			.size = {20,20},
-		});
+		game_object1.add_component<Sprite>(img1, Sprite::Data{
+													 .size = {20, 20},
+												 });
 
 		//add circle with cirlcecollider deactiveated
 		game_object1.add_component<CircleCollider>(vec2{0, 0}, 10).active = false;
 		Asset img2{"asset/texture/circle.png"};
 		game_object1
-			.add_component<Sprite>(img2,Sprite::Data{
-			.size = {20,20},
-		}).active = false;
+			.add_component<Sprite>(img2,
+								   Sprite::Data{
+									   .size = {20, 20},
+								   })
+			.active
+			= false;
 
 		GameObject game_object2 = mgr.new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
@@ -237,17 +243,21 @@ public:
 		// add box with boxcollider
 		game_object2.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
 		game_object2.add_component<BehaviorScript>().set_script<MyScript2>();
-	
-		game_object2.add_component<Sprite>(img1,Sprite::Data{
-			.size = {20,20},
-		});
+
+		game_object2.add_component<Sprite>(img1, Sprite::Data{
+													 .size = {20, 20},
+												 });
 
 		//add circle with cirlcecollider deactiveated
 		game_object2.add_component<CircleCollider>(vec2{0, 0}, 10).active = false;
-	
-		game_object2.add_component<Sprite>(img2,Sprite::Data{
-			.size = {20,20},
-		}).active = false;
+
+		game_object2
+			.add_component<Sprite>(img2,
+								   Sprite::Data{
+									   .size = {20, 20},
+								   })
+			.active
+			= false;
 	}
 
 	string get_name() const { return "scene1"; }
