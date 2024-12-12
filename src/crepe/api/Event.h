@@ -2,9 +2,12 @@
 // TODO discussing the location of these events
 
 #include <string>
+#include <unordered_map>
+
 
 #include "KeyCodes.h"
 #include "types.h"
+
 namespace crepe {
 
 /**
@@ -22,6 +25,7 @@ public:
 
 	//! The key that was pressed.
 	Keycode key = Keycode::NONE;
+	keyboard_state_t keyboard_state;
 };
 
 /**
@@ -31,6 +35,7 @@ class KeyReleaseEvent : public Event {
 public:
 	//! The key that was released.
 	Keycode key = Keycode::NONE;
+	keyboard_state_t keyboard_state;
 };
 
 /**
