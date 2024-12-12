@@ -18,7 +18,6 @@
 #include "api/Transform.h"
 #include "types.h"
 
-#include "SDLFontContext.h"
 
 namespace crepe {
 
@@ -236,7 +235,6 @@ private:
 
 	//! black bars rectangle to draw
 	SDL_FRect black_bars[2] = {};
-	SDLFontContext font_facade{};
 };
 
 } // namespace crepe
