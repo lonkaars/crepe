@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "../manager/ReplayManager.h"
 #include "../manager/EventManager.h"
 #include "../manager/Mediator.h"
 #include "../system/CollisionSystem.h"
@@ -134,6 +135,23 @@ protected:
 
 	//! Retrieve SaveManager reference
 	SaveManager & get_save_manager() const;
+
+	//! Replay management functions
+	struct replay { // NOLINT
+		//! \copydoc ReplayManager::record_start
+		void record_start();
+		//! \copydoc ReplayManager::record_end
+		recording_t record_end();
+		//! \copydoc ReplayManager::play
+		void play(recording_t);
+		//! \copydoc ReplayManager::release
+		void release(recording_t);
+
+	private:
+		OptionalRef<Mediator> & mediator;
+		replay(OptionalRef<Mediator> & mediator) : mediator(mediator) {}
+		friend class Script;
+	} replay{mediator};
 
 	//! \}
 

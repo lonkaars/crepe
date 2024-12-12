@@ -15,8 +15,6 @@ public:
 
 private:
 	ReplayManager::State last_state = ReplayManager::IDLE;
-	void update_recording();
-	void update_playing();
 
 	struct Snapshot {
 		ComponentManager::Snapshot components;
