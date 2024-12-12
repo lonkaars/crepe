@@ -37,3 +37,31 @@ void ReplayManager::release(recording_t handle) {
 	this->memory.erase(handle);
 }
 
+void ReplayManager::frame_record() {
+	ComponentManager & components = this->mediator.component_manager;
+	Recording & recording = this->recording;
+
+	recording.frames.push_back(components.save());
+	recording.frame++;
+}
+
+bool ReplayManager::frame_step() {
+	ComponentManager & components = this->mediator.component_manager;
+	Recording & recording = this->recording;
+
+	ComponentManager::Snapshot & frame = recording.frames.at(recording.frame);
+
+	components.restore(frame);
+	recording.frame++;
+
+	if (recording.frame < recording.frames.size()) return false;
+	// end of recording
+	recording.frame = 0;
+	this->state = IDLE;
+	return true;
+}
+
+ReplayManager::State ReplayManager::get_state() const {
+	return this->state;
+}
+

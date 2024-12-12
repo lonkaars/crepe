@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../manager/ComponentManager.h"
+#include "../manager/ReplayManager.h"
 
 #include "BehaviorScript.h"
 #include "Script.h"
@@ -36,6 +37,8 @@ void Script::subscribe_internal(const EventHandler<EventType> & callback,
 		[this, callback](const EventType & data) -> bool {
 			bool & active = this->active;
 			if (!active) return false;
+			ReplayManager & replay = this->mediator->replay_manager;
+			if (replay.get_state() == ReplayManager::PLAYING) return false;
 			return callback(data);
 		},
 		channel);
