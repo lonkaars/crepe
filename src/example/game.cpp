@@ -129,6 +129,35 @@ public:
 													  .size = vec2(0, 800),
 												  });
 
+		GameObject aquarium_begin
+			= mgr.new_object("aquarium_begin", "background", vec2(4800, 0));
+		Asset aquarium_begin_asset{
+			"asset/jetpack_joyride/background/aquarium/glassTubeFG_1_TVOS.png"};
+		aquarium_begin.add_component<Sprite>(aquarium_begin_asset, Sprite::Data{
+																	   .sorting_in_layer = 0,
+																	   .order_in_layer = 1,
+																	   .size = vec2(0, 800),
+																   });
+
+		GameObject aquarium_middle
+			= mgr.new_object("aquarium_middle", "background", vec2(5400, 0));
+		Asset aquarium_middle_asset{
+			"asset/jetpack_joyride/background/aquarium/glassTubeFG_3_TVOS.png"};
+		aquarium_middle.add_component<Sprite>(aquarium_middle_asset, Sprite::Data{
+																		 .sorting_in_layer = 0,
+																		 .order_in_layer = 1,
+																		 .size = vec2(0, 800),
+																	 });
+
+		GameObject aquarium_end = mgr.new_object("aquarium_end", "background", vec2(6000, 0));
+		Asset aquarium_end_asset{
+			"asset/jetpack_joyride/background/aquarium/glassTubeFG_2_TVOS.png"};
+		aquarium_end.add_component<Sprite>(aquarium_end_asset, Sprite::Data{
+																   .sorting_in_layer = 0,
+																   .order_in_layer = 1,
+																   .size = vec2(0, 800),
+															   });
+
 		GameObject camera = mgr.new_object("camera", "camera", vec2(600, 0));
 		camera.add_component<Camera>(ivec2(1700, 720), vec2(2000, 800),
 									 Camera::Data{
