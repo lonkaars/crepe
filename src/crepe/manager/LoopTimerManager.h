@@ -103,7 +103,7 @@ public:
 	 *
 	 * \return The fixed delta time, scaled by the current time scale, in seconds.
 	 */
-	float get_scaled_fixed_delta_time() const;
+	duration_t get_scaled_fixed_delta_time() const;
 
 private:
 	//! Friend relation to use start,enforce_frame_rate,get_lag,update,advance_fixed_update.
