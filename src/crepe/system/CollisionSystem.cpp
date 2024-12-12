@@ -290,7 +290,7 @@ vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_co
 
 	// Compute penetration depth
 	float penetration_depth = circle_collider.radius - distance;
-	
+
 	// Compute the resolution vector
 	vec2 resolution = collision_normal * penetration_depth;
 
