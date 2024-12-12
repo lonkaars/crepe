@@ -1,6 +1,7 @@
-#include "../util/Log.h"
 #include <chrono>
 #include <thread>
+
+#include "../util/Log.h"
 
 #include "LoopTimerManager.h"
 
