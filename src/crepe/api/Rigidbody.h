@@ -53,7 +53,7 @@ public:
 	 */
 	struct Data {
 		//! objects mass
-		float mass = 0.0;
+		float mass = 1;
 		/**
 		* \brief Gravity scale factor.
 		*
