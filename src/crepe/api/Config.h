@@ -15,20 +15,10 @@ namespace crepe {
  * modified *before* execution is handed over from the game programmer to the engine (i.e. the
  * main loop is started).
  */
-class Config final {
-public:
+struct Config final {
 	//! Retrieve handle to global Config instance
 	static Config & get_instance();
 
-private:
-	Config() = default;
-	~Config() = default;
-	Config(const Config &) = default;
-	Config(Config &&) = default;
-	Config & operator=(const Config &) = default;
-	Config & operator=(Config &&) = default;
-
-public:
 	//! Logging-related settings
 	struct {
 		/**
@@ -91,6 +81,12 @@ public:
 		//! The maximum number of pixels the mouse can move between MouseDown and MouseUp events to be considered a click.
 		int click_tolerance = 5;
 	} input;
+
+	//! Audio system settings
+	struct {
+		//! Max amount of simultanious voices
+		unsigned int voices = 32;
+	} audio;
 };
 
 } // namespace crepe

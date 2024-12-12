@@ -2,6 +2,7 @@
 #include <SDL2/SDL_blendmode.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
@@ -18,23 +19,18 @@
 #include "../api/Color.h"
 #include "../api/Config.h"
 #include "../api/Sprite.h"
-#include "../api/Texture.h"
 #include "../util/Log.h"
+#include "manager/Mediator.h"
 
 #include "SDLContext.h"
+#include "Texture.h"
 #include "types.h"
 
 using namespace crepe;
 using namespace std;
 
-SDLContext & SDLContext::get_instance() {
-	static SDLContext instance;
-	return instance;
-}
-
-SDLContext::SDLContext() {
+SDLContext::SDLContext(Mediator & mediator) {
 	dbg_trace();
-
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
@@ -62,6 +58,8 @@ SDLContext::SDLContext() {
 	if (!(IMG_Init(img_flags) & img_flags)) {
 		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
+
+	mediator.sdl_context = *this;
 }
 
 SDLContext::~SDLContext() {
@@ -236,35 +234,26 @@ void SDLContext::present_screen() {
 	SDL_RenderPresent(this->game_renderer.get());
 }
 
-SDL_Rect SDLContext::get_src_rect(const Sprite & sprite) const {
-	return SDL_Rect{
-		.x = sprite.mask.x,
-		.y = sprite.mask.y,
-		.w = sprite.mask.w,
-		.h = sprite.mask.h,
-	};
-}
-
 SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 
 	const Sprite::Data & data = ctx.sprite.data;
 
+	float aspect_ratio
+		= (ctx.sprite.aspect_ratio == 0) ? ctx.texture.get_ratio() : ctx.sprite.aspect_ratio;
+
 	vec2 size = data.size;
 	if (data.size.x == 0 && data.size.y != 0) {
-		size.x = data.size.y * ctx.sprite.aspect_ratio;
+		size.x = data.size.y * aspect_ratio;
 	}
 	if (data.size.y == 0 && data.size.x != 0) {
-		size.y = data.size.x / ctx.sprite.aspect_ratio;
+		size.y = data.size.x / aspect_ratio;
 	}
+	size *= cam_aux_data.render_scale * ctx.img_scale * data.scale_offset;
 
-	const CameraValues & cam = ctx.cam;
-
-	size *= cam.render_scale * ctx.img_scale * data.scale_offset;
-
-	vec2 screen_pos
-		= (ctx.pos + data.position_offset - cam.cam_pos + (cam.zoomed_viewport) / 2)
-			  * cam.render_scale
-		  - size / 2 + cam.bar_size;
+	vec2 screen_pos = (ctx.pos + data.position_offset - cam_aux_data.cam_pos
+					   + (cam_aux_data.zoomed_viewport) / 2)
+						  * cam_aux_data.render_scale
+					  - size / 2 + cam_aux_data.bar_size;
 
 	return SDL_FRect{
 		.x = screen_pos.x,
@@ -275,31 +264,38 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 }
 
 void SDLContext::draw(const RenderContext & ctx) {
-
 	const Sprite::Data & data = ctx.sprite.data;
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
 							  | (SDL_FLIP_VERTICAL * data.flip.flip_y));
 
-	SDL_Rect srcrect = this->get_src_rect(ctx.sprite);
+	SDL_Rect srcrect;
+	SDL_Rect * srcrect_ptr = NULL;
+	if (ctx.sprite.mask.w != 0 || ctx.sprite.mask.h != 0) {
+		srcrect.w = ctx.sprite.mask.w;
+		srcrect.h = ctx.sprite.mask.h;
+		srcrect.x = ctx.sprite.mask.x;
+		srcrect.y = ctx.sprite.mask.y;
+		srcrect_ptr = &srcrect;
+	}
+
 	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData{
 		.sprite = ctx.sprite,
-		.cam = ctx.cam,
+		.texture = ctx.texture,
 		.pos = ctx.pos,
 		.img_scale = ctx.scale,
 	});
 
 	double angle = ctx.angle + data.angle_offset;
 
-	this->set_color_texture(ctx.sprite.texture, ctx.sprite.data.color);
-	SDL_RenderCopyExF(this->game_renderer.get(), ctx.sprite.texture.texture.get(), &srcrect,
-					  &dstrect, angle, NULL, render_flip);
+	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
+	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect_ptr, &dstrect,
+					  angle, NULL, render_flip);
 }
 
-SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
+void SDLContext::update_camera_view(const Camera & cam, const vec2 & new_pos) {
 
 	const Camera::Data & cam_data = cam.data;
-	CameraValues ret_cam;
 	// resize window
 	int w, h;
 	SDL_GetWindowSize(this->game_window.get(), &w, &h);
@@ -307,9 +303,10 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 		SDL_SetWindowSize(this->game_window.get(), cam.screen.x, cam.screen.y);
 	}
 
-	vec2 & zoomed_viewport = ret_cam.zoomed_viewport;
-	vec2 & bar_size = ret_cam.bar_size;
-	vec2 & render_scale = ret_cam.render_scale;
+	vec2 & zoomed_viewport = this->cam_aux_data.zoomed_viewport;
+	vec2 & bar_size = this->cam_aux_data.bar_size;
+	vec2 & render_scale = this->cam_aux_data.render_scale;
+	this->cam_aux_data.cam_pos = new_pos;
 
 	zoomed_viewport = cam.viewport_size * cam_data.zoom;
 	float screen_aspect = static_cast<float>(cam.screen.x) / cam.screen.y;
@@ -351,11 +348,7 @@ SDLContext::CameraValues SDLContext::set_camera(const Camera & cam) {
 
 	// fill bg color
 	SDL_RenderFillRect(this->game_renderer.get(), &bg);
-
-	return ret_cam;
 }
-
-uint64_t SDLContext::get_ticks() const { return SDL_GetTicks64(); }
 
 std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>>
 SDLContext::texture_from_path(const std::string & path) {
@@ -383,18 +376,17 @@ SDLContext::texture_from_path(const std::string & path) {
 
 ivec2 SDLContext::get_size(const Texture & ctx) {
 	ivec2 size;
-	SDL_QueryTexture(ctx.texture.get(), NULL, NULL, &size.x, &size.y);
+	SDL_QueryTexture(ctx.get_img(), NULL, NULL, &size.x, &size.y);
 	return size;
 }
-
-void SDLContext::delay(int ms) const { SDL_Delay(ms); }
 
 std::vector<SDLContext::EventData> SDLContext::get_events() {
 	std::vector<SDLContext::EventData> event_list;
 	SDL_Event event;
-
-	// Handle general SDL events
 	while (SDL_PollEvent(&event)) {
+		ivec2 mouse_pos;
+		mouse_pos.x = (event.button.x - cam.bar_size.x) / cam.render_scale.x;
+		mouse_pos.y = (event.button.y - cam.bar_size.y) / cam.render_scale.y;
 		switch (event.type) {
 			case SDL_QUIT:
 				event_list.push_back({SDLContext::EventType::SHUTDOWN, {}, {}, {}});
@@ -413,41 +405,38 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 									  {}});
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				event_list.push_back({SDLContext::EventType::MOUSEDOWN,
-									  {},
-									  {sdl_to_mousebutton(event.button.button),
-									   {event.button.x, event.button.y}},
-									  {}});
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::MOUSEDOWN,
+					.mouse_button = sdl_to_mousebutton(event.button.button),
+					.mouse_position = {event.button.x, event.button.y},
+				});
 				break;
-			case SDL_MOUSEBUTTONUP:
-				event_list.push_back({SDLContext::EventType::MOUSEUP,
-									  {},
-									  {sdl_to_mousebutton(event.button.button),
-									   {event.button.x, event.button.y}},
-									  {}});
-				break;
-			case SDL_MOUSEMOTION:
-				event_list.push_back({SDLContext::EventType::MOUSEMOVE,
-									  {},
-									  {{},
-									   {event.motion.x, event.motion.y},
-									   -1,
-									   INFINITY,
-									   {event.motion.xrel, event.motion.yrel}},
-									  {}});
-				break;
-			case SDL_MOUSEWHEEL:
-				event_list.push_back(
-					{SDLContext::EventType::MOUSEWHEEL,
-					 {},
-					 {{}, {}, event.wheel.y < 0 ? -1 : 1, event.wheel.preciseY, {}},
-					 {}});
-				break;
+			case SDL_MOUSEBUTTONUP: {
+				int x, y;
+				SDL_GetMouseState(&x, &y);
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::MOUSEUP,
+					.mouse_button = sdl_to_mousebutton(event.button.button),
+					.mouse_position = {event.button.x, event.button.y},
+				});
+			} break;
 
-			// Forward window events for further processing
-			case SDL_WINDOWEVENT:
-				this->handle_window_event(event.window, event_list);
-				break;
+			case SDL_MOUSEMOTION: {
+				event_list.push_back(
+					EventData{.event_type = SDLContext::EventType::MOUSEMOVE,
+							  .mouse_position = {event.motion.x, event.motion.y},
+							  .rel_mouse_move = {event.motion.xrel, event.motion.yrel}});
+			} break;
+
+			case SDL_MOUSEWHEEL: {
+				event_list.push_back(EventData{
+					.event_type = SDLContext::EventType::MOUSEWHEEL,
+					.mouse_position = {event.motion.x, event.motion.y},
+					// TODO: why is this needed?
+					.scroll_direction = event.wheel.y < 0 ? -1 : 1,
+					.scroll_delta = event.wheel.preciseY,
+				});
+			} break;
 		}
 	}
 
@@ -489,6 +478,6 @@ void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
 }
 
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
-	SDL_SetTextureColorMod(texture.texture.get(), color.r, color.g, color.b);
-	SDL_SetTextureAlphaMod(texture.texture.get(), color.a);
+	SDL_SetTextureColorMod(texture.get_img(), color.r, color.g, color.b);
+	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
 }
