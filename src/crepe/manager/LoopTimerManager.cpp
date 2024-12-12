@@ -1,6 +1,5 @@
 #include <chrono>
 #include <thread>
-
 #include "../util/Log.h"
 
 #include "LoopTimerManager.h"
@@ -31,7 +30,7 @@ void LoopTimerManager::update() {
 		this->delta_time = this->maximum_delta_time;
 	}
 	if (this->delta_time > 0s) {
-		this->actual_fps = 1.0 / duration_cast<seconds>(this->delta_time).count();
+		this->actual_fps = static_cast<unsigned>(1.0 / this->delta_time.count());
 	} else {
 		this->actual_fps = 0;
 	}

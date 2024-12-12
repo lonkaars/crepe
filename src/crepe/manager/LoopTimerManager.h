@@ -6,7 +6,7 @@
 
 namespace crepe {
 
-typedef std::chrono::duration<double> duration_t;
+typedef std::chrono::duration<float> duration_t;
 typedef std::chrono::duration<unsigned long long, std::micro> elapsed_time_t;
 
 /**
@@ -149,9 +149,9 @@ private:
 
 private:
 	//! Target frames per second.
-	unsigned target_fps = 60;
+	unsigned int target_fps = 60;
 	//! Actual frames per second.
-	unsigned actual_fps = 0;
+	unsigned int actual_fps = 0;
 	//! Time scale for speeding up or slowing down the game (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up).
 	float time_scale = 1;
 	//! Maximum delta time in seconds to avoid large jumps.
