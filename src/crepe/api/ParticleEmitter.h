@@ -51,7 +51,7 @@ public:
 		vec2 position;
 		//! maximum number of particles
 		const unsigned int max_particles = 256;
-		//! rate of particle emission per update (Lowest value = 0.001 any lower is ignored)
+		//! rate of particle emission per second
 		float emission_rate = 1;
 		//! min speed of the particles
 		float min_speed = 1;
