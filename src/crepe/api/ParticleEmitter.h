@@ -5,6 +5,7 @@
 
 #include "Component.h"
 #include "Particle.h"
+#include "system/ParticleSystem.h"
 #include "types.h"
 
 namespace crepe {
@@ -52,8 +53,6 @@ public:
 		const unsigned int max_particles = 256;
 		//! rate of particle emission per update (Lowest value = 0.001 any lower is ignored)
 		float emission_rate = 1;
-		//! Saves time left over from last update event.
-		float spawn_accumulator  = 0;
 		//! min speed of the particles
 		float min_speed = 1;
 		//! min speed of the particles
@@ -85,6 +84,10 @@ public:
 public:
 	//! Configuration data for particle emission settings.
 	Data data;
+private:
+	//! Saves time left over from last update event.
+	friend ParticleSystem;
+	float spawn_accumulator  = 0;
 };
 
 } // namespace crepe
