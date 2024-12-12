@@ -15,6 +15,7 @@ SDLFontContext::SDLFontContext(){
 SDLFontContext::~SDLFontContext(){
 		FcFini();
 }
+
 unique_ptr<Asset> SDLFontContext::get_font_asset(const string & font_family) {
 	
     // Create a pattern to search for the font family

@@ -18,7 +18,6 @@
 #include "api/Transform.h"
 #include "types.h"
 
-
 namespace crepe {
 
 class Texture;
