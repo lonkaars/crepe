@@ -56,8 +56,8 @@ private:
 	 * \{
 	 */
 	//! Mediator reference
-	//! \}
 	OptionalRef<Mediator> mediator;
+	//! \}
 
 protected:
 	/**
