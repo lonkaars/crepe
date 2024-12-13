@@ -11,6 +11,7 @@ void ScriptSystem::update() {
 	dbg_trace();
 
 	ComponentManager & mgr = this->mediator.component_manager;
+	LoopTimerManager & timer = this->mediator.loop_timer;
 	RefVector<BehaviorScript> behavior_scripts = mgr.get_components_by_type<BehaviorScript>();
 
 	for (BehaviorScript & behavior_script : behavior_scripts) {
@@ -23,6 +24,8 @@ void ScriptSystem::update() {
 			script->init();
 			script->initialized = true;
 		}
-		script->update();
+
+		duration_t delta_time = timer.get_delta_time();
+		script->update(delta_time);
 	}
 }
