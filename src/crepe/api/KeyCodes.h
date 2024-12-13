@@ -157,5 +157,5 @@ typedef enum {
 	NUM_KEYCODES = 512,
 } Keycode;
 
-typedef std::unordered_map<Keycode, bool> keyboard_state_t;
+
 } // namespace crepe
