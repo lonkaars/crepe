@@ -57,7 +57,7 @@ public:
 		this->add_lamp_start(end, vec2(-350, -95));
 	}
 
-	void add_lamp_start(GameObject & obj, vec2 offset) {
+	void add_lamp_start(GameObject & obj, vec2 offset, unsigned int fps = 10) {
 		Asset lamp_asset{"asset/jetpack_joyride/background/start/alarmLight_TVOS.png"};
 		obj.add_component<Sprite>(lamp_asset, Sprite::Data{
 												  .sorting_in_layer = 5,
@@ -75,7 +75,7 @@ public:
 							 });
 		obj.add_component<Animator>(lamp_glow_sprite, ivec2(422, 384), uvec2(6, 1),
 									Animator::Data{
-										.fps = 10,
+										.fps = fps,
 										.looping = true,
 									});
 	}
@@ -90,7 +90,8 @@ public:
 												 });
 		begin_x += 600;
 
-		// Atributes for begin
+		this->add_lamp_hallway(begin, vec2(-70, -120), 11);
+		this->add_lamp_hallway(begin, vec2(30, -120), 9);
 
 		GameObject middle_1 = mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
 		Asset middle_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
@@ -119,6 +120,8 @@ public:
 													   });
 		begin_x += 400;
 
+		this->add_lamp_hallway(middle_3, vec2(0, -120));
+
 		GameObject middle_4 = mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
 		Asset middle_asset_4{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
 		middle_4.add_component<Sprite>(middle_asset_4, Sprite::Data{
@@ -136,6 +139,29 @@ public:
 												 .size = vec2(0, 800),
 											 });
 		begin_x += 600;
+	}
+
+	void add_lamp_hallway(GameObject & obj, vec2 offset, unsigned int fps = 10) {
+		Asset lamp_asset{"asset/jetpack_joyride/background/hallway/alarmLight_TVOS.png"};
+		obj.add_component<Sprite>(lamp_asset, Sprite::Data{
+												  .sorting_in_layer = 5,
+												  .order_in_layer = 0,
+												  .size = vec2(0, 100),
+												  .position_offset = offset,
+											  });
+		Asset lamp_glow_asset{"asset/jetpack_joyride/background/hallway/alarmGlow_TVOS.png"};
+		Sprite & lamp_glow_sprite = obj.add_component<Sprite>(
+			lamp_glow_asset, Sprite::Data{
+								 .sorting_in_layer = 5,
+								 .order_in_layer = 1,
+								 .size = vec2(0, 300),
+								 .position_offset = offset - vec2(65, -30),
+							 });
+		obj.add_component<Animator>(lamp_glow_sprite, ivec2(422, 384), uvec2(6, 1),
+									Animator::Data{
+										.fps = fps,
+										.looping = true,
+									});
 	}
 
 	void forest(ComponentManager & mgr) {
