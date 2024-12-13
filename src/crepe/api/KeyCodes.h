@@ -155,5 +155,4 @@ enum class Keycode {
 	MENU = 348, //!< Menu key.
 };
 
-
 } // namespace crepe

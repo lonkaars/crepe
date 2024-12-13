@@ -10,7 +10,7 @@ using namespace crepe;
 
 void InputSystem::update() {
 	ComponentManager & mgr = this->mediator.component_manager;
-	
+
 	SDLContext & context = this->mediator.sdl_context;
 	std::vector<SDLContext::EventData> event_list = context.get_events();
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
@@ -31,31 +31,31 @@ void InputSystem::update() {
 	Transform & cam_transform = transform_vec.front().get();
 
 	vec2 camera_origin = cam_transform.position + current_cam.data.postion_offset
-						  - (current_cam.viewport_size / 2);
+						 - (current_cam.viewport_size / 2);
 
 	for (const SDLContext::EventData & event : event_list) {
 		// Only calculate mouse coordinates for relevant events
-		if(this->is_mouse_event(event.event_type)) {
-			this->handle_mouse_event(event,camera_origin,current_cam);
-			
+		if (this->is_mouse_event(event.event_type)) {
+			this->handle_mouse_event(event, camera_origin, current_cam);
+
 		} else {
 			this->handle_non_mouse_event(event);
-			
 		}
 	}
 }
 
-void InputSystem::handle_mouse_event(const SDLContext::EventData &event, const vec2 &camera_origin, 
-                                     const Camera &current_cam){
+void InputSystem::handle_mouse_event(const SDLContext::EventData & event,
+									 const vec2 & camera_origin, const Camera & current_cam) {
 	EventManager & event_mgr = this->mediator.event_manager;
 	vec2 adjusted_mouse;
 	adjusted_mouse.x = event.data.mouse_data.mouse_position.x + camera_origin.x;
 	adjusted_mouse.x = event.data.mouse_data.mouse_position.y + camera_origin.y;
 	// Check if the mouse is within the viewport
 	if ((adjusted_mouse.x < camera_origin.x
-		|| adjusted_mouse.x > camera_origin.x + current_cam.viewport_size.x
-		|| adjusted_mouse.y < camera_origin.y
-		|| adjusted_mouse.y > camera_origin.y + current_cam.viewport_size.y)) return;
+		 || adjusted_mouse.x > camera_origin.x + current_cam.viewport_size.x
+		 || adjusted_mouse.y < camera_origin.y
+		 || adjusted_mouse.y > camera_origin.y + current_cam.viewport_size.y))
+		return;
 
 	// Handle mouse-specific events
 	switch (event.event_type) {
@@ -105,14 +105,14 @@ void InputSystem::handle_mouse_event(const SDLContext::EventData &event, const v
 
 		default:
 			break;
-	}									
+	}
 }
 
-void InputSystem::handle_non_mouse_event(const SDLContext::EventData &event){
+void InputSystem::handle_non_mouse_event(const SDLContext::EventData & event) {
 	EventManager & event_mgr = this->mediator.event_manager;
 	switch (event.event_type) {
 		case SDLContext::EventType::KEYDOWN:
-			
+
 			event_mgr.queue_event<KeyPressEvent>(
 				{.repeat = event.data.key_data.key_repeat, .key = event.data.key_data.key});
 			break;
@@ -150,7 +150,7 @@ void InputSystem::handle_non_mouse_event(const SDLContext::EventData &event){
 	}
 }
 
-bool InputSystem::is_mouse_event(SDLContext::EventType event_type){
+bool InputSystem::is_mouse_event(SDLContext::EventType event_type) {
 	return (event_type == SDLContext::EventType::MOUSEDOWN
 			|| event_type == SDLContext::EventType::MOUSEUP
 			|| event_type == SDLContext::EventType::MOUSEMOVE
@@ -158,29 +158,28 @@ bool InputSystem::is_mouse_event(SDLContext::EventType event_type){
 }
 
 void InputSystem::handle_move(const SDLContext::EventData & event_data,
-							  const vec2& mouse_pos) {
+							  const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
 	for (Button & button : buttons) {
-		if(!button.active) continue;
+		if (!button.active) continue;
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
 		Transform & transform(transform_vec.front().get());
 
 		bool was_hovering = button.hover;
-		if (this->is_mouse_inside_button(mouse_pos, button,
-											transform)) {
+		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
 			button.hover = true;
-			if(!button.on_mouse_enter) continue;
+			if (!button.on_mouse_enter) continue;
 			if (!was_hovering) {
 				button.on_mouse_enter();
 			}
 		} else {
 			button.hover = false;
 			// Trigger the on_exit callback if the hover state just changed to false
-			if(!button.on_mouse_exit) continue;
+			if (!button.on_mouse_exit) continue;
 			if (was_hovering) {
 				button.on_mouse_exit();
 			}
@@ -188,28 +187,27 @@ void InputSystem::handle_move(const SDLContext::EventData & event_data,
 	}
 }
 
-void InputSystem::handle_click(const MouseButton & mouse_button, const vec2& mouse_pos) {
+void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
 	for (Button & button : buttons) {
-		if(!button.active) continue;
+		if (!button.active) continue;
 		if (!button.on_click) continue;
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
 		Transform & transform = transform_vec.front().get();
-		
-		if (this->is_mouse_inside_button(mouse_pos, button,
-											transform)) {
-			 
+
+		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
+
 			button.on_click();
 		}
 	}
 }
 
-bool InputSystem::is_mouse_inside_button(const vec2& mouse_pos,
-										 const Button & button, const Transform & transform) {
+bool InputSystem::is_mouse_inside_button(const vec2 & mouse_pos, const Button & button,
+										 const Transform & transform) {
 	int actual_x = transform.position.x + button.offset.x;
 	int actual_y = transform.position.y + button.offset.y;
 
@@ -220,4 +218,3 @@ bool InputSystem::is_mouse_inside_button(const vec2& mouse_pos,
 	return mouse_pos.x >= actual_x - half_width && mouse_pos.x <= actual_x + half_width
 		   && mouse_pos.y >= actual_y - half_height && mouse_pos.y <= actual_y + half_height;
 }
-

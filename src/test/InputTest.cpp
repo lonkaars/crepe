@@ -43,8 +43,7 @@ protected:
 		//mediator.component_manager = mgr;
 		//event_manager.clear();
 	}
-	void TearDown() override {
-    }
+	void TearDown() override {}
 	void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
 		SDL_Event event;
 
@@ -210,8 +209,7 @@ TEST_F(InputTest, testButtonClick) {
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button
-		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
+	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
 
 	bool hover = false;
 	button.active = true;
@@ -230,8 +228,7 @@ TEST_F(InputTest, testButtonHover) {
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button
-		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
+	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
 	button.active = true;
 
 	// Mouse not on button
