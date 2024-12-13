@@ -17,6 +17,7 @@
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
+#include <iostream>
 
 using namespace crepe;
 using namespace std;
@@ -26,13 +27,13 @@ public:
 	Background(ComponentManager & mgr) {
 		this->start(mgr);
 
-		this->hallway(mgr);
+		this->hallway(mgr, 1, Color::YELLOW);
 
 		this->forest(mgr);
 
 		this->aquarium(mgr);
 
-		this->forest(mgr);
+		this->hallway(mgr, 2, Color::MAGENTA);
 	}
 
 	void start(ComponentManager & mgr) {
@@ -80,7 +81,7 @@ public:
 									});
 	}
 
-	void hallway(ComponentManager & mgr) {
+	void hallway(ComponentManager & mgr, unsigned int sector_num, Color sector_color) {
 		GameObject begin = mgr.new_object("hallway_begin", "background", vec2(begin_x, 0));
 		Asset begin_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
 		begin.add_component<Sprite>(begin_asset, Sprite::Data{
@@ -90,6 +91,7 @@ public:
 												 });
 		begin_x += 600;
 
+		this->add_sector_number(begin, vec2(-200, 0), sector_num, sector_color);
 		this->add_lamp_hallway(begin, vec2(-70, -120), 11);
 		this->add_lamp_hallway(begin, vec2(30, -120), 9);
 
@@ -162,6 +164,38 @@ public:
 										.fps = fps,
 										.looping = true,
 									});
+	}
+
+	void add_sector_number(GameObject & obj, vec2 offset, unsigned int sector_num,
+						   Color sector_color) {
+		Asset sector_text_asset{
+			"asset/jetpack_joyride/background/hallway/sectorText_TVOS.png"};
+		obj.add_component<Sprite>(sector_text_asset, Sprite::Data{
+														 .color = sector_color,
+														 .sorting_in_layer = 5,
+														 .order_in_layer = 0,
+														 .size = vec2(0, 100),
+														 .position_offset = offset,
+													 });
+		Asset sector_num_asset{
+			"asset/jetpack_joyride/background/hallway/sectorNumbers_TVOS.png"};
+		Sprite & sector_num_sprite = obj.add_component<Sprite>(
+			sector_num_asset, Sprite::Data{
+								  .color = sector_color,
+								  .sorting_in_layer = 5,
+								  .order_in_layer = 0,
+								  .size = vec2(0, 100),
+								  .position_offset = offset + vec2(200, 0),
+							  });
+		Animator & sector_num_anim = obj.add_component<Animator>(
+			sector_num_sprite, ivec2(256, 128), uvec2(4, 4), Animator::Data{});
+		int column = (sector_num - 1) / 4;
+		int row = (sector_num - 1) % 4;
+		sector_num_anim.set_anim(column);
+		for (int i = 0; i < row; i++) {
+			sector_num_anim.next_anim();
+		}
+		sector_num_anim.pause();
 	}
 
 	void forest(ComponentManager & mgr) {
