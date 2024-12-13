@@ -1,3 +1,4 @@
+#include "api/BehaviorScript.h"
 #include "api/CircleCollider.h"
 #include "api/Scene.h"
 #include "manager/ComponentManager.h"
@@ -19,12 +20,9 @@
 using namespace crepe;
 using namespace std;
 
-class Scene1 : public Scene {
+class Background {
 public:
-	void load_scene() {
-		Mediator & m = this->mediator;
-		ComponentManager & mgr = m.component_manager;
-
+	Background(ComponentManager & mgr) {
 		GameObject start_begin = mgr.new_object("start_begin", "background", vec2(0, 0));
 		Asset start_begin_asset{"asset/jetpack_joyride/background/start/titleFG_1_TVOS.png"};
 		start_begin.add_component<Sprite>(start_begin_asset, Sprite::Data{
@@ -157,15 +155,43 @@ public:
 																   .order_in_layer = 1,
 																   .size = vec2(0, 800),
 															   });
+	}
+};
+
+class MoveCameraScript : public Script {
+public:
+	void init() {
+		subscribe<KeyPressEvent>(
+			[this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
+	}
+
+private:
+	bool keypressed(const KeyPressEvent & event) {
+		if (event.key == Keycode::RIGHT) {
+			Transform & cam = this->get_components_by_name<Transform>("camera").front();
+			cam.position.x += 100;
+		} else if (event.key == Keycode::LEFT) {
+			Transform & cam = this->get_components_by_name<Transform>("camera").front();
+			cam.position.x -= 100;
+		}
+		return true;
+	}
+};
+
+class Scene1 : public Scene {
+public:
+	void load_scene() {
+		Mediator & m = this->mediator;
+		ComponentManager & mgr = m.component_manager;
+
+		Background background(mgr);
 
 		GameObject camera = mgr.new_object("camera", "camera", vec2(600, 0));
 		camera.add_component<Camera>(ivec2(1700, 720), vec2(2000, 800),
 									 Camera::Data{
 										 .bg_color = Color::RED,
 									 });
-		camera.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(1.5, 0),
-		});
+		camera.add_component<BehaviorScript>().set_script<MoveCameraScript>();
 	}
 
 	string get_name() const { return "scene1"; }
