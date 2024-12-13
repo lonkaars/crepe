@@ -78,18 +78,19 @@ public:
 	 * \param game_object_id  Identifier for the game object using this emitter.
 	 * \param data            Configuration data defining particle properties.
 	 */
-	ParticleEmitter(game_object_id_t game_object_id, const Sprite & sprite,const Data & data);
+	ParticleEmitter(game_object_id_t game_object_id, const Sprite & sprite, const Data & data);
 
 public:
 	//! Configuration data for particle emission settings.
 	Data data;
+
 private:
 	//! Only ParticleSystem can move and read particles
 	friend ParticleSystem;
 	//! Only RenderSystem can read particles
 	friend RenderSystem;
 	//! Saves time left over from last update event.
-	float spawn_accumulator  = 0;
+	float spawn_accumulator = 0;
 	//! collection of particles
 	std::vector<Particle> particles;
 };

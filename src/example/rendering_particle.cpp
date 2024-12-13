@@ -17,7 +17,6 @@
 
 using namespace crepe;
 using namespace std;
-	
 
 class TestScene : public Scene {
 public:

@@ -23,7 +23,6 @@ public:
 	void update() override;
 
 private:
-
 	/**
 	 * \brief Emits a particle from the specified emitter based on its emission properties.
 	 *

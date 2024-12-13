@@ -31,8 +31,8 @@ void ParticleSystem::update() {
 		while (emitter.spawn_accumulator >= 1.0) {
 			this->emit_particle(emitter, transform);
 			emitter.spawn_accumulator -= 1.0;
-    }
-		
+		}
+
 		// Update all particles
 		for (Particle & particle : emitter.particles) {
 			if (particle.active) {
@@ -49,9 +49,11 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & 
 	constexpr float DEG_TO_RAD = M_PI / 180.0;
 
 	vec2 initial_position = emitter.data.position + transform.position;
-	float random_angle = this->generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
+	float random_angle
+		= this->generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
 
-	float random_speed = this->generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);
+	float random_speed
+		= this->generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);
 	float angle_radians = random_angle * DEG_TO_RAD;
 
 	vec2 velocity
