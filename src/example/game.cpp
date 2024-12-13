@@ -169,7 +169,7 @@ public:
 		float world_collider = 1000;
 		//define playable world
 		GameObject world = mgr.new_object(
-			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
+			"Name", "Tag", vec2{0, 0}, 0, 1);
 		world.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 0,
 			.gravity_scale = 0,
@@ -189,7 +189,7 @@ public:
 		world.add_component<BoxCollider>(vec2{screen_size_width / 2 + world_collider / 2, 0},
 										 vec2{world_collider, world_collider}); // right
 		world.add_component<Camera>(
-			ivec2{static_cast<int>(screen_size_width), static_cast<int>(screen_size_height)},
+			ivec2{1700, 720},
 			vec2{screen_size_width, screen_size_height},
 			Camera::Data{
 				.bg_color = Color::WHITE,
@@ -197,14 +197,14 @@ public:
 			});
 
 		GameObject game_object1 = mgr.new_object(
-			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
+			"Name", "Tag", vec2{0,0}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 1,
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
-			.elastisity_coefficient = 1,
+			.elastisity_coefficient = 0,
 			.offset = {0, 0},
 			.collision_layers = {0},
 		});
