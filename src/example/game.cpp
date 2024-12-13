@@ -30,22 +30,22 @@ class MyScript1 : public Script {
 		switch (test.key) {
 			case Keycode::A: {
 				Rigidbody & tf = this->get_component<Rigidbody>();
-				tf.data.linear_velocity.x -= 1 ;
+				tf.data.linear_velocity.x -= 1;
 				break;
 			}
 			case Keycode::W: {
 				Rigidbody & tf = this->get_component<Rigidbody>();
-				tf.data.linear_velocity.y -= 1 ;
+				tf.data.linear_velocity.y -= 1;
 				break;
 			}
 			case Keycode::S: {
 				Rigidbody & tf = this->get_component<Rigidbody>();
-				tf.data.linear_velocity.y += 1 ;
+				tf.data.linear_velocity.y += 1;
 				break;
 			}
 			case Keycode::D: {
 				Rigidbody & tf = this->get_component<Rigidbody>();
-				tf.data.linear_velocity.x += 1 ;
+				tf.data.linear_velocity.x += 1;
 				break;
 			}
 			case Keycode::E: {
@@ -81,8 +81,8 @@ class MyScript1 : public Script {
 	}
 	void update() {
 		Rigidbody & tf = this->get_component<Rigidbody>();
-		Log::logf("linear_velocity.x {}",tf.data.linear_velocity.x);
-		Log::logf("linear_velocity.y {}",tf.data.linear_velocity.y);
+		Log::logf("linear_velocity.x {}", tf.data.linear_velocity.x);
+		Log::logf("linear_velocity.y {}", tf.data.linear_velocity.y);
 		// tf.data.linear_velocity = {0,0};
 	}
 };

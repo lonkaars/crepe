@@ -319,13 +319,13 @@ void CollisionSystem::static_collision_handler(CollisionInfo & info) {
 	switch (info.resolution_direction) {
 		case Direction::BOTH:
 			//bounce
-			if(info.this_rigidbody.data.elastisity_coefficient > 0){
+			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
 				info.this_rigidbody.data.linear_velocity.y
-				= -info.this_rigidbody.data.linear_velocity.y
-				  * info.this_rigidbody.data.elastisity_coefficient;
-			info.this_rigidbody.data.linear_velocity.x
-				= -info.this_rigidbody.data.linear_velocity.x
-				  * info.this_rigidbody.data.elastisity_coefficient;
+					= -info.this_rigidbody.data.linear_velocity.y
+					  * info.this_rigidbody.data.elastisity_coefficient;
+				info.this_rigidbody.data.linear_velocity.x
+					= -info.this_rigidbody.data.linear_velocity.x
+					  * info.this_rigidbody.data.elastisity_coefficient;
 			}
 			//stop movement
 			else {
@@ -336,11 +336,11 @@ void CollisionSystem::static_collision_handler(CollisionInfo & info) {
 			// Bounce
 			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
 				info.this_rigidbody.data.linear_velocity.y
-				= -info.this_rigidbody.data.linear_velocity.y
-				  * info.this_rigidbody.data.elastisity_coefficient;
+					= -info.this_rigidbody.data.linear_velocity.y
+					  * info.this_rigidbody.data.elastisity_coefficient;
 			}
 			// Stop movement
-			else{
+			else {
 				info.this_rigidbody.data.linear_velocity.y = 0;
 				info.this_transform.position.x -= info.resolution.x;
 			}
@@ -349,11 +349,11 @@ void CollisionSystem::static_collision_handler(CollisionInfo & info) {
 			// Bounce
 			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
 				info.this_rigidbody.data.linear_velocity.x
-				= -info.this_rigidbody.data.linear_velocity.x
-				  * info.this_rigidbody.data.elastisity_coefficient;
+					= -info.this_rigidbody.data.linear_velocity.x
+					  * info.this_rigidbody.data.elastisity_coefficient;
 			}
 			// Stop movement
-			else{
+			else {
 				info.this_rigidbody.data.linear_velocity.x = 0;
 				info.this_transform.position.y -= info.resolution.y;
 			}
