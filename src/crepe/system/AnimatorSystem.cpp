@@ -3,20 +3,23 @@
 #include "../api/Animator.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/LoopTimerManager.h"
+#include <chrono>
 
 #include "AnimatorSystem.h"
 
 using namespace crepe;
+using namespace std::chrono;
 
 void AnimatorSystem::update() {
 	ComponentManager & mgr = this->mediator.component_manager;
 	LoopTimerManager & timer = this->mediator.loop_timer;
 	RefVector<Animator> animations = mgr.get_components_by_type<Animator>();
 
-	unsigned long long elapsed_time = timer.get_elapsed_time().count();
+	float elapsed_time = duration_cast<duration<float>>(timer.get_elapsed_time()).count();
 
 	for (Animator & a : animations) {
 		if (!a.active) continue;
+		if (a.data.fps == 0) continue;
 
 		Animator::Data & ctx = a.data;
 		float frame_duration = 1.0f / ctx.fps;
