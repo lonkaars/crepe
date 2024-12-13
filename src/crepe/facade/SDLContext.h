@@ -125,16 +125,12 @@ public:
 	/**
 	 * \brief Retrieves the current state of the keyboard.
 	 *
-	 * This method returns the state of all keys on the keyboard, represented as a
-	 * `std::array` of boolean values. Each element of the array corresponds to a
+	 * This method updates the state of all keys on the keyboard. Each element of the unordered map corresponds to a
 	 * specific key defined in the `Keycode` enum, and the value indicates whether
 	 * the key is currently pressed (true) or not pressed (false).
-	 *
-	 * \return A `keyboard_state_t` representing the state of
-	 *         each key on the keyboard, where `true` means the key is pressed, and
-	 *         `false` means it is not pressed.
+	 * 
 	 */
-	keyboard_state_t get_keyboard_state();
+	void update_keyboard_state();
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
 	 * \return Reference to the SDLContext instance.
@@ -296,7 +292,7 @@ private:
 	 */
 	CameraAuxiliaryData cam_aux_data;
 private: 
-	keyboard_state_t keyboard_state;
+	std::unordered_map<Keycode, bool> keyboard_state;
 	const std::unordered_map<SDL_Scancode, Keycode> LOOKUP_TABLE = {
         {SDL_SCANCODE_SPACE, Keycode::SPACE},
         {SDL_SCANCODE_APOSTROPHE, Keycode::APOSTROPHE},

@@ -84,7 +84,7 @@ Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
 
     return Keycode::NONE;
 }
-keyboard_state_t SDLContext::get_keyboard_state() {
+void SDLContext::update_keyboard_state() {
 	// Array to hold the key states (true if pressed, false if not)
 	std::array<bool, Keycode::NUM_KEYCODES> keyState{};
 	SDL_PumpEvents();
@@ -94,11 +94,10 @@ keyboard_state_t SDLContext::get_keyboard_state() {
 		Keycode key = sdl_to_keycode(static_cast<SDL_Scancode>(i));
 
 		if (key != Keycode::NONE) {
-			keyboard_state[key] = current_state[i] != 0;
+			this->keyboard_state[key] = current_state[i] != 0;
 		}
 	}
 
-	return keyboard_state;
 }
 
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
@@ -293,25 +292,24 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 				break;
 			case SDL_KEYDOWN:
 			{
-
+				this->update_keyboard_state();
 				EventData transfer_event;
 				transfer_event.event_type = SDLContext::EventType::KEYDOWN;
 				transfer_event.data.key_data = KeyData{
 					.key = sdl_to_keycode(event.key.keysym.scancode),
 					.key_repeat = event.key.repeat != 0,
-					.keyboard_state = this->get_keyboard_state(),
 				};
 				event_list.push_back(transfer_event);
 			}
 				break;
 			case SDL_KEYUP:
 			{
+				this->update_keyboard_state();
 				EventData transfer_event;
 				transfer_event.event_type = SDLContext::EventType::KEYUP;
 				transfer_event.data.key_data = KeyData{
 					.key = sdl_to_keycode(event.key.keysym.scancode),
 					.key_repeat = false,
-					.keyboard_state = this->get_keyboard_state(),
 				};
 				event_list.push_back(transfer_event);
 			}
