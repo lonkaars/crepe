@@ -29,23 +29,23 @@ class MyScript1 : public Script {
 		Log::logf("Box script keypressed()");
 		switch (test.key) {
 			case Keycode::A: {
-				Transform & tf = this->get_component<Transform>();
-				tf.position.x -= 1;
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.x -= 1 ;
 				break;
 			}
 			case Keycode::W: {
-				Transform & tf = this->get_component<Transform>();
-				tf.position.y -= 1;
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.y -= 1 ;
 				break;
 			}
 			case Keycode::S: {
-				Transform & tf = this->get_component<Transform>();
-				tf.position.y += 1;
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.y += 1 ;
 				break;
 			}
 			case Keycode::D: {
-				Transform & tf = this->get_component<Transform>();
-				tf.position.x += 1;
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.x += 1 ;
 				break;
 			}
 			case Keycode::E: {
@@ -80,7 +80,10 @@ class MyScript1 : public Script {
 			[this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
 	}
 	void update() {
-		// Retrieve component from the same GameObject this script is on
+		Rigidbody & tf = this->get_component<Rigidbody>();
+		Log::logf("linear_velocity.x {}",tf.data.linear_velocity.x);
+		Log::logf("linear_velocity.y {}",tf.data.linear_velocity.y);
+		// tf.data.linear_velocity = {0,0};
 	}
 };
 
@@ -194,7 +197,7 @@ public:
 			.mass = 1,
 			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::DYNAMIC,
-			.linear_velocity = {0, 0},
+			.linear_velocity = {0, 1},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
 			.offset = {0, 0},
