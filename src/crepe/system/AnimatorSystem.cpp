@@ -13,7 +13,7 @@ void AnimatorSystem::update() {
 	LoopTimerManager & timer = this->mediator.loop_timer;
 	RefVector<Animator> animations = mgr.get_components_by_type<Animator>();
 
-	unsigned long long elapsed_time = timer.get_elapsed_time().count();
+	float elapsed_time = timer.get_elapsed_time().count() / 1000000.0f;
 
 	for (Animator & a : animations) {
 		if (!a.active) continue;
