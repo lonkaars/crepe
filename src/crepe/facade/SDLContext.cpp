@@ -77,11 +77,11 @@ SDLContext::~SDLContext() {
 
 Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
 	auto it = LOOKUP_TABLE.find(sdl_key);
-    if (it != LOOKUP_TABLE.end()) {
-        return it->second;
-    }
+	if (it != LOOKUP_TABLE.end()) {
+		return it->second;
+	}
 
-    return Keycode::NONE;
+	return Keycode::NONE;
 }
 void SDLContext::update_keyboard_state() {
 	// Array to hold the key states (true if pressed, false if not)
@@ -95,7 +95,6 @@ void SDLContext::update_keyboard_state() {
 			this->keyboard_state[key] = current_state[i] != 0;
 		}
 	}
-
 }
 
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
@@ -286,8 +285,7 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 			case SDL_QUIT:
 				event_list.push_back({.event_type = SDLContext::EventType::SHUTDOWN});
 				break;
-			case SDL_KEYDOWN:
-			{
+			case SDL_KEYDOWN: {
 				this->update_keyboard_state();
 				EventData transfer_event;
 				transfer_event.event_type = SDLContext::EventType::KEYDOWN;
@@ -296,10 +294,10 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 					.key_repeat = event.key.repeat != 0,
 				};
 				event_list.push_back(transfer_event);
-			}
 				break;
-			case SDL_KEYUP:
-			{
+			}
+
+			case SDL_KEYUP: {
 				this->update_keyboard_state();
 				EventData transfer_event;
 				transfer_event.event_type = SDLContext::EventType::KEYUP;
@@ -308,10 +306,10 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 					.key_repeat = false,
 				};
 				event_list.push_back(transfer_event);
-			}
 				break;
-			case SDL_MOUSEBUTTONDOWN:
-			{
+			}
+
+			case SDL_MOUSEBUTTONDOWN: {
 				EventData transfer_event;
 				transfer_event.event_type = SDLContext::EventType::MOUSEDOWN;
 				transfer_event.data.mouse_data = MouseData{
@@ -319,10 +317,9 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 					.mouse_position = mouse_pos,
 				};
 				event_list.push_back(transfer_event);
-				
-			} break;
-			case SDL_MOUSEBUTTONUP: 
-			{
+				break;
+			}
+			case SDL_MOUSEBUTTONUP: {
 				EventData transfer_event;
 				transfer_event.event_type = SDLContext::EventType::MOUSEUP;
 				transfer_event.data.mouse_data = MouseData{
@@ -330,8 +327,8 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 					.mouse_position = mouse_pos,
 				};
 				event_list.push_back(transfer_event);
-				
-			} break;
+				break;
+			}
 
 			case SDL_MOUSEMOTION: {
 				EventData transfer_event;
@@ -341,7 +338,8 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 					.rel_mouse_move = {event.motion.xrel, event.motion.yrel},
 				};
 				event_list.push_back(transfer_event);
-			} break;
+				break;
+			}
 
 			case SDL_MOUSEWHEEL: {
 				EventData transfer_event;
@@ -352,10 +350,11 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 					.scroll_delta = event.wheel.preciseY,
 				};
 				event_list.push_back(transfer_event);
-			} break;
-            case SDL_WINDOWEVENT:
-                handle_window_event(event.window, event_list);
-                break;
+				break;
+			}
+			case SDL_WINDOWEVENT:
+				handle_window_event(event.window, event_list);
+				break;
 		}
 	}
 
@@ -371,18 +370,16 @@ void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
 		case SDL_WINDOWEVENT_RESIZED: {
 			EventData transfer_event;
 			transfer_event.event_type = SDLContext::EventType::WINDOW_RESIZE;
-			transfer_event.data.window_data = WindowData{
-				.resize_dimension = {window_event.data1, window_event.data2}
-			};
+			transfer_event.data.window_data
+				= WindowData{.resize_dimension = {window_event.data1, window_event.data2}};
 			event_list.push_back(transfer_event);
 			break;
 		}
 		case SDL_WINDOWEVENT_MOVED: {
 			EventData transfer_event;
 			transfer_event.event_type = SDLContext::EventType::WINDOW_MOVE;
-			transfer_event.data.window_data = WindowData{
-				.move_delta = {window_event.data1, window_event.data2}
-			};
+			transfer_event.data.window_data
+				= WindowData{.move_delta = {window_event.data1, window_event.data2}};
 			event_list.push_back(transfer_event);
 			break;
 		}

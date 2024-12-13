@@ -56,8 +56,7 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_all_channels) {
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler, EventManager::CHANNEL_ALL);
 
 	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
-	event_mgr.trigger_event<MouseClickEvent>(click_event,
-																EventManager::CHANNEL_ALL);
+	event_mgr.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
 	EXPECT_TRUE(triggered);
 }
@@ -74,8 +73,7 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_one_channel) {
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler, test_channel);
 
 	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
-	event_mgr.trigger_event<MouseClickEvent>(click_event,
-																EventManager::CHANNEL_ALL);
+	event_mgr.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
 	EXPECT_FALSE(triggered);
 	event_mgr.trigger_event<MouseClickEvent>(click_event, test_channel);
