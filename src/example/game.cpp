@@ -22,6 +22,37 @@
 using namespace crepe;
 using namespace std;
 
+class ParallaxScript : public Script {
+public:
+	ParallaxScript(float begin_x, float end_x, std::string unique_bg_name)
+		: begin_x(begin_x),
+		  end_x(end_x),
+		  name(unique_bg_name) {}
+
+	void update() {
+		RefVector<Transform> vec_2
+			= this->get_components_by_name<Transform>("forest_bg_2_" + name);
+		RefVector<Transform> vec_3
+			= this->get_components_by_name<Transform>("forest_bg_3_" + name);
+
+		for (Transform & t : vec_2) {
+			if (t.position.x < begin_x - 400) {
+				t.position.x = end_x - 400;
+			}
+		}
+		for (Transform & t : vec_3) {
+			if (t.position.x < begin_x - 400) {
+				t.position.x = end_x - 400;
+			}
+		}
+	}
+
+private:
+	const float begin_x;
+	const float end_x;
+	const std::string name;
+};
+
 class Background {
 public:
 	Background(ComponentManager & mgr) {
@@ -29,11 +60,15 @@ public:
 
 		this->hallway(mgr, 1, Color::YELLOW);
 
-		this->forest(mgr);
-
-		this->aquarium(mgr);
+		this->forest(mgr, "1");
 
 		this->hallway(mgr, 2, Color::MAGENTA);
+
+		this->forest(mgr, "2");
+
+		this->hallway(mgr, 3, Color::CYAN);
+
+		this->aquarium(mgr);
 	}
 
 	void start(ComponentManager & mgr) {
@@ -91,7 +126,7 @@ public:
 												 });
 		begin_x += 600;
 
-		this->add_sector_number(begin, vec2(-200, 0), sector_num, sector_color);
+		this->add_sector_number_hallway(begin, vec2(-200, 0), sector_num, sector_color);
 		this->add_lamp_hallway(begin, vec2(-70, -120), 11);
 		this->add_lamp_hallway(begin, vec2(30, -120), 9);
 
@@ -166,8 +201,8 @@ public:
 									});
 	}
 
-	void add_sector_number(GameObject & obj, vec2 offset, unsigned int sector_num,
-						   Color sector_color) {
+	void add_sector_number_hallway(GameObject & obj, vec2 offset, unsigned int sector_num,
+								   Color sector_color) {
 		Asset sector_text_asset{
 			"asset/jetpack_joyride/background/hallway/sectorText_TVOS.png"};
 		obj.add_component<Sprite>(sector_text_asset, Sprite::Data{
@@ -198,37 +233,120 @@ public:
 		sector_num_anim.pause();
 	}
 
-	void forest(ComponentManager & mgr) {
-		GameObject forest_begin
-			= mgr.new_object("forest_begin", "background", vec2(begin_x, 0));
-		Asset forest_begin_asset{
-			"asset/jetpack_joyride/background/forest/forestFG_1_TVOS.png"};
-		forest_begin.add_component<Sprite>(forest_begin_asset, Sprite::Data{
-																   .sorting_in_layer = 4,
-																   .order_in_layer = 0,
-																   .size = vec2(0, 800),
-															   });
+	void forest(ComponentManager & mgr, std::string unique_bg_name) {
+		GameObject script = mgr.new_object("forest_script", "background");
+		script.add_component<BehaviorScript>().set_script<ParallaxScript>(
+			begin_x - 400, begin_x + 3000 + 400, unique_bg_name);
+
+		this->add_background_forest(mgr, begin_x, unique_bg_name);
+
+		GameObject begin = mgr.new_object("forest_begin", "background", vec2(begin_x, 0));
+		Asset begin_asset{"asset/jetpack_joyride/background/forest/forestFG_1_TVOS.png"};
+		begin.add_component<Sprite>(begin_asset, Sprite::Data{
+													 .sorting_in_layer = 4,
+													 .order_in_layer = 0,
+													 .size = vec2(0, 800),
+												 });
 		begin_x += 800;
 
-		GameObject forest_middle
-			= mgr.new_object("forest_middle", "background", vec2(begin_x, 0));
-		Asset forest_middle_asset{
-			"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
-		forest_middle.add_component<Sprite>(forest_middle_asset, Sprite::Data{
-																	 .sorting_in_layer = 4,
-																	 .order_in_layer = 2,
-																	 .size = vec2(0, 800),
-																 });
+		this->add_background_forest(mgr, begin_x, unique_bg_name);
+
+		GameObject middle_1 = mgr.new_object("forest_middle", "background", vec2(begin_x, 0));
+		Asset middle_1_asset{"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
+		middle_1.add_component<Sprite>(middle_1_asset, Sprite::Data{
+														   .sorting_in_layer = 4,
+														   .order_in_layer = 2,
+														   .size = vec2(0, 800),
+													   });
 		begin_x += 800;
 
-		GameObject forest_end = mgr.new_object("forest_end", "background", vec2(begin_x, 0));
-		Asset forest_end_asset{"asset/jetpack_joyride/background/forest/forestFG_2_TVOS.png"};
-		forest_end.add_component<Sprite>(forest_end_asset, Sprite::Data{
-															   .sorting_in_layer = 4,
-															   .order_in_layer = 1,
-															   .size = vec2(0, 800),
-														   });
+		this->add_background_forest(mgr, begin_x, unique_bg_name);
+
+		GameObject middle_2 = mgr.new_object("forest_middle", "background", vec2(begin_x, 0));
+		Asset middle_2_asset{"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
+		middle_2.add_component<Sprite>(middle_2_asset, Sprite::Data{
+														   .sorting_in_layer = 4,
+														   .order_in_layer = 3,
+														   .size = vec2(0, 800),
+													   });
+		begin_x += 800;
+
+		this->add_background_forest(mgr, begin_x, unique_bg_name);
+
+		GameObject end = mgr.new_object("forest_end", "background", vec2(begin_x, 0));
+		Asset end_asset{"asset/jetpack_joyride/background/forest/forestFG_2_TVOS.png"};
+		end.add_component<Sprite>(end_asset, Sprite::Data{
+												 .sorting_in_layer = 4,
+												 .order_in_layer = 1,
+												 .size = vec2(0, 800),
+											 });
 		begin_x += 600;
+
+		this->add_background_forest(mgr, begin_x + 200, unique_bg_name);
+	}
+
+	void add_background_forest(ComponentManager & mgr, float begin_x, std::string name) {
+		GameObject bg_1
+			= mgr.new_object("forest_bg_1_" + name, "forest_background", vec2(begin_x, 0));
+		Asset bg_1_asset{"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
+		bg_1.add_component<Sprite>(bg_1_asset, Sprite::Data{
+												   .sorting_in_layer = 3,
+												   .order_in_layer = 2,
+												   .size = vec2(0, 800),
+											   });
+		GameObject bg_2
+			= mgr.new_object("forest_bg_2_" + name, "forest_background", vec2(begin_x, 0));
+		Asset bg_2_1_asset{"asset/jetpack_joyride/background/forest/forestBG2_1_TVOS.png"};
+		bg_2.add_component<Sprite>(bg_2_1_asset, Sprite::Data{
+													 .sorting_in_layer = 3,
+													 .order_in_layer = 1,
+													 .size = vec2(0, 400),
+													 .position_offset = vec2(200, 0),
+												 });
+		Asset bg_2_2_asset{"asset/jetpack_joyride/background/forest/forestBG2_2_TVOS.png"};
+		bg_2.add_component<Sprite>(bg_2_2_asset, Sprite::Data{
+													 .sorting_in_layer = 3,
+													 .order_in_layer = 1,
+													 .size = vec2(0, 400),
+													 .position_offset = vec2(-200, 0),
+												 });
+		GameObject bg_3
+			= mgr.new_object("forest_bg_3_" + name, "forest_background", vec2(begin_x, 0));
+		Asset bg_3_1_asset{"asset/jetpack_joyride/background/forest/forestBG3_1_TVOS.png"};
+		bg_3.add_component<Sprite>(bg_3_1_asset, Sprite::Data{
+													 .sorting_in_layer = 3,
+													 .order_in_layer = 0,
+													 .size = vec2(0, 200),
+													 .position_offset = vec2(300, 0),
+												 });
+		Asset bg_3_2_asset{"asset/jetpack_joyride/background/forest/forestBG3_2_TVOS.png"};
+		bg_3.add_component<Sprite>(bg_3_2_asset, Sprite::Data{
+													 .sorting_in_layer = 3,
+													 .order_in_layer = 0,
+													 .size = vec2(0, 200),
+													 .position_offset = vec2(100, 0),
+												 });
+		Asset bg_3_3_asset{"asset/jetpack_joyride/background/forest/forestBG3_3_TVOS.png"};
+		bg_3.add_component<Sprite>(bg_3_3_asset, Sprite::Data{
+													 .sorting_in_layer = 3,
+													 .order_in_layer = 0,
+													 .size = vec2(0, 200),
+													 .position_offset = vec2(-100, 0),
+												 });
+		Asset bg_3_4_asset{"asset/jetpack_joyride/background/forest/forestBG3_4_TVOS.png"};
+		bg_3.add_component<Sprite>(bg_3_4_asset, Sprite::Data{
+													 .sorting_in_layer = 3,
+													 .order_in_layer = 0,
+													 .size = vec2(0, 200),
+													 .position_offset = vec2(-300, 0),
+												 });
+
+		bg_2.add_component<Rigidbody>(Rigidbody::Data{
+			.linear_velocity = vec2(-2, 0),
+		});
+		bg_3.add_component<Rigidbody>(Rigidbody::Data{
+			.linear_velocity = vec2(-1, 0),
+		});
 	}
 
 	void aquarium(ComponentManager & mgr) {
