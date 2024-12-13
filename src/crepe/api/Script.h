@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "../manager/LoopTimerManager.h"
 #include "../manager/EventManager.h"
 #include "../manager/Mediator.h"
 #include "../system/CollisionSystem.h"
@@ -46,8 +47,16 @@ protected:
 	/**
 	 * \brief Script update function (empty by default)
 	 *
+	 * \param delta_time Time since last fixed update
+	 *
 	 * This function is called during the ScriptSystem::update() routine if the \c BehaviorScript
 	 * component holding this script instance is active.
+	 */
+	virtual void update(duration_t delta_time) { return this->update(); }
+	/**
+	 * \brief Fallback script update function (empty by default)
+	 *
+	 * Allows the game programmer to ignore parameters passed to \c update()
 	 */
 	virtual void update() {}
 	//! \}
@@ -134,6 +143,9 @@ protected:
 
 	//! Retrieve SaveManager reference
 	SaveManager & get_save_manager() const;
+
+	//! Retrieve LoopTimerManager reference
+	LoopTimerManager & get_loop_timer() const;
 
 	//! \}
 
