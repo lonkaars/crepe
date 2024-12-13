@@ -73,3 +73,16 @@ TEST_F(ScriptTest, UpdateInactive) {
 		system.update();
 	}
 }
+
+TEST_F(ScriptTest, SaveManager) {
+	MyScript & script = this->script;
+
+	EXPECT_EQ(&script.get_save_manager(), &this->save_manager);
+}
+
+TEST_F(ScriptTest, LoopTimerManager) {
+	MyScript & script = this->script;
+
+	EXPECT_EQ(&script.get_loop_timer(), &this->loop_timer);
+}
+
