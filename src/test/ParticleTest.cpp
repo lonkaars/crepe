@@ -1,18 +1,19 @@
 #include "api/Asset.h"
-#include <crepe/Particle.h>
+#include <math.h>
+#include <gtest/gtest.h>
 #include <crepe/api/Config.h>
 #include <crepe/api/GameObject.h>
-#include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
 #include <crepe/manager/ComponentManager.h>
-#include <crepe/system/ParticleSystem.h>
-#include <gtest/gtest.h>
-#include <math.h>
-
+#include <crepe/manager/LoopTimerManager.h>
 #define protected public
 #define private public
+#include <crepe/Particle.h>
+#include <crepe/api/ParticleEmitter.h>
+#include <crepe/system/ParticleSystem.h>
+
 
 using namespace std;
 using namespace std::chrono_literals;
@@ -25,6 +26,7 @@ class ParticlesTest : public ::testing::Test {
 public:
 	ComponentManager component_manager{m};
 	ParticleSystem particle_system{m};
+	LoopTimerManager loop_timer{m};
 
 	void SetUp() override {
 		ComponentManager & mgr = this->component_manager;
@@ -42,7 +44,7 @@ public:
 						.size = {10, 10},
 					});
 
-			game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
+			game_object.add_component<ParticleEmitter>(test_sprite,ParticleEmitter::Data{
 				.position = {0, 0},
 				.max_particles = 100,
 				.emission_rate = 0,
@@ -59,7 +61,6 @@ public:
 					.offset = vec2{0, 0},
 					.reset_on_exit = false,
 				},
-				.sprite = test_sprite,
 			});
 			
 		}
@@ -101,7 +102,7 @@ TEST_F(ParticlesTest, spawnParticle) {
 	particle_system.update();
 	//check if nothing happend
 	EXPECT_EQ(emitter.particles[0].active, false);
-	emitter.data.emission_rate = 1;
+	emitter.data.emission_rate = 50;
 	//check particle spawnes
 	particle_system.update();
 	EXPECT_EQ(emitter.particles[0].active, true);
@@ -138,10 +139,10 @@ TEST_F(ParticlesTest, moveParticleHorizontal) {
 	emitter.data.end_lifespan = 100;
 	emitter.data.boundary.height = 100;
 	emitter.data.boundary.width = 100;
-	emitter.data.min_speed = 1;
-	emitter.data.max_speed = 1;
+	emitter.data.min_speed = 50;
+	emitter.data.max_speed = 50;
 	emitter.data.max_angle = 0;
-	emitter.data.emission_rate = 1;
+	emitter.data.emission_rate = 50;
 	for (int a = 1; a < emitter.data.boundary.width / 2; a++) {
 		particle_system.update();
 		EXPECT_EQ(emitter.particles[0].position.x, a);
@@ -155,11 +156,11 @@ TEST_F(ParticlesTest, moveParticleVertical) {
 	emitter.data.end_lifespan = 100;
 	emitter.data.boundary.height = 100;
 	emitter.data.boundary.width = 100;
-	emitter.data.min_speed = 1;
-	emitter.data.max_speed = 1;
+	emitter.data.min_speed = 50;
+	emitter.data.max_speed = 50;
 	emitter.data.min_angle = 90;
 	emitter.data.max_angle = 90;
-	emitter.data.emission_rate = 1;
+	emitter.data.emission_rate = 50;
 	for (int a = 1; a < emitter.data.boundary.width / 2; a++) {
 		particle_system.update();
 		EXPECT_EQ(emitter.particles[0].position.y, a);
