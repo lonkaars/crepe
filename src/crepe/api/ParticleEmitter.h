@@ -54,11 +54,11 @@ public:
 		//! maximum number of particles
 		const unsigned int max_particles = 256;
 		//! rate of particle emission per second
-		float emission_rate = 1;
+		float emission_rate = 50;
 		//! min speed of the particles
-		float min_speed = 1;
+		float min_speed = 100;
 		//! min speed of the particles
-		float max_speed = 2;
+		float max_speed = 100;
 		//! min angle of particle emission
 		float min_angle = 0;
 		//! max angle of particle emission
@@ -84,9 +84,11 @@ public:
 	//! Configuration data for particle emission settings.
 	Data data;
 private:
-	//! Saves time left over from last update event.
+	//! Only ParticleSystem can move and read particles
 	friend ParticleSystem;
+	//! Only RenderSystem can read particles
 	friend RenderSystem;
+	//! Saves time left over from last update event.
 	float spawn_accumulator  = 0;
 	//! collection of particles
 	std::vector<Particle> particles;
