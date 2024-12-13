@@ -1,6 +1,7 @@
 
 
 #include "Scene1.h"
+#include "api/Animator.h"
 #include "api/AudioSource.h"
 
 #include <crepe/api/Asset.h>
@@ -41,8 +42,9 @@ void Scene1::load_scene() {
 	Mediator & mediator = this->mediator;
 	ComponentManager & mgr = mediator.component_manager;
 
-	GameObject cam = mgr.new_object("CAMERA");
+	GameObject cam = mgr.new_object("camera");
 	GameObject background = mgr.new_object("background");
+	GameObject player = mgr.new_object("player");
 	cam.add_component<Camera>(ivec2{1700, 720}, vec2{2000, 800},
 							  Camera::Data{
 								  .bg_color = Color::RED,
@@ -51,10 +53,12 @@ void Scene1::load_scene() {
 	Asset bg_audio{"assets/BGM/Music_Level.mp3"};
 	Asset start_begin_asset{"assets/Levels/Title/titleFG_1_TVOS.png"};
 	Asset start_middle_asset{"assets/Levels/Title/titleFG_2_TVOS.png"};
+	Asset hallway_begin_asset{"assets/Levels/Hallway1/hallway1FG_1_TVOS.png"};
+	Asset hallway_middle_asset{"assets/Levels/Hallway1/hallway1FG_2_TVOS.png"};
+	Asset player_body{"assets/Characters/Barry/defaultBody.png"};
+	Asset player_head{"assets/Characters/Barry/defaultHead.png"};
 
-	Asset start_end_asset{"assets/Levels/Hallway1/hallway1FG_1_TVOS.png"};
-
-	cam.add_component<AudioSource>(bg_audio).play_on_awake = true;
+	cam.add_component<AudioSource>(bg_audio);
 
 	background.add_component<Sprite>(start_begin_asset, Sprite::Data{
 															.order_in_layer = 1,
@@ -67,21 +71,34 @@ void Scene1::load_scene() {
 															 .size = vec2{0, 800},
 														 });
 
-	background.add_component<Sprite>(start_end_asset,
-									 Sprite::Data{.order_in_layer = 1,
-												  .size = vec2{0, 800},
-												  .position_offset = vec2{100, 0}});
+	background.add_component<Sprite>(hallway_begin_asset, Sprite::Data{
+															  .order_in_layer = 1,
+															  .size = vec2{0, 800},
+															  .position_offset = vec2{100, 0},
+														  });
 
-	/*
-	Asset bg_lowest{"assets/bg.png"};
-	Asset bg{"assets/Levels/Title/Objects/title_small.png"};
+	background.add_component<Sprite>(hallway_middle_asset, Sprite::Data{
+															   .order_in_layer = 2,
+															   .size = vec2{0, 800},
+															   .position_offset = vec2{600, 0},
+														   });
 
-	cam.add_component<Sprite>(bg_lowest, Sprite::Data{
-											 .color = Color(255, 255, 255, 10),
-											 .size{812, 0},
-										 });
-	cam.add_component<Sprite>(bg, Sprite::Data{
-									  .size{812, 0},
-								  });
-	*/
+	auto & player_head_sprite
+		= player.add_component<Sprite>(player_head, Sprite::Data{
+														.sorting_in_layer = 1,
+														.size = vec2{0, 100},
+													});
+	auto & player_head_anim = player.add_component<Animator>(player_head_sprite, ivec2{32, 32},
+															 uvec2{4, 8}, Animator::Data{});
+	player_head_anim.loop();
+
+	auto & player_body_sprite
+		= player.add_component<Sprite>(player_body, Sprite::Data{
+														.sorting_in_layer = 1,
+														.size = vec2{0, 100},
+														.position_offset = vec2{0,40},
+													});
+	auto & player_body_anim = player.add_component<Animator>(player_body_sprite, ivec2{32, 32},
+															 uvec2{4, 8}, Animator::Data{});
+	player_body_anim.loop();
 }
