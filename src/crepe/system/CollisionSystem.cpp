@@ -188,7 +188,7 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 	}
 
 	Direction resolution_direction = Direction::NONE;
-	if (resolution != vec2{0,0}) {
+	if (resolution.x != 0 && resolution.y != 0) {
 		resolution_direction = Direction::BOTH;
 	} else if (resolution.x != 0) {
 		resolution_direction = Direction::X_DIRECTION;
@@ -320,12 +320,13 @@ void CollisionSystem::static_collision_handler(CollisionInfo & info) {
 		case Direction::BOTH:
 			//bounce
 			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
-				info.this_rigidbody.data.linear_velocity.y
-					= -info.this_rigidbody.data.linear_velocity.y
-					  * info.this_rigidbody.data.elastisity_coefficient;
-				info.this_rigidbody.data.linear_velocity.x
-					= -info.this_rigidbody.data.linear_velocity.x
-					  * info.this_rigidbody.data.elastisity_coefficient;
+				info.this_rigidbody.data.linear_velocity = -info.this_rigidbody.data.linear_velocity * info.this_rigidbody.data.elastisity_coefficient;
+				// info.this_rigidbody.data.linear_velocity.y
+				// 	= -info.this_rigidbody.data.linear_velocity.y
+				// 	  * info.this_rigidbody.data.elastisity_coefficient;
+				// info.this_rigidbody.data.linear_velocity.x
+				// 	= -info.this_rigidbody.data.linear_velocity.x
+				// 	  * info.this_rigidbody.data.elastisity_coefficient;
 			}
 			//stop movement
 			else {
