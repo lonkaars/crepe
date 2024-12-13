@@ -346,10 +346,10 @@ public:
 												 });
 
 		bg_2.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(-2, 0),
+			.linear_velocity = vec2(-0.5, 0),
 		});
 		bg_3.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(-1, 0),
+			.linear_velocity = vec2(-0.25, 0),
 		});
 	}
 
@@ -522,6 +522,9 @@ public:
 										 .bg_color = Color::RED,
 									 });
 		camera.add_component<BehaviorScript>().set_script<MoveCameraScript>();
+		camera.add_component<Rigidbody>(Rigidbody::Data{
+			.linear_velocity = vec2(2.5, 0),
+		});
 	}
 
 	string get_name() const { return "scene1"; }
