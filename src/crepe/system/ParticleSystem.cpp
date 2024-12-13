@@ -71,24 +71,25 @@ void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & t
 	float half_width = emitter.data.boundary.width / 2.0;
 	float half_height = emitter.data.boundary.height / 2.0;
 
-	const float LEFT = offset.x - half_width;
-	const float RIGHT = offset.x + half_width;
-	const float TOP = offset.y - half_height;
-	const float BOTTOM = offset.y + half_height;
+	float left = offset.x - half_width;
+	float right = offset.x + half_width;
+	float top = offset.y - half_height;
+	float bottom = offset.y + half_height;
 
 	for (Particle & particle : emitter.particles) {
 		const vec2 & position = particle.position;
-		bool within_bounds = (position.x >= LEFT && position.x <= RIGHT && position.y >= TOP
-							  && position.y <= BOTTOM);
+		bool within_bounds = (position.x >= left && position.x <= right && position.y >= top
+							  && position.y <= bottom);
+		//if not within bounds do a reset or stop velocity
 		if (!within_bounds) {
 			if (emitter.data.boundary.reset_on_exit) {
 				particle.active = false;
 			} else {
 				particle.velocity = {0, 0};
-				if (position.x < LEFT) particle.position.x = LEFT;
-				else if (position.x > RIGHT) particle.position.x = RIGHT;
-				if (position.y < TOP) particle.position.y = TOP;
-				else if (position.y > BOTTOM) particle.position.y = BOTTOM;
+				if (position.x < left) particle.position.x = left;
+				else if (position.x > right) particle.position.x = right;
+				if (position.y < top) particle.position.y = top;
+				else if (position.y > bottom) particle.position.y = bottom;
 			}
 		}
 	}
