@@ -116,11 +116,6 @@ public:
         EventDataUnion() {}
         ~EventDataUnion() {}
     } data;
-    
-    // Helper functions
-    // bool isKeyEvent() const { return event_type == SDLContext::EventType::KEYDOWN || event_type == SDLContext::EventType::KEYUP; }
-    // bool isMouseEvent() const { return event_type == SDLContext::EventType::MOUSEDOWN || event_type == SDLContext::EventType::MOUSEUP || event_type == SDLContext::EventType::MOUSEMOVE; }
-    // bool isWindowEvent() const { return event_type == SDLContext::EventType::WINDOW_MINIMIZE || event_type == SDLContext::EventType::WINDOW_RESIZE; }
 	};
 	/**
 	 * \brief Retrieves the current state of the keyboard.

@@ -40,7 +40,7 @@ public:
 class MousePressEvent : public Event {
 public:
 	//! mouse position
-	ivec2 mouse_pos = {0, 0};
+	vec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was pressed.
 	MouseButton button = MouseButton::NONE;
@@ -52,7 +52,7 @@ public:
 class MouseClickEvent : public Event {
 public:
 	//! mouse position
-	ivec2 mouse_pos = {0, 0};
+	vec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was clicked.
 	MouseButton button = MouseButton::NONE;
@@ -64,7 +64,7 @@ public:
 class MouseReleaseEvent : public Event {
 public:
 	//! mouse position
-	ivec2 mouse_pos = {0, 0};
+	vec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was released.
 	MouseButton button = MouseButton::NONE;
@@ -76,7 +76,7 @@ public:
 class MouseMoveEvent : public Event {
 public:
 	//! new mouse position
-	ivec2 mouse_pos = {0, 0};
+	vec2 mouse_pos = {0, 0};
 	//! The change in mouse position relative to the last position (in pixels).
 	ivec2 mouse_delta = {0, 0};
 };
@@ -87,7 +87,7 @@ public:
 class MouseScrollEvent : public Event {
 public:
 	//! mouse position when the scroll happened.
-	ivec2 mouse_pos = {0, 0};
+	vec2 mouse_pos = {0, 0};
 	//! scroll direction (-1 = down, 1 = up)
 	int scroll_direction = 0;
 	//! scroll amount in y axis (from and away from the person).
