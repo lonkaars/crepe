@@ -6,6 +6,7 @@
 #include "../manager/Mediator.h"
 #include "../manager/ResourceManager.h"
 #include "../util/OptionalRef.h"
+#include "../util/Log.h"
 
 #include "GameObject.h"
 
@@ -65,20 +66,10 @@ protected:
 	*
 	* \returns A reference to the SaveManager instance held by the Mediator.
 	*/
-	SaveManager & get_save_manager() const { return mediator->save_manager; }
+	SaveManager & get_save_manager() const;
 
 	/**
-	 * \brief Create a new game object using the component manager
-	 *
-	 * \param name Metadata::name (required)
-	 * \param tag Metadata::tag (optional, empty by default)
-	 * \param position Transform::position (optional, origin by default)
-	 * \param rotation Transform::rotation (optional, 0 by default)
-	 * \param scale Transform::scale (optional, 1 by default)
-	 *
-	 * \returns GameObject interface
-	 *
-	 * \note This method automatically assigns a new entity ID
+	 * \copydoc ComponentManager::new_object
 	 */
 	GameObject new_object(const std::string & name, const std::string & tag = "",
 						  const vec2 & position = {0, 0}, double rotation = 0,
@@ -88,23 +79,24 @@ protected:
 	}
 
 	/**
-	 * \brief Mark a resource as persistent (i.e. used across multiple scenes)
-	 *
-	 * \param asset Asset the concrete resource is instantiated from
-	 * \param persistent Whether this resource is persistent (true=keep, false=destroy)
+	 * \copydoc ResourceManager::set_persistent
 	 */
 	void set_persistent(const Asset & asset, bool persistent) {
 		mediator->resource_manager->set_persistent(asset, persistent);
 	}
 
 	/**
-	 * \brief Log a message using Log::logf
-	 *
-	 * \tparam Args Log::logf parameters
-	 * \param args  Log::logf parameters
-	 */
-	template <typename... Args>
-	void logf(Args &&... args);
+	* \name Logging functions
+	* \see Log
+	* \{
+	*/
+	//! \copydoc Log::logf
+	template <class... Args>
+	void logf(const Log::Level & level, std::format_string<Args...> fmt, Args &&... args);
+	//! \copydoc Log::logf
+	template <class... Args>
+	void logf(std::format_string<Args...> fmt, Args &&... args);
+	//! \}
 };
 
 } // namespace crepe
