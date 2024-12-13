@@ -153,8 +153,6 @@ typedef enum {
 	RIGHT_SUPER = 347,
 	/// \}
 	MENU = 348, //!< Menu key.
-	//! Not actually a key instead its the amount of keycodes there are for array indexing
-	NUM_KEYCODES = 512,
 } Keycode;
 
 
