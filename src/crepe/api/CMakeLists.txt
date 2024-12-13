@@ -20,6 +20,7 @@ target_sources(crepe PUBLIC
 	Button.cpp
 	UIObject.cpp
 	AI.cpp
+	Scene.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
