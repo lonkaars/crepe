@@ -1,3 +1,4 @@
+#include "api/Animator.h"
 #include "api/BehaviorScript.h"
 #include "api/CircleCollider.h"
 #include "api/Scene.h"
@@ -35,92 +36,105 @@ public:
 	}
 
 	void start(ComponentManager & mgr) {
-		GameObject start_begin = mgr.new_object("start_begin", "background", vec2(begin_x, 0));
-		Asset start_begin_asset{"asset/jetpack_joyride/background/start/titleFG_1_TVOS.png"};
-		start_begin.add_component<Sprite>(start_begin_asset, Sprite::Data{
-																 .sorting_in_layer = 4,
-																 .order_in_layer = 0,
-																 .size = vec2(0, 800),
-															 });
+		GameObject begin = mgr.new_object("start_begin", "background", vec2(begin_x, 0));
+		Asset begin_asset{"asset/jetpack_joyride/background/start/titleFG_1_TVOS.png"};
+		begin.add_component<Sprite>(begin_asset, Sprite::Data{
+													 .sorting_in_layer = 4,
+													 .order_in_layer = 0,
+													 .size = vec2(0, 800),
+												 });
 		begin_x += 700;
 
-		GameObject start_end = mgr.new_object("start_end", "background", vec2(begin_x, 0));
-		Asset start_end_asset{"asset/jetpack_joyride/background/start/titleFG_2_TVOS.png"};
-		start_end.add_component<Sprite>(start_end_asset, Sprite::Data{
-															 .sorting_in_layer = 4,
-															 .order_in_layer = 1,
-															 .size = vec2(0, 800),
-														 });
+		GameObject end = mgr.new_object("start_end", "background", vec2(begin_x, 0));
+		Asset end_asset{"asset/jetpack_joyride/background/start/titleFG_2_TVOS.png"};
+		end.add_component<Sprite>(end_asset, Sprite::Data{
+												 .sorting_in_layer = 4,
+												 .order_in_layer = 1,
+												 .size = vec2(0, 800),
+											 });
 		begin_x += 100;
+
+		this->add_lamp_start(end, vec2(-350, -95));
+	}
+
+	void add_lamp_start(GameObject & obj, vec2 offset) {
+		Asset lamp_asset{"asset/jetpack_joyride/background/start/alarmLight_TVOS.png"};
+		obj.add_component<Sprite>(lamp_asset, Sprite::Data{
+												  .sorting_in_layer = 5,
+												  .order_in_layer = 0,
+												  .size = vec2(0, 100),
+												  .position_offset = offset,
+											  });
+		Asset lamp_glow_asset{"asset/jetpack_joyride/background/start/alarmGlow_TVOS.png"};
+		Sprite & lamp_glow_sprite = obj.add_component<Sprite>(
+			lamp_glow_asset, Sprite::Data{
+								 .sorting_in_layer = 5,
+								 .order_in_layer = 1,
+								 .size = vec2(0, 300),
+								 .position_offset = offset - vec2(65, -55),
+							 });
+		obj.add_component<Animator>(lamp_glow_sprite, ivec2(422, 384), uvec2(6, 1),
+									Animator::Data{
+										.fps = 10,
+										.looping = true,
+									});
 	}
 
 	void hallway(ComponentManager & mgr) {
-		GameObject hallway_begin
-			= mgr.new_object("hallway_begin", "background", vec2(begin_x, 0));
-		Asset hallway_begin_asset{
-			"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
-		hallway_begin.add_component<Sprite>(hallway_begin_asset, Sprite::Data{
-																	 .sorting_in_layer = 4,
-																	 .order_in_layer = 0,
-																	 .size = vec2(0, 800),
-																 });
+		GameObject begin = mgr.new_object("hallway_begin", "background", vec2(begin_x, 0));
+		Asset begin_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
+		begin.add_component<Sprite>(begin_asset, Sprite::Data{
+													 .sorting_in_layer = 4,
+													 .order_in_layer = 0,
+													 .size = vec2(0, 800),
+												 });
 		begin_x += 600;
 
-		GameObject hallway_middle_1
-			= mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
-		Asset hallway_middle_asset{
-			"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
-		hallway_middle_1.add_component<Sprite>(hallway_middle_asset, Sprite::Data{
-																		 .sorting_in_layer = 4,
-																		 .order_in_layer = 2,
-																		 .size = vec2(0, 800),
-																	 });
+		// Atributes for begin
+
+		GameObject middle_1 = mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
+		Asset middle_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+		middle_1.add_component<Sprite>(middle_asset, Sprite::Data{
+														 .sorting_in_layer = 4,
+														 .order_in_layer = 2,
+														 .size = vec2(0, 800),
+													 });
 		begin_x += 600;
 
-		GameObject hallway_middle_2
-			= mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
-		Asset hallway_middle_asset_2{
-			"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
-		hallway_middle_2.add_component<Sprite>(hallway_middle_asset_2,
-											   Sprite::Data{
-												   .sorting_in_layer = 4,
-												   .order_in_layer = 3,
-												   .size = vec2(0, 800),
-											   });
+		GameObject middle_2 = mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
+		Asset middle_asset_2{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+		middle_2.add_component<Sprite>(middle_asset_2, Sprite::Data{
+														   .sorting_in_layer = 4,
+														   .order_in_layer = 3,
+														   .size = vec2(0, 800),
+													   });
 		begin_x += 200;
 
-		GameObject hallway_middle_3
-			= mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
-		Asset hallway_middle_asset_3{
-			"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
-		hallway_middle_3.add_component<Sprite>(hallway_middle_asset_3,
-											   Sprite::Data{
-												   .sorting_in_layer = 4,
-												   .order_in_layer = 4,
-												   .size = vec2(0, 800),
-											   });
+		GameObject middle_3 = mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
+		Asset middle_asset_3{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+		middle_3.add_component<Sprite>(middle_asset_3, Sprite::Data{
+														   .sorting_in_layer = 4,
+														   .order_in_layer = 4,
+														   .size = vec2(0, 800),
+													   });
 		begin_x += 400;
 
-		GameObject hallway_middle_4
-			= mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
-		Asset hallway_middle_asset_4{
-			"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
-		hallway_middle_4.add_component<Sprite>(hallway_middle_asset_4,
-											   Sprite::Data{
-												   .sorting_in_layer = 4,
-												   .order_in_layer = 5,
-												   .size = vec2(0, 800),
-											   });
+		GameObject middle_4 = mgr.new_object("hallway_middle", "background", vec2(begin_x, 0));
+		Asset middle_asset_4{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+		middle_4.add_component<Sprite>(middle_asset_4, Sprite::Data{
+														   .sorting_in_layer = 4,
+														   .order_in_layer = 5,
+														   .size = vec2(0, 800),
+													   });
 		begin_x += 600;
 
-		GameObject hallway_end = mgr.new_object("hallway_end", "background", vec2(begin_x, 0));
-		Asset hallway_end_asset{
-			"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
-		hallway_end.add_component<Sprite>(hallway_end_asset, Sprite::Data{
-																 .sorting_in_layer = 4,
-																 .order_in_layer = 1,
-																 .size = vec2(0, 800),
-															 });
+		GameObject end = mgr.new_object("hallway_end", "background", vec2(begin_x, 0));
+		Asset end_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
+		end.add_component<Sprite>(end_asset, Sprite::Data{
+												 .sorting_in_layer = 4,
+												 .order_in_layer = 1,
+												 .size = vec2(0, 800),
+											 });
 		begin_x += 600;
 	}
 
