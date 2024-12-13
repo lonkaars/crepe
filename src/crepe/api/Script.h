@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "../manager/LoopTimerManager.h"
 #include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
 #include "../manager/Mediator.h"
 #include "../system/CollisionSystem.h"
 #include "../types.h"

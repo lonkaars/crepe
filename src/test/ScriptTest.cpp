@@ -85,4 +85,3 @@ TEST_F(ScriptTest, LoopTimerManager) {
 
 	EXPECT_EQ(&script.get_loop_timer(), &this->loop_timer);
 }
-
