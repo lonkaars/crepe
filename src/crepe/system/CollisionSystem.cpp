@@ -188,18 +188,18 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 	}
 
 	Direction resolution_direction = Direction::NONE;
-	if (resolution.x != 0 && resolution.y != 0) {
+	if (resolution != vec2{0,0}) {
 		resolution_direction = Direction::BOTH;
 	} else if (resolution.x != 0) {
 		resolution_direction = Direction::X_DIRECTION;
 		//checks if the other velocity has a value and if this object moved
-		if (data1.rigidbody.data.linear_velocity.y != 0 && data1.rigidbody.data.linear_velocity.x != 0)
+		if (data1.rigidbody.data.linear_velocity != vec2{0,0})
 			resolution.y = -data1.rigidbody.data.linear_velocity.y
 						   * (resolution.x / data1.rigidbody.data.linear_velocity.x);
 	} else if (resolution.y != 0) {
 		resolution_direction = Direction::Y_DIRECTION;
 		//checks if the other velocity has a value and if this object moved
-		if (data1.rigidbody.data.linear_velocity.x != 0 && data1.rigidbody.data.linear_velocity.y != 0)
+		if (data1.rigidbody.data.linear_velocity != vec2{0,0})
 			resolution.x = -data1.rigidbody.data.linear_velocity.x
 						   * (resolution.y / data1.rigidbody.data.linear_velocity.y);
 	}
