@@ -1,9 +1,7 @@
-
-
 #include "Scene1.h"
-#include "api/AI.h"
-#include "system/CollisionSystem.h"
+#include "api/ParticleEmitter.h"
 
+#include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Asset.h>
 #include <crepe/api/AudioSource.h>
@@ -21,6 +19,7 @@
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/manager/ResourceManager.hpp>
+#include <crepe/system/CollisionSystem.h>
 #include <crepe/types.h>
 #include <crepe/util/OptionalRef.h>
 
@@ -40,20 +39,39 @@ private:
 		subscribe<MouseClickEvent>(
 			[this](const MouseClickEvent & ev) -> bool { return this->mouse_click(ev); });
 	}
-	void update() {}
+	void update() {
+		const auto & player = this->get_components_by_name<Transform>("player").front().get();
+		auto & m_ai = this->get_component<AI>();
+		const auto & rb = this->get_component<Rigidbody>();
+		auto & missle = this->get_component<Sprite>();
+		m_ai.seek_target = player.position;
+		m_ai.seek_on();
+
+		if (rb.data.linear_velocity.x > 0) {
+			missle.data.flip = {true, false};
+		} else {
+			missle.data.flip = {false, false};
+		}
+	}
 };
 class NpcScript : public Script {
 	void init() {}
 	void update() {
-		auto & player = this->get_components_by_name<Transform>("missle").front().get();
-		this->get_component<AI>().seek_target = player.position;
-
 		auto & rb = this->get_component<Rigidbody>();
 		auto & npc = this->get_component<Sprite>();
+		auto & transform = this->get_component<Transform>();
+
+		if (transform.position.x < -990) {
+			rb.data.linear_velocity.x *= -1;
+		}
+		if (transform.position.x > 990) {
+			rb.data.linear_velocity.x *= -1;
+		}
+
 		if (rb.data.linear_velocity.x < 0) {
-			npc.data.flip = {false, false};
-		} else {
 			npc.data.flip = {true, false};
+		} else {
+			npc.data.flip = {false, false};
 		}
 	}
 };
@@ -72,8 +90,8 @@ private:
 private:
 	bool npc_collision(const CollisionEvent & ev) {
 		auto & coll = ev.info;
-		coll.this_rigidbody.data.linear_velocity = {0, 0};
-		coll.other_rigidbody.data.linear_velocity = {0, 0};
+		//coll.this_rigidbody.data.linear_velocity = {0, 0};
+		//coll.other_rigidbody.data.linear_velocity = {0, 0};
 		return true;
 	}
 	bool key_pressed(const KeyPressEvent & ev) {
@@ -210,10 +228,10 @@ void Scene1::load_scene() {
 	GameObject cam = mgr.new_object("camera");
 	GameObject world = mgr.new_object("world", "TAG", vec2{0, 0}, 0, 1);
 	GameObject background = mgr.new_object("background");
-	GameObject player = mgr.new_object("player");
-	GameObject npc = mgr.new_object("npc", "TAG", vec2{150, 0}, 0, 1);
-
+	GameObject player = mgr.new_object("player", "TAG", vec2{750, 0}, 0, 1);
+	GameObject npc = mgr.new_object("npc", "TAG", vec2{-750, 0}, 0, 1);
 	GameObject missle = mgr.new_object("missle", "TAG", vec2{0, 0}, 0, 1);
+	GameObject smoke = mgr.new_object("smoke_particle", "TAG", vec2{0, 0}, 0, 1);
 
 	// audio
 	Asset bg_audio{"assets/BGM/Music_Level.mp3"};
@@ -229,6 +247,7 @@ void Scene1::load_scene() {
 	Asset npc_body{"assets/workers/worker1Body.png"};
 	Asset npc_head{"assets/workers/worker1Head.png"};
 	Asset missle_ss{"assets/Obstacles/Missile/missile.png"};
+	Asset smoke_ss{"assets/particles/smoke.png"};
 
 	cam.add_component<Camera>(ivec2{1700, 720}, vec2{2000, 800}, Camera::Data{});
 
@@ -331,16 +350,14 @@ void Scene1::load_scene() {
 		.mass = 1,
 		.gravity_scale = 1,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
-		.linear_velocity = {0, 0},
+		.linear_velocity = {-50, 0},
 		.max_linear_velocity = 40,
 		.constraints = {0, 0, 0},
 		.elastisity_coefficient = 1,
 		.offset = {0, 0},
 		.collision_layers = {0},
 	});
-
-	auto & npc_ai = npc.add_component<AI>(1000);
-	npc_ai.seek_on();
+	npc.add_component<BehaviorScript>().set_script<NpcScript>();
 
 	missle.add_component<BehaviorScript>().set_script<MissleScript>();
 	auto & missle_sprite = missle.add_component<Sprite>(missle_ss, Sprite::Data{
@@ -351,4 +368,36 @@ void Scene1::load_scene() {
 								   Animator::Data{
 									   .looping = true,
 								   });
+	missle.add_component<Rigidbody>(Rigidbody::Data{
+		.body_type = Rigidbody::BodyType::DYNAMIC,
+		.max_linear_velocity = 40,
+	});
+
+	auto & missle_ai = missle.add_component<AI>(1000);
+
+	auto & smoke_sprite = smoke.add_component<Sprite>(smoke_ss, Sprite::Data{
+																	.sorting_in_layer = 10,
+																	.order_in_layer = 10,
+																	.size = {0, 100},
+																});
+	
+	smoke.add_component<ParticleEmitter>(ParticleEmitter::Data{
+		.position = {0, 0},
+		.max_particles = 10,
+		.emission_rate = 1,
+		.min_speed = 6,
+		.max_speed = 20,
+		.min_angle = -20,
+		.max_angle = 20,
+		.begin_lifespan = 0,
+		.end_lifespan = 60,
+		.force_over_time = {0, 0},
+		.boundary{
+			.width = 1000,
+			.height = 1000,
+			.offset = {0, 0},
+			.reset_on_exit = false,
+		},
+		.sprite = smoke_sprite,
+	});
 }
