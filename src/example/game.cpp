@@ -261,24 +261,23 @@ public:
 			= false;
 		Asset img5{"asset/texture/square.png"};
 
-		
-
 		GameObject particle = mgr.new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
-		auto & particle_image = particle.add_component<Sprite>(img5, Sprite::Data{.size = {5, 5},});
-		auto & test = particle.add_component<ParticleEmitter>(particle_image,ParticleEmitter::Data{
-		.position = {0, 0},
-		.max_particles = 256,
-		.emission_rate = 50,
-		.min_speed = 10,
-		.max_speed = 20,
-		.min_angle = -20,
-		.max_angle = 20,
-		.begin_lifespan = 0,
-		.end_lifespan = 5,
-	}
-	);
-
+		auto & particle_image = particle.add_component<Sprite>(img5, Sprite::Data{
+																		 .size = {5, 5},
+																	 });
+		auto & test
+			= particle.add_component<ParticleEmitter>(particle_image, ParticleEmitter::Data{
+																		  .position = {0, 0},
+																		  .max_particles = 256,
+																		  .emission_rate = 50,
+																		  .min_speed = 10,
+																		  .max_speed = 20,
+																		  .min_angle = -20,
+																		  .max_angle = 20,
+																		  .begin_lifespan = 0,
+																		  .end_lifespan = 5,
+																	  });
 	}
 
 	string get_name() const { return "scene1"; }

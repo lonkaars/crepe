@@ -1,6 +1,4 @@
 #include "api/Asset.h"
-#include <math.h>
-#include <gtest/gtest.h>
 #include <crepe/api/Config.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Rigidbody.h>
@@ -8,17 +6,17 @@
 #include <crepe/api/Transform.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/LoopTimerManager.h>
+#include <gtest/gtest.h>
+#include <math.h>
 #define protected public
 #define private public
 #include <crepe/Particle.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/system/ParticleSystem.h>
 
-
 using namespace std;
 using namespace std::chrono_literals;
 using namespace crepe;
-
 
 class ParticlesTest : public ::testing::Test {
 	Mediator m;
@@ -44,25 +42,25 @@ public:
 						.size = {10, 10},
 					});
 
-			game_object.add_component<ParticleEmitter>(test_sprite,ParticleEmitter::Data{
-				.position = {0, 0},
-				.max_particles = 100,
-				.emission_rate = 0,
-				.min_speed = 0,
-				.max_speed = 0,
-				.min_angle = 0,
-				.max_angle = 0,
-				.begin_lifespan = 0,
-				.end_lifespan = 0,
-				.force_over_time = vec2{0, 0},
-				.boundary{
-					.width = 0,
-					.height = 0,
-					.offset = vec2{0, 0},
-					.reset_on_exit = false,
-				},
-			});
-			
+			game_object.add_component<ParticleEmitter>(test_sprite,
+													   ParticleEmitter::Data{
+														   .position = {0, 0},
+														   .max_particles = 100,
+														   .emission_rate = 0,
+														   .min_speed = 0,
+														   .max_speed = 0,
+														   .min_angle = 0,
+														   .max_angle = 0,
+														   .begin_lifespan = 0,
+														   .end_lifespan = 0,
+														   .force_over_time = vec2{0, 0},
+														   .boundary{
+															   .width = 0,
+															   .height = 0,
+															   .offset = vec2{0, 0},
+															   .reset_on_exit = false,
+														   },
+													   });
 		}
 		transforms = mgr.get_components_by_id<Transform>(0);
 		Transform & transform = transforms.front().get();
@@ -209,6 +207,6 @@ TEST_F(ParticlesTest, boundaryParticleStop) {
 		EXPECT_NEAR(std::abs(emitter.particles[0].position.x),
 					emitter.data.boundary.height / 2, TOLERANCE);
 	if (emitter.particles[0].velocity.y != 0)
-		EXPECT_NEAR(std::abs(emitter.particles[0].position.y),
-					emitter.data.boundary.width / 2, TOLERANCE);
+		EXPECT_NEAR(std::abs(emitter.particles[0].position.y), emitter.data.boundary.width / 2,
+					TOLERANCE);
 }
