@@ -52,6 +52,6 @@ void Animator::set_anim(int col) {
 
 void Animator::next_anim() {
 	Animator::Data & ctx = this->data;
-	ctx.row = ctx.row++ % this->grid_size.x;
+	ctx.row = ++ctx.row % this->grid_size.x;
 	this->spritesheet.mask.x = ctx.row * this->spritesheet.mask.w;
 }
