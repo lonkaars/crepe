@@ -39,7 +39,7 @@ public:
  */
 class MousePressEvent : public Event {
 public:
-	//! mouse position in game units
+	//! mouse position in world coordinates (game units).
 	vec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was pressed.
@@ -51,7 +51,7 @@ public:
  */
 class MouseClickEvent : public Event {
 public:
-	//! mouse position in game units
+	//! mouse position in world coordinates (game units).
 	vec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was clicked.
@@ -63,7 +63,7 @@ public:
  */
 class MouseReleaseEvent : public Event {
 public:
-	//! mouse position in game units
+	//! mouse position in world coordinates (game units).
 	vec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was released.
@@ -75,7 +75,7 @@ public:
  */
 class MouseMoveEvent : public Event {
 public:
-	//! mouse position in game units
+	//! mouse position in world coordinates (game units).
 	vec2 mouse_pos = {0, 0};
 	//! The change in mouse position relative to the last position (in pixels).
 	ivec2 mouse_delta = {0, 0};
@@ -86,7 +86,7 @@ public:
  */
 class MouseScrollEvent : public Event {
 public:
-	//! mouse position in game units when the scroll happened.
+	//! mouse position in world coordinates (game units) when the scroll happened.
 	vec2 mouse_pos = {0, 0};
 	//! scroll direction (-1 = down, 1 = up)
 	int scroll_direction = 0;

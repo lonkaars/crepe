@@ -1,7 +1,7 @@
 #include "../api/Button.h"
+#include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/EventManager.h"
-#include "../facade/SDLContext.h"
 #include "util/Log.h"
 
 #include "InputSystem.h"
@@ -47,8 +47,8 @@ void InputSystem::update() {
 	}
 }
 
-void InputSystem::handle_mouse_event(const EventData & event,
-									 const vec2 & camera_origin, const Camera & current_cam) {
+void InputSystem::handle_mouse_event(const EventData & event, const vec2 & camera_origin,
+									 const Camera & current_cam) {
 	EventManager & event_mgr = this->mediator.event_manager;
 	vec2 adjusted_mouse;
 	adjusted_mouse.x = event.data.mouse_data.mouse_position.x + camera_origin.x;
@@ -153,9 +153,7 @@ void InputSystem::handle_non_mouse_event(const EventData & event) {
 	}
 }
 
-
-void InputSystem::handle_move(const EventData & event_data,
-							  const vec2 & mouse_pos) {
+void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
