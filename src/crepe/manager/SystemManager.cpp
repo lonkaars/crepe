@@ -19,12 +19,12 @@ SystemManager::SystemManager(Mediator & mediator) : Manager(mediator) {
 	this->load_system<InputSystem>();
 	this->load_system<EventSystem>();
 	this->load_system<ScriptSystem>();
+	this->load_system<ParticleSystem>();
 	this->load_system<AISystem>();
 	this->load_system<PhysicsSystem>();
 	this->load_system<CollisionSystem>();
 	this->load_system<AudioSystem>();
 	this->load_system<AnimatorSystem>();
-	this->load_system<ParticleSystem>();
 	this->load_system<RenderSystem>();
 	this->load_system<ReplaySystem>();
 
@@ -32,16 +32,16 @@ SystemManager::SystemManager(Mediator & mediator) : Manager(mediator) {
 }
 
 void SystemManager::fixed_update() {
-	for (auto & [type, system] : this->systems) {
-		if (!system->active) continue;
-		system->fixed_update();
+	for (System & system : this->system_order) {
+		if (!system.active) continue;
+		system.fixed_update();
 	}
 }
 
 void SystemManager::frame_update() {
-	for (auto & [type, system] : this->systems) {
-		if (!system->active) continue;
-		system->frame_update();
+	for (System & system : this->system_order) {
+		if (!system.active) continue;
+		system.frame_update();
 	}
 }
 
@@ -64,3 +64,4 @@ void SystemManager::disable_all() {
 		system->active = false;
 	}
 }
+
