@@ -61,7 +61,7 @@ public:
 		* gravity force, allowing for fine-grained control over how the object responds to gravity.
 		*
 		*/
-		float gravity_scale = 0;
+		float gravity_scale = 1.0;
 
 		//! Defines the type of the physics body, which determines how the physics system interacts with the object.
 		BodyType body_type = BodyType::DYNAMIC;
@@ -139,7 +139,7 @@ public:
 		 * Each element represents a layer ID, and the GameObject will only detect
 		 * collisions with other GameObjects that belong to these layers.
 		 */
-		std::set<int> collision_layers;
+		std::set<int> collision_layers = {0};
 	};
 
 public:

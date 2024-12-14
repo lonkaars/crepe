@@ -47,7 +47,7 @@ public:
 	~Camera(); // dbg_trace only
 
 public:
-	Camera::Data data;
+	Data data;
 
 	//! viewport is the area of the world visible through the camera (in world units)
 	const vec2 viewport_size;
