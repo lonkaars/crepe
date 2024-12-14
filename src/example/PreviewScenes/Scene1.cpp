@@ -1,5 +1,6 @@
 #include "Scene1.h"
-#include "api/ParticleEmitter.h"
+#include "ValueBroker.h"
+#include "api/CircleCollider.h"
 
 #include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
@@ -12,6 +13,7 @@
 #include <crepe/api/Event.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/KeyCodes.h>
+#include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
@@ -19,11 +21,34 @@
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/manager/ResourceManager.hpp>
+#include <crepe/manager/SaveManager.h>
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/types.h>
 #include <crepe/util/OptionalRef.h>
+#include <iostream>
+#include <string>
 
 using namespace crepe;
+
+class CircleScript : public Script{
+	bool on_collision(const CollisionEvent & ev){
+		auto & coll = ev.info;
+		if (coll.other_metadata.tag != "circle") return true;
+
+		//coll.other_transform.position += coll.resolution / 2;
+		coll.this_transform.position += coll.resolution / 2;
+		coll.this_rigidbody.data.linear_velocity = {0, 0};
+		//coll.other_rigidbody.data.linear_velocity = {0, 0};
+
+		return true;
+	}
+	void init(){
+		subscribe<CollisionEvent>(
+			[this](const CollisionEvent & ev) -> bool { return this->on_collision(ev); });
+
+	}
+
+};
 
 class MissleScript : public Script {
 
@@ -73,6 +98,10 @@ class NpcScript : public Script {
 		} else {
 			npc.data.flip = {false, false};
 		}
+
+		//auto & savemgr = this->get_save_manager();
+		//savemgr.set("npc_x", transform.position.x);
+		//savemgr.set("npc_y", transform.position.y);
 	}
 };
 
@@ -82,33 +111,37 @@ private:
 	OptionalRef<Animator> body_anim;
 	OptionalRef<Sprite> head;
 	OptionalRef<Sprite> body;
-	OptionalRef<Transform> transform;
 
 private:
-	float move_speed = 1;
+	float move_speed = 100;
 
 private:
 	bool npc_collision(const CollisionEvent & ev) {
 		auto & coll = ev.info;
+		if (coll.other_metadata.tag != "npc_tag") return true;
+
+		coll.other_transform.position += coll.resolution / 2;
+		coll.this_transform.position += coll.resolution / 2;
 		//coll.this_rigidbody.data.linear_velocity = {0, 0};
 		//coll.other_rigidbody.data.linear_velocity = {0, 0};
+
 		return true;
 	}
 	bool key_pressed(const KeyPressEvent & ev) {
 		switch (ev.key) {
 			case Keycode::A:
-				this->get_component<Rigidbody>().add_force_linear(vec2{-move_speed, 0});
+				this->get_component<Rigidbody>().data.linear_velocity.x = -move_speed;
 				this->body->data.flip = {true, false};
 				this->head->data.flip = {true, false};
 				break;
 			case Keycode::D:
-				this->get_component<Rigidbody>().add_force_linear(vec2{move_speed, 0});
+				this->get_component<Rigidbody>().data.linear_velocity.x = move_speed;
 				this->body->data.flip = {false, false};
 				this->head->data.flip = {false, false};
 				break;
 
 			case Keycode::SPACE:
-				this->get_component<Rigidbody>().add_force_linear(vec2{0, move_speed});
+				this->get_component<Rigidbody>().data.linear_velocity.y = -move_speed;
 				break;
 			case Keycode::D0:
 				this->body_anim->set_anim(0);
@@ -218,20 +251,33 @@ private:
 			[this](const CollisionEvent & ev) -> bool { return this->npc_collision(ev); });
 	};
 
-	void update() {}
+	void update() {
+		//auto & savemgr = this->get_save_manager();
+		const auto & pos = this->get_component<Transform>().position;
+
+		//savemgr.set("player_x", pos.x);
+		//savemgr.set("player_y", pos.y);
+	}
 };
 
 void Scene1::load_scene() {
-	Mediator & mediator = this->mediator;
-	ComponentManager & mgr = mediator.component_manager;
+	SaveManager & savemgr = this->get_save_manager();
 
-	GameObject cam = mgr.new_object("camera");
-	GameObject world = mgr.new_object("world", "TAG", vec2{0, 0}, 0, 1);
-	GameObject background = mgr.new_object("background");
-	GameObject player = mgr.new_object("player", "TAG", vec2{750, 0}, 0, 1);
-	GameObject npc = mgr.new_object("npc", "TAG", vec2{-750, 0}, 0, 1);
-	GameObject missle = mgr.new_object("missle", "TAG", vec2{0, 0}, 0, 1);
-	GameObject smoke = mgr.new_object("smoke_particle", "TAG", vec2{0, 0}, 0, 1);
+	ValueBroker player_y = savemgr.get<std::string>("HALLO", "0");
+	ValueBroker player_x = savemgr.get<std::string>("JAJKJAKJ", "750");
+	ValueBroker npc_x = savemgr.get<std::string>("SDFGHJKL", "-750");
+	ValueBroker npc_y = savemgr.get<std::string>("JAKJKAJKj", "0");
+
+	std::cout << player_x.get() << " " << player_y.get() << " " << npc_x.get() << " "
+			  << npc_y.get() << std::endl;
+
+	GameObject cam = this->new_object("camera");
+	GameObject world = this->new_object("world", "TAG", vec2{0, 0}, 0, 1);
+	GameObject background = this->new_object("background");
+	GameObject player = this->new_object("player", "TAG", vec2{750, 0}, 0, 1);
+	GameObject npc = this->new_object("npc", "npc_tag", vec2{-750, 0}, 0, 1);
+	GameObject missle = this->new_object("missle", "TAG", vec2{0, 0}, 0, 1);
+	GameObject smoke = this->new_object("smoke_particle", "TAG", vec2{0, 0}, 0, 1);
 
 	// audio
 	Asset bg_audio{"assets/BGM/Music_Level.mp3"};
@@ -248,6 +294,8 @@ void Scene1::load_scene() {
 	Asset npc_head{"assets/workers/worker1Head.png"};
 	Asset missle_ss{"assets/Obstacles/Missile/missile.png"};
 	Asset smoke_ss{"assets/particles/smoke.png"};
+
+	Asset circle_ss{"asset/texture/circle.png"};
 
 	cam.add_component<Camera>(ivec2{1700, 720}, vec2{2000, 800}, Camera::Data{});
 
@@ -313,12 +361,12 @@ void Scene1::load_scene() {
 	player.add_component<BoxCollider>(vec2{0, 0}, vec2{50, 100});
 
 	player.add_component<Rigidbody>(Rigidbody::Data{
-		.mass = 1,
+		.mass = 10,
 		.gravity_scale = 1,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = {0, 0},
 		.constraints = {0, 0, 0},
-		.elastisity_coefficient = 1,
+		.elastisity_coefficient = 0,
 		.offset = {0, 0},
 		.collision_layers = {0},
 	});
@@ -353,7 +401,7 @@ void Scene1::load_scene() {
 		.linear_velocity = {-50, 0},
 		.max_linear_velocity = 40,
 		.constraints = {0, 0, 0},
-		.elastisity_coefficient = 1,
+		.elastisity_coefficient = 0,
 		.offset = {0, 0},
 		.collision_layers = {0},
 	});
@@ -380,7 +428,7 @@ void Scene1::load_scene() {
 																	.order_in_layer = 10,
 																	.size = {0, 100},
 																});
-	
+
 	smoke.add_component<ParticleEmitter>(ParticleEmitter::Data{
 		.position = {0, 0},
 		.max_particles = 10,
@@ -400,4 +448,22 @@ void Scene1::load_scene() {
 		},
 		.sprite = smoke_sprite,
 	});
+
+	for (int i = 0; i < 5; ++i) {
+		GameObject circle = this->new_object("circle", "circle", vec2{(float)i, (float)(i * 30)}, 0, 1);
+		vec2 size = {20, 20};
+		circle.add_component<Rigidbody>(Rigidbody::Data{
+			.mass = 10,
+			.gravity_scale = 1,
+			.body_type = Rigidbody::BodyType::DYNAMIC,
+			.collision_layers = {0},
+		});
+		circle.add_component<CircleCollider>(vec2{0, 0}, size.x / 2);
+		circle.add_component<Sprite>(circle_ss, Sprite::Data{
+													.sorting_in_layer = 5,
+													.order_in_layer = 5,
+													.size = size,
+												});
+		circle.add_component<BehaviorScript>().set_script<CircleScript>();
+	}
 }

@@ -53,7 +53,7 @@ struct Config final {
 		 *
 		 * Gravity value of game.
 		 */
-		float gravity = 10;
+		float gravity = 20;
 	} physics;
 
 	//! default window settings
