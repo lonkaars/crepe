@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cmath>
 #include <functional>
+#include <iostream>
 #include <stdexcept>
 #include <vector>
 
@@ -89,6 +90,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 
 		for (const Particle & p : em.particles) {
 			if (!p.active) continue;
+			if (p.time_in_life < em.data.begin_lifespan) continue;
 
 			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,

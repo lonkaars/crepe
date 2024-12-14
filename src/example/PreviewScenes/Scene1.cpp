@@ -277,7 +277,7 @@ void Scene1::load_scene() {
 	GameObject player = this->new_object("player", "TAG", vec2{750, 0}, 0, 1);
 	GameObject npc = this->new_object("npc", "npc_tag", vec2{-750, 0}, 0, 1);
 	GameObject missle = this->new_object("missle", "TAG", vec2{0, 0}, 0, 1);
-	GameObject smoke = this->new_object("smoke_particle", "TAG", vec2{0, 0}, 0, 1);
+	GameObject smoke = this->new_object("smoke_particle", "TAG", vec2{-500, -210}, 0, 1);
 
 	// audio
 	Asset bg_audio{"assets/BGM/Music_Level.mp3"};
@@ -426,27 +426,17 @@ void Scene1::load_scene() {
 	auto & smoke_sprite = smoke.add_component<Sprite>(smoke_ss, Sprite::Data{
 																	.sorting_in_layer = 10,
 																	.order_in_layer = 10,
-																	.size = {0, 100},
+																	.size = {0, 30},
 																});
 
-	smoke.add_component<ParticleEmitter>(ParticleEmitter::Data{
-		.position = {0, 0},
+	smoke.add_component<ParticleEmitter>(smoke_sprite, ParticleEmitter::Data{
+		.offset = {0,-60},
 		.max_particles = 10,
-		.emission_rate = 1,
-		.min_speed = 6,
-		.max_speed = 20,
-		.min_angle = -20,
-		.max_angle = 20,
-		.begin_lifespan = 0,
-		.end_lifespan = 60,
-		.force_over_time = {0, 0},
-		.boundary{
-			.width = 1000,
-			.height = 1000,
-			.offset = {0, 0},
-			.reset_on_exit = false,
-		},
-		.sprite = smoke_sprite,
+		.emission_rate = 25,
+		.min_angle =  60,
+		.max_angle =  120,
+		.begin_lifespan = 1,
+		.end_lifespan = 2,
 	});
 
 	for (int i = 0; i < 5; ++i) {
