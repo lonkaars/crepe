@@ -35,7 +35,7 @@ public:
 
 private:
 	//! The SDL_ttf font object with custom deleter.
-	std::unique_ptr<TTF_Font, std::function<void(TTF_Font*)>> font;
+	std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>> font;
 };
 
 } // namespace crepe
