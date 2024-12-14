@@ -29,23 +29,23 @@ class MyScript1 : public Script {
 		Log::logf("Box script keypressed()");
 		switch (test.key) {
 			case Keycode::A: {
-				Transform & tf = this->get_component<Transform>();
-				tf.position.x -= 1;
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.x -= 1;
 				break;
 			}
 			case Keycode::W: {
-				Transform & tf = this->get_component<Transform>();
-				tf.position.y -= 1;
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.y -= 1;
 				break;
 			}
 			case Keycode::S: {
-				Transform & tf = this->get_component<Transform>();
-				tf.position.y += 1;
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.y += 1;
 				break;
 			}
 			case Keycode::D: {
-				Transform & tf = this->get_component<Transform>();
-				tf.position.x += 1;
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.x += 1;
 				break;
 			}
 			case Keycode::E: {
@@ -85,7 +85,10 @@ class MyScript1 : public Script {
 			[this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
 	}
 	void update() {
-		// Retrieve component from the same GameObject this script is on
+		Rigidbody & tf = this->get_component<Rigidbody>();
+		Log::logf("linear_velocity.x {}", tf.data.linear_velocity.x);
+		Log::logf("linear_velocity.y {}", tf.data.linear_velocity.y);
+		// tf.data.linear_velocity = {0,0};
 	}
 };
 
@@ -160,16 +163,14 @@ public:
 
 	void load_scene() {
 
-		Mediator & m = this->mediator;
-		ComponentManager & mgr = m.component_manager;
 		Color color(0, 0, 0, 255);
 
 		float screen_size_width = 320;
 		float screen_size_height = 240;
 		float world_collider = 1000;
 		//define playable world
-		GameObject world = mgr.new_object(
-			"Name", "Tag", vec2{0, 0}, 0, 1);
+		GameObject world = new_object(
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		world.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 0,
 			.gravity_scale = 0,
@@ -196,13 +197,13 @@ public:
 				.zoom = 1,
 			});
 
-		GameObject game_object1 = mgr.new_object(
-			"Name", "Tag", vec2{0,0}, 0, 1);
+		GameObject game_object1 = new_object(
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 1,
 			.body_type = Rigidbody::BodyType::DYNAMIC,
-			.linear_velocity = {0, 0},
+			.linear_velocity = {0, 1},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 0,
 			.offset = {0, 0},
@@ -228,7 +229,7 @@ public:
 			.active
 			= false;
 
-		GameObject game_object2 = mgr.new_object(
+		GameObject game_object2 = new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		game_object2.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
