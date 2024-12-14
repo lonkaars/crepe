@@ -36,7 +36,7 @@ class MyScript1 : public Script {
 			case Keycode::W: {
 				Rigidbody & tf = this->get_component<Rigidbody>();
 				// tf.data.linear_velocity.y -= 1;
-				tf.add_force_linear({0,-1});
+				tf.add_force_linear({0, -1});
 				break;
 			}
 			case Keycode::S: {
@@ -178,10 +178,18 @@ public:
 			.body_type = Rigidbody::BodyType::STATIC,
 			.offset = {0, 0},
 		});
-		world.add_component<BoxCollider>(vec2{world_collider, world_collider},vec2{0, 0 - (screen_size_height / 2 + world_collider / 2)}); // Top
-		world.add_component<BoxCollider>(vec2{world_collider, world_collider},vec2{0, screen_size_height / 2 + world_collider / 2}); // Bottom
-		world.add_component<BoxCollider>(vec2{world_collider, world_collider},vec2{0 - (screen_size_width / 2 + world_collider / 2), 0}); // Left
-		world.add_component<BoxCollider>(vec2{world_collider, world_collider},vec2{screen_size_width / 2 + world_collider / 2, 0}); // right
+		world.add_component<BoxCollider>(
+			vec2{world_collider, world_collider},
+			vec2{0, 0 - (screen_size_height / 2 + world_collider / 2)}); // Top
+		world.add_component<BoxCollider>(
+			vec2{world_collider, world_collider},
+			vec2{0, screen_size_height / 2 + world_collider / 2}); // Bottom
+		world.add_component<BoxCollider>(
+			vec2{world_collider, world_collider},
+			vec2{0 - (screen_size_width / 2 + world_collider / 2), 0}); // Left
+		world.add_component<BoxCollider>(
+			vec2{world_collider, world_collider},
+			vec2{screen_size_width / 2 + world_collider / 2, 0}); // right
 		world.add_component<Camera>(
 			ivec2{static_cast<int>(screen_size_width), static_cast<int>(screen_size_height)},
 			vec2{screen_size_width, screen_size_height},
