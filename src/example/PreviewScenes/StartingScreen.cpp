@@ -41,10 +41,8 @@ class NextScene : public Script {
 };
 
 void StartScene::load_scene() {
-	Mediator & mediator = this->mediator;
-	ComponentManager & mgr = mediator.component_manager;
 
-	GameObject cam = mgr.new_object("CAMERA");
+	GameObject cam = this->new_object("CAMERA");
 	cam.add_component<Camera>(ivec2{1080, 720}, vec2{812, 543},
 							  Camera::Data{
 								  .bg_color = Color::WHITE,
