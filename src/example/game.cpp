@@ -262,7 +262,7 @@ public:
 			= false;
 		Asset img5{"asset/texture/square.png"};
 
-		GameObject particle = mgr.new_object(
+		GameObject particle = new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		auto & particle_image = particle.add_component<Sprite>(img5, Sprite::Data{
 																		 .size = {5, 5},
