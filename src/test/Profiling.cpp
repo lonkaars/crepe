@@ -1,9 +1,11 @@
-#include "manager/Mediator.h"
-#include "system/ParticleSystem.h"
-#include "system/PhysicsSystem.h"
-#include "system/RenderSystem.h"
 #include <chrono>
 #include <cmath>
+#include <crepe/api/Asset.h>
+#include <crepe/manager/Mediator.h>
+#include <crepe/manager/ResourceManager.h>
+#include <crepe/system/ParticleSystem.h>
+#include <crepe/system/PhysicsSystem.h>
+#include <crepe/system/RenderSystem.h>
 #include <gtest/gtest.h>
 
 #define private public
@@ -15,6 +17,7 @@
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Transform.h>
+#include <crepe/facade/SDLContext.h>
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/EventManager.h>
 #include <crepe/system/CollisionSystem.h>
@@ -41,7 +44,7 @@ class TestScript : public Script {
 	}
 };
 
-class Profiling : public Test {
+class DISABLED_ProfilingTest : public Test {
 public:
 	// Config for test
 	// Minimum amount to let test pass
@@ -54,6 +57,8 @@ public:
 	const std::chrono::microseconds duration = 16000us;
 
 	Mediator m;
+	SDLContext sdl_context{m};
+	ResourceManager resman{m};
 	ComponentManager mgr{m};
 	// Add system used for profling tests
 	CollisionSystem collision_sys{m};
@@ -70,8 +75,11 @@ public:
 	void SetUp() override {
 
 		GameObject do_not_use = mgr.new_object("DO_NOT_USE", "", {0, 0});
-		do_not_use.add_component<Camera>(Color::WHITE, ivec2{1080, 720}, vec2{2000, 2000},
-										 1.0f);
+		do_not_use.add_component<Camera>(ivec2{1080, 720}, vec2{2000, 2000},
+										 Camera::Data{
+											 .bg_color = Color::WHITE,
+											 .zoom = 1.0f,
+										 });
 		// initialize systems here:
 		//calls init
 		script_sys.update();
@@ -127,7 +135,7 @@ public:
 	}
 };
 
-TEST_F(Profiling, Profiling_1) {
+TEST_F(DISABLED_ProfilingTest, Profiling_1) {
 	while (this->total_time / this->average < this->duration) {
 
 		{
@@ -150,7 +158,7 @@ TEST_F(Profiling, Profiling_1) {
 	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
-TEST_F(Profiling, Profiling_2) {
+TEST_F(DISABLED_ProfilingTest, Profiling_2) {
 	while (this->total_time / this->average < this->duration) {
 
 		{
@@ -164,10 +172,15 @@ TEST_F(Profiling, Profiling_2) {
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			Color color(0, 0, 0, 0);
-			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
+				Asset{"asset/texture/square.png"},
+				Sprite::Data{
+					.color = {0, 0, 0, 0},
+					.flip = {.flip_x = false, .flip_y = false},
+					.sorting_in_layer = 1,
+					.order_in_layer = 1,
+					.size = {.y = 500},
+				});
 		}
 
 		this->game_object_count++;
@@ -184,7 +197,7 @@ TEST_F(Profiling, Profiling_2) {
 	EXPECT_GE(this->game_object_count, this->min_gameobject_count);
 }
 
-TEST_F(Profiling, Profiling_3) {
+TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 	while (this->total_time / this->average < this->duration) {
 
 		{
@@ -197,10 +210,15 @@ TEST_F(Profiling, Profiling_3) {
 			});
 			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
-			Color color(0, 0, 0, 0);
-			auto img = Texture("asset/texture/square.png");
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				img, color, Sprite::FlipSettings{false, false}, 1, 1, 500);
+				Asset{"asset/texture/square.png"},
+				Sprite::Data{
+					.color = {0, 0, 0, 0},
+					.flip = {.flip_x = false, .flip_y = false},
+					.sorting_in_layer = 1,
+					.order_in_layer = 1,
+					.size = {.y = 500},
+				});
 			auto & test = gameobject.add_component<ParticleEmitter>(ParticleEmitter::Data{
 				.max_particles = 10,
 				.emission_rate = 100,

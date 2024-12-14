@@ -1,6 +1,8 @@
 #include "../api/Button.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/EventManager.h"
+#include "facade/SDLContext.h"
+#include "util/Log.h"
 
 #include "InputSystem.h"
 
@@ -9,7 +11,8 @@ using namespace crepe;
 void InputSystem::update() {
 	ComponentManager & mgr = this->mediator.component_manager;
 	EventManager & event_mgr = this->mediator.event_manager;
-	std::vector<SDLContext::EventData> event_list = SDLContext::get_instance().get_events();
+	SDLContext & context = this->mediator.sdl_context;
+	std::vector<SDLContext::EventData> event_list = context.get_events();
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 	OptionalRef<Camera> curr_cam_ref;
@@ -24,10 +27,10 @@ void InputSystem::update() {
 	RefVector<Transform> transform_vec
 		= mgr.get_components_by_id<Transform>(current_cam.game_object_id);
 	Transform & cam_transform = transform_vec.front().get();
-	int camera_origin_x
-		= cam_transform.position.x + current_cam.offset.x - (current_cam.viewport_size.x / 2);
-	int camera_origin_y
-		= cam_transform.position.y + current_cam.offset.y - (current_cam.viewport_size.y / 2);
+	int camera_origin_x = cam_transform.position.x + current_cam.data.postion_offset.x
+						  - (current_cam.viewport_size.x / 2);
+	int camera_origin_y = cam_transform.position.y + current_cam.data.postion_offset.y
+						  - (current_cam.viewport_size.y / 2);
 
 	for (const SDLContext::EventData & event : event_list) {
 		int world_mouse_x = event.mouse_position.x + camera_origin_x;
