@@ -75,8 +75,7 @@ public:
 	void SetUp() override {
 
 		GameObject do_not_use = mgr.new_object("DO_NOT_USE", "", {0, 0});
-		do_not_use.add_component<Camera>(ivec2{1080, 720}, vec2{2000, 2000},
-										 Camera::Data{
+		do_not_use.add_component<Camera>(vec2{2000, 2000}, Camera::Data{
 											 .bg_color = Color::WHITE,
 											 .zoom = 1.0f,
 										 });
