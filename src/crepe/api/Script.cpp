@@ -45,3 +45,6 @@ void Script::replay::release(recording_t recording) {
 	ReplayManager & mgr = this->mediator->replay_manager;
 	return mgr.release(recording);
 }
+
+LoopTimerManager & Script::get_loop_timer() const { return this->mediator->loop_timer; }
+
