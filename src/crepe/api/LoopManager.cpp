@@ -66,6 +66,7 @@ void LoopManager::fixed_update() {
 	this->get_system<InputSystem>().update();
 	this->event_manager.dispatch_events();
 	this->get_system<ScriptSystem>().update();
+	this->get_system<ParticleSystem>().update();
 	this->get_system<AISystem>().update();
 	this->get_system<PhysicsSystem>().update();
 	this->get_system<CollisionSystem>().update();
