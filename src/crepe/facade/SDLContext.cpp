@@ -75,18 +75,17 @@ SDLContext::~SDLContext() {
 }
 
 Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
-	if (!LOOKUP_TABLE.contains(sdl_key)) 
-		return Keycode::NONE;
+	if (!LOOKUP_TABLE.contains(sdl_key)) return Keycode::NONE;
 
 	return LOOKUP_TABLE.at(sdl_key);
 }
 
-const keyboard_state_t& SDLContext::get_keyboard_state(){
+const keyboard_state_t & SDLContext::get_keyboard_state() {
 	SDL_PumpEvents();
 	const Uint8 * current_state = SDL_GetKeyboardState(nullptr);
 
 	for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
-		
+
 		Keycode key = sdl_to_keycode(static_cast<SDL_Scancode>(i));
 		if (key != Keycode::NONE) {
 			this->keyboard_state[key] = current_state[i] != 0;
@@ -283,7 +282,7 @@ std::vector<EventData> SDLContext::get_events() {
 			case SDL_QUIT:
 				event_list.push_back({.event_type = EventType::SHUTDOWN});
 				break;
-			case SDL_KEYDOWN: 
+			case SDL_KEYDOWN:
 				event_list.push_back(EventData{
 					.event_type = EventType::KEY_DOWN,
 					.data = {

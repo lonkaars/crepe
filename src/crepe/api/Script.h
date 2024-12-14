@@ -2,11 +2,11 @@
 
 #include <vector>
 
+#include "../api/KeyCodes.h"
 #include "../manager/EventManager.h"
 #include "../manager/Mediator.h"
 #include "../system/CollisionSystem.h"
 #include "../types.h"
-#include "../api/KeyCodes.h"
 #include "../util/OptionalRef.h"
 
 namespace crepe {
@@ -142,7 +142,7 @@ protected:
 	 * \return current keyboard state map with Keycode as key and bool as value(true = pressed, false = not pressed)
 	 * 
 	 */
-	const keyboard_state_t& get_keyboard_state() const;
+	const keyboard_state_t & get_keyboard_state() const;
 	//! \}
 
 private:

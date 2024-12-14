@@ -5,19 +5,18 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
-#include <array>
 #include <cmath>
 #include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
 
+#include "../types.h"
 #include "api/Camera.h"
 #include "api/Color.h"
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
-#include "../types.h"
 
 #include "EventData.h"
 
@@ -71,7 +70,6 @@ public:
 	};
 
 public:
-	
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
 	 * \return Reference to the SDLContext instance.
@@ -146,8 +144,8 @@ public:
 	 * \return A constant reference to the `keyboard_state_t`, which holds the state
 	 *         of each key (true = pressed, false = not pressed).
 	 */
-	const keyboard_state_t& get_keyboard_state();
-	
+	const keyboard_state_t & get_keyboard_state();
+
 public:
 	/**
 	 * \brief Gets the current SDL ticks since the program started.
