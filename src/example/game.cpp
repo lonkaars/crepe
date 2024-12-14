@@ -269,7 +269,7 @@ public:
 																	 });
 		auto & test
 			= particle.add_component<ParticleEmitter>(particle_image, ParticleEmitter::Data{
-																		  .position = {0, 0},
+																		  .offset = {0, 0},
 																		  .max_particles = 256,
 																		  .emission_rate = 50,
 																		  .min_speed = 10,

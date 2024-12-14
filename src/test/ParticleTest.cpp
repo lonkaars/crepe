@@ -44,7 +44,7 @@ public:
 
 			game_object.add_component<ParticleEmitter>(test_sprite,
 													   ParticleEmitter::Data{
-														   .position = {0, 0},
+														   .offset = {0, 0},
 														   .max_particles = 100,
 														   .emission_rate = 0,
 														   .min_speed = 0,
@@ -70,7 +70,7 @@ public:
 		std::vector<std::reference_wrapper<ParticleEmitter>> rigidbodies
 			= mgr.get_components_by_id<ParticleEmitter>(0);
 		ParticleEmitter & emitter = rigidbodies.front().get();
-		emitter.data.position = {0, 0};
+		emitter.data.offset = {0, 0};
 		emitter.data.emission_rate = 0;
 		emitter.data.min_speed = 0;
 		emitter.data.max_speed = 0;
