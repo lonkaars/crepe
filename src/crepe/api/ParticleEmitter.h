@@ -49,8 +49,8 @@ public:
 	 * and the sprite used for rendering particles.
 	 */
 	struct Data {
-		//! position of the emitter
-		vec2 position;
+		//! offset of the emitter relative to transform
+		vec2 offset;
 		//! maximum number of particles
 		const unsigned int max_particles = 256;
 		//! rate of particle emission per second
