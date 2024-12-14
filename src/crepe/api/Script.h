@@ -170,6 +170,16 @@ protected:
 	//! Retrieve LoopTimerManager reference
 	LoopTimerManager & get_loop_timer() const;
 
+	/**
+	 * \name Input
+	 * \{
+	 */
+	//! Get keyboard state
+	const keyboard_state_t & get_keyboard_state() const;
+	//! Get state of specific key
+	bool get_key_state(Keycode key) const noexcept;
+	//! \}
+
 private:
 	/**
 	 * \brief Internal subscribe function

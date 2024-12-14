@@ -11,6 +11,11 @@ using namespace std;
 
 class PlayerController : public Script {
 	void update() {
+		Rigidbody & body = get_component<Rigidbody>();
+
+		if (get_key_state(Keycode::SPACE)) {
+			body.add_force_linear({ 0, -1 });
+		}
 	}
 };
 
@@ -52,6 +57,9 @@ class DemoScene : public Scene {
 
 int main() {
 	Config::get_instance() = {
+		.physics = {
+			.gravity = 20,
+		},
 		.window = {
 			.size = {800, 800},
 		},

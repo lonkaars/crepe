@@ -1,6 +1,7 @@
 #include <string>
 
 #include "../manager/SceneManager.h"
+#include "../facade/SDLContext.h"
 
 #include "Script.h"
 
@@ -47,4 +48,17 @@ void Script::replay::release(recording_t recording) {
 }
 
 LoopTimerManager & Script::get_loop_timer() const { return this->mediator->loop_timer; }
+
+const keyboard_state_t & Script::get_keyboard_state() const {
+	SDLContext & sdl_context = this->mediator->sdl_context;
+	return sdl_context.get_keyboard_state();
+}
+
+bool Script::get_key_state(Keycode key) const noexcept {
+	try {
+		return this->get_keyboard_state().at(key);
+	} catch (...) {
+		return false;
+	}
+}
 

@@ -42,7 +42,7 @@ protected:
 		//mediator.component_manager = mgr;
 		//event_manager.clear();
 	}
-
+	void TearDown() override {}
 	void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
 		SDL_Event event;
 
@@ -69,8 +69,8 @@ TEST_F(InputTest, MouseDown) {
 	EventHandler<MousePressEvent> on_mouse_down = [&](const MousePressEvent & event) {
 		mouse_triggered = true;
 		//middle of the screen = 0,0
-		EXPECT_EQ(event.mouse_x, 0);
-		EXPECT_EQ(event.mouse_y, 0);
+		EXPECT_EQ(event.mouse_pos.x, 0);
+		EXPECT_EQ(event.mouse_pos.y, 0);
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -94,8 +94,8 @@ TEST_F(InputTest, MouseUp) {
 	bool function_triggered = false;
 	EventHandler<MouseReleaseEvent> on_mouse_release = [&](const MouseReleaseEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_x, 0);
-		EXPECT_EQ(e.mouse_y, 0);
+		EXPECT_EQ(e.mouse_pos.x, 0);
+		EXPECT_EQ(e.mouse_pos.y, 0);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -118,10 +118,10 @@ TEST_F(InputTest, MouseMove) {
 	bool function_triggered = false;
 	EventHandler<MouseMoveEvent> on_mouse_move = [&](const MouseMoveEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_x, 0);
-		EXPECT_EQ(e.mouse_y, 0);
-		EXPECT_EQ(e.delta_x, 10);
-		EXPECT_EQ(e.delta_y, 10);
+		EXPECT_EQ(e.mouse_pos.x, 0);
+		EXPECT_EQ(e.mouse_pos.y, 0);
+		EXPECT_EQ(e.mouse_delta.x, 10);
+		EXPECT_EQ(e.mouse_delta.y, 10);
 		return false;
 	};
 	event_manager.subscribe<MouseMoveEvent>(on_mouse_move);
@@ -192,8 +192,8 @@ TEST_F(InputTest, MouseClick) {
 	EventHandler<MouseClickEvent> on_mouse_click = [&](const MouseClickEvent & event) {
 		on_click_triggered = true;
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
-		EXPECT_EQ(event.mouse_x, 0);
-		EXPECT_EQ(event.mouse_y, 0);
+		EXPECT_EQ(event.mouse_pos.x, 0);
+		EXPECT_EQ(event.mouse_pos.y, 0);
 		return false;
 	};
 	event_manager.subscribe<MouseClickEvent>(on_mouse_click);
@@ -208,14 +208,10 @@ TEST_F(InputTest, testButtonClick) {
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button
-		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click, false);
+	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
 
 	bool hover = false;
 	button.active = true;
-
-	button.is_pressed = false;
-	button.is_toggle = false;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
 	input_system.fixed_update();
 	event_manager.dispatch_events();
@@ -231,11 +227,8 @@ TEST_F(InputTest, testButtonHover) {
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button
-		= button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click, false);
+	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
 	button.active = true;
-	button.is_pressed = false;
-	button.is_toggle = false;
 
 	// Mouse not on button
 	SDL_Event event;

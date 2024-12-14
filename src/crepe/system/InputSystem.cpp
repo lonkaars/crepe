@@ -10,12 +10,14 @@ using namespace crepe;
 
 void InputSystem::fixed_update() {
 	ComponentManager & mgr = this->mediator.component_manager;
-	EventManager & event_mgr = this->mediator.event_manager;
+
 	SDLContext & context = this->mediator.sdl_context;
+	context.update_keyboard_state();
 	std::vector<SDLContext::EventData> event_list = context.get_events();
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 	OptionalRef<Camera> curr_cam_ref;
+
 	// Find the active camera
 	for (Camera & cam : cameras) {
 		if (!cam.active) continue;
@@ -23,150 +25,190 @@ void InputSystem::fixed_update() {
 		break;
 	}
 	if (!curr_cam_ref) return;
+
 	Camera & current_cam = curr_cam_ref;
 	RefVector<Transform> transform_vec
 		= mgr.get_components_by_id<Transform>(current_cam.game_object_id);
 	Transform & cam_transform = transform_vec.front().get();
-	int camera_origin_x = cam_transform.position.x + current_cam.data.postion_offset.x
-						  - (current_cam.viewport_size.x / 2);
-	int camera_origin_y = cam_transform.position.y + current_cam.data.postion_offset.y
-						  - (current_cam.viewport_size.y / 2);
+
+	vec2 camera_origin = cam_transform.position + current_cam.data.postion_offset
+						 - (current_cam.viewport_size / 2);
 
 	for (const SDLContext::EventData & event : event_list) {
-		int world_mouse_x = event.mouse_position.x + camera_origin_x;
-		int world_mouse_y = event.mouse_position.y + camera_origin_y;
-		// check if the mouse is within the viewport
-		bool mouse_in_viewport
-			= !(world_mouse_x < camera_origin_x
-				|| world_mouse_x > camera_origin_x + current_cam.viewport_size.x
-				|| world_mouse_y < camera_origin_y
-				|| world_mouse_y > camera_origin_y + current_cam.viewport_size.y);
+		// Only calculate mouse coordinates for relevant events
+		if (this->is_mouse_event(event.event_type)) {
+			this->handle_mouse_event(event, camera_origin, current_cam);
 
-		switch (event.event_type) {
-			case SDLContext::EventType::KEYDOWN:
-				event_mgr.queue_event<KeyPressEvent>(KeyPressEvent{
-					.repeat = event.key_repeat,
-					.key = event.key,
-				});
-				break;
-			case SDLContext::EventType::KEYUP:
-				event_mgr.queue_event<KeyReleaseEvent>(KeyReleaseEvent{
-					.key = event.key,
-				});
-				break;
-			case SDLContext::EventType::MOUSEDOWN:
-				if (!mouse_in_viewport) {
-					break;
-				}
-				event_mgr.queue_event<MousePressEvent>(MousePressEvent{
-					.mouse_x = world_mouse_x,
-					.mouse_y = world_mouse_y,
-					.button = event.mouse_button,
-				});
-				this->last_mouse_down_position = {world_mouse_x, world_mouse_y};
-				this->last_mouse_button = event.mouse_button;
-				break;
-			case SDLContext::EventType::MOUSEUP: {
-				if (!mouse_in_viewport) {
-					break;
-				}
-				event_mgr.queue_event<MouseReleaseEvent>(MouseReleaseEvent{
-					.mouse_x = world_mouse_x,
-					.mouse_y = world_mouse_y,
-					.button = event.mouse_button,
-				});
-				//check if its a click by checking the last button down
-				int delta_x = world_mouse_x - this->last_mouse_down_position.x;
-				int delta_y = world_mouse_y - this->last_mouse_down_position.y;
-
-				if (this->last_mouse_button == event.mouse_button
-					&& std::abs(delta_x) <= click_tolerance
-					&& std::abs(delta_y) <= click_tolerance) {
-					event_mgr.queue_event<MouseClickEvent>(MouseClickEvent{
-						.mouse_x = world_mouse_x,
-						.mouse_y = world_mouse_y,
-						.button = event.mouse_button,
-					});
-
-					this->handle_click(event.mouse_button, world_mouse_x, world_mouse_y);
-				}
-			} break;
-			case SDLContext::EventType::MOUSEMOVE:
-				if (!mouse_in_viewport) {
-					break;
-				}
-				event_mgr.queue_event<MouseMoveEvent>(MouseMoveEvent{
-					.mouse_x = world_mouse_x,
-					.mouse_y = world_mouse_y,
-					.delta_x = event.rel_mouse_move.x,
-					.delta_y = event.rel_mouse_move.y,
-				});
-				this->handle_move(event, world_mouse_x, world_mouse_y);
-				break;
-			case SDLContext::EventType::MOUSEWHEEL:
-				event_mgr.queue_event<MouseScrollEvent>(MouseScrollEvent{
-					.mouse_x = world_mouse_x,
-					.mouse_y = world_mouse_y,
-					.scroll_direction = event.scroll_direction,
-					.scroll_delta = event.scroll_delta,
-				});
-				break;
-			case SDLContext::EventType::SHUTDOWN:
-				event_mgr.queue_event<ShutDownEvent>(ShutDownEvent{});
-				break;
-			default:
-				break;
+		} else {
+			this->handle_non_mouse_event(event);
 		}
 	}
 }
+
+void InputSystem::handle_mouse_event(const SDLContext::EventData & event,
+									 const vec2 & camera_origin, const Camera & current_cam) {
+	EventManager & event_mgr = this->mediator.event_manager;
+	vec2 adjusted_mouse;
+	adjusted_mouse.x = event.data.mouse_data.mouse_position.x + camera_origin.x;
+	adjusted_mouse.x = event.data.mouse_data.mouse_position.y + camera_origin.y;
+	// Check if the mouse is within the viewport
+	if ((adjusted_mouse.x < camera_origin.x
+		 || adjusted_mouse.x > camera_origin.x + current_cam.viewport_size.x
+		 || adjusted_mouse.y < camera_origin.y
+		 || adjusted_mouse.y > camera_origin.y + current_cam.viewport_size.y))
+		return;
+
+	// Handle mouse-specific events
+	switch (event.event_type) {
+		case SDLContext::EventType::MOUSEDOWN:
+			event_mgr.queue_event<MousePressEvent>({
+				.mouse_pos = adjusted_mouse,
+				.button = event.data.mouse_data.mouse_button,
+			});
+			this->last_mouse_down_position = adjusted_mouse;
+			this->last_mouse_button = event.data.mouse_data.mouse_button;
+			break;
+
+		case SDLContext::EventType::MOUSEUP: {
+			event_mgr.queue_event<MouseReleaseEvent>({
+				.mouse_pos = adjusted_mouse,
+				.button = event.data.mouse_data.mouse_button,
+			});
+			vec2 delta_move = adjusted_mouse - this->last_mouse_down_position;
+			int click_tolerance = Config::get_instance().input.click_tolerance;
+			if (this->last_mouse_button == event.data.mouse_data.mouse_button
+				&& std::abs(delta_move.x) <= click_tolerance
+				&& std::abs(delta_move.y) <= click_tolerance) {
+				event_mgr.queue_event<MouseClickEvent>({
+					.mouse_pos = adjusted_mouse,
+					.button = event.data.mouse_data.mouse_button,
+				});
+				this->handle_click(event.data.mouse_data.mouse_button, adjusted_mouse);
+			}
+			break;
+		}
+
+		case SDLContext::EventType::MOUSEMOVE:
+			event_mgr.queue_event<MouseMoveEvent>({
+				.mouse_pos = adjusted_mouse,
+				.mouse_delta = event.data.mouse_data.rel_mouse_move,
+			});
+			this->handle_move(event, adjusted_mouse);
+			break;
+
+		case SDLContext::EventType::MOUSEWHEEL:
+			event_mgr.queue_event<MouseScrollEvent>({
+				.mouse_pos = adjusted_mouse,
+				.scroll_direction = event.data.mouse_data.scroll_direction,
+				.scroll_delta = event.data.mouse_data.scroll_delta,
+			});
+			break;
+
+		default:
+			break;
+	}
+}
+
+void InputSystem::handle_non_mouse_event(const SDLContext::EventData & event) {
+	EventManager & event_mgr = this->mediator.event_manager;
+	switch (event.event_type) {
+		case SDLContext::EventType::KEYDOWN:
+
+			event_mgr.queue_event<KeyPressEvent>(
+				{.repeat = event.data.key_data.key_repeat, .key = event.data.key_data.key});
+			break;
+		case SDLContext::EventType::KEYUP:
+			event_mgr.queue_event<KeyReleaseEvent>({.key = event.data.key_data.key});
+			break;
+		case SDLContext::EventType::SHUTDOWN:
+			event_mgr.queue_event<ShutDownEvent>({});
+			break;
+		case SDLContext::EventType::WINDOW_EXPOSE:
+			event_mgr.queue_event<WindowExposeEvent>({});
+			break;
+		case SDLContext::EventType::WINDOW_RESIZE:
+			event_mgr.queue_event<WindowResizeEvent>(
+				WindowResizeEvent{.dimensions = event.data.window_data.resize_dimension});
+			break;
+		case SDLContext::EventType::WINDOW_MOVE:
+			event_mgr.queue_event<WindowMoveEvent>(
+				{.delta_move = event.data.window_data.move_delta});
+			break;
+		case SDLContext::EventType::WINDOW_MINIMIZE:
+			event_mgr.queue_event<WindowMinimizeEvent>({});
+			break;
+		case SDLContext::EventType::WINDOW_MAXIMIZE:
+			event_mgr.queue_event<WindowMaximizeEvent>({});
+			break;
+		case SDLContext::EventType::WINDOW_FOCUS_GAIN:
+			event_mgr.queue_event<WindowFocusGainEvent>({});
+			break;
+		case SDLContext::EventType::WINDOW_FOCUS_LOST:
+			event_mgr.queue_event<WindowFocusLostEvent>({});
+			break;
+		default:
+			break;
+	}
+}
+
+bool InputSystem::is_mouse_event(SDLContext::EventType event_type) {
+	return (event_type == SDLContext::EventType::MOUSEDOWN
+			|| event_type == SDLContext::EventType::MOUSEUP
+			|| event_type == SDLContext::EventType::MOUSEMOVE
+			|| event_type == SDLContext::EventType::MOUSEWHEEL);
+}
+
 void InputSystem::handle_move(const SDLContext::EventData & event_data,
-							  const int world_mouse_x, const int world_mouse_y) {
+							  const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
 	for (Button & button : buttons) {
+		if (!button.active) continue;
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
 		Transform & transform(transform_vec.front().get());
 
 		bool was_hovering = button.hover;
-		if (button.active
-			&& this->is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
+		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
 			button.hover = true;
-			if (!was_hovering && button.on_mouse_enter) {
+			if (!button.on_mouse_enter) continue;
+			if (!was_hovering) {
 				button.on_mouse_enter();
 			}
 		} else {
 			button.hover = false;
 			// Trigger the on_exit callback if the hover state just changed to false
-			if (was_hovering && button.on_mouse_exit) {
+			if (!button.on_mouse_exit) continue;
+			if (was_hovering) {
 				button.on_mouse_exit();
 			}
 		}
 	}
 }
 
-void InputSystem::handle_click(const MouseButton & mouse_button, const int world_mouse_x,
-							   const int world_mouse_y) {
+void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
 	for (Button & button : buttons) {
+		if (!button.active) continue;
+		if (!button.on_click) continue;
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
 		Transform & transform = transform_vec.front().get();
 
-		if (button.active
-			&& this->is_mouse_inside_button(world_mouse_x, world_mouse_y, button, transform)) {
-			this->handle_button_press(button);
+		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
+
+			button.on_click();
 		}
 	}
 }
 
-bool InputSystem::is_mouse_inside_button(const int mouse_x, const int mouse_y,
-										 const Button & button, const Transform & transform) {
+bool InputSystem::is_mouse_inside_button(const vec2 & mouse_pos, const Button & button,
+										 const Transform & transform) {
 	int actual_x = transform.position.x + button.offset.x;
 	int actual_y = transform.position.y + button.offset.y;
 
@@ -174,17 +216,6 @@ bool InputSystem::is_mouse_inside_button(const int mouse_x, const int mouse_y,
 	int half_height = button.dimensions.y / 2;
 
 	// Check if the mouse is within the button's boundaries
-	return mouse_x >= actual_x - half_width && mouse_x <= actual_x + half_width
-		   && mouse_y >= actual_y - half_height && mouse_y <= actual_y + half_height;
-}
-
-void InputSystem::handle_button_press(Button & button) {
-	if (button.is_toggle) {
-		if (!button.is_pressed && button.on_click) {
-			button.on_click();
-		}
-		button.is_pressed = !button.is_pressed;
-	} else if (button.on_click) {
-		button.on_click();
-	}
+	return mouse_pos.x >= actual_x - half_width && mouse_pos.x <= actual_x + half_width
+		   && mouse_pos.y >= actual_y - half_height && mouse_pos.y <= actual_y + half_height;
 }
