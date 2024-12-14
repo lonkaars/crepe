@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "KeyCodes.h"
+#include "api/KeyCodes.h"
 #include "types.h"
 
 namespace crepe {

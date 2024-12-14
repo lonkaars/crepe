@@ -6,7 +6,6 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
-#include <SDL2/SDL_video.h>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -82,22 +81,18 @@ Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
 	return LOOKUP_TABLE.at(sdl_key);
 }
 
-const keyboard_state_t& SDLContext::get_keyboard_state() const{
-	return this->keyboard_state;
-}
-
-void SDLContext::update_keyboard_state() {
-	// Array to hold the key states (true if pressed, false if not)
+const keyboard_state_t& SDLContext::get_keyboard_state(){
 	SDL_PumpEvents();
 	const Uint8 * current_state = SDL_GetKeyboardState(nullptr);
 
 	for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
+		
 		Keycode key = sdl_to_keycode(static_cast<SDL_Scancode>(i));
-
 		if (key != Keycode::NONE) {
 			this->keyboard_state[key] = current_state[i] != 0;
 		}
 	}
+	return this->keyboard_state;
 }
 
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
@@ -289,7 +284,6 @@ std::vector<EventData> SDLContext::get_events() {
 				event_list.push_back({.event_type = EventType::SHUTDOWN});
 				break;
 			case SDL_KEYDOWN: 
-				this->update_keyboard_state();
 				event_list.push_back(EventData{
 					.event_type = EventType::KEY_DOWN,
 					.data = {
@@ -302,7 +296,6 @@ std::vector<EventData> SDLContext::get_events() {
 				break;
 
 			case SDL_KEYUP:
-				this->update_keyboard_state();
 				event_list.push_back(EventData{
 					.event_type = EventType::KEY_UP,
 					.data = {
