@@ -18,28 +18,6 @@
 using namespace crepe;
 using namespace std;
 
-/*
-	auto & test = game_object.add_component<ParticleEmitter>(ParticleEmitter::Data{
-		.position = {0, 0},
-		.max_particles = 10,
-		.emission_rate = 0.1,
-		.min_speed = 6,
-		.max_speed = 20,
-		.min_angle = -20,
-		.max_angle = 20,
-		.begin_lifespan = 0,
-		.end_lifespan = 60,
-		.force_over_time = vec2{0, 0},
-		.boundary{
-			.width = 1000,
-			.height = 1000,
-			.offset = vec2{0, 0},
-			.reset_on_exit = false,
-		},
-		.sprite = test_sprite,
-	});
-	*/
-
 class TestScene : public Scene {
 public:
 	void load_scene() {
