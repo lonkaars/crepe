@@ -39,7 +39,7 @@ public:
 	 * \brief Get the scene's name
 	 * \return The scene's name
 	 */
-	virtual std::string get_name() const { return ""; };
+	virtual std::string get_name() const { return "hoi"; };
 
 	// TODO: Late references should ALWAYS be private! This is currently kept as-is so unit tests
 	// keep passing, but this reference should not be directly accessible by the user!!!

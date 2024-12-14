@@ -25,7 +25,6 @@ class PlayerController : public Script {
 };
 
 class DemoScene : public Scene {
-	string get_name() const override { return "DemoScene"; }
 	void load_scene() override {
 		GameObject camera = new_object("camera");
 		camera.add_component<Camera>(vec2{10, 10}, Camera::Data{
@@ -54,9 +53,7 @@ class DemoScene : public Scene {
 				.size = { 1, 1 },
 			}
 		);
-		player.add_component<Rigidbody>(Rigidbody::Data{
-			.elastisity_coefficient = 0.66,
-		});
+		player.add_component<Rigidbody>(Rigidbody::Data{ });
 		player.add_component<BoxCollider>(player_sprite.data.size);
 		player.add_component<BehaviorScript>().set_script<PlayerController>();
 	}
