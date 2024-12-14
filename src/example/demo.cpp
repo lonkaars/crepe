@@ -5,6 +5,8 @@
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Config.h>
+#include <crepe/api/ParticleEmitter.h>
+#include <crepe/api/Event.h>
 
 using namespace crepe;
 using namespace std;
@@ -13,11 +15,12 @@ class PlayerController : public Script {
 	void update() {
 		Rigidbody & body = get_component<Rigidbody>();
 
-		if (get_key_state(Keycode::SPACE)) {
+		if (get_key_state(Keycode::SPACE))
 			body.add_force_linear({ 0, -1 });
-		}
 
-		logf("linear_velocity = {}", body.data.linear_velocity);
+		body.data.linear_velocity.x =
+			-5 * get_key_state(Keycode::A)
+			+ 5 * get_key_state(Keycode::D);
 	}
 };
 
@@ -51,7 +54,9 @@ class DemoScene : public Scene {
 				.size = { 1, 1 },
 			}
 		);
-		player.add_component<Rigidbody>(Rigidbody::Data{});
+		player.add_component<Rigidbody>(Rigidbody::Data{
+			.elastisity_coefficient = 0.66,
+		});
 		player.add_component<BoxCollider>(player_sprite.data.size);
 		player.add_component<BehaviorScript>().set_script<PlayerController>();
 	}
