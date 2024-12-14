@@ -21,7 +21,8 @@ int main() {
 		std::unique_ptr<Font> font = std::make_unique<Font>(asset, mediator);
 		// Get the TTF_Font from the Font object
 		TTF_Font* ttf_font = font->get_font();
-
+		//example if the asset is not correct for font
+		//std::unique_ptr<Font> fontThrow = std::make_unique<Font>(Asset("../help.txt"), mediator);
 		// Check if the font is loaded properly
 		if (ttf_font != nullptr) {
 			std::cout << "Font successfully loaded!" << std::endl;

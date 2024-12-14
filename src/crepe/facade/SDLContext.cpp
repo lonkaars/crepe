@@ -7,6 +7,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_video.h>
+#include <SDL2/SDL_ttf.h>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -75,8 +76,8 @@ SDLContext::~SDLContext() {
 	// thread that SDL_Init() was called on? This has caused problems for me
 	// before.
 	IMG_Quit();
-	SDL_Quit();
 	TTF_Quit();
+	SDL_Quit();
 }
 
 Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
