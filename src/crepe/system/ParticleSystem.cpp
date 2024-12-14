@@ -48,7 +48,7 @@ void ParticleSystem::update() {
 void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & transform) {
 	constexpr float DEG_TO_RAD = M_PI / 180.0;
 
-	vec2 initial_position = emitter.data.position + transform.position;
+	vec2 initial_position = emitter.data.offset + transform.position;
 	float random_angle
 		= this->generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
 
@@ -69,7 +69,7 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & 
 }
 
 void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & transform) {
-	vec2 offset = emitter.data.boundary.offset + transform.position + emitter.data.position;
+	vec2 offset = emitter.data.boundary.offset + transform.position + emitter.data.offset;
 	float half_width = emitter.data.boundary.width / 2.0;
 	float half_height = emitter.data.boundary.height / 2.0;
 
