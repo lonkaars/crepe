@@ -13,6 +13,7 @@
 #include <crepe/api/Camera.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Metadata.h>
+#include <crepe/facade/SDLContext.h>
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
 #include <gmock/gmock.h>

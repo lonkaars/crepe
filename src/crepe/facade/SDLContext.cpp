@@ -76,13 +76,16 @@ SDLContext::~SDLContext() {
 }
 
 Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
-	auto it = LOOKUP_TABLE.find(sdl_key);
-	if (it != LOOKUP_TABLE.end()) {
-		return it->second;
-	}
+	if (!LOOKUP_TABLE.contains(sdl_key)) 
+		return Keycode::NONE;
 
-	return Keycode::NONE;
+	return LOOKUP_TABLE.at(sdl_key);
 }
+
+const keyboard_state_t& SDLContext::get_keyboard_state() const{
+	return this->keyboard_state;
+}
+
 void SDLContext::update_keyboard_state() {
 	// Array to hold the key states (true if pressed, false if not)
 	SDL_PumpEvents();
@@ -273,8 +276,8 @@ ivec2 SDLContext::get_size(const Texture & ctx) {
 	return size;
 }
 
-std::vector<SDLContext::EventData> SDLContext::get_events() {
-	std::vector<SDLContext::EventData> event_list;
+std::vector<EventData> SDLContext::get_events() {
+	std::vector<EventData> event_list;
 	SDL_Event event;
 	const CameraAuxiliaryData & cam = this->cam_aux_data;
 	while (SDL_PollEvent(&event)) {
@@ -283,77 +286,83 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 		mouse_pos.y = (event.button.y - cam.bar_size.y) / cam.render_scale.y;
 		switch (event.type) {
 			case SDL_QUIT:
-				event_list.push_back({.event_type = SDLContext::EventType::SHUTDOWN});
+				event_list.push_back({.event_type = EventType::SHUTDOWN});
 				break;
-			case SDL_KEYDOWN: {
+			case SDL_KEYDOWN: 
 				this->update_keyboard_state();
-				EventData transfer_event;
-				transfer_event.event_type = SDLContext::EventType::KEYDOWN;
-				transfer_event.data.key_data = KeyData{
-					.key = sdl_to_keycode(event.key.keysym.scancode),
-					.key_repeat = event.key.repeat != 0,
-				};
-				event_list.push_back(transfer_event);
+				event_list.push_back(EventData{
+					.event_type = EventType::KEY_DOWN,
+					.data = {
+						.key_data = {
+							.key = this->sdl_to_keycode(event.key.keysym.scancode),
+							.key_repeat = event.key.repeat != 0,
+						},
+					},
+				});
 				break;
-			}
 
-			case SDL_KEYUP: {
+			case SDL_KEYUP:
 				this->update_keyboard_state();
-				EventData transfer_event;
-				transfer_event.event_type = SDLContext::EventType::KEYUP;
-				transfer_event.data.key_data = KeyData{
-					.key = sdl_to_keycode(event.key.keysym.scancode),
-					.key_repeat = false,
-				};
-				event_list.push_back(transfer_event);
+				event_list.push_back(EventData{
+					.event_type = EventType::KEY_UP,
+					.data = {
+						.key_data = {
+							.key = this->sdl_to_keycode(event.key.keysym.scancode),
+							.key_repeat = event.key.repeat != 0,
+						},
+					},
+				});
 				break;
-			}
 
-			case SDL_MOUSEBUTTONDOWN: {
-				EventData transfer_event;
-				transfer_event.event_type = SDLContext::EventType::MOUSEDOWN;
-				transfer_event.data.mouse_data = MouseData{
-					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = mouse_pos,
-				};
-				event_list.push_back(transfer_event);
+			case SDL_MOUSEBUTTONDOWN:
+				event_list.push_back(EventData{
+					.event_type = EventType::MOUSE_DOWN,
+					.data = {
+						.mouse_data = {
+							.mouse_button = this->sdl_to_mousebutton(event.button.button),
+							.mouse_position = mouse_pos,
+						},
+					},
+				});
 				break;
-			}
-			case SDL_MOUSEBUTTONUP: {
-				EventData transfer_event;
-				transfer_event.event_type = SDLContext::EventType::MOUSEUP;
-				transfer_event.data.mouse_data = MouseData{
-					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = mouse_pos,
-				};
-				event_list.push_back(transfer_event);
+			case SDL_MOUSEBUTTONUP:
+				event_list.push_back(EventData{
+					.event_type = EventType::MOUSE_UP,
+					.data = {
+						.mouse_data = {
+							.mouse_button = this->sdl_to_mousebutton(event.button.button),
+							.mouse_position = mouse_pos,
+						},
+					},
+				});
 				break;
-			}
 
-			case SDL_MOUSEMOTION: {
-				EventData transfer_event;
-				transfer_event.event_type = SDLContext::EventType::MOUSEMOVE;
-				transfer_event.data.mouse_data = MouseData{
-					.mouse_position = mouse_pos,
-					.rel_mouse_move = {event.motion.xrel, event.motion.yrel},
-				};
-				event_list.push_back(transfer_event);
+			case SDL_MOUSEMOTION:
+				event_list.push_back(EventData{
+					.event_type = EventType::MOUSE_MOVE,
+					.data = {
+						.mouse_data = {
+							.mouse_position = mouse_pos,
+							.rel_mouse_move = {event.motion.xrel, event.motion.yrel},
+						},
+					},
+				});
 				break;
-			}
 
-			case SDL_MOUSEWHEEL: {
-				EventData transfer_event;
-				transfer_event.event_type = SDLContext::EventType::MOUSEWHEEL;
-				transfer_event.data.mouse_data = MouseData{
-					.mouse_position = mouse_pos,
-					.scroll_direction = event.wheel.y < 0 ? -1 : 1,
-					.scroll_delta = event.wheel.preciseY,
-				};
-				event_list.push_back(transfer_event);
+			case SDL_MOUSEWHEEL:
+				event_list.push_back(EventData{
+					.event_type = EventType::MOUSE_WHEEL,
+					.data = {
+						.mouse_data = {
+							.mouse_position = mouse_pos,
+							.scroll_direction = event.wheel.y < 0 ? -1 : 1,
+							.scroll_delta = event.wheel.preciseY,
+						},
+					},
+				});
 				break;
-			}
 			case SDL_WINDOWEVENT:
-				handle_window_event(event.window, event_list);
+				this->handle_window_event(event.window, event_list);
 				break;
 		}
 	}
@@ -362,38 +371,43 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 }
 
 void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
-									 std::vector<SDLContext::EventData> & event_list) {
+									 std::vector<EventData> & event_list) {
 	switch (window_event.event) {
 		case SDL_WINDOWEVENT_EXPOSED:
-			event_list.push_back(EventData{SDLContext::EventType::WINDOW_EXPOSE});
+			event_list.push_back(EventData{EventType::WINDOW_EXPOSE});
 			break;
-		case SDL_WINDOWEVENT_RESIZED: {
-			EventData transfer_event;
-			transfer_event.event_type = SDLContext::EventType::WINDOW_RESIZE;
-			transfer_event.data.window_data
-				= WindowData{.resize_dimension = {window_event.data1, window_event.data2}};
-			event_list.push_back(transfer_event);
+		case SDL_WINDOWEVENT_RESIZED:
+			event_list.push_back(EventData{
+					.event_type = EventType::WINDOW_RESIZE,
+					.data = {
+						.window_data = {
+							.resize_dimension = {window_event.data1, window_event.data2}
+						},
+					},
+				});
 			break;
-		}
-		case SDL_WINDOWEVENT_MOVED: {
-			EventData transfer_event;
-			transfer_event.event_type = SDLContext::EventType::WINDOW_MOVE;
-			transfer_event.data.window_data
-				= WindowData{.move_delta = {window_event.data1, window_event.data2}};
-			event_list.push_back(transfer_event);
+		case SDL_WINDOWEVENT_MOVED:
+			event_list.push_back(EventData{
+					.event_type = EventType::WINDOW_MOVE,
+					.data = {
+						.window_data = {
+							.move_delta = {window_event.data1, window_event.data2}
+						},
+					},
+				});
 			break;
-		}
+
 		case SDL_WINDOWEVENT_MINIMIZED:
-			event_list.push_back(EventData{SDLContext::EventType::WINDOW_MINIMIZE});
+			event_list.push_back(EventData{EventType::WINDOW_MINIMIZE});
 			break;
 		case SDL_WINDOWEVENT_MAXIMIZED:
-			event_list.push_back(EventData{SDLContext::EventType::WINDOW_MAXIMIZE});
+			event_list.push_back(EventData{EventType::WINDOW_MAXIMIZE});
 			break;
 		case SDL_WINDOWEVENT_FOCUS_GAINED:
-			event_list.push_back(EventData{SDLContext::EventType::WINDOW_FOCUS_GAIN});
+			event_list.push_back(EventData{EventType::WINDOW_FOCUS_GAIN});
 			break;
 		case SDL_WINDOWEVENT_FOCUS_LOST:
-			event_list.push_back(EventData{SDLContext::EventType::WINDOW_FOCUS_LOST});
+			event_list.push_back(EventData{EventType::WINDOW_FOCUS_LOST});
 			break;
 	}
 }

@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 namespace crepe {
+
 //! Enumeration for mouse button inputs, including standard and extended buttons.
 enum class MouseButton {
 	NONE = 0, //!< No mouse button input.
@@ -154,5 +155,6 @@ enum class Keycode {
 	/// \}
 	MENU = 348, //!< Menu key.
 };
-
+//! Typedef for keyboard state.
+typedef std::unordered_map<Keycode, bool> keyboard_state_t;
 } // namespace crepe

@@ -17,11 +17,11 @@
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
+#include "../types.h"
 
-#include "types.h"
+#include "EventData.h"
 
 namespace crepe {
-
 class Texture;
 class Mediator;
 
@@ -71,61 +71,7 @@ public:
 	};
 
 public:
-	//! EventType enum for passing eventType
-	enum EventType {
-		NONE = 0,
-		MOUSEDOWN,
-		MOUSEUP,
-		MOUSEMOVE,
-		MOUSEWHEEL,
-		KEYUP,
-		KEYDOWN,
-		SHUTDOWN,
-		WINDOW_MINIMIZE,
-		WINDOW_MAXIMIZE,
-		WINDOW_FOCUS_GAIN,
-		WINDOW_FOCUS_LOST,
-		WINDOW_MOVE,
-		WINDOW_RESIZE,
-		WINDOW_EXPOSE,
-	};
-	struct KeyData {
-		Keycode key = Keycode::NONE;
-		bool key_repeat = false;
-	};
-	struct MouseData {
-		MouseButton mouse_button = MouseButton::NONE;
-		ivec2 mouse_position = {-1, -1};
-		int scroll_direction = -1;
-		float scroll_delta = INFINITY;
-		ivec2 rel_mouse_move = {-1, -1};
-	};
-	struct WindowData {
-		ivec2 move_delta;
-		ivec2 resize_dimension;
-	};
-	//! EventData struct for passing event data from facade
-	struct EventData {
-		SDLContext::EventType event_type = SDLContext::EventType::NONE;
-
-		union EventDataUnion {
-			KeyData key_data;
-			MouseData mouse_data;
-			WindowData window_data;
-
-			EventDataUnion() {}
-			~EventDataUnion() {}
-		} data;
-	};
-	/**
-	 * \brief Retrieves the current state of the keyboard.
-	 *
-	 * This method updates the state of all keys on the keyboard. Each element of the unordered map corresponds to a
-	 * specific key defined in the `Keycode` enum, and the value indicates whether
-	 * the key is currently pressed (true) or not pressed (false).
-	 * 
-	 */
-	void update_keyboard_state();
+	
 	/**
 	 * \brief Gets the singleton instance of SDLContext.
 	 * \return Reference to the SDLContext instance.
@@ -161,7 +107,7 @@ public:
 	 *
 	 * \return Events that occurred since last call to `get_events()`
 	 */
-	std::vector<SDLContext::EventData> get_events();
+	std::vector<EventData> get_events();
 	/**
 	 * \brief Fills event_list with triggered window events
 	 *
@@ -169,7 +115,7 @@ public:
 	 *
 	 */
 	void handle_window_event(const SDL_WindowEvent & window_event,
-							 std::vector<SDLContext::EventData> & event_list);
+							 std::vector<EventData> & event_list);
 	/**
 	 * \brief Converts an SDL scan code to the custom Keycode type.
 	 *
@@ -191,7 +137,8 @@ public:
 	 * \return The corresponding `MouseButton` value or `MouseButton::NONE` if the key is unrecognized
 	 */
 	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
-
+	const keyboard_state_t& get_keyboard_state() const;
+	
 public:
 	/**
 	 * \brief Gets the current SDL ticks since the program started.
@@ -288,7 +235,18 @@ private:
 	CameraAuxiliaryData cam_aux_data;
 
 private:
-	std::unordered_map<Keycode, bool> keyboard_state;
+	/**
+	 * \brief Retrieves the current state of the keyboard.
+	 *
+	 * This method updates the state of all keys on the keyboard. Each element of the unordered map corresponds to a
+	 * specific key defined in the `Keycode` enum, and the value indicates whether
+	 * the key is currently pressed (true) or not pressed (false).
+	 * 
+	 */
+	void update_keyboard_state();
+	//! variable to store the state of each key (true = pressed, false = not pressed)
+	keyboard_state_t keyboard_state;
+	//! lookup table for converting SDL_SCANCODES to Keycodes
 	const std::unordered_map<SDL_Scancode, Keycode> LOOKUP_TABLE
 		= {{SDL_SCANCODE_SPACE, Keycode::SPACE},
 		   {SDL_SCANCODE_APOSTROPHE, Keycode::APOSTROPHE},

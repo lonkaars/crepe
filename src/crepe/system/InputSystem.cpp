@@ -1,7 +1,7 @@
 #include "../api/Button.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/EventManager.h"
-#include "facade/SDLContext.h"
+#include "../facade/SDLContext.h"
 #include "util/Log.h"
 
 #include "InputSystem.h"
@@ -12,7 +12,7 @@ void InputSystem::update() {
 	ComponentManager & mgr = this->mediator.component_manager;
 
 	SDLContext & context = this->mediator.sdl_context;
-	std::vector<SDLContext::EventData> event_list = context.get_events();
+	std::vector<EventData> event_list = context.get_events();
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 	OptionalRef<Camera> curr_cam_ref;
@@ -33,9 +33,12 @@ void InputSystem::update() {
 	vec2 camera_origin = cam_transform.position + current_cam.data.postion_offset
 						 - (current_cam.viewport_size / 2);
 
-	for (const SDLContext::EventData & event : event_list) {
+	for (const EventData & event : event_list) {
 		// Only calculate mouse coordinates for relevant events
-		if (this->is_mouse_event(event.event_type)) {
+		if (event.event_type == EventType::MOUSE_DOWN
+			|| event.event_type == EventType::MOUSE_UP
+			|| event.event_type == EventType::MOUSE_MOVE
+			|| event.event_type == EventType::MOUSE_WHEEL) {
 			this->handle_mouse_event(event, camera_origin, current_cam);
 
 		} else {
@@ -44,7 +47,7 @@ void InputSystem::update() {
 	}
 }
 
-void InputSystem::handle_mouse_event(const SDLContext::EventData & event,
+void InputSystem::handle_mouse_event(const EventData & event,
 									 const vec2 & camera_origin, const Camera & current_cam) {
 	EventManager & event_mgr = this->mediator.event_manager;
 	vec2 adjusted_mouse;
@@ -59,7 +62,7 @@ void InputSystem::handle_mouse_event(const SDLContext::EventData & event,
 
 	// Handle mouse-specific events
 	switch (event.event_type) {
-		case SDLContext::EventType::MOUSEDOWN:
+		case EventType::MOUSE_DOWN:
 			event_mgr.queue_event<MousePressEvent>({
 				.mouse_pos = adjusted_mouse,
 				.button = event.data.mouse_data.mouse_button,
@@ -68,7 +71,7 @@ void InputSystem::handle_mouse_event(const SDLContext::EventData & event,
 			this->last_mouse_button = event.data.mouse_data.mouse_button;
 			break;
 
-		case SDLContext::EventType::MOUSEUP: {
+		case EventType::MOUSE_UP: {
 			event_mgr.queue_event<MouseReleaseEvent>({
 				.mouse_pos = adjusted_mouse,
 				.button = event.data.mouse_data.mouse_button,
@@ -87,7 +90,7 @@ void InputSystem::handle_mouse_event(const SDLContext::EventData & event,
 			break;
 		}
 
-		case SDLContext::EventType::MOUSEMOVE:
+		case EventType::MOUSE_MOVE:
 			event_mgr.queue_event<MouseMoveEvent>({
 				.mouse_pos = adjusted_mouse,
 				.mouse_delta = event.data.mouse_data.rel_mouse_move,
@@ -95,7 +98,7 @@ void InputSystem::handle_mouse_event(const SDLContext::EventData & event,
 			this->handle_move(event, adjusted_mouse);
 			break;
 
-		case SDLContext::EventType::MOUSEWHEEL:
+		case EventType::MOUSE_WHEEL:
 			event_mgr.queue_event<MouseScrollEvent>({
 				.mouse_pos = adjusted_mouse,
 				.scroll_direction = event.data.mouse_data.scroll_direction,
@@ -108,41 +111,41 @@ void InputSystem::handle_mouse_event(const SDLContext::EventData & event,
 	}
 }
 
-void InputSystem::handle_non_mouse_event(const SDLContext::EventData & event) {
+void InputSystem::handle_non_mouse_event(const EventData & event) {
 	EventManager & event_mgr = this->mediator.event_manager;
 	switch (event.event_type) {
-		case SDLContext::EventType::KEYDOWN:
+		case EventType::KEY_DOWN:
 
 			event_mgr.queue_event<KeyPressEvent>(
 				{.repeat = event.data.key_data.key_repeat, .key = event.data.key_data.key});
 			break;
-		case SDLContext::EventType::KEYUP:
+		case EventType::KEY_UP:
 			event_mgr.queue_event<KeyReleaseEvent>({.key = event.data.key_data.key});
 			break;
-		case SDLContext::EventType::SHUTDOWN:
+		case EventType::SHUTDOWN:
 			event_mgr.queue_event<ShutDownEvent>({});
 			break;
-		case SDLContext::EventType::WINDOW_EXPOSE:
+		case EventType::WINDOW_EXPOSE:
 			event_mgr.queue_event<WindowExposeEvent>({});
 			break;
-		case SDLContext::EventType::WINDOW_RESIZE:
+		case EventType::WINDOW_RESIZE:
 			event_mgr.queue_event<WindowResizeEvent>(
 				WindowResizeEvent{.dimensions = event.data.window_data.resize_dimension});
 			break;
-		case SDLContext::EventType::WINDOW_MOVE:
+		case EventType::WINDOW_MOVE:
 			event_mgr.queue_event<WindowMoveEvent>(
 				{.delta_move = event.data.window_data.move_delta});
 			break;
-		case SDLContext::EventType::WINDOW_MINIMIZE:
+		case EventType::WINDOW_MINIMIZE:
 			event_mgr.queue_event<WindowMinimizeEvent>({});
 			break;
-		case SDLContext::EventType::WINDOW_MAXIMIZE:
+		case EventType::WINDOW_MAXIMIZE:
 			event_mgr.queue_event<WindowMaximizeEvent>({});
 			break;
-		case SDLContext::EventType::WINDOW_FOCUS_GAIN:
+		case EventType::WINDOW_FOCUS_GAIN:
 			event_mgr.queue_event<WindowFocusGainEvent>({});
 			break;
-		case SDLContext::EventType::WINDOW_FOCUS_LOST:
+		case EventType::WINDOW_FOCUS_LOST:
 			event_mgr.queue_event<WindowFocusLostEvent>({});
 			break;
 		default:
@@ -150,14 +153,8 @@ void InputSystem::handle_non_mouse_event(const SDLContext::EventData & event) {
 	}
 }
 
-bool InputSystem::is_mouse_event(SDLContext::EventType event_type) {
-	return (event_type == SDLContext::EventType::MOUSEDOWN
-			|| event_type == SDLContext::EventType::MOUSEUP
-			|| event_type == SDLContext::EventType::MOUSEMOVE
-			|| event_type == SDLContext::EventType::MOUSEWHEEL);
-}
 
-void InputSystem::handle_move(const SDLContext::EventData & event_data,
+void InputSystem::handle_move(const EventData & event_data,
 							  const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
 
