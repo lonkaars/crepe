@@ -17,13 +17,13 @@ Asset SDLFontContext::get_font_asset(const string font_family) {
 
 	// Create a pattern to search for the font family
 	FcPattern * pattern = FcNameParse(reinterpret_cast<const FcChar8 *>(font_family.c_str()));
-	if (!pattern) {
+	if (pattern == NULL) {
 		throw runtime_error("Failed to create font pattern.");
 	}
 
 	// Default configuration
 	FcConfig * config = FcConfigGetCurrent();
-	if (!config) {
+	if (config == NULL) {
 		FcPatternDestroy(pattern);
 		throw runtime_error("Failed to get current Fontconfig configuration.");
 	}
@@ -33,7 +33,7 @@ Asset SDLFontContext::get_font_asset(const string font_family) {
 	FcPattern * matched_pattern = FcFontMatch(config, pattern, &result);
 	FcPatternDestroy(pattern);
 
-	if (!matched_pattern) {
+	if (matched_pattern == NULL) {
 		FcPatternDestroy(matched_pattern);
 		throw runtime_error("No matching font found.");
 	}
@@ -41,7 +41,7 @@ Asset SDLFontContext::get_font_asset(const string font_family) {
 	// Extract the file path
 	FcChar8 * file_path = nullptr;
 	if (FcPatternGetString(matched_pattern, FC_FILE, 0, &file_path) != FcResultMatch
-		|| !file_path) {
+		|| file_path == NULL) {
 		FcPatternDestroy(matched_pattern);
 		throw runtime_error("Failed to get font file path.");
 	}
