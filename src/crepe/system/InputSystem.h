@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../api/Config.h"
-#include "../facade/SDLContext.h"
+#include "../facade/EventData.h"
+
 #include "../types.h"
 #include "../util/OptionalRef.h"
 
@@ -12,7 +13,6 @@ namespace crepe {
 class Camera;
 class Button;
 class Transform;
-
 /**
  * \brief Handles the processing of input events created by SDLContext
  *
@@ -38,12 +38,6 @@ private:
 	//! Stores the last mouse button pressed.
 	MouseButton last_mouse_button = MouseButton::NONE;
 	/**
-	 * \brief Determines whether the given event type is a mouse event.
-	 * \param event_type The event type to check.
-	 * \return True if the event type corresponds to a mouse event, false otherwise.
-	 */
-	bool is_mouse_event(SDLContext::EventType event_type);
-	/**
 	 * \brief Handles mouse-related events.
 	 * \param event The event data for the mouse event.
 	 * \param camera_origin The origin position of the camera in world space.
@@ -52,7 +46,7 @@ private:
 	 * This method processes mouse events, adjusts the mouse position to world coordinates,
 	 * and triggers the appropriate mouse-specific event handling logic.
 	 */
-	void handle_mouse_event(const SDLContext::EventData & event, const vec2 & camera_origin,
+	void handle_mouse_event(const EventData & event, const vec2 & camera_origin,
 							const Camera & current_cam);
 	/**
 	 * \brief Handles non-mouse-related events.
@@ -61,7 +55,7 @@ private:
 	 * This method processes events that do not involve the mouse, such as keyboard events,
 	 * window events, and shutdown events, and triggers the corresponding event actions.
 	 */
-	void handle_non_mouse_event(const SDLContext::EventData & event);
+	void handle_non_mouse_event(const EventData & event);
 	/**
 	* \brief Handles the mouse click event.
 	* \param mouse_button The mouse button involved in the click.
@@ -80,7 +74,7 @@ private:
 	*
 	* This method processes the mouse movement event and updates the button hover state.
 	*/
-	void handle_move(const SDLContext::EventData & event_data, const vec2 & mouse_pos);
+	void handle_move(const EventData & event_data, const vec2 & mouse_pos);
 
 	/**
 	* \brief Checks if the mouse position is inside the bounds of the button.

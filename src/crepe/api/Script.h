@@ -6,6 +6,7 @@
 #include "../manager/Mediator.h"
 #include "../system/CollisionSystem.h"
 #include "../types.h"
+#include "../api/KeyCodes.h"
 #include "../util/OptionalRef.h"
 
 namespace crepe {
@@ -134,7 +135,14 @@ protected:
 
 	//! Retrieve SaveManager reference
 	SaveManager & get_save_manager() const;
-
+	/**
+	 * \brief Utility function to retrieve the keyboard state
+	 * \see SDLContext::get_keyboard_state
+	 * 
+	 * \return current keyboard state map with Keycode as key and bool as value(true = pressed, false = not pressed)
+	 * 
+	 */
+	const keyboard_state_t& get_keyboard_state() const;
 	//! \}
 
 private:
