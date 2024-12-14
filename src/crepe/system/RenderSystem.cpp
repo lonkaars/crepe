@@ -10,20 +10,29 @@
 #include "../api/Sprite.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
+#include "../facade/Texture.h"
 #include "../manager/ComponentManager.h"
+#include "../manager/ResourceManager.h"
 
 #include "RenderSystem.h"
+#include "types.h"
 
 using namespace crepe;
 using namespace std;
 
-void RenderSystem::clear_screen() { this->context.clear_screen(); }
+void RenderSystem::clear_screen() {
+	SDLContext & ctx = this->mediator.sdl_context;
+	ctx.clear_screen();
+}
 
-void RenderSystem::present_screen() { this->context.present_screen(); }
+void RenderSystem::present_screen() {
+	SDLContext & ctx = this->mediator.sdl_context;
+	ctx.present_screen();
+}
 
-const Camera & RenderSystem::update_camera() {
+void RenderSystem::update_camera() {
 	ComponentManager & mgr = this->mediator.component_manager;
-
+	SDLContext & ctx = this->mediator.sdl_context;
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 
 	if (cameras.size() == 0) throw std::runtime_error("No cameras in current scene");
@@ -32,16 +41,18 @@ const Camera & RenderSystem::update_camera() {
 		if (!cam.active) continue;
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(cam.game_object_id).front().get();
-		this->context.set_camera(cam);
-		this->cam_pos = transform.position + cam.offset;
-		return cam;
+		vec2 new_camera_pos = transform.position + cam.data.postion_offset;
+		ctx.update_camera_view(cam, new_camera_pos);
+		return;
 	}
 	throw std::runtime_error("No active cameras in current scene");
 }
 
 bool sorting_comparison(const Sprite & a, const Sprite & b) {
-	if (a.sorting_in_layer < b.sorting_in_layer) return true;
-	if (a.sorting_in_layer == b.sorting_in_layer) return a.order_in_layer < b.order_in_layer;
+	if (a.data.sorting_in_layer != b.data.sorting_in_layer)
+		return a.data.sorting_in_layer < b.data.sorting_in_layer;
+	if (a.data.order_in_layer != b.data.order_in_layer)
+		return a.data.order_in_layer < b.data.order_in_layer;
 
 	return false;
 }
@@ -59,10 +70,12 @@ void RenderSystem::update() {
 	this->present_screen();
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const Camera & cam,
-								   const double & scale) {
+bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
 
 	ComponentManager & mgr = this->mediator.component_manager;
+	SDLContext & ctx = this->mediator.sdl_context;
+	ResourceManager & resource_manager = this->mediator.resource_manager;
+	Texture & res = resource_manager.get<Texture>(sprite.source);
 
 	vector<reference_wrapper<ParticleEmitter>> emitters
 		= mgr.get_components_by_id<ParticleEmitter>(sprite.game_object_id);
@@ -77,10 +90,9 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Camera & cam,
 		for (const Particle & p : em.data.particles) {
 			if (!p.active) continue;
 
-			this->context.draw(SDLContext::RenderContext{
+			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,
-				.cam = cam,
-				.cam_pos = this->cam_pos,
+				.texture = res,
 				.pos = p.position,
 				.angle = p.angle,
 				.scale = scale,
@@ -89,12 +101,14 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Camera & cam,
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const Camera & cam,
-								 const Transform & tm) {
-	this->context.draw(SDLContext::RenderContext{
+void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
+	SDLContext & ctx = this->mediator.sdl_context;
+	ResourceManager & resource_manager = this->mediator.resource_manager;
+	const Texture & res = resource_manager.get<Texture>(sprite.source);
+
+	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
-		.cam = cam,
-		.cam_pos = this->cam_pos,
+		.texture = res,
 		.pos = tm.position,
 		.angle = tm.rotation,
 		.scale = tm.scale,
@@ -103,7 +117,7 @@ void RenderSystem::render_normal(const Sprite & sprite, const Camera & cam,
 
 void RenderSystem::render() {
 	ComponentManager & mgr = this->mediator.component_manager;
-	const Camera & cam = this->update_camera();
+	this->update_camera();
 
 	RefVector<Sprite> sprites = mgr.get_components_by_type<Sprite>();
 	RefVector<Sprite> sorted_sprites = this->sort(sprites);
@@ -113,10 +127,10 @@ void RenderSystem::render() {
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
-		bool rendered_particles = this->render_particle(sprite, cam, transform.scale);
+		bool rendered_particles = this->render_particle(sprite, transform.scale);
 
 		if (rendered_particles) continue;
 
-		this->render_normal(sprite, cam, transform);
+		this->render_normal(sprite, transform);
 	}
 }
