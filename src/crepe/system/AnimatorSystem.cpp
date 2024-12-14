@@ -19,6 +19,7 @@ void AnimatorSystem::update() {
 
 	for (Animator & a : animations) {
 		if (!a.active) continue;
+		if (a.data.fps == 0) continue;
 
 		Animator::Data & ctx = a.data;
 		float frame_duration = 1.0f / ctx.fps;
