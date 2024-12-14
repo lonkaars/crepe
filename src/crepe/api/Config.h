@@ -45,8 +45,12 @@ struct Config final {
 
 	//! Physics-related settings
 	struct physics { // NOLINT
-		//! Gravity value of physics system
-		double gravity = 1;
+		/**
+		 * \brief gravity value of physics system
+		 *
+		 * Gravity value of game.
+		 */
+		float gravity = 10;
 	} physics;
 
 	//! Default window settings

@@ -1,3 +1,4 @@
+#include "system/RenderSystem.h"
 #include <gtest/gtest.h>
 #define protected public
 #define private public
@@ -27,15 +28,20 @@ public:
 	SDLContext sdl_context{mediator};
 
 	InputSystem input_system{mediator};
-
-	EventManager & event_manager = EventManager::get_instance();
+	RenderSystem render{mediator};
+	EventManager event_manager{mediator};
 	//GameObject camera;
 
 protected:
 	void SetUp() override {
-		mediator.event_manager = event_manager;
-		mediator.component_manager = mgr;
-		event_manager.clear();
+		GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+		auto & camera
+			= obj.add_component<Camera>(ivec2{500, 500}, vec2{500, 500},
+										Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+		render.update();
+		//mediator.event_manager = event_manager;
+		//mediator.component_manager = mgr;
+		//event_manager.clear();
 	}
 
 	void simulate_mouse_click(int mouse_x, int mouse_y, Uint8 mouse_button) {
@@ -60,10 +66,6 @@ protected:
 };
 
 TEST_F(InputTest, MouseDown) {
-	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
-	auto & camera = obj.add_component<Camera>(
-		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-	camera.active = true;
 	bool mouse_triggered = false;
 	EventHandler<MousePressEvent> on_mouse_down = [&](const MousePressEvent & event) {
 		mouse_triggered = true;
@@ -90,10 +92,6 @@ TEST_F(InputTest, MouseDown) {
 }
 
 TEST_F(InputTest, MouseUp) {
-	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
-	auto & camera = obj.add_component<Camera>(
-		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-	camera.active = true;
 	bool function_triggered = false;
 	EventHandler<MouseReleaseEvent> on_mouse_release = [&](const MouseReleaseEvent & e) {
 		function_triggered = true;
@@ -118,10 +116,6 @@ TEST_F(InputTest, MouseUp) {
 }
 
 TEST_F(InputTest, MouseMove) {
-	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
-	auto & camera = obj.add_component<Camera>(
-		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-	camera.active = true;
 	bool function_triggered = false;
 	EventHandler<MouseMoveEvent> on_mouse_move = [&](const MouseMoveEvent & e) {
 		function_triggered = true;
@@ -148,10 +142,6 @@ TEST_F(InputTest, MouseMove) {
 }
 
 TEST_F(InputTest, KeyDown) {
-	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
-	auto & camera = obj.add_component<Camera>(
-		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-	camera.active = true;
 	bool function_triggered = false;
 
 	// Define event handler for KeyPressEvent
@@ -179,10 +169,6 @@ TEST_F(InputTest, KeyDown) {
 }
 
 TEST_F(InputTest, KeyUp) {
-	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
-	auto & camera = obj.add_component<Camera>(
-		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-	camera.active = true;
 	bool function_triggered = false;
 	EventHandler<KeyReleaseEvent> on_key_release = [&](const KeyReleaseEvent & event) {
 		function_triggered = true;
@@ -203,10 +189,6 @@ TEST_F(InputTest, KeyUp) {
 }
 
 TEST_F(InputTest, MouseClick) {
-	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
-	auto & camera = obj.add_component<Camera>(
-		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-	camera.active = true;
 	bool on_click_triggered = false;
 	EventHandler<MouseClickEvent> on_mouse_click = [&](const MouseClickEvent & event) {
 		on_click_triggered = true;
@@ -224,10 +206,6 @@ TEST_F(InputTest, MouseClick) {
 }
 
 TEST_F(InputTest, testButtonClick) {
-	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
-	auto & camera = obj.add_component<Camera>(
-		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-	camera.active = true;
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
@@ -251,10 +229,6 @@ TEST_F(InputTest, testButtonClick) {
 }
 
 TEST_F(InputTest, testButtonHover) {
-	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
-	auto & camera = obj.add_component<Camera>(
-		ivec2{0, 0}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-	camera.active = true;
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };

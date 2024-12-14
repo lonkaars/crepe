@@ -13,16 +13,14 @@ target_sources(crepe PUBLIC
 	Animator.cpp
 	BoxCollider.cpp
 	CircleCollider.cpp
-	IKeyListener.cpp
-	IMouseListener.cpp
 	LoopManager.cpp
-	LoopTimer.cpp
 	Asset.cpp
 	EventHandler.cpp
 	Script.cpp
 	Button.cpp
 	UIObject.cpp
 	AI.cpp
+	Scene.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -39,6 +37,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	Vector2.hpp
 	Color.h
 	Scene.h
+	Scene.hpp
 	Metadata.h
 	Camera.h
 	Animator.h
@@ -47,10 +46,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	EventHandler.h
 	EventHandler.hpp
 	Event.h
-	IKeyListener.h
-	IMouseListener.h
 	LoopManager.h
-	LoopTimer.h
 	Asset.h
 	Button.h
 	UIObject.h
