@@ -30,7 +30,7 @@ public:
 		 * zoom < 1 --> zoom out
 		 * zoom > 1 --> zoom in
 		 */
-		double zoom = 1;
+		float zoom = 1.0;
 
 		//! offset postion from the game object transform component
 		vec2 postion_offset;
@@ -40,19 +40,14 @@ public:
 	/**
 	 * \brief Constructs a Camera with the specified ID and background color.
 	 * \param id Unique identifier for the camera component.
-	 * \param screen is the actual screen size in pixels
 	 * \param viewport_size is the view of the world in game units
 	 * \param data the camera component data
 	 */
-	Camera(game_object_id_t id, const ivec2 & screen, const vec2 & viewport_size,
-		   const Camera::Data & data);
+	Camera(game_object_id_t id, const vec2 & viewport_size, const Data & data);
 	~Camera(); // dbg_trace only
 
 public:
 	Camera::Data data;
-
-	//! screen the display size in pixels ( output resolution )
-	const ivec2 screen;
 
 	//! viewport is the area of the world visible through the camera (in world units)
 	const vec2 viewport_size;
