@@ -13,7 +13,7 @@ SDLFontContext::SDLFontContext() {
 
 SDLFontContext::~SDLFontContext() { FcFini(); }
 
-unique_ptr<Asset> SDLFontContext::get_font_asset(const string font_family) {
+Asset SDLFontContext::get_font_asset(const string font_family) {
 
 	// Create a pattern to search for the font family
 	FcPattern * pattern = FcNameParse(reinterpret_cast<const FcChar8 *>(font_family.c_str()));
@@ -49,5 +49,5 @@ unique_ptr<Asset> SDLFontContext::get_font_asset(const string font_family) {
 	// Convert the file path to a string
 	string font_file_path(reinterpret_cast<const char *>(file_path));
 	FcPatternDestroy(matched_pattern);
-	return move(make_unique<Asset>(font_file_path));
+	return Asset(font_file_path);
 }
