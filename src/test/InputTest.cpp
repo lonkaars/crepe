@@ -260,3 +260,4 @@ TEST_F(InputTest, testButtonHover) {
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button.hover);
 }
+

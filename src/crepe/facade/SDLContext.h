@@ -137,7 +137,16 @@ public:
 	 * \return The corresponding `MouseButton` value or `MouseButton::NONE` if the key is unrecognized
 	 */
 	MouseButton sdl_to_mousebutton(Uint8 sdl_button);
-	const keyboard_state_t& get_keyboard_state() const;
+	/**
+	 * \brief Gets the current state of the keyboard.
+	 *
+	 * Updates the internal keyboard state by checking the current key states using
+	 * SDL's `SDL_GetKeyboardState()`, and returns a reference to the `keyboard_state_t`.
+	 *
+	 * \return A constant reference to the `keyboard_state_t`, which holds the state
+	 *         of each key (true = pressed, false = not pressed).
+	 */
+	const keyboard_state_t& get_keyboard_state();
 	
 public:
 	/**
@@ -235,15 +244,6 @@ private:
 	CameraAuxiliaryData cam_aux_data;
 
 private:
-	/**
-	 * \brief Retrieves the current state of the keyboard.
-	 *
-	 * This method updates the state of all keys on the keyboard. Each element of the unordered map corresponds to a
-	 * specific key defined in the `Keycode` enum, and the value indicates whether
-	 * the key is currently pressed (true) or not pressed (false).
-	 * 
-	 */
-	void update_keyboard_state();
 	//! variable to store the state of each key (true = pressed, false = not pressed)
 	keyboard_state_t keyboard_state;
 	//! lookup table for converting SDL_SCANCODES to Keycodes
