@@ -59,4 +59,3 @@ bool DB::has(const std::string & key) {
 	}
 	return true;
 }
-
