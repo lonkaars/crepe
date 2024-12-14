@@ -36,5 +36,16 @@ TEST_F(SaveManagerTest, DefaultValue) {
 
 	ASSERT_EQ(value.get(), 3);
 	value.set(5);
-	ASSERT_EQ(value.get(), 5);
+	EXPECT_EQ(value.get(), 5);
+}
+
+TEST_F(SaveManagerTest, MultipleKeys) {
+	ValueBroker foo = mgr.get<int>("foo", 1);
+	ValueBroker bar = mgr.get<int>("bar", 2);
+
+	EXPECT_EQ(foo.get(), 1);
+	EXPECT_EQ(bar.get(), 2);
+
+	EXPECT_EQ(mgr.get<int>("foo"), 1);
+	EXPECT_EQ(mgr.get<int>("bar"), 2);
 }
