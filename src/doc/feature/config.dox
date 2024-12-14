@@ -1,0 +1,61 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_config Engine configuration
+\ingroup feature
+\brief Configure default values and global options
+
+Default values and options that apply to the engine globally are read from a
+singleton struct named Config.
+
+\see Config
+
+\par Example
+
+Configuration options may be set individually or by assigning a [designated
+initializer list][desginit]. All of Config's members have default values and can
+safely be omitted from initializer lists.
+
+[desginit]: https://en.cppreference.com/w/cpp/language/aggregate_initialization#Designated_initializers
+
+```cpp
+#include <crepe/api/Config.h>
+
+int main() {
+	auto & config = crepe::Config::get_instance();
+
+	// Designated initializer list
+	config = {
+		// specify options here
+	};
+
+	// Reset default options
+	config = {};
+
+	// Set specific option
+	config.log.color = false;
+}
+```
+
+\par Options
+
+\noop Display config properties in monospace font
+\htmlonly
+<style>
+tr td:first-child { font-family: monospace; }
+</style>
+\endhtmlonly
+
+|Option|Description|
+|-|-|
+|\ref Config::asset::root_pattern ".asset.root_pattern"|\copybrief Config::asset::root_pattern|
+|\ref Config::log::color ".log.color"|\copybrief Config::log::color|
+|\ref Config::log::level ".log.level"|\copybrief Config::log::level|
+|\ref Config::physics::gravity ".physics.gravity"|\copybrief Config::physics::gravity|
+|\ref Config::savemgr::location ".savemgr.location"|\copybrief Config::savemgr::location|
+|\ref Config::window::size ".window.size"|\copybrief Config::window::size|
+|\ref Config::window::title ".window.title"|\copybrief Config::window::title|
+
+*/
+}

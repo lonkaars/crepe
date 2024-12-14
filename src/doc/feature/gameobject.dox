@@ -2,9 +2,9 @@
 namespace crepe {
 /**
 
-\defgroup feature_gameobject GameObjects
+\defgroup feature_gameobject Entity basics
 \ingroup feature
-\brief GameObject to create a Scene
+\brief Building game entities using a GameObject
 
 GameObjects are the fundamental building blocks of a Scene. They represent entities
 in the game world and can have various components attached to them to define their

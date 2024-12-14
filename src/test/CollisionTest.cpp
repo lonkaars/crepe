@@ -233,7 +233,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_x_direction) {
 		collision_happend = true;
 		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, -5);
-		EXPECT_EQ(ev.info.resolution.y, -5);
+		EXPECT_EQ(ev.info.resolution.y, 5);
 		EXPECT_EQ(ev.info.resolution_direction,
 				  crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
@@ -241,7 +241,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_x_direction) {
 		collision_happend = true;
 		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
 		EXPECT_EQ(ev.info.resolution.x, 5);
-		EXPECT_EQ(ev.info.resolution.y, 5);
+		EXPECT_EQ(ev.info.resolution.y, -5);
 		EXPECT_EQ(ev.info.resolution_direction,
 				  crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
@@ -261,7 +261,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_y_direction) {
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
 		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.resolution.x, -5);
+		EXPECT_EQ(ev.info.resolution.x, 5);
 		EXPECT_EQ(ev.info.resolution.y, -5);
 		EXPECT_EQ(ev.info.resolution_direction,
 				  crepe::CollisionSystem::Direction::Y_DIRECTION);
@@ -269,7 +269,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_y_direction) {
 	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
 		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
-		EXPECT_EQ(ev.info.resolution.x, 5);
+		EXPECT_EQ(ev.info.resolution.x, -5);
 		EXPECT_EQ(ev.info.resolution.y, 5);
 		EXPECT_EQ(ev.info.resolution_direction,
 				  crepe::CollisionSystem::Direction::Y_DIRECTION);
@@ -313,7 +313,7 @@ TEST_F(CollisionTest, collision_box_box_static_x_direction) {
 		collision_happend = true;
 		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
 		EXPECT_EQ(ev.info.resolution.x, -5);
-		EXPECT_EQ(ev.info.resolution.y, -5);
+		EXPECT_EQ(ev.info.resolution.y, 5);
 		EXPECT_EQ(ev.info.resolution_direction,
 				  crepe::CollisionSystem::Direction::X_DIRECTION);
 	};
@@ -337,7 +337,7 @@ TEST_F(CollisionTest, collision_box_box_static_y_direction) {
 	script_object1_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
 		collision_happend = true;
 		EXPECT_EQ(ev.info.this_collider.game_object_id, 1);
-		EXPECT_EQ(ev.info.resolution.x, -5);
+		EXPECT_EQ(ev.info.resolution.x, 5);
 		EXPECT_EQ(ev.info.resolution.y, -5);
 		EXPECT_EQ(ev.info.resolution_direction,
 				  crepe::CollisionSystem::Direction::Y_DIRECTION);

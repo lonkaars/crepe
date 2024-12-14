@@ -27,8 +27,8 @@ TEST_F(SaveManagerTest, ReadWrite) {
 	mgr.set<string>("foo", "bar");
 	ASSERT_TRUE(mgr.has("foo"));
 
-	ValueBroker value = mgr.get<string>("foo");
-	EXPECT_EQ(value.get(), "bar");
+	string value = mgr.get<string>("foo");
+	EXPECT_EQ(value, "bar");
 }
 
 TEST_F(SaveManagerTest, DefaultValue) {
