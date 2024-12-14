@@ -13,7 +13,7 @@ namespace crepe {
  */
 class CircleCollider : public Collider {
 public:
-	CircleCollider(game_object_id_t game_object_id, const vec2 & offset, float radius);
+	CircleCollider(game_object_id_t game_object_id, float radius, const vec2 & offset= {0,0});
 
 	//! Radius of the circle collider.
 	float radius;
