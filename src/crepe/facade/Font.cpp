@@ -8,17 +8,12 @@ using namespace crepe;
 Font::Font(const Asset & src, Mediator & mediator)
 	: Resource(src, mediator),
 	  font(nullptr, TTF_CloseFont) {
-	// Get the font file path from the Asset
-	const std::string font_path = src.get_path();
-
-	// Attempt to load the font
-	this->font.reset(TTF_OpenFont(font_path.c_str(), Config::get_instance().font.size));
-
-	// Check if font loading failed
-	if (!this->font) {
-		throw runtime_error(format("Failed to load font from path: {}. SDL_ttf error: {}",
-								   font_path, TTF_GetError()));
-	}
+	Config & config = Config::get_instance();
+	const std::string FONT_PATH = src.get_path();
+	TTF_Font * font = TTF_OpenFont(FONT_PATH.c_str(), config.font.size);
+	if (font == NULL)
+		throw runtime_error(format("Font: {} (path: {})", TTF_GetError(), FONT_PATH));
+	this->font = { font, [] (TTF_Font * font) { TTF_CloseFont(font); } };
 }
 
 TTF_Font * Font::get_font() const { return this->font.get(); }

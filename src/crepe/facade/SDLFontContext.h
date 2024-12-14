@@ -11,6 +11,10 @@ class SDLFontContext {
 public:
 	SDLFontContext();
 	~SDLFontContext();
+	SDLFontContext(const SDLFontContext &) = delete;
+	SDLFontContext(SDLFontContext &&) = delete;
+	SDLFontContext & operator=(const SDLFontContext &) = delete;
+	SDLFontContext & operator=(SDLFontContext &&) = delete;
 	/**
 		 * 
 		 * \brief Facade function to convert a font_family into an asset.
@@ -19,7 +23,7 @@ public:
 		 * 
 		 * \param font_family Name of the font family name.
 		 */
-	std::unique_ptr<Asset> get_font_asset(const std::string font_family);
+	Asset get_font_asset(const std::string font_family);
 
 private:
 };

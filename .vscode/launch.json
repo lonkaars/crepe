@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug test_main",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/build/test_main",  // Path to your executable
+            "args": [],  // Optional: add any arguments here if needed
+            "stopAtEntry": false,  // Set to true if you want to break at the entry point
+            "cwd": "${workspaceFolder}",  // Working directory for the program
+            "environment": [],
+            "externalConsole": false,  // Set to true to use an external console
+            "MIMode": "gdb",  // Use "lldb" if you're using LLDB instead of GDB
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb",  // Path to gdb, adjust based on your system
+            "preLaunchTask": "",  // Optional: specify a pre-launch task like building your project
+            "sourceFileMap": {},
+            "logging": { "moduleLoad": false, "engineLogging": false }
+        }
+    ]
+}
