@@ -271,7 +271,7 @@ public:
 			= particle.add_component<ParticleEmitter>(particle_image, ParticleEmitter::Data{
 																		  .offset = {0, 0},
 																		  .max_particles = 256,
-																		  .emission_rate = 50,
+																		  .emission_rate = 1,
 																		  .min_speed = 10,
 																		  .max_speed = 20,
 																		  .min_angle = -20,
