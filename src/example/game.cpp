@@ -35,7 +35,8 @@ class MyScript1 : public Script {
 			}
 			case Keycode::W: {
 				Rigidbody & tf = this->get_component<Rigidbody>();
-				tf.data.linear_velocity.y -= 1;
+				// tf.data.linear_velocity.y -= 1;
+				tf.add_force_linear({0,-1});
 				break;
 			}
 			case Keycode::S: {
@@ -197,7 +198,7 @@ public:
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 1},
 			.constraints = {0, 0, 0},
-			.elastisity_coefficient = 1,
+			.elastisity_coefficient = 0,
 			.offset = {0, 0},
 		});
 		// add box with boxcollider
