@@ -13,7 +13,7 @@ Font::Font(const Asset & src, Mediator & mediator)
 	TTF_Font * font = TTF_OpenFont(FONT_PATH.c_str(), config.font.size);
 	if (font == NULL)
 		throw runtime_error(format("Font: {} (path: {})", TTF_GetError(), FONT_PATH));
-	this->font = { font, [] (TTF_Font * font) { TTF_CloseFont(font); } };
+	this->font = {font, [](TTF_Font * font) { TTF_CloseFont(font); }};
 }
 
 TTF_Font * Font::get_font() const { return this->font.get(); }

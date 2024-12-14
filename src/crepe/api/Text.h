@@ -39,8 +39,8 @@ public:
 	};
 
 public:
-	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset, const std::string &,
-		 const std::string & font_family, const Data& data);
+	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
+		 const std::string &, const std::string & font_family, const Data & data);
 	//! font family name such as (Arial,Helvetica,Inter)
 	std::string font_family = "";
 	//! Label text.
