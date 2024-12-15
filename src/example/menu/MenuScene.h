@@ -9,8 +9,10 @@
 
 using namespace crepe;
 
-class Scene0 : public Scene {
+class MenuScene : public Scene {
 public:
+	using Scene::Scene;
+	
 	void load_scene() override;
 	std::string get_name() const override;
 	//forward call to scene function

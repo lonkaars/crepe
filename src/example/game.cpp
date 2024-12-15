@@ -13,7 +13,7 @@
 #include <crepe/api/Transform.h>
 #include <crepe/api/Vector2.h>
 
-#include "menu/Menu.h"
+#include "menu/MenuScene.h"
 
 using namespace crepe;
 using namespace std;
@@ -173,7 +173,7 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	LoopManager gameloop;
-	gameloop.add_scene<Scene0>();
+	gameloop.add_scene<MenuScene>();
 	gameloop.start();
 	return 0;
 }

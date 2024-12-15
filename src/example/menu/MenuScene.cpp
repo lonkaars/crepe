@@ -6,13 +6,13 @@
 #include <crepe/api/Button.h>
 
 
-#include "Menu.h"
+#include "MenuScene.h"
 #include "example/menu/MainMenuButton.h"
 
 using namespace crepe;
 using namespace std;
 
-void Scene0::load_scene() {
+void MenuScene::load_scene() {
 
 	GameObject camera = new_object("camera", "camera", vec2(0, 360));
 	camera.add_component<Camera>(ivec2(1700, 720), vec2(2000, 800),
@@ -25,9 +25,9 @@ void Scene0::load_scene() {
 	MainMenuButton create_menu_buttons(*this);
 }
 
-string Scene0::get_name() const { return "scene0"; }
+string MenuScene::get_name() const { return "MenuScene"; }
 
-GameObject Scene0::create_object(const std::string & name, const std::string & tag,
+GameObject MenuScene::create_object(const std::string & name, const std::string & tag,
 							 const vec2 & position, double rotation, double scale) {
 	return new_object(name, tag, position, rotation, scale);
 }
