@@ -143,6 +143,14 @@ protected:
 	 * 
 	 */
 	const keyboard_state_t & get_keyboard_state() const;
+	/**
+	 * \brief Utility function to retrieve a single key state.
+	 * \see SDLContext::get_keyboard_state
+	 * 
+	 * \return Keycode state (true if pressed, false if not pressed).
+	 * 
+	 */
+	bool get_key_state(Keycode key) const;
 	//! \}
 
 private:
