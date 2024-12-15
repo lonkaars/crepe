@@ -45,7 +45,7 @@ public:
 	 * \returns Reference to BehaviorScript component (`*this`)
 	 */
 	template <class T, typename... Args>
-	BehaviorScript & set_script(Args &&... args);
+	T & set_script(Args &&... args);
 
 protected:
 	//! Script instance

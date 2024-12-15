@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "../manager/EventManager.h"
 
 using namespace crepe;
 

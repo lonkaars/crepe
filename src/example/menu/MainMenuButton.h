@@ -1,6 +1,7 @@
 #pragma once
 
 #include <crepe/api/Sprite.h>
+// #include "example/menu/MainMenuScript.h"
 #include "example/menu/MainMenuScript.h"
 #include "example/menu/MenuScene.h"
 #include "types.h"
@@ -15,7 +16,7 @@ private:
 	void place_btn();
 private:
 	// Preview
-	void place_btn_preview(GameObject & menu,const vec2 &position,const vec2& size);
+	void place_btn_preview(GameObject & menu,const vec2 &position,const vec2& size,MainMenuScript& script);
 	void click_btn_preview();
 	// Jetpack
 	void place_btn_jetpack(GameObject & menu,const vec2 &position,const vec2& size);

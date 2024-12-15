@@ -27,20 +27,18 @@ void MainMenuButton::place_btn(){
 	const int row_size = (BTN_END_ROW - BTN_START_ROW) / BTN_AMOUNT - BTN_SPACING_ROW;
 	// Initialize button placement (each button in the row)
 	float amount = 0;
-	MainMenuScript test;
+
 	GameObject menu = this->scene.create_object("menu", "menu");
-	BehaviorScript & script = menu.add_component<BehaviorScript>().set_script<MainMenuScript>();
-
-
-
+	MainMenuScript & script = menu.add_component<BehaviorScript>().set_script<MainMenuScript>();
+	
 	// Start position of first button
 	vec2 button_position = {static_cast<float>(start_position.x + BTN_WITDH_COLUM / 2), start_position.y + (row_size * amount++)};
-	this->place_btn_preview(menu,button_position, vec2{BTN_WITDH_COLUM, row_size - BTN_SPACING_ROW});
+	this->place_btn_preview(menu,button_position, vec2{BTN_WITDH_COLUM, row_size - BTN_SPACING_ROW},script);
 	button_position.y += (row_size * amount++);
 	this->place_btn_jetpack(menu,button_position, vec2{BTN_WITDH_COLUM, row_size - BTN_SPACING_ROW});
 }
 
-void MainMenuButton::place_btn_preview(GameObject & menu,const vec2 &position,const vec2& size){
+void MainMenuButton::place_btn_preview(GameObject & menu,const vec2 &position,const vec2& size, MainMenuScript& script){
 	Asset button_start_img{"asset/texture/test_ap43.png"};
 
 	Sprite &sprite = menu.add_component<Sprite>(button_start_img,Sprite::Data{
@@ -51,7 +49,7 @@ void MainMenuButton::place_btn_preview(GameObject & menu,const vec2 &position,co
 	});
 
 	//create button and link functions
-	Button& button_temp = menu.add_component<Button>(size, position,[&]() { this->click_btn_preview(); },false);
+	Button& button_temp = menu.add_component<Button>(size, position,[&]() { script.switch_tab(MainMenuScript::MenuTab::PREVIEW); },false);
 	// on_mouse_enter
 	button_temp.on_mouse_enter = [&]() { this->enter_button(&sprite); };  
 	// on_mouse_exit

@@ -5,10 +5,13 @@
 #include "../manager/ComponentManager.h"
 #include "../manager/Mediator.h"
 #include "../manager/ResourceManager.h"
+
 #include "../util/Log.h"
 #include "../util/OptionalRef.h"
 
+#include "Event.h"
 #include "GameObject.h"
+#include "manager/EventManager.h"
 
 namespace crepe {
 
@@ -87,6 +90,18 @@ protected:
 	template <class... Args>
 	void logf(std::format_string<Args...> fmt, Args &&... args);
 	//! \}
+
+	
+
+	// template <typename EventType>
+	// void trigger_event(const EventType & event = {}, event_channel_t channel = -1);
+
+
+	// template <typename EventType>
+	// void queue_event(const EventType & event = {}, event_channel_t channel = -1);
+	
+	
+
 };
 
 } // namespace crepe
