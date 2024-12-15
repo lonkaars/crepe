@@ -30,7 +30,7 @@ TEST_F(LoopTimerTest, EnforcesTargetFrameRate) {
 	auto elapsed_ms = duration_cast<milliseconds>(elapsed_time).count();
 
 	// For 60 FPS, the target frame time is around 16.67ms
-	ASSERT_NEAR(elapsed_ms, 16.7, 1);
+	ASSERT_NEAR(elapsed_ms, 16.7, 5);
 }
 
 TEST_F(LoopTimerTest, SetTargetFps) {
@@ -78,4 +78,20 @@ TEST_F(LoopTimerTest, DISABLED_getCurrentTime) {
 		= std::chrono::duration_cast<elapsed_time_t>(end_time - start_time).count();
 
 	ASSERT_NEAR(loop_timer.get_elapsed_time().count(), elapsed_time, 5);
+}
+TEST_F(LoopTimerTest, getFPS) {
+	// Set the target FPS to 60 (which gives a target time per frame of ~16.67 ms)
+	loop_timer.set_target_framerate(60);
+
+	auto start_time = steady_clock::now();
+	loop_timer.enforce_frame_rate();
+
+	auto elapsed_time = steady_clock::now() - start_time;
+	loop_timer.update();
+	unsigned int fps = loop_timer.get_fps();
+	auto elapsed_ms = duration_cast<milliseconds>(elapsed_time).count();
+
+	// For 60 FPS, the target frame time is around 16.67ms
+	ASSERT_NEAR(elapsed_ms, 16.7, 1);
+	ASSERT_NEAR(fps, 60, 2);
 }

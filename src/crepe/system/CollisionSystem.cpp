@@ -192,13 +192,17 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 		resolution_direction = Direction::BOTH;
 	} else if (resolution.x != 0) {
 		resolution_direction = Direction::X_DIRECTION;
-		if (data1.rigidbody.data.linear_velocity.y != 0)
-			resolution.y = data1.rigidbody.data.linear_velocity.y
+		//checks if the other velocity has a value and if this object moved
+		if (data1.rigidbody.data.linear_velocity.x != 0
+			&& data1.rigidbody.data.linear_velocity.y != 0)
+			resolution.y = -data1.rigidbody.data.linear_velocity.y
 						   * (resolution.x / data1.rigidbody.data.linear_velocity.x);
 	} else if (resolution.y != 0) {
 		resolution_direction = Direction::Y_DIRECTION;
-		if (data1.rigidbody.data.linear_velocity.x != 0)
-			resolution.x = data1.rigidbody.data.linear_velocity.x
+		//checks if the other velocity has a value and if this object moved
+		if (data1.rigidbody.data.linear_velocity.x != 0
+			&& data1.rigidbody.data.linear_velocity.y != 0)
+			resolution.x = -data1.rigidbody.data.linear_velocity.x
 						   * (resolution.y / data1.rigidbody.data.linear_velocity.y);
 	}
 
@@ -314,28 +318,48 @@ void CollisionSystem::static_collision_handler(CollisionInfo & info) {
 	// Move object back using calculate move back value
 	info.this_transform.position += info.resolution;
 
-	// If bounce is enabled mirror velocity
-	if (info.this_rigidbody.data.elastisity_coefficient > 0) {
-		if (info.resolution_direction == Direction::BOTH) {
-			info.this_rigidbody.data.linear_velocity.y
-				= -info.this_rigidbody.data.linear_velocity.y
-				  * info.this_rigidbody.data.elastisity_coefficient;
-			info.this_rigidbody.data.linear_velocity.x
-				= -info.this_rigidbody.data.linear_velocity.x
-				  * info.this_rigidbody.data.elastisity_coefficient;
-		} else if (info.resolution_direction == Direction::Y_DIRECTION) {
-			info.this_rigidbody.data.linear_velocity.y
-				= -info.this_rigidbody.data.linear_velocity.y
-				  * info.this_rigidbody.data.elastisity_coefficient;
-		} else if (info.resolution_direction == Direction::X_DIRECTION) {
-			info.this_rigidbody.data.linear_velocity.x
-				= -info.this_rigidbody.data.linear_velocity.x
-				  * info.this_rigidbody.data.elastisity_coefficient;
-		}
-	}
-	// Stop movement if bounce is disabled
-	else {
-		info.this_rigidbody.data.linear_velocity = {0, 0};
+	switch (info.resolution_direction) {
+		case Direction::BOTH:
+			//bounce
+			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
+				info.this_rigidbody.data.linear_velocity
+					= -info.this_rigidbody.data.linear_velocity
+					  * info.this_rigidbody.data.elastisity_coefficient;
+			}
+			//stop movement
+			else {
+				info.this_rigidbody.data.linear_velocity = {0, 0};
+			}
+			break;
+		case Direction::Y_DIRECTION:
+			// Bounce
+			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
+				info.this_rigidbody.data.linear_velocity.y
+					= -info.this_rigidbody.data.linear_velocity.y
+					  * info.this_rigidbody.data.elastisity_coefficient;
+			}
+			// Stop movement
+			else {
+				info.this_rigidbody.data.linear_velocity.y = 0;
+				info.this_transform.position.x -= info.resolution.x;
+			}
+			break;
+		case Direction::X_DIRECTION:
+			// Bounce
+			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
+				info.this_rigidbody.data.linear_velocity.x
+					= -info.this_rigidbody.data.linear_velocity.x
+					  * info.this_rigidbody.data.elastisity_coefficient;
+			}
+			// Stop movement
+			else {
+				info.this_rigidbody.data.linear_velocity.x = 0;
+				info.this_transform.position.y -= info.resolution.y;
+			}
+			break;
+		case Direction::NONE:
+			// Not possible
+			break;
 	}
 }
 
