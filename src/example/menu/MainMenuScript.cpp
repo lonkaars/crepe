@@ -11,10 +11,12 @@ void MainMenuScript::update() {
 		case MenuTab::JETPACK:
 			// Logic for the Jetpack tab
 			std::cout << "Jetpack tab is active" << std::endl;
+			current_tab = MenuTab::NONE;
 			break;
 		case MenuTab::PREVIEW:
 			// Logic for the Preview tab
 			std::cout << "Preview tab is active" << std::endl;
+			current_tab = MenuTab::NONE;
 			break;
 		default:
 			//std::cerr << "Unknown tab" << std::endl;
