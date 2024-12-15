@@ -61,8 +61,6 @@ public:
 private:
 	//! RAII wrapper around \c DB struct
 	std::unique_ptr<libdb::DB, std::function<void(libdb::DB *)>> db;
-	//! RAII wrapper around \c DBC struct
-	std::unique_ptr<libdb::DBC, std::function<void(libdb::DBC *)>> cursor;
 
 private:
 	/**

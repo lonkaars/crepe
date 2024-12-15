@@ -1,5 +1,6 @@
-#include <crepe/api/Config.h>
 #include <gtest/gtest.h>
+
+#include <crepe/api/Config.h>
 
 using namespace crepe;
 using namespace testing;

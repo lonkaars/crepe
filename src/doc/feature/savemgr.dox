@@ -1,0 +1,80 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_savemgr Save data
+\ingroup feature
+\brief Functions to persistently store and retrieve arbitrary values
+
+The SaveManager may be used to persistently store game state such as player
+progress, statistics, achievements, etc. It works like a key-value store, where
+the key is a string and the value is an arbitrary type.
+
+SaveManager implements the following:
+
+- Storage and retrieval of primitive types and strings.
+- Automatic initialization of the database using default values.
+- The underlying database format is journaled, which reduces the likelihood of
+	players losing save data when an unexpected crash occurs while the SaveManager
+	is writing to disk.
+
+\see SaveManager
+
+\par Example
+
+The SaveManager instance reference may be retrieved by calling \c
+get_save_manager(). This function is available---
+
+- Within (derivatives of) Script
+
+- \todo Within (derivatives of) Scene
+
+- \todo As a public member function of LoopManager
+
+```cpp
+// Retrieve save manager
+crepe::SaveManager & save_manager = get_save_manager();
+```
+
+SaveManager may be used *explicitly*, using the \ref SaveManager::set "set()",
+\ref SaveManager::get "get()" and  \ref SaveManager::has "has()" methods:
+```cpp
+// Check if the key "foo" exists, and initialize it to 3 if it doesn't
+if (!save_manager.has("foo"))
+	save_manager.set<int>("foo", 3);
+// Get value of key "foo"
+int foo = save_manager.get<int>("foo");
+
+// ~~~ arbitrary game code ~~~
+foo += 10;
+// ~~~ arbitrary game code ~~~
+
+// Save "foo" back to database
+save_manager.set<int>("foo", foo);
+```
+
+Alternatively, SaveManager::get may be called with a default value as second
+parameter. This changes its return type to ValueBroker, which acts as a
+read/write handle to the specific key requested, and remembers the key and its
+value type for you:
+```cpp
+// Get a read/write handle to the value stored in key "foo", and initialize it
+// to 3 if it doesn't exist yet
+ValueBroker foo_handle = save_manager.get<int>("foo", 3);
+int foo = foo_handle.get();
+
+// ~~~ arbitrary game code ~~~
+foo += 10;
+// ~~~ arbitrary game code ~~~
+
+// Save back to database
+foo_handle.set(foo);
+```
+
+To further simplify game code, the return value of SaveManager::get may be
+implicitly cast to Proxy instead of ValueBroker. This allows the database value
+to be used as if it were a regular variable. This usage is detailed separately
+in \"\ref feature_proxy\".
+
+*/
+}
