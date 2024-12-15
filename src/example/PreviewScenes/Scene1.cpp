@@ -1,7 +1,6 @@
 #include "Scene1.h"
-#include "ValueBroker.h"
-#include "api/CircleCollider.h"
 
+#include <crepe/ValueBroker.h>
 #include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Asset.h>
@@ -9,6 +8,7 @@
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
+#include <crepe/api/CircleCollider.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/Event.h>
 #include <crepe/api/GameObject.h>
@@ -25,13 +25,12 @@
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/types.h>
 #include <crepe/util/OptionalRef.h>
-#include <iostream>
 #include <string>
 
 using namespace crepe;
 
-class CircleScript : public Script{
-	bool on_collision(const CollisionEvent & ev){
+class CircleScript : public Script {
+	bool on_collision(const CollisionEvent & ev) {
 		auto & coll = ev.info;
 		if (coll.other_metadata.tag != "circle") return true;
 
@@ -42,12 +41,10 @@ class CircleScript : public Script{
 
 		return true;
 	}
-	void init(){
+	void init() {
 		subscribe<CollisionEvent>(
 			[this](const CollisionEvent & ev) -> bool { return this->on_collision(ev); });
-
 	}
-
 };
 
 class MissleScript : public Script {
@@ -99,9 +96,9 @@ class NpcScript : public Script {
 			npc.data.flip = {false, false};
 		}
 
-		//auto & savemgr = this->get_save_manager();
-		//savemgr.set("npc_x", transform.position.x);
-		//savemgr.set("npc_y", transform.position.y);
+		auto & savemgr = this->get_save_manager();
+		savemgr.set("npc_x", transform.position.x);
+		savemgr.set("npc_y", transform.position.y);
 	}
 };
 
@@ -252,30 +249,28 @@ private:
 	};
 
 	void update() {
-		//auto & savemgr = this->get_save_manager();
+		auto & savemgr = this->get_save_manager();
 		const auto & pos = this->get_component<Transform>().position;
 
-		//savemgr.set("player_x", pos.x);
-		//savemgr.set("player_y", pos.y);
+		savemgr.set("player_x", pos.x);
+		savemgr.set("player_y", pos.y);
 	}
 };
 
 void Scene1::load_scene() {
 	SaveManager & savemgr = this->get_save_manager();
 
-	ValueBroker player_y = savemgr.get<std::string>("HALLO", "0");
-	ValueBroker player_x = savemgr.get<std::string>("JAJKJAKJ", "750");
-	ValueBroker npc_x = savemgr.get<std::string>("SDFGHJKL", "-750");
-	ValueBroker npc_y = savemgr.get<std::string>("JAKJKAJKj", "0");
-
-	std::cout << player_x.get() << " " << player_y.get() << " " << npc_x.get() << " "
-			  << npc_y.get() << std::endl;
+	ValueBroker player_x = savemgr.get<float>("player_x", 750);
+	ValueBroker player_y = savemgr.get<float>("player_y", 0);
+	ValueBroker npc_x = savemgr.get<float>("npc_x", -750);
+	ValueBroker npc_y = savemgr.get<float>("npc_y", 0);
 
 	GameObject cam = this->new_object("camera");
 	GameObject world = this->new_object("world", "TAG", vec2{0, 0}, 0, 1);
 	GameObject background = this->new_object("background");
-	GameObject player = this->new_object("player", "TAG", vec2{750, 0}, 0, 1);
-	GameObject npc = this->new_object("npc", "npc_tag", vec2{-750, 0}, 0, 1);
+	GameObject player
+		= this->new_object("player", "TAG", vec2{player_x.get(), player_y.get()}, 0, 1);
+	GameObject npc = this->new_object("npc", "npc_tag", vec2{npc_x.get(), npc_y.get()}, 0, 1);
 	GameObject missle = this->new_object("missle", "TAG", vec2{0, 0}, 0, 1);
 	GameObject smoke = this->new_object("smoke_particle", "TAG", vec2{-500, -210}, 0, 1);
 
@@ -294,6 +289,7 @@ void Scene1::load_scene() {
 	Asset npc_head{"assets/workers/worker1Head.png"};
 	Asset missle_ss{"assets/Obstacles/Missile/missile.png"};
 	Asset smoke_ss{"assets/particles/smoke.png"};
+	Asset coin_ss{"assets/Entities/coin1_TVOS.png"};
 
 	Asset circle_ss{"asset/texture/circle.png"};
 
@@ -430,17 +426,23 @@ void Scene1::load_scene() {
 																});
 
 	smoke.add_component<ParticleEmitter>(smoke_sprite, ParticleEmitter::Data{
-		.offset = {0,-60},
-		.max_particles = 10,
-		.emission_rate = 25,
-		.min_angle =  60,
-		.max_angle =  120,
-		.begin_lifespan = 1,
-		.end_lifespan = 2,
-	});
+														   .offset = {0, -60},
+														   .max_particles = 10,
+														   .emission_rate = 25,
+														   .min_angle = 60,
+														   .max_angle = 120,
+														   .begin_lifespan = 1,
+														   .end_lifespan = 2,
+													   });
 
-	for (int i = 0; i < 5; ++i) {
-		GameObject circle = this->new_object("circle", "circle", vec2{(float)i, (float)(i * 30)}, 0, 1);
+	for (int i = 0; i < 200; ++i) {
+		int row = i / 10;
+		int col = i % 10;
+		float x = col * 25 + i;
+		float y = row * 25 - 400;
+
+		GameObject circle
+			= this->new_object("circle", "circle", vec2{x, y}, 0, 1);
 		vec2 size = {20, 20};
 		circle.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 10,
@@ -449,11 +451,15 @@ void Scene1::load_scene() {
 			.collision_layers = {0},
 		});
 		circle.add_component<CircleCollider>(vec2{0, 0}, size.x / 2);
-		circle.add_component<Sprite>(circle_ss, Sprite::Data{
-													.sorting_in_layer = 5,
-													.order_in_layer = 5,
-													.size = size,
-												});
+		auto & circle_sprite = circle.add_component<Sprite>(coin_ss, Sprite::Data{
+																		 .sorting_in_layer = 5,
+																		 .order_in_layer = 5,
+																		 .size = size,
+																	 });
+		circle.add_component<Animator>(circle_sprite, ivec2{32, 32}, uvec2{8, 1},
+									   Animator::Data{
+										   .looping = true,
+									   });
 		circle.add_component<BehaviorScript>().set_script<CircleScript>();
 	}
 }
