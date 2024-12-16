@@ -290,9 +290,8 @@ TEST_F(CollisionTest, collision_box_box_static_both) {
 		EXPECT_EQ(ev.info.resolution.y, 10);
 		EXPECT_EQ(ev.info.resolution_direction, crepe::CollisionSystem::Direction::BOTH);
 	};
-	script_object2_ref->test_fn = [&collision_happend](const CollisionEvent & ev) {
-		collision_happend = true;
-	};
+	script_object2_ref->test_fn
+		= [&collision_happend](const CollisionEvent & ev) { collision_happend = true; };
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
 	tf.position = {50, 30};

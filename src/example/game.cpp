@@ -238,7 +238,7 @@ public:
 													 .sorting_in_layer = 2,
 													 .order_in_layer = 2,
 													 .size = {20, 20},
-													 .position_offset = {0,-10},
+													 .position_offset = {0, -10},
 												 });
 
 		//add circle with cirlcecollider deactiveated
