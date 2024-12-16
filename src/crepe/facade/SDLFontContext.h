@@ -1,7 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL_ttf.h>
-#include <fontconfig/fontconfig.h>
+
 #include <memory>
 
 #include "../api/Asset.h"
@@ -25,7 +24,6 @@ public:
 		 */
 	Asset get_font_asset(const std::string font_family);
 
-private:
 };
 
 } // namespace crepe
