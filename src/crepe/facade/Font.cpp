@@ -1,4 +1,5 @@
 #include "../api/Config.h"
+#include "../api/Asset.h"
 
 #include "Font.h"
 

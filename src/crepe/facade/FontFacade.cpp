@@ -1,4 +1,3 @@
-#include <SDL2/SDL_ttf.h>
 #include <fontconfig/fontconfig.h>
 #include <stdexcept>
 
