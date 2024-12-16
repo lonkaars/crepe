@@ -609,11 +609,15 @@ bool CollisionSystem::get_box_box_collision(const BoxCollider & box1, const BoxC
 	vec2 final_position1 = this->get_current_position(box1.offset, transform1, rigidbody1);
 	vec2 final_position2 = this->get_current_position(box2.offset, transform2, rigidbody2);
 
+	// Scale dimensions
+	vec2 scaled_box1 = box1.dimensions * transform1.scale;
+	vec2 scaled_box2 = box2.dimensions * transform2.scale;
+
 	// Calculate half-extents (half width and half height)
-	float half_width1 = box1.dimensions.x / 2.0;
-	float half_height1 = box1.dimensions.y / 2.0;
-	float half_width2 = box2.dimensions.x / 2.0;
-	float half_height2 = box2.dimensions.y / 2.0;
+	float half_width1 = scaled_box1.x / 2.0;
+	float half_height1 = scaled_box1.y / 2.0;
+	float half_width2 = scaled_box2.x / 2.0;
+	float half_height2 = scaled_box2.y / 2.0;
 
 	// Check if the boxes overlap along the X and Y axes
 	return (final_position1.x + half_width1 > final_position2.x - half_width2
@@ -632,9 +636,13 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 	vec2 final_position1 = this->get_current_position(box1.offset, transform1, rigidbody1);
 	vec2 final_position2 = this->get_current_position(circle2.offset, transform2, rigidbody2);
 
+	// Scale dimensions
+	vec2 scaled_box = box1.dimensions * transform1.scale;
+	float scaled_circle = circle2.radius * transform2.scale;
+
 	// Calculate box half-extents
-	float half_width = box1.dimensions.x / 2.0;
-	float half_height = box1.dimensions.y / 2.0;
+	float half_width = scaled_box.x / 2.0;
+	float half_height = scaled_box.y / 2.0;
 
 	// Find the closest point on the box to the circle's center
 	float closest_x = std::max(final_position1.x - half_width,
@@ -648,7 +656,7 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 	float distance_squared = distance_x * distance_x + distance_y * distance_y;
 
 	// Compare distance squared with the square of the circle's radius
-	return distance_squared < circle2.radius * circle2.radius;
+	return distance_squared < scaled_circle * scaled_circle;
 }
 
 bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1,
@@ -661,12 +669,16 @@ bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1
 	vec2 final_position1 = this->get_current_position(circle1.offset, transform1, rigidbody1);
 	vec2 final_position2 = this->get_current_position(circle2.offset, transform2, rigidbody2);
 
+	// Scale dimensions
+	float scaled_circle1 = circle1.radius * transform1.scale;
+	float scaled_circle2 = circle2.radius * transform2.scale;
+
 	float distance_x = final_position1.x - final_position2.x;
 	float distance_y = final_position1.y - final_position2.y;
 	float distance_squared = distance_x * distance_x + distance_y * distance_y;
 
 	// Calculate the sum of the radii
-	float radius_sum = circle1.radius + circle2.radius;
+	float radius_sum = scaled_circle1 + scaled_circle2;
 
 	// Check if the distance between the centers is less than or equal to the sum of the radii
 	return distance_squared < radius_sum * radius_sum;
