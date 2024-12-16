@@ -17,8 +17,9 @@ int main() {
 			1, vec2(100, 100), vec2(0, 0), "test test", "OpenSymbol", Text::Data{});
 		std::cout << "Path: " << label->font.get_path() << std::endl;
 
-		std::unique_ptr<Text> label2 = std::make_unique<Text>(
-			1, vec2(100, 100), vec2(0, 0), "test test", "fsaafdafsdafsdafsdasfdds", Text::Data{});
+		std::unique_ptr<Text> label2
+			= std::make_unique<Text>(1, vec2(100, 100), vec2(0, 0), "test test",
+									 "fsaafdafsdafsdafsdasfdds", Text::Data{});
 		std::cout << "Path: " << label2->font.get_path() << std::endl;
 	} catch (const std::exception & e) {
 		std::cout << "Standard exception thrown: " << e.what() << std::endl;

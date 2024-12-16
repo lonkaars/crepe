@@ -4,8 +4,8 @@
 
 #include "../Component.h"
 
-#include "Color.h"
 #include "Asset.h"
+#include "Color.h"
 #include "UIObject.h"
 
 namespace crepe {
