@@ -122,16 +122,6 @@ public:
 		*/
 		float elastisity_coefficient = 0.0;
 
-		/**
-		* \brief Offset of all colliders relative to the object's transform position.
-		*
-		* The `offset` defines a positional shift applied to all colliders associated with the object, relative to the object's
-		* transform position. This allows for the colliders to be placed at a different position than the object's actual
-		* position, without modifying the object's transform itself.
-		*
-		*/
-		vec2 offset;
-
 		//! Enable collision handeling in collision system
 		bool kinematic_collision = true;
 

@@ -100,19 +100,6 @@ private:
 	CollisionInternalType get_collider_type(const collider_variant & collider1,
 											const collider_variant & collider2) const;
 
-	/**
-		* \brief Calculates the current position of a collider.
-		*
-		* Combines the Collider offset, Transform position, and Rigidbody offset to compute the position of the collider.
-		*
-		* \param collider_offset The offset of the collider.
-		* \param transform The Transform of the associated game object.
-		* \param rigidbody The Rigidbody of the associated game object.
-		* \return The calculated position of the collider.
-		*/
-	vec2 get_current_position(const vec2 & collider_offset, const Transform & transform,
-							  const Rigidbody & rigidbody) const;
-
 private:
 	/**
 		* \brief Handles collision resolution between two colliders.
