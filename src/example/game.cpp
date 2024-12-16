@@ -55,7 +55,7 @@ private:
 
 class Background {
 public:
-	Background(ComponentManager & mgr) {
+	Background(Scene & mgr) {
 		this->start(mgr);
 
 		this->hallway(mgr, 1, Color::YELLOW);
@@ -75,7 +75,7 @@ public:
 		this->aquarium(mgr);
 	}
 
-	void start(ComponentManager & mgr) {
+	void start(Scene & mgr) {
 		GameObject begin = mgr.new_object("start_begin", "background", vec2(begin_x, 0));
 		Asset begin_asset{"asset/jetpack_joyride/background/start/titleFG_1_TVOS.png"};
 		begin.add_component<Sprite>(begin_asset, Sprite::Data{
@@ -120,7 +120,7 @@ public:
 									});
 	}
 
-	void hallway(ComponentManager & mgr, unsigned int sector_num, Color sector_color) {
+	void hallway(Scene & mgr, unsigned int sector_num, Color sector_color) {
 		GameObject begin = mgr.new_object("hallway_begin", "background", vec2(begin_x, 0));
 		Asset begin_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
 		begin.add_component<Sprite>(begin_asset, Sprite::Data{
@@ -237,7 +237,7 @@ public:
 		sector_num_anim.pause();
 	}
 
-	void forest(ComponentManager & mgr, std::string unique_bg_name) {
+	void forest(Scene & mgr, std::string unique_bg_name) {
 		GameObject script = mgr.new_object("forest_script", "background");
 		script.add_component<BehaviorScript>().set_script<ParallaxScript>(
 			begin_x - 400, begin_x + 3000 + 400, unique_bg_name);
@@ -289,7 +289,7 @@ public:
 		this->add_background_forest(mgr, begin_x + 200, unique_bg_name);
 	}
 
-	void add_background_forest(ComponentManager & mgr, float begin_x, std::string name) {
+	void add_background_forest(Scene & mgr, float begin_x, std::string name) {
 		GameObject bg_1
 			= mgr.new_object("forest_bg_1_" + name, "forest_background", vec2(begin_x, 0));
 		Asset bg_1_asset{"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
@@ -353,7 +353,7 @@ public:
 		});
 	}
 
-	void aquarium(ComponentManager & mgr) {
+	void aquarium(Scene & mgr) {
 		this->add_background_aquarium(mgr, begin_x);
 
 		GameObject aquarium_begin
@@ -433,7 +433,7 @@ public:
 		begin_x += 600;
 	}
 
-	void add_background_aquarium(ComponentManager & mgr, float begin_x) {
+	void add_background_aquarium(Scene & mgr, float begin_x) {
 		GameObject bg_1
 			= mgr.new_object("aquarium_bg_1", "aquarium_background", vec2(begin_x, 0));
 		Asset bg_1_1_asset{"asset/jetpack_joyride/background/aquarium/AquariumBG1_1_TVOS.png"};
@@ -511,12 +511,9 @@ private:
 class Scene1 : public Scene {
 public:
 	void load_scene() {
-		Mediator & m = this->mediator;
-		ComponentManager & mgr = m.component_manager;
+		Background background(*this);
 
-		Background background(mgr);
-
-		GameObject camera = mgr.new_object("camera", "camera", vec2(600, 0));
+		GameObject camera = new_object("camera", "camera", vec2(600, 0));
 		camera.add_component<Camera>(ivec2(1700, 720), vec2(2000, 800),
 									 Camera::Data{
 										 .bg_color = Color::RED,

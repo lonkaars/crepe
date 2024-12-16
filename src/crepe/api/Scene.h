@@ -60,7 +60,7 @@ private:
 	OptionalRef<Mediator> mediator;
 	//! \}
 
-protected:
+public:
 	/**
 	* \brief Retrieve the reference to the SaveManager instance
 	*
