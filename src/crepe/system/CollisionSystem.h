@@ -188,7 +188,7 @@ private:
 		*
 		* \param info Collision information containing data about both colliders.
 		*/
-	void call_collision_events(CollisionInfo & info);
+	void call_collision_events(CollisionInfo & info,CollisionInfo & info_inverted);
 
 	/**
 		* \brief Handles collisions involving static objects.
