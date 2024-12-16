@@ -36,13 +36,13 @@ public:
 			= this->get_components_by_name<Transform>("forest_bg_3_" + name);
 
 		for (Transform & t : vec_2) {
-			if (t.position.x < begin_x - 400) {
-				t.position.x = end_x - 400;
+			if (t.position.x > end_x - 400) {
+				t.position.x = begin_x - 400;
 			}
 		}
 		for (Transform & t : vec_3) {
-			if (t.position.x < begin_x - 400) {
-				t.position.x = end_x - 400;
+			if (t.position.x > end_x - 400) {
+				t.position.x = begin_x - 400;
 			}
 		}
 	}
@@ -346,10 +346,10 @@ public:
 												 });
 
 		bg_2.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(-0.5, 0),
+			.linear_velocity = vec2(0.3, 0),
 		});
 		bg_3.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(-0.25, 0),
+			.linear_velocity = vec2(0.4, 0),
 		});
 	}
 
