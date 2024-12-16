@@ -3,6 +3,7 @@
 #include "manager/ComponentManager.h"
 #include "manager/Mediator.h"
 #include "types.h"
+#include <cmath>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
@@ -64,11 +65,6 @@ class MyScript1 : public Script {
 				}
 
 				//add collider switch
-				break;
-			}
-			case Keycode::Q: {
-				Rigidbody & rg = this->get_component<Rigidbody>();
-				rg.data.angular_velocity = 1;
 				break;
 			}
 			default:
@@ -139,6 +135,31 @@ class MyScript2 : public Script {
 				//add collider switch
 				break;
 			}
+			case Keycode::J: {
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.x = -10;
+				break;
+			}
+			case Keycode::I: {
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.y -= 1;
+				break;
+			}
+			case Keycode::K: {
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.y += 1;
+				break;
+			}
+			case Keycode::L: {
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.x = 10;
+				break;
+			}
+			case Keycode::O: {
+				Rigidbody & tf = this->get_component<Rigidbody>();
+				tf.data.linear_velocity.x = 0;
+				break;
+			}
 			default:
 				break;
 		}
@@ -175,7 +196,6 @@ public:
 			.mass = 0,
 			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::STATIC,
-			.offset = {0, 0},
 			.collision_layers = {0},
 		});
 		world.add_component<BoxCollider>(
@@ -198,24 +218,26 @@ public:
 			});
 
 		GameObject game_object1 = new_object(
-			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 45, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
-			.gravity_scale = 1,
-			.body_type = Rigidbody::BodyType::DYNAMIC,
+			.gravity_scale = 0,
+			.body_type = Rigidbody::BodyType::KINEMATIC,
 			.linear_velocity = {0, 1},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
-			.offset = {0, 0},
 			.collision_layers = {0},
 		});
 		// add box with boxcollider
 		game_object1.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
 		game_object1.add_component<BehaviorScript>().set_script<MyScript1>();
 
-		Asset img1{"asset/texture/square.png"};
+		Asset img1{"asset/texture/test_ap43.png"};
 		game_object1.add_component<Sprite>(img1, Sprite::Data{
+													 .sorting_in_layer = 2,
+													 .order_in_layer = 2,
 													 .size = {20, 20},
+													 .position_offset = {0,-10},
 												 });
 
 		//add circle with cirlcecollider deactiveated
@@ -233,16 +255,15 @@ public:
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		game_object2.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
-			.gravity_scale = 0,
-			.body_type = Rigidbody::BodyType::STATIC,
+			.gravity_scale = 1,
+			.body_type = Rigidbody::BodyType::KINEMATIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
-			.elastisity_coefficient = 1,
-			.offset = {0, 0},
+			.elastisity_coefficient = 0.66,
 			.collision_layers = {0},
 		});
 		// add box with boxcollider
-		game_object2.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
+		game_object2.add_component<BoxCollider>(vec2{0, 0}, vec2{INFINITY, 20});
 		game_object2.add_component<BehaviorScript>().set_script<MyScript2>();
 
 		game_object2.add_component<Sprite>(img1, Sprite::Data{

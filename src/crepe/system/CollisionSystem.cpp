@@ -15,30 +15,14 @@
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
 #include "api/Vector2.h"
+#include "util/OptionalRef.h"
+#include "util/AbsoluutPosition.h"
 
 #include "Collider.h"
 #include "CollisionSystem.h"
 #include "types.h"
-#include "util/OptionalRef.h"
 
 using namespace crepe;
-
-vec2 get_current_position(const Transform & transform,const vec2 & offset) {
-	// Get the rotation in radians
-	float radians1 = transform.rotation * (M_PI / 180.0);
-
-	// Calculate total offset with scale
-	vec2 total_offset = offset * transform.scale;
-
-	// Rotate
-	float rotated_total_offset_x1
-		= total_offset.x * cos(radians1) - total_offset.y * sin(radians1);
-	float rotated_total_offset_y1
-		= total_offset.x * sin(radians1) + total_offset.y * cos(radians1);
-
-	// Final positions considering scaling and rotation
-	return (transform.position + vec2(rotated_total_offset_x1, rotated_total_offset_y1));
-}
 
 void CollisionSystem::update() {
 	std::vector<CollisionInternal> all_colliders;
@@ -155,8 +139,9 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 				= std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			const BoxCollider & collider2
 				= std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
-			vec2 collider_pos1 = get_current_position(data1.transform,collider1.offset);
-			vec2 collider_pos2 = get_current_position(data2.transform,collider2.offset);
+			
+			vec2 collider_pos1 = AbsoluutPosition::get_position(data1.transform,collider1.offset);
+			vec2 collider_pos2 = AbsoluutPosition::get_position(data2.transform,collider2.offset);
 			resolution = this->get_box_box_resolution(collider1, collider2, collider_pos1,
 													  collider_pos2);
 			break;
@@ -166,8 +151,8 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 				= std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			const CircleCollider & collider2
 				= std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
-			vec2 collider_pos1 = get_current_position(data1.transform,collider1.offset);
-			vec2 collider_pos2 = get_current_position(data2.transform,collider2.offset);
+			vec2 collider_pos1 = AbsoluutPosition::get_position(data1.transform,collider1.offset);
+			vec2 collider_pos2 = AbsoluutPosition::get_position(data2.transform,collider2.offset);
 			resolution = -this->get_circle_box_resolution(collider2, collider1, collider_pos2,
 														  collider_pos1);
 			break;
@@ -177,8 +162,8 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 				= std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
 			const CircleCollider & collider2
 				= std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
-			vec2 collider_pos1 = get_current_position(data1.transform,collider1.offset);
-			vec2 collider_pos2 = get_current_position(data2.transform,collider2.offset);
+			vec2 collider_pos1 = AbsoluutPosition::get_position(data1.transform,collider1.offset);
+			vec2 collider_pos2 = AbsoluutPosition::get_position(data2.transform,collider2.offset);
 			resolution = this->get_circle_circle_resolution(collider1, collider2,
 															collider_pos1, collider_pos2);
 			break;
@@ -188,8 +173,8 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 				= std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
 			const BoxCollider & collider2
 				= std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
-			vec2 collider_pos1 = get_current_position(data1.transform,collider1.offset);
-			vec2 collider_pos2 = get_current_position(data2.transform,collider2.offset);
+			vec2 collider_pos1 = AbsoluutPosition::get_position(data1.transform,collider1.offset);
+			vec2 collider_pos2 = AbsoluutPosition::get_position(data2.transform,collider2.offset);
 			resolution = this->get_circle_box_resolution(collider1, collider2, collider_pos1,
 														 collider_pos2);
 			break;
@@ -311,15 +296,7 @@ vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_co
 }
 
 void CollisionSystem::determine_collision_handler(CollisionInfo & info) {
-	// If both objects are static skip handle call collision script
-	if(info.this_rigidbody.data.body_type == Rigidbody::BodyType::STATIC && info.other_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) return;
-
-	//	First body is not dynamic
-	if(info.this_rigidbody.data.body_type != Rigidbody::BodyType::DYNAMIC)
-	{
-		bool static_collision = info.this_rigidbody.data.body_type == Rigidbody::BodyType::STATIC && info.other_rigidbody.data.body_type == Rigidbody::BodyType::DYNAMIC;
-		bool kinematic_collision = info.this_rigidbody.data.body_type == Rigidbody::BodyType::KINEMATIC && info.other_rigidbody.data.body_type == Rigidbody::BodyType::DYNAMIC && info.this_rigidbody.data.kinematic_collision;
-		// Inverted collision info
+	// Inverted collision info
 		CollisionInfo inverted = {
 				.this_collider = info.other_collider,
 				.this_transform = info.other_transform,
@@ -332,13 +309,22 @@ void CollisionSystem::determine_collision_handler(CollisionInfo & info) {
 				.resolution = -info.resolution,
 				.resolution_direction = info.resolution_direction,
 				};
+	// If both objects are static skip handle call collision script
+	if(info.this_rigidbody.data.body_type == Rigidbody::BodyType::STATIC && info.other_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) return;
+
+	//	First body is not dynamic
+	if(info.this_rigidbody.data.body_type != Rigidbody::BodyType::DYNAMIC)
+	{
+		bool static_collision = info.this_rigidbody.data.body_type == Rigidbody::BodyType::STATIC && info.other_rigidbody.data.body_type == Rigidbody::BodyType::DYNAMIC;
+		bool kinematic_collision = info.this_rigidbody.data.body_type == Rigidbody::BodyType::KINEMATIC && info.other_rigidbody.data.body_type == Rigidbody::BodyType::DYNAMIC && info.this_rigidbody.data.kinematic_collision;
+		
 		
 		if(static_collision || kinematic_collision){
 			// Static collision
 			this->static_collision_handler(inverted);
 		};
 		// Call scripts
-		this->call_collision_events(inverted);
+		this->call_collision_events(inverted,info);
 		return;
 	}
 
@@ -348,20 +334,21 @@ void CollisionSystem::determine_collision_handler(CollisionInfo & info) {
 		bool static_collision = info.other_rigidbody.data.body_type == Rigidbody::BodyType::STATIC;
 		bool kinematic_collision = info.other_rigidbody.data.body_type == Rigidbody::BodyType::KINEMATIC && info.other_rigidbody.data.kinematic_collision;
 		if(static_collision || kinematic_collision)	this->static_collision_handler(info);
-		this->call_collision_events(info);
+		this->call_collision_events(info,inverted);
 		return;
 	}
 
 	//dynamic
 	this->dynamic_collision_handler(info);
-	this->call_collision_events(info);
+	this->call_collision_events(info,inverted);
 }
 
-void CollisionSystem::call_collision_events(CollisionInfo & info){
+void CollisionSystem::call_collision_events(CollisionInfo & info,CollisionInfo & info_inverted){
 	CollisionEvent data(info);
+	CollisionEvent data_inverted(info_inverted);
 	EventManager & emgr = this->mediator.event_manager;
 	emgr.trigger_event<CollisionEvent>(data, info.this_collider.game_object_id);
-	emgr.trigger_event<CollisionEvent>(data, info.other_collider.game_object_id);
+	emgr.trigger_event<CollisionEvent>(data_inverted, info_inverted.this_collider.game_object_id);
 }
 
 void CollisionSystem::static_collision_handler(CollisionInfo & info) {
@@ -615,8 +602,8 @@ bool CollisionSystem::get_box_box_collision(const BoxCollider & box1, const BoxC
 											const Rigidbody & rigidbody1,
 											const Rigidbody & rigidbody2) const {
 	// Get current positions of colliders
-	vec2 final_position1 = get_current_position(transform1,box1.offset);
-	vec2 final_position2 = get_current_position(transform2,box2.offset);
+	vec2 final_position1 = AbsoluutPosition::get_position(transform1,box1.offset);
+	vec2 final_position2 = AbsoluutPosition::get_position(transform2,box2.offset);
 
 	// Scale dimensions
 	vec2 scaled_box1 = box1.dimensions * transform1.scale;
@@ -642,8 +629,8 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 											   const Rigidbody & rigidbody1,
 											   const Rigidbody & rigidbody2) const {
 	// Get current positions of colliders
-	vec2 final_position1 = get_current_position(transform1,box1.offset);
-	vec2 final_position2 = get_current_position(transform2,circle2.offset);
+	vec2 final_position1 = AbsoluutPosition::get_position(transform1,box1.offset);
+	vec2 final_position2 = AbsoluutPosition::get_position(transform2,circle2.offset);
 
 	// Scale dimensions
 	vec2 scaled_box = box1.dimensions * transform1.scale;
@@ -675,8 +662,8 @@ bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1
 												  const Rigidbody & rigidbody1,
 												  const Rigidbody & rigidbody2) const {
 	// Get current positions of colliders
-	vec2 final_position1 = get_current_position(transform1,circle1.offset);
-	vec2 final_position2 = get_current_position(transform2,circle2.offset);
+	vec2 final_position1 = AbsoluutPosition::get_position(transform1,circle1.offset);
+	vec2 final_position2 = AbsoluutPosition::get_position(transform2,circle2.offset);
 
 	// Scale dimensions
 	float scaled_circle1 = circle1.radius * transform1.scale;
