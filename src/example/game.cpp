@@ -53,29 +53,9 @@ private:
 	const std::string name;
 };
 
-class Background {
+class Start {
 public:
-	Background(Scene & scn) {
-		this->start(scn);
-
-		this->hallway(scn, 1, Color::YELLOW);
-
-		this->forest(scn, "1");
-
-		this->hallway(scn, 2, Color::MAGENTA);
-
-		this->aquarium(scn);
-
-		this->hallway(scn, 3, Color::CYAN);
-
-		this->forest(scn, "2");
-
-		this->hallway(scn, 4, Color::GREEN);
-
-		this->aquarium(scn);
-	}
-
-	void start(Scene & scn) {
+	float create(Scene & scn, float begin_x) {
 		GameObject begin = scn.new_object("start_begin", "background", vec2(begin_x, 0));
 		Asset begin_asset{"asset/jetpack_joyride/background/start/titleFG_1_TVOS.png"};
 		begin.add_component<Sprite>(begin_asset, Sprite::Data{
@@ -94,10 +74,13 @@ public:
 											 });
 		begin_x += 100;
 
-		this->add_lamp_start(end, vec2(-350, -95));
+		this->add_lamp(end, vec2(-350, -95));
+
+		return begin_x;
 	}
 
-	void add_lamp_start(GameObject & obj, vec2 offset, unsigned int fps = 10) {
+private:
+	void add_lamp(GameObject & obj, vec2 offset, unsigned int fps = 10) {
 		Asset lamp_asset{"asset/jetpack_joyride/background/start/alarmLight_TVOS.png"};
 		obj.add_component<Sprite>(lamp_asset, Sprite::Data{
 												  .sorting_in_layer = 5,
@@ -119,8 +102,11 @@ public:
 										.looping = true,
 									});
 	}
+};
 
-	void hallway(Scene & scn, unsigned int sector_num, Color sector_color) {
+class Hallway {
+public:
+	float create(Scene & scn, float begin_x, unsigned int sector_num, Color sector_color) {
 		GameObject begin = scn.new_object("hallway_begin", "background", vec2(begin_x, 0));
 		Asset begin_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
 		begin.add_component<Sprite>(begin_asset, Sprite::Data{
@@ -130,9 +116,9 @@ public:
 												 });
 		begin_x += 600;
 
-		this->add_sector_number_hallway(begin, vec2(-200, 0), sector_num, sector_color);
-		this->add_lamp_hallway(begin, vec2(-70, -120), 11);
-		this->add_lamp_hallway(begin, vec2(30, -120), 9);
+		this->add_sector_number(begin, vec2(-200, 0), sector_num, sector_color);
+		this->add_lamp(begin, vec2(-70, -120), 11);
+		this->add_lamp(begin, vec2(30, -120), 9);
 
 		GameObject middle_1 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
 		Asset middle_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
@@ -161,7 +147,7 @@ public:
 													   });
 		begin_x += 400;
 
-		this->add_lamp_hallway(middle_3, vec2(0, -120));
+		this->add_lamp(middle_3, vec2(0, -120));
 
 		GameObject middle_4 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
 		Asset middle_asset_4{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
@@ -180,9 +166,12 @@ public:
 												 .size = vec2(0, 800),
 											 });
 		begin_x += 600;
+
+		return begin_x;
 	}
 
-	void add_lamp_hallway(GameObject & obj, vec2 offset, unsigned int fps = 10) {
+private:
+	void add_lamp(GameObject & obj, vec2 offset, unsigned int fps = 10) {
 		Asset lamp_asset{"asset/jetpack_joyride/background/hallway/alarmLight_TVOS.png"};
 		obj.add_component<Sprite>(lamp_asset, Sprite::Data{
 												  .sorting_in_layer = 5,
@@ -205,8 +194,8 @@ public:
 									});
 	}
 
-	void add_sector_number_hallway(GameObject & obj, vec2 offset, unsigned int sector_num,
-								   Color sector_color) {
+	void add_sector_number(GameObject & obj, vec2 offset, unsigned int sector_num,
+						   Color sector_color) {
 		Asset sector_text_asset{
 			"asset/jetpack_joyride/background/hallway/sectorText_TVOS.png"};
 		obj.add_component<Sprite>(sector_text_asset, Sprite::Data{
@@ -236,13 +225,16 @@ public:
 		}
 		sector_num_anim.pause();
 	}
+};
 
-	void forest(Scene & scn, std::string unique_bg_name) {
+class Forest {
+public:
+	float create(Scene & scn, float begin_x, std::string unique_bg_name) {
 		GameObject script = scn.new_object("forest_script", "background");
 		script.add_component<BehaviorScript>().set_script<ParallaxScript>(
 			begin_x - 400, begin_x + 3000 + 400, unique_bg_name);
 
-		this->add_background_forest(scn, begin_x, unique_bg_name);
+		this->add_background(scn, begin_x, unique_bg_name);
 
 		GameObject begin = scn.new_object("forest_begin", "background", vec2(begin_x, 0));
 		Asset begin_asset{"asset/jetpack_joyride/background/forest/forestFG_1_TVOS.png"};
@@ -253,7 +245,7 @@ public:
 												 });
 		begin_x += 800;
 
-		this->add_background_forest(scn, begin_x, unique_bg_name);
+		this->add_background(scn, begin_x, unique_bg_name);
 
 		GameObject middle_1 = scn.new_object("forest_middle", "background", vec2(begin_x, 0));
 		Asset middle_1_asset{"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
@@ -264,7 +256,7 @@ public:
 													   });
 		begin_x += 800;
 
-		this->add_background_forest(scn, begin_x, unique_bg_name);
+		this->add_background(scn, begin_x, unique_bg_name);
 
 		GameObject middle_2 = scn.new_object("forest_middle", "background", vec2(begin_x, 0));
 		Asset middle_2_asset{"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
@@ -275,7 +267,7 @@ public:
 													   });
 		begin_x += 800;
 
-		this->add_background_forest(scn, begin_x, unique_bg_name);
+		this->add_background(scn, begin_x, unique_bg_name);
 
 		GameObject end = scn.new_object("forest_end", "background", vec2(begin_x, 0));
 		Asset end_asset{"asset/jetpack_joyride/background/forest/forestFG_2_TVOS.png"};
@@ -286,10 +278,13 @@ public:
 											 });
 		begin_x += 600;
 
-		this->add_background_forest(scn, begin_x + 200, unique_bg_name);
+		this->add_background(scn, begin_x + 200, unique_bg_name);
+
+		return begin_x;
 	}
 
-	void add_background_forest(Scene & scn, float begin_x, std::string name) {
+private:
+	void add_background(Scene & scn, float begin_x, std::string name) {
 		GameObject bg_1
 			= scn.new_object("forest_bg_1_" + name, "forest_background", vec2(begin_x, 0));
 		Asset bg_1_asset{"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
@@ -352,9 +347,12 @@ public:
 			.linear_velocity = vec2(40, 0),
 		});
 	}
+};
 
-	void aquarium(Scene & scn) {
-		this->add_background_aquarium(scn, begin_x);
+class Aquarium {
+public:
+	float create(Scene & scn, float begin_x) {
+		this->add_background(scn, begin_x);
 
 		GameObject aquarium_begin
 			= scn.new_object("aquarium_begin", "background", vec2(begin_x, 0));
@@ -379,7 +377,7 @@ public:
 												});
 		begin_x += 400;
 
-		this->add_background_aquarium(scn, begin_x - 200);
+		this->add_background(scn, begin_x - 200);
 
 		GameObject aquarium_middle_2
 			= scn.new_object("aquarium_middle", "background", vec2(begin_x, 0));
@@ -405,7 +403,7 @@ public:
 												});
 		begin_x += 400;
 
-		this->add_background_aquarium(scn, begin_x - 200);
+		this->add_background(scn, begin_x - 200);
 
 		GameObject aquarium_middle_4
 			= scn.new_object("aquarium_middle", "background", vec2(begin_x, 0));
@@ -419,7 +417,7 @@ public:
 												});
 		begin_x += 600;
 
-		this->add_background_aquarium(scn, begin_x);
+		this->add_background(scn, begin_x);
 
 		GameObject aquarium_end
 			= scn.new_object("aquarium_end", "background", vec2(begin_x, 0));
@@ -431,9 +429,12 @@ public:
 																   .size = vec2(0, 800),
 															   });
 		begin_x += 600;
+
+		return begin_x;
 	}
 
-	void add_background_aquarium(Scene & scn, float begin_x) {
+private:
+	void add_background(Scene & scn, float begin_x) {
 		GameObject bg_1
 			= scn.new_object("aquarium_bg_1", "aquarium_background", vec2(begin_x, 0));
 		Asset bg_1_1_asset{"asset/jetpack_joyride/background/aquarium/AquariumBG1_1_TVOS.png"};
@@ -483,9 +484,36 @@ public:
 													 .position_offset = vec2(-200, -200),
 												 });
 	}
+};
 
-private:
-	float begin_x = 0;
+class Background {
+public:
+	Background(Scene & scn) {
+		Start start;
+		Hallway hallway;
+		Forest forest;
+		Aquarium aquarium;
+
+		float begin_x = 0;
+
+		begin_x = start.create(scn, begin_x);
+
+		begin_x = hallway.create(scn, begin_x, 1, Color::YELLOW);
+
+		begin_x = forest.create(scn, begin_x, "1");
+
+		begin_x = hallway.create(scn, begin_x, 2, Color::MAGENTA);
+
+		begin_x = aquarium.create(scn, begin_x);
+
+		begin_x = hallway.create(scn, begin_x, 3, Color::CYAN);
+
+		begin_x = forest.create(scn, begin_x, "2");
+
+		begin_x = hallway.create(scn, begin_x, 4, Color::GREEN);
+
+		begin_x = aquarium.create(scn, begin_x);
+	}
 };
 
 class MoveCameraScript : public Script {
