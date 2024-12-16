@@ -81,9 +81,9 @@ void RenderSystem::render_text(){
 
 	RefVector<Text> texts = mgr.get_components_by_type<Text>();
 
-	for (Text & text  : texts) {
+	for (const Text & text  : texts) {
 		if (!text.active) continue;
-		resource_manager.get<Font>(text.font);
+		const Font & res = resource_manager.get<Font>(text.font);
 		//ctx.draw_text(text, font);
 	}
 
