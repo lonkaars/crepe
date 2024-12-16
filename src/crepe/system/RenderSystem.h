@@ -27,6 +27,8 @@ public:
 	void update() override;
 
 private:
+
+	void render_text();
 	//! Clears the screen in preparation for rendering.
 	void clear_screen();
 

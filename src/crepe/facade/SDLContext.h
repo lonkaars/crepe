@@ -20,6 +20,8 @@
 namespace crepe {
 
 class Texture;
+class Text;
+class Font;
 class Mediator;
 
 /**
@@ -182,6 +184,8 @@ public:
 	 * \param RenderContext Reference to rendering data to draw
 	 */
 	void draw(const RenderContext & ctx);
+
+	void draw_text(const Text & text, const Font & font);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();

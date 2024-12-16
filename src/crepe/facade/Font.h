@@ -22,6 +22,7 @@ public:
      * \param mediator The Mediator object used for managing the SDL context or related systems.
      */
 	Font(const Asset & src, Mediator & mediator);
+	~Font();
 
 	/**
      * \brief Gets the underlying TTF_Font resource.
