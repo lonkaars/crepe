@@ -21,6 +21,8 @@
 #include "../api/Config.h"
 #include "../api/Sprite.h"
 #include "../util/Log.h"
+#include "api/Text.h"
+#include "facade/Font.h"
 #include "manager/Mediator.h"
 
 #include "SDLContext.h"
@@ -281,6 +283,28 @@ void SDLContext::draw(const RenderContext & ctx) {
 	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
 	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect_ptr, &dstrect,
 					  angle, NULL, render_flip);
+}
+
+
+void SDLContext::draw_text(const Text & text, const Font & font){
+	SDL_Color color {
+		.r = text.data.text_color.r,
+		.g = text.data.text_color.g,
+		.b = text.data.text_color.b,
+		.a = text.data.text_color.a,
+	};
+	SDL_Surface * font_surface = TTF_RenderText_Solid(font.get_font(), text.text.c_str(), color);
+	SDL_Texture * font_texture = SDL_CreateTextureFromSurface(this->game_renderer.get(), font_surface);
+	SDL_FreeSurface(font_surface);
+
+	SDL_FRect dstrect {
+		.x = text.offset.x,
+		.y = text.offset.y,
+		.w = text.dimensions.x,
+		.h = text.dimensions.y,
+	};
+	SDL_RenderCopyExF(this->game_renderer.get(), font_texture, NULL, &dstrect , 0 , NULL, SDL_FLIP_NONE);
+	SDL_DestroyTexture(font_texture);
 }
 
 void SDLContext::update_camera_view(const Camera & cam, const vec2 & new_pos) {

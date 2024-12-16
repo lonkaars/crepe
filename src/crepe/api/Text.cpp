@@ -1,4 +1,5 @@
 #include "../facade/FontFacade.h"
+#include "util/Log.h"
 
 #include "Text.h"
 
@@ -9,4 +10,6 @@ Text::Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
 	: UIObject(id, dimensions, offset),
 	  text(text),
 	  data(data),
-	  font(FontFacade::get_font_asset(font_family)) {}
+	  font(FontFacade::get_font_asset(font_family)) {
+	dbg_trace();
+}

@@ -15,6 +15,8 @@
 #include "../manager/ResourceManager.h"
 
 #include "RenderSystem.h"
+#include "api/Text.h"
+#include "facade/Font.h"
 #include "types.h"
 
 using namespace crepe;
@@ -67,7 +69,24 @@ RefVector<Sprite> RenderSystem::sort(RefVector<Sprite> & objs) const {
 void RenderSystem::update() {
 	this->clear_screen();
 	this->render();
+	this->render_text();
 	this->present_screen();
+}
+
+
+void RenderSystem::render_text(){
+	SDLContext & ctx = this->mediator.sdl_context;
+	ComponentManager & mgr = this->mediator.component_manager;
+	ResourceManager & resource_manager = this->mediator.resource_manager;
+
+	RefVector<Text> texts = mgr.get_components_by_type<Text>();
+
+	for (Text & text  : texts) {
+		if (!text.active) continue;
+		resource_manager.get<Font>(text.font);
+		//ctx.draw_text(text, font);
+	}
+
 }
 
 bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
