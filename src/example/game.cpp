@@ -346,10 +346,10 @@ public:
 												 });
 
 		bg_2.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(0.3, 0),
+			.linear_velocity = vec2(30, 0),
 		});
 		bg_3.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(0.4, 0),
+			.linear_velocity = vec2(40, 0),
 		});
 	}
 
@@ -520,7 +520,7 @@ public:
 									 });
 		camera.add_component<BehaviorScript>().set_script<MoveCameraScript>();
 		camera.add_component<Rigidbody>(Rigidbody::Data{
-			.linear_velocity = vec2(2.5, 0),
+			.linear_velocity = vec2(100, 0),
 		});
 	}
 
