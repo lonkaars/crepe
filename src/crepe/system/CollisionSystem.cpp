@@ -23,6 +23,23 @@
 
 using namespace crepe;
 
+vec2 get_current_position(const Transform & transform,const vec2 & offset) {
+	// Get the rotation in radians
+	float radians1 = transform.rotation * (M_PI / 180.0);
+
+	// Calculate total offset with scale
+	vec2 total_offset = offset * transform.scale;
+
+	// Rotate
+	float rotated_total_offset_x1
+		= total_offset.x * cos(radians1) - total_offset.y * sin(radians1);
+	float rotated_total_offset_y1
+		= total_offset.x * sin(radians1) + total_offset.y * cos(radians1);
+
+	// Final positions considering scaling and rotation
+	return (transform.position + vec2(rotated_total_offset_x1, rotated_total_offset_y1));
+}
+
 void CollisionSystem::update() {
 	std::vector<CollisionInternal> all_colliders;
 	game_object_id_t id = 0;
@@ -138,10 +155,8 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 				= std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			const BoxCollider & collider2
 				= std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
-			vec2 collider_pos1 = this->get_current_position(collider1.offset, data1.transform,
-															data1.rigidbody);
-			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
-															data2.rigidbody);
+			vec2 collider_pos1 = get_current_position(data1.transform,collider1.offset);
+			vec2 collider_pos2 = get_current_position(data2.transform,collider2.offset);
 			resolution = this->get_box_box_resolution(collider1, collider2, collider_pos1,
 													  collider_pos2);
 			break;
@@ -151,10 +166,8 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 				= std::get<std::reference_wrapper<BoxCollider>>(data1.collider);
 			const CircleCollider & collider2
 				= std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
-			vec2 collider_pos1 = this->get_current_position(collider1.offset, data1.transform,
-															data1.rigidbody);
-			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
-															data2.rigidbody);
+			vec2 collider_pos1 = get_current_position(data1.transform,collider1.offset);
+			vec2 collider_pos2 = get_current_position(data2.transform,collider2.offset);
 			resolution = -this->get_circle_box_resolution(collider2, collider1, collider_pos2,
 														  collider_pos1);
 			break;
@@ -164,10 +177,8 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 				= std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
 			const CircleCollider & collider2
 				= std::get<std::reference_wrapper<CircleCollider>>(data2.collider);
-			vec2 collider_pos1 = this->get_current_position(collider1.offset, data1.transform,
-															data1.rigidbody);
-			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
-															data2.rigidbody);
+			vec2 collider_pos1 = get_current_position(data1.transform,collider1.offset);
+			vec2 collider_pos2 = get_current_position(data2.transform,collider2.offset);
 			resolution = this->get_circle_circle_resolution(collider1, collider2,
 															collider_pos1, collider_pos2);
 			break;
@@ -177,10 +188,8 @@ CollisionSystem::collision_handler(CollisionInternal & data1, CollisionInternal 
 				= std::get<std::reference_wrapper<CircleCollider>>(data1.collider);
 			const BoxCollider & collider2
 				= std::get<std::reference_wrapper<BoxCollider>>(data2.collider);
-			vec2 collider_pos1 = this->get_current_position(collider1.offset, data1.transform,
-															data1.rigidbody);
-			vec2 collider_pos2 = this->get_current_position(collider2.offset, data2.transform,
-															data2.rigidbody);
+			vec2 collider_pos1 = get_current_position(data1.transform,collider1.offset);
+			vec2 collider_pos2 = get_current_position(data2.transform,collider2.offset);
 			resolution = this->get_circle_box_resolution(collider1, collider2, collider_pos1,
 														 collider_pos2);
 			break;
@@ -606,8 +615,8 @@ bool CollisionSystem::get_box_box_collision(const BoxCollider & box1, const BoxC
 											const Rigidbody & rigidbody1,
 											const Rigidbody & rigidbody2) const {
 	// Get current positions of colliders
-	vec2 final_position1 = this->get_current_position(box1.offset, transform1, rigidbody1);
-	vec2 final_position2 = this->get_current_position(box2.offset, transform2, rigidbody2);
+	vec2 final_position1 = get_current_position(transform1,box1.offset);
+	vec2 final_position2 = get_current_position(transform2,box2.offset);
 
 	// Scale dimensions
 	vec2 scaled_box1 = box1.dimensions * transform1.scale;
@@ -633,8 +642,8 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 											   const Rigidbody & rigidbody1,
 											   const Rigidbody & rigidbody2) const {
 	// Get current positions of colliders
-	vec2 final_position1 = this->get_current_position(box1.offset, transform1, rigidbody1);
-	vec2 final_position2 = this->get_current_position(circle2.offset, transform2, rigidbody2);
+	vec2 final_position1 = get_current_position(transform1,box1.offset);
+	vec2 final_position2 = get_current_position(transform2,circle2.offset);
 
 	// Scale dimensions
 	vec2 scaled_box = box1.dimensions * transform1.scale;
@@ -666,8 +675,8 @@ bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1
 												  const Rigidbody & rigidbody1,
 												  const Rigidbody & rigidbody2) const {
 	// Get current positions of colliders
-	vec2 final_position1 = this->get_current_position(circle1.offset, transform1, rigidbody1);
-	vec2 final_position2 = this->get_current_position(circle2.offset, transform2, rigidbody2);
+	vec2 final_position1 = get_current_position(transform1,circle1.offset);
+	vec2 final_position2 = get_current_position(transform2,circle2.offset);
 
 	// Scale dimensions
 	float scaled_circle1 = circle1.radius * transform1.scale;
@@ -684,21 +693,4 @@ bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1
 	return distance_squared < radius_sum * radius_sum;
 }
 
-vec2 CollisionSystem::get_current_position(const vec2 & collider_offset,
-										   const Transform & transform,
-										   const Rigidbody & rigidbody) const {
-	// Get the rotation in radians
-	float radians1 = transform.rotation * (M_PI / 180.0);
 
-	// Calculate total offset with scale
-	vec2 total_offset = (rigidbody.data.offset + collider_offset) * transform.scale;
-
-	// Rotate
-	float rotated_total_offset_x1
-		= total_offset.x * cos(radians1) - total_offset.y * sin(radians1);
-	float rotated_total_offset_y1
-		= total_offset.x * sin(radians1) + total_offset.y * cos(radians1);
-
-	// Final positions considering scaling and rotation
-	return (transform.position + vec2(rotated_total_offset_x1, rotated_total_offset_y1));
-}
