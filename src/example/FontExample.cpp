@@ -7,7 +7,9 @@
 #include <crepe/manager/EventManager.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
+#include <crepe/api/LoopManager.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/Camera.h>
 #include <exception>
 #include <iostream>
 #include <memory>
@@ -25,7 +27,7 @@ class TestScript : public Script{
 		auto now = steady_clock::now();
         auto elapsed = duration_cast<seconds>(now - start_time).count();
 
-        if (elapsed >= 1) {
+        if (elapsed >= 5) {
 			Mediator& med = mediator;
             EventManager& event_mgr = med.event_manager;
 			event_mgr.trigger_event<ShutDownEvent>();
@@ -37,15 +39,18 @@ class TestScene : public Scene{
 	void load_scene() override{
 		GameObject text_object = this->new_object("test","test",vec2{0,0},0,1);
 		text_object.add_component<Text>(vec2(100, 100), vec2(0, 0), "test test",
-									 "OpenSymbol", Text::Data{});
-		text_object.add_component<BehaviorScript>();
+									 "Noto Sans", Text::Data{});
+		text_object.add_component<BehaviorScript>().set_script<TestScript>();
+		text_object.add_component<Camera>(ivec2{300,300},vec2{100,100},Camera::Data{
+		});
 
 	}
-	std::string get_name(){ return "hey";}
+	std::string get_name() const override { return "hey"; }
 };
 int main() {
-
-
+	LoopManager engine;
+	engine.add_scene<TestScene>();
+	engine.start();
 
 	return 0;
 }
