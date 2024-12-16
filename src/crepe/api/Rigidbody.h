@@ -53,7 +53,7 @@ public:
 	 */
 	struct Data {
 		//! objects mass
-		float mass = 0.0;
+		float mass = 1;
 		/**
 		* \brief Gravity scale factor.
 		*
@@ -79,7 +79,7 @@ public:
 		//! Linear velocity of the object (speed and direction).
 		vec2 linear_velocity;
 		//! Maximum linear velocity of the object. This limits the object's speed.
-		vec2 max_linear_velocity = {INFINITY, INFINITY};
+		float max_linear_velocity = INFINITY;
 		//! Linear velocity coefficient. This scales the object's velocity for adjustment or damping.
 		vec2 linear_velocity_coefficient = {1, 1};
 		//! \}
