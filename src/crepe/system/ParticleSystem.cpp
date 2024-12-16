@@ -7,6 +7,7 @@
 #include "../api/Transform.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/LoopTimerManager.h"
+#include "util/AbsoluutPosition.h"
 
 #include "ParticleSystem.h"
 
@@ -47,8 +48,8 @@ void ParticleSystem::update() {
 
 void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & transform) {
 	constexpr float DEG_TO_RAD = M_PI / 180.0;
-
-	vec2 initial_position = emitter.data.offset + transform.position;
+	
+	vec2 initial_position = AbsoluutPosition::get_position(transform, emitter.data.offset);
 	float random_angle
 		= this->generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
 
