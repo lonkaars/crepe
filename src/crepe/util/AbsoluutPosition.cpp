@@ -2,7 +2,7 @@
 
 using namespace crepe;
 
-vec2 AbsoluutPosition::get_position(const Transform & transform,const vec2 & offset) {
+vec2 AbsoluutPosition::get_position(const Transform & transform, const vec2 & offset) {
 	// Get the rotation in radians
 	float radians1 = transform.rotation * (M_PI / 180.0);
 
@@ -18,4 +18,3 @@ vec2 AbsoluutPosition::get_position(const Transform & transform,const vec2 & off
 	// Final positions considering scaling and rotation
 	return (transform.position + vec2(rotated_total_offset_x1, rotated_total_offset_y1));
 }
-
