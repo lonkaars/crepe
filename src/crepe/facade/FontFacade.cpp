@@ -2,21 +2,15 @@
 #include <SDL2/SDL_ttf.h>
 #include <fontconfig/fontconfig.h>
 
-#include "SDLFontContext.h"
+#include "FontFacade.h"
 
 using namespace crepe;
 using namespace std;
 
-SDLFontContext::SDLFontContext() {
+Asset FontFacade::get_font_asset(const string font_family) {
 	if (!FcInit()) {
 		throw runtime_error("Failed to initialize Fontconfig.");
 	}
-}
-
-SDLFontContext::~SDLFontContext() { FcFini(); }
-
-Asset SDLFontContext::get_font_asset(const string font_family) {
-
 	// Create a pattern to search for the font family
 	FcPattern * pattern = FcNameParse(reinterpret_cast<const FcChar8 *>(font_family.c_str()));
 	if (pattern == NULL) {
@@ -51,5 +45,6 @@ Asset SDLFontContext::get_font_asset(const string font_family) {
 	// Convert the file path to a string
 	string font_file_path(reinterpret_cast<const char *>(file_path));
 	FcPatternDestroy(matched_pattern);
+	FcFini();
 	return Asset(font_file_path);
 }
