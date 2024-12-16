@@ -132,6 +132,9 @@ public:
 		*/
 		vec2 offset;
 
+		//! Enable collision handeling in collision system
+		bool kinematic_collision = true;
+
 		/**
 		 * \brief Defines the collision layers of a GameObject.
 		 *

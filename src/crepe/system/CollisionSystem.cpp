@@ -63,7 +63,7 @@ void CollisionSystem::update() {
 	// For both objects call the collision handler
 	for (auto & collision_pair : collided) {
 		this->collision_handler_request(collision_pair.first, collision_pair.second);
-		this->collision_handler_request(collision_pair.second, collision_pair.first);
+		// this->collision_handler_request(collision_pair.second, collision_pair.first);
 	}
 }
 
@@ -302,16 +302,57 @@ vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_co
 }
 
 void CollisionSystem::determine_collision_handler(CollisionInfo & info) {
-	// Check rigidbody type for static
-	if (info.this_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) return;
-	// If second body is static perform the static collision handler in this system
-	if (info.other_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) {
-		this->static_collision_handler(info);
-	};
-	// Call collision event for user
+	// If both objects are static skip handle call collision script
+	if(info.this_rigidbody.data.body_type == Rigidbody::BodyType::STATIC && info.other_rigidbody.data.body_type == Rigidbody::BodyType::STATIC) return;
+
+	//	First body is not dynamic
+	if(info.this_rigidbody.data.body_type != Rigidbody::BodyType::DYNAMIC)
+	{
+		bool static_collision = info.this_rigidbody.data.body_type == Rigidbody::BodyType::STATIC && info.other_rigidbody.data.body_type == Rigidbody::BodyType::DYNAMIC;
+		bool kinematic_collision = info.this_rigidbody.data.body_type == Rigidbody::BodyType::KINEMATIC && info.other_rigidbody.data.body_type == Rigidbody::BodyType::DYNAMIC && info.this_rigidbody.data.kinematic_collision;
+		// Inverted collision info
+		CollisionInfo inverted = {
+				.this_collider = info.other_collider,
+				.this_transform = info.other_transform,
+				.this_rigidbody = info.other_rigidbody,
+				.this_metadata = info.other_metadata,
+				.other_collider = info.this_collider,
+				.other_transform = info.this_transform,
+				.other_rigidbody = info.this_rigidbody,
+				.other_metadata = info.this_metadata,
+				.resolution = -info.resolution,
+				.resolution_direction = info.resolution_direction,
+				};
+		
+		if(static_collision || kinematic_collision){
+			// Static collision
+			this->static_collision_handler(inverted);
+		};
+		// Call scripts
+		this->call_collision_events(inverted);
+		return;
+	}
+
+	// Second body is not dynamic
+	if(info.other_rigidbody.data.body_type != Rigidbody::BodyType::DYNAMIC)
+	{
+		bool static_collision = info.other_rigidbody.data.body_type == Rigidbody::BodyType::STATIC;
+		bool kinematic_collision = info.other_rigidbody.data.body_type == Rigidbody::BodyType::KINEMATIC && info.other_rigidbody.data.kinematic_collision;
+		if(static_collision || kinematic_collision)	this->static_collision_handler(info);
+		this->call_collision_events(info);
+		return;
+	}
+
+	//dynamic
+	this->dynamic_collision_handler(info);
+	this->call_collision_events(info);
+}
+
+void CollisionSystem::call_collision_events(CollisionInfo & info){
 	CollisionEvent data(info);
 	EventManager & emgr = this->mediator.event_manager;
 	emgr.trigger_event<CollisionEvent>(data, info.this_collider.game_object_id);
+	emgr.trigger_event<CollisionEvent>(data, info.other_collider.game_object_id);
 }
 
 void CollisionSystem::static_collision_handler(CollisionInfo & info) {
@@ -356,6 +397,28 @@ void CollisionSystem::static_collision_handler(CollisionInfo & info) {
 				info.this_rigidbody.data.linear_velocity.x = 0;
 				info.this_transform.position.y -= info.resolution.y;
 			}
+			break;
+		case Direction::NONE:
+			// Not possible
+			break;
+	}
+}
+
+void CollisionSystem::dynamic_collision_handler(CollisionInfo & info){
+	info.this_transform.position += info.resolution/2;
+	info.other_transform.position += -(info.resolution/2);
+
+	switch (info.resolution_direction) {
+		case Direction::BOTH:
+			info.this_rigidbody.data.linear_velocity = {0, 0};
+			break;
+		case Direction::Y_DIRECTION:
+			info.this_rigidbody.data.linear_velocity.y = 0;
+			info.this_transform.position.x -= info.resolution.x;
+			break;
+		case Direction::X_DIRECTION:
+			info.this_rigidbody.data.linear_velocity.x = 0;
+			info.this_transform.position.y -= info.resolution.y;
 			break;
 		case Direction::NONE:
 			// Not possible
