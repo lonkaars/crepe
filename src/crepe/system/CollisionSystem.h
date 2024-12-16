@@ -195,6 +195,15 @@ private:
 	void determine_collision_handler(CollisionInfo & info);
 
 	/**
+		* \brief Calls both collision script
+		*
+		* Calls both collision script to let user add additonal handeling or handle full collision.
+		*
+		* \param info Collision information containing data about both colliders.
+		*/
+	void call_collision_events(CollisionInfo & info);
+
+	/**
 		* \brief Handles collisions involving static objects.
 		*
 		* Resolves collisions by adjusting positions and modifying velocities if bounce is enabled.
@@ -202,6 +211,15 @@ private:
 		* \param info Collision information containing data about both colliders.
 		*/
 	void static_collision_handler(CollisionInfo & info);
+
+	/**
+		* \brief Handles collisions involving dynamic objects.
+		*
+		* Resolves collisions by adjusting positions and modifying velocities if bounce is enabled.
+		*
+		* \param info Collision information containing data about both colliders.
+		*/
+	void dynamic_collision_handler(CollisionInfo & info);
 
 private:
 	/**
