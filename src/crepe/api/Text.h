@@ -5,6 +5,7 @@
 #include "../Component.h"
 
 #include "Color.h"
+#include "Asset.h"
 #include "UIObject.h"
 
 namespace crepe {
@@ -39,13 +40,21 @@ public:
 	};
 
 public:
+	/**
+	 * 
+	 * \param dimensions Width and height of the UIObject.
+	 * \param offset Offset of the UIObject relative to its transform
+	 * \param text The text to be displayed.
+	 * \param font_family The font style name to be displayed.
+	 * \param data Data struct containing extra text parameters.
+	 */
 	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
-		 const std::string &, const std::string & font_family, const Data & data);
-	//! font family name such as (Arial,Helvetica,Inter)
-	std::string font_family = "";
+		 const std::string & text, const std::string & font_family, const Data & data);
 	//! Label text.
 	std::string text = "";
-	// Data instance for data not gotten from constructor
+	//! Font asset variable
+	Asset font;
+	//! Data instance
 	Data data;
 };
 
