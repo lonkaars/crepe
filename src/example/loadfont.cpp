@@ -13,7 +13,7 @@ int main() {
 	// SDLFontContext font_facade;
 	Mediator mediator;
 	SDLContext sdl_context{mediator};
-	ComponentManager component_manager{mediator};
+	// ComponentManager component_manager{mediator};
 	ResourceManager resource_manager{mediator};
 	try {
 		// Correct way to create a unique pointer for Text

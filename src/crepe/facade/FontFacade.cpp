@@ -16,7 +16,7 @@ Asset FontFacade::get_font_asset(const string font_family) {
 	if (pattern == NULL) {
 		throw runtime_error("Failed to create font pattern.");
 	}
-
+	
 	// Default configuration
 	FcConfig * config = FcConfigGetCurrent();
 	if (config == NULL) {
@@ -43,7 +43,7 @@ Asset FontFacade::get_font_asset(const string font_family) {
 	}
 
 	// Convert the file path to a string
-	string font_file_path(reinterpret_cast<const char *>(file_path));
+	string font_file_path = reinterpret_cast<const char *>(file_path);
 	FcPatternDestroy(matched_pattern);
 	FcFini();
 	return Asset(font_file_path);
