@@ -1,4 +1,6 @@
 #include <stdexcept>
+#include <SDL2/SDL_ttf.h>
+#include <fontconfig/fontconfig.h>
 
 #include "SDLFontContext.h"
 
