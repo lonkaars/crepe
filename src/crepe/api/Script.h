@@ -191,7 +191,7 @@ private:
 	//! Reference to parent component
 	OptionalRef<bool> active;
 	//! Mediator reference
-	
+
 	//! \}
 
 private:

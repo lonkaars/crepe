@@ -15,7 +15,7 @@ Asset FontFacade::get_font_asset(const string font_family) {
 	if (pattern == NULL) {
 		throw runtime_error("Failed to create font pattern.");
 	}
-	
+
 	// Default configuration
 	FcConfig * config = FcConfigGetCurrent();
 	if (config == NULL) {
