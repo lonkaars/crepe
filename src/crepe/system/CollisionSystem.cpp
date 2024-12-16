@@ -410,15 +410,69 @@ void CollisionSystem::dynamic_collision_handler(CollisionInfo & info){
 
 	switch (info.resolution_direction) {
 		case Direction::BOTH:
-			info.this_rigidbody.data.linear_velocity = {0, 0};
+			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
+				info.this_rigidbody.data.linear_velocity
+					= -info.this_rigidbody.data.linear_velocity
+					  * info.this_rigidbody.data.elastisity_coefficient;
+			}
+			else {
+				info.this_rigidbody.data.linear_velocity = {0, 0};
+			}
+
+			if (info.other_rigidbody.data.elastisity_coefficient > 0) {
+				info.other_rigidbody.data.linear_velocity
+					= -info.other_rigidbody.data.linear_velocity
+					  * info.other_rigidbody.data.elastisity_coefficient;
+			}
+			else {
+				info.other_rigidbody.data.linear_velocity = {0, 0};
+			}
 			break;
 		case Direction::Y_DIRECTION:
-			info.this_rigidbody.data.linear_velocity.y = 0;
-			info.this_transform.position.x -= info.resolution.x;
+			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
+				info.this_rigidbody.data.linear_velocity.y
+					= -info.this_rigidbody.data.linear_velocity.y
+					  * info.this_rigidbody.data.elastisity_coefficient;
+			}
+			// Stop movement
+			else {
+				info.this_rigidbody.data.linear_velocity.y = 0;
+				info.this_transform.position.x -= info.resolution.x;
+			}
+
+			if (info.other_rigidbody.data.elastisity_coefficient > 0) {
+				info.other_rigidbody.data.linear_velocity.y
+					= -info.other_rigidbody.data.linear_velocity.y
+					  * info.other_rigidbody.data.elastisity_coefficient;
+			}
+			// Stop movement
+			else {
+				info.other_rigidbody.data.linear_velocity.y = 0;
+				info.other_transform.position.x -= info.resolution.x;
+			}
 			break;
 		case Direction::X_DIRECTION:
-			info.this_rigidbody.data.linear_velocity.x = 0;
-			info.this_transform.position.y -= info.resolution.y;
+			if (info.this_rigidbody.data.elastisity_coefficient > 0) {
+				info.this_rigidbody.data.linear_velocity.x
+					= -info.this_rigidbody.data.linear_velocity.x
+					  * info.this_rigidbody.data.elastisity_coefficient;
+			}
+			// Stop movement
+			else {
+				info.this_rigidbody.data.linear_velocity.x = 0;
+				info.this_transform.position.y -= info.resolution.y;
+			}
+
+			if (info.other_rigidbody.data.elastisity_coefficient > 0) {
+				info.other_rigidbody.data.linear_velocity.x
+					= -info.other_rigidbody.data.linear_velocity.x
+					  * info.other_rigidbody.data.elastisity_coefficient;
+			}
+			// Stop movement
+			else {
+				info.other_rigidbody.data.linear_velocity.x = 0;
+				info.other_transform.position.y -= info.resolution.y;
+			}
 			break;
 		case Direction::NONE:
 			// Not possible
