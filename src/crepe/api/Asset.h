@@ -37,7 +37,7 @@ public:
 
 private:
 	//! path to asset
-	std::string src;
+	const std::string src;
 
 private:
 	/**
