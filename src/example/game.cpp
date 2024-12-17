@@ -1,11 +1,7 @@
 #include "Background.h"
 
-#include <crepe/api/Animator.h>
-#include <crepe/api/Asset.h>
 #include <crepe/api/BehaviorScript.h>
-#include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
-#include <crepe/api/CircleCollider.h>
 #include <crepe/api/Color.h>
 #include <crepe/api/Event.h>
 #include <crepe/api/GameObject.h>
@@ -13,11 +9,7 @@
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
-#include <crepe/api/Sprite.h>
-#include <crepe/api/Transform.h>
-#include <crepe/api/Vector2.h>
 #include <crepe/types.h>
-#include <iostream>
 
 using namespace crepe;
 using namespace std;
