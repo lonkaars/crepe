@@ -65,13 +65,16 @@ public:
 			jetpack_sprite.active = true;
 		}
 
-		// Start camera movement and enable player jumping
+		// Start camera movement, enable player jumping and disable this script
 		if (player_transform.position.x == 150) {
 			Rigidbody & rb = this->get_components_by_name<Rigidbody>("camera").front();
 			rb.data.linear_velocity = vec2(100, 0);
 			BehaviorScript & player_script
 				= this->get_components_by_name<BehaviorScript>("player").front();
 			player_script.active = true;
+			BehaviorScript & this_script
+				= this->get_components_by_name<BehaviorScript>("start_game_script").front();
+			this_script.active = false;
 		}
 	}
 };
