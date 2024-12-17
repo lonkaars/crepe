@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "Background.h"
 #include "Player.h"
+#include "api/ParticleEmitter.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -65,6 +66,12 @@ public:
 			}
 			for (Sprite & frag_sprite : frags_sprite) {
 				frag_sprite.active = true;
+			}
+
+			RefVector<ParticleEmitter> smoke_emitters
+				= this->get_components_by_name<ParticleEmitter>("smoke_particles");
+			for (ParticleEmitter & emitter : smoke_emitters) {
+				emitter.active = true;
 			}
 
 			this->created_hole = true;

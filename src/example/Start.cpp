@@ -1,11 +1,13 @@
 #include "Start.h"
 #include "api/Asset.h"
 #include "api/CircleCollider.h"
+#include "api/Color.h"
 #include "api/Rigidbody.h"
 #include "types.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>
 
@@ -385,4 +387,46 @@ void Start::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	});
 	frag_12_rb.active = false;
 	frag_12.add_component<CircleCollider>(50);
+
+	GameObject smoke_particles_1
+		= scn.new_object("smoke_particles", "particle_emitter", vec2(begin_x - 100, 200));
+	Asset smoke_asset_1{"asset/jetpack_joyride/particles/smoke.png"};
+	Sprite & smoke_sprite_1 = smoke_particles_1.add_component<Sprite>(
+		smoke_asset_1, Sprite::Data{
+						   .color = Color(255, 255, 255, 50),
+						   .sorting_in_layer = 15,
+						   .order_in_layer = 0,
+						   .size = vec2(0, 100),
+					   });
+	ParticleEmitter & emitter_1 = smoke_particles_1.add_component<ParticleEmitter>(
+		smoke_sprite_1, ParticleEmitter::Data{
+							.emission_rate = 20,
+							.min_speed = 40,
+							.max_speed = 100,
+							.min_angle = -30,
+							.max_angle = 10,
+							.end_lifespan = 4,
+						});
+	emitter_1.active = false;
+
+	GameObject smoke_particles_2
+		= scn.new_object("smoke_particles", "particle_emitter", vec2(begin_x - 100, 200));
+	Asset smoke_asset_2{"asset/jetpack_joyride/particles/smoke.png"};
+	Sprite & smoke_sprite_2 = smoke_particles_2.add_component<Sprite>(
+		smoke_asset_2, Sprite::Data{
+						   .color = Color(255, 255, 255, 50),
+						   .sorting_in_layer = 15,
+						   .order_in_layer = 0,
+						   .size = vec2(0, 70),
+					   });
+	ParticleEmitter & emitter_2 = smoke_particles_2.add_component<ParticleEmitter>(
+		smoke_sprite_2, ParticleEmitter::Data{
+							.emission_rate = 30,
+							.min_speed = 40,
+							.max_speed = 100,
+							.min_angle = -45,
+							.max_angle = 5,
+							.end_lifespan = 3,
+						});
+	emitter_2.active = false;
 }
