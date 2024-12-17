@@ -66,7 +66,7 @@ public:
 														   .bg_color = Color::WHITE,
 													   });
 
-		game_object.add_component<Text>(vec2{200,200}, vec2{0,0}, "test test", "OpenSymbol", Text::Data{});
+		game_object.add_component<Text>(vec2{200,200}, vec2{0,0}, "test test", "", Text::Data{});
 	}
 
 	string get_name() const { return "TestScene"; };
