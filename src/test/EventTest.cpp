@@ -48,15 +48,14 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_all_channels) {
 
 	EventHandler<MouseClickEvent> mouse_handler = [&](const MouseClickEvent & e) {
 		triggered = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler, EventManager::CHANNEL_ALL);
 
-	MouseClickEvent click_event{
-		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
+	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
 	event_mgr.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
 	EXPECT_TRUE(triggered);
@@ -66,15 +65,14 @@ TEST_F(EventManagerTest, EventManagerTest_trigger_one_channel) {
 	int test_channel = 1;
 	EventHandler<MouseClickEvent> mouse_handler = [&](const MouseClickEvent & e) {
 		triggered = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler, test_channel);
 
-	MouseClickEvent click_event{
-		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
+	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
 	event_mgr.trigger_event<MouseClickEvent>(click_event, EventManager::CHANNEL_ALL);
 
 	EXPECT_FALSE(triggered);
@@ -90,23 +88,22 @@ TEST_F(EventManagerTest, EventManagerTest_callback_propagation) {
 	// Handlers
 	EventHandler<MouseClickEvent> mouse_handler_true = [&](const MouseClickEvent & e) {
 		triggered_true = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return true; // Stops propagation
 	};
 
 	EventHandler<MouseClickEvent> mouse_handler_false = [&](const MouseClickEvent & e) {
 		triggered_false = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false; // Allows propagation
 	};
 
 	// Test event
-	MouseClickEvent click_event{
-		.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE};
+	MouseClickEvent click_event{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE};
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler_true, EventManager::CHANNEL_ALL);
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler_false, EventManager::CHANNEL_ALL);
 
@@ -138,15 +135,15 @@ TEST_F(EventManagerTest, EventManagerTest_queue_dispatch) {
 	int test_channel = 1;
 	EventHandler<MouseClickEvent> mouse_handler1 = [&](const MouseClickEvent & e) {
 		triggered1 = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false; // Allows propagation
 	};
 	EventHandler<MouseClickEvent> mouse_handler2 = [&](const MouseClickEvent & e) {
 		triggered2 = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false; // Allows propagation
 	};
@@ -154,9 +151,9 @@ TEST_F(EventManagerTest, EventManagerTest_queue_dispatch) {
 	event_mgr.subscribe<MouseClickEvent>(mouse_handler2, test_channel);
 
 	event_mgr.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE});
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 	event_mgr.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE},
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE},
 		test_channel);
 	event_mgr.dispatch_events();
 	EXPECT_TRUE(triggered1);
@@ -172,16 +169,16 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 	// Define EventHandlers
 	EventHandler<MouseClickEvent> mouse_handler1 = [&](const MouseClickEvent & e) {
 		triggered1 = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false; // Allows propagation
 	};
 
 	EventHandler<MouseClickEvent> mouse_handler2 = [&](const MouseClickEvent & e) {
 		triggered2 = true;
-		EXPECT_EQ(e.mouse_x, 100);
-		EXPECT_EQ(e.mouse_y, 200);
+		EXPECT_EQ(e.mouse_pos.x, 100);
+		EXPECT_EQ(e.mouse_pos.y, 200);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false; // Allows propagation
 	};
@@ -191,7 +188,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 
 	// Queue events
 	event_mgr.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE});
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 
 	// Dispatch events - both handlers should be triggered
 	event_mgr.dispatch_events();
@@ -207,7 +204,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 
 	// Queue the same event again
 	event_mgr.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE});
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 
 	// Dispatch events - only handler 2 should be triggered, handler 1 should NOT
 	event_mgr.dispatch_events();
@@ -222,7 +219,7 @@ TEST_F(EventManagerTest, EventManagerTest_unsubscribe) {
 
 	// Queue the event again
 	event_mgr.queue_event<MouseClickEvent>(
-		MouseClickEvent{.mouse_x = 100, .mouse_y = 200, .button = MouseButton::LEFT_MOUSE});
+		MouseClickEvent{.mouse_pos = {100, 200}, .button = MouseButton::LEFT_MOUSE});
 
 	// Dispatch events - no handler should be triggered
 	event_mgr.dispatch_events();
