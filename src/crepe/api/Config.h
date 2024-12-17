@@ -76,6 +76,11 @@ struct Config final {
 		 */
 		std::string root_pattern = ".crepe-root";
 	} asset;
+	//! Configuration for click tolerance.
+	struct {
+		//! The maximum number of pixels the mouse can move between MouseDown and MouseUp events to be considered a click.
+		int click_tolerance = 5;
+	} input;
 
 	//! Audio system settings
 	struct {
