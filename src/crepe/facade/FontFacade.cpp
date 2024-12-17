@@ -1,4 +1,3 @@
-#include <SDL2/SDL_ttf.h>
 #include <fontconfig/fontconfig.h>
 #include <stdexcept>
 
@@ -43,7 +42,7 @@ Asset FontFacade::get_font_asset(const string font_family) {
 	}
 
 	// Convert the file path to a string
-	string font_file_path(reinterpret_cast<const char *>(file_path));
+	string font_file_path = reinterpret_cast<const char *>(file_path);
 	FcPatternDestroy(matched_pattern);
 	FcFini();
 	return Asset(font_file_path);
