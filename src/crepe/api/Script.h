@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "../api/KeyCodes.h"
 #include "../manager/EventManager.h"
 #include "../manager/Mediator.h"
 #include "../manager/ReplayManager.h"
@@ -157,7 +158,23 @@ protected:
 		replay(OptionalRef<Mediator> & mediator) : mediator(mediator) {}
 		friend class Script;
 	} replay{mediator};
-	//! \}
+
+	/**
+	 * \brief Utility function to retrieve the keyboard state
+	 * \see SDLContext::get_keyboard_state
+	 * 
+	 * \return current keyboard state map with Keycode as key and bool as value(true = pressed, false = not pressed)
+	 * 
+	 */
+	const keyboard_state_t & get_keyboard_state() const;
+	/**
+	 * \brief Utility function to retrieve a single key state.
+	 * \see SDLContext::get_keyboard_state
+	 * 
+	 * \return Keycode state (true if pressed, false if not pressed).
+	 * 
+	 */
+	bool get_key_state(Keycode key) const noexcept;
 
 private:
 	/**
