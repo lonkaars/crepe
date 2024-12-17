@@ -3,7 +3,6 @@
 #include <functional>
 
 #include "Event.h"
-#include "Metadata.h"
 #include "UIObject.h"
 
 namespace crepe {
