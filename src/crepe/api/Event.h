@@ -5,7 +5,7 @@
 
 #include "types.h"
 
-#include "api/KeyCodes.h"
+#include "KeyCodes.h"
 
 namespace crepe {
 
