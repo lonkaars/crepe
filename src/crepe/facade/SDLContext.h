@@ -18,6 +18,7 @@
 #include "types.h"
 
 #include "FontFacade.h"
+
 namespace crepe {
 
 class Texture;
