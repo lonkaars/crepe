@@ -10,8 +10,7 @@ using namespace std;
 using namespace crepe;
 
 FontFacade::FontFacade() {
-	if (!FcInit())
-		throw runtime_error("Failed to initialize Fontconfig.");
+	if (!FcInit()) throw runtime_error("Failed to initialize Fontconfig.");
 }
 
 FontFacade::~FontFacade() { FcFini(); }
@@ -22,8 +21,7 @@ Asset FontFacade::get_font_asset(const string & font_family) {
 	if (raw_pattern == NULL) throw runtime_error("Failed to create font pattern.");
 
 	unique_ptr<FcPattern, function<void(FcPattern *)>> pattern{
-		raw_pattern, [](FcPattern * p) { FcPatternDestroy(p); }
-	};
+		raw_pattern, [](FcPattern * p) { FcPatternDestroy(p); }};
 
 	FcConfig * config = FcConfigGetCurrent();
 	if (config == NULL) throw runtime_error("Failed to get current Fontconfig configuration.");
@@ -32,9 +30,8 @@ Asset FontFacade::get_font_asset(const string & font_family) {
 	FcPattern * raw_matched_pattern = FcFontMatch(config, pattern.get(), &result);
 	if (raw_matched_pattern == NULL) throw runtime_error("No matching font found.");
 
-	unique_ptr<FcPattern, function<void(FcPattern *)>> matched_pattern = {
-		raw_matched_pattern, [](FcPattern * p) { FcPatternDestroy(p); }
-	};
+	unique_ptr<FcPattern, function<void(FcPattern *)>> matched_pattern
+		= {raw_matched_pattern, [](FcPattern * p) { FcPatternDestroy(p); }};
 
 	FcChar8 * file_path = nullptr;
 	FcResult res = FcPatternGetString(matched_pattern.get(), FC_FILE, 0, &file_path);
@@ -44,4 +41,3 @@ Asset FontFacade::get_font_asset(const string & font_family) {
 	string font_file_path = reinterpret_cast<const char *>(file_path);
 	return Asset(font_file_path);
 }
-
