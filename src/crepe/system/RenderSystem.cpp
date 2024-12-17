@@ -85,7 +85,8 @@ void RenderSystem::render_text() {
 
 	for (Text & text : texts) {
 		if (!text.active) continue;
-		if (!text.font.has_value()) text.font = ctx.get_font_from_name(text.font_family);
+		if (!text.font.has_value())
+			text.font.emplace(ctx.get_font_from_name(text.font_family));
 		if (!text.font.has_value()) continue;
 
 		const Font & font = resource_manager.get<Font>(text.font.value());
