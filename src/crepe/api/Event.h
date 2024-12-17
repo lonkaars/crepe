@@ -95,15 +95,6 @@ public:
 };
 
 /**
- * \brief Event triggered when text is submitted, e.g., from a text input.
- */
-class TextSubmitEvent : public Event {
-public:
-	//! The submitted text.
-	std::string text = "";
-};
-
-/**
  * \brief Event triggered to indicate the application is shutting down.
  */
 class ShutDownEvent : public Event {};
