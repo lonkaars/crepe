@@ -49,24 +49,28 @@ public:
 			= this->get_components_by_name<Transform>("player").front();
 
 		// Create hole in wall and activate panic lamp
-		if (player_transform.position.x == -310) {
+		if (player_transform.position.x > 75 && !this->created_hole) {
 			Sprite & lamp_sprite = this->get_components_by_name<Sprite>("start_end").back();
 			lamp_sprite.active = true;
 			Sprite & hole_sprite = this->get_components_by_name<Sprite>("start_hole").front();
 			hole_sprite.active = true;
+
+			this->created_hole = true;
 		}
 
 		// Take jetpack from jetpack stand
-		if (player_transform.position.x == -100) {
+		if (player_transform.position.x > 275 && !this->took_jetpack) {
 			Animator & jetpack_stand_anim
 				= this->get_components_by_name<Animator>("start_begin").back();
 			jetpack_stand_anim.next_anim();
 			Sprite & jetpack_sprite = this->get_components_by_name<Sprite>("player").back();
 			jetpack_sprite.active = true;
+
+			this->took_jetpack = true;
 		}
 
 		// Start camera movement, enable player jumping and disable this script
-		if (player_transform.position.x == 150) {
+		if (player_transform.position.x > 500) {
 			Rigidbody & rb = this->get_components_by_name<Rigidbody>("camera").front();
 			rb.data.linear_velocity = vec2(100, 0);
 			BehaviorScript & player_script
@@ -77,6 +81,10 @@ public:
 			this_script.active = false;
 		}
 	}
+
+private:
+	bool created_hole = false;
+	bool took_jetpack = false;
 };
 
 class PlayerScript : public Script {
@@ -100,7 +108,7 @@ private:
 void GameScene::load_scene() {
 	Background background(*this);
 
-	GameObject camera = new_object("camera", "camera", vec2(250, 0));
+	GameObject camera = new_object("camera", "camera", vec2(650, 0));
 	camera.add_component<Camera>(ivec2(990, 720), vec2(1100, 800),
 								 Camera::Data{
 									 .bg_color = Color::RED,
@@ -110,7 +118,7 @@ void GameScene::load_scene() {
 		.linear_velocity = vec2(0, 0),
 	});
 
-	GameObject player = new_object("player", "player", vec2(-500, 200));
+	GameObject player = new_object("player", "player", vec2(-100, 200));
 	Asset player_body_asset{"asset/jetpack_joyride/barry/defaultBody.png"};
 	Sprite & player_body_sprite
 		= player.add_component<Sprite>(player_body_asset, Sprite::Data{
