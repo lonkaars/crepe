@@ -46,10 +46,6 @@ struct Config final {
 		std::string location = "save.crepe.db";
 	} savemgr;
 
-	struct {
-		unsigned int size = 16;
-	} font;
-
 	//! physics-related settings
 	struct {
 		/**
