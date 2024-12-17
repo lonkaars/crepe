@@ -30,8 +30,8 @@ int main() {
 		std::cout << label->font.value().get_path() << std::endl;
 		// label2->font = std::make_optional(asset);
 		// std::cout << "Path: " << label2->font.get_path() << std::endl;
-		// ResourceManager & resource_mgr = mediator.resource_manager;
-		// const Font & res = resource_manager.get<Font>(label->font);
+		ResourceManager & resource_mgr = mediator.resource_manager;
+		const Font & res = resource_manager.get<Font>(label->font.value());
 		// TTF_Font * test_font = res.get_font();
 		// if (test_font == NULL) {
 		// 	std::cout << "error with font" << std::endl;
