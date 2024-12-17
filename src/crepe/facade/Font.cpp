@@ -21,4 +21,3 @@ Font::Font(const Asset & src, Mediator & mediator) : Resource(src, mediator) {
 }
 
 TTF_Font * Font::get_font() const { return this->font.get(); }
-
