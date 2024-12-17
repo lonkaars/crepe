@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <optional> 
 
 #include "../Component.h"
 
@@ -47,15 +48,21 @@ public:
 	 * \param text The text to be displayed.
 	 * \param font_family The font style name to be displayed.
 	 * \param data Data struct containing extra text parameters.
+	 * \param font Optional font asset that can be passed or left empty.
 	 */
-	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
-		 const std::string & text, const std::string & font_family, const Data & data);
+	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset, 
+     const std::string & font_family, const Data & data, 
+     const std::string & text = "", std::optional<Asset> font = std::nullopt);
+	
 	//! Label text.
 	std::string text = "";
-	//! Font asset variable
-	const Asset font;
+	//! font family name
+	std::string font_family = "";
+	//! Font asset variable if this is not set, it will use the font_family to create an asset.
+	std::optional<Asset> font;
 	//! Data instance
 	Data data;
+	
 };
 
 } // namespace crepe

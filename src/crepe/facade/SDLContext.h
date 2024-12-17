@@ -17,6 +17,7 @@
 #include "api/Transform.h"
 #include "types.h"
 
+#include "FontFacade.h"
 namespace crepe {
 
 class Texture;
@@ -239,6 +240,20 @@ private:
 	 * - this is defined in this class because get_events() needs this information aswell
 	 */
 	CameraAuxiliaryData cam_aux_data;
+private: 
+	//! instance of the font_facade
+	FontFacade font_facade{};
+public:
+	/**
+	 * \brief Function to Get asset from font_family
+	 * 
+	 * This function uses the FontFacade function to convert a font_family to an asset.
+	 * 
+	 * \param font_family name of the font style that needs to be used (will return an asset with default font path of the font_family doesnt exist)
+	 * 
+	 * \return asset with the font style absolute path
+	 */
+	Asset get_font_from_name(const std::string& font_family);
 };
 
 } // namespace crepe

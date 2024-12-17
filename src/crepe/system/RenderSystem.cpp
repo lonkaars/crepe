@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cmath>
 #include <functional>
+#include <optional>
 #include <stdexcept>
 #include <vector>
 
@@ -21,6 +22,7 @@
 
 using namespace crepe;
 using namespace std;
+
 
 void RenderSystem::clear_screen() {
 	SDLContext & ctx = this->mediator.sdl_context;
@@ -124,9 +126,11 @@ void RenderSystem::render() {
 	RefVector<Sprite> sprites = mgr.get_components_by_type<Sprite>();
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 	RefVector<Sprite> sorted_sprites = this->sort(sprites);
-	RefVector<Text> texts =  mgr.get_components_by_type<Text>();
-	for(const Text& text : texts){
-		const Font & res = resource_manager.get<Font>(text.font);
+	RefVector<Text> text_components =  mgr.get_components_by_type<Text>();
+	for(Text& text : text_components){
+		const Transform & transform
+			= mgr.get_components_by_id<Transform>(text.game_object_id).front().get();
+		this->render_text(text,transform);
 
 	}
 	for (const Sprite & sprite : sorted_sprites) {
@@ -143,4 +147,22 @@ void RenderSystem::render() {
 	
 		
 	}
+	
 }
+void RenderSystem::render_text(Text & text, const Transform & tm) {
+    SDLContext & ctx = this->mediator.sdl_context;
+
+    // Check if font is available in text
+    if (!text.font.has_value()) {
+    }
+
+    ResourceManager & resource_manager = this->mediator.resource_manager;
+
+    if (text.font.has_value()) {
+        const Asset& font_asset = text.font.value();
+        const Font & res = resource_manager.get<Font>(font_asset); 
+	}
+}
+
+
+
