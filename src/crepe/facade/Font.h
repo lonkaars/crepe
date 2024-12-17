@@ -24,7 +24,14 @@ public:
      * \param mediator The Mediator object used for managing the SDL context or related systems.
      */
 	Font(const Asset & src, Mediator & mediator);
+    	Font(const Font &) = delete;
+    	Font &operator=(const Font &) = delete;
 
+   	// Default move constructor and move assignment operator
+    	Font(Font &&) noexcept = delete;
+    	Font &operator=(Font &&) noexcept = delete;
+
+    ~Font() = default;
 	/**
      * \brief Gets the underlying TTF_Font resource.
      * 

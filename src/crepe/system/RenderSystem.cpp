@@ -8,6 +8,8 @@
 #include "../api/Camera.h"
 #include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
+#include "../api/Text.h"
+#include "../facade/Font.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
 #include "../facade/Texture.h"
@@ -120,8 +122,13 @@ void RenderSystem::render() {
 	this->update_camera();
 
 	RefVector<Sprite> sprites = mgr.get_components_by_type<Sprite>();
+	ResourceManager & resource_manager = this->mediator.resource_manager;
 	RefVector<Sprite> sorted_sprites = this->sort(sprites);
+	RefVector<Text> texts =  mgr.get_components_by_type<Text>();
+	for(const Text& text : texts){
+		const Font & res = resource_manager.get<Font>(text.font);
 
+	}
 	for (const Sprite & sprite : sorted_sprites) {
 		if (!sprite.active) continue;
 		const Transform & transform
@@ -132,5 +139,8 @@ void RenderSystem::render() {
 		if (rendered_particles) continue;
 
 		this->render_normal(sprite, transform);
+		
+	
+		
 	}
 }

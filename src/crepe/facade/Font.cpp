@@ -1,3 +1,5 @@
+#include <SDL2/SDL_ttf.h>
+
 #include "../api/Asset.h"
 #include "../api/Config.h"
 
@@ -15,7 +17,7 @@ Font::Font(const Asset & src, Mediator & mediator)
 	if (loaded_font == NULL) {
 		throw runtime_error(format("Font: {} (path: {})", TTF_GetError(), FONT_PATH));
 	}
-	this->font = {loaded_font, [](TTF_Font * font) { TTF_CloseFont(font); }};
+	this->font = {loaded_font, [](TTF_Font * close_font) { TTF_CloseFont(close_font); }};
 }
 
 TTF_Font * Font::get_font() const { return this->font.get(); }
