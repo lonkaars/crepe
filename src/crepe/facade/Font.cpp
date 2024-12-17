@@ -1,5 +1,6 @@
 #include "../api/Config.h"
 #include "util/Log.h"
+#include <iostream>
 
 #include "Font.h"
 
@@ -10,7 +11,8 @@ Font::Font(const Asset & src, Mediator & mediator)
 	: Resource(src, mediator) {
 	dbg_trace();
 	Config & config = Config::get_instance();
-	const std::string FONT_PATH = src.get_path();
+	const std::string & FONT_PATH = src.get_path();
+	cout << FONT_PATH.c_str() << endl;
 	TTF_Font * font = TTF_OpenFont(FONT_PATH.c_str(), config.font.size);
 	if (font == NULL)
 		throw runtime_error(format("Font: {} (path: {})", TTF_GetError(), FONT_PATH));

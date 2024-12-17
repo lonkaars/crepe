@@ -34,9 +34,6 @@ using namespace std;
 
 SDLContext::SDLContext(Mediator & mediator) {
 	dbg_trace();
-	if (TTF_Init() == -1) {
-		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
-	}
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
@@ -65,6 +62,10 @@ SDLContext::SDLContext(Mediator & mediator) {
 		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
 
+	if (TTF_Init() == -1) {
+		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
+	}
+
 	mediator.sdl_context = *this;
 }
 
@@ -77,8 +78,8 @@ SDLContext::~SDLContext() {
 	// TODO: how are we going to ensure that these are called from the same
 	// thread that SDL_Init() was called on? This has caused problems for me
 	// before.
-	IMG_Quit();
 	TTF_Quit();
+	IMG_Quit();
 	SDL_Quit();
 }
 
@@ -297,13 +298,15 @@ void SDLContext::draw_text(const Text & text, const Font & font){
 	SDL_Texture * font_texture = SDL_CreateTextureFromSurface(this->game_renderer.get(), font_surface);
 	SDL_FreeSurface(font_surface);
 
-	SDL_FRect dstrect {
-		.x = text.offset.x,
-		.y = text.offset.y,
-		.w = text.dimensions.x,
-		.h = text.dimensions.y,
+	SDL_Rect dstrect {
+		.x = (int)text.offset.x,
+		.y = (int)text.offset.y,
+		.w = (int)text.dimensions.x,
+		.h = (int)text.dimensions.y,
 	};
-	SDL_RenderCopyExF(this->game_renderer.get(), font_texture, NULL, &dstrect , 0 , NULL, SDL_FLIP_NONE);
+
+	SDL_RenderCopy(this->game_renderer.get(), font_texture, NULL, NULL);
+	SDL_RenderCopyExF(this->game_renderer.get(), font_texture, NULL, NULL, 0 , NULL, SDL_FLIP_NONE);
 	SDL_DestroyTexture(font_texture);
 }
 
