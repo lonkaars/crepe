@@ -6,16 +6,14 @@
 using namespace crepe;
 using namespace std;
 
-FontFacade::FontFacade(){
+FontFacade::FontFacade() {
 	if (!FcInit()) {
 		throw runtime_error("Failed to initialize Fontconfig.");
 	}
 }
-FontFacade::~FontFacade(){
-	FcFini();
-}
-Asset FontFacade::get_font_asset(const string& font_family) {
-	
+FontFacade::~FontFacade() { FcFini(); }
+Asset FontFacade::get_font_asset(const string & font_family) {
+
 	// Create a pattern to search for the font family
 	FcPattern * pattern = FcNameParse(reinterpret_cast<const FcChar8 *>(font_family.c_str()));
 	if (pattern == NULL) {

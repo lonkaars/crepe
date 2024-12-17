@@ -241,9 +241,11 @@ private:
 	 * - this is defined in this class because get_events() needs this information aswell
 	 */
 	CameraAuxiliaryData cam_aux_data;
-private: 
+
+private:
 	//! instance of the font_facade
 	FontFacade font_facade{};
+
 public:
 	/**
 	 * \brief Function to Get asset from font_family
@@ -254,7 +256,7 @@ public:
 	 * 
 	 * \return asset with the font style absolute path
 	 */
-	Asset get_font_from_name(const std::string& font_family);
+	Asset get_font_from_name(const std::string & font_family);
 };
 
 } // namespace crepe

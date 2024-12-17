@@ -1,14 +1,14 @@
 #include <SDL2/SDL_ttf.h>
+#include <crepe/api/Asset.h>
 #include <crepe/api/Text.h>
 #include <crepe/facade/Font.h>
 #include <crepe/facade/SDLContext.h>
-#include <crepe/api/Asset.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/manager/ResourceManager.h>
 #include <exception>
 #include <iostream>
-#include <optional>
 #include <memory>
+#include <optional>
 using namespace crepe;
 int main() {
 
@@ -20,11 +20,11 @@ int main() {
 	try {
 		// Correct way to create a unique pointer for Text
 		std::unique_ptr<Text> label = std::make_unique<Text>(
-			1, vec2(100, 100), vec2(0, 0), "OpenSymbol", Text::Data{},"test text", Asset(""));
+			1, vec2(100, 100), vec2(0, 0), "OpenSymbol", Text::Data{}, "test text", Asset(""));
 		// std::cout << "Path: " << label->font.get_path() << std::endl;
 
-		std::unique_ptr<Text> label2
-			= std::make_unique<Text>(1, vec2(100, 100), vec2(0, 0),"fsaafdafsdafsdafsdasfdds", Text::Data{});
+		std::unique_ptr<Text> label2 = std::make_unique<Text>(
+			1, vec2(100, 100), vec2(0, 0), "fsaafdafsdafsdafsdasfdds", Text::Data{});
 		Asset asset = Asset("test test");
 		label->font = asset;
 		std::cout << label->font.value().get_path() << std::endl;

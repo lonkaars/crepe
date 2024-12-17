@@ -156,7 +156,6 @@ private:
 	void subscribe_internal(const EventHandler<EventType> & callback, event_channel_t channel);
 
 protected:
-	
 	// NOTE: This must be the only constructor on Script, see "Late references" below
 	Script() = default;
 	//! Only \c BehaviorScript instantiates Script
