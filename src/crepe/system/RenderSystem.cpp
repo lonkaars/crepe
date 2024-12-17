@@ -2,12 +2,15 @@
 #include <cassert>
 #include <cmath>
 #include <functional>
+#include <optional>
 #include <stdexcept>
 #include <vector>
 
 #include "../api/Camera.h"
 #include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
+#include "../api/Text.h"
+#include "../facade/Font.h"
 #include "../api/Transform.h"
 #include "../facade/SDLContext.h"
 #include "../facade/Texture.h"
@@ -140,8 +143,15 @@ void RenderSystem::render() {
 	this->update_camera();
 
 	RefVector<Sprite> sprites = mgr.get_components_by_type<Sprite>();
+	ResourceManager & resource_manager = this->mediator.resource_manager;
 	RefVector<Sprite> sorted_sprites = this->sort(sprites);
+	RefVector<Text> text_components =  mgr.get_components_by_type<Text>();
+	for(Text& text : text_components){
+		const Transform & transform
+			= mgr.get_components_by_id<Transform>(text.game_object_id).front().get();
+		this->render_text(text,transform);
 
+	}
 	for (const Sprite & sprite : sorted_sprites) {
 		if (!sprite.active) continue;
 		const Transform & transform
@@ -152,5 +162,26 @@ void RenderSystem::render() {
 		if (rendered_particles) continue;
 
 		this->render_normal(sprite, transform);
+		
+	
+		
+	}
+	
+}
+void RenderSystem::render_text(Text & text, const Transform & tm) {
+    SDLContext & ctx = this->mediator.sdl_context;
+
+    // Check if font is available in text
+    if (!text.font.has_value()) {
+    }
+
+    ResourceManager & resource_manager = this->mediator.resource_manager;
+
+    if (text.font.has_value()) {
+        const Asset& font_asset = text.font.value();
+        const Font & res = resource_manager.get<Font>(font_asset); 
 	}
 }
+
+
+

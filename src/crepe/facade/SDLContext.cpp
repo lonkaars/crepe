@@ -463,7 +463,12 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 	}
 	return event_list;
 }
+
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
 	SDL_SetTextureColorMod(texture.get_img(), color.r, color.g, color.b);
 	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
+}
+
+Asset SDLContext::get_font_from_name(const std::string& font_family){
+	return this->font_facade.get_font_asset(font_family);
 }
