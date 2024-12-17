@@ -147,7 +147,7 @@ void RenderSystem::render_text(Text & text, const Transform & tm) {
 	SDLContext & ctx = this->mediator.sdl_context;
 
 	if (!text.font.has_value()) {
-		text.font = ctx.get_font_from_name(text.font_family);
+		text.font.emplace(ctx.get_font_from_name(text.font_family));
 	}
 
 	ResourceManager & resource_manager = this->mediator.resource_manager;
