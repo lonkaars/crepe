@@ -254,7 +254,7 @@ private:
 	//! variable to store the state of each key (true = pressed, false = not pressed)
 	keyboard_state_t keyboard_state;
 	//! lookup table for converting SDL_SCANCODES to Keycodes
-	const std::unordered_map<SDL_Scancode, Keycode> LOOKUP_TABLE
+	const std::unordered_map<SDL_Scancode, Keycode> lookup_table
 		= {{SDL_SCANCODE_SPACE, Keycode::SPACE},
 		   {SDL_SCANCODE_APOSTROPHE, Keycode::APOSTROPHE},
 		   {SDL_SCANCODE_COMMA, Keycode::COMMA},
