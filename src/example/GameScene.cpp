@@ -15,6 +15,7 @@
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/types.h>
+#include <iostream>
 
 using namespace crepe;
 using namespace std;
@@ -31,15 +32,17 @@ private:
 		if (event.key == Keycode::RIGHT) {
 			Transform & cam = this->get_components_by_name<Transform>("camera").front();
 			cam.position.x += 100;
+			return true;
 		} else if (event.key == Keycode::LEFT) {
 			Transform & cam = this->get_components_by_name<Transform>("camera").front();
 			cam.position.x -= 100;
+			return true;
 		}
-		return true;
+		return false;
 	}
 };
 
-class StartGame : public Script {
+class StartGameScript : public Script {
 public:
 	void update() {
 		Transform & player_transform
@@ -62,11 +65,32 @@ public:
 			jetpack_sprite.active = true;
 		}
 
-		// Start camera movement
+		// Start camera movement and enable player jumping
 		if (player_transform.position.x == 150) {
 			Rigidbody & rb = this->get_components_by_name<Rigidbody>("camera").front();
 			rb.data.linear_velocity = vec2(100, 0);
+			BehaviorScript & player_script
+				= this->get_components_by_name<BehaviorScript>("player").front();
+			player_script.active = true;
 		}
+	}
+};
+
+class PlayerScript : public Script {
+public:
+	void init() {
+		subscribe<KeyPressEvent>(
+			[this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
+	}
+
+private:
+	bool keypressed(const KeyPressEvent & event) {
+		if (event.key == Keycode::SPACE) {
+			Rigidbody & rb = this->get_components_by_name<Rigidbody>("player").front();
+			rb.add_force_linear(vec2(0, -10));
+			return true;
+		}
+		return false;
 	}
 };
 
@@ -124,20 +148,26 @@ void GameScene::load_scene() {
 									   .looping = true,
 								   });
 	player.add_component<Rigidbody>(Rigidbody::Data{
-		.gravity_scale = 1,
+		.gravity_scale = 10,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = vec2(100, 0),
 	});
 	player.add_component<BoxCollider>(vec2(50, 50));
+	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
 
-	GameObject game_world = new_object("game_world", "game_world", vec2(0, 325));
-	game_world.add_component<Rigidbody>(Rigidbody::Data{
+	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
+	floor.add_component<Rigidbody>(Rigidbody::Data{
 		.body_type = Rigidbody::BodyType::STATIC,
 	});
-	game_world.add_component<BoxCollider>(vec2(INFINITY, 200));
+	floor.add_component<BoxCollider>(vec2(INFINITY, 200));
+	GameObject ceiling = new_object("ceiling", "game_world", vec2(0, -325));
+	ceiling.add_component<Rigidbody>(Rigidbody::Data{
+		.body_type = Rigidbody::BodyType::STATIC,
+	});
+	ceiling.add_component<BoxCollider>(vec2(INFINITY, 200));
 
 	GameObject start_game_scritp = new_object("start_game_script", "script", vec2(0, 0));
-	start_game_scritp.add_component<BehaviorScript>().set_script<StartGame>();
+	start_game_scritp.add_component<BehaviorScript>().set_script<StartGameScript>();
 }
 
 string GameScene::get_name() const { return "scene1"; }
