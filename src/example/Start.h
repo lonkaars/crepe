@@ -13,4 +13,7 @@ public:
 
 private:
 	void add_lamp(crepe::GameObject & obj, crepe::vec2 offset, unsigned int fps = 10);
+	void add_table(crepe::GameObject & obj, crepe::vec2 offset);
+	void add_light(crepe::GameObject & obj, crepe::vec2 offset);
+	void add_jetpack_stand(crepe::GameObject & obj, crepe::vec2 offset);
 };
