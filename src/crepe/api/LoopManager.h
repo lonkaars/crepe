@@ -71,7 +71,7 @@ private:
 private:
 	//! Global context
 	Mediator mediator;
-	
+
 	//! SDLContext instance
 	SDLContext sdl_context{mediator};
 	//! Component manager instance
@@ -86,7 +86,6 @@ private:
 	ResourceManager resource_manager{mediator};
 	//! Save manager instance
 	SaveManager save_manager{mediator};
-	
 
 private:
 	/**

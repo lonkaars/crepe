@@ -467,6 +467,6 @@ void SDLContext::set_color_texture(const Texture & texture, const Color & color)
 	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
 }
 
-Asset SDLContext::get_font_from_name(const std::string& font_family){
+Asset SDLContext::get_font_from_name(const std::string & font_family) {
 	return this->font_facade.get_font_asset(font_family);
 }

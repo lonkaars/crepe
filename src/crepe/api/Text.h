@@ -1,7 +1,7 @@
 #pragma once
 
+#include <optional>
 #include <string>
-#include <optional> 
 
 #include "../Component.h"
 
@@ -50,10 +50,10 @@ public:
 	 * \param data Data struct containing extra text parameters.
 	 * \param font Optional font asset that can be passed or left empty.
 	 */
-	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset, 
-     const std::string & font_family, const Data & data, 
-     const std::string & text = "", std::optional<Asset> font = std::nullopt);
-	
+	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
+		 const std::string & font_family, const Data & data, const std::string & text = "",
+		 std::optional<Asset> font = std::nullopt);
+
 	//! Label text.
 	std::string text = "";
 	//! font family name
@@ -62,7 +62,6 @@ public:
 	std::optional<Asset> font;
 	//! Data instance
 	Data data;
-	
 };
 
 } // namespace crepe

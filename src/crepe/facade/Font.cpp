@@ -9,8 +9,7 @@
 using namespace std;
 using namespace crepe;
 
-Font::Font(const Asset & src, Mediator & mediator)
-	: Resource(src, mediator){
+Font::Font(const Asset & src, Mediator & mediator) : Resource(src, mediator) {
 	Config & config = Config::get_instance();
 	const std::string FONT_PATH = src.get_path();
 
