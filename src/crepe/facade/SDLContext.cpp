@@ -311,7 +311,6 @@ void SDLContext::draw_text(const RenderText & data) {
 						  * cam_aux_data.render_scale
 					  - size / 2 + cam_aux_data.bar_size;
 
-
 	SDL_FRect dstrect{
 		.x = screen_pos.x,
 		.y = screen_pos.y,
