@@ -22,6 +22,7 @@ float Start::create(Scene & scn, float begin_x) {
 
 	this->add_table(begin, vec2(-150, 150));
 	this->add_light(begin, vec2(-125, -150));
+	this->add_jetpack_stand(begin, vec2(-125, 200));
 
 	GameObject end = scn.new_object("start_end", "background", vec2(begin_x, 0));
 	Asset end_asset{"asset/jetpack_joyride/background/start/titleFG_2_TVOS.png"};
@@ -95,8 +96,8 @@ void Start::add_light(crepe::GameObject & obj, crepe::vec2 offset) {
 	obj.add_component<Sprite>(light_glow_asset, Sprite::Data{
 													.sorting_in_layer = 5,
 													.order_in_layer = 1,
-													.size = vec2(0, 50),
-													.position_offset = offset + vec2(0, 55),
+													.size = vec2(0, 100),
+													.position_offset = offset + vec2(0, 75),
 												});
 	Asset light_effect_asset{"asset/jetpack_joyride/background/start/lightEffect.png"};
 	obj.add_component<Sprite>(light_effect_asset, Sprite::Data{
@@ -105,4 +106,28 @@ void Start::add_light(crepe::GameObject & obj, crepe::vec2 offset) {
 													  .size = vec2(0, 100),
 													  .position_offset = offset + vec2(0, 350),
 												  });
+}
+
+void Start::add_jetpack_stand(crepe::GameObject & obj, crepe::vec2 offset) {
+	Asset jetpack_stand_asset{"asset/jetpack_joyride/background/start/JetpackStand.png"};
+	Sprite & jetpeck_stand_sprite
+		= obj.add_component<Sprite>(jetpack_stand_asset, Sprite::Data{
+															 .sorting_in_layer = 5,
+															 .order_in_layer = 1,
+															 .size = vec2(0, 70),
+															 .position_offset = offset,
+														 });
+	obj.add_component<Animator>(jetpeck_stand_sprite, ivec2(34, 46), uvec2(2, 1),
+								Animator::Data{
+									.fps = 10,
+									.looping = true,
+								})
+		.pause();
+	Asset do_not_steal = {"asset/jetpack_joyride/background/start/doNotTouchSign_TVOS.png"};
+	obj.add_component<Sprite>(do_not_steal, Sprite::Data{
+												.sorting_in_layer = 5,
+												.order_in_layer = 1,
+												.size = vec2(0, 100),
+												.position_offset = offset + vec2(-75, -25),
+											});
 }
