@@ -4,6 +4,7 @@ set(GAME_HEADERS
 	Forest.h
 	Hallway.h
 	Start.h
+	GameScene.h
 )
 
 set(GAME_SOURCES
@@ -13,6 +14,7 @@ set(GAME_SOURCES
 	Forest.cpp
 	Hallway.cpp
 	Start.cpp
+	GameScene.cpp
 )
 
 add_executable(game ${GAME_SOURCES} ${GAME_HEADERS})
