@@ -22,7 +22,6 @@ class ButtonPressEvent : public Event {
 public:
 	const Metadata & meta_data;
 	ButtonPressEvent(const Metadata & meta_data) : meta_data(meta_data){};
-	;
 };
 class ButtonEnterEvent : public Event {
 public:
