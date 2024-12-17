@@ -10,10 +10,8 @@ using namespace crepe;
 
 void InputSystem::update() {
 	ComponentManager & mgr = this->mediator.component_manager;
-
 	SDLContext & context = this->mediator.sdl_context;
 	std::vector<EventData> event_list = context.get_events();
-	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 	OptionalRef<Camera> curr_cam_ref;
 
@@ -160,12 +158,8 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 
 	for (Button & button : buttons) {
 		if (!button.active) continue;
-		RefVector<Transform> transform_vec
-			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		Transform & transform = transform_vec.front().get();
-		RefVector<Metadata> metadata_vec
-			= mgr.get_components_by_id<Metadata>(button.game_object_id);
-		Metadata & metadata = metadata_vec.front().get();
+		Metadata & metadata = mgr.get_components_by_id<Metadata>(button.game_object_id).front();
+		Transform & transform = mgr.get_components_by_id<Transform>(button.game_object_id).front();
 		bool was_hovering = button.hover;
 		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
 			button.hover = true;
@@ -188,12 +182,8 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mo
 
 	for (Button & button : buttons) {
 		if (!button.active) continue;
-		RefVector<Metadata> metadata_vec
-			= mgr.get_components_by_id<Metadata>(button.game_object_id);
-		Metadata & metadata = metadata_vec.front().get();
-		RefVector<Transform> transform_vec
-			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		Transform & transform = transform_vec.front().get();
+		Metadata & metadata = mgr.get_components_by_id<Metadata>(button.game_object_id).front();
+		Transform & transform = mgr.get_components_by_id<Transform>(button.game_object_id).front();
 
 		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
 			event_mgr.trigger_event<ButtonPressEvent>(metadata);

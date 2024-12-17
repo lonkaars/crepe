@@ -19,31 +19,31 @@ class Transform;
 class ButtonPressEvent : public Event {
 public:
 	//! Metadata of the button.
-	const Metadata & meta_data;
+	const Metadata & metadata;
 	/**
-	 * \param meta_data Metadata of the button pressed
+	 * \param metadata Metadata of the button pressed
 	 */
-	ButtonPressEvent(const Metadata & meta_data) : meta_data(meta_data){};
+	ButtonPressEvent(const Metadata & metadata) : metadata(metadata){};
 };
 //! Event triggered when the mouse enters a button
 class ButtonEnterEvent : public Event {
 public:
 	//! Metadata of the button.
-	const Metadata & meta_data;
+	const Metadata & metadata;
 	/**
-	 * \param meta_data Metadata of the button pressed
+	 * \param metadata Metadata of the button pressed
 	 */
-	ButtonEnterEvent(const Metadata & meta_data) : meta_data(meta_data){};
+	ButtonEnterEvent(const Metadata & metadata) : metadata(metadata){};
 };
 //! Event triggered when the mouse leaves a button
 class ButtonExitEvent : public Event {
 public:
 	//! Metadata of the button.
-	const Metadata & meta_data;
+	const Metadata & metadata;
 	/**
-	 * \param meta_data Metadata of the button pressed
+	 * \param metadata Metadata of the button pressed
 	 */
-	ButtonExitEvent(const Metadata & meta_data) : meta_data(meta_data){};
+	ButtonExitEvent(const Metadata & metadata) : metadata(metadata){};
 };
 
 /**
