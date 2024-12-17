@@ -16,4 +16,5 @@ private:
 	void add_table(crepe::GameObject & obj, crepe::vec2 offset);
 	void add_light(crepe::GameObject & obj, crepe::vec2 offset);
 	void add_jetpack_stand(crepe::GameObject & obj, crepe::vec2 offset);
+	void create_wall_fragments(crepe::Scene & scn, float begin_x);
 };

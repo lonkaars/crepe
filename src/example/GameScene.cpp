@@ -56,6 +56,17 @@ public:
 			Sprite & hole_sprite = this->get_components_by_name<Sprite>("start_hole").front();
 			hole_sprite.active = true;
 
+			RefVector<Rigidbody> frags_rg
+				= this->get_components_by_tag<Rigidbody>("wall_fragment");
+			RefVector<Sprite> frags_sprite
+				= this->get_components_by_tag<Sprite>("wall_fragment");
+			for (Rigidbody & frag_rg : frags_rg) {
+				frag_rg.active = true;
+			}
+			for (Sprite & frag_sprite : frags_sprite) {
+				frag_sprite.active = true;
+			}
+
 			this->created_hole = true;
 		}
 
