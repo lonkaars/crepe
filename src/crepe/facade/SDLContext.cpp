@@ -208,14 +208,14 @@ void SDLContext::draw_text(const RenderText & data) {
 	};
 	SDL_Surface * tmp_font_surface
 		= TTF_RenderText_Solid(font.get_font(), text.text.c_str(), color);
-	if (!tmp_font_surface) {
+	if (tmp_font_surface == NULL) {
 		throw runtime_error(format("draw_text: font surface error: {}", SDL_GetError()));
 	}
 	font_surface = {tmp_font_surface, [](SDL_Surface * surface) { SDL_FreeSurface(surface); }};
 
 	SDL_Texture * tmp_font_texture
 		= SDL_CreateTextureFromSurface(this->game_renderer.get(), font_surface.get());
-	if (!tmp_font_texture) {
+	if (tmp_font_texture == NULL) {
 		throw runtime_error(format("draw_text: font texture error: {}", SDL_GetError()));
 	}
 	font_texture

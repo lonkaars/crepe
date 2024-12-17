@@ -1,6 +1,3 @@
-#include "../facade/FontFacade.h"
-#include "util/Log.h"
-
 #include "Text.h"
 
 using namespace crepe;
