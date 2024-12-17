@@ -12,12 +12,12 @@
 #include <unordered_map>
 
 #include "../types.h"
+#include "EventData.h"
 #include "api/Camera.h"
 #include "api/Color.h"
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
-#include "EventData.h"
 
 #include "FontFacade.h"
 
@@ -72,7 +72,7 @@ public:
 		const double & scale;
 	};
 
-		struct RenderText {
+	struct RenderText {
 		const Text & text;
 		const Font & font;
 		const Transform & transform;

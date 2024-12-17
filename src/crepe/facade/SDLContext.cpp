@@ -459,7 +459,6 @@ void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
 	}
 }
 
-
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
 	SDL_SetTextureColorMod(texture.get_img(), color.r, color.g, color.b);
 	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
