@@ -15,7 +15,7 @@ Background::Background(Scene & scn) {
 	Forest forest;
 	Aquarium aquarium;
 
-	float begin_x = 0;
+	float begin_x = 400;
 
 	begin_x = start.create(scn, begin_x);
 
