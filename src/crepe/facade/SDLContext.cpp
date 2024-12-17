@@ -84,9 +84,8 @@ SDLContext::~SDLContext() {
 }
 
 Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
-	if (!LOOKUP_TABLE.contains(sdl_key)) return Keycode::NONE;
-
-	return LOOKUP_TABLE.at(sdl_key);
+	if (!lookup_table.contains(sdl_key)) return Keycode::NONE;
+	return lookup_table.at(sdl_key);
 }
 
 const keyboard_state_t & SDLContext::get_keyboard_state() {
