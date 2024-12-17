@@ -13,9 +13,9 @@ namespace crepe {
  * This component creates a clickable surface at the transform location with the specified width and height.
  * 
  * The Button can be used in scripts by subscribing a EventHandler to the following events:
- * - **ButtonPressEvent**: Triggered when the surface is clicked with the mouse. Contains GameObject metadata.
- * - **MouseEnterEvent**: Triggered when the mouse enters the button area. Contains GameObject metadata.
- * - **MouseExitEvent**: Triggered when the mouse leaves the button area. Contains GameObject metadata.
+ * - ButtonPressEvent
+ * - ButtonEnterEvent
+ * - ButtonExitEvent
  * \see EventManager
  * 
  */
@@ -34,7 +34,7 @@ public:
 	 *
 	 * Since the button Event transfers the GameObject Metadata it will be the same for each button so only one button is allowed per GameObject	
 	 * 
-	 * \return The maximum number of instances for this component
+	 * \return 1
 	 */
 	virtual int get_instances_max() const { return 1; }
 

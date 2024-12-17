@@ -215,7 +215,7 @@ TEST_F(InputTest, testButtonClick) {
 	bool button_clicked = false;
 	event_manager.subscribe<ButtonPressEvent>([&](const ButtonPressEvent & event) {
 		button_clicked = true;
-		EXPECT_EQ(event.meta_data.game_object_id, button_obj.id);
+		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
 	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0});
@@ -238,12 +238,12 @@ TEST_F(InputTest, testButtonHover) {
 	bool button_hover = false;
 	event_manager.subscribe<ButtonEnterEvent>([&](const ButtonEnterEvent & event) {
 		button_hover = true;
-		EXPECT_EQ(event.meta_data.game_object_id, button_obj.id);
+		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
 	event_manager.subscribe<ButtonExitEvent>([&](const ButtonExitEvent & event) {
 		button_hover = false;
-		EXPECT_EQ(event.meta_data.game_object_id, button_obj.id);
+		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
 	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0});
