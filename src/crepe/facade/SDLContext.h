@@ -71,6 +71,12 @@ public:
 		const double & scale;
 	};
 
+	struct RenderText {
+		const Text & text;
+		const Font & font;
+		const Transform & transform;
+	};
+
 public:
 	//! EventType enum for passing eventType
 	enum EventType {
@@ -187,7 +193,7 @@ public:
 	 */
 	void draw(const RenderContext & ctx);
 
-	void draw_text(const Text & text, const Font & font);
+	void draw_text(const RenderText & data);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();

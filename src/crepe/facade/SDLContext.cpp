@@ -22,6 +22,7 @@
 #include "../api/Sprite.h"
 #include "../util/Log.h"
 #include "api/Text.h"
+#include "api/Transform.h"
 #include "facade/Font.h"
 #include "manager/Mediator.h"
 
@@ -286,27 +287,40 @@ void SDLContext::draw(const RenderContext & ctx) {
 					  angle, NULL, render_flip);
 }
 
+void SDLContext::draw_text(const RenderText & data) {
 
-void SDLContext::draw_text(const Text & text, const Font & font){
-	SDL_Color color {
+	const Text & text = data.text;
+	const Font & font = data.font;
+	const Transform & transform = data.transform;
+
+	SDL_Color color{
 		.r = text.data.text_color.r,
 		.g = text.data.text_color.g,
 		.b = text.data.text_color.b,
 		.a = text.data.text_color.a,
 	};
-	SDL_Surface * font_surface = TTF_RenderText_Solid(font.get_font(), text.text.c_str(), color);
-	SDL_Texture * font_texture = SDL_CreateTextureFromSurface(this->game_renderer.get(), font_surface);
+	SDL_Surface * font_surface
+		= TTF_RenderText_Solid(font.get_font(), text.text.c_str(), color);
+	SDL_Texture * font_texture
+		= SDL_CreateTextureFromSurface(this->game_renderer.get(), font_surface);
 	SDL_FreeSurface(font_surface);
 
-	SDL_Rect dstrect {
-		.x = (int)text.offset.x,
-		.y = (int)text.offset.y,
-		.w = (int)text.dimensions.x,
-		.h = (int)text.dimensions.y,
+	vec2 size = text.dimensions * cam_aux_data.render_scale;
+	vec2 screen_pos = (transform.position + text.offset - cam_aux_data.cam_pos
+					   + (cam_aux_data.zoomed_viewport) / 2)
+						  * cam_aux_data.render_scale
+					  - size / 2 + cam_aux_data.bar_size;
+
+
+	SDL_FRect dstrect{
+		.x = screen_pos.x,
+		.y = screen_pos.y,
+		.w = size.x,
+		.h = size.y,
 	};
 
-	SDL_RenderCopy(this->game_renderer.get(), font_texture, NULL, NULL);
-	SDL_RenderCopyExF(this->game_renderer.get(), font_texture, NULL, NULL, 0 , NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyExF(this->game_renderer.get(), font_texture, NULL, &dstrect, 0, NULL,
+					  SDL_FLIP_NONE);
 	SDL_DestroyTexture(font_texture);
 }
 

@@ -76,20 +76,24 @@ void RenderSystem::update() {
 	this->present_screen();
 }
 
-
-void RenderSystem::render_text(){
+void RenderSystem::render_text() {
 	SDLContext & ctx = this->mediator.sdl_context;
 	ComponentManager & mgr = this->mediator.component_manager;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 
 	RefVector<Text> texts = mgr.get_components_by_type<Text>();
 
-	for (const Text & text  : texts) {
+	for (const Text & text : texts) {
 		if (!text.active) continue;
-		const Font & res = resource_manager.get<Font>(text.font.value());
-		ctx.draw_text(text, res);
+		const Font & font = resource_manager.get<Font>(text.font.value());
+		const auto & transform
+			= mgr.get_components_by_id<Transform>(text.game_object_id).front().get();
+		ctx.draw_text(SDLContext::RenderText{
+			.text = text,
+			.font = font,
+			.transform = transform,
+		});
 	}
-
 }
 
 bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
