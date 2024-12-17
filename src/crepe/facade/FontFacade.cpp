@@ -1,51 +1,55 @@
 #include <fontconfig/fontconfig.h>
 #include <stdexcept>
+#include <memory>
+#include <functional>
+#include <string>
 
 #include "FontFacade.h"
 
-using namespace crepe;
 using namespace std;
+using namespace crepe;
 
 FontFacade::FontFacade() {
 	if (!FcInit()) {
 		throw runtime_error("Failed to initialize Fontconfig.");
 	}
 }
-FontFacade::~FontFacade() { FcFini(); }
-Asset FontFacade::get_font_asset(const string & font_family) {
 
+FontFacade::~FontFacade() { FcFini(); }
+
+Asset FontFacade::get_font_asset(const string& font_family) {
 	// Create a pattern to search for the font family
-	FcPattern * pattern = FcNameParse(reinterpret_cast<const FcChar8 *>(font_family.c_str()));
-	if (pattern == NULL) {
+	FcPattern* raw_pattern = FcNameParse(reinterpret_cast<const FcChar8*>(font_family.c_str()));
+	if (!raw_pattern) {
 		throw runtime_error("Failed to create font pattern.");
 	}
 
-	// Default configuration
-	FcConfig * config = FcConfigGetCurrent();
-	if (config == NULL) {
-		// FcPatternDestroy(pattern);
+	std::unique_ptr<FcPattern, std::function<void(FcPattern*)>> pattern(
+		raw_pattern,
+		[](FcPattern* p) { FcPatternDestroy(p); }
+	);
+
+	FcConfig* config = FcConfigGetCurrent();
+	if (!config) {
 		throw runtime_error("Failed to get current Fontconfig configuration.");
 	}
 
-	// Match the font pattern
 	FcResult result;
-	FcPattern * matched_pattern = FcFontMatch(config, pattern, &result);
-	FcPatternDestroy(pattern);
-
-	if (matched_pattern == NULL) {
-		FcPatternDestroy(matched_pattern);
+	FcPattern* raw_matched_pattern = FcFontMatch(config, pattern.get(), &result);
+	if (!raw_matched_pattern) {
 		throw runtime_error("No matching font found.");
 	}
-	// Extract the file path
-	FcChar8 * file_path = nullptr;
-	if (FcPatternGetString(matched_pattern, FC_FILE, 0, &file_path) != FcResultMatch
-		|| file_path == NULL) {
-		// FcPatternDestroy(matched_pattern);
+
+	std::unique_ptr<FcPattern, std::function<void(FcPattern*)>> matched_pattern(
+		raw_matched_pattern,
+		[](FcPattern* p) { FcPatternDestroy(p); }
+	);
+
+	FcChar8* file_path = nullptr;
+	if (FcPatternGetString(matched_pattern.get(), FC_FILE, 0, &file_path) != FcResultMatch || !file_path) {
 		throw runtime_error("Failed to get font file path.");
 	}
 
-	// Convert the file path to a string
-	string font_file_path = reinterpret_cast<const char *>(file_path);
-	FcPatternDestroy(matched_pattern);
+	string font_file_path = reinterpret_cast<const char*>(file_path);
 	return Asset(font_file_path);
 }
