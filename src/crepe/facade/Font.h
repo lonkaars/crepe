@@ -3,7 +3,6 @@
 #include <SDL2/SDL_ttf.h>
 #include <functional>
 #include <memory>
-#include <string>
 
 #include "../Resource.h"
 
@@ -34,8 +33,6 @@ public:
      * \return The raw TTF_Font object wrapped in a unique pointer.
      */
 	TTF_Font * get_font() const;
-
-	const std::string & get_path() const noexcept;
 
 private:
 	//! The SDL_ttf font object with custom deleter.
