@@ -27,7 +27,6 @@ public:
 	void update() override;
 
 private:
-	void render_text();
 	//! Clears the screen in preparation for rendering.
 	void clear_screen();
 
@@ -39,7 +38,7 @@ private:
 
 	//! Renders the whole screen
 	void render();
-
+	
 	/**
 	 * \brief Renders all the particles on the screen from a given sprite.
 	 *
@@ -53,11 +52,8 @@ private:
 	bool render_particle(const Sprite & sprite, const double & scale);
 	/**
 	 * \brief Renders all Text components
-	 *
-	 * \param text The text component to be rendered.
-	 * \param tm the Transform component that holds the position,rotation and scale
 	 */
-	void render_text(Text & text, const Transform & tm);
+	void render_text();
 	/**
 	 * \brief renders a sprite with a Transform component on the screen
 	 *

@@ -193,6 +193,11 @@ public:
 	 */
 	void draw(const RenderContext & ctx);
 
+	/**
+	 * \brief draws a text to the screen 
+	 *
+	 * \param data Reference to the rendering data needed to draw
+	 */
 	void draw_text(const RenderText & data);
 
 	//! Clears the screen, preparing for a new frame.
