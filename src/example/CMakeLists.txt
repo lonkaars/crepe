@@ -1,22 +1,20 @@
-# all examples
-add_custom_target(examples)
+set(GAME_HEADERS
+	Aquarium.h
+	Background.h
+	Forest.h
+	Hallway.h
+	Start.h
+)
 
-# add_example(target_name [SOURCES...])
-function(add_example target_name)
-	# if SOURCES is not specified
-	if(NOT ARGV1)
-		# A .cpp file with target_name exists, and should be used
-		set(sources ${target_name}.cpp)
-	else()
-		set(sources ${ARGV})
-	endif()
+set(GAME_SOURCES
+	game.cpp
+	Aquarium.cpp
+	Background.cpp
+	Forest.cpp
+	Hallway.cpp
+	Start.cpp
+)
 
-	add_executable(${target_name} EXCLUDE_FROM_ALL ${sources})
-	target_link_libraries(${target_name} PUBLIC crepe)
-	add_dependencies(examples ${target_name})
-endfunction()
+add_executable(game ${GAME_SOURCES} ${GAME_HEADERS})
 
-add_example(rendering_particle)
-add_example(game)
-add_example(button)
-add_example(AITest)
+target_link_libraries(game PUBLIC crepe)
