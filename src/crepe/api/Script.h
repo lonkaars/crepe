@@ -150,7 +150,7 @@ protected:
 	 * \return Keycode state (true if pressed, false if not pressed).
 	 * 
 	 */
-	bool get_key_state(Keycode key) const;
+	bool get_key_state(Keycode key) const noexcept;
 	//! \}
 
 private:
