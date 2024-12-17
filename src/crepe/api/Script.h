@@ -156,7 +156,7 @@ private:
 	void subscribe_internal(const EventHandler<EventType> & callback, event_channel_t channel);
 
 protected:
-	OptionalRef<Mediator> mediator;
+	
 	// NOTE: This must be the only constructor on Script, see "Late references" below
 	Script() = default;
 	//! Only \c BehaviorScript instantiates Script
@@ -186,12 +186,13 @@ private:
 	 *
 	 * \{
 	 */
+
 	//! Game object ID of game object parent BehaviorScript is attached to
 	game_object_id_t game_object_id;
 	//! Reference to parent component
 	OptionalRef<bool> active;
 	//! Mediator reference
-
+	OptionalRef<Mediator> mediator;
 	//! \}
 
 private:

@@ -25,7 +25,6 @@ public:
      * \param mediator The Mediator object used for managing the SDL context or related systems.
      */
 	Font(const Asset & src, Mediator & mediator);
-
 	/**
      * \brief Gets the underlying TTF_Font resource.
      * 
@@ -40,9 +39,7 @@ public:
 
 private:
 	//! The SDL_ttf font object with custom deleter.
-	std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>> font;
-
-	std::string path;
+	std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>> font = nullptr;
 };
 
 } // namespace crepe
