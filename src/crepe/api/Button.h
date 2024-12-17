@@ -3,9 +3,19 @@
 #include <functional>
 
 #include "UIObject.h"
-
+#include "Event.h"
+#include "Metadata.h"
 namespace crepe {
 
+/**
+ * \brief Event triggered when a button is pressed
+ * 
+ */
+class ButtonPressEvent : public Event{
+	public:
+
+
+}
 //! Represents a clickable UI button, derived from the UiObject class.
 class Button : public UIObject {
 public:
