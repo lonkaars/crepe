@@ -79,13 +79,6 @@ public:
 	};
 
 public:
-	/**
-	 * \brief Gets the singleton instance of SDLContext.
-	 * \return Reference to the SDLContext instance.
-	 */
-	static SDLContext & get_instance();
-
-public:
 	SDLContext(const SDLContext &) = delete;
 	SDLContext(SDLContext &&) = delete;
 	SDLContext & operator=(const SDLContext &) = delete;
