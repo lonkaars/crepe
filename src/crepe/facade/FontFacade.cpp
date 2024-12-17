@@ -6,7 +6,7 @@
 using namespace crepe;
 using namespace std;
 
-Asset FontFacade::get_font_asset(const string font_family) {
+Asset FontFacade::get_font_asset(const string& font_family) {
 	if (!FcInit()) {
 		throw runtime_error("Failed to initialize Fontconfig.");
 	}
@@ -19,7 +19,7 @@ Asset FontFacade::get_font_asset(const string font_family) {
 	// Default configuration
 	FcConfig * config = FcConfigGetCurrent();
 	if (config == NULL) {
-		FcPatternDestroy(pattern);
+		// FcPatternDestroy(pattern);
 		throw runtime_error("Failed to get current Fontconfig configuration.");
 	}
 
@@ -37,7 +37,7 @@ Asset FontFacade::get_font_asset(const string font_family) {
 	FcChar8 * file_path = nullptr;
 	if (FcPatternGetString(matched_pattern, FC_FILE, 0, &file_path) != FcResultMatch
 		|| file_path == NULL) {
-		FcPatternDestroy(matched_pattern);
+		// FcPatternDestroy(matched_pattern);
 		throw runtime_error("Failed to get font file path.");
 	}
 

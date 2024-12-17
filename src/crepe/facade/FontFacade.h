@@ -22,7 +22,7 @@ public:
 	 * \param font_family Name of the font family name.
 	 * \return Asset with filepath to the font.
 	 */
-	static Asset get_font_asset(const std::string font_family);
+	static Asset get_font_asset(const std::string& font_family);
 };
 
 } // namespace crepe
