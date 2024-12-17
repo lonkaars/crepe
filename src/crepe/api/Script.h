@@ -201,7 +201,6 @@ private:
 	 *
 	 * \{
 	 */
-
 	//! Game object ID of game object parent BehaviorScript is attached to
 	game_object_id_t game_object_id;
 	//! Reference to parent component
