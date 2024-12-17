@@ -2,8 +2,8 @@
 #include <crepe/api/Asset.h>
 #include <crepe/api/Text.h>
 #include <crepe/facade/Font.h>
-#include <crepe/facade/SDLContext.h>
 #include <crepe/facade/FontFacade.h>
+#include <crepe/facade/SDLContext.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/manager/ResourceManager.h>
 #include <exception>
