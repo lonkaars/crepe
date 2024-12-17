@@ -158,8 +158,10 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 
 	for (Button & button : buttons) {
 		if (!button.active) continue;
-		Metadata & metadata = mgr.get_components_by_id<Metadata>(button.game_object_id).front();
-		Transform & transform = mgr.get_components_by_id<Transform>(button.game_object_id).front();
+		Metadata & metadata
+			= mgr.get_components_by_id<Metadata>(button.game_object_id).front();
+		Transform & transform
+			= mgr.get_components_by_id<Transform>(button.game_object_id).front();
 		bool was_hovering = button.hover;
 		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
 			button.hover = true;
@@ -182,8 +184,10 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mo
 
 	for (Button & button : buttons) {
 		if (!button.active) continue;
-		Metadata & metadata = mgr.get_components_by_id<Metadata>(button.game_object_id).front();
-		Transform & transform = mgr.get_components_by_id<Transform>(button.game_object_id).front();
+		Metadata & metadata
+			= mgr.get_components_by_id<Metadata>(button.game_object_id).front();
+		Transform & transform
+			= mgr.get_components_by_id<Transform>(button.game_object_id).front();
 
 		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
 			event_mgr.trigger_event<ButtonPressEvent>(metadata);
