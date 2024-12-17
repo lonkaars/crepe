@@ -69,10 +69,10 @@ public:
 			.offset = {0, 0},
 		});
 		// Create a box with an inner size of 10x10 units
-		world.add_component<BoxCollider>(vec2{0, -100}, vec2{100, 100}); // Top
-		world.add_component<BoxCollider>(vec2{0, 100}, vec2{100, 100}); // Bottom
-		world.add_component<BoxCollider>(vec2{-100, 0}, vec2{100, 100}); // Left
-		world.add_component<BoxCollider>(vec2{100, 0}, vec2{100, 100}); // right
+		world.add_component<BoxCollider>(vec2{100, 100}, vec2{0, -100}); // Top
+		world.add_component<BoxCollider>(vec2{100, 100}, vec2{0, 100}); // Bottom
+		world.add_component<BoxCollider>(vec2{100, 100}, vec2{-100, 0}); // Left
+		world.add_component<BoxCollider>(vec2{100, 100}, vec2{100, 0}); // right
 
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
@@ -84,7 +84,7 @@ public:
 			.offset = {0, 0},
 			.collision_layers = {0},
 		});
-		game_object1.add_component<BoxCollider>(vec2{0, 0}, vec2{10, 10});
+		game_object1.add_component<BoxCollider>(vec2{10, 10}, vec2{0, 0});
 		BehaviorScript & script_object1
 			= game_object1.add_component<BehaviorScript>().set_script<CollisionHandler>(1);
 		script_object1_ref = static_cast<CollisionHandler *>(script_object1.script.get());
@@ -100,7 +100,7 @@ public:
 			.offset = {0, 0},
 			.collision_layers = {0},
 		});
-		game_object2.add_component<BoxCollider>(vec2{0, 0}, vec2{10, 10});
+		game_object2.add_component<BoxCollider>(vec2{10, 10}, vec2{0, 0});
 		BehaviorScript & script_object2
 			= game_object2.add_component<BehaviorScript>().set_script<CollisionHandler>(2);
 		script_object2_ref = static_cast<CollisionHandler *>(script_object2.script.get());
