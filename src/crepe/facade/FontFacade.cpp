@@ -1,5 +1,4 @@
 #include <fontconfig/fontconfig.h>
-#include <iostream>
 #include <stdexcept>
 
 #include "FontFacade.h"
