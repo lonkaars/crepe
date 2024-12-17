@@ -21,8 +21,8 @@ float Hallway::create(Scene & scn, float begin_x, unsigned int sector_num,
 	begin_x += 600;
 
 	this->add_sector_number(begin, vec2(-200, 0), sector_num, sector_color);
-	this->add_lamp(begin, vec2(-70, -120), 11);
-	this->add_lamp(begin, vec2(30, -120), 9);
+	this->add_lamp(begin, vec2(330, -120), 11);
+	this->add_lamp(begin, vec2(430, -120), 9);
 
 	GameObject middle_1 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
 	Asset middle_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};

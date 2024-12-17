@@ -18,6 +18,14 @@ float Start::create(Scene & scn, float begin_x) {
 												 .order_in_layer = 0,
 												 .size = vec2(0, 800),
 											 });
+	GameObject hole = scn.new_object("start_hole", "background", vec2(begin_x - 250, 140));
+	Asset hole_asset{"asset/jetpack_joyride/background/start/titleWallHole.png"};
+	Sprite & hole_sprite = hole.add_component<Sprite>(hole_asset, Sprite::Data{
+																	  .sorting_in_layer = 4,
+																	  .order_in_layer = 1,
+																	  .size = vec2(0, 200),
+																  });
+	hole_sprite.active = false;
 	begin_x += 700;
 
 	this->add_table(begin, vec2(-150, 150));
@@ -54,6 +62,7 @@ void Start::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) {
 							 .size = vec2(0, 300),
 							 .position_offset = offset - vec2(65, -55),
 						 });
+	lamp_glow_sprite.active = false;
 	obj.add_component<Animator>(lamp_glow_sprite, ivec2(422, 384), uvec2(6, 1),
 								Animator::Data{
 									.fps = fps,
