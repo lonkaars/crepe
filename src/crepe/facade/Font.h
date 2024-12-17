@@ -1,10 +1,10 @@
 #pragma once
 
 #include <SDL2/SDL_ttf.h>
-#include <functional>
 #include <memory>
 
 #include "../Resource.h"
+#include "../api/Config.h"
 
 namespace crepe {
 
