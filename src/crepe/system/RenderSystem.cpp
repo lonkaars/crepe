@@ -10,8 +10,8 @@
 #include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
 #include "../api/Text.h"
-#include "../facade/Font.h"
 #include "../api/Transform.h"
+#include "../facade/Font.h"
 #include "../facade/SDLContext.h"
 #include "../facade/Texture.h"
 #include "../manager/ComponentManager.h"
@@ -22,7 +22,6 @@
 
 using namespace crepe;
 using namespace std;
-
 
 void RenderSystem::clear_screen() {
 	SDLContext & ctx = this->mediator.sdl_context;
@@ -126,12 +125,11 @@ void RenderSystem::render() {
 	RefVector<Sprite> sprites = mgr.get_components_by_type<Sprite>();
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 	RefVector<Sprite> sorted_sprites = this->sort(sprites);
-	RefVector<Text> text_components =  mgr.get_components_by_type<Text>();
-	for(Text& text : text_components){
+	RefVector<Text> text_components = mgr.get_components_by_type<Text>();
+	for (Text & text : text_components) {
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(text.game_object_id).front().get();
-		this->render_text(text,transform);
-
+		this->render_text(text, transform);
 	}
 	for (const Sprite & sprite : sorted_sprites) {
 		if (!sprite.active) continue;
@@ -143,25 +141,20 @@ void RenderSystem::render() {
 		if (rendered_particles) continue;
 
 		this->render_normal(sprite, transform);
-		
-	
-		
 	}
-	
 }
 void RenderSystem::render_text(Text & text, const Transform & tm) {
-    SDLContext & ctx = this->mediator.sdl_context;
+	SDLContext & ctx = this->mediator.sdl_context;
 
-    if (!text.font.has_value()) {
-        text.font = ctx.get_font_from_name(text.font_family);
-    }
+	if (!text.font.has_value()) {
+		text.font = ctx.get_font_from_name(text.font_family);
+	}
 
-    ResourceManager & resource_manager = this->mediator.resource_manager;
+	ResourceManager & resource_manager = this->mediator.resource_manager;
 
-    if (!text.font.has_value()) {return;}
-        const Asset& font_asset = text.font.value();
-        const Font & res = resource_manager.get<Font>(font_asset); 
+	if (!text.font.has_value()) {
+		return;
+	}
+	const Asset & font_asset = text.font.value();
+	const Font & res = resource_manager.get<Font>(font_asset);
 }
-
-
-

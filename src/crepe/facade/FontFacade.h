@@ -15,10 +15,10 @@ class FontFacade {
 public:
 	FontFacade();
 	~FontFacade();
-    FontFacade(const FontFacade & other) = delete;
-    FontFacade & operator=(const FontFacade & other) = delete;
-    FontFacade(FontFacade && other) noexcept = delete;
-    FontFacade & operator=(FontFacade && other) noexcept = delete;
+	FontFacade(const FontFacade & other) = delete;
+	FontFacade & operator=(const FontFacade & other) = delete;
+	FontFacade(FontFacade && other) noexcept = delete;
+	FontFacade & operator=(FontFacade && other) noexcept = delete;
 	/**
 	 * 
 	 * \brief Facade function to convert a font_family into an asset.
@@ -28,7 +28,7 @@ public:
 	 * \param font_family Name of the font family name.
 	 * \return Asset with filepath to the corresponding font.
 	 */
-	Asset get_font_asset(const std::string& font_family);
+	Asset get_font_asset(const std::string & font_family);
 };
 
 } // namespace crepe
