@@ -26,7 +26,7 @@ struct Config final {
 		 *
 		 * Only messages with equal or higher priority than this value will be logged.
 		 */
-		Log::Level level = Log::Level::DEBUG;
+		Log::Level level = Log::Level::INFO;
 		/**
 		 * \brief Colored log output
 		 *
@@ -76,17 +76,6 @@ struct Config final {
 		 */
 		std::string root_pattern = ".crepe-root";
 	} asset;
-	//! Default font options
-	struct {
-		/**
-		 * \brief Default font size
-		 *
-		 * Using the SDL_ttf library the font size needs to be set when loading the font. 
-		 * This config option is the font size at which all fonts will be loaded initially.
-		 * 
-		 */
-		unsigned int size = 32;
-	} font;
 
 	//! Audio system settings
 	struct {
