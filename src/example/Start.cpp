@@ -1,4 +1,6 @@
 #include "Start.h"
+#include "api/Asset.h"
+#include "types.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/GameObject.h>
@@ -17,6 +19,8 @@ float Start::create(Scene & scn, float begin_x) {
 												 .size = vec2(0, 800),
 											 });
 	begin_x += 700;
+
+	this->add_table(begin, vec2(-125, 175));
 
 	GameObject end = scn.new_object("start_end", "background", vec2(begin_x, 0));
 	Asset end_asset{"asset/jetpack_joyride/background/start/titleFG_2_TVOS.png"};
@@ -51,6 +55,29 @@ void Start::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) {
 	obj.add_component<Animator>(lamp_glow_sprite, ivec2(422, 384), uvec2(6, 1),
 								Animator::Data{
 									.fps = fps,
+									.looping = true,
+								});
+}
+
+void Start::add_table(GameObject & obj, vec2 offset) {
+	Asset table_asset{"asset/jetpack_joyride/background/start/table.png"};
+	obj.add_component<Sprite>(table_asset, Sprite::Data{
+											   .sorting_in_layer = 5,
+											   .order_in_layer = 0,
+											   .size = vec2(0, 100),
+											   .position_offset = offset,
+										   });
+	Asset gramophone_asset{"asset/jetpack_joyride/background/start/gramophone_TVOS.png"};
+	Sprite & gramophone_sprite = obj.add_component<Sprite>(
+		gramophone_asset, Sprite::Data{
+							  .sorting_in_layer = 5,
+							  .order_in_layer = 1,
+							  .size = vec2(0, 100),
+							  .position_offset = offset + vec2(0, -50),
+						  });
+	obj.add_component<Animator>(gramophone_sprite, ivec2(64, 128), uvec2(2, 1),
+								Animator::Data{
+									.fps = 10,
 									.looping = true,
 								});
 }
