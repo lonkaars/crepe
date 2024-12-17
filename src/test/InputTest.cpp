@@ -2,7 +2,6 @@
 
 #include <crepe/manager/ResourceManager.h>
 #include <crepe/system/RenderSystem.h>
-
 #define protected public
 #define private public
 
@@ -214,8 +213,13 @@ TEST_F(InputTest, MouseClick) {
 TEST_F(InputTest, testButtonClick) {
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
 	bool button_clicked = false;
-	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
+	event_manager.subscribe<ButtonPressEvent>([&](const ButtonPressEvent & event) {
+		button_clicked = true;
+		EXPECT_EQ(event.meta_data.game_object_id, button_obj.id);
+		return false;
+	}
+	);
+	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0});
 
 	bool hover = false;
 	button.active = true;
@@ -232,25 +236,21 @@ TEST_F(InputTest, testButtonClick) {
 
 TEST_F(InputTest, testButtonHover) {
 	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
-	bool button_clicked = false;
-	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
+	bool button_hover = false;
+	event_manager.subscribe<ButtonEnterEvent>([&](const ButtonEnterEvent & event) {
+		button_hover = true;
+		EXPECT_EQ(event.meta_data.game_object_id, button_obj.id);
+		return false;
+	}
+	);
+	event_manager.subscribe<ButtonExitEvent>([&](const ButtonExitEvent & event) {
+		button_hover = false;
+		EXPECT_EQ(event.meta_data.game_object_id, button_obj.id);
+		return false;
+	}
+	);
+	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0});
 	button.active = true;
-
-	// Mouse not on button
-	SDL_Event event;
-	SDL_zero(event);
-	event.type = SDL_MOUSEMOTION;
-	event.motion.x = 700;
-	event.motion.y = 700;
-	event.motion.xrel = 10;
-	event.motion.yrel = 10;
-	SDL_PushEvent(&event);
-
-	input_system.update();
-	event_manager.dispatch_events();
-	EXPECT_FALSE(button.hover);
-
 	// Mouse on button
 	SDL_Event hover_event;
 	SDL_zero(hover_event);
@@ -264,4 +264,21 @@ TEST_F(InputTest, testButtonHover) {
 	input_system.update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button.hover);
+	EXPECT_TRUE(button_hover);
+	// Mouse not on button
+	SDL_Event event;
+	SDL_zero(event);
+	event.type = SDL_MOUSEMOTION;
+	event.motion.x = 500;
+	event.motion.y = 500;
+	event.motion.xrel = 10;
+	event.motion.yrel = 10;
+	SDL_PushEvent(&event);
+
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_FALSE(button.hover);
+	EXPECT_FALSE(button_hover);
+
+	
 }
