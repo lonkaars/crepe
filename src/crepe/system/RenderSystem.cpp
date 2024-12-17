@@ -83,8 +83,11 @@ void RenderSystem::render_text() {
 
 	RefVector<Text> texts = mgr.get_components_by_type<Text>();
 
-	for (const Text & text : texts) {
+	for (Text & text : texts) {
 		if (!text.active) continue;
+		if (!text.font.has_value()) text.font = ctx.get_font_from_name(text.font_family);
+		if (!text.font.has_value()) continue;
+
 		const Font & font = resource_manager.get<Font>(text.font.value());
 		const auto & transform
 			= mgr.get_components_by_id<Transform>(text.game_object_id).front().get();
@@ -149,11 +152,7 @@ void RenderSystem::render() {
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 	RefVector<Sprite> sorted_sprites = this->sort(sprites);
 	RefVector<Text> text_components = mgr.get_components_by_type<Text>();
-	for (Text & text : text_components) {
-		const Transform & transform
-			= mgr.get_components_by_id<Transform>(text.game_object_id).front().get();
-		this->render_text(text, transform);
-	}
+
 	for (const Sprite & sprite : sorted_sprites) {
 		if (!sprite.active) continue;
 		const Transform & transform
@@ -165,19 +164,4 @@ void RenderSystem::render() {
 
 		this->render_normal(sprite, transform);
 	}
-}
-void RenderSystem::render_text(Text & text, const Transform & tm) {
-	SDLContext & ctx = this->mediator.sdl_context;
-
-	if (!text.font.has_value()) {
-		text.font = ctx.get_font_from_name(text.font_family);
-	}
-
-	ResourceManager & resource_manager = this->mediator.resource_manager;
-
-	if (!text.font.has_value()) {
-		return;
-	}
-	const Asset & font_asset = text.font.value();
-	const Font & res = resource_manager.get<Font>(font_asset);
 }
