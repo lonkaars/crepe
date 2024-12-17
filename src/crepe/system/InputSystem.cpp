@@ -155,7 +155,7 @@ void InputSystem::handle_non_mouse_event(const EventData & event) {
 
 void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
-	EventManager& event_mgr = this->mediator.event_manager;
+	EventManager & event_mgr = this->mediator.event_manager;
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
 	for (Button & button : buttons) {
@@ -183,9 +183,9 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 
 void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
-	EventManager& event_mgr = this->mediator.event_manager;
+	EventManager & event_mgr = this->mediator.event_manager;
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
-	
+
 	for (Button & button : buttons) {
 		if (!button.active) continue;
 		RefVector<Metadata> metadata_vec

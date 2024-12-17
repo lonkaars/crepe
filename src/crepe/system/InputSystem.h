@@ -3,11 +3,10 @@
 #include "../api/Config.h"
 #include "../facade/EventData.h"
 
+#include "../api/Event.h"
+#include "../api/Metadata.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
-#include "../api/Metadata.h"
-#include "../api/Event.h"
-
 
 #include "System.h"
 
@@ -21,18 +20,19 @@ class Transform;
  */
 class ButtonPressEvent : public Event {
 public:
-	const Metadata& meta_data;
-	ButtonPressEvent(const Metadata& meta_data) : meta_data(meta_data){};;
+	const Metadata & meta_data;
+	ButtonPressEvent(const Metadata & meta_data) : meta_data(meta_data){};
+	;
 };
 class ButtonEnterEvent : public Event {
 public:
-	const Metadata& meta_data;
-	ButtonEnterEvent(const Metadata& meta_data) : meta_data(meta_data){};
+	const Metadata & meta_data;
+	ButtonEnterEvent(const Metadata & meta_data) : meta_data(meta_data){};
 };
 class ButtonExitEvent : public Event {
 public:
-	const Metadata& meta_data;
-	ButtonExitEvent(const Metadata& meta_data) : meta_data(meta_data){};
+	const Metadata & meta_data;
+	ButtonExitEvent(const Metadata & meta_data) : meta_data(meta_data){};
 };
 
 /**

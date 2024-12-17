@@ -217,8 +217,7 @@ TEST_F(InputTest, testButtonClick) {
 		button_clicked = true;
 		EXPECT_EQ(event.meta_data.game_object_id, button_obj.id);
 		return false;
-	}
-	);
+	});
 	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0});
 
 	bool hover = false;
@@ -241,14 +240,12 @@ TEST_F(InputTest, testButtonHover) {
 		button_hover = true;
 		EXPECT_EQ(event.meta_data.game_object_id, button_obj.id);
 		return false;
-	}
-	);
+	});
 	event_manager.subscribe<ButtonExitEvent>([&](const ButtonExitEvent & event) {
 		button_hover = false;
 		EXPECT_EQ(event.meta_data.game_object_id, button_obj.id);
 		return false;
-	}
-	);
+	});
 	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0});
 	button.active = true;
 	// Mouse on button
@@ -279,6 +276,4 @@ TEST_F(InputTest, testButtonHover) {
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button.hover);
 	EXPECT_FALSE(button_hover);
-
-	
 }
