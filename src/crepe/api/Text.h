@@ -53,7 +53,7 @@ public:
 	//! Label text.
 	std::string text = "";
 	//! Font asset variable
-	Asset font;
+	const Asset font;
 	//! Data instance
 	Data data;
 };

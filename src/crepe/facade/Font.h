@@ -1,13 +1,14 @@
 #pragma once
+
 #include <SDL2/SDL_ttf.h>
 #include <memory>
 
 #include "../Resource.h"
-#include "../api/Asset.h"
 #include "../api/Config.h"
 
 namespace crepe {
 
+class Asset;
 /**
  * \brief Resource for managing font creation and destruction
  *
@@ -16,6 +17,7 @@ namespace crepe {
  * when this object is destroyed.
  */
 class Font : public Resource {
+
 public:
 	/**
      * \param src The Asset containing the font file path and metadata to load the font.
