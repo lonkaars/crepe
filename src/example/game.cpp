@@ -1,4 +1,5 @@
 #include "api/CircleCollider.h"
+#include "api/ParticleEmitter.h"
 #include "api/Scene.h"
 #include "manager/ComponentManager.h"
 #include "manager/Mediator.h"
@@ -35,7 +36,8 @@ class MyScript1 : public Script {
 			}
 			case Keycode::W: {
 				Rigidbody & tf = this->get_component<Rigidbody>();
-				tf.data.linear_velocity.y -= 1;
+				// tf.data.linear_velocity.y -= 1;
+				tf.add_force_linear({0, -1});
 				break;
 			}
 			case Keycode::S: {
@@ -176,19 +178,19 @@ public:
 			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::STATIC,
 			.offset = {0, 0},
-			.collision_layers = {0},
 		});
 		world.add_component<BoxCollider>(
-			vec2{0, 0 - (screen_size_height / 2 + world_collider / 2)},
-			vec2{world_collider, world_collider});
-		; // Top
-		world.add_component<BoxCollider>(vec2{0, screen_size_height / 2 + world_collider / 2},
-										 vec2{world_collider, world_collider}); // Bottom
+			vec2{world_collider, world_collider},
+			vec2{0, 0 - (screen_size_height / 2 + world_collider / 2)}); // Top
 		world.add_component<BoxCollider>(
-			vec2{0 - (screen_size_width / 2 + world_collider / 2), 0},
-			vec2{world_collider, world_collider}); // Left
-		world.add_component<BoxCollider>(vec2{screen_size_width / 2 + world_collider / 2, 0},
-										 vec2{world_collider, world_collider}); // right
+			vec2{world_collider, world_collider},
+			vec2{0, screen_size_height / 2 + world_collider / 2}); // Bottom
+		world.add_component<BoxCollider>(
+			vec2{world_collider, world_collider},
+			vec2{0 - (screen_size_width / 2 + world_collider / 2), 0}); // Left
+		world.add_component<BoxCollider>(
+			vec2{world_collider, world_collider},
+			vec2{screen_size_width / 2 + world_collider / 2, 0}); // right
 		world.add_component<Camera>(
 			ivec2{static_cast<int>(screen_size_width), static_cast<int>(screen_size_height)},
 			vec2{screen_size_width, screen_size_height},
@@ -205,12 +207,11 @@ public:
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 1},
 			.constraints = {0, 0, 0},
-			.elastisity_coefficient = 1,
+			.elastisity_coefficient = 0,
 			.offset = {0, 0},
-			.collision_layers = {0},
 		});
 		// add box with boxcollider
-		game_object1.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
+		game_object1.add_component<BoxCollider>(vec2{20, 20});
 		game_object1.add_component<BehaviorScript>().set_script<MyScript1>();
 
 		Asset img1{"asset/texture/square.png"};
@@ -219,7 +220,7 @@ public:
 												 });
 
 		//add circle with cirlcecollider deactiveated
-		game_object1.add_component<CircleCollider>(vec2{0, 0}, 10).active = false;
+		game_object1.add_component<CircleCollider>(10).active = false;
 		Asset img2{"asset/texture/circle.png"};
 		game_object1
 			.add_component<Sprite>(img2,
@@ -239,10 +240,9 @@ public:
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
 			.offset = {0, 0},
-			.collision_layers = {0},
 		});
 		// add box with boxcollider
-		game_object2.add_component<BoxCollider>(vec2{0, 0}, vec2{20, 20});
+		game_object2.add_component<BoxCollider>(vec2{20, 20});
 		game_object2.add_component<BehaviorScript>().set_script<MyScript2>();
 
 		game_object2.add_component<Sprite>(img1, Sprite::Data{
@@ -250,7 +250,7 @@ public:
 												 });
 
 		//add circle with cirlcecollider deactiveated
-		game_object2.add_component<CircleCollider>(vec2{0, 0}, 10).active = false;
+		game_object2.add_component<CircleCollider>(10).active = false;
 
 		game_object2
 			.add_component<Sprite>(img2,
@@ -259,6 +259,25 @@ public:
 								   })
 			.active
 			= false;
+		Asset img5{"asset/texture/square.png"};
+
+		GameObject particle = new_object(
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
+		auto & particle_image = particle.add_component<Sprite>(img5, Sprite::Data{
+																		 .size = {5, 5},
+																	 });
+		auto & test
+			= particle.add_component<ParticleEmitter>(particle_image, ParticleEmitter::Data{
+																		  .offset = {0, 0},
+																		  .max_particles = 256,
+																		  .emission_rate = 1,
+																		  .min_speed = 10,
+																		  .max_speed = 20,
+																		  .min_angle = -20,
+																		  .max_angle = 20,
+																		  .begin_lifespan = 0,
+																		  .end_lifespan = 5,
+																	  });
 	}
 
 	string get_name() const { return "scene1"; }
