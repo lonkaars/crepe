@@ -5,6 +5,7 @@ set(GAME_HEADERS
 	Hallway.h
 	Start.h
 	GameScene.h
+	Player.h
 )
 
 set(GAME_SOURCES
@@ -15,6 +16,7 @@ set(GAME_SOURCES
 	Hallway.cpp
 	Start.cpp
 	GameScene.cpp
+	Player.cpp
 )
 
 add_executable(game ${GAME_SOURCES} ${GAME_HEADERS})
