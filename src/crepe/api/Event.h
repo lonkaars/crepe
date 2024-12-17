@@ -3,8 +3,9 @@
 
 #include <string>
 
-#include "api/KeyCodes.h"
 #include "types.h"
+
+#include "api/KeyCodes.h"
 
 namespace crepe {
 

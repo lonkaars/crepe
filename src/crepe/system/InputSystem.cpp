@@ -155,28 +155,27 @@ void InputSystem::handle_non_mouse_event(const EventData & event) {
 
 void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
-
+	EventManager& event_mgr = this->mediator.event_manager;
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
 	for (Button & button : buttons) {
 		if (!button.active) continue;
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		Transform & transform(transform_vec.front().get());
-
+		Transform & transform = transform_vec.front().get();
+		RefVector<Metadata> metadata_vec
+			= mgr.get_components_by_id<Metadata>(button.game_object_id);
+		Metadata & metadata = metadata_vec.front().get();
 		bool was_hovering = button.hover;
 		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
 			button.hover = true;
-			if (!button.on_mouse_enter) continue;
 			if (!was_hovering) {
-				button.on_mouse_enter();
+				event_mgr.trigger_event<ButtonEnterEvent>(metadata);
 			}
 		} else {
 			button.hover = false;
-			// Trigger the on_exit callback if the hover state just changed to false
-			if (!button.on_mouse_exit) continue;
 			if (was_hovering) {
-				button.on_mouse_exit();
+				event_mgr.trigger_event<ButtonExitEvent>(metadata);
 			}
 		}
 	}
@@ -184,19 +183,20 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 
 void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos) {
 	ComponentManager & mgr = this->mediator.component_manager;
-
+	EventManager& event_mgr = this->mediator.event_manager;
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
-
+	
 	for (Button & button : buttons) {
 		if (!button.active) continue;
-		if (!button.on_click) continue;
+		RefVector<Metadata> metadata_vec
+			= mgr.get_components_by_id<Metadata>(button.game_object_id);
+		Metadata & metadata = metadata_vec.front().get();
 		RefVector<Transform> transform_vec
 			= mgr.get_components_by_id<Transform>(button.game_object_id);
 		Transform & transform = transform_vec.front().get();
 
 		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
-
-			button.on_click();
+			event_mgr.trigger_event<ButtonPressEvent>(metadata);
 		}
 	}
 }
