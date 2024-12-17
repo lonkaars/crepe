@@ -20,7 +20,8 @@ float Start::create(Scene & scn, float begin_x) {
 											 });
 	begin_x += 700;
 
-	this->add_table(begin, vec2(-125, 175));
+	this->add_table(begin, vec2(-150, 150));
+	this->add_light(begin, vec2(-125, -150));
 
 	GameObject end = scn.new_object("start_end", "background", vec2(begin_x, 0));
 	Asset end_asset{"asset/jetpack_joyride/background/start/titleFG_2_TVOS.png"};
@@ -80,4 +81,28 @@ void Start::add_table(GameObject & obj, vec2 offset) {
 									.fps = 10,
 									.looping = true,
 								});
+}
+
+void Start::add_light(crepe::GameObject & obj, crepe::vec2 offset) {
+	Asset light_asset{"asset/jetpack_joyride/background/start/title_light_TVOS.png"};
+	obj.add_component<Sprite>(light_asset, Sprite::Data{
+											   .sorting_in_layer = 5,
+											   .order_in_layer = 0,
+											   .size = vec2(0, 200),
+											   .position_offset = offset,
+										   });
+	Asset light_glow_asset{"asset/jetpack_joyride/background/start/lightEffect2.png"};
+	obj.add_component<Sprite>(light_glow_asset, Sprite::Data{
+													.sorting_in_layer = 5,
+													.order_in_layer = 1,
+													.size = vec2(0, 50),
+													.position_offset = offset + vec2(0, 55),
+												});
+	Asset light_effect_asset{"asset/jetpack_joyride/background/start/lightEffect.png"};
+	obj.add_component<Sprite>(light_effect_asset, Sprite::Data{
+													  .sorting_in_layer = 5,
+													  .order_in_layer = 0,
+													  .size = vec2(0, 100),
+													  .position_offset = offset + vec2(0, 350),
+												  });
 }
