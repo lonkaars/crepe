@@ -1,10 +1,11 @@
 #pragma once
 
 #include <SDL2/SDL_ttf.h>
+#include <functional>
 #include <memory>
+#include <string>
 
 #include "../Resource.h"
-#include "../api/Config.h"
 
 namespace crepe {
 
@@ -24,7 +25,6 @@ public:
      * \param mediator The Mediator object used for managing the SDL context or related systems.
      */
 	Font(const Asset & src, Mediator & mediator);
-	~Font();
 
 	/**
      * \brief Gets the underlying TTF_Font resource.
@@ -36,9 +36,13 @@ public:
      */
 	TTF_Font * get_font() const;
 
+	const std::string & get_path() const noexcept;
+
 private:
 	//! The SDL_ttf font object with custom deleter.
 	std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>> font;
+
+	std::string path;
 };
 
 } // namespace crepe

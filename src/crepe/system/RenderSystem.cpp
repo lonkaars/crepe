@@ -13,14 +13,15 @@
 #include "../facade/Texture.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/ResourceManager.h"
-
-#include "RenderSystem.h"
 #include "api/Text.h"
 #include "facade/Font.h"
+
+#include "RenderSystem.h"
 #include "types.h"
 
 using namespace crepe;
 using namespace std;
+
 
 void RenderSystem::clear_screen() {
 	SDLContext & ctx = this->mediator.sdl_context;

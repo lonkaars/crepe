@@ -1,3 +1,5 @@
+
+
 #include "api/Asset.h"
 #include "api/Text.h"
 #include <crepe/Component.h>
@@ -14,7 +16,6 @@
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/types.h>
-#include <iostream>
 
 using namespace crepe;
 using namespace std;
@@ -65,8 +66,8 @@ public:
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
 													   });
-
-		game_object.add_component<Text>(vec2{200,200}, vec2{0,0}, "test test", "", Text::Data{});
+		game_object.add_component<Text>(vec2{200, 200}, vec2{0, 0}, "test test", "Ariel.ttf",
+										Text::Data{});
 	}
 
 	string get_name() const { return "TestScene"; };
