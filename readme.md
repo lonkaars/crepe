@@ -33,6 +33,7 @@ This project uses the following libraries
 |Google Test (`GTest`)|1.15.2|
 |Berkeley DB (`libdb`)|5.3.21|
 |Where Am I?|(latest git `master` version)
+|fontconfig|2.15.0|
 
 > [!NOTE]
 > Most of these libraries are likely available from your package manager if you
@@ -60,7 +61,6 @@ Then, follow these steps for each library you want to install:
    $ cd lib/googletest
    $ cd lib/sdl2
    $ cd lib/soloud/contrib
-   $ cd lib/sdl_ttf
    $ cd lib/sdl_image
    $ cd lib/sdl_ttf
    $ cd lib/whereami
