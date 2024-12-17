@@ -87,7 +87,7 @@ void RenderSystem::render_text(){
 
 	for (const Text & text  : texts) {
 		if (!text.active) continue;
-		const Font & res = resource_manager.get<Font>(text.font);
+		const Font & res = resource_manager.get<Font>(text.font.value());
 		ctx.draw_text(text, res);
 	}
 

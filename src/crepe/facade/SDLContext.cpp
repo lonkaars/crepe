@@ -294,9 +294,7 @@ void SDLContext::draw_text(const Text & text, const Font & font){
 		.b = text.data.text_color.b,
 		.a = text.data.text_color.a,
 	};
-	TTF_Font * ttf_font = TTF_OpenFont(font.get_path().c_str(), Config::get_instance().font.size);
 	SDL_Surface * font_surface = TTF_RenderText_Solid(font.get_font(), text.text.c_str(), color);
-	TTF_CloseFont(ttf_font);
 	SDL_Texture * font_texture = SDL_CreateTextureFromSurface(this->game_renderer.get(), font_surface);
 	SDL_FreeSurface(font_surface);
 
