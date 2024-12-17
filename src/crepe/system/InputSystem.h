@@ -15,22 +15,34 @@ namespace crepe {
 class Camera;
 class Button;
 class Transform;
-/**
- * \brief Event triggered during a collision between objects.
- */
+//! Event triggered when a button is clicked
 class ButtonPressEvent : public Event {
 public:
+	//! Metadata of the button.
 	const Metadata & meta_data;
+	/**
+	 * \param meta_data Metadata of the button pressed
+	 */
 	ButtonPressEvent(const Metadata & meta_data) : meta_data(meta_data){};
 };
+//! Event triggered when the mouse enters a button
 class ButtonEnterEvent : public Event {
 public:
+	//! Metadata of the button.
 	const Metadata & meta_data;
+	/**
+	 * \param meta_data Metadata of the button pressed
+	 */
 	ButtonEnterEvent(const Metadata & meta_data) : meta_data(meta_data){};
 };
+//! Event triggered when the mouse leaves a button
 class ButtonExitEvent : public Event {
 public:
+	//! Metadata of the button.
 	const Metadata & meta_data;
+	/**
+	 * \param meta_data Metadata of the button pressed
+	 */
 	ButtonExitEvent(const Metadata & meta_data) : meta_data(meta_data){};
 };
 
