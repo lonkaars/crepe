@@ -26,7 +26,7 @@ int main() {
 		std::unique_ptr<Text> label2 = std::make_unique<Text>(
 			1, vec2(100, 100), vec2(0, 0), "fsaafdafsdafsdafsdasfdds", Text::Data{});
 		Asset asset = Asset("test test");
-		label->font = asset;
+		label->font.emplace(asset);
 		std::cout << label->font.value().get_path() << std::endl;
 		// label2->font = std::make_optional(asset);
 		// std::cout << "Path: " << label2->font.get_path() << std::endl;
