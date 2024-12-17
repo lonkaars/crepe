@@ -1,13 +1,16 @@
 #include "ParticleEmitter.h"
+#include "api/Sprite.h"
 
 using namespace crepe;
 using namespace std;
 
-ParticleEmitter::ParticleEmitter(game_object_id_t game_object_id, const Data & data)
+ParticleEmitter::ParticleEmitter(game_object_id_t game_object_id, const Sprite & sprite,
+								 const Data & data)
 	: Component(game_object_id),
+	  sprite(sprite),
 	  data(data) {
 	for (size_t i = 0; i < this->data.max_particles; i++) {
-		this->data.particles.emplace_back();
+		this->particles.emplace_back();
 	}
 }
 
@@ -20,6 +23,6 @@ void ParticleEmitter::restore(const Component & snapshot) {
 }
 
 ParticleEmitter & ParticleEmitter::operator=(const ParticleEmitter & other) {
-	data.particles = other.data.particles;
+	this->particles = other.particles;
 	return *this;
 }
