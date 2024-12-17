@@ -29,6 +29,14 @@ public:
 	 * \param offset The offset relative this GameObjects Transform
 	 */
 	Button(game_object_id_t id, const vec2 & dimensions, const vec2 & offset);
+	/**
+	 * \brief Get the maximum number of instances for this component
+	 *
+	 * Since the button Event transfers the GameObject Metadata it will be the same for each button so only one button is allowed per GameObject	
+	 * 
+	 * \return The maximum number of instances for this component
+	 */
+	virtual int get_instances_max() const { return 1; }
 
 private:
 	//! friend relation hover variable
