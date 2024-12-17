@@ -36,9 +36,13 @@ private:
 	//! Updates the active camera used for rendering.
 	void update_camera();
 
-	//! Renders the whole screen
+	//! Renders all the sprites and particles
 	void render();
-	
+
+	//! Renders all Text components
+	void render_text();
+
+private:
 	/**
 	 * \brief Renders all the particles on the screen from a given sprite.
 	 *
@@ -50,10 +54,6 @@ private:
 	 * \return true if particles have been rendered
 	 */
 	bool render_particle(const Sprite & sprite, const double & scale);
-	/**
-	 * \brief Renders all Text components
-	 */
-	void render_text();
 	/**
 	 * \brief renders a sprite with a Transform component on the screen
 	 *
