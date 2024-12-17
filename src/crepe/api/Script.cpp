@@ -31,7 +31,7 @@ const keyboard_state_t & Script::get_keyboard_state() const {
 	return sdl_context.get_keyboard_state();
 }
 
-bool Script::get_key_state(Keycode key) const {
+bool Script::get_key_state(Keycode key) const noexcept {
 	try {
 		return this->get_keyboard_state().at(key);
 	} catch (...) {
