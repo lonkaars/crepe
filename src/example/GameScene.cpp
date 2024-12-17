@@ -45,6 +45,7 @@ public:
 		Transform & player_transform
 			= this->get_components_by_name<Transform>("player").front();
 
+		// Create hole in wall and activate panic lamp
 		if (player_transform.position.x == -310) {
 			Sprite & lamp_sprite = this->get_components_by_name<Sprite>("start_end").back();
 			lamp_sprite.active = true;
@@ -52,6 +53,7 @@ public:
 			hole_sprite.active = true;
 		}
 
+		// Take jetpack from jetpack stand
 		if (player_transform.position.x == -100) {
 			Animator & jetpack_stand_anim
 				= this->get_components_by_name<Animator>("start_begin").back();
@@ -60,6 +62,7 @@ public:
 			jetpack_sprite.active = true;
 		}
 
+		// Start camera movement
 		if (player_transform.position.x == 150) {
 			Rigidbody & rb = this->get_components_by_name<Rigidbody>("camera").front();
 			rb.data.linear_velocity = vec2(100, 0);
