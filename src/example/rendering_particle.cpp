@@ -62,12 +62,12 @@ public:
 					 .position_offset = {0, 0},
 				 });
 
-		auto & cam = game_object.add_component<Camera>(ivec2{400, 400}, vec2{400, 400},
+		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
 													   });
-		game_object.add_component<Text>(vec2{200, 200}, vec2{0, 0}, "test test", "Ariel.ttf",
-										Text::Data{});
+		game_object.add_component<Text>(vec2{400, 400}, vec2{0, 0}, "ComicSansMS",
+										Text::Data{.text_color = Color::RED}, "TEST test");
 	}
 
 	string get_name() const { return "TestScene"; };
