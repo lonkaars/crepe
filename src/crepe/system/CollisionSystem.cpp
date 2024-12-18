@@ -107,6 +107,7 @@ CollisionSystem::gather_collisions(const std::vector<CollisionInternal> & collid
 			if (!should_collide(colliders[i], colliders[j])) continue;
 				CollisionInternalType type = get_collider_type(colliders[i].collider, colliders[j].collider);
 			if (!get_collision(colliders[i],colliders[j],type)) continue;
+				//fet 
 				collisions_ret.emplace_back(colliders[i], colliders[j]);
 		}
 	}
@@ -156,41 +157,60 @@ CollisionSystem::get_collider_type(const collider_variant & collider1,
 }
 
 bool CollisionSystem::get_collision(const CollisionInternal & self,const CollisionInternal & other,const CollisionInternalType & type) const {
-	const Transform & self_transform = self.info.transform;
-	const Transform & other_transform = other.info.transform;
-	const Rigidbody & self_rigidbody = self.info.rigidbody;
-	const Rigidbody & other_rigidbody = other.info.rigidbody;
-	const collider_variant & self_collider = self.collider;
-	const collider_variant & other_collider = other.collider;
 
 	switch (type) {
 		case CollisionInternalType::BOX_BOX: { 
-			const BoxCollider & box_collider1 = std::get<std::reference_wrapper<BoxCollider>>(self_collider);
-			const BoxCollider & box_collider2 = std::get<std::reference_wrapper<BoxCollider>>(other_collider);
-			return this->get_box_box_collision(box_collider1, box_collider2,
-											   self_transform, other_transform,
-											   self_rigidbody, other_rigidbody);
+			const BoxColliderInternal BOX1 = {
+				.collider = std::get<std::reference_wrapper<BoxCollider>>(self.collider),
+				.transform = self.info.transform,
+				.rigidbody = self.info.rigidbody
+			};
+			const BoxColliderInternal BOX2 = {
+				.collider = std::get<std::reference_wrapper<BoxCollider>>(other.collider),
+				.transform = other.info.transform,
+				.rigidbody = other.info.rigidbody
+			};
+
+			return this->get_box_box_collision(BOX1, BOX2);
 		}
 		case CollisionInternalType::BOX_CIRCLE: {
-			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(self_collider);
-			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(other_collider);
-			return this->get_box_circle_collision(box_collider, circle_collider,
-											   self_transform, other_transform,
-											   self_rigidbody, other_rigidbody);
+			const BoxColliderInternal BOX1 = {
+				.collider = std::get<std::reference_wrapper<BoxCollider>>(self.collider),
+				.transform = self.info.transform,
+				.rigidbody = self.info.rigidbody
+			};
+			const CircleColliderInternal CIRCLE2 = {
+				.collider = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
+				.transform = other.info.transform,
+				.rigidbody = other.info.rigidbody
+			};
+			return this->get_box_circle_collision(BOX1, CIRCLE2);
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE: { 
-			const CircleCollider & circle_collider1 = std::get<std::reference_wrapper<CircleCollider>>(self_collider);
-			const CircleCollider & circle_collider2 = std::get<std::reference_wrapper<CircleCollider>>(other_collider);
-			return this->get_circle_circle_collision(circle_collider1, circle_collider2,
-											   self_transform, other_transform,
-											   self_rigidbody, other_rigidbody);
+			const CircleColliderInternal CIRCLE1 = {
+				.collider = std::get<std::reference_wrapper<CircleCollider>>(self.collider),
+				.transform = self.info.transform,
+				.rigidbody = self.info.rigidbody
+			};
+			const CircleColliderInternal CIRCLE2 = {
+				.collider = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
+				.transform = other.info.transform,
+				.rigidbody = other.info.rigidbody
+			};
+			return this->get_circle_circle_collision(CIRCLE1,CIRCLE2);
 		}
 		case CollisionInternalType::CIRCLE_BOX: { 
-			const CircleCollider & circle_collider = std::get<std::reference_wrapper<CircleCollider>>(self_collider);
-			const BoxCollider & box_collider = std::get<std::reference_wrapper<BoxCollider>>(other_collider);
-			return this->get_box_circle_collision(box_collider, circle_collider,
-											   other_transform, self_transform,
-											   other_rigidbody, self_rigidbody);
+			const CircleColliderInternal CIRCLE1 = {
+				.collider = std::get<std::reference_wrapper<CircleCollider>>(self.collider),
+				.transform = self.info.transform,
+				.rigidbody = self.info.rigidbody
+			};
+			const BoxColliderInternal BOX2 = {
+				.collider = std::get<std::reference_wrapper<BoxCollider>>(other.collider),
+				.transform = other.info.transform,
+				.rigidbody = other.info.rigidbody
+			};
+			return this->get_box_circle_collision(BOX2, CIRCLE1);
 		}
 		case CollisionInternalType::NONE:
 			break;
@@ -198,18 +218,14 @@ bool CollisionSystem::get_collision(const CollisionInternal & self,const Collisi
 	return false;
 }
 
-bool CollisionSystem::get_box_box_collision(const BoxCollider & box1, const BoxCollider & box2,
-											const Transform & transform1,
-											const Transform & transform2,
-											const Rigidbody & rigidbody1,
-											const Rigidbody & rigidbody2) const {
+bool CollisionSystem::get_box_box_collision(const BoxColliderInternal & box1, const BoxColliderInternal & box2) const {
 	// Get current positions of colliders
-	vec2 final_position1 = AbsolutePosition::get_position(transform1, box1.offset);
-	vec2 final_position2 = AbsolutePosition::get_position(transform2, box2.offset);
+	vec2 final_position1 = AbsolutePosition::get_position(box1.transform, box1.collider.offset);
+	vec2 final_position2 = AbsolutePosition::get_position(box2.transform, box2.collider.offset);
 
 	// Scale dimensions
-	vec2 scaled_box1 = box1.dimensions * transform1.scale;
-	vec2 scaled_box2 = box2.dimensions * transform2.scale;
+	vec2 scaled_box1 = box1.collider.dimensions * box1.transform.scale;
+	vec2 scaled_box2 = box2.collider.dimensions * box2.transform.scale;
 
 	// Calculate half-extents (half width and half height)
 	float half_width1 = scaled_box1.x / 2.0;
@@ -224,19 +240,14 @@ bool CollisionSystem::get_box_box_collision(const BoxCollider & box1, const BoxC
 			&& final_position1.y - half_height1 < final_position2.y + half_height2);
 }
 
-bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
-											   const CircleCollider & circle2,
-											   const Transform & transform1,
-											   const Transform & transform2,
-											   const Rigidbody & rigidbody1,
-											   const Rigidbody & rigidbody2) const {
+bool CollisionSystem::get_box_circle_collision(const BoxColliderInternal & box1, const CircleColliderInternal & circle2) const {
 	// Get current positions of colliders
-	vec2 final_position1 = AbsolutePosition::get_position(transform1, box1.offset);
-	vec2 final_position2 = AbsolutePosition::get_position(transform2, circle2.offset);
+	vec2 final_position1 = AbsolutePosition::get_position(box1.transform, box1.collider.offset);
+	vec2 final_position2 = AbsolutePosition::get_position(circle2.transform, circle2.collider.offset);
 
 	// Scale dimensions
-	vec2 scaled_box = box1.dimensions * transform1.scale;
-	float scaled_circle = circle2.radius * transform2.scale;
+	vec2 scaled_box = box1.collider.dimensions * box1.transform.scale;
+	float scaled_circle = circle2.collider.radius * circle2.transform.scale;
 
 	// Calculate box half-extents
 	float half_width = scaled_box.x / 2.0;
@@ -257,19 +268,14 @@ bool CollisionSystem::get_box_circle_collision(const BoxCollider & box1,
 	return distance_squared < scaled_circle * scaled_circle;
 }
 
-bool CollisionSystem::get_circle_circle_collision(const CircleCollider & circle1,
-												  const CircleCollider & circle2,
-												  const Transform & transform1,
-												  const Transform & transform2,
-												  const Rigidbody & rigidbody1,
-												  const Rigidbody & rigidbody2) const {
+bool CollisionSystem::get_circle_circle_collision(const CircleColliderInternal & circle1, const CircleColliderInternal & circle2) const {
 	// Get current positions of colliders
-	vec2 final_position1 = AbsolutePosition::get_position(transform1, circle1.offset);
-	vec2 final_position2 = AbsolutePosition::get_position(transform2, circle2.offset);
+	vec2 final_position1 = AbsolutePosition::get_position(circle1.transform, circle1.collider.offset);
+	vec2 final_position2 = AbsolutePosition::get_position(circle2.transform, circle2.collider.offset);
 
 	// Scale dimensions
-	float scaled_circle1 = circle1.radius * transform1.scale;
-	float scaled_circle2 = circle2.radius * transform2.scale;
+	float scaled_circle1 = circle1.collider.radius * circle1.transform.scale;
+	float scaled_circle2 = circle2.collider.radius * circle2.transform.scale;
 
 	float distance_x = final_position1.x - final_position2.x;
 	float distance_y = final_position1.y - final_position2.y;
@@ -286,52 +292,69 @@ std::pair<vec2, CollisionSystem::Direction>
 CollisionSystem::get_collision_resolution(const CollisionInternal & self, const CollisionInternal & other,
 								   const CollisionInternalType & type) const {
 	vec2 resolution;
+	// Fet resolution form correct type
 	switch (type) {
 		case CollisionInternalType::BOX_BOX: {
-			const BoxCollider & collider1 = std::get<std::reference_wrapper<BoxCollider>>(self.collider);
-			const BoxCollider & collider2 = std::get<std::reference_wrapper<BoxCollider>>(other.collider);
-			vec2 collider_pos1 = AbsolutePosition::get_position(self.info.transform, collider1.offset);
-			vec2 collider_pos2 = AbsolutePosition::get_position(other.info.transform, collider2.offset);
-			resolution = this->get_box_box_resolution(collider1, collider2, collider_pos1, collider_pos2);
+
+			const BoxColliderInternal BOX1 = {
+				.collider = std::get<std::reference_wrapper<BoxCollider>>(self.collider),
+				.transform = self.info.transform,
+				.rigidbody = self.info.rigidbody
+			};
+			const BoxColliderInternal BOX2 = {
+				.collider = std::get<std::reference_wrapper<BoxCollider>>(other.collider),
+				.transform = other.info.transform,
+				.rigidbody = other.info.rigidbody
+			};
+			resolution = this->get_box_box_resolution(BOX1, BOX2);
 			break;
 		}
 		case CollisionInternalType::BOX_CIRCLE: {
-			const BoxCollider & collider1
-				= std::get<std::reference_wrapper<BoxCollider>>(self.collider);
-			const CircleCollider & collider2
-				= std::get<std::reference_wrapper<CircleCollider>>(other.collider);
-			vec2 collider_pos1
-				= AbsolutePosition::get_position(self.info.transform, collider1.offset);
-			vec2 collider_pos2
-				= AbsolutePosition::get_position(other.info.transform, collider2.offset);
-			resolution = -this->get_circle_box_resolution(collider2, collider1, collider_pos2,
-														  collider_pos1);
+
+			const BoxColliderInternal BOX1 = {
+				.collider = std::get<std::reference_wrapper<BoxCollider>>(self.collider),
+				.transform = self.info.transform,
+				.rigidbody = self.info.rigidbody
+			};
+			const CircleColliderInternal CIRCLE1 = {
+				.collider = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
+				.transform = other.info.transform,
+				.rigidbody = other.info.rigidbody
+			};
+			resolution = -this->get_circle_box_resolution(CIRCLE1,BOX1);
 			break;
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE: {
-			const CircleCollider & collider1
-				= std::get<std::reference_wrapper<CircleCollider>>(self.collider);
-			const CircleCollider & collider2
-				= std::get<std::reference_wrapper<CircleCollider>>(other.collider);
-			vec2 collider_pos1
-				= AbsolutePosition::get_position(self.info.transform, collider1.offset);
-			vec2 collider_pos2
-				= AbsolutePosition::get_position(other.info.transform, collider2.offset);
-			resolution = this->get_circle_circle_resolution(collider1, collider2,
-															collider_pos1, collider_pos2);
+			const CircleColliderInternal CIRCLE1 = {
+				.collider = std::get<std::reference_wrapper<CircleCollider>>(self.collider),
+				.transform = self.info.transform,
+				.rigidbody = self.info.rigidbody
+			};
+			const CircleColliderInternal CIRCLE2 = {
+				.collider = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
+				.transform = other.info.transform,
+				.rigidbody = other.info.rigidbody
+			};
+			
+			resolution = this->get_circle_circle_resolution(CIRCLE1, CIRCLE2);
 			break;
 		}
 		case CollisionInternalType::CIRCLE_BOX: {
-			const CircleCollider & collider1
-				= std::get<std::reference_wrapper<CircleCollider>>(self.collider);
-			const BoxCollider & collider2
-				= std::get<std::reference_wrapper<BoxCollider>>(other.collider);
-			vec2 collider_pos1
-				= AbsolutePosition::get_position(self.info.transform, collider1.offset);
-			vec2 collider_pos2
-				= AbsolutePosition::get_position(other.info.transform, collider2.offset);
-			resolution = this->get_circle_box_resolution(collider1, collider2, collider_pos1,
-														 collider_pos2);
+
+			const BoxColliderInternal BOX1 = {
+				.collider = std::get<std::reference_wrapper<BoxCollider>>(other.collider),
+				.transform = other.info.transform,
+				.rigidbody = other.info.rigidbody
+			};
+			const CircleColliderInternal CIRCLE1 = {
+				.collider = std::get<std::reference_wrapper<CircleCollider>>(self.collider),
+				.transform = self.info.transform,
+				.rigidbody = self.info.rigidbody				
+			};
+			resolution = -this->get_circle_box_resolution(CIRCLE1,BOX1);
+
+	
+			resolution = this->get_circle_box_resolution(CIRCLE1, BOX1);
 			break;
 		}
 		case CollisionInternalType::NONE:
@@ -361,21 +384,20 @@ CollisionSystem::get_collision_resolution(const CollisionInternal & self, const 
 	return std::make_pair(resolution, resolution_direction);
 }
 
-vec2 CollisionSystem::get_box_box_resolution(const BoxCollider & box_collider1,
-											 const BoxCollider & box_collider2,
-											 const vec2 & final_position1,
-											 const vec2 & final_position2) const {
+vec2 CollisionSystem::get_box_box_resolution(const BoxColliderInternal & self, const BoxColliderInternal & other) const {
 	vec2 resolution; // Default resolution vector
-	vec2 delta = final_position2 - final_position1;
+	vec2 self_pos = AbsolutePosition::get_position(self.transform, self.collider.offset);
+	vec2 other_pos = AbsolutePosition::get_position(other.transform, other.collider.offset);
+	vec2 delta = other_pos - self_pos;
 
-	vec2 scaled_box1 = box_collider1.dimensions * transform1.scale;
-	vec2 scaled_box2 = box_collider2.dimensions * transform2.scale;
+	vec2 scaled_box1 = self.collider.dimensions * self.transform.scale;
+	vec2 scaled_box2 = other.collider.dimensions * other.transform.scale;
 
 	// Compute half-dimensions of the boxes
-	float half_width1 = box_collider1.dimensions.x / 2.0;
-	float half_height1 = box_collider1.dimensions.y / 2.0;
-	float half_width2 = box_collider2.dimensions.x / 2.0;
-	float half_height2 = box_collider2.dimensions.y / 2.0;
+	float half_width1 = self.collider.dimensions.x / 2.0;
+	float half_height1 = self.collider.dimensions.y / 2.0;
+	float half_width2 = other.collider.dimensions.x / 2.0;
+	float half_height2 = other.collider.dimensions.y / 2.0;
 
 	// Calculate overlaps along X and Y axes
 	float overlap_x = (half_width1 + half_width2) - std::abs(delta.x);
@@ -400,17 +422,16 @@ vec2 CollisionSystem::get_box_box_resolution(const BoxCollider & box_collider1,
 	return resolution;
 }
 
-vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider & circle_collider1,
-												   const CircleCollider & circle_collider2,
-												   const vec2 & final_position1,
-												   const vec2 & final_position2) const {
-	vec2 delta = final_position2 - final_position1;
+vec2 CollisionSystem::get_circle_circle_resolution(const CircleColliderInternal & self, const CircleColliderInternal & other) const {
+	vec2 self_pos = AbsolutePosition::get_position(self.transform, self.collider.offset);
+	vec2 other_pos = AbsolutePosition::get_position(other.transform, other.collider.offset);
+	vec2 delta = other_pos - self_pos;
 
 	// Compute the distance between the two circle centers
 	float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);
 
 	// Compute the combined radii of the two circles
-	float combined_radius = circle_collider1.radius + circle_collider2.radius;
+	float combined_radius = self.collider.radius + other.collider.radius;
 
 	// Compute the penetration depth
 	float penetration_depth = combined_radius - distance;
@@ -424,15 +445,14 @@ vec2 CollisionSystem::get_circle_circle_resolution(const CircleCollider & circle
 	return resolution;
 }
 
-vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_collider,
-												const BoxCollider & box_collider,
-												const vec2 & circle_position,
-												const vec2 & box_position) const {
-	vec2 delta = circle_position - box_position;
+vec2 CollisionSystem::get_circle_box_resolution(const CircleColliderInternal & circle, const BoxColliderInternal & box) const {
+	vec2 self_pos = AbsolutePosition::get_position(box.transform, box.collider.offset);
+	vec2 other_pos = AbsolutePosition::get_position(circle.transform, circle.collider.offset);
+	vec2 delta = other_pos - self_pos;
 
 	// Compute half-dimensions of the box
-	float half_width = box_collider.dimensions.x / 2.0f;
-	float half_height = box_collider.dimensions.y / 2.0f;
+	float half_width = box.collider.dimensions.x / 2.0f;
+	float half_height = box.collider.dimensions.y / 2.0f;
 
 	// Clamp circle center to the nearest point on the box
 	vec2 closest_point;
@@ -448,7 +468,7 @@ vec2 CollisionSystem::get_circle_box_resolution(const CircleCollider & circle_co
 	vec2 collision_normal = closest_delta / distance;
 
 	// Compute penetration depth
-	float penetration_depth = circle_collider.radius - distance;
+	float penetration_depth = circle.collider.radius - distance;
 
 	// Compute the resolution vector
 	vec2 resolution = collision_normal * penetration_depth;

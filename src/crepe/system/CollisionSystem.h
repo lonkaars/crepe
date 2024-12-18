@@ -82,6 +82,20 @@ private:
 		game_object_id_t id = 0;
 		collider_variant collider;
 		ColliderInfo info;
+		vec2 resolution;
+		Direction resolution_direction = Direction::NONE;
+	};
+
+	struct BoxColliderInternal {
+		BoxCollider & collider;
+		Transform & transform;
+		Rigidbody & rigidbody;
+	};
+
+	struct CircleColliderInternal {
+		CircleCollider & collider;
+		Transform & transform;
+		Rigidbody & rigidbody;
 	};
 
 public:
@@ -134,9 +148,7 @@ private:
 		* \param position2 The position of the second BoxCollider.
 		* \return The resolution vector for the collision.
 		*/
-	vec2 get_box_box_resolution(const BoxCollider & box_collider1,
-								const BoxCollider & box_collider2, const vec2 & position1,
-								const vec2 & position2) const;
+		vec2 get_box_box_resolution(const BoxColliderInternal & self, const BoxColliderInternal & other) const; //done
 
 	/**
 		* \brief Calculates the resolution vector for two CircleCollider.
@@ -149,10 +161,7 @@ private:
 		* \param final_position2 The position of the second CircleCollider.
 		* \return The resolution vector for the collision.
 		*/
-	vec2 get_circle_circle_resolution(const CircleCollider & circle_collider1,
-									  const CircleCollider & circle_collider2,
-									  const vec2 & final_position1,
-									  const vec2 & final_position2) const;
+	vec2 get_circle_circle_resolution(const CircleColliderInternal & self, const CircleColliderInternal & other) const; //done
 
 	/**
 		* \brief Calculates the resolution vector for two CircleCollider.
@@ -165,10 +174,7 @@ private:
 		* \param box_position The position of the BoxCollider.
 		* \return The resolution vector for the collision.
 		*/
-	vec2 get_circle_box_resolution(const CircleCollider & circle_collider,
-								   const BoxCollider & box_collider,
-								   const vec2 & circle_position,
-								   const vec2 & box_position) const;
+	vec2 get_circle_box_resolution(const CircleColliderInternal & circle, const BoxColliderInternal & box) const; //done
 
 	/**
 		* \brief Determines the appropriate collision handler for a collision.
@@ -256,10 +262,7 @@ private:
 		* \param rigidbody2 Rigidbody of the second object.
 		* \return True if a collision is detected, otherwise false.
 		*/
-	bool get_box_box_collision(const BoxCollider & box1, const BoxCollider & box2,
-							   const Transform & transform1, const Transform & transform2,
-							   const Rigidbody & rigidbody1,
-							   const Rigidbody & rigidbody2) const;
+	bool get_box_box_collision(const BoxColliderInternal & box1, const BoxColliderInternal & box2) const;
 
 	/**
 	 * \brief Check collision for box on circle collider
@@ -272,10 +275,7 @@ private:
 	 * \param rigidbody2 Rigidbody of the second object.
 	 * \return True if a collision is detected, otherwise false.
 	 */
-	bool get_box_circle_collision(const BoxCollider & box1, const CircleCollider & circle2,
-								  const Transform & transform1, const Transform & transform2,
-								  const Rigidbody & rigidbody1,
-								  const Rigidbody & rigidbody2) const;
+	bool get_box_circle_collision(const BoxColliderInternal & box1, const CircleColliderInternal & circle2) const;
 
 	/**
 	 * \brief Check collision for circle on circle collider
@@ -290,12 +290,7 @@ private:
 	 *
 	 * \return status of collision
 	 */
-	bool get_circle_circle_collision(const CircleCollider & circle1,
-									 const CircleCollider & circle2,
-									 const Transform & transform1,
-									 const Transform & transform2,
-									 const Rigidbody & rigidbody1,
-									 const Rigidbody & rigidbody2) const;
+	bool get_circle_circle_collision(const CircleColliderInternal & circle1, const CircleColliderInternal & circle2) const;
 };
 
 /**
