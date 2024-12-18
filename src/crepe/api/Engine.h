@@ -53,6 +53,15 @@ private:
 	//! Global context
 	Mediator mediator;
 
+	//! SystemManager
+	SystemManager system_manager{mediator};
+
+	//! SDLContext instance
+	SDLContext sdl_context{mediator};
+
+	//! Resource manager instance
+	ResourceManager resource_manager{mediator};
+
 	//! Component manager instance
 	ComponentManager component_manager{mediator};
 	//! Scene manager instance
@@ -61,16 +70,10 @@ private:
 	LoopTimerManager loop_timer{mediator};
 	//! EventManager instance
 	EventManager event_manager{mediator};
-	//! Resource manager instance
-	ResourceManager resource_manager{mediator};
 	//! Save manager instance
 	SaveManager save_manager{mediator};
-	//! SDLContext instance
-	SDLContext sdl_context{mediator};
 	//! ReplayManager instance
 	ReplayManager replay_manager{mediator};
-	//! SystemManager
-	SystemManager system_manager{mediator};
 };
 
 } // namespace crepe
