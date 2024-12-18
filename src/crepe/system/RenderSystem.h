@@ -53,7 +53,7 @@ private:
 	 *  constructor is now protected i cannot make tmp inside
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite & sprite, const double & scale);
+	bool render_particle(const Sprite & sprite, const Transform & tm);
 	/**
 	 * \brief renders a sprite with a Transform component on the screen
 	 *
