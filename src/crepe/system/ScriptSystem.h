@@ -1,8 +1,8 @@
 #pragma once
 
-#include "System.h"
-
 #include "../manager/LoopTimerManager.h"
+
+#include "System.h"
 
 namespace crepe {
 
