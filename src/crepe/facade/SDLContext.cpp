@@ -11,7 +11,6 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <functional>
 #include <memory>
 #include <stdexcept>
@@ -221,7 +220,7 @@ void SDLContext::draw_text(const RenderText & data) {
 	font_texture
 		= {tmp_font_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
 
-	vec2 size = text.dimensions * cam_aux_data.render_scale;
+	vec2 size = text.dimensions * cam_aux_data.render_scale * transform.scale;
 	vec2 screen_pos = (transform.position + text.offset - cam_aux_data.cam_pos
 					   + (cam_aux_data.zoomed_viewport) / 2)
 						  * cam_aux_data.render_scale
@@ -234,7 +233,7 @@ void SDLContext::draw_text(const RenderText & data) {
 		.h = size.y,
 	};
 
-	SDL_RenderCopyExF(this->game_renderer.get(), font_texture.get(), NULL, &dstrect, 0, NULL,
+	SDL_RenderCopyExF(this->game_renderer.get(), font_texture.get(), NULL, &dstrect, transform.rotation, NULL,
 					  SDL_FLIP_NONE);
 }
 
