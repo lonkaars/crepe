@@ -1,7 +1,6 @@
 #include "../api/BehaviorScript.h"
 #include "../api/Script.h"
 #include "../manager/ComponentManager.h"
-#include "../util/dbg.h"
 
 #include "ScriptSystem.h"
 
@@ -9,10 +8,19 @@ using namespace std;
 using namespace crepe;
 
 void ScriptSystem::fixed_update() {
-	dbg_trace();
-
-	ComponentManager & mgr = this->mediator.component_manager;
 	LoopTimerManager & timer = this->mediator.loop_timer;
+	duration_t delta_time = timer.get_scaled_fixed_delta_time();
+	this->update(&Script::fixed_update, delta_time);
+}
+
+void ScriptSystem::frame_update() {
+	LoopTimerManager & timer = this->mediator.loop_timer;
+	duration_t delta_time = timer.get_delta_time();
+	this->update(&Script::frame_update, delta_time);
+}
+
+void ScriptSystem::update(void (Script::* update_function)(duration_t), const duration_t & delta_time) {
+	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<BehaviorScript> behavior_scripts = mgr.get_components_by_type<BehaviorScript>();
 
 	for (BehaviorScript & behavior_script : behavior_scripts) {
@@ -26,7 +34,7 @@ void ScriptSystem::fixed_update() {
 			script->initialized = true;
 		}
 
-		duration_t delta_time = timer.get_scaled_fixed_delta_time();
-		script->update(delta_time);
+		(*script.*update_function)(delta_time);
 	}
 }
+
