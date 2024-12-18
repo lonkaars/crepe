@@ -23,11 +23,11 @@ using namespace std;
 class TestScene : public Scene {
 public:
 	void load_scene() {
-		GameObject game_object = new_object("", "", vec2{0, 0}, 0, 1);
+		GameObject game_object = new_object("", "", vec2{0, 0}, 45, 1);
 
 		Color color(255, 255, 255, 255);
 
-		Asset img{"asset/spritesheet/spritesheet_test.png"};
+		Asset img{"asset/texture/square.png"};
 
 		Sprite & test_sprite = game_object.add_component<Sprite>(
 			img, Sprite::Data{
@@ -35,17 +35,30 @@ public:
 					 .flip = Sprite::FlipSettings{false, false},
 					 .sorting_in_layer = 2,
 					 .order_in_layer = 2,
-					 .size = {0, 0},
+					 .size = {1, 1},
 					 .angle_offset = 0,
-					 .position_offset = {0, 0},
+					 .position_offset = {0, 1},
 				 });
 
-		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{4000, 4000},
+		Sprite & test_sprite1
+			= game_object.add_component<Sprite>(img, Sprite::Data{
+														 .color = color,
+														 .size = {1, 1},
+														 .position_offset = {0, -1},
+													 });
+
+		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{5, 5},
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
 													   });
-		game_object.add_component<Text>(vec2{4000, 400}, vec2{0, 0}, "ComicSansMS",
-										Text::Data{.text_color = Color::RED}, "TEST test");
+
+		/*
+		game_object.add_component<Text>(vec2{1, 1}, vec2{0, -0.5}, "ComicSansMS",
+										Text::Data{.text_color = Color::RED}, "test TEST");
+
+		game_object.add_component<Text>(vec2{1, 1}, vec2{0, 0.5}, "ComicSansMS",
+										Text::Data{.text_color = Color::BLACK}, "TEST test");
+		*/
 	}
 
 	string get_name() const { return "TestScene"; };

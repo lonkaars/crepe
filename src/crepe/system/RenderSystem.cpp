@@ -21,6 +21,7 @@
 
 #include "RenderSystem.h"
 #include "types.h"
+#include "util/AbsoluutPosition.h"
 
 using namespace crepe;
 using namespace std;
@@ -99,8 +100,7 @@ void RenderSystem::render_text() {
 	}
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
-
+bool RenderSystem::render_particle(const Sprite & sprite, const Transform & tm){
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
@@ -122,9 +122,9 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,
 				.texture = res,
-				.pos = p.position,
+				.pos = AbsoluutPosition::get_position(tm, em.data.offset + sprite.data.position_offset),
 				.angle = p.angle,
-				.scale = scale,
+				.scale = tm.scale,
 			});
 		}
 	}
@@ -138,7 +138,7 @@ void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
 		.texture = res,
-		.pos = tm.position,
+		.pos = AbsoluutPosition::get_position(tm, sprite.data.position_offset),
 		.angle = tm.rotation,
 		.scale = tm.scale,
 	});
@@ -158,7 +158,7 @@ void RenderSystem::render() {
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
-		bool rendered_particles = this->render_particle(sprite, transform.scale);
+		bool rendered_particles = this->render_particle(sprite, transform);
 
 		if (rendered_particles) continue;
 

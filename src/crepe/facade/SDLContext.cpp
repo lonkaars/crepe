@@ -28,6 +28,7 @@
 #include "SDLContext.h"
 #include "Texture.h"
 #include "types.h"
+#include "util/AbsoluutPosition.h"
 
 using namespace crepe;
 using namespace std;
@@ -148,8 +149,7 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 	}
 	size *= cam_aux_data.render_scale * ctx.img_scale * data.scale_offset;
 
-	vec2 screen_pos = (ctx.pos + data.position_offset - cam_aux_data.cam_pos
-					   + (cam_aux_data.zoomed_viewport) / 2)
+	vec2 screen_pos = (ctx.pos - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2)
 						  * cam_aux_data.render_scale
 					  - size / 2 + cam_aux_data.bar_size;
 
@@ -195,7 +195,7 @@ void SDLContext::draw_text(const RenderText & data) {
 
 	const Text & text = data.text;
 	const Font & font = data.font;
-	const Transform & transform = data.transform;
+	vec2 absoluut_pos = AbsoluutPosition::get_position(data.transform, data.text.offset);
 	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>> font_surface;
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> font_texture;
 
@@ -220,8 +220,8 @@ void SDLContext::draw_text(const RenderText & data) {
 	font_texture
 		= {tmp_font_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
 
-	vec2 size = text.dimensions * cam_aux_data.render_scale * transform.scale;
-	vec2 screen_pos = (transform.position + text.offset - cam_aux_data.cam_pos
+	vec2 size = text.dimensions * cam_aux_data.render_scale * data.transform.scale;
+	vec2 screen_pos = (absoluut_pos + text.offset - cam_aux_data.cam_pos
 					   + (cam_aux_data.zoomed_viewport) / 2)
 						  * cam_aux_data.render_scale
 					  - size / 2 + cam_aux_data.bar_size;
@@ -233,8 +233,8 @@ void SDLContext::draw_text(const RenderText & data) {
 		.h = size.y,
 	};
 
-	SDL_RenderCopyExF(this->game_renderer.get(), font_texture.get(), NULL, &dstrect, transform.rotation, NULL,
-					  SDL_FLIP_NONE);
+	SDL_RenderCopyExF(this->game_renderer.get(), font_texture.get(), NULL, &dstrect,
+					  data.transform.rotation, NULL, SDL_FLIP_NONE);
 }
 
 void SDLContext::update_camera_view(const Camera & cam, const vec2 & new_pos) {
