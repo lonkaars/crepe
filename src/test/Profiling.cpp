@@ -220,19 +220,19 @@ TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 					.order_in_layer = 1,
 					.size = {.y = 500},
 				});
-			auto & test = gameobject.add_component<ParticleEmitter>(test_sprite,ParticleEmitter::Data{
-				.max_particles = 10,
-				.emission_rate = 100,
-				.end_lifespan = 100000,
-				.boundary{
-					.width = 1000,
-					.height = 1000,
-					.offset = vec2{0, 0},
-					.reset_on_exit = false,
-				},
+			auto & test = gameobject.add_component<ParticleEmitter>(
+				test_sprite, ParticleEmitter::Data{
+								 .max_particles = 10,
+								 .emission_rate = 100,
+								 .end_lifespan = 100000,
+								 .boundary{
+									 .width = 1000,
+									 .height = 1000,
+									 .offset = vec2{0, 0},
+									 .reset_on_exit = false,
+								 },
 
-			}
-			);
+							 });
 		}
 		render_sys.update();
 		this->game_object_count++;
