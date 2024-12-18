@@ -166,8 +166,6 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 			= mgr.get_components_by_id<Transform>(button.game_object_id).front();
 		Transform & cam_transform
 			= mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
-		if (!button.world_space) {
-		}
 		bool was_hovering = button.hover;
 
 		if (this->is_mouse_inside_button(mouse_pos, button, transform, cam_transform)) {
