@@ -39,7 +39,7 @@ void Engine::loop() {
 	LoopTimerManager & timer = this->loop_timer;
 	SystemManager & systems = this->system_manager;
 
-	while (game_running) {
+	while (this->game_running) {
 		timer.update();
 
 		while (timer.get_lag() >= timer.get_fixed_delta_time()) {

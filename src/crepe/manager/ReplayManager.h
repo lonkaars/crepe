@@ -2,12 +2,14 @@
 
 #include <unordered_map>
 
+#include "../util/OptionalRef.h"
+
 #include "ComponentManager.h"
 #include "Manager.h"
-#include "util/OptionalRef.h"
 
 namespace crepe {
 
+//! Handle to recording held by ReplayManager
 typedef size_t recording_t;
 
 /**
