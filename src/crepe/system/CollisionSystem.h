@@ -21,6 +21,40 @@ namespace crepe {
 class CollisionSystem : public System {
 public:
 	using System::System;
+private:
+	//! Enum representing movement directions during collision resolution.
+	enum class Direction {
+		//! No movement required.
+		NONE,
+		//! Movement in the X direction.
+		X_DIRECTION,
+		//! Movement in the Y direction.
+		Y_DIRECTION,
+		//! Movement in both X and Y directions.
+		BOTH
+	};
+public:
+	/**
+		* \brief Structure representing detailed collision information between two colliders.
+		*
+		* Includes information about the colliding objects and the resolution data for handling the collision.
+		*/
+
+	struct ColliderInfo {
+  Transform & transform;
+  Rigidbody & rigidbody;
+  Metadata & metadata;
+	};
+
+	struct CollisionInfo {
+		ColliderInfo self;
+		ColliderInfo other;
+		//! The resolution vector for the collision.
+		vec2 resolution;
+		//! The direction of movement for resolving the collision.
+		Direction resolution_direction = Direction::NONE;
+		CollisionInfo operator - () const;
+	};
 
 private:
 	//! A variant type that can hold either a BoxCollider or a CircleCollider.
@@ -33,6 +67,7 @@ private:
 		CIRCLE_CIRCLE,
 		BOX_CIRCLE,
 		CIRCLE_BOX,
+		NONE,
 	};
 
 	/**
@@ -46,41 +81,7 @@ private:
 	struct CollisionInternal {
 		game_object_id_t id = 0;
 		collider_variant collider;
-		Transform & transform;
-		Rigidbody & rigidbody;
-	};
-
-	//! Enum representing movement directions during collision resolution.
-	enum class Direction {
-		//! No movement required.
-		NONE,
-		//! Movement in the X direction.
-		X_DIRECTION,
-		//! Movement in the Y direction.
-		Y_DIRECTION,
-		//! Movement in both X and Y directions.
-		BOTH
-	};
-
-public:
-	/**
-		* \brief Structure representing detailed collision information between two colliders.
-		*
-		* Includes information about the colliding objects and the resolution data for handling the collision.
-		*/
-	struct CollisionInfo {
-		Collider & this_collider;
-		Transform & this_transform;
-		Rigidbody & this_rigidbody;
-		Metadata & this_metadata;
-		Collider & other_collider;
-		Transform & other_transform;
-		Rigidbody & other_rigidbody;
-		Metadata & other_metadata;
-		//! The resolution vector for the collision.
-		vec2 resolution;
-		//! The direction of movement for resolving the collision.
-		Direction resolution_direction = Direction::NONE;
+		ColliderInfo info;
 	};
 
 public:
@@ -97,8 +98,7 @@ private:
 		* \param collider2 Second collider variant (BoxCollider or CircleCollider).
 		* \return The combined type of the two colliders.
 		*/
-	CollisionInternalType get_collider_type(const collider_variant & collider1,
-											const collider_variant & collider2) const;
+	CollisionInternalType get_collider_type(const collider_variant & collider1, const collider_variant & collider2) const;
 
 private:
 	/**
@@ -109,7 +109,7 @@ private:
 		* \param data1 Collision data for the first collider.
 		* \param data2 Collision data for the second collider.
 		*/
-	void collision_handler_request(CollisionInternal & data1, CollisionInternal & data2);
+	CollisionInfo get_collision_info(const CollisionInternal & this_data, const CollisionInternal & other_data,const CollisionInternalType & type,const vec2 & resolution,const CollisionSystem::Direction & resolution_direction) const; //done
 
 	/**
 		* \brief Resolves collision between two colliders and calculates the movement required.
@@ -121,9 +121,7 @@ private:
 		* \param type The type of collider pair.
 		* \return A pair containing the resolution vector and direction for the first collider.
 		*/
-	std::pair<vec2, Direction> collision_handler(CollisionInternal & data1,
-												 CollisionInternal & data2,
-												 CollisionInternalType type);
+	std::pair<vec2, Direction> get_collision_resolution(const CollisionInternal & data1,const  CollisionInternal & data2, const CollisionInternalType & type) const; //done
 
 	/**
 		* \brief Calculates the resolution vector for two BoxColliders.
@@ -179,7 +177,7 @@ private:
 		*
 		* \param info Collision information containing data about both colliders.
 		*/
-	void determine_collision_handler(CollisionInfo & info);
+	void determine_collision_handler(const CollisionInfo & info); //done
 
 	/**
 		* \brief Calls both collision script
@@ -188,7 +186,7 @@ private:
 		*
 		* \param info Collision information containing data about both colliders.
 		*/
-	void call_collision_events(CollisionInfo & info, CollisionInfo & info_inverted);
+	void call_collision_events(const CollisionInfo & info, const CollisionInfo & info_inverted);
 
 	/**
 		* \brief Handles collisions involving static objects.
@@ -197,7 +195,7 @@ private:
 		*
 		* \param info Collision information containing data about both colliders.
 		*/
-	void static_collision_handler(CollisionInfo & info);
+	void static_collision_handler(const CollisionInfo & info); //done
 
 	/**
 		* \brief Handles collisions involving dynamic objects.
@@ -206,7 +204,7 @@ private:
 		*
 		* \param info Collision information containing data about both colliders.
 		*/
-	void dynamic_collision_handler(CollisionInfo & info);
+	void dynamic_collision_handler(const CollisionInfo & info); //done
 
 private:
 	/**
@@ -218,23 +216,22 @@ private:
 		* \return A list of collision pairs with their associated data.
 		*/
 	std::vector<std::pair<CollisionInternal, CollisionInternal>>
-	gather_collisions(std::vector<CollisionInternal> & colliders);
+	gather_collisions(const std::vector<CollisionInternal> & colliders) const; //done
 
 	/**
-	 * \brief Checks if two collision layers have at least one common layer.
+	 * \brief Checks if the settings allow collision
 	 *
-	 * This function checks if there is any overlapping layer between the two inputs.
-	 * It compares each layer from the first input to see
-	 * if it exists in the second input. If at least one common layer is found,
-	 * the function returns true, indicating that the two colliders share a common
-	 * collision layer.
+	 * This function checks if there is any collison layer where each object is located in.
+	 * After checking the layers it checks the names and at last the tags.
+	 * if in all three sets nothing is found collision can not happen.
 	 *
-	 * \param layers1 all collision layers for the first collider.
-	 * \param layers2 all collision layers for the second collider.
-	 * \return Returns true if there is at least one common layer, false otherwise.
+	 * \param this_rigidbody Rigidbody of first object
+	 * \param other_rigidbody Rigidbody of second collider
+	 * \param this_metadata Rigidbody of first object
+	 * \param other_metadata Rigidbody of second object
+	 * \return Returns true if there is at least one comparision found.
 	 */
-
-	bool have_common_layer(const std::set<int> & layers1, const std::set<int> & layers2);
+	bool should_collide(const CollisionInternal & self, const CollisionInternal & other) const; //done
 
 	/**
 		* \brief Checks for collision between two colliders.
@@ -246,9 +243,7 @@ private:
 		* \param type The type of collider pair.
 		* \return True if a collision is detected, otherwise false.
 		*/
-	bool get_collision(const CollisionInternal & first_info,
-					   const CollisionInternal & second_info,
-					   CollisionInternalType type) const;
+	bool get_collision(const CollisionInternal & first_info, const CollisionInternal & second_info, const CollisionInternalType & type) const;
 
 	/**
 		* \brief Detects collisions between two BoxColliders.

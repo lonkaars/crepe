@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <set>
+#include <string>
 
 #include "../Component.h"
 
@@ -122,7 +123,7 @@ public:
 		*/
 		float elastisity_coefficient = 0.0;
 
-		//! Enable collision handeling in collision system
+		//! Enable static collision handeling for object colliding with kinematic object in collision system
 		bool kinematic_collision = true;
 
 		/**
@@ -130,9 +131,30 @@ public:
 		 *
 		 * The `collision_layers` specifies the layers that the GameObject will collide with.
 		 * Each element represents a layer ID, and the GameObject will only detect
-		 * collisions with other GameObjects that belong to these layers.
+		 * collisions with other GameObjects that belong to that `collision_layer`.
 		 */
 		std::set<int> collision_layers = {0};
+
+		//! the collision layer of the object. 
+		int collision_layer = 0;
+
+		/**
+		 * \brief Defines the collision layers of a GameObject.
+		 *
+		 * The `collision_names` specifies where the GameObject will collide with.
+		 * Each element represents a name.
+		 */
+		std::set<std::string> collision_names;
+
+		/**
+		 * \brief Defines the collision layers of a GameObject.
+		 *
+		 * The `collision_tags` specifies where the GameObject will collide with.
+		 * Each element represents a tag.
+		 */
+		std::set<std::string> collision_tags;
+
+
 	};
 
 public:
