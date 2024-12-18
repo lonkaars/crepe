@@ -25,7 +25,7 @@ void ScriptSystem::update() {
 			script->initialized = true;
 		}
 
-		duration_t delta_time = timer.get_delta_time();
+		duration_t delta_time = timer.get_scaled_fixed_delta_time();
 		script->update(delta_time);
 	}
 }
