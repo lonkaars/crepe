@@ -19,7 +19,8 @@ void ScriptSystem::frame_update() {
 	this->update(&Script::frame_update, delta_time);
 }
 
-void ScriptSystem::update(void (Script::* update_function)(duration_t), const duration_t & delta_time) {
+void ScriptSystem::update(void (Script::*update_function)(duration_t),
+						  const duration_t & delta_time) {
 	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<BehaviorScript> behavior_scripts = mgr.get_components_by_type<BehaviorScript>();
 
@@ -37,4 +38,3 @@ void ScriptSystem::update(void (Script::* update_function)(duration_t), const du
 		(*script.*update_function)(delta_time);
 	}
 }
-
