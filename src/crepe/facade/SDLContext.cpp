@@ -6,6 +6,8 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_video.h>
 #include <array>
 #include <cmath>
 #include <cstddef>
@@ -30,6 +32,9 @@ using namespace std;
 
 SDLContext::SDLContext(Mediator & mediator) {
 	dbg_trace();
+	if (TTF_Init() == -1) {
+		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
+	}
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
@@ -71,13 +76,13 @@ SDLContext::~SDLContext() {
 	// thread that SDL_Init() was called on? This has caused problems for me
 	// before.
 	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 }
 
 Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
-	if (!LOOKUP_TABLE.contains(sdl_key)) return Keycode::NONE;
-
-	return LOOKUP_TABLE.at(sdl_key);
+	if (!lookup_table.contains(sdl_key)) return Keycode::NONE;
+	return lookup_table.at(sdl_key);
 }
 
 const keyboard_state_t & SDLContext::get_keyboard_state() {
@@ -407,4 +412,8 @@ void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
 	SDL_SetTextureColorMod(texture.get_img(), color.r, color.g, color.b);
 	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
+}
+
+Asset SDLContext::get_font_from_name(const std::string & font_family) {
+	return this->font_facade.get_font_asset(font_family);
 }
