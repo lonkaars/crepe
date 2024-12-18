@@ -1,10 +1,10 @@
 #include "../util/dbg.h"
-#include "facade/SDLContext.h"
-#include "manager/Mediator.h"
+#include "../facade/SDLContext.h"
+#include "../manager/Mediator.h"
+#include "../types.h"
+#include "../Resource.h"
 
-#include "Resource.h"
 #include "Texture.h"
-#include "types.h"
 
 using namespace crepe;
 using namespace std;
@@ -23,6 +23,8 @@ Texture::~Texture() {
 }
 
 const ivec2 & Texture::get_size() const noexcept { return this->size; }
+
 const float & Texture::get_ratio() const noexcept { return this->aspect_ratio; }
 
 SDL_Texture * Texture::get_img() const noexcept { return this->texture.get(); }
+
