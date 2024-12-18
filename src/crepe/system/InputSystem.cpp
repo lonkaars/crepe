@@ -26,8 +26,9 @@ void InputSystem::update() {
 	if (!curr_cam_ref) return;
 
 	Camera & current_cam = curr_cam_ref;
-	Transform & cam_transform = mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
-	
+	Transform & cam_transform
+		= mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
+
 	vec2 camera_origin = cam_transform.position + current_cam.data.postion_offset
 						 - (current_cam.viewport_size / 2);
 
@@ -83,7 +84,8 @@ void InputSystem::handle_mouse_event(const EventData & event, const vec2 & camer
 					.mouse_pos = adjusted_mouse,
 					.button = event.data.mouse_data.mouse_button,
 				});
-				this->handle_click(event.data.mouse_data.mouse_button, adjusted_mouse,current_cam);
+				this->handle_click(event.data.mouse_data.mouse_button, adjusted_mouse,
+								   current_cam);
 			}
 			break;
 		}
@@ -93,7 +95,7 @@ void InputSystem::handle_mouse_event(const EventData & event, const vec2 & camer
 				.mouse_pos = adjusted_mouse,
 				.mouse_delta = event.data.mouse_data.rel_mouse_move,
 			});
-			this->handle_move(event, adjusted_mouse,current_cam);
+			this->handle_move(event, adjusted_mouse, current_cam);
 			break;
 
 		case EventType::MOUSE_WHEEL:
@@ -151,7 +153,8 @@ void InputSystem::handle_non_mouse_event(const EventData & event) {
 	}
 }
 
-void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_pos, const Camera & current_cam) {
+void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_pos,
+							  const Camera & current_cam) {
 	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
@@ -159,10 +162,11 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 	for (Button & button : buttons) {
 		if (!button.active) continue;
 
-		Transform & transform = mgr.get_components_by_id<Transform>(button.game_object_id).front();
-		Transform & cam_transform = mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
-		if(!button.world_space){
-
+		Transform & transform
+			= mgr.get_components_by_id<Transform>(button.game_object_id).front();
+		Transform & cam_transform
+			= mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
+		if (!button.world_space) {
 		}
 		bool was_hovering = button.hover;
 
@@ -183,11 +187,13 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 	}
 }
 
-void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos, const Camera & current_cam) {
+void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos,
+							   const Camera & current_cam) {
 	ComponentManager & mgr = this->mediator.component_manager;
 
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
-	Transform & cam_transform = mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
+	Transform & cam_transform
+		= mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
 	for (Button & button : buttons) {
 		if (!button.active) continue;
 		if (!button.on_click) continue;
@@ -202,13 +208,16 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mo
 }
 
 bool InputSystem::is_mouse_inside_button(const vec2 & mouse_pos, const Button & button,
-										 const Transform & transform, const Transform & cam_transform) {
+										 const Transform & transform,
+										 const Transform & cam_transform) {
 	vec2 actual_pos = transform.position + button.offset;
-	if(!button.world_space){
+	if (!button.world_space) {
 		actual_pos += cam_transform.position;
 	}
 	vec2 half_dimensions = button.dimensions / 2;
 
-	return mouse_pos.x >= actual_pos.x - half_dimensions.x && mouse_pos.x <= actual_pos.x + half_dimensions.x
-		   && mouse_pos.y >= actual_pos.y - half_dimensions.y && mouse_pos.y <= actual_pos.y + half_dimensions.y;
+	return mouse_pos.x >= actual_pos.x - half_dimensions.x
+		   && mouse_pos.x <= actual_pos.x + half_dimensions.x
+		   && mouse_pos.y >= actual_pos.y - half_dimensions.y
+		   && mouse_pos.y <= actual_pos.y + half_dimensions.y;
 }
