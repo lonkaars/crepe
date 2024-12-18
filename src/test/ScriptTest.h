@@ -29,7 +29,7 @@ public:
 
 	public:
 		MOCK_METHOD(void, init, (), (override));
-		MOCK_METHOD(void, update, (), (override));
+		MOCK_METHOD(void, update, (crepe::duration_t), (override));
 	};
 
 	crepe::OptionalRef<crepe::BehaviorScript> behaviorscript;

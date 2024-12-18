@@ -53,13 +53,7 @@ protected:
 	 * This function is called during the ScriptSystem::update() routine if the \c BehaviorScript
 	 * component holding this script instance is active.
 	 */
-	virtual void update(duration_t delta_time) { return this->update(); }
-	/**
-	 * \brief Fallback script update function (empty by default)
-	 *
-	 * Allows the game programmer to ignore parameters passed to \c update()
-	 */
-	virtual void update() {}
+	virtual void update(duration_t delta_time) {}
 	//! \}
 
 	//! ScriptSystem calls \c init() and \c update()
