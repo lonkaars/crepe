@@ -75,11 +75,11 @@ void CollisionSystem::update() {
 	// For both objects call the collision handler
 	for (auto & collision_pair : collided) {
 		// Determine type
-		CollisionInternalType type = this->get_collider_type(collision_pair.first.collider, collision_pair.second.collider);
+		//CollisionInternalType type = this->get_collider_type(collision_pair.first.collider, collision_pair.second.collider);
 		// Determine resolution 
-		std::pair<vec2, CollisionSystem::Direction> resolution_data	= this->get_collision_resolution(collision_pair.first, collision_pair.second, type);
+		//std::pair<vec2, CollisionSystem::Direction> resolution_data	= this->get_collision_resolution(collision_pair.first, collision_pair.second, type);
 		// Convert internal struct to external struct
-		CollisionInfo info = this->get_collision_info(collision_pair.first, collision_pair.second,type,resolution_data.first,resolution_data.second);
+		CollisionInfo info = this->get_collision_info(collision_pair.first, collision_pair.second);
 		// Determine if and/or what collison handler is needed.
 		this->determine_collision_handler(info);
 	}
@@ -87,7 +87,7 @@ void CollisionSystem::update() {
 
 // Below is for collision detection 
 std::vector<std::pair<CollisionSystem::CollisionInternal, CollisionSystem::CollisionInternal>>
-CollisionSystem::gather_collisions(const std::vector<CollisionInternal> & colliders) const {
+CollisionSystem::gather_collisions(std::vector<CollisionInternal> & colliders) {
 
 	// TODO:
 	// If no colliders skip
@@ -106,7 +106,7 @@ CollisionSystem::gather_collisions(const std::vector<CollisionInternal> & collid
 			if (colliders[i].id == colliders[j].id) continue;
 			if (!should_collide(colliders[i], colliders[j])) continue;
 				CollisionInternalType type = get_collider_type(colliders[i].collider, colliders[j].collider);
-			if (!get_collision(colliders[i],colliders[j],type)) continue;
+			if (!detect_collision(colliders[i],colliders[j],type)) continue;
 				//fet 
 				collisions_ret.emplace_back(colliders[i], colliders[j]);
 		}
@@ -156,8 +156,8 @@ CollisionSystem::get_collider_type(const collider_variant & collider1,
 	}
 }
 
-bool CollisionSystem::get_collision(const CollisionInternal & self,const CollisionInternal & other,const CollisionInternalType & type) const {
-
+bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInternal & other,const CollisionInternalType & type) {
+	vec2 resolution;
 	switch (type) {
 		case CollisionInternalType::BOX_BOX: { 
 			const BoxColliderInternal BOX1 = {
@@ -170,8 +170,10 @@ bool CollisionSystem::get_collision(const CollisionInternal & self,const Collisi
 				.transform = other.info.transform,
 				.rigidbody = other.info.rigidbody
 			};
-
-			return this->get_box_box_collision(BOX1, BOX2);
+			resolution = this->get_box_box_detection(BOX1, BOX2);
+			if(resolution == vec2{-1,-1}) return false;
+			break;
+			
 		}
 		case CollisionInternalType::BOX_CIRCLE: {
 			const BoxColliderInternal BOX1 = {
@@ -184,7 +186,9 @@ bool CollisionSystem::get_collision(const CollisionInternal & self,const Collisi
 				.transform = other.info.transform,
 				.rigidbody = other.info.rigidbody
 			};
-			return this->get_box_circle_collision(BOX1, CIRCLE2);
+			resolution = this->get_box_circle_detection(BOX1, CIRCLE2);
+			if(resolution == vec2{-1,-1}) return false;
+			break;
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE: { 
 			const CircleColliderInternal CIRCLE1 = {
@@ -197,7 +201,9 @@ bool CollisionSystem::get_collision(const CollisionInternal & self,const Collisi
 				.transform = other.info.transform,
 				.rigidbody = other.info.rigidbody
 			};
-			return this->get_circle_circle_collision(CIRCLE1,CIRCLE2);
+			resolution = this->get_circle_circle_detection(CIRCLE1,CIRCLE2);
+			if(resolution == vec2{-1,-1}) return false;
+			break;
 		}
 		case CollisionInternalType::CIRCLE_BOX: { 
 			const CircleColliderInternal CIRCLE1 = {
@@ -210,22 +216,31 @@ bool CollisionSystem::get_collision(const CollisionInternal & self,const Collisi
 				.transform = other.info.transform,
 				.rigidbody = other.info.rigidbody
 			};
-			return this->get_box_circle_collision(BOX2, CIRCLE1);
+			resolution = this->get_box_circle_detection(BOX2, CIRCLE1);
+			if(resolution == vec2{-1,-1}) return false;
+			break;
 		}
 		case CollisionInternalType::NONE:
 			break;
 	}
-	return false;
+	self.resolution = resolution;
+	self.resolution_direction = this->resolution_correction(self.resolution, self.info.rigidbody.data);
+	other.resolution = -self.resolution;
+	other.resolution_direction = self.resolution_direction;
+	return true;
 }
 
-bool CollisionSystem::get_box_box_collision(const BoxColliderInternal & box1, const BoxColliderInternal & box2) const {
+vec2 CollisionSystem::get_box_box_detection(const BoxColliderInternal & box1, const BoxColliderInternal & box2) const {
+	vec2 resolution;
 	// Get current positions of colliders
-	vec2 final_position1 = AbsolutePosition::get_position(box1.transform, box1.collider.offset);
-	vec2 final_position2 = AbsolutePosition::get_position(box2.transform, box2.collider.offset);
+	vec2 pos1  = AbsolutePosition::get_position(box1.transform, box1.collider.offset);
+	vec2 pos2  = AbsolutePosition::get_position(box2.transform, box2.collider.offset);
 
 	// Scale dimensions
 	vec2 scaled_box1 = box1.collider.dimensions * box1.transform.scale;
 	vec2 scaled_box2 = box2.collider.dimensions * box2.transform.scale;
+	vec2 delta = pos2 - pos1;
+
 
 	// Calculate half-extents (half width and half height)
 	float half_width1 = scaled_box1.x / 2.0;
@@ -233,42 +248,77 @@ bool CollisionSystem::get_box_box_collision(const BoxColliderInternal & box1, co
 	float half_width2 = scaled_box2.x / 2.0;
 	float half_height2 = scaled_box2.y / 2.0;
 
-	// Check if the boxes overlap along the X and Y axes
-	return (final_position1.x + half_width1 > final_position2.x - half_width2
-			&& final_position1.x - half_width1 < final_position2.x + half_width2
-			&& final_position1.y + half_height1 > final_position2.y - half_height2
-			&& final_position1.y - half_height1 < final_position2.y + half_height2);
+	if (pos1.x + half_width1 > pos2.x - half_width2
+			&& pos1.x - half_width1 < pos2.x + half_width2
+			&& pos1.y + half_height1 > pos2.y - half_height2
+			&& pos1.y - half_height1 < pos2.y + half_height2)
+	{
+		float overlap_x = (half_width1 + half_width2) - std::abs(delta.x);
+		float overlap_y = (half_height1 + half_height2) - std::abs(delta.y);
+		if (overlap_x > 0 && overlap_y > 0) {
+		// Determine the direction of resolution
+		if (overlap_x < overlap_y) {
+			// Resolve along the X-axis (smallest overlap)
+			resolution.x = (delta.x > 0) ? -overlap_x : overlap_x;
+		} else if (overlap_y < overlap_x) {
+			// Resolve along the Y-axis (smallest overlap)
+			resolution.y = (delta.y > 0) ? -overlap_y : overlap_y;
+		} else {
+			// Equal overlap, resolve both directions with preference
+			resolution.x = (delta.x > 0) ? -overlap_x : overlap_x;
+			resolution.y = (delta.y > 0) ? -overlap_y : overlap_y;
+		}
+	}
+	return resolution;
+	}
+    return vec2{-1,-1};
 }
 
-bool CollisionSystem::get_box_circle_collision(const BoxColliderInternal & box1, const CircleColliderInternal & circle2) const {
-	// Get current positions of colliders
-	vec2 final_position1 = AbsolutePosition::get_position(box1.transform, box1.collider.offset);
-	vec2 final_position2 = AbsolutePosition::get_position(circle2.transform, circle2.collider.offset);
+vec2 CollisionSystem::get_box_circle_detection(const BoxColliderInternal & box, const CircleColliderInternal & circle) const {
+	/// Get current positions of colliders
+    vec2 box_pos = AbsolutePosition::get_position(box.transform, box.collider.offset);
+    vec2 circle_pos = AbsolutePosition::get_position(circle.transform, circle.collider.offset);
 
-	// Scale dimensions
-	vec2 scaled_box = box1.collider.dimensions * box1.transform.scale;
-	float scaled_circle = circle2.collider.radius * circle2.transform.scale;
+    // Scale dimensions
+    vec2 scaled_box = box.collider.dimensions * box.transform.scale;
+    float scaled_circle_radius = circle.collider.radius * circle.transform.scale;
 
-	// Calculate box half-extents
-	float half_width = scaled_box.x / 2.0;
-	float half_height = scaled_box.y / 2.0;
+    // Calculate box half-extents
+    float half_width = scaled_box.x / 2.0f;
+    float half_height = scaled_box.y / 2.0f;
 
-	// Find the closest point on the box to the circle's center
-	float closest_x = std::max(final_position1.x - half_width,
-							   std::min(final_position2.x, final_position1.x + half_width));
-	float closest_y = std::max(final_position1.y - half_height,
-							   std::min(final_position2.y, final_position1.y + half_height));
+    // Find the closest point on the box to the circle's center
+    float closest_x = std::max(box_pos.x - half_width, std::min(circle_pos.x, box_pos.x + half_width));
+		float closest_y = std::max(box_pos.y - half_height, std::min(circle_pos.y, box_pos.y + half_height));
+    
+		float distance_x = circle_pos.x - closest_x;
+		float distance_y = circle_pos.y - closest_y;
+		float distance_squared = distance_x * distance_x + distance_y * distance_y;
+		if(distance_squared < scaled_circle_radius * scaled_circle_radius){
+			vec2 delta = circle_pos - box_pos;
 
-	// Calculate the distance squared between the circle's center and the closest point on the box
-	float distance_x = final_position2.x - closest_x;
-	float distance_y = final_position2.y - closest_y;
-	float distance_squared = distance_x * distance_x + distance_y * distance_y;
+			// Clamp circle center to the nearest point on the box
+			vec2 closest_point;
+			closest_point.x = std::clamp(delta.x, -half_width, half_width);
+			closest_point.y = std::clamp(delta.y, -half_height, half_height);
 
-	// Compare distance squared with the square of the circle's radius
-	return distance_squared < scaled_circle * scaled_circle;
+			// Find the vector from the circle center to the closest point
+			vec2 closest_delta = delta - closest_point;
+
+			float distance = std::sqrt(closest_delta.x * closest_delta.x + closest_delta.y * closest_delta.y);
+			vec2 collision_normal = closest_delta / distance;
+
+			// Compute penetration depth
+			float penetration_depth = scaled_circle_radius - distance;
+
+			// Compute the resolution vector
+			return vec2{collision_normal * penetration_depth};
+		}
+    // No collision
+    return vec2{-1,-1};
 }
 
-bool CollisionSystem::get_circle_circle_collision(const CircleColliderInternal & circle1, const CircleColliderInternal & circle2) const {
+vec2 CollisionSystem::get_circle_circle_detection(const CircleColliderInternal & circle1, const CircleColliderInternal & circle2) const {
 	// Get current positions of colliders
 	vec2 final_position1 = AbsolutePosition::get_position(circle1.transform, circle1.collider.offset);
 	vec2 final_position2 = AbsolutePosition::get_position(circle2.transform, circle2.collider.offset);
@@ -284,86 +334,35 @@ bool CollisionSystem::get_circle_circle_collision(const CircleColliderInternal &
 	// Calculate the sum of the radii
 	float radius_sum = scaled_circle1 + scaled_circle2;
 
-	// Check if the distance between the centers is less than or equal to the sum of the radii
-	return distance_squared < radius_sum * radius_sum;
+	// Check for collision (distance squared must be less than the square of the radius sum)
+	if (distance_squared < radius_sum * radius_sum) {
+		vec2 delta = final_position2 - final_position1;
+
+		// Compute the distance between the two circle centers
+		float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+
+		// Compute the combined radii of the two circles
+		float combined_radius = scaled_circle1 + scaled_circle2;
+
+		// Compute the penetration depth
+		float penetration_depth = combined_radius - distance;
+
+		// Normalize the delta vector to get the collision direction
+		vec2 collision_normal = delta / distance;
+
+		// Compute the resolution vector
+		vec2 resolution = -collision_normal * penetration_depth;
+
+		return resolution;
+	}
+	// No collision
+	return vec2{-1,-1};    
 }
 
-std::pair<vec2, CollisionSystem::Direction>
-CollisionSystem::get_collision_resolution(const CollisionInternal & self, const CollisionInternal & other,
-								   const CollisionInternalType & type) const {
-	vec2 resolution;
-	// Fet resolution form correct type
-	switch (type) {
-		case CollisionInternalType::BOX_BOX: {
-
-			const BoxColliderInternal BOX1 = {
-				.collider = std::get<std::reference_wrapper<BoxCollider>>(self.collider),
-				.transform = self.info.transform,
-				.rigidbody = self.info.rigidbody
-			};
-			const BoxColliderInternal BOX2 = {
-				.collider = std::get<std::reference_wrapper<BoxCollider>>(other.collider),
-				.transform = other.info.transform,
-				.rigidbody = other.info.rigidbody
-			};
-			resolution = this->get_box_box_resolution(BOX1, BOX2);
-			break;
-		}
-		case CollisionInternalType::BOX_CIRCLE: {
-
-			const BoxColliderInternal BOX1 = {
-				.collider = std::get<std::reference_wrapper<BoxCollider>>(self.collider),
-				.transform = self.info.transform,
-				.rigidbody = self.info.rigidbody
-			};
-			const CircleColliderInternal CIRCLE1 = {
-				.collider = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
-				.transform = other.info.transform,
-				.rigidbody = other.info.rigidbody
-			};
-			resolution = -this->get_circle_box_resolution(CIRCLE1,BOX1);
-			break;
-		}
-		case CollisionInternalType::CIRCLE_CIRCLE: {
-			const CircleColliderInternal CIRCLE1 = {
-				.collider = std::get<std::reference_wrapper<CircleCollider>>(self.collider),
-				.transform = self.info.transform,
-				.rigidbody = self.info.rigidbody
-			};
-			const CircleColliderInternal CIRCLE2 = {
-				.collider = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
-				.transform = other.info.transform,
-				.rigidbody = other.info.rigidbody
-			};
-			
-			resolution = this->get_circle_circle_resolution(CIRCLE1, CIRCLE2);
-			break;
-		}
-		case CollisionInternalType::CIRCLE_BOX: {
-
-			const BoxColliderInternal BOX1 = {
-				.collider = std::get<std::reference_wrapper<BoxCollider>>(other.collider),
-				.transform = other.info.transform,
-				.rigidbody = other.info.rigidbody
-			};
-			const CircleColliderInternal CIRCLE1 = {
-				.collider = std::get<std::reference_wrapper<CircleCollider>>(self.collider),
-				.transform = self.info.transform,
-				.rigidbody = self.info.rigidbody				
-			};
-			resolution = -this->get_circle_box_resolution(CIRCLE1,BOX1);
-
-	
-			resolution = this->get_circle_box_resolution(CIRCLE1, BOX1);
-			break;
-		}
-		case CollisionInternalType::NONE:
-			break;
-	}
+CollisionSystem::Direction CollisionSystem::resolution_correction(vec2 & resolution,const Rigidbody::Data & rigidbody) {
 
 	// Calculate the other value to move back correctly
 	// If only X or Y has a value determine what is should be to move back.
-	const Rigidbody::Data & rigidbody = self.info.rigidbody.data;
 	Direction resolution_direction = Direction::NONE;
 	// If both are not zero a perfect corner has been hit
 	if (resolution.x != 0 && resolution.y != 0) {
@@ -381,102 +380,10 @@ CollisionSystem::get_collision_resolution(const CollisionInternal & self, const 
 			resolution.x = -rigidbody.linear_velocity.x * (resolution.y / rigidbody.linear_velocity.y);
 	}
 
-	return std::make_pair(resolution, resolution_direction);
+	return resolution_direction;
 }
 
-vec2 CollisionSystem::get_box_box_resolution(const BoxColliderInternal & self, const BoxColliderInternal & other) const {
-	vec2 resolution; // Default resolution vector
-	vec2 self_pos = AbsolutePosition::get_position(self.transform, self.collider.offset);
-	vec2 other_pos = AbsolutePosition::get_position(other.transform, other.collider.offset);
-	vec2 delta = other_pos - self_pos;
-
-	vec2 scaled_box1 = self.collider.dimensions * self.transform.scale;
-	vec2 scaled_box2 = other.collider.dimensions * other.transform.scale;
-
-	// Compute half-dimensions of the boxes
-	float half_width1 = self.collider.dimensions.x / 2.0;
-	float half_height1 = self.collider.dimensions.y / 2.0;
-	float half_width2 = other.collider.dimensions.x / 2.0;
-	float half_height2 = other.collider.dimensions.y / 2.0;
-
-	// Calculate overlaps along X and Y axes
-	float overlap_x = (half_width1 + half_width2) - std::abs(delta.x);
-	float overlap_y = (half_height1 + half_height2) - std::abs(delta.y);
-
-	// Check if there is a collision should always be true
-	if (overlap_x > 0 && overlap_y > 0) {
-		// Determine the direction of resolution
-		if (overlap_x < overlap_y) {
-			// Resolve along the X-axis (smallest overlap)
-			resolution.x = (delta.x > 0) ? -overlap_x : overlap_x;
-		} else if (overlap_y < overlap_x) {
-			// Resolve along the Y-axis (smallest overlap)
-			resolution.y = (delta.y > 0) ? -overlap_y : overlap_y;
-		} else {
-			// Equal overlap, resolve both directions with preference
-			resolution.x = (delta.x > 0) ? -overlap_x : overlap_x;
-			resolution.y = (delta.y > 0) ? -overlap_y : overlap_y;
-		}
-	}
-
-	return resolution;
-}
-
-vec2 CollisionSystem::get_circle_circle_resolution(const CircleColliderInternal & self, const CircleColliderInternal & other) const {
-	vec2 self_pos = AbsolutePosition::get_position(self.transform, self.collider.offset);
-	vec2 other_pos = AbsolutePosition::get_position(other.transform, other.collider.offset);
-	vec2 delta = other_pos - self_pos;
-
-	// Compute the distance between the two circle centers
-	float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);
-
-	// Compute the combined radii of the two circles
-	float combined_radius = self.collider.radius + other.collider.radius;
-
-	// Compute the penetration depth
-	float penetration_depth = combined_radius - distance;
-
-	// Normalize the delta vector to get the collision direction
-	vec2 collision_normal = delta / distance;
-
-	// Compute the resolution vector
-	vec2 resolution = -collision_normal * penetration_depth;
-
-	return resolution;
-}
-
-vec2 CollisionSystem::get_circle_box_resolution(const CircleColliderInternal & circle, const BoxColliderInternal & box) const {
-	vec2 self_pos = AbsolutePosition::get_position(box.transform, box.collider.offset);
-	vec2 other_pos = AbsolutePosition::get_position(circle.transform, circle.collider.offset);
-	vec2 delta = other_pos - self_pos;
-
-	// Compute half-dimensions of the box
-	float half_width = box.collider.dimensions.x / 2.0f;
-	float half_height = box.collider.dimensions.y / 2.0f;
-
-	// Clamp circle center to the nearest point on the box
-	vec2 closest_point;
-	closest_point.x = std::clamp(delta.x, -half_width, half_width);
-	closest_point.y = std::clamp(delta.y, -half_height, half_height);
-
-	// Find the vector from the circle center to the closest point
-	vec2 closest_delta = delta - closest_point;
-
-	// Normalize the delta to get the collision direction
-	float distance
-		= std::sqrt(closest_delta.x * closest_delta.x + closest_delta.y * closest_delta.y);
-	vec2 collision_normal = closest_delta / distance;
-
-	// Compute penetration depth
-	float penetration_depth = circle.collider.radius - distance;
-
-	// Compute the resolution vector
-	vec2 resolution = collision_normal * penetration_depth;
-
-	return resolution;
-}
-
-CollisionSystem::CollisionInfo CollisionSystem::get_collision_info(const CollisionInternal & in_self, const CollisionInternal & in_other,const CollisionInternalType & type,const vec2 & resolution,const CollisionSystem::Direction & resolution_direction) const{
+CollisionSystem::CollisionInfo CollisionSystem::get_collision_info(const CollisionInternal & in_self, const CollisionInternal & in_other) const{
 
 	ComponentManager & mgr = this->mediator.component_manager;
 
@@ -495,8 +402,8 @@ CollisionSystem::CollisionInfo CollisionSystem::get_collision_info(const Collisi
 	struct CollisionInfo collision_info{
 		.self = self,
 		.other = other,
-		.resolution = resolution,
-		.resolution_direction = resolution_direction,
+		.resolution = in_self.resolution,
+		.resolution_direction = in_self.resolution_direction,
 	};
 	return collision_info;
 }
