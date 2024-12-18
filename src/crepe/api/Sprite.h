@@ -66,6 +66,16 @@ public:
 
 		//! independent sprite offset position
 		vec2 position_offset;
+
+		/**
+		 * \brief gives the user the option to render this in world space or in camera space
+		 *
+		 * - if true will this be rendered in world space this means that the sprite can be
+		 *   rendered off the screen 
+		 * - if false --> will the sprite be rendered in camera space. this means that the
+		 *   coordinates given on the \c Sprite and \c Transform will be inside the camera 
+		 */
+		bool world_space = true;
 	};
 
 public:
