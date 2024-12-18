@@ -36,13 +36,14 @@ public:
 					 .angle_offset = 0,
 					 .position_offset = {0, 0},
 				 });
-		auto & emitter = game_object.add_component<ParticleEmitter>(test_sprite, ParticleEmitter::Data{});
+		auto & emitter
+			= game_object.add_component<ParticleEmitter>(test_sprite, ParticleEmitter::Data{});
 
 		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
 													   });
-		cam.data.postion_offset = {1000,1000};
+		cam.data.postion_offset = {1000, 1000};
 	}
 
 	string get_name() const { return "TestScene"; };
