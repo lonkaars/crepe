@@ -33,6 +33,7 @@ This project uses the following libraries
 |Google Test (`GTest`)|1.15.2|
 |Berkeley DB (`libdb`)|5.3.21|
 |Where Am I?|(latest git `master` version)
+|fontconfig|2.15.0|
 
 > [!NOTE]
 > Most of these libraries are likely available from your package manager if you

@@ -6,6 +6,7 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
 #include <array>
 #include <cmath>
@@ -31,6 +32,9 @@ using namespace std;
 
 SDLContext::SDLContext(Mediator & mediator) {
 	dbg_trace();
+	if (TTF_Init() == -1) {
+		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
+	}
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		throw runtime_error(format("SDLContext: SDL_Init error: {}", SDL_GetError()));
 	}
@@ -72,121 +76,27 @@ SDLContext::~SDLContext() {
 	// thread that SDL_Init() was called on? This has caused problems for me
 	// before.
 	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 }
 
-Keycode SDLContext::sdl_to_keycode(SDL_Keycode sdl_key) {
-	static const std::array<Keycode, SDL_NUM_SCANCODES> LOOKUP_TABLE = [] {
-		std::array<Keycode, SDL_NUM_SCANCODES> table{};
-		table.fill(Keycode::NONE);
+Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
+	if (!lookup_table.contains(sdl_key)) return Keycode::NONE;
+	return lookup_table.at(sdl_key);
+}
 
-		table[SDL_SCANCODE_SPACE] = Keycode::SPACE;
-		table[SDL_SCANCODE_APOSTROPHE] = Keycode::APOSTROPHE;
-		table[SDL_SCANCODE_COMMA] = Keycode::COMMA;
-		table[SDL_SCANCODE_MINUS] = Keycode::MINUS;
-		table[SDL_SCANCODE_PERIOD] = Keycode::PERIOD;
-		table[SDL_SCANCODE_SLASH] = Keycode::SLASH;
-		table[SDL_SCANCODE_0] = Keycode::D0;
-		table[SDL_SCANCODE_1] = Keycode::D1;
-		table[SDL_SCANCODE_2] = Keycode::D2;
-		table[SDL_SCANCODE_3] = Keycode::D3;
-		table[SDL_SCANCODE_4] = Keycode::D4;
-		table[SDL_SCANCODE_5] = Keycode::D5;
-		table[SDL_SCANCODE_6] = Keycode::D6;
-		table[SDL_SCANCODE_7] = Keycode::D7;
-		table[SDL_SCANCODE_8] = Keycode::D8;
-		table[SDL_SCANCODE_9] = Keycode::D9;
-		table[SDL_SCANCODE_SEMICOLON] = Keycode::SEMICOLON;
-		table[SDL_SCANCODE_EQUALS] = Keycode::EQUAL;
-		table[SDL_SCANCODE_A] = Keycode::A;
-		table[SDL_SCANCODE_B] = Keycode::B;
-		table[SDL_SCANCODE_C] = Keycode::C;
-		table[SDL_SCANCODE_D] = Keycode::D;
-		table[SDL_SCANCODE_E] = Keycode::E;
-		table[SDL_SCANCODE_F] = Keycode::F;
-		table[SDL_SCANCODE_G] = Keycode::G;
-		table[SDL_SCANCODE_H] = Keycode::H;
-		table[SDL_SCANCODE_I] = Keycode::I;
-		table[SDL_SCANCODE_J] = Keycode::J;
-		table[SDL_SCANCODE_K] = Keycode::K;
-		table[SDL_SCANCODE_L] = Keycode::L;
-		table[SDL_SCANCODE_M] = Keycode::M;
-		table[SDL_SCANCODE_N] = Keycode::N;
-		table[SDL_SCANCODE_O] = Keycode::O;
-		table[SDL_SCANCODE_P] = Keycode::P;
-		table[SDL_SCANCODE_Q] = Keycode::Q;
-		table[SDL_SCANCODE_R] = Keycode::R;
-		table[SDL_SCANCODE_S] = Keycode::S;
-		table[SDL_SCANCODE_T] = Keycode::T;
-		table[SDL_SCANCODE_U] = Keycode::U;
-		table[SDL_SCANCODE_V] = Keycode::V;
-		table[SDL_SCANCODE_W] = Keycode::W;
-		table[SDL_SCANCODE_X] = Keycode::X;
-		table[SDL_SCANCODE_Y] = Keycode::Y;
-		table[SDL_SCANCODE_Z] = Keycode::Z;
-		table[SDL_SCANCODE_LEFTBRACKET] = Keycode::LEFT_BRACKET;
-		table[SDL_SCANCODE_BACKSLASH] = Keycode::BACKSLASH;
-		table[SDL_SCANCODE_RIGHTBRACKET] = Keycode::RIGHT_BRACKET;
-		table[SDL_SCANCODE_GRAVE] = Keycode::GRAVE_ACCENT;
-		table[SDL_SCANCODE_ESCAPE] = Keycode::ESCAPE;
-		table[SDL_SCANCODE_RETURN] = Keycode::ENTER;
-		table[SDL_SCANCODE_TAB] = Keycode::TAB;
-		table[SDL_SCANCODE_BACKSPACE] = Keycode::BACKSPACE;
-		table[SDL_SCANCODE_INSERT] = Keycode::INSERT;
-		table[SDL_SCANCODE_DELETE] = Keycode::DELETE;
-		table[SDL_SCANCODE_RIGHT] = Keycode::RIGHT;
-		table[SDL_SCANCODE_LEFT] = Keycode::LEFT;
-		table[SDL_SCANCODE_DOWN] = Keycode::DOWN;
-		table[SDL_SCANCODE_UP] = Keycode::UP;
-		table[SDL_SCANCODE_PAGEUP] = Keycode::PAGE_UP;
-		table[SDL_SCANCODE_PAGEDOWN] = Keycode::PAGE_DOWN;
-		table[SDL_SCANCODE_HOME] = Keycode::HOME;
-		table[SDL_SCANCODE_END] = Keycode::END;
-		table[SDL_SCANCODE_CAPSLOCK] = Keycode::CAPS_LOCK;
-		table[SDL_SCANCODE_SCROLLLOCK] = Keycode::SCROLL_LOCK;
-		table[SDL_SCANCODE_NUMLOCKCLEAR] = Keycode::NUM_LOCK;
-		table[SDL_SCANCODE_PRINTSCREEN] = Keycode::PRINT_SCREEN;
-		table[SDL_SCANCODE_PAUSE] = Keycode::PAUSE;
-		table[SDL_SCANCODE_F1] = Keycode::F1;
-		table[SDL_SCANCODE_F2] = Keycode::F2;
-		table[SDL_SCANCODE_F3] = Keycode::F3;
-		table[SDL_SCANCODE_F4] = Keycode::F4;
-		table[SDL_SCANCODE_F5] = Keycode::F5;
-		table[SDL_SCANCODE_F6] = Keycode::F6;
-		table[SDL_SCANCODE_F7] = Keycode::F7;
-		table[SDL_SCANCODE_F8] = Keycode::F8;
-		table[SDL_SCANCODE_F9] = Keycode::F9;
-		table[SDL_SCANCODE_F10] = Keycode::F10;
-		table[SDL_SCANCODE_F11] = Keycode::F11;
-		table[SDL_SCANCODE_F12] = Keycode::F12;
-		table[SDL_SCANCODE_KP_0] = Keycode::KP0;
-		table[SDL_SCANCODE_KP_1] = Keycode::KP1;
-		table[SDL_SCANCODE_KP_2] = Keycode::KP2;
-		table[SDL_SCANCODE_KP_3] = Keycode::KP3;
-		table[SDL_SCANCODE_KP_4] = Keycode::KP4;
-		table[SDL_SCANCODE_KP_5] = Keycode::KP5;
-		table[SDL_SCANCODE_KP_6] = Keycode::KP6;
-		table[SDL_SCANCODE_KP_7] = Keycode::KP7;
-		table[SDL_SCANCODE_KP_8] = Keycode::KP8;
-		table[SDL_SCANCODE_KP_9] = Keycode::KP9;
-		table[SDL_SCANCODE_LSHIFT] = Keycode::LEFT_SHIFT;
-		table[SDL_SCANCODE_LCTRL] = Keycode::LEFT_CONTROL;
-		table[SDL_SCANCODE_LALT] = Keycode::LEFT_ALT;
-		table[SDL_SCANCODE_LGUI] = Keycode::LEFT_SUPER;
-		table[SDL_SCANCODE_RSHIFT] = Keycode::RIGHT_SHIFT;
-		table[SDL_SCANCODE_RCTRL] = Keycode::RIGHT_CONTROL;
-		table[SDL_SCANCODE_RALT] = Keycode::RIGHT_ALT;
-		table[SDL_SCANCODE_RGUI] = Keycode::RIGHT_SUPER;
-		table[SDL_SCANCODE_MENU] = Keycode::MENU;
+const keyboard_state_t & SDLContext::get_keyboard_state() {
+	SDL_PumpEvents();
+	const Uint8 * current_state = SDL_GetKeyboardState(nullptr);
 
-		return table;
-	}();
+	for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
 
-	if (sdl_key < 0 || sdl_key >= SDL_NUM_SCANCODES) {
-		return Keycode::NONE;
+		Keycode key = sdl_to_keycode(static_cast<SDL_Scancode>(i));
+		if (key != Keycode::NONE) {
+			this->keyboard_state[key] = current_state[i] != 0;
+		}
 	}
-
-	return LOOKUP_TABLE[sdl_key];
+	return this->keyboard_state;
 }
 
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
@@ -365,8 +275,8 @@ ivec2 SDLContext::get_size(const Texture & ctx) {
 	return size;
 }
 
-std::vector<SDLContext::EventData> SDLContext::get_events() {
-	std::vector<SDLContext::EventData> event_list;
+std::vector<EventData> SDLContext::get_events() {
+	std::vector<EventData> event_list;
 	SDL_Event event;
 	const CameraAuxiliaryData & cam = this->cam_aux_data;
 	while (SDL_PollEvent(&event)) {
@@ -375,61 +285,135 @@ std::vector<SDLContext::EventData> SDLContext::get_events() {
 		mouse_pos.y = (event.button.y - cam.bar_size.y) / cam.render_scale.y;
 		switch (event.type) {
 			case SDL_QUIT:
-				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::SHUTDOWN,
-				});
+				event_list.push_back({.event_type = EventType::SHUTDOWN});
 				break;
 			case SDL_KEYDOWN:
 				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::KEYDOWN,
-					.key = sdl_to_keycode(event.key.keysym.scancode),
-					.key_repeat = (event.key.repeat != 0),
+					.event_type = EventType::KEY_DOWN,
+					.data = {
+						.key_data = {
+							.key = this->sdl_to_keycode(event.key.keysym.scancode),
+							.key_repeat = event.key.repeat != 0,
+						},
+					},
 				});
 				break;
+
 			case SDL_KEYUP:
 				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::KEYUP,
-					.key = sdl_to_keycode(event.key.keysym.scancode),
+					.event_type = EventType::KEY_UP,
+					.data = {
+						.key_data = {
+							.key = this->sdl_to_keycode(event.key.keysym.scancode),
+							.key_repeat = event.key.repeat != 0,
+						},
+					},
 				});
 				break;
+
 			case SDL_MOUSEBUTTONDOWN:
 				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::MOUSEDOWN,
-					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = mouse_pos,
+					.event_type = EventType::MOUSE_DOWN,
+					.data = {
+						.mouse_data = {
+							.mouse_button = this->sdl_to_mousebutton(event.button.button),
+							.mouse_position = mouse_pos,
+						},
+					},
 				});
 				break;
-			case SDL_MOUSEBUTTONUP: {
-				int x, y;
-				SDL_GetMouseState(&x, &y);
+			case SDL_MOUSEBUTTONUP:
 				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::MOUSEUP,
-					.mouse_button = sdl_to_mousebutton(event.button.button),
-					.mouse_position = mouse_pos,
+					.event_type = EventType::MOUSE_UP,
+					.data = {
+						.mouse_data = {
+							.mouse_button = this->sdl_to_mousebutton(event.button.button),
+							.mouse_position = mouse_pos,
+						},
+					},
 				});
-			} break;
+				break;
 
-			case SDL_MOUSEMOTION: {
-				event_list.push_back(
-					EventData{.event_type = SDLContext::EventType::MOUSEMOVE,
-							  .mouse_position = mouse_pos,
-							  .rel_mouse_move = {event.motion.xrel, event.motion.yrel}});
-			} break;
-
-			case SDL_MOUSEWHEEL: {
+			case SDL_MOUSEMOTION:
 				event_list.push_back(EventData{
-					.event_type = SDLContext::EventType::MOUSEWHEEL,
-					.mouse_position = mouse_pos,
-					// TODO: why is this needed?
-					.scroll_direction = event.wheel.y < 0 ? -1 : 1,
-					.scroll_delta = event.wheel.preciseY,
+					.event_type = EventType::MOUSE_MOVE,
+					.data = {
+						.mouse_data = {
+							.mouse_position = mouse_pos,
+							.rel_mouse_move = {event.motion.xrel, event.motion.yrel},
+						},
+					},
 				});
-			} break;
+				break;
+
+			case SDL_MOUSEWHEEL:
+				event_list.push_back(EventData{
+					.event_type = EventType::MOUSE_WHEEL,
+					.data = {
+						.mouse_data = {
+							.mouse_position = mouse_pos,
+							.scroll_direction = event.wheel.y < 0 ? -1 : 1,
+							.scroll_delta = event.wheel.preciseY,
+						},
+					},
+				});
+				break;
+			case SDL_WINDOWEVENT:
+				this->handle_window_event(event.window, event_list);
+				break;
 		}
 	}
+
 	return event_list;
 }
+
+void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
+									 std::vector<EventData> & event_list) {
+	switch (window_event.event) {
+		case SDL_WINDOWEVENT_EXPOSED:
+			event_list.push_back(EventData{EventType::WINDOW_EXPOSE});
+			break;
+		case SDL_WINDOWEVENT_RESIZED:
+			event_list.push_back(EventData{
+					.event_type = EventType::WINDOW_RESIZE,
+					.data = {
+						.window_data = {
+							.resize_dimension = {window_event.data1, window_event.data2}
+						},
+					},
+				});
+			break;
+		case SDL_WINDOWEVENT_MOVED:
+			event_list.push_back(EventData{
+					.event_type = EventType::WINDOW_MOVE,
+					.data = {
+						.window_data = {
+							.move_delta = {window_event.data1, window_event.data2}
+						},
+					},
+				});
+			break;
+
+		case SDL_WINDOWEVENT_MINIMIZED:
+			event_list.push_back(EventData{EventType::WINDOW_MINIMIZE});
+			break;
+		case SDL_WINDOWEVENT_MAXIMIZED:
+			event_list.push_back(EventData{EventType::WINDOW_MAXIMIZE});
+			break;
+		case SDL_WINDOWEVENT_FOCUS_GAINED:
+			event_list.push_back(EventData{EventType::WINDOW_FOCUS_GAIN});
+			break;
+		case SDL_WINDOWEVENT_FOCUS_LOST:
+			event_list.push_back(EventData{EventType::WINDOW_FOCUS_LOST});
+			break;
+	}
+}
+
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
 	SDL_SetTextureColorMod(texture.get_img(), color.r, color.g, color.b);
 	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
+}
+
+Asset SDLContext::get_font_from_name(const std::string & font_family) {
+	return this->font_facade.get_font_asset(font_family);
 }

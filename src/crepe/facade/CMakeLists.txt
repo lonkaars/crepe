@@ -4,6 +4,8 @@ target_sources(crepe PUBLIC
 	SoundContext.cpp
 	SDLContext.cpp
 	DB.cpp
+	FontFacade.cpp
+	Font.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -12,5 +14,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	SoundContext.h
 	SDLContext.h
 	DB.h
+	FontFacade.h
+	Font.h
 )
 

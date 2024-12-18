@@ -26,3 +26,7 @@
 	path = lib/whereami/lib
 	url = https://github.com/gpakosz/whereami
 	shallow = true
+[submodule "lib/fontconfig"]
+	path = lib/fontconfig
+	url = https://gitlab.freedesktop.org/fontconfig/fontconfig.git
+	shallow = true

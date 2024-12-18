@@ -27,7 +27,7 @@ void ParticleSystem::update() {
 			= mgr.get_components_by_id<Transform>(emitter.game_object_id).front().get();
 
 		// Emit particles based on emission_rate
-		emitter.spawn_accumulator = emitter.data.emission_rate * dt;
+		emitter.spawn_accumulator += emitter.data.emission_rate * dt;
 		while (emitter.spawn_accumulator >= 1.0) {
 			this->emit_particle(emitter, transform);
 			emitter.spawn_accumulator -= 1.0;

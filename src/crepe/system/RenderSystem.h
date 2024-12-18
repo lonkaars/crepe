@@ -10,7 +10,7 @@ namespace crepe {
 class Camera;
 class Sprite;
 class Transform;
-
+class Text;
 /**
  * \brief Manages rendering operations for all game objects.
  *
@@ -50,7 +50,13 @@ private:
 	 * \return true if particles have been rendered
 	 */
 	bool render_particle(const Sprite & sprite, const double & scale);
-
+	/**
+	 * \brief Renders all Text components
+	 *
+	 * \param text The text component to be rendered.
+	 * \param tm the Transform component that holds the position,rotation and scale
+	 */
+	void render_text(Text & text, const Transform & tm);
 	/**
 	 * \brief renders a sprite with a Transform component on the screen
 	 *

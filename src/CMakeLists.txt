@@ -9,10 +9,12 @@ project(crepe C CXX)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 find_package(SoLoud REQUIRED)
 find_package(GTest REQUIRED)
 find_package(whereami REQUIRED)
 find_library(BERKELEY_DB db)
+find_library(FONTCONFIG_LIB fontconfig)
 
 add_library(crepe SHARED)
 add_executable(test_main EXCLUDE_FROM_ALL)
@@ -24,9 +26,11 @@ target_include_directories(crepe
 target_link_libraries(crepe
 	PRIVATE soloud
 	PUBLIC SDL2
+	PUBLIC SDL2_ttf
 	PUBLIC SDL2_image
 	PUBLIC ${BERKELEY_DB}
 	PUBLIC whereami
+	PUBLIC ${FONTCONFIG_LIB}
 )
 
 add_subdirectory(crepe)

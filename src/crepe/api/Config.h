@@ -76,6 +76,22 @@ struct Config final {
 		 */
 		std::string root_pattern = ".crepe-root";
 	} asset;
+	//! Default font options
+	struct {
+		/**
+		 * \brief Default font size
+		 *
+		 * Using the SDL_ttf library the font size needs to be set when loading the font. 
+		 * This config option is the font size at which all fonts will be loaded initially.
+		 * 
+		 */
+		unsigned int size = 16;
+	} font;
+	//! Configuration for click tolerance.
+	struct {
+		//! The maximum number of pixels the mouse can move between MouseDown and MouseUp events to be considered a click.
+		int click_tolerance = 5;
+	} input;
 
 	//! Audio system settings
 	struct {

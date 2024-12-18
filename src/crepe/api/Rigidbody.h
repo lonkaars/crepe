@@ -139,7 +139,7 @@ public:
 		 * Each element represents a layer ID, and the GameObject will only detect
 		 * collisions with other GameObjects that belong to these layers.
 		 */
-		std::set<int> collision_layers;
+		std::set<int> collision_layers = {0};
 	};
 
 public:
