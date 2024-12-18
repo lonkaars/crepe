@@ -65,7 +65,8 @@ private:
 	*
 	* This method processes the mouse click event and triggers the corresponding button action.
 	*/
-	void handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos,const Camera & current_cam);
+	void handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos,
+					  const Camera & current_cam);
 
 	/**
 	* \brief Handles the mouse movement event.
@@ -76,7 +77,8 @@ private:
 	*
 	* This method processes the mouse movement event and updates the button hover state.
 	*/
-	void handle_move(const EventData & event_data, const vec2 & mouse_pos,const Camera & current_cam);
+	void handle_move(const EventData & event_data, const vec2 & mouse_pos,
+					 const Camera & current_cam);
 
 	/**
 	* \brief Checks if the mouse position is inside the bounds of the button.

@@ -38,6 +38,7 @@ public:
 	EventManager event_manager{mediator};
 	//GameObject camera;
 	int offset = 100;
+
 protected:
 	void SetUp() override {
 		GameObject obj = mgr.new_object("camera", "camera", vec2{offset, offset}, 0, 1);
@@ -216,7 +217,7 @@ TEST_F(InputTest, testButtonClick) {
 	bool button_clicked = false;
 	std::function<void()> on_click = [&]() { button_clicked = true; };
 	auto & button = button_obj.add_component<Button>(vec2{10, 10}, vec2{0, 0}, on_click);
-	// button.world_space = 
+	// button.world_space =
 	bool hover = false;
 	button.active = true;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
