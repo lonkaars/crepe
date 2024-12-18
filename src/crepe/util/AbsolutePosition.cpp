@@ -1,8 +1,8 @@
-#include "AbsoluutPosition.h"
+#include "AbsolutePosition.h"
 
 using namespace crepe;
 
-vec2 AbsoluutPosition::get_position(const Transform & transform, const vec2 & offset) {
+vec2 AbsolutePosition::get_position(const Transform & transform, const vec2 & offset) {
 	// Get the rotation in radians
 	float radians1 = transform.rotation * (M_PI / 180.0);
 

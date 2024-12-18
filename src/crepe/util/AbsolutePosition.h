@@ -6,7 +6,7 @@
 
 namespace crepe {
 
-class AbsoluutPosition {
+class AbsolutePosition {
 public:
 	static vec2 get_position(const Transform & transform, const vec2 & offset);
 };
