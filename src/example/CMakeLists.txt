@@ -29,5 +29,6 @@ set(preview_sources
 	preview.cpp
 	PreviewScenes/StartingScreen.cpp
 	PreviewScenes/Scene1.cpp
+	PreviewScenes/Coin.cpp
 )
 add_example(preview ${preview_sources})

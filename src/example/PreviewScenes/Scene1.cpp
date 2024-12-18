@@ -1,5 +1,8 @@
 #include "Scene1.h"
+#include "example/PreviewScenes/Coin.h"
 
+
+#include <crepe/api/Scene.h>
 #include <crepe/ValueBroker.h>
 #include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
@@ -29,23 +32,6 @@
 
 using namespace crepe;
 
-class CircleScript : public Script {
-	bool on_collision(const CollisionEvent & ev) {
-		auto & coll = ev.info;
-		if (coll.other_metadata.tag != "circle") return true;
-
-		//coll.other_transform.position += coll.resolution / 2;
-		coll.this_transform.position += coll.resolution / 2;
-		coll.this_rigidbody.data.linear_velocity = {0, 0};
-		//coll.other_rigidbody.data.linear_velocity = {0, 0};
-
-		return true;
-	}
-	void init() {
-		subscribe<CollisionEvent>(
-			[this](const CollisionEvent & ev) -> bool { return this->on_collision(ev); });
-	}
-};
 
 class MissleScript : public Script {
 
@@ -53,7 +39,7 @@ private:
 	vec2 mouse_pos;
 
 	bool mouse_click(const MouseClickEvent & ev) {
-		this->mouse_pos = {(float) ev.mouse_x, (float) ev.mouse_y};
+		this->mouse_pos = ev.mouse_pos;
 		this->get_component<Transform>().position = mouse_pos;
 		return true;
 	}
@@ -113,17 +99,6 @@ private:
 	float move_speed = 100;
 
 private:
-	bool npc_collision(const CollisionEvent & ev) {
-		auto & coll = ev.info;
-		if (coll.other_metadata.tag != "npc_tag") return true;
-
-		coll.other_transform.position += coll.resolution / 2;
-		coll.this_transform.position += coll.resolution / 2;
-		//coll.this_rigidbody.data.linear_velocity = {0, 0};
-		//coll.other_rigidbody.data.linear_velocity = {0, 0};
-
-		return true;
-	}
 	bool key_pressed(const KeyPressEvent & ev) {
 		switch (ev.key) {
 			case Keycode::A:
@@ -244,8 +219,6 @@ private:
 		subscribe<KeyPressEvent>(
 			[this](const KeyPressEvent & ev) -> bool { return this->key_pressed(ev); });
 
-		subscribe<CollisionEvent>(
-			[this](const CollisionEvent & ev) -> bool { return this->npc_collision(ev); });
 	};
 
 	void update() {
@@ -289,15 +262,13 @@ void Scene1::load_scene() {
 	Asset npc_head{"assets/workers/worker1Head.png"};
 	Asset missle_ss{"assets/Obstacles/Missile/missile.png"};
 	Asset smoke_ss{"assets/particles/smoke.png"};
-	Asset coin_ss{"assets/Entities/coin1_TVOS.png"};
-
-	Asset circle_ss{"asset/texture/circle.png"};
 
 	cam.add_component<Camera>(ivec2{1700, 720}, vec2{2000, 800}, Camera::Data{});
 
 	auto & bg_music = background.add_component<AudioSource>(bg_audio);
 
 	bg_music.play_on_awake = true;
+
 	bg_music.volume = 0.5f;
 
 	background.add_component<Sprite>(start_begin_asset, Sprite::Data{
@@ -329,7 +300,7 @@ void Scene1::load_scene() {
 	});
 
 	//bottom
-	world.add_component<BoxCollider>(vec2{0, 600}, vec2{2000, 800});
+	world.add_component<BoxCollider>(vec2{2000, 800}, vec2{0,600});
 
 	auto & player_head_sprite
 		= player.add_component<Sprite>(player_head, Sprite::Data{
@@ -354,7 +325,7 @@ void Scene1::load_scene() {
 
 	player.add_component<BehaviorScript>().set_script<PlayerScript>();
 	player.add_component<AudioSource>(sfx_audio);
-	player.add_component<BoxCollider>(vec2{0, 0}, vec2{50, 100});
+	player.add_component<BoxCollider>(vec2{50, 100});
 
 	player.add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 10,
@@ -388,7 +359,7 @@ void Scene1::load_scene() {
 								Animator::Data{
 									.looping = true,
 								});
-	npc.add_component<BoxCollider>(vec2{0, 0}, vec2{50, 100});
+	npc.add_component<BoxCollider>(vec2{50, 100});
 
 	npc.add_component<Rigidbody>(Rigidbody::Data{
 		.mass = 1,
@@ -441,25 +412,6 @@ void Scene1::load_scene() {
 		float x = col * 25 + i;
 		float y = row * 25 - 400;
 
-		GameObject circle
-			= this->new_object("circle", "circle", vec2{x, y}, 0, 1);
-		vec2 size = {20, 20};
-		circle.add_component<Rigidbody>(Rigidbody::Data{
-			.mass = 10,
-			.gravity_scale = 1,
-			.body_type = Rigidbody::BodyType::DYNAMIC,
-			.collision_layers = {0},
-		});
-		circle.add_component<CircleCollider>(vec2{0, 0}, size.x / 2);
-		auto & circle_sprite = circle.add_component<Sprite>(coin_ss, Sprite::Data{
-																		 .sorting_in_layer = 5,
-																		 .order_in_layer = 5,
-																		 .size = size,
-																	 });
-		circle.add_component<Animator>(circle_sprite, ivec2{32, 32}, uvec2{8, 1},
-									   Animator::Data{
-										   .looping = true,
-									   });
-		circle.add_component<BehaviorScript>().set_script<CircleScript>();
+		Coin coin(*this, vec2{x,y});
 	}
 }

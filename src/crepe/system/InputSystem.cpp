@@ -51,8 +51,8 @@ void InputSystem::handle_mouse_event(const EventData & event, const vec2 & camer
 									 const Camera & current_cam) {
 	EventManager & event_mgr = this->mediator.event_manager;
 	vec2 adjusted_mouse;
-	adjusted_mouse.x = event.data.mouse_data.mouse_position.x + camera_origin.x;
-	adjusted_mouse.x = event.data.mouse_data.mouse_position.y + camera_origin.y;
+	adjusted_mouse.x = event.data.mouse_data.mouse_position.x;
+	adjusted_mouse.x = event.data.mouse_data.mouse_position.y;
 	// Check if the mouse is within the viewport
 	if ((adjusted_mouse.x < camera_origin.x
 		 || adjusted_mouse.x > camera_origin.x + current_cam.viewport_size.x
