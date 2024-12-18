@@ -4,6 +4,7 @@
 
 #include "../api/KeyCodes.h"
 #include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
 #include "../manager/Mediator.h"
 #include "../manager/ReplayManager.h"
 #include "../system/CollisionSystem.h"
@@ -49,10 +50,12 @@ protected:
 	/**
 	 * \brief Script update function (empty by default)
 	 *
+	 * \param delta_time Time since last fixed update
+	 *
 	 * This function is called during the ScriptSystem::update() routine if the \c BehaviorScript
 	 * component holding this script instance is active.
 	 */
-	virtual void update() {}
+	virtual void update(duration_t delta_time) {}
 	//! \}
 
 	//! ScriptSystem calls \c init() and \c update()
@@ -142,6 +145,15 @@ protected:
 	SaveManager & get_save_manager() const;
 	//! \}
 
+	/**
+	 * \name Timing functions
+	 * \see LoopTimerManager
+	 * \{
+	 */
+	//! Retrieve LoopTimerManager reference
+	LoopTimerManager & get_loop_timer() const;
+	//! \}
+
 	//! Replay management functions
 	struct replay { // NOLINT
 		//! \copydoc ReplayManager::record_start
@@ -164,7 +176,6 @@ protected:
 	 * \see SDLContext::get_keyboard_state
 	 * 
 	 * \return current keyboard state map with Keycode as key and bool as value(true = pressed, false = not pressed)
-	 * 
 	 */
 	const keyboard_state_t & get_keyboard_state() const;
 	/**
@@ -172,7 +183,6 @@ protected:
 	 * \see SDLContext::get_keyboard_state
 	 * 
 	 * \return Keycode state (true if pressed, false if not pressed).
-	 * 
 	 */
 	bool get_key_state(Keycode key) const noexcept;
 
