@@ -11,9 +11,7 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -149,13 +147,11 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 	size *= cam_aux_data.render_scale * ctx.img_scale * data.scale_offset;
 
 	if (ctx.sprite.data.world_space) {
-		cout << "world_space" << endl;
 		vec2 multiplier = cam_aux_data.cam_pos
 						  + (cam_aux_data.zoomed_viewport / 2) * cam_aux_data.render_scale
 						  - size / 2 + cam_aux_data.bar_size;
 		screen_pos += multiplier;
 	} else {
-		cout << "camera space" << endl;
 		vec2 multiplier = (cam_aux_data.zoomed_viewport / 2) * cam_aux_data.render_scale
 						  - size / 2 + cam_aux_data.bar_size;
 		screen_pos += multiplier;
