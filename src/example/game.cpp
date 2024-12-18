@@ -24,7 +24,7 @@ using namespace std;
 class MyScript1 : public Script {
 	bool flip = false;
 	bool oncollision(const CollisionEvent & test) {
-		Log::logf("Box {} script on_collision()", test.info.this_collider.game_object_id);
+		Log::logf("Box {} script on_collision()", test.info.self.metadata.game_object_id);
 		return true;
 	}
 	bool keypressed(const KeyPressEvent & test) {
@@ -93,7 +93,7 @@ class MyScript1 : public Script {
 class MyScript2 : public Script {
 	bool flip = false;
 	bool oncollision(const CollisionEvent & test) {
-		Log::logf("Box {} script on_collision()", test.info.this_collider.game_object_id);
+		Log::logf("Box {} script on_collision()", test.info.self.metadata.game_object_id);
 		return true;
 	}
 	bool keypressed(const KeyPressEvent & test) {
@@ -195,7 +195,7 @@ public:
 		GameObject world = new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
 		world.add_component<Rigidbody>(Rigidbody::Data{
-			.mass = 0,
+			.mass = 1,
 			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::STATIC,
 		});
@@ -220,11 +220,11 @@ public:
 			});
 
 		GameObject game_object1 = new_object(
-			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 45, 1);
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2+30}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 0,
-			.body_type = Rigidbody::BodyType::KINEMATIC,
+			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 1},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
@@ -238,7 +238,7 @@ public:
 													 .sorting_in_layer = 2,
 													 .order_in_layer = 2,
 													 .size = {20, 20},
-													 .position_offset = {0, -10},
+													 .position_offset = {0, 0},
 												 });
 
 		//add circle with cirlcecollider deactiveated
