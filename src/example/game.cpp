@@ -206,7 +206,7 @@ public:
 			vec2{world_collider, world_collider},
 			vec2{0, screen_size_height / 2 + world_collider / 2}); // Bottom
 		world.add_component<BoxCollider>(
-			vec2{world_collider, world_collider},
+			vec2{world_collider, world_collider},git stauts
 			vec2{0 - (screen_size_width / 2 + world_collider / 2), 0}); // Left
 		world.add_component<BoxCollider>(
 			vec2{world_collider, world_collider},
@@ -220,12 +220,12 @@ public:
 			});
 
 		GameObject game_object1 = new_object(
-			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2+30}, 0, 1);
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2+60}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::DYNAMIC,
-			.linear_velocity = {0, 1},
+			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
 		});
@@ -257,7 +257,7 @@ public:
 		game_object2.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 1,
-			.body_type = Rigidbody::BodyType::KINEMATIC,
+			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,

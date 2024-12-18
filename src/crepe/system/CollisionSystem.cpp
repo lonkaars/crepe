@@ -72,12 +72,8 @@ void CollisionSystem::update() {
 	std::vector<std::pair<CollisionInternal, CollisionInternal>> collided
 		= this->gather_collisions(all_colliders);
 
-	// For both objects call the collision handler
+	// For the object convert the info and call the collision handler if needed
 	for (auto & collision_pair : collided) {
-		// Determine type
-		//CollisionInternalType type = this->get_collider_type(collision_pair.first.collider, collision_pair.second.collider);
-		// Determine resolution 
-		//std::pair<vec2, CollisionSystem::Direction> resolution_data	= this->get_collision_resolution(collision_pair.first, collision_pair.second, type);
 		// Convert internal struct to external struct
 		CollisionInfo info = this->get_collision_info(collision_pair.first, collision_pair.second);
 		// Determine if and/or what collison handler is needed.
