@@ -28,7 +28,7 @@ void ScriptTest::SetUp() {
 TEST_F(ScriptTest, Default) {
 	MyScript & script = this->script;
 	EXPECT_CALL(script, init()).Times(0);
-	EXPECT_CALL(script, update()).Times(0);
+	EXPECT_CALL(script, update(_)).Times(0);
 }
 
 TEST_F(ScriptTest, UpdateOnce) {
@@ -38,7 +38,7 @@ TEST_F(ScriptTest, UpdateOnce) {
 		InSequence seq;
 
 		EXPECT_CALL(script, init()).Times(1);
-		EXPECT_CALL(script, update()).Times(1);
+		EXPECT_CALL(script, update(_)).Times(1);
 		system.fixed_update();
 	}
 
@@ -46,7 +46,7 @@ TEST_F(ScriptTest, UpdateOnce) {
 		InSequence seq;
 
 		EXPECT_CALL(script, init()).Times(0);
-		EXPECT_CALL(script, update()).Times(1);
+		EXPECT_CALL(script, update(_)).Times(1);
 		system.fixed_update();
 	}
 }
@@ -59,7 +59,7 @@ TEST_F(ScriptTest, UpdateInactive) {
 		InSequence seq;
 
 		EXPECT_CALL(script, init()).Times(0);
-		EXPECT_CALL(script, update()).Times(0);
+		EXPECT_CALL(script, update(_)).Times(0);
 		behaviorscript.active = false;
 		system.fixed_update();
 	}
@@ -68,8 +68,20 @@ TEST_F(ScriptTest, UpdateInactive) {
 		InSequence seq;
 
 		EXPECT_CALL(script, init()).Times(1);
-		EXPECT_CALL(script, update()).Times(1);
+		EXPECT_CALL(script, update(_)).Times(1);
 		behaviorscript.active = true;
 		system.fixed_update();
 	}
+}
+
+TEST_F(ScriptTest, SaveManager) {
+	MyScript & script = this->script;
+
+	EXPECT_EQ(&script.get_save_manager(), &this->save_manager);
+}
+
+TEST_F(ScriptTest, LoopTimerManager) {
+	MyScript & script = this->script;
+
+	EXPECT_EQ(&script.get_loop_timer(), &this->loop_timer);
 }

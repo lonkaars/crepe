@@ -2,6 +2,7 @@
 
 #include "../facade/SDLContext.h"
 #include "../manager/SceneManager.h"
+
 #include "Script.h"
 
 using namespace crepe;
@@ -25,6 +26,8 @@ void Script::set_next_scene(const string & name) {
 }
 
 SaveManager & Script::get_save_manager() const { return this->mediator->save_manager; }
+
+LoopTimerManager & Script::get_loop_timer() const { return this->mediator->loop_timer; }
 
 void Script::replay::record_start() {
 	ReplayManager & mgr = this->mediator->replay_manager;
@@ -58,3 +61,4 @@ bool Script::get_key_state(Keycode key) const noexcept {
 		return false;
 	}
 }
+
