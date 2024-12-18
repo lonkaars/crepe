@@ -36,7 +36,7 @@ public:
 	void frame_update() override;
 
 private:
-	void update(void (Script::* update_function)(duration_t), const duration_t & delta_time);
+	void update(void (Script::*update_function)(duration_t), const duration_t & delta_time);
 };
 
 } // namespace crepe
