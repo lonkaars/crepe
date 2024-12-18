@@ -40,11 +40,11 @@ public:
 					 .position_offset = {0, 0},
 				 });
 
-		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{400, 400},
+		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{4000, 4000},
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
 													   });
-		game_object.add_component<Text>(vec2{400, 400}, vec2{0, 0}, "ComicSansMS",
+		game_object.add_component<Text>(vec2{4000, 400}, vec2{0, 0}, "ComicSansMS",
 										Text::Data{.text_color = Color::RED}, "TEST test");
 	}
 
