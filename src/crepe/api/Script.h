@@ -48,14 +48,23 @@ protected:
 	 */
 	virtual void init() {}
 	/**
-	 * \brief Script update function (empty by default)
+	 * \brief Script fixed update function (empty by default)
 	 *
 	 * \param delta_time Time since last fixed update
 	 *
-	 * This function is called during the ScriptSystem::update() routine if the \c BehaviorScript
-	 * component holding this script instance is active.
+	 * \note This function is called during the ScriptSystem::update() routine if the \c
+	 * BehaviorScript component holding this script instance is active.
 	 */
-	virtual void update(duration_t delta_time) {}
+	virtual void fixed_update(duration_t delta_time) {}
+	/**
+	 * \brief Script frame update function (empty by default)
+	 *
+	 * \param delta_time Time since last frame update
+	 *
+	 * \note This function is called during the ScriptSystem::update() routine if the \c
+	 * BehaviorScript component holding this script instance is active.
+	 */
+	virtual void frame_update(duration_t delta_time) {}
 	//! \}
 
 	//! ScriptSystem calls \c init() and \c update()
