@@ -1,7 +1,11 @@
-#include "system/RenderSystem.h"
 #include <gtest/gtest.h>
+
+#include <crepe/manager/ResourceManager.h>
+#include <crepe/system/RenderSystem.h>
+
 #define protected public
 #define private public
+
 #include "api/KeyCodes.h"
 #include "manager/ComponentManager.h"
 #include "manager/EventManager.h"
@@ -29,6 +33,7 @@ public:
 	SDLContext sdl_context{mediator};
 
 	InputSystem input_system{mediator};
+	ResourceManager resman{mediator};
 	RenderSystem render{mediator};
 	EventManager event_manager{mediator};
 	//GameObject camera;

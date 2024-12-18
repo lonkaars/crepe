@@ -827,6 +827,32 @@ that you can click on to open them.
   int bar = foo[0];
   ```
   </td></tr></table></details>
+- <details><summary>
+  Always explicitly check against <code>NULL</code> (for C APIs) or
+  <code>nullptr</code> (for C++ APIs) when checking if a pointer is valid
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  string foo = "Hello world";
+  if (foo.c_str() == nullptr)
+    // ...
+
+  void * bar = malloc();
+  if (bar == NULL)
+    // ...
+  ```
+  </td><td>
+
+  ```cpp
+  string foo = "Hello world";
+  if (!foo.c_str())
+    // ...
+
+  void * bar = malloc();
+  if (!bar)
+    // ...
+  ```
+  </td></tr></table></details>
 
 ## CMakeLists-specific
 
