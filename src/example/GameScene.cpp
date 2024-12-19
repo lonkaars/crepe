@@ -22,7 +22,7 @@
 using namespace crepe;
 using namespace std;
 
-class MoveCameraScript : public Script {
+class MoveCameraManualyScript : public Script {
 public:
 	void init() {
 		subscribe<KeyPressEvent>(
@@ -114,7 +114,7 @@ void GameScene::load_scene() {
 								 Camera::Data{
 									 .bg_color = Color::RED,
 								 });
-	camera.add_component<BehaviorScript>().set_script<MoveCameraScript>();
+	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
 	camera.add_component<Rigidbody>(Rigidbody::Data{});
 
 	PlayerSubScene player(*this);
