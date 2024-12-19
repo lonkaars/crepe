@@ -229,7 +229,7 @@ void SDLContext::draw_text(const RenderText & data) {
 		= {tmp_font_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
 
 	vec2 size = text.dimensions * cam_aux_data.render_scale * data.transform.scale;
-	vec2 screen_pos = (absoluut_pos + text.offset - cam_aux_data.cam_pos
+	vec2 screen_pos = (absoluut_pos - cam_aux_data.cam_pos
 					   + (cam_aux_data.zoomed_viewport) / 2)
 						  * cam_aux_data.render_scale
 					  - size / 2 + cam_aux_data.bar_size;
