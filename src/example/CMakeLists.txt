@@ -6,6 +6,8 @@ set(GAME_HEADERS
 	HallwaySubScene.h
 	StartSubScene.h
 	GameScene.h
+	StartGameScript.h
+	MoveCameraManualyScript.h
 	PlayerSubScene.h
 	PlayerScript.h
 )
@@ -19,6 +21,8 @@ set(GAME_SOURCES
 	HallwaySubScene.cpp
 	StartSubScene.cpp
 	GameScene.cpp
+	StartGameScript.cpp
+	MoveCameraManualyScript.cpp
 	PlayerSubScene.cpp
 	PlayerScript.cpp
 )
