@@ -38,7 +38,7 @@ public:
 					 .size = {1, 1},
 					 .angle_offset = 0,
 					 .position_offset = {0, 1},
-				.world_space = false,
+					 .world_space = false,
 				 });
 		//auto & emitter			= game_object.add_component<ParticleEmitter>(test_sprite, ParticleEmitter::Data{});
 
@@ -47,15 +47,14 @@ public:
 														 .color = color,
 														 .size = {1, 1},
 														 .position_offset = {0, -1},
-				.world_space = false,
+														 .world_space = false,
 													 });
 
 		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{5, 5},
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
-												 .postion_offset = {1000,1000},
+														   .postion_offset = {1000, 1000},
 													   });
-
 
 		/*
 		game_object.add_component<Text>(vec2{1, 1}, vec2{0, -0.5}, "ComicSansMS",

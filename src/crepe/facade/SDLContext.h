@@ -19,9 +19,9 @@
 #include "api/Sprite.h"
 #include "api/Transform.h"
 
-#include "types.h"
 #include "EventData.h"
 #include "FontFacade.h"
+#include "types.h"
 
 namespace crepe {
 class Texture;
