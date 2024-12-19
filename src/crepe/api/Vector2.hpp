@@ -163,4 +163,9 @@ Vector2<T> Vector2<T>::perpendicular() const {
 	return {-y, x};
 }
 
+template <class T>
+bool Vector2<T>::is_nan() const {
+    return std::isnan(x) && std::isnan(y);
+}
+
 } // namespace crepe
