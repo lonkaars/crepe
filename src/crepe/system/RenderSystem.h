@@ -66,7 +66,6 @@ private:
 	 * \return returns a sorted reference vector
 	 */
 	RefVector<Sprite> sort(RefVector<Sprite> & objs) const;
-
 };
 
 } // namespace crepe
