@@ -40,4 +40,3 @@ bool Script::get_key_state(Keycode key) const noexcept {
 		return false;
 	}
 }
-

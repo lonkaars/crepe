@@ -3,8 +3,6 @@
 #include <optional>
 #include <string>
 
-#include "../Component.h"
-
 #include "Asset.h"
 #include "Color.h"
 #include "UIObject.h"
