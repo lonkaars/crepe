@@ -11,9 +11,9 @@
 using namespace crepe;
 using namespace std;
 
-class ParallaxScript : public Script {
+class ForestParallaxScript : public Script {
 public:
-	ParallaxScript(float begin_x, float end_x, std::string unique_bg_name)
+	ForestParallaxScript(float begin_x, float end_x, std::string unique_bg_name)
 		: begin_x(begin_x),
 		  end_x(end_x),
 		  name(unique_bg_name) {}
@@ -44,7 +44,7 @@ private:
 
 float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_name) {
 	GameObject script = scn.new_object("forest_script", "background");
-	script.add_component<BehaviorScript>().set_script<ParallaxScript>(
+	script.add_component<BehaviorScript>().set_script<ForestParallaxScript>(
 		begin_x - 400, begin_x + 3000 + 400, unique_bg_name);
 
 	this->add_background(scn, begin_x, unique_bg_name);
