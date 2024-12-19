@@ -220,11 +220,11 @@ public:
 			});
 
 		GameObject game_object1 = new_object(
-			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2+60}, 0, 1);
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2+20}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 0,
-			.body_type = Rigidbody::BodyType::KINEMATIC,
+			.body_type = Rigidbody::BodyType::STATIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
@@ -253,11 +253,11 @@ public:
 			= false;
 
 		GameObject game_object2 = new_object(
-			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 90, 1);
 		game_object2.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 0,
-			.body_type = Rigidbody::BodyType::DYNAMIC,
+			.body_type = Rigidbody::BodyType::STATIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
@@ -268,6 +268,9 @@ public:
 
 		game_object2.add_component<Sprite>(img1, Sprite::Data{
 													 .size = {20, 20},
+													 .angle_offset = 45,
+													 .scale_offset = 1,
+													 .position_offset = {0,20},
 												 });
 
 		//add circle with cirlcecollider deactiveated
@@ -280,12 +283,14 @@ public:
 								   })
 			.active
 			= false;
-		Asset img5{"asset/texture/square.png"};
+		Asset img5{"asset/texture/test_ap43.png"};
 
 		GameObject particle = new_object(
-			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 0, 1);
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 90, 1);
 		auto & particle_image = particle.add_component<Sprite>(img5, Sprite::Data{
-																		 .size = {5, 5},
+																		 .size = {20, 20},
+																		 .angle_offset = 45,
+																		 .scale_offset = 2,
 																	 });
 		auto & test
 			= particle.add_component<ParticleEmitter>(particle_image, ParticleEmitter::Data{
