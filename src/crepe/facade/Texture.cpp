@@ -1,9 +1,9 @@
 #include "../util/dbg.h"
-#include "../facade/SDLContext.h"
 #include "../manager/Mediator.h"
 #include "../types.h"
 #include "../Resource.h"
 
+#include "SDLContext.h"
 #include "Texture.h"
 
 using namespace crepe;
