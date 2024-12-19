@@ -184,6 +184,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 			};
 			resolution = this->get_box_circle_detection(BOX1, CIRCLE2);
 			if(resolution == vec2{-1,-1}) return false;
+			resolution = -resolution;
 			break;
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE: { 

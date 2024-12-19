@@ -224,7 +224,7 @@ public:
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 0,
-			.body_type = Rigidbody::BodyType::DYNAMIC,
+			.body_type = Rigidbody::BodyType::KINEMATIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
