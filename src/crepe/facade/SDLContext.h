@@ -18,8 +18,8 @@
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
-#include "types.h"
 
+#include "types.h"
 #include "EventData.h"
 #include "FontFacade.h"
 

@@ -24,11 +24,11 @@
 #include "api/Transform.h"
 #include "facade/Font.h"
 #include "manager/Mediator.h"
+#include "util/AbsolutePosition.h"
 
 #include "SDLContext.h"
 #include "Texture.h"
 #include "types.h"
-#include "util/AbsoluutPosition.h"
 
 using namespace crepe;
 using namespace std;
@@ -204,7 +204,7 @@ void SDLContext::draw_text(const RenderText & data) {
 
 	const Text & text = data.text;
 	const Font & font = data.font;
-	vec2 absoluut_pos = AbsoluutPosition::get_position(data.transform, data.text.offset);
+	vec2 absoluut_pos = AbsolutePosition::get_position(data.transform, data.text.offset);
 	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>> font_surface;
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> font_texture;
 
