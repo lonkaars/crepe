@@ -1,13 +1,14 @@
 #include "../api/BehaviorScript.h"
 #include "../api/Script.h"
 #include "../manager/ComponentManager.h"
+#include "../util/dbg.h"
 
 #include "ScriptSystem.h"
 
 using namespace std;
 using namespace crepe;
 
-void ScriptSystem::update() {
+void ScriptSystem::fixed_update() {
 	dbg_trace();
 
 	ComponentManager & mgr = this->mediator.component_manager;

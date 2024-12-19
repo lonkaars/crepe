@@ -2,8 +2,6 @@
 
 #include <type_traits>
 
-#include "../util/Log.h"
-
 #include "BehaviorScript.h"
 #include "Script.h"
 
@@ -11,7 +9,6 @@ namespace crepe {
 
 template <class T, typename... Args>
 BehaviorScript & BehaviorScript::set_script(Args &&... args) {
-	dbg_trace();
 	static_assert(std::is_base_of<Script, T>::value);
 	this->script = std::unique_ptr<Script>(new T(std::forward<Args>(args)...));
 

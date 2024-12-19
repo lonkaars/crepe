@@ -466,3 +466,17 @@ TEST_F(ECSTest, ComponentsByTag) {
 		EXPECT_EQ(objects.size(), 3);
 	}
 }
+
+TEST_F(ECSTest, Snapshot) {
+	GameObject foo = mgr.new_object("foo");
+
+	foo.transform.position = {1, 1};
+
+	ComponentManager::Snapshot snapshot = mgr.save();
+
+	foo.transform.position = {0, 0};
+
+	mgr.restore(snapshot);
+
+	EXPECT_EQ(foo.transform.position, (vec2{1, 1}));
+}

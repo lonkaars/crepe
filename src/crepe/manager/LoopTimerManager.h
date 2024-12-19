@@ -6,6 +6,8 @@
 
 namespace crepe {
 
+class Engine;
+
 typedef std::chrono::duration<float> duration_t;
 typedef std::chrono::duration<unsigned long long, std::micro> elapsed_time_t;
 
@@ -107,7 +109,7 @@ public:
 
 private:
 	//! Friend relation to use start,enforce_frame_rate,get_lag,update,advance_fixed_update.
-	friend class LoopManager;
+	friend class Engine;
 	/**
 	 * \brief Start the loop timer.
 	 *

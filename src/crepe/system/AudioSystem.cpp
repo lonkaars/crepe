@@ -7,7 +7,7 @@
 using namespace crepe;
 using namespace std;
 
-void AudioSystem::update() {
+void AudioSystem::fixed_update() {
 	ComponentManager & component_manager = this->mediator.component_manager;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 	RefVector<AudioSource> components

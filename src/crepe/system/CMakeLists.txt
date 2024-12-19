@@ -8,6 +8,8 @@ target_sources(crepe PUBLIC
 	AudioSystem.cpp
 	AnimatorSystem.cpp
 	InputSystem.cpp
+	EventSystem.cpp
+	ReplaySystem.cpp
 	AISystem.cpp
 )
 
@@ -20,5 +22,7 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	AudioSystem.h
 	AnimatorSystem.h
 	InputSystem.h
+	EventSystem.h
+	ReplaySystem.h
 	AISystem.h
 )

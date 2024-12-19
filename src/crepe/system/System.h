@@ -14,10 +14,12 @@ class ComponentManager;
  */
 class System {
 public:
-	/**
-	 * \brief Process all components this system is responsible for.
-	 */
-	virtual void update() = 0;
+	//! Code that runs in the fixed loop
+	virtual void fixed_update() {};
+	//! Code that runs in the frame loop
+	virtual void frame_update() {};
+	//! Indicates that the update functions of this system should be run
+	bool active = true;
 
 public:
 	System(const Mediator & m);

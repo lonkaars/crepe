@@ -12,7 +12,7 @@
 
 using namespace crepe;
 
-void ParticleSystem::update() {
+void ParticleSystem::fixed_update() {
 	// Get all emitters
 	const Mediator & mediator = this->mediator;
 	LoopTimerManager & loop_timer = mediator.loop_timer;

@@ -22,7 +22,7 @@ public:
 	 * Animator components, moving the animations forward and managing their behavior (e.g.,
 	 * looping).
 	 */
-	void update() override;
+	void frame_update() override;
 };
 
 } // namespace crepe

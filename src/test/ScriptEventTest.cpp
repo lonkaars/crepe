@@ -37,7 +37,7 @@ TEST_F(ScriptEventTest, Default) {
 		return true;
 	});
 
-	system.update();
+	system.fixed_update();
 	behaviorscript.active = false;
 	EXPECT_EQ(0, event_count);
 

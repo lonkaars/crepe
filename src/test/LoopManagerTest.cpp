@@ -4,7 +4,7 @@
 #include <thread>
 #define private public
 #define protected public
-#include <crepe/api/LoopManager.h>
+#include <crepe/api/Engine.h>
 #include <crepe/manager/EventManager.h>
 #include <crepe/manager/LoopTimerManager.h>
 using namespace std::chrono;
@@ -12,7 +12,7 @@ using namespace crepe;
 
 class DISABLED_LoopManagerTest : public ::testing::Test {
 protected:
-	class TestGameLoop : public crepe::LoopManager {
+	class TestGameLoop : public crepe::Engine {
 	public:
 		MOCK_METHOD(void, fixed_update, (), (override));
 		MOCK_METHOD(void, frame_update, (), (override));

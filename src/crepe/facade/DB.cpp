@@ -1,6 +1,6 @@
 #include <cstring>
 
-#include "util/Log.h"
+#include "util/dbg.h"
 
 #include "DB.h"
 

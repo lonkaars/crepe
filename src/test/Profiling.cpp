@@ -39,7 +39,7 @@ class TestScript : public Script {
 		subscribe<CollisionEvent>(
 			[this](const CollisionEvent & ev) -> bool { return this->oncollision(ev); });
 	}
-	void update() {
+	void fixed_update() {
 		// Retrieve component from the same GameObject this script is on
 	}
 };
@@ -82,9 +82,9 @@ public:
 										 });
 		// initialize systems here:
 		//calls init
-		script_sys.update();
+		script_sys.fixed_update();
 		//creates window
-		render_sys.update();
+		render_sys.frame_update();
 	}
 
 	// Helper function to time an update call and store its duration
@@ -102,12 +102,14 @@ public:
 	// Run and profile all systems, return the total time in milliseconds
 	std::chrono::microseconds run_all_systems() {
 		std::chrono::microseconds total_microseconds = 0us;
-		total_microseconds += time_function("PhysicsSystem", [&]() { physics_sys.update(); });
 		total_microseconds
-			+= time_function("CollisionSystem", [&]() { collision_sys.update(); });
+			+= time_function("PhysicsSystem", [&]() { physics_sys.fixed_update(); });
 		total_microseconds
-			+= time_function("ParticleSystem", [&]() { particle_sys.update(); });
-		total_microseconds += time_function("RenderSystem", [&]() { render_sys.update(); });
+			+= time_function("CollisionSystem", [&]() { collision_sys.fixed_update(); });
+		total_microseconds
+			+= time_function("ParticleSystem", [&]() { particle_sys.fixed_update(); });
+		total_microseconds
+			+= time_function("RenderSystem", [&]() { render_sys.frame_update(); });
 		return total_microseconds;
 	}
 
@@ -233,7 +235,7 @@ TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 
 							 });
 		}
-		render_sys.update();
+		render_sys.frame_update();
 		this->game_object_count++;
 
 		this->total_time = 0us;

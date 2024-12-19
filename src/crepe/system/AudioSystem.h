@@ -11,7 +11,7 @@ namespace crepe {
 class AudioSystem : public System {
 public:
 	using System::System;
-	void update() override;
+	void fixed_update() override;
 
 private:
 	/**

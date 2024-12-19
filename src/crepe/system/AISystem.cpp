@@ -10,7 +10,7 @@
 using namespace crepe;
 using namespace std::chrono;
 
-void AISystem::update() {
+void AISystem::fixed_update() {
 	const Mediator & mediator = this->mediator;
 	ComponentManager & mgr = mediator.component_manager;
 	LoopTimerManager & loop_timer = mediator.loop_timer;
