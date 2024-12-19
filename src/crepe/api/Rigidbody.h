@@ -121,7 +121,7 @@ public:
 		* above 0.0.
 		*
 		*/
-		float elastisity_coefficient = 0.0;
+		float elasticity_coefficient = 0.0;
 
 		/**
 		 * \brief  Enables collision handling for objects colliding with kinematic objects.

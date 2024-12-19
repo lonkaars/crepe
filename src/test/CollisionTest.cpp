@@ -80,7 +80,7 @@ public:
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
-			.elastisity_coefficient = 1,
+			.elasticity_coefficient = 1,
 			.collision_layers = {0},
 		});
 		game_object1.add_component<BoxCollider>(vec2{10, 10}, vec2{0, 0});
@@ -95,7 +95,7 @@ public:
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
-			.elastisity_coefficient = 1,
+			.elasticity_coefficient = 1,
 			.collision_layers = {0},
 		});
 		game_object2.add_component<BoxCollider>(vec2{10, 10}, vec2{0, 0});
