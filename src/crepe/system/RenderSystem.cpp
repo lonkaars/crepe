@@ -99,7 +99,7 @@ void RenderSystem::render_text() {
 	}
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const Transform & tm){
+bool RenderSystem::render_particle(const Sprite & sprite, const Transform & tm) {
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
