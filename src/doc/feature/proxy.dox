@@ -1,0 +1,43 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_proxy Proxy utility
+\ingroup feature
+\brief Use ValueBroker as if it were a regular variable
+
+Proxy provides operators that allow you to use a ValueBroker instance as if it
+were a regular variable. Proxy implements a constructor that allows it to be
+used as a substitute return type for any function that returns ValueBroker.
+
+\see ValueBroker
+\see Proxy
+
+\par Example
+
+```cpp
+#include <crepe/util/Proxy.h>
+#include <crepe/ValueBroker.h>
+
+int calculation(int value) {
+	return 3 * value;
+}
+
+void anywhere() {
+	crepe::ValueBroker<int> foo_handle;
+	crepe::Proxy foo = foo_handle;
+
+	// implicitly calls .set()
+	foo += 10;
+
+	// implicitly calls .get()
+	int out = calculation(foo);
+
+	// explicitly cast (also calls .get())
+	int casted = int(foo);
+}
+
+```
+
+*/
+}

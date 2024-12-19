@@ -27,3 +27,11 @@ TEST_F(DBTest, Has) {
 	db.set("foo", "bar");
 	EXPECT_EQ(db.has("foo"), true);
 }
+
+TEST_F(DBTest, MultipleKeys) {
+	db.set("foo", "foo");
+	db.set("bar", "bar");
+
+	EXPECT_EQ(db.get("foo"), "foo");
+	EXPECT_EQ(db.get("bar"), "bar");
+}
