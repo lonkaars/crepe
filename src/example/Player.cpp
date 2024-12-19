@@ -11,19 +11,10 @@ using namespace std;
 
 class PlayerScript : public Script {
 public:
-	void init() {
-		subscribe<KeyPressEvent>(
-			[this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
-	}
-
-private:
-	bool keypressed(const KeyPressEvent & event) {
-		if (event.key == Keycode::SPACE) {
-			Rigidbody & rb = this->get_components_by_name<Rigidbody>("player").front();
+	void update() {
+		Rigidbody & rb = this->get_components_by_name<Rigidbody>("player").front();
+		if (this->get_key_state(Keycode::SPACE))
 			rb.add_force_linear(vec2(0, -10));
-			return true;
-		}
-		return false;
 	}
 };
 
