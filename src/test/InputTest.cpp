@@ -38,6 +38,7 @@ public:
 	//GameObject camera;
 	int offset_x = 100;
 	int offset_y = 200;
+
 protected:
 	void SetUp() override {
 		GameObject obj = mgr.new_object("camera", "camera", vec2{offset_x, offset_y}, 0, 1);
