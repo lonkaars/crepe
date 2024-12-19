@@ -47,20 +47,17 @@ private:
 	 * \brief Renders all the particles on the screen from a given sprite.
 	 *
 	 * \param sprite renders the particles with given texture
-	 * \param tm the Transform component for scale. This is not a const reference because each
-	 *  particle has a position and rotation that needs to overwrite the transform position and
-	 *  rotation without overwriting the current transform. and because the transform
-	 *  constructor is now protected i cannot make tmp inside
+	 * \param transform the component that holds the position, rotation, and scale.
 	 * \return true if particles have been rendered
 	 */
-	bool render_particle(const Sprite & sprite, const Transform & tm);
+	bool render_particle(const Sprite & sprite, const Transform & transform);
 	/**
 	 * \brief renders a sprite with a Transform component on the screen
 	 *
 	 * \param sprite  the sprite component that holds all the data
-	 * \param tm the Transform component that holds the position,rotation and scale
+	 * \param transform the Transform component that holds the position,rotation and scale
 	 */
-	void render_normal(const Sprite & sprite, const Transform & tm);
+	void render_normal(const Sprite & sprite, const Transform & transform);
 
 	/**
 	 * \brief sort a vector sprite objects with
@@ -70,11 +67,6 @@ private:
 	 */
 	RefVector<Sprite> sort(RefVector<Sprite> & objs) const;
 
-	/**
-	 * \todo Add text rendering using SDL_ttf for text components.
-	 * \todo Implement a text component and a button component.
-	 * \todo Consider adding text input functionality.
-	 */
 };
 
 } // namespace crepe
