@@ -1,8 +1,6 @@
 #include "Scene1.h"
 #include "example/PreviewScenes/Coin.h"
 
-
-#include <crepe/api/Scene.h>
 #include <crepe/ValueBroker.h>
 #include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
@@ -18,6 +16,7 @@
 #include <crepe/api/KeyCodes.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
+#include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
@@ -31,7 +30,6 @@
 #include <string>
 
 using namespace crepe;
-
 
 class MissleScript : public Script {
 
@@ -218,7 +216,6 @@ private:
 
 		subscribe<KeyPressEvent>(
 			[this](const KeyPressEvent & ev) -> bool { return this->key_pressed(ev); });
-
 	};
 
 	void update() {
@@ -300,7 +297,7 @@ void Scene1::load_scene() {
 	});
 
 	//bottom
-	world.add_component<BoxCollider>(vec2{2000, 800}, vec2{0,600});
+	world.add_component<BoxCollider>(vec2{2000, 800}, vec2{0, 600});
 
 	auto & player_head_sprite
 		= player.add_component<Sprite>(player_head, Sprite::Data{
@@ -406,12 +403,13 @@ void Scene1::load_scene() {
 														   .end_lifespan = 2,
 													   });
 
+
 	for (int i = 0; i < 200; ++i) {
 		int row = i / 10;
 		int col = i % 10;
 		float x = col * 25 + i;
 		float y = row * 25 - 400;
-
-		Coin coin(*this, vec2{x,y});
+		GameObject game_coin = this->new_object("coin","coin",vec2{x,y},0,1);
+		Coin coin(game_coin, vec2{0, 0});
 	}
 }
