@@ -1,7 +1,6 @@
 #include "GameScene.h"
-#include "Background.h"
-#include "Player.h"
-#include "api/ParticleEmitter.h"
+#include "BackgroundSubScene.h"
+#include "PlayerSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -12,6 +11,7 @@
 #include <crepe/api/Color.h>
 #include <crepe/api/Event.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
@@ -107,7 +107,7 @@ private:
 };
 
 void GameScene::load_scene() {
-	Background background(*this);
+	BackgroundSubScene background(*this);
 
 	GameObject camera = new_object("camera", "camera", vec2(650, 0));
 	camera.add_component<Camera>(ivec2(990, 720), vec2(1100, 800),
@@ -117,7 +117,7 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<MoveCameraScript>();
 	camera.add_component<Rigidbody>(Rigidbody::Data{});
 
-	Player player(*this);
+	PlayerSubScene player(*this);
 
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data{

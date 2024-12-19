@@ -4,7 +4,7 @@ namespace crepe {
 class Scene;
 }
 
-class Aquarium {
+class AquariumSubScene {
 public:
 	float create(crepe::Scene & scn, float begin_x);
 

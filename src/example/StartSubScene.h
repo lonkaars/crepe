@@ -7,7 +7,7 @@ class Scene;
 class GameObject;
 } // namespace crepe
 
-class Start {
+class StartSubScene {
 public:
 	float create(crepe::Scene & scn, float begin_x);
 

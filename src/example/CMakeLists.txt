@@ -1,22 +1,22 @@
 set(GAME_HEADERS
-	Aquarium.h
-	Background.h
-	Forest.h
-	Hallway.h
-	Start.h
+	AquariumSubScene.h
+	BackgroundSubScene.h
+	ForestSubScene.h
+	HallwaySubScene.h
+	StartSubScene.h
 	GameScene.h
-	Player.h
+	PlayerSubScene.h
 )
 
 set(GAME_SOURCES
 	game.cpp
-	Aquarium.cpp
-	Background.cpp
-	Forest.cpp
-	Hallway.cpp
-	Start.cpp
+	AquariumSubScene.cpp
+	BackgroundSubScene.cpp
+	ForestSubScene.cpp
+	HallwaySubScene.cpp
+	StartSubScene.cpp
 	GameScene.cpp
-	Player.cpp
+	PlayerSubScene.cpp
 )
 
 add_executable(game ${GAME_SOURCES} ${GAME_HEADERS})

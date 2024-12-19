@@ -1,4 +1,4 @@
-#include "Hallway.h"
+#include "HallwaySubScene.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/Color.h>
@@ -9,8 +9,8 @@
 using namespace crepe;
 using namespace std;
 
-float Hallway::create(Scene & scn, float begin_x, unsigned int sector_num,
-					  Color sector_color) {
+float HallwaySubScene::create(Scene & scn, float begin_x, unsigned int sector_num,
+							  Color sector_color) {
 	GameObject begin = scn.new_object("hallway_begin", "background", vec2(begin_x, 0));
 	Asset begin_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
 	begin.add_component<Sprite>(begin_asset, Sprite::Data{
@@ -74,7 +74,7 @@ float Hallway::create(Scene & scn, float begin_x, unsigned int sector_num,
 	return begin_x;
 }
 
-void Hallway::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) {
+void HallwaySubScene::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) {
 	Asset lamp_asset{"asset/jetpack_joyride/background/hallway/alarmLight_TVOS.png"};
 	obj.add_component<Sprite>(lamp_asset, Sprite::Data{
 											  .sorting_in_layer = 5,
@@ -97,8 +97,8 @@ void Hallway::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) {
 								});
 }
 
-void Hallway::add_sector_number(GameObject & obj, vec2 offset, unsigned int sector_num,
-								Color sector_color) {
+void HallwaySubScene::add_sector_number(GameObject & obj, vec2 offset, unsigned int sector_num,
+										Color sector_color) {
 	Asset sector_text_asset{"asset/jetpack_joyride/background/hallway/sectorText_TVOS.png"};
 	obj.add_component<Sprite>(sector_text_asset, Sprite::Data{
 													 .color = sector_color,

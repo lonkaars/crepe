@@ -8,7 +8,7 @@ class GameObject;
 class Color;
 } // namespace crepe
 
-class Hallway {
+class HallwaySubScene {
 public:
 	float create(crepe::Scene & scn, float begin_x, unsigned int sector_num,
 				 crepe::Color sector_color);
