@@ -19,6 +19,20 @@ that you can click on to open them.
   an explanation as to why the code can not (reliably) be tested
 - Non-bugfix pull requests must be approved by at least 2 reviewers before being
   merged
+- Pull requests should have the following labels (where appropriate)
+  |label|meaning|
+  |:-:|-|
+  |`fix me`|has feedback that should be resolved/discussed by its author|
+  |`review me`|needs additional reviewers (minimum of 2 per PR)|
+  |`do not review`|is actively being worked on or not ready for feedback|
+  |`high priority`|should be worked on before all the others|
+  - PRs start with the `review me` label
+  - Reviewers—
+    - Add the `fix me` label after adding comments
+  - Authors—
+    - Remove the `review me` label if the pull request has enough reviewers
+    - Add the `do not review` label while processing feedback / pushing
+      additional commits
 
 <!--
 - TODO: tagging / versions
