@@ -51,7 +51,7 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & 
 
 	vec2 initial_position = AbsolutePosition::get_position(transform, emitter.data.offset);
 	float random_angle
-		= this->generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
+		= this->generate_random_angle(emitter.data.min_angle+transform.rotation, emitter.data.max_angle+transform.rotation);
 
 	float random_speed
 		= this->generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);
