@@ -1,4 +1,4 @@
-#include "Aquarium.h"
+#include "AquariumSubScene.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/GameObject.h>
@@ -9,7 +9,7 @@
 using namespace crepe;
 using namespace std;
 
-float Aquarium::create(Scene & scn, float begin_x) {
+float AquariumSubScene::create(Scene & scn, float begin_x) {
 	this->add_background(scn, begin_x);
 
 	GameObject aquarium_begin
@@ -86,7 +86,7 @@ float Aquarium::create(Scene & scn, float begin_x) {
 	return begin_x;
 }
 
-void Aquarium::add_background(Scene & scn, float begin_x) {
+void AquariumSubScene::add_background(Scene & scn, float begin_x) {
 	GameObject bg_1 = scn.new_object("aquarium_bg_1", "aquarium_background", vec2(begin_x, 0));
 	Asset bg_1_1_asset{"asset/jetpack_joyride/background/aquarium/AquariumBG1_1_TVOS.png"};
 	bg_1.add_component<Sprite>(bg_1_1_asset, Sprite::Data{

@@ -1,20 +1,18 @@
-#include "Start.h"
-#include "api/Asset.h"
-#include "api/CircleCollider.h"
-#include "api/Color.h"
-#include "api/Rigidbody.h"
-#include "types.h"
+#include "StartSubScene.h"
 
 #include <crepe/api/Animator.h>
+#include <crepe/api/CircleCollider.h>
+#include <crepe/api/Color.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/ParticleEmitter.h>
+#include <crepe/api/Rigidbody.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>
 
 using namespace crepe;
 using namespace std;
 
-float Start::create(Scene & scn, float begin_x) {
+float StartSubScene::create(Scene & scn, float begin_x) {
 	this->create_wall_fragments(scn, begin_x - 300);
 
 	GameObject begin = scn.new_object("start_begin", "background", vec2(begin_x, 0));
@@ -52,7 +50,7 @@ float Start::create(Scene & scn, float begin_x) {
 	return begin_x;
 }
 
-void Start::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) {
+void StartSubScene::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) {
 	Asset lamp_asset{"asset/jetpack_joyride/background/start/alarmLight_TVOS.png"};
 	obj.add_component<Sprite>(lamp_asset, Sprite::Data{
 											  .sorting_in_layer = 5,
@@ -76,7 +74,7 @@ void Start::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) {
 								});
 }
 
-void Start::add_table(GameObject & obj, vec2 offset) {
+void StartSubScene::add_table(GameObject & obj, vec2 offset) {
 	Asset table_asset{"asset/jetpack_joyride/background/start/table.png"};
 	obj.add_component<Sprite>(table_asset, Sprite::Data{
 											   .sorting_in_layer = 5,
@@ -99,7 +97,7 @@ void Start::add_table(GameObject & obj, vec2 offset) {
 								});
 }
 
-void Start::add_light(crepe::GameObject & obj, crepe::vec2 offset) {
+void StartSubScene::add_light(crepe::GameObject & obj, crepe::vec2 offset) {
 	Asset light_asset{"asset/jetpack_joyride/background/start/title_light_TVOS.png"};
 	obj.add_component<Sprite>(light_asset, Sprite::Data{
 											   .sorting_in_layer = 5,
@@ -123,7 +121,7 @@ void Start::add_light(crepe::GameObject & obj, crepe::vec2 offset) {
 												  });
 }
 
-void Start::add_jetpack_stand(crepe::GameObject & obj, crepe::vec2 offset) {
+void StartSubScene::add_jetpack_stand(crepe::GameObject & obj, crepe::vec2 offset) {
 	Asset jetpack_stand_asset{"asset/jetpack_joyride/background/start/JetpackStand.png"};
 	Sprite & jetpeck_stand_sprite
 		= obj.add_component<Sprite>(jetpack_stand_asset, Sprite::Data{
@@ -147,7 +145,7 @@ void Start::add_jetpack_stand(crepe::GameObject & obj, crepe::vec2 offset) {
 											});
 }
 
-void Start::create_wall_fragments(crepe::Scene & scn, float begin_x) {
+void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	GameObject frag_1 = scn.new_object("frag_1", "wall_fragment", vec2(begin_x, 200));
 	Asset frag_1_asset{"asset/jetpack_joyride/background/start/StartWall_frag1.png"};
 	Sprite & frag_1_sprite

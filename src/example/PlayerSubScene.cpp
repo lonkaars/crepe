@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "PlayerSubScene.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/GameObject.h>
@@ -17,7 +17,7 @@ public:
 	}
 };
 
-Player::Player(Scene & scn) {
+PlayerSubScene::PlayerSubScene(Scene & scn) {
 	GameObject player = scn.new_object("player", "player", vec2(-100, 200));
 	Asset player_body_asset{"asset/jetpack_joyride/barry/defaultBody.png"};
 	Sprite & player_body_sprite

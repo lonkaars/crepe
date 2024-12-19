@@ -6,7 +6,7 @@ namespace crepe {
 class Scene;
 }
 
-class Forest {
+class ForestSubScene {
 public:
 	float create(crepe::Scene & scn, float begin_x, std::string unique_bg_name);
 

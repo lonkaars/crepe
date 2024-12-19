@@ -1,4 +1,4 @@
-#include "Forest.h"
+#include "ForestSubScene.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/BehaviorScript.h>
@@ -42,7 +42,7 @@ private:
 	const std::string name;
 };
 
-float Forest::create(Scene & scn, float begin_x, std::string unique_bg_name) {
+float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_name) {
 	GameObject script = scn.new_object("forest_script", "background");
 	script.add_component<BehaviorScript>().set_script<ParallaxScript>(
 		begin_x - 400, begin_x + 3000 + 400, unique_bg_name);
@@ -96,7 +96,7 @@ float Forest::create(Scene & scn, float begin_x, std::string unique_bg_name) {
 	return begin_x;
 }
 
-void Forest::add_background(Scene & scn, float begin_x, std::string name) {
+void ForestSubScene::add_background(Scene & scn, float begin_x, std::string name) {
 	GameObject bg_1
 		= scn.new_object("forest_bg_1_" + name, "forest_background", vec2(begin_x, 0));
 	Asset bg_1_asset{"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};

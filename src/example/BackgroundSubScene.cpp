@@ -1,19 +1,19 @@
-#include "Background.h"
-#include "Aquarium.h"
-#include "Forest.h"
-#include "Hallway.h"
-#include "Start.h"
+#include "BackgroundSubScene.h"
+#include "AquariumSubScene.h"
+#include "ForestSubScene.h"
+#include "HallwaySubScene.h"
+#include "StartSubScene.h"
 
 #include <crepe/api/Color.h>
 
 using namespace crepe;
 using namespace std;
 
-Background::Background(Scene & scn) {
-	Start start;
-	Hallway hallway;
-	Forest forest;
-	Aquarium aquarium;
+BackgroundSubScene::BackgroundSubScene(Scene & scn) {
+	StartSubScene start;
+	HallwaySubScene hallway;
+	ForestSubScene forest;
+	AquariumSubScene aquarium;
 
 	float begin_x = 400;
 
