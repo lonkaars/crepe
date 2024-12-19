@@ -13,8 +13,7 @@ class PlayerScript : public Script {
 public:
 	void update() {
 		Rigidbody & rb = this->get_components_by_name<Rigidbody>("player").front();
-		if (this->get_key_state(Keycode::SPACE))
-			rb.add_force_linear(vec2(0, -10));
+		if (this->get_key_state(Keycode::SPACE)) rb.add_force_linear(vec2(0, -10));
 	}
 };
 
@@ -60,7 +59,7 @@ Player::Player(Scene & scn) {
 									   .looping = true,
 								   });
 	player.add_component<Rigidbody>(Rigidbody::Data{
-		.gravity_scale = 10,
+		.gravity_scale = 20,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = vec2(100, 0),
 	});
