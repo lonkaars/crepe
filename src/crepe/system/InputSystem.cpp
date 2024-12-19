@@ -10,10 +10,8 @@ using namespace crepe;
 
 void InputSystem::update() {
 	ComponentManager & mgr = this->mediator.component_manager;
-
 	SDLContext & context = this->mediator.sdl_context;
 	std::vector<EventData> event_list = context.get_events();
-	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 	OptionalRef<Camera> curr_cam_ref;
 
@@ -156,7 +154,7 @@ void InputSystem::handle_non_mouse_event(const EventData & event) {
 void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_pos,
 							  const Camera & current_cam) {
 	ComponentManager & mgr = this->mediator.component_manager;
-
+	EventManager & event_mgr = this->mediator.event_manager;
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
 	for (Button & button : buttons) {
@@ -166,20 +164,19 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 			= mgr.get_components_by_id<Transform>(button.game_object_id).front();
 		Transform & cam_transform
 			= mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
+		Metadata & metadata
+			= mgr.get_components_by_id<Metadata>(button.game_object_id).front();
 		bool was_hovering = button.hover;
 
 		if (this->is_mouse_inside_button(mouse_pos, button, transform, cam_transform)) {
 			button.hover = true;
-			if (!button.on_mouse_enter) continue;
 			if (!was_hovering) {
-				button.on_mouse_enter();
+				event_mgr.trigger_event<ButtonEnterEvent>(metadata);
 			}
 		} else {
 			button.hover = false;
-			// Trigger the on_exit callback if the hover state just changed to false
-			if (!button.on_mouse_exit) continue;
 			if (was_hovering) {
-				button.on_mouse_exit();
+				event_mgr.trigger_event<ButtonExitEvent>(metadata);
 			}
 		}
 	}
@@ -188,19 +185,18 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos,
 							   const Camera & current_cam) {
 	ComponentManager & mgr = this->mediator.component_manager;
-
+	EventManager & event_mgr = this->mediator.event_manager;
 	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 	Transform & cam_transform
 		= mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
 	for (Button & button : buttons) {
 		if (!button.active) continue;
-		if (!button.on_click) continue;
-		RefVector<Transform> transform_vec
-			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		Transform & transform = transform_vec.front().get();
-
+		Metadata & metadata
+			= mgr.get_components_by_id<Metadata>(button.game_object_id).front();
+		Transform & transform
+			= mgr.get_components_by_id<Transform>(button.game_object_id).front();
 		if (this->is_mouse_inside_button(mouse_pos, button, transform, cam_transform)) {
-			button.on_click();
+			event_mgr.trigger_event<ButtonPressEvent>(metadata);
 		}
 	}
 }
