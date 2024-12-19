@@ -164,8 +164,6 @@ public:
 		 * Each element represents a tag from the Metadata of the gameobject.
 		 */
 		std::set<std::string> collision_tags;
-
-
 	};
 
 public:

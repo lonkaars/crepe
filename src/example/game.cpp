@@ -220,7 +220,7 @@ public:
 			});
 
 		GameObject game_object1 = new_object(
-			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2+20}, 0, 1);
+			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2 + 20}, 0, 1);
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 0,
@@ -270,7 +270,7 @@ public:
 													 .size = {20, 20},
 													 .angle_offset = 45,
 													 .scale_offset = 1,
-													 .position_offset = {0,20},
+													 .position_offset = {0, 20},
 												 });
 
 		//add circle with cirlcecollider deactiveated

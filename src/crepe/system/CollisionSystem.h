@@ -21,6 +21,7 @@ namespace crepe {
 class CollisionSystem : public System {
 public:
 	using System::System;
+
 private:
 	//! Enum representing movement directions during collision resolution.
 	enum class Direction {
@@ -33,13 +34,13 @@ private:
 		//! Movement in both X and Y directions.
 		BOTH,
 	};
+
 public:
-	
 	//! Structure representing components of the collider
 	struct ColliderInfo {
-  Transform & transform;
-  Rigidbody & rigidbody;
-  Metadata & metadata;
+		Transform & transform;
+		Rigidbody & rigidbody;
+		Metadata & metadata;
 	};
 
 	/**
@@ -54,7 +55,7 @@ public:
 		vec2 resolution;
 		//! The direction of movement for resolving the collision.
 		Direction resolution_direction = Direction::NONE;
-		CollisionInfo operator - () const;
+		CollisionInfo operator-() const;
 	};
 
 private:
@@ -90,9 +91,9 @@ private:
 	//! Structure of a collider with additional components
 	template <typename ColliderType>
 	struct ColliderInternal {
-			ColliderType& collider;
-			Transform& transform;
-			Rigidbody& rigidbody;
+		ColliderType & collider;
+		Transform & transform;
+		Rigidbody & rigidbody;
 	};
 	//! Predefined BoxColliderInternal. (System is only made for this type)
 	using BoxColliderInternal = ColliderInternal<BoxCollider>;
@@ -113,7 +114,8 @@ private:
 		* \param collider2 Second collider variant (BoxCollider or CircleCollider).
 		* \return The combined type of the two colliders.
 		*/
-	CollisionInternalType get_collider_type(const collider_variant & collider1, const collider_variant & collider2) const;
+	CollisionInternalType get_collider_type(const collider_variant & collider1,
+											const collider_variant & collider2) const;
 
 private:
 	/**
@@ -126,8 +128,8 @@ private:
 		* \param data1 Collision data for the first collider.
 		* \param data2 Collision data for the second collider.
 		*/
-	CollisionInfo get_collision_info(const CollisionInternal & data1, const CollisionInternal & data2) const;
-
+	CollisionInfo get_collision_info(const CollisionInternal & data1,
+									 const CollisionInternal & data2) const;
 
 	/**
 		* \brief Corrects the collision resolution vector and determines its direction.
@@ -142,8 +144,7 @@ private:
 		* \param rigidbody rigidbody data used to correct resolution
 		* \return A Direction indicating the resolution direction
 		*/
-	Direction resolution_correction(vec2 & resolution,const Rigidbody::Data & rigidbody);
-
+	Direction resolution_correction(vec2 & resolution, const Rigidbody::Data & rigidbody);
 
 	/**
 		* \brief Determines the appropriate collision handler for a given collision event.
@@ -220,7 +221,8 @@ private:
 	 * \param other_metadata Rigidbody of second object
 	 * \return Returns true if there is at least one comparison found.
 	 */
-	bool should_collide(const CollisionInternal & self, const CollisionInternal & other) const; //done
+	bool should_collide(const CollisionInternal & self,
+						const CollisionInternal & other) const; //done
 
 	/**
 		* \brief Checks for collision between two colliders.
@@ -234,7 +236,8 @@ private:
 		* \param type The type of collider pair.
 		* \return True if a collision is detected, otherwise false.
 		*/
-	bool detect_collision(CollisionInternal & first_info, CollisionInternal & second_info, const CollisionInternalType & type);
+	bool detect_collision(CollisionInternal & first_info, CollisionInternal & second_info,
+						  const CollisionInternalType & type);
 
 	/**
 		* \brief Detects collisions between two BoxColliders.
@@ -247,7 +250,8 @@ private:
 		* \param box2 Information about the second BoxCollider.
 		* \return If colliding, returns the resolution vector; otherwise, returns {NaN, NaN}.
 		*/
-	vec2 get_box_box_detection(const BoxColliderInternal & box1, const BoxColliderInternal & box2) const;
+	vec2 get_box_box_detection(const BoxColliderInternal & box1,
+							   const BoxColliderInternal & box2) const;
 
 	/**
 	 * \brief Check collision for box on circle collider
@@ -260,7 +264,8 @@ private:
 	 * \param circle2 Information about the circleCollider.
 	 * \return If colliding, returns the resolution vector; otherwise, returns {NaN, NaN}.
 	 */
-	vec2 get_box_circle_detection(const BoxColliderInternal & box1, const CircleColliderInternal & circle2) const;
+	vec2 get_box_circle_detection(const BoxColliderInternal & box1,
+								  const CircleColliderInternal & circle2) const;
 
 	/**
 	 * \brief Check collision for circle on circle collider
@@ -273,7 +278,8 @@ private:
 	 * \param circle2 Information about the second circleCollider.
 	 * \return If colliding, returns the resolution vector; otherwise, returns {NaN, NaN}.
 	 */
-	vec2 get_circle_circle_detection(const CircleColliderInternal & circle1, const CircleColliderInternal & circle2) const;
+	vec2 get_circle_circle_detection(const CircleColliderInternal & circle1,
+									 const CircleColliderInternal & circle2) const;
 };
 
 /**
