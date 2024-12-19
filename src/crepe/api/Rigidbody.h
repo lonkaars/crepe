@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <set>
+#include <string>
 
 #include "../Component.h"
 
@@ -120,26 +121,49 @@ public:
 		* above 0.0.
 		*
 		*/
-		float elastisity_coefficient = 0.0;
+		float elasticity_coefficient = 0.0;
 
 		/**
-		* \brief Offset of all colliders relative to the object's transform position.
+		 * \brief  Enables collision handling for objects colliding with kinematic objects.
+		 *
+		 * Enables collision handling for objects colliding with kinematic objects in the collision system.
+     * If `kinematic_collision` is true, dynamic objects cannot pass through this kinematic object.
+     * This ensures that kinematic objects delegate collision handling to the collision system.
+		 */
+		bool kinematic_collision = true;
+
+		/**
+		* \brief Defines the collision layers a GameObject interacts with.
 		*
-		* The `offset` defines a positional shift applied to all colliders associated with the object, relative to the object's
-		* transform position. This allows for the colliders to be placed at a different position than the object's actual
-		* position, without modifying the object's transform itself.
-		*
+		* The `collision_layers` represent the set of layers the GameObject can detect collisions with.
+		* Each element in this set corresponds to a layer ID. The GameObject will only collide with other
+		* GameObjects that belong to one these layers.
 		*/
-		vec2 offset;
+		std::set<int> collision_layers = {0};
+
+		/**
+		* \brief Specifies the collision layer of the GameObject.
+		*
+		* The `collision_layer` indicates the single layer that this GameObject belongs to. 
+		* This determines which layers other objects must match to detect collisions with this object.
+		*/
+		int collision_layer = 0;
 
 		/**
 		 * \brief Defines the collision layers of a GameObject.
 		 *
-		 * The `collision_layers` specifies the layers that the GameObject will collide with.
-		 * Each element represents a layer ID, and the GameObject will only detect
-		 * collisions with other GameObjects that belong to these layers.
+		 * The `collision_names` specifies where the GameObject will collide with.
+		 * Each element represents a name from the Metadata of the gameobject.
 		 */
-		std::set<int> collision_layers = {0};
+		std::set<std::string> collision_names;
+
+		/**
+		 * \brief Defines the collision layers of a GameObject.
+		 *
+		 * The `collision_tags` specifies where the GameObject will collide with.
+		 * Each element represents a tag from the Metadata of the gameobject.
+		 */
+		std::set<std::string> collision_tags;
 	};
 
 public:
