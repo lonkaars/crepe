@@ -11,7 +11,6 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <functional>
 #include <memory>
 #include <stdexcept>
@@ -137,6 +136,8 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 		= (ctx.sprite.aspect_ratio == 0) ? ctx.texture.get_ratio() : ctx.sprite.aspect_ratio;
 
 	vec2 size = data.size;
+	vec2 screen_pos = ctx.pos + data.position_offset;
+
 	if (data.size.x == 0 && data.size.y != 0) {
 		size.x = data.size.y * aspect_ratio;
 	}
@@ -145,10 +146,16 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 	}
 	size *= cam_aux_data.render_scale * ctx.img_scale * data.scale_offset;
 
-	vec2 screen_pos = (ctx.pos + data.position_offset - cam_aux_data.cam_pos
-					   + (cam_aux_data.zoomed_viewport) / 2)
-						  * cam_aux_data.render_scale
-					  - size / 2 + cam_aux_data.bar_size;
+	if (ctx.sprite.data.world_space) {
+		vec2 multiplier = cam_aux_data.cam_pos
+						  + (cam_aux_data.zoomed_viewport / 2) * cam_aux_data.render_scale
+						  - size / 2 + cam_aux_data.bar_size;
+		screen_pos += multiplier;
+	} else {
+		vec2 multiplier = (cam_aux_data.zoomed_viewport / 2) * cam_aux_data.render_scale
+						  - size / 2 + cam_aux_data.bar_size;
+		screen_pos += multiplier;
+	}
 
 	return SDL_FRect{
 		.x = screen_pos.x,

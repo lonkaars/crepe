@@ -2,7 +2,6 @@
 
 #include <crepe/manager/ResourceManager.h>
 #include <crepe/system/RenderSystem.h>
-
 #define protected public
 #define private public
 
@@ -300,4 +299,19 @@ TEST_F(InputTest, testButtonHover) {
 	input_system.update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button.hover);
+	EXPECT_TRUE(button_hover);
+	// Mouse not on button
+	SDL_Event event;
+	SDL_zero(event);
+	event.type = SDL_MOUSEMOTION;
+	event.motion.x = 500;
+	event.motion.y = 500;
+	event.motion.xrel = 10;
+	event.motion.yrel = 10;
+	SDL_PushEvent(&event);
+
+	input_system.update();
+	event_manager.dispatch_events();
+	EXPECT_FALSE(button.hover);
+	EXPECT_FALSE(button_hover);
 }

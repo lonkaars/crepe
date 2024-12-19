@@ -73,7 +73,8 @@ void RenderSystem::update() {
 	this->present_screen();
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
+bool RenderSystem::render_particle(const Sprite & sprite, const float & transform_angle,
+								   const float & scale) {
 
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
@@ -98,7 +99,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 				.sprite = sprite,
 				.texture = res,
 				.pos = p.position,
-				.angle = p.angle,
+				.angle = p.angle + transform_angle,
 				.scale = scale,
 			});
 		}
@@ -137,7 +138,8 @@ void RenderSystem::render() {
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
-		bool rendered_particles = this->render_particle(sprite, transform.scale);
+		bool rendered_particles
+			= this->render_particle(sprite, transform.rotation, transform.scale);
 
 		if (rendered_particles) continue;
 
