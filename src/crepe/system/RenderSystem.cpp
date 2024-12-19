@@ -118,12 +118,13 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Transform & tm){
 
 		for (const Particle & p : em.particles) {
 			if (!p.active) continue;
+			if (p.time_in_life < em.data.begin_lifespan) continue;
 
 			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,
 				.texture = res,
 				.pos = p.position,
-				.angle = p.angle,
+				.angle = p.angle + transform_angle,
 				.scale = tm.scale,
 			});
 		}

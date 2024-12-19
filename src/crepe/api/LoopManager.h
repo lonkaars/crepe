@@ -71,9 +71,19 @@ private:
 private:
 	//! Global context
 	Mediator mediator;
+	/**
+	 * \brief Collection of System instances
+	 *
+	 * This map holds System instances indexed by the system's class typeid. It is filled in the
+	 * constructor of LoopManager using LoopManager::load_system.
+	 */
+	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
 
 	//! SDLContext instance
 	SDLContext sdl_context{mediator};
+	//! Resource manager instance
+	ResourceManager resource_manager{mediator};
+
 	//! Component manager instance
 	ComponentManager component_manager{mediator};
 	//! Scene manager instance
@@ -82,8 +92,6 @@ private:
 	LoopTimerManager loop_timer{mediator};
 	//! EventManager instance
 	EventManager event_manager{mediator};
-	//! Resource manager instance
-	ResourceManager resource_manager{mediator};
 	//! Save manager instance
 	SaveManager save_manager{mediator};
 
@@ -94,13 +102,6 @@ private:
 	 * This function sets the game_running variable to false, stopping the gameloop and therefor quitting the game.
 	 */
 	bool on_shutdown(const ShutDownEvent & e);
-	/**
-	 * \brief Collection of System instances
-	 *
-	 * This map holds System instances indexed by the system's class typeid. It is filled in the
-	 * constructor of LoopManager using LoopManager::load_system.
-	 */
-	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
 	/**
 	 * \brief Initialize a system
 	 * \tparam T System type (must be derivative of \c System)
