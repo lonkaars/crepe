@@ -1,4 +1,5 @@
 #include "ForestSubScene.h"
+#include "ForestParallaxScript.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/BehaviorScript.h>
@@ -10,37 +11,6 @@
 
 using namespace crepe;
 using namespace std;
-
-class ForestParallaxScript : public Script {
-public:
-	ForestParallaxScript(float begin_x, float end_x, std::string unique_bg_name)
-		: begin_x(begin_x),
-		  end_x(end_x),
-		  name(unique_bg_name) {}
-
-	void update() {
-		RefVector<Transform> vec_2
-			= this->get_components_by_name<Transform>("forest_bg_2_" + name);
-		RefVector<Transform> vec_3
-			= this->get_components_by_name<Transform>("forest_bg_3_" + name);
-
-		for (Transform & t : vec_2) {
-			if (t.position.x > end_x - 400) {
-				t.position.x = begin_x - 400;
-			}
-		}
-		for (Transform & t : vec_3) {
-			if (t.position.x > end_x - 400) {
-				t.position.x = begin_x - 400;
-			}
-		}
-	}
-
-private:
-	const float begin_x;
-	const float end_x;
-	const std::string name;
-};
 
 float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_name) {
 	GameObject script = scn.new_object("forest_script", "background");

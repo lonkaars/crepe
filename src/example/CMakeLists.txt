@@ -2,6 +2,7 @@ set(GAME_HEADERS
 	AquariumSubScene.h
 	BackgroundSubScene.h
 	ForestSubScene.h
+	ForestParallaxScript.h
 	HallwaySubScene.h
 	StartSubScene.h
 	GameScene.h
@@ -14,6 +15,7 @@ set(GAME_SOURCES
 	AquariumSubScene.cpp
 	BackgroundSubScene.cpp
 	ForestSubScene.cpp
+	ForestParallaxScript.cpp
 	HallwaySubScene.cpp
 	StartSubScene.cpp
 	GameScene.cpp
