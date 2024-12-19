@@ -21,7 +21,6 @@
 
 #include "RenderSystem.h"
 #include "types.h"
-#include "util/AbsoluutPosition.h"
 
 using namespace crepe;
 using namespace std;
@@ -124,7 +123,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Transform & tm){
 				.sprite = sprite,
 				.texture = res,
 				.pos = p.position,
-				.angle = p.angle + transform_angle,
+				.angle = p.angle + tm.rotation,
 				.scale = tm.scale,
 			});
 		}
