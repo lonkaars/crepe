@@ -43,7 +43,7 @@ protected:
 		auto & camera
 			= obj.add_component<Camera>(ivec2{500, 500}, vec2{500, 500},
 										Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-		render.update();
+		render.frame_update();
 		//mediator.event_manager = event_manager;
 		//mediator.component_manager = mgr;
 		//event_manager.clear();
@@ -91,7 +91,7 @@ TEST_F(InputTest, MouseDown) {
 	event.button.button = SDL_BUTTON_LEFT;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(mouse_triggered);
 }
@@ -115,7 +115,7 @@ TEST_F(InputTest, MouseUp) {
 	event.button.button = SDL_BUTTON_LEFT;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(function_triggered);
 }
@@ -141,7 +141,7 @@ TEST_F(InputTest, MouseMove) {
 	event.motion.yrel = 10;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(function_triggered);
 }
@@ -167,7 +167,7 @@ TEST_F(InputTest, KeyDown) {
 	test_event.key.repeat = 1; // Set repeat flag
 	SDL_PushEvent(&test_event);
 
-	input_system.update(); // Process the event
+	input_system.fixed_update(); // Process the event
 	event_manager.dispatch_events(); // Dispatch events to handlers
 
 	EXPECT_TRUE(function_triggered); // Check if the handler was triggered
@@ -188,7 +188,7 @@ TEST_F(InputTest, KeyUp) {
 	event.key.keysym.scancode = SDL_SCANCODE_B;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(function_triggered);
 }
@@ -205,7 +205,7 @@ TEST_F(InputTest, MouseClick) {
 	event_manager.subscribe<MouseClickEvent>(on_mouse_click);
 
 	this->simulate_mouse_click(250, 250, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(on_click_triggered);
 }
@@ -223,12 +223,12 @@ TEST_F(InputTest, testButtonClick) {
 	bool hover = false;
 	button.active = true;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button_clicked);
 
 	this->simulate_mouse_click(250, 250, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button_clicked);
 }
@@ -258,7 +258,7 @@ TEST_F(InputTest, testButtonHover) {
 	hover_event.motion.yrel = 10;
 	SDL_PushEvent(&hover_event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button.hover);
 	EXPECT_TRUE(button_hover);
@@ -272,7 +272,7 @@ TEST_F(InputTest, testButtonHover) {
 	event.motion.yrel = 10;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button.hover);
 	EXPECT_FALSE(button_hover);

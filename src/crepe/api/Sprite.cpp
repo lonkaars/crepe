@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "../util/Log.h"
+#include "../util/dbg.h"
 #include "api/Asset.h"
 
 #include "Component.h"

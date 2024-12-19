@@ -4,6 +4,7 @@
 #include "../api/Config.h"
 
 #include "Log.h"
+#include "LogColor.h"
 
 using namespace crepe;
 using namespace std;

@@ -21,13 +21,6 @@ class GameObject;
  * This class manages all components. It provides methods to add, delete and get components.
  */
 class ComponentManager : public Manager {
-	// TODO: This relation should be removed! I (loek) believe that the scene manager should
-	// create/destroy components because the GameObject's are stored in concrete Scene classes,
-	// which will in turn call GameObject's destructor, which will in turn call
-	// ComponentManager::delete_components_by_id or something. This is a pretty major change, so
-	// here is a comment and temporary fix instead :tada:
-	friend class SceneManager;
-
 public:
 	ComponentManager(Mediator & mediator);
 	~ComponentManager(); // dbg_trace
@@ -49,12 +42,7 @@ public:
 						  const vec2 & position = {0, 0}, double rotation = 0,
 						  double scale = 1);
 
-protected:
-	/**
-	 * GameObject is used as an interface to add/remove components, and the game programmer is
-	 * supposed to use it instead of interfacing with the component manager directly.
-	 */
-	friend class GameObject;
+public:
 	/**
 	 * \brief Add a component to the ComponentManager
 	 *
@@ -153,6 +141,40 @@ public:
 	 */
 	template <typename T>
 	RefVector<T> get_components_by_tag(const std::string & tag) const;
+
+	//! Snapshot of single component (including path in \c components)
+	struct SnapshotComponent {
+		//! \c components path
+		std::type_index type;
+		//! \c components path
+		game_object_id_t id;
+		//! \c components path
+		size_t index;
+		//! Actual component snapshot
+		std::unique_ptr<Component> component;
+	};
+	//! Snapshot of the entire component manager state
+	struct Snapshot {
+		//! All components
+		std::vector<SnapshotComponent> components;
+		// TODO: some kind of hash code that ensures components exist in all the same places as
+		// this snapshot
+	};
+	/**
+	 * \name ReplayManager (Memento) functions
+	 * \{
+	 */
+	/**
+	 * \brief Save a snapshot of the component manager state
+	 * \returns Deep copy of the component manager's internal state
+	 */
+	Snapshot save();
+	/**
+	 * \brief Restore component manager from a snapshot
+	 * \param snapshot Snapshot to restore from (as returned by \c save())
+	 */
+	void restore(const Snapshot & snapshot);
+	//! \}
 
 private:
 	/**

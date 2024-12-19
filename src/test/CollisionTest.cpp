@@ -108,7 +108,7 @@ public:
 		ASSERT_NE(script_object2_ref, nullptr);
 
 		// Ensure Script::init() is called on all BehaviorScript instances
-		script_sys.update();
+		script_sys.fixed_update();
 	}
 };
 
@@ -123,7 +123,7 @@ TEST_F(CollisionTest, collision_example) {
 		EXPECT_EQ(ev.info.this_collider.game_object_id, 2);
 	};
 	EXPECT_FALSE(collision_happend);
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_FALSE(collision_happend);
 }
 
@@ -146,7 +146,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_both_no_velocity) {
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
 	tf.position = {50, 30};
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }
 
@@ -171,7 +171,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_x_direction_no_velocity) {
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
 	tf.position = {45, 30};
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }
 
@@ -196,7 +196,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_y_direction_no_velocity) {
 	EXPECT_FALSE(collision_happend);
 	Transform & tf = this->mgr.get_components_by_id<Transform>(1).front().get();
 	tf.position = {50, 25};
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }
 
@@ -223,7 +223,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_both) {
 	rg1.data.linear_velocity = {10, 10};
 	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
 	rg2.data.linear_velocity = {10, 10};
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }
 
@@ -252,7 +252,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_x_direction) {
 	rg1.data.linear_velocity = {10, 10};
 	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
 	rg2.data.linear_velocity = {10, 10};
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }
 
@@ -281,7 +281,7 @@ TEST_F(CollisionTest, collision_box_box_dynamic_y_direction) {
 	rg1.data.linear_velocity = {10, 10};
 	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
 	rg2.data.linear_velocity = {10, 10};
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }
 
@@ -303,7 +303,7 @@ TEST_F(CollisionTest, collision_box_box_static_both) {
 	tf.position = {50, 30};
 	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
 	rg2.data.body_type = crepe::Rigidbody::BodyType::STATIC;
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }
 
@@ -328,7 +328,7 @@ TEST_F(CollisionTest, collision_box_box_static_x_direction) {
 	rg1.data.linear_velocity = {10, 10};
 	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
 	rg2.data.body_type = crepe::Rigidbody::BodyType::STATIC;
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }
 
@@ -353,7 +353,7 @@ TEST_F(CollisionTest, collision_box_box_static_y_direction) {
 	rg1.data.linear_velocity = {10, 10};
 	Rigidbody & rg2 = this->mgr.get_components_by_id<Rigidbody>(2).front().get();
 	rg2.data.body_type = crepe::Rigidbody::BodyType::STATIC;
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }
 
@@ -383,10 +383,10 @@ TEST_F(CollisionTest, collision_box_box_static_multiple) { //todo check visually
 	this->game_object1.add_component<BoxCollider>(vec2{-5, 0}, vec2{10, 10});
 	offset_value = 5;
 	resolution = 10;
-	collision_sys.update();
+	collision_sys.fixed_update();
 	offset_value = -5;
 	resolution = 10;
 	tf.position = {55, 30};
-	collision_sys.update();
+	collision_sys.fixed_update();
 	EXPECT_TRUE(collision_happend);
 }

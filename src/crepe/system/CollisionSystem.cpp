@@ -23,7 +23,7 @@
 
 using namespace crepe;
 
-void CollisionSystem::update() {
+void CollisionSystem::fixed_update() {
 	std::vector<CollisionInternal> all_colliders;
 	game_object_id_t id = 0;
 	ComponentManager & mgr = this->mediator.component_manager;
