@@ -3,8 +3,9 @@
 
 #include <string>
 
-#include "api/KeyCodes.h"
 #include "types.h"
+
+#include "KeyCodes.h"
 
 namespace crepe {
 
@@ -92,15 +93,6 @@ public:
 	int scroll_direction = 0;
 	//! scroll amount in y axis (from and away from the person).
 	float scroll_delta = 0;
-};
-
-/**
- * \brief Event triggered when text is submitted, e.g., from a text input.
- */
-class TextSubmitEvent : public Event {
-public:
-	//! The submitted text.
-	std::string text = "";
 };
 
 /**
