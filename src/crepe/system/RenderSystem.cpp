@@ -16,6 +16,7 @@
 #include "../facade/Texture.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/ResourceManager.h"
+#include "util/AbsolutePosition.h"
 
 #include "RenderSystem.h"
 #include "types.h"
@@ -108,11 +109,11 @@ void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 	SDLContext & ctx = this->mediator.sdl_context;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 	const Texture & res = resource_manager.get<Texture>(sprite.source);
-
+	vec2 pos = AbsolutePosition::get_position(tm, sprite.data.position_offset);
 	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
 		.texture = res,
-		.pos = tm.position,
+		.pos = pos,
 		.angle = tm.rotation,
 		.scale = tm.scale,
 	});
