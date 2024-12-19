@@ -319,11 +319,14 @@ vec2 CollisionSystem::get_box_circle_detection(const BoxColliderInternal & box,
 			= std::sqrt(closest_delta.x * closest_delta.x + closest_delta.y * closest_delta.y);
 		vec2 collision_normal = closest_delta / distance;
 
-			// Compute the resolution vector
-			return vec2{collision_normal * penetration_depth};
-		}
-    // No collision
-    return vec2{NAN, NAN};;
+		// Compute penetration depth
+		float penetration_depth = scaled_circle_radius - distance;
+
+		// Compute the resolution vector
+		return vec2{collision_normal * penetration_depth};
+	}
+	// No collision
+	return vec2{NAN, NAN};
 }
 
 vec2 CollisionSystem::get_circle_circle_detection(
