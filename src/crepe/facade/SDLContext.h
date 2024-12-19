@@ -12,18 +12,21 @@
 #include <unordered_map>
 
 #include "../types.h"
+#include "EventData.h"
 #include "api/Camera.h"
 #include "api/Color.h"
 #include "api/KeyCodes.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
-#include "types.h"
 
 #include "EventData.h"
 #include "FontFacade.h"
+#include "types.h"
 
 namespace crepe {
 class Texture;
+class Text;
+class Font;
 class Mediator;
 
 /**
@@ -71,12 +74,11 @@ public:
 		const double & scale;
 	};
 
-public:
-	/**
-	 * \brief Gets the singleton instance of SDLContext.
-	 * \return Reference to the SDLContext instance.
-	 */
-	static SDLContext & get_instance();
+	struct RenderText {
+		const Text & text;
+		const Font & font;
+		const Transform & transform;
+	};
 
 public:
 	SDLContext(const SDLContext &) = delete;
@@ -185,6 +187,13 @@ public:
 	 * \param RenderContext Reference to rendering data to draw
 	 */
 	void draw(const RenderContext & ctx);
+
+	/**
+	 * \brief draws a text to the screen 
+	 *
+	 * \param data Reference to the rendering data needed to draw
+	 */
+	void draw_text(const RenderText & data);
 
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
