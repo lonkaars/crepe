@@ -227,7 +227,7 @@ public:
 			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
-			.elastisity_coefficient = 1,
+			.elasticity_coefficient = 1,
 		});
 		// add box with boxcollider
 		game_object1.add_component<BoxCollider>(vec2{20, 20});
@@ -260,7 +260,7 @@ public:
 			.body_type = Rigidbody::BodyType::STATIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
-			.elastisity_coefficient = 1,
+			.elasticity_coefficient = 1,
 		});
 		// add box with boxcollider
 		game_object2.add_component<BoxCollider>(vec2{20, 20});

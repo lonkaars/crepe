@@ -74,7 +74,7 @@ private:
 	/**
 		* \brief A structure to store the collision data of a single collider.
 		*
-		* This structure all components and id that are for needed within this system when calculating or handeling collisions.
+		* This structure all components and id that are for needed within this system when calculating or handling collisions.
 		* The transform and rigidbody are mostly needed for location and rotation.
 		* In rigidbody additional info is written about what the body of the object is,
 		* and how it should respond on a collision.
@@ -160,7 +160,7 @@ private:
 	/**
 		* \brief Calls both collision script
 		*
-		* Calls both collision script to let user add additonal handeling or handle full collision.
+		* Calls both collision script to let user add additonal handling or handle full collision.
 		*
 		* \param info Collision information containing data about both colliders.
 		*/
@@ -218,7 +218,7 @@ private:
 	 * \param other_rigidbody Rigidbody of second collider
 	 * \param this_metadata Rigidbody of first object
 	 * \param other_metadata Rigidbody of second object
-	 * \return Returns true if there is at least one comparision found.
+	 * \return Returns true if there is at least one comparison found.
 	 */
 	bool should_collide(const CollisionInternal & self, const CollisionInternal & other) const; //done
 

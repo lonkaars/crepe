@@ -242,7 +242,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 	// For the 'other' collider, the resolution is the opposite direction of 'self'
 	other.resolution = -self.resolution;
 	other.resolution_direction = self.resolution_direction;
-	
+
 	// Return true if a collision was detected and resolution was calculated
 	return true;
 }
@@ -402,8 +402,6 @@ CollisionSystem::Direction CollisionSystem::resolution_correction(vec2 & resolut
 
 CollisionSystem::CollisionInfo CollisionSystem::get_collision_info(const CollisionInternal & in_self, const CollisionInternal & in_other) const{
 
-	ComponentManager & mgr = this->mediator.component_manager;
-
 	crepe::CollisionSystem::ColliderInfo self {
 	.transform = in_self.info.transform,
 	.rigidbody = in_self.info.rigidbody,
@@ -470,7 +468,7 @@ void CollisionSystem::determine_collision_handler(const CollisionInfo & info) {
 void CollisionSystem::static_collision_handler(const CollisionInfo & info) {
 	
 	vec2 & transform_pos = info.self.transform.position;
-	float elastisity = info.self.rigidbody.data.elastisity_coefficient;
+	float elasticity = info.self.rigidbody.data.elasticity_coefficient;
 	vec2 & rigidbody_vel = info.self.rigidbody.data.linear_velocity;
 	
 	// Move object back using calculate move back value
@@ -479,8 +477,8 @@ void CollisionSystem::static_collision_handler(const CollisionInfo & info) {
 	switch (info.resolution_direction) {
 		case Direction::BOTH:
 			//bounce
-			if (elastisity > 0) {
-				rigidbody_vel = -rigidbody_vel * elastisity;
+			if (elasticity > 0) {
+				rigidbody_vel = -rigidbody_vel * elasticity;
 			}
 			//stop movement
 			else {
@@ -489,8 +487,8 @@ void CollisionSystem::static_collision_handler(const CollisionInfo & info) {
 			break;
 		case Direction::Y_DIRECTION:
 			// Bounce
-			if (elastisity > 0) {
-				rigidbody_vel.y = -rigidbody_vel.y * elastisity;
+			if (elasticity > 0) {
+				rigidbody_vel.y = -rigidbody_vel.y * elasticity;
 			}
 			// Stop movement
 			else {
@@ -500,8 +498,8 @@ void CollisionSystem::static_collision_handler(const CollisionInfo & info) {
 			break;
 		case Direction::X_DIRECTION:
 			// Bounce
-			if (elastisity > 0) {
-				rigidbody_vel.x = -rigidbody_vel.x * elastisity;
+			if (elasticity > 0) {
+				rigidbody_vel.x = -rigidbody_vel.x * elasticity;
 			}
 			// Stop movement
 			else {
@@ -519,8 +517,8 @@ void CollisionSystem::dynamic_collision_handler(const CollisionInfo & info) {
 
 	vec2 & self_transform_pos = info.self.transform.position;
 	vec2 & other_transform_pos = info.other.transform.position;
-	float self_elastisity = info.self.rigidbody.data.elastisity_coefficient;
-	float other_elastisity = info.other.rigidbody.data.elastisity_coefficient;
+	float self_elasticity = info.self.rigidbody.data.elasticity_coefficient;
+	float other_elasticity = info.other.rigidbody.data.elasticity_coefficient;
 	vec2 & self_rigidbody_vel = info.self.rigidbody.data.linear_velocity;
 	vec2 & other_rigidbody_vel = info.other.rigidbody.data.linear_velocity;
 
@@ -529,21 +527,21 @@ void CollisionSystem::dynamic_collision_handler(const CollisionInfo & info) {
 
 	switch (info.resolution_direction) {
 		case Direction::BOTH:
-			if (self_elastisity > 0) {
-				self_rigidbody_vel = -self_rigidbody_vel * self_elastisity;
+			if (self_elasticity > 0) {
+				self_rigidbody_vel = -self_rigidbody_vel * self_elasticity;
 			} else {
 				self_rigidbody_vel = {0, 0};
 			}
 
-			if (other_elastisity > 0) {
-				other_rigidbody_vel = -other_rigidbody_vel * other_elastisity;
+			if (other_elasticity > 0) {
+				other_rigidbody_vel = -other_rigidbody_vel * other_elasticity;
 			} else {
 				other_rigidbody_vel = {0, 0};
 			}
 			break;
 		case Direction::Y_DIRECTION:
-			if (self_elastisity > 0) {
-				self_rigidbody_vel.y = -self_rigidbody_vel.y * self_elastisity;
+			if (self_elasticity > 0) {
+				self_rigidbody_vel.y = -self_rigidbody_vel.y * self_elasticity;
 			}
 			// Stop movement
 			else {
@@ -551,8 +549,8 @@ void CollisionSystem::dynamic_collision_handler(const CollisionInfo & info) {
 				self_transform_pos.x -= info.resolution.x;
 			}
 
-			if (other_elastisity > 0) {
-				other_rigidbody_vel.y = -other_rigidbody_vel.y * other_elastisity;
+			if (other_elasticity > 0) {
+				other_rigidbody_vel.y = -other_rigidbody_vel.y * other_elasticity;
 			}
 			// Stop movement
 			else {
@@ -561,8 +559,8 @@ void CollisionSystem::dynamic_collision_handler(const CollisionInfo & info) {
 			}
 			break;
 		case Direction::X_DIRECTION:
-			if (self_elastisity > 0) {
-				self_rigidbody_vel.x = -self_rigidbody_vel.x * self_elastisity;
+			if (self_elasticity > 0) {
+				self_rigidbody_vel.x = -self_rigidbody_vel.x * self_elasticity;
 			}
 			// Stop movement
 			else {
@@ -570,8 +568,8 @@ void CollisionSystem::dynamic_collision_handler(const CollisionInfo & info) {
 				self_transform_pos.y -= info.resolution.y;
 			}
 
-			if (other_elastisity > 0) {
-				other_rigidbody_vel.x = -other_rigidbody_vel.x * other_elastisity;
+			if (other_elasticity > 0) {
+				other_rigidbody_vel.x = -other_rigidbody_vel.x * other_elasticity;
 			}
 			// Stop movement
 			else {

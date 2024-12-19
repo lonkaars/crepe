@@ -75,8 +75,7 @@ class MyScript1 : public Script {
 				}
 
 				break;
-			}
-			case Keycode::Q: {
+			}case Keycode::Q: {
 				if(movement){
 					movement = false; 
 					Rigidbody & tf = this->get_component<Rigidbody>();
@@ -136,7 +135,7 @@ public:
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.gravity_scale = 0,
 			.body_type = Rigidbody::BodyType::KINEMATIC,
-			.elastisity_coefficient = 1,
+			.elasticity_coefficient = 1,
 		});
 		// add box with boxcollider
 		game_object1.add_component<BoxCollider>(vec2{20, 20});
