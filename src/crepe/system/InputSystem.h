@@ -3,6 +3,8 @@
 #include "../api/Config.h"
 #include "../facade/EventData.h"
 
+#include "../api/Event.h"
+#include "../api/Metadata.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
 
@@ -13,6 +15,37 @@ namespace crepe {
 class Camera;
 class Button;
 class Transform;
+//! Event triggered when a button is clicked
+class ButtonPressEvent : public Event {
+public:
+	//! Metadata of the button.
+	const Metadata & metadata;
+	/**
+	 * \param metadata Metadata of the button pressed
+	 */
+	ButtonPressEvent(const Metadata & metadata) : metadata(metadata){};
+};
+//! Event triggered when the mouse enters a button
+class ButtonEnterEvent : public Event {
+public:
+	//! Metadata of the button.
+	const Metadata & metadata;
+	/**
+	 * \param metadata Metadata of the button pressed
+	 */
+	ButtonEnterEvent(const Metadata & metadata) : metadata(metadata){};
+};
+//! Event triggered when the mouse leaves a button
+class ButtonExitEvent : public Event {
+public:
+	//! Metadata of the button.
+	const Metadata & metadata;
+	/**
+	 * \param metadata Metadata of the button pressed
+	 */
+	ButtonExitEvent(const Metadata & metadata) : metadata(metadata){};
+};
+
 /**
  * \brief Handles the processing of input events created by SDLContext
  *
