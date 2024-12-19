@@ -250,6 +250,7 @@ vec2 CollisionSystem::get_box_box_detection(const BoxColliderInternal & box1, co
 			&& pos1.y + half_height1 > pos2.y - half_height2
 			&& pos1.y - half_height1 < pos2.y + half_height2)
 	{
+		resolution = {0,0};
 		float overlap_x = (half_width1 + half_width2) - std::abs(delta.x);
 		float overlap_y = (half_height1 + half_height2) - std::abs(delta.y);
 		if (overlap_x > 0 && overlap_y > 0) {
@@ -404,7 +405,6 @@ CollisionSystem::CollisionInfo CollisionSystem::get_collision_info(const Collisi
 	return collision_info;
 }
 
-// Below is for collision handling
 void CollisionSystem::determine_collision_handler(const CollisionInfo & info) {
 	Rigidbody::BodyType self_type =	info.self.rigidbody.data.body_type;
 	Rigidbody::BodyType other_type =	info.other.rigidbody.data.body_type;
@@ -425,7 +425,7 @@ void CollisionSystem::determine_collision_handler(const CollisionInfo & info) {
 		// Handle collision 
 		if (static_collision || kinematic_collision) this->static_collision_handler(inverted);
 		// Call scripts
-		this->call_collision_events(inverted, info);
+		this->call_collision_events(inverted);
 		return;
 	}
 
@@ -436,7 +436,7 @@ void CollisionSystem::determine_collision_handler(const CollisionInfo & info) {
 		// Handle collision 
 		if (static_collision || kinematic_collision) this->static_collision_handler(info);
 		// Call scripts
-		this->call_collision_events(info, inverted);
+		this->call_collision_events(info);
 		return;
 	}
 
@@ -444,7 +444,7 @@ void CollisionSystem::determine_collision_handler(const CollisionInfo & info) {
 	// Handle collision 
 	this->dynamic_collision_handler(info);
 	// Call scripts
-	this->call_collision_events(info, inverted);
+	this->call_collision_events(info);
 }
 
 void CollisionSystem::static_collision_handler(const CollisionInfo & info) {
@@ -565,14 +565,13 @@ void CollisionSystem::dynamic_collision_handler(const CollisionInfo & info) {
 	}
 }
 
-void CollisionSystem::call_collision_events(const CollisionInfo & info,
-											const CollisionInfo & info_inverted) {
+void CollisionSystem::call_collision_events(const CollisionInfo & info) {
 	CollisionEvent data(info);
-	CollisionEvent data_inverted(info_inverted);
+	CollisionEvent data_inverted(-info);
 	EventManager & emgr = this->mediator.event_manager;
 	emgr.trigger_event<CollisionEvent>(data, info.self.transform.game_object_id);
 	emgr.trigger_event<CollisionEvent>(data_inverted,
-									   info_inverted.self.transform.game_object_id);
+									   -info.self.transform.game_object_id);
 }
 
 
