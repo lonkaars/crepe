@@ -16,9 +16,9 @@
 #include "../facade/Texture.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/ResourceManager.h"
-#include "util/AbsolutePosition.h"
 #include "api/Text.h"
 #include "facade/Font.h"
+#include "util/AbsolutePosition.h"
 
 #include "RenderSystem.h"
 #include "types.h"

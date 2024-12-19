@@ -25,7 +25,6 @@ using namespace std::chrono_literals;
 using namespace crepe;
 using namespace testing;
 
-
 class CollisionHandler : public Script {
 public:
 	int box_id;
