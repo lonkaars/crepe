@@ -168,7 +168,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self, CollisionIntern
 			// Get resolution vector from box-box collision detection
 			resolution = this->get_box_box_detection(BOX1, BOX2);
 			// If no collision (NaN values), return false
-			if(resolution.is_nan()) return false;
+			if (resolution.is_nan()) return false;
 			break;
 		}
 		case CollisionInternalType::BOX_CIRCLE: {
@@ -184,7 +184,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self, CollisionIntern
 			// Get resolution vector from box-circle collision detection
 			resolution = this->get_box_circle_detection(BOX1, CIRCLE2);
 			// If no collision (NaN values), return false
-			if(resolution.is_nan()) return false;
+			if (resolution.is_nan()) return false;
 			// Invert the resolution vector for proper collision response
 			resolution = -resolution;
 			break;
@@ -202,7 +202,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self, CollisionIntern
 			// Get resolution vector from circle-circle collision detection
 			resolution = this->get_circle_circle_detection(CIRCLE1, CIRCLE2);
 			// If no collision (NaN values), return false
-			if(resolution.is_nan()) return false;
+			if (resolution.is_nan()) return false;
 			break;
 		}
 		case CollisionInternalType::CIRCLE_BOX: {
@@ -218,7 +218,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self, CollisionIntern
 			// Get resolution vector from box-circle collision detection (order swapped)
 			resolution = this->get_box_circle_detection(BOX2, CIRCLE1);
 			// If no collision (NaN values), return false
-			if(resolution.is_nan()) return false;
+			if (resolution.is_nan()) return false;
 			break;
 		}
 		case CollisionInternalType::NONE:
@@ -239,7 +239,8 @@ bool CollisionSystem::detect_collision(CollisionInternal & self, CollisionIntern
 	return true;
 }
 
-vec2 CollisionSystem::get_box_box_detection(const BoxColliderInternal & box1, const BoxColliderInternal & box2) const {
+vec2 CollisionSystem::get_box_box_detection(const BoxColliderInternal & box1,
+											const BoxColliderInternal & box2) const {
 	vec2 resolution{NAN, NAN};
 	// Get current positions of colliders
 	vec2 pos1 = AbsolutePosition::get_position(box1.transform, box1.collider.offset);
@@ -370,7 +371,8 @@ vec2 CollisionSystem::get_circle_circle_detection(
 		return resolution;
 	}
 	// No collision
-	return vec2{NAN, NAN};;
+	return vec2{NAN, NAN};
+	;
 }
 
 CollisionSystem::Direction
