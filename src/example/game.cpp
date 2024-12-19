@@ -197,7 +197,7 @@ public:
 		world.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 0,
-			.body_type = Rigidbody::BodyType::STATIC,
+			.body_type = Rigidbody::BodyType::DYNAMIC,
 		});
 		world.add_component<BoxCollider>(
 			vec2{world_collider, world_collider},
@@ -224,7 +224,7 @@ public:
 		game_object1.add_component<Rigidbody>(Rigidbody::Data{
 			.mass = 1,
 			.gravity_scale = 0,
-			.body_type = Rigidbody::BodyType::STATIC,
+			.body_type = Rigidbody::BodyType::DYNAMIC,
 			.linear_velocity = {0, 0},
 			.constraints = {0, 0, 0},
 			.elastisity_coefficient = 1,
@@ -283,20 +283,20 @@ public:
 								   })
 			.active
 			= false;
-		Asset img5{"asset/texture/test_ap43.png"};
+		Asset img5{"asset/texture/square.png"};
 
 		GameObject particle = new_object(
 			"Name", "Tag", vec2{screen_size_width / 2, screen_size_height / 2}, 90, 1);
 		auto & particle_image = particle.add_component<Sprite>(img5, Sprite::Data{
-																		 .size = {20, 20},
+																		 .size = {5, 5},
 																		 .angle_offset = 45,
-																		 .scale_offset = 2,
+																		 .scale_offset = 1,
 																	 });
 		auto & test
 			= particle.add_component<ParticleEmitter>(particle_image, ParticleEmitter::Data{
 																		  .offset = {0, 0},
 																		  .max_particles = 256,
-																		  .emission_rate = 1,
+																		  .emission_rate = 4,
 																		  .min_speed = 10,
 																		  .max_speed = 20,
 																		  .min_angle = -20,
@@ -304,6 +304,9 @@ public:
 																		  .begin_lifespan = 0,
 																		  .end_lifespan = 5,
 																	  });
+		particle.add_component<Rigidbody>(Rigidbody::Data{
+			.angular_velocity = 20,
+		});
 	}
 
 	string get_name() const { return "scene1"; }

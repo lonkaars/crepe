@@ -167,7 +167,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 				.rigidbody = other.info.rigidbody
 			};
 			resolution = this->get_box_box_detection(BOX1, BOX2);
-			if(resolution == vec2{-1,-1}) return false;
+			if(std::isnan(resolution.x) && std::isnan(resolution.y)) return false;
 			break;
 			
 		}
@@ -183,7 +183,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 				.rigidbody = other.info.rigidbody
 			};
 			resolution = this->get_box_circle_detection(BOX1, CIRCLE2);
-			if(resolution == vec2{-1,-1}) return false;
+			if(std::isnan(resolution.x) && std::isnan(resolution.y)) return false;
 			resolution = -resolution;
 			break;
 		}
@@ -199,7 +199,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 				.rigidbody = other.info.rigidbody
 			};
 			resolution = this->get_circle_circle_detection(CIRCLE1,CIRCLE2);
-			if(resolution == vec2{-1,-1}) return false;
+			if(std::isnan(resolution.x) && std::isnan(resolution.y)) return false;
 			break;
 		}
 		case CollisionInternalType::CIRCLE_BOX: { 
@@ -214,7 +214,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 				.rigidbody = other.info.rigidbody
 			};
 			resolution = this->get_box_circle_detection(BOX2, CIRCLE1);
-			if(resolution == vec2{-1,-1}) return false;
+			if(std::isnan(resolution.x) && std::isnan(resolution.y)) return false;
 			break;
 		}
 		case CollisionInternalType::NONE:
@@ -228,7 +228,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 }
 
 vec2 CollisionSystem::get_box_box_detection(const BoxColliderInternal & box1, const BoxColliderInternal & box2) const {
-	vec2 resolution;
+	vec2 resolution{std::nanf(""), std::nanf("")};
 	// Get current positions of colliders
 	vec2 pos1  = AbsolutePosition::get_position(box1.transform, box1.collider.offset);
 	vec2 pos2  = AbsolutePosition::get_position(box2.transform, box2.collider.offset);
@@ -266,9 +266,8 @@ vec2 CollisionSystem::get_box_box_detection(const BoxColliderInternal & box1, co
 			resolution.y = (delta.y > 0) ? -overlap_y : overlap_y;
 		}
 	}
-	return resolution;
 	}
-    return vec2{-1,-1};
+	return resolution;
 }
 
 vec2 CollisionSystem::get_box_circle_detection(const BoxColliderInternal & box, const CircleColliderInternal & circle) const {
@@ -312,7 +311,7 @@ vec2 CollisionSystem::get_box_circle_detection(const BoxColliderInternal & box, 
 			return vec2{collision_normal * penetration_depth};
 		}
     // No collision
-    return vec2{-1,-1};
+    return vec2{std::nanf(""), std::nanf("")};
 }
 
 vec2 CollisionSystem::get_circle_circle_detection(const CircleColliderInternal & circle1, const CircleColliderInternal & circle2) const {
@@ -353,7 +352,7 @@ vec2 CollisionSystem::get_circle_circle_detection(const CircleColliderInternal &
 		return resolution;
 	}
 	// No collision
-	return vec2{-1,-1};    
+	return vec2{std::nanf(""), std::nanf("")};
 }
 
 CollisionSystem::Direction CollisionSystem::resolution_correction(vec2 & resolution,const Rigidbody::Data & rigidbody) {

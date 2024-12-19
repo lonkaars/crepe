@@ -31,7 +31,7 @@ private:
 		//! Movement in the Y direction.
 		Y_DIRECTION,
 		//! Movement in both X and Y directions.
-		BOTH
+		BOTH,
 	};
 public:
 	
@@ -87,19 +87,17 @@ private:
 		Direction resolution_direction = Direction::NONE;
 	};
 
-	//! Structure of collider with addtitional components
-	struct BoxColliderInternal {
-		BoxCollider & collider;
-		Transform & transform;
-		Rigidbody & rigidbody;
+	//! Structure of a collider with additional components
+	template <typename ColliderType>
+	struct ColliderInternal {
+			ColliderType& collider;
+			Transform& transform;
+			Rigidbody& rigidbody;
 	};
-
-	//! Structure of collider with addtitional components
-	struct CircleColliderInternal {
-		CircleCollider & collider;
-		Transform & transform;
-		Rigidbody & rigidbody;
-	};
+	//! Predefined BoxColliderInternal. (System is only made for this type)
+	using BoxColliderInternal = ColliderInternal<BoxCollider>;
+	//! Predefined CircleColliderInternal. (System is only made for this type)
+	using CircleColliderInternal = ColliderInternal<CircleCollider>;
 
 public:
 	//! Updates the collision system by checking for collisions between colliders and handling them.
@@ -119,9 +117,11 @@ private:
 
 private:
 	/**
-		* \brief Handles collision resolution between two colliders.
+		* \brief Converts internal collision data into user-accessible collision information.
 		*
-		* Processes collision data and adjusts objects to resolve collisions and/or calls the user oncollision script function.
+		* This function processes collision data from two colliding entities and packages it
+ 		* into a structured format that is accessible for further use,
+ 		* such as resolving collisions and triggering user-defined collision scripts.
 		*
 		* \param data1 Collision data for the first collider.
 		* \param data2 Collision data for the second collider.
@@ -130,14 +130,17 @@ private:
 
 
 	/**
-		* \brief Corrects the resolution of the collision
+		* \brief Corrects the collision resolution vector and determines its direction.
 		*
-		* This function corrects the resolution by fixing the x or y if it is empty.
-		* Besides this with the input of the resolution the direction is saved before correction.
+		* This function adjusts the provided resolution vector based on the 
+		* rigidbody's linear velocity to ensure consistent collision correction. If the resolution 
+		* vector has only one non-zero component (either x or y), the missing component is computed 
+		* based on the rigidbody's velocity. If both components are non-zero, it indicates a corner 
+		* collision. The function also identifies the direction of the resolution and returns it.
 		*
 		* \param resolution resolution vector that needs to be corrected
 		* \param rigidbody rigidbody data used to correct resolution
-		* \return Direction of resolution
+		* \return A Direction indicating the resolution direction
 		*/
 	Direction resolution_correction(vec2 & resolution,const Rigidbody::Data & rigidbody);
 
