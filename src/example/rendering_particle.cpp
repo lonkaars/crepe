@@ -39,6 +39,8 @@ public:
 					 .angle_offset = 0,
 					 .position_offset = {0, 1},
 				 });
+		auto & emitter
+			= game_object.add_component<ParticleEmitter>(test_sprite, ParticleEmitter::Data{});
 
 		Sprite & test_sprite1
 			= game_object.add_component<Sprite>(img, Sprite::Data{
