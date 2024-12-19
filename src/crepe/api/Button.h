@@ -2,11 +2,23 @@
 
 #include <functional>
 
+#include "Event.h"
 #include "UIObject.h"
 
 namespace crepe {
 
-//! Represents a clickable UI button, derived from the UiObject class.
+/**
+ * \brief Button component.
+ * 
+ * This component creates a clickable surface at the transform location with the specified width and height.
+ * 
+ * The Button can be used in scripts by subscribing a EventHandler to the following events:
+ * - ButtonPressEvent
+ * - ButtonEnterEvent
+ * - ButtonExitEvent
+ * \see EventManager
+ * 
+ */
 class Button : public UIObject {
 public:
 	/**
@@ -15,43 +27,22 @@ public:
 	 * \param id The unique ID of the game object associated with this button.
 	 * \param dimensions The width and height of the UIObject
 	 * \param offset The offset relative this GameObjects Transform
-	 * \param on_click callback function that will be invoked when the button is clicked.
 	 */
-	Button(game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
-		   const std::function<void()> & on_click);
-
-	// TODO: create separate toggle button class
+	Button(game_object_id_t id, const vec2 & dimensions, const vec2 & offset);
 	/**
-	 * \brief The callback function to be executed when the button is clicked.
+	 * \brief Get the maximum number of instances for this component
 	 *
-	 * This function is invoked whenever the button is clicked. It can be set to any
-	 * function that matches the signature `void()`.
+	 * Since the button Event transfers the GameObject Metadata it will be the same for each button so only one button is allowed per GameObject	
+	 * 
+	 * \return 1
 	 */
-	std::function<void()> on_click = nullptr;
-
-	/**
-	 * \brief Callback function to be executed when the mouse enters the button's boundaries.
-	 *
-	 * This function is triggered when the mouse cursor moves over the button, allowing
-	 * custom actions like visual effects, highlighting, or sound effects.
-	 */
-	std::function<void()> on_mouse_enter = nullptr;
-
-	/**
-	 * \brief Callback function to be executed when the mouse exits the button's boundaries.
-	 *
-	 * This function is triggered when the mouse cursor moves out of the button's area,
-	 * allowing custom actions like resetting visual effects or playing exit-related effects.
-	 */
-	std::function<void()> on_mouse_exit = nullptr;
+	virtual int get_instances_max() const { return 1; }
 
 private:
-	//! friend relation for is_pressed and hover variables
+	//! friend relation hover variable
 	friend class InputSystem;
 	//! Indicates whether the mouse is currently hovering over the button
 	bool hover = false;
-
-public:
 };
 
 } // namespace crepe
