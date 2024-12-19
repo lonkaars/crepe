@@ -99,7 +99,7 @@ void RenderSystem::render_text() {
 	}
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const Transform & tm) {
+bool RenderSystem::render_particle(const Sprite & sprite, const Transform & transform) {
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
@@ -123,14 +123,14 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Transform & tm) 
 				.sprite = sprite,
 				.texture = res,
 				.pos = p.position,
-				.angle = p.angle + tm.rotation,
-				.scale = tm.scale,
+				.angle = p.angle + transform.rotation,
+				.scale = transform.scale,
 			});
 		}
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
+void RenderSystem::render_normal(const Sprite & sprite, const Transform & transform) {
 	SDLContext & ctx = this->mediator.sdl_context;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 	const Texture & res = resource_manager.get<Texture>(sprite.source);
@@ -138,9 +138,9 @@ void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
 		.texture = res,
-		.pos = tm.position,
-		.angle = tm.rotation,
-		.scale = tm.scale,
+		.pos = transform.position,
+		.angle = transform.rotation,
+		.scale = transform.scale,
 	});
 }
 
