@@ -12,7 +12,6 @@
 #include <cmath>
 #include <cstddef>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 
@@ -162,14 +161,6 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 			  - size / 2 + cam_aux_data.bar_size;
 	}
 
-	cout << "HALLO" << endl;
-	cout << screen_pos.x << " " << screen_pos.y << endl;
-	cout << data.position_offset.x << " " << data.position_offset.y << endl;
-	cout << ctx.pos.x << " " << ctx.pos.y << endl;
-	cout << size.x << " " << size.y << endl;
-	cout << cam_aux_data.render_scale.x << " " << cam_aux_data.render_scale.y << endl;
-	cout << cam_aux_data.bar_size.x << " " << cam_aux_data.bar_size.y << endl;
-
 	return SDL_FRect{
 		.x = screen_pos.x,
 		.y = screen_pos.y,
@@ -202,8 +193,6 @@ void SDLContext::draw(const RenderContext & ctx) {
 	});
 
 	double angle = ctx.angle + data.angle_offset;
-
-	cout << dstrect.x << " " << dstrect.y << " " << dstrect.w << " " << dstrect.h << endl;
 
 	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
 	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect_ptr, &dstrect,
