@@ -146,9 +146,12 @@ private:
 
 
 	/**
-		* \brief Determines the appropriate collision handler for a collision.
+		* \brief Determines the appropriate collision handler for a given collision event.
 		*
-		* Decides the correct resolution process based on the dynamic or static nature of the colliders involved.
+		* This function identifies the correct collision resolution process based on the body types 
+		* of the colliders involved in the collision. It delegates 
+		* collision handling to specific handlers and calls collision event scripts 
+		* as needed.
 		*
 		* \param info Collision information containing data about both colliders.
 		*/
@@ -160,14 +163,20 @@ private:
 		* Calls both collision script to let user add additonal handeling or handle full collision.
 		*
 		* \param info Collision information containing data about both colliders.
-		* \param info_inverted Collision information containing data about both colliders in opposite order.
 		*/
-	void call_collision_events(const CollisionInfo & info, const CollisionInfo & info_inverted);
+	void call_collision_events(const CollisionInfo & info);
 
 	/**
 		* \brief Handles collisions involving static objects.
 		*
-		* Resolves collisions by adjusting positions and modifying velocities if bounce is enabled.
+		* This function resolves collisions between static and dynamic objects by adjusting 
+		* the position of the static object and modifying the velocity of the dynamic object 
+		* if elasticity is enabled. The position of the static object is corrected 
+		* based on the collision resolution, and the dynamic object's velocity is adjusted 
+ 		* accordingly to reflect the collision response.
+		*
+		* The handling includes stopping movement, applying bouncing based on the elasticity 
+ 		* coefficient, and adjusting the position of the dynamic object if needed.
 		*
 		* \param info Collision information containing data about both colliders.
 		*/
@@ -176,7 +185,10 @@ private:
 	/**
 		* \brief Handles collisions involving dynamic objects.
 		*
-		* Resolves collisions by adjusting positions and modifying velocities if bounce is enabled.
+		* Resolves collisions between two dynamic objects by adjusting their positions and modifying 
+		* their velocities based on the collision resolution. If elasticity is enabled, 
+		* the velocity of both objects is reversed and scaled by the respective elasticity coefficient. 
+		* The positions of the objects are adjusted based on the collision resolution.
 		*
 		* \param info Collision information containing data about both colliders.
 		*/
@@ -186,7 +198,8 @@ private:
 	/**
 		* \brief Checks for collisions between colliders.
 		*
-		* Identifies collisions and generates pairs of colliding objects for further processing.
+		* This function checks all active colliders and identifies pairs of colliding objects.
+ 		* For each identified collision, the appropriate collision data is returned as pairs for further processing.
 		*
 		* \param colliders A collection of all active colliders.
 		* \return A list of collision pairs with their associated data.
@@ -212,7 +225,9 @@ private:
 	/**
 		* \brief Checks for collision between two colliders.
 		*
-		* Calls the appropriate collision detection function based on the collider types.
+		* This function determines whether two colliders are colliding based on their types.
+		* It calls the appropriate collision detection function based on the collider pair type and stores the collision resolution data.
+		* If a collision is detected, it returns true, otherwise false.
 		*
 		* \param first_info Collision data for the first collider.
 		* \param second_info Collision data for the second collider.
@@ -224,29 +239,39 @@ private:
 	/**
 		* \brief Detects collisions between two BoxColliders.
 		*
+		* This function checks whether two `BoxCollider` are colliding based on their positions and scaled dimensions.
+		* If a collision is detected, it calculates the overlap along the X and Y axes and returns the resolution vector.
+		* If no collision is detected, it returns a vector with NaN values.
+
 		* \param box1 Information about the first BoxCollider.
 		* \param box2 Information about the second BoxCollider.
-		* \return returns resolution vector if collide otherwise returns {-1,-1}
+		* \return If colliding, returns the resolution vector; otherwise, returns {NaN, NaN}.
 		*/
 	vec2 get_box_box_detection(const BoxColliderInternal & box1, const BoxColliderInternal & box2) const;
 
 	/**
 	 * \brief Check collision for box on circle collider
 	 *
+	 * This function detects if a collision occurs between a rectangular box and a circular collider.
+ 	 * If a collision is detected, the function calculates the resolution vector to resolve the collision.
+   * If no collision is detected, it returns a vector with NaN values
+ 	 *
 	 * \param box1 Information about the BoxCollider.
 	 * \param circle2 Information about the circleCollider.
-	 * \return returns resolution vector if collide otherwise returns {-1,-1}
+	 * \return If colliding, returns the resolution vector; otherwise, returns {NaN, NaN}.
 	 */
 	vec2 get_box_circle_detection(const BoxColliderInternal & box1, const CircleColliderInternal & circle2) const;
 
 	/**
 	 * \brief Check collision for circle on circle collider
 	 *
+	 * This function detects if a collision occurs between two circular colliders. 
+	 * If a collision is detected, it calculates the resolution vector to resolve the collision. 
+   * If no collision is detected, it returns a vector with NaN values.
+	 *
 	 * \param circle1 Information about the first circleCollider.
 	 * \param circle2 Information about the second circleCollider.
-	 * \return returns resolution vector if collide otherwise returns {-1,-1}
-	 *
-	 * \return status of collision
+	 * \return If colliding, returns the resolution vector; otherwise, returns {NaN, NaN}.
 	 */
 	vec2 get_circle_circle_detection(const CircleColliderInternal & circle1, const CircleColliderInternal & circle2) const;
 };
