@@ -156,6 +156,7 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 	vec2 resolution;
 	switch (type) {
 		case CollisionInternalType::BOX_BOX: { 
+			// Box-Box collision detection
 			const BoxColliderInternal BOX1 = {
 				.collider = std::get<std::reference_wrapper<BoxCollider>>(self.collider),
 				.transform = self.info.transform,
@@ -166,12 +167,15 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 				.transform = other.info.transform,
 				.rigidbody = other.info.rigidbody
 			};
+			// Get resolution vector from box-box collision detection
 			resolution = this->get_box_box_detection(BOX1, BOX2);
+			// If no collision (NaN values), return false
 			if(std::isnan(resolution.x) && std::isnan(resolution.y)) return false;
 			break;
 			
 		}
 		case CollisionInternalType::BOX_CIRCLE: {
+			// Box-Circle collision detection
 			const BoxColliderInternal BOX1 = {
 				.collider = std::get<std::reference_wrapper<BoxCollider>>(self.collider),
 				.transform = self.info.transform,
@@ -182,12 +186,16 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 				.transform = other.info.transform,
 				.rigidbody = other.info.rigidbody
 			};
+			// Get resolution vector from box-circle collision detection
 			resolution = this->get_box_circle_detection(BOX1, CIRCLE2);
+			// If no collision (NaN values), return false
 			if(std::isnan(resolution.x) && std::isnan(resolution.y)) return false;
+			// Invert the resolution vector for proper collision response
 			resolution = -resolution;
 			break;
 		}
 		case CollisionInternalType::CIRCLE_CIRCLE: { 
+			// Circle-Circle collision detection
 			const CircleColliderInternal CIRCLE1 = {
 				.collider = std::get<std::reference_wrapper<CircleCollider>>(self.collider),
 				.transform = self.info.transform,
@@ -198,11 +206,14 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 				.transform = other.info.transform,
 				.rigidbody = other.info.rigidbody
 			};
+			// Get resolution vector from circle-circle collision detection
 			resolution = this->get_circle_circle_detection(CIRCLE1,CIRCLE2);
+			// If no collision (NaN values), return false
 			if(std::isnan(resolution.x) && std::isnan(resolution.y)) return false;
 			break;
 		}
 		case CollisionInternalType::CIRCLE_BOX: { 
+			// Circle-Box collision detection
 			const CircleColliderInternal CIRCLE1 = {
 				.collider = std::get<std::reference_wrapper<CircleCollider>>(self.collider),
 				.transform = self.info.transform,
@@ -213,17 +224,26 @@ bool CollisionSystem::detect_collision(CollisionInternal & self,CollisionInterna
 				.transform = other.info.transform,
 				.rigidbody = other.info.rigidbody
 			};
+			// Get resolution vector from box-circle collision detection (order swapped)
 			resolution = this->get_box_circle_detection(BOX2, CIRCLE1);
+			// If no collision (NaN values), return false
 			if(std::isnan(resolution.x) && std::isnan(resolution.y)) return false;
 			break;
 		}
 		case CollisionInternalType::NONE:
-			break;
+		// No collision detection needed if the type is NONE
+		return false;
+		break;
 	}
+	 // Store the calculated resolution vector for the 'self' collider
 	self.resolution = resolution;
+	// Calculate the resolution direction based on the rigidbody data
 	self.resolution_direction = this->resolution_correction(self.resolution, self.info.rigidbody.data);
+	// For the 'other' collider, the resolution is the opposite direction of 'self'
 	other.resolution = -self.resolution;
 	other.resolution_direction = self.resolution_direction;
+	
+	// Return true if a collision was detected and resolution was calculated
 	return true;
 }
 
