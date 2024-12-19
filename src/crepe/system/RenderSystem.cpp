@@ -122,7 +122,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Transform & tm){
 			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,
 				.texture = res,
-				.pos = AbsoluutPosition::get_position(tm, em.data.offset + sprite.data.position_offset),
+				.pos = p.position,
 				.angle = p.angle,
 				.scale = tm.scale,
 			});
@@ -138,7 +138,7 @@ void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
 	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
 		.texture = res,
-		.pos = AbsoluutPosition::get_position(tm, sprite.data.position_offset),
+		.pos = tm.position,
 		.angle = tm.rotation,
 		.scale = tm.scale,
 	});
