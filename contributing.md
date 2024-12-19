@@ -177,39 +177,27 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  <code>using namespace</code> may not be used in header files (.h, .hpp), only
-  in source files (.cpp).
+  <a href="https://en.cppreference.com/w/cpp/language/using_declaration">Using-declarations</a>
+  may not be used in header files (<code>.h</code>, <code>.hpp</code>), only in
+  source files (<code>.cpp</code>).
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   example.h:
   ```cpp
   namespace crepe {
-  void foo();
+  std::string foo();
   }
   ```
   
-  example.cpp:
-  ```cpp
-  #include "example.h"
-  using namespace crepe;
-  void foo() {}
-  ```
   </td><td>
 
   example.h:
   ```cpp
+  using namespace std;
+
   namespace crepe {
-  template <typename T>
-  T foo();
+  string foo();
   }
-  ```
-  
-  example.hpp:
-  ```cpp
-  #include "example.h"
-  using namespace crepe;
-  template <typename T>
-  T foo();
   ```
   </td></tr></table></details>
 
