@@ -98,7 +98,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 				.sprite = sprite,
 				.texture = res,
 				.pos = p.position,
-				.angle = p.angle,
+				.angle = p.angle+sprite.data.angle_offset,
 				.scale = scale,
 			});
 		}
