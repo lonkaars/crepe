@@ -1,4 +1,5 @@
 #include "PlayerSubScene.h"
+#include "PlayerScript.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/GameObject.h>
@@ -8,14 +9,6 @@
 
 using namespace crepe;
 using namespace std;
-
-class PlayerScript : public Script {
-public:
-	void update() {
-		Rigidbody & rb = this->get_components_by_name<Rigidbody>("player").front();
-		if (this->get_key_state(Keycode::SPACE)) rb.add_force_linear(vec2(0, -10));
-	}
-};
 
 PlayerSubScene::PlayerSubScene(Scene & scn) {
 	GameObject player = scn.new_object("player", "player", vec2(-100, 200));

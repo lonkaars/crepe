@@ -6,6 +6,7 @@ set(GAME_HEADERS
 	StartSubScene.h
 	GameScene.h
 	PlayerSubScene.h
+	PlayerScript.h
 )
 
 set(GAME_SOURCES
@@ -17,6 +18,7 @@ set(GAME_SOURCES
 	StartSubScene.cpp
 	GameScene.cpp
 	PlayerSubScene.cpp
+	PlayerScript.cpp
 )
 
 add_executable(game ${GAME_SOURCES} ${GAME_HEADERS})
