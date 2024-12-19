@@ -407,9 +407,9 @@ CollisionSystem::CollisionInfo CollisionSystem::get_collision_info(const Collisi
 // Below is for collision handling
 void CollisionSystem::determine_collision_handler(const CollisionInfo & info) {
 	Rigidbody::BodyType self_type =	info.self.rigidbody.data.body_type;
-	Rigidbody::BodyType other_type =	info.self.rigidbody.data.body_type;
+	Rigidbody::BodyType other_type =	info.other.rigidbody.data.body_type;
 	bool self_kinematic = info.self.rigidbody.data.kinematic_collision;
-	bool other_kinematic = info.self.rigidbody.data.kinematic_collision;
+	bool other_kinematic = info.other.rigidbody.data.kinematic_collision;
 	// Inverted collision info
 	CollisionInfo inverted = -info;
 	// If both objects are static skip handle call collision script
