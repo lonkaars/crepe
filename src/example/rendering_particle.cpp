@@ -23,7 +23,7 @@ using namespace std;
 class TestScene : public Scene {
 public:
 	void load_scene() {
-		GameObject game_object = new_object("", "", vec2{0, 0}, 45, 1);
+		GameObject game_object = new_object("", "", vec2{0, 0}, 0, 1);
 
 		Color color(255, 255, 255, 255);
 
@@ -38,21 +38,24 @@ public:
 					 .size = {1, 1},
 					 .angle_offset = 0,
 					 .position_offset = {0, 1},
+				.world_space = false,
 				 });
-		auto & emitter
-			= game_object.add_component<ParticleEmitter>(test_sprite, ParticleEmitter::Data{});
+		//auto & emitter			= game_object.add_component<ParticleEmitter>(test_sprite, ParticleEmitter::Data{});
 
 		Sprite & test_sprite1
 			= game_object.add_component<Sprite>(img, Sprite::Data{
 														 .color = color,
 														 .size = {1, 1},
 														 .position_offset = {0, -1},
+				.world_space = false,
 													 });
 
 		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{5, 5},
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
+												 .postion_offset = {1000,1000},
 													   });
+
 
 		/*
 		game_object.add_component<Text>(vec2{1, 1}, vec2{0, -0.5}, "ComicSansMS",
