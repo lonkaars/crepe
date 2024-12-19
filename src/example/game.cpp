@@ -86,7 +86,7 @@ class MyScript1 : public Script {
 		subscribe<KeyPressEvent>(
 			[this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
 	}
-	void update() {
+	void update(duration_t) {
 		Rigidbody & tf = this->get_component<Rigidbody>();
 		Log::logf("linear_velocity.x {}", tf.data.linear_velocity.x);
 		Log::logf("linear_velocity.y {}", tf.data.linear_velocity.y);
