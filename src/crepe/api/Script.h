@@ -4,6 +4,7 @@
 
 #include "../api/KeyCodes.h"
 #include "../manager/EventManager.h"
+#include "../manager/LoopTimerManager.h"
 #include "../manager/Mediator.h"
 #include "../system/CollisionSystem.h"
 #include "../types.h"
@@ -47,10 +48,12 @@ protected:
 	/**
 	 * \brief Script update function (empty by default)
 	 *
+	 * \param delta_time Time since last fixed update
+	 *
 	 * This function is called during the ScriptSystem::update() routine if the \c BehaviorScript
 	 * component holding this script instance is active.
 	 */
-	virtual void update() {}
+	virtual void update(duration_t delta_time) {}
 	//! \}
 
 	//! ScriptSystem calls \c init() and \c update()
@@ -135,6 +138,10 @@ protected:
 
 	//! Retrieve SaveManager reference
 	SaveManager & get_save_manager() const;
+
+	//! Retrieve LoopTimerManager reference
+	LoopTimerManager & get_loop_timer() const;
+
 	/**
 	 * \brief Utility function to retrieve the keyboard state
 	 * \see SDLContext::get_keyboard_state
@@ -151,7 +158,6 @@ protected:
 	 * 
 	 */
 	bool get_key_state(Keycode key) const noexcept;
-	//! \}
 
 private:
 	/**

@@ -55,6 +55,7 @@ public:
 	ComponentManager mgr{m};
 	CollisionSystem collision_sys{m};
 	ScriptSystem script_sys{m};
+	LoopTimerManager loop_timer{m};
 
 	GameObject world = mgr.new_object("world", "", {50, 50});
 	GameObject game_object1 = mgr.new_object("object1", "", {50, 50});
