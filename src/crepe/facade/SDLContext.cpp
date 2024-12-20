@@ -68,7 +68,7 @@ SDLContext::SDLContext(Mediator & mediator) {
 		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
 	}
 
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
 	mediator.sdl_context = *this;
 }
@@ -232,10 +232,16 @@ void SDLContext::draw_text(const RenderText & data) {
 		= {tmp_font_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
 
 	vec2 size = text.dimensions * cam_aux_data.render_scale * data.transform.scale;
-	vec2 screen_pos
-		= (absoluut_pos - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2)
-			  * cam_aux_data.render_scale
-		  - size / 2 + cam_aux_data.bar_size;
+	vec2 screen_pos = absoluut_pos;
+	if (text.world_space) {
+		screen_pos = (screen_pos - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2)
+						 * cam_aux_data.render_scale
+					 - size / 2 + cam_aux_data.bar_size;
+	} else {
+		screen_pos
+			= (screen_pos + (cam_aux_data.zoomed_viewport) / 2) * cam_aux_data.render_scale
+			  - size / 2 + cam_aux_data.bar_size;
+	}
 
 	SDL_FRect dstrect{
 		.x = screen_pos.x,
