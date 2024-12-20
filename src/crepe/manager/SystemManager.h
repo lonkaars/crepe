@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
-#include <vector>
 #include <typeindex>
 #include <unordered_map>
+#include <vector>
 
 #include "../system/System.h"
 
