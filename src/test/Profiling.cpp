@@ -32,7 +32,7 @@ using namespace testing;
 
 class TestScript : public Script {
 	bool oncollision(const CollisionEvent & test) {
-		Log::logf("Box {} script on_collision()", test.info.this_collider.game_object_id);
+		Log::logf("Box {} script on_collision()", test.info.self.transform.game_object_id);
 		return true;
 	}
 	void init() {
@@ -50,7 +50,7 @@ public:
 	// Minimum amount to let test pass
 	const int min_gameobject_count = 100;
 	// Maximum amount to stop test
-	const int max_gameobject_count = 150;
+	const int max_gameobject_count = 3000;
 	// Amount of times a test runs to calculate average
 	const int average = 5;
 	// Maximum duration to stop test
@@ -61,6 +61,8 @@ public:
 	ResourceManager resman{m};
 	ComponentManager mgr{m};
 	// Add system used for profling tests
+	EventManager evmgr{m};
+	LoopTimerManager loopmgr{m};
 	CollisionSystem collision_sys{m};
 	PhysicsSystem physics_sys{m};
 	ParticleSystem particle_sys{m};
