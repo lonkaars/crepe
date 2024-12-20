@@ -22,7 +22,12 @@ void EventManager::queue_event(const EventType & event, event_channel_t channel)
 	static_assert(std::is_base_of<Event, EventType>::value,
 				  "EventType must derive from Event");
 	this->events_queue.push_back(QueueEntry{
-		.event = std::make_unique<EventType>(event),
+		// unique_ptr w/ custom destructor implementation is used because the base Event interface
+		// can't be polymorphic (= have default virtual destructor)
+		.event = {
+			new EventType(event),
+			[](Event * ev) { delete static_cast<EventType *>(ev); },
+		},
 		.channel = channel,
 		.type = typeid(EventType),
 	});
