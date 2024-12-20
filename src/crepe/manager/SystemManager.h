@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include <typeindex>
 #include <unordered_map>
 
@@ -42,6 +43,13 @@ private:
 	 * constructor of \c SystemManager using SystemManager::load_system.
 	 */
 	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
+	/**
+	 * \brief Collection of System instances
+	 *
+	 * This map holds System instances indexed by the system's class typeid. It is filled in the
+	 * constructor of \c SystemManager using SystemManager::load_system.
+	 */
+	std::vector<std::reference_wrapper<System>> system_order;
 	/**
 	 * \brief Initialize a system
 	 * \tparam T System type (must be derivative of \c System)
