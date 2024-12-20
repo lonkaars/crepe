@@ -8,7 +8,8 @@ set(CMAKE_BUILD_TYPE Debug)
 project(game C CXX)
 
 add_subdirectory(../src crepe)
-add_executable(main
+
+set(SOURCES
 	AquariumSubScene.cpp
 	BackgroundSubScene.cpp
 	ForestParallaxScript.cpp
@@ -21,7 +22,29 @@ add_executable(main
 	StartGameScript.cpp
 	StartSubScene.cpp
 	main.cpp
+	mainmenu/ButtonScript.cpp
+	mainmenu/ButtonSubScene.cpp
+	mainmenu/MainMenuScene.cpp
 )
+
+set(HEADERS
+	AquariumSubScene.h
+	BackgroundSubScene.h
+	ForestParallaxScript.h
+	ForestSubScene.h
+	GameScene.h
+	HallwaySubScene.h
+	MoveCameraManualyScript.h
+	PlayerScript.h
+	PlayerSubScene.h
+	StartGameScript.h
+	StartSubScene.h
+	mainmenu/ButtonScript.h
+	mainmenu/ButtonSubScene.h
+	mainmenu/MainMenuScene.h
+)
+
+add_executable(main ${SOURCES} ${HEADERS})
 
 target_link_libraries(main PUBLIC crepe)
 
