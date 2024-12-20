@@ -7,8 +7,8 @@
 #include <crepe/api/Button.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
+#include <crepe/api/Engine.h>
 #include <crepe/api/GameObject.h>
-#include <crepe/api/LoopManager.hpp>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
@@ -27,6 +27,7 @@ public:
 
 		Color color(255, 255, 255, 255);
 
+		/*
 		Asset img{"asset/texture/square.png"};
 
 		Sprite & test_sprite = game_object.add_component<Sprite>(
@@ -49,6 +50,7 @@ public:
 														 .position_offset = {0, -1},
 														 .world_space = false,
 													 });
+		*/
 
 		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{5, 5},
 													   Camera::Data{
@@ -56,21 +58,25 @@ public:
 														   .postion_offset = {1000, 1000},
 													   });
 
-		/*
-		game_object.add_component<Text>(vec2{1, 1}, vec2{0, -0.5}, "ComicSansMS",
-										Text::Data{.text_color = Color::RED}, "test TEST");
+		game_object.add_component<Text>(vec2{1, 1}, vec2{0, -1}, "ComicSansMS",
+										Text::Data{
+											.text_color = Color::RED,
+										},
+										"test TEST");
 
-		game_object.add_component<Text>(vec2{1, 1}, vec2{0, 0.5}, "ComicSansMS",
-										Text::Data{.text_color = Color::BLACK}, "TEST test");
-		*/
+		game_object.add_component<Text>(vec2{1, 1}, vec2{0, 1}, "Ariel",
+										Text::Data{
+											.text_color = Color::BLACK,
+										},
+										"TEST test").world_space = true;
 	}
 
 	string get_name() const { return "TestScene"; };
 };
 
 int main(int argc, char * argv[]) {
-	LoopManager engine;
+	Engine engine;
 	engine.add_scene<TestScene>();
-	engine.start();
+	engine.main();
 	return 0;
 }

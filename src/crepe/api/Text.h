@@ -28,12 +28,6 @@ public:
 		 */
 		unsigned int font_size = 16;
 
-		//! Layer sorting level of the text
-		const int sorting_in_layer = 0;
-
-		//! Order within the sorting text
-		const int order_in_layer = 0;
-
 		//! Label text color.
 		Color text_color = Color::BLACK;
 	};
