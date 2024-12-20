@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_blendmode.h>
+#include <SDL2/SDL_hints.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_pixels.h>
@@ -57,6 +58,8 @@ SDLContext::SDLContext(Mediator & mediator) {
 	if (!(IMG_Init(img_flags) & img_flags)) {
 		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
+
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
 	mediator.sdl_context = *this;
 }
