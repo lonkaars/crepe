@@ -1,32 +1,23 @@
-set(GAME_HEADERS
-	AquariumSubScene.h
-	BackgroundSubScene.h
-	ForestSubScene.h
-	ForestParallaxScript.h
-	HallwaySubScene.h
-	StartSubScene.h
-	GameScene.h
-	StartGameScript.h
-	MoveCameraManualyScript.h
-	PlayerSubScene.h
-	PlayerScript.h
-)
+# all examples
+add_custom_target(examples)
 
-set(GAME_SOURCES
-	game.cpp
-	AquariumSubScene.cpp
-	BackgroundSubScene.cpp
-	ForestSubScene.cpp
-	ForestParallaxScript.cpp
-	HallwaySubScene.cpp
-	StartSubScene.cpp
-	GameScene.cpp
-	StartGameScript.cpp
-	MoveCameraManualyScript.cpp
-	PlayerSubScene.cpp
-	PlayerScript.cpp
-)
+# add_example(target_name [SOURCES...])
+function(add_example target_name)
+	# if SOURCES is not specified
+	if(NOT ARGV1)
+		# A .cpp file with target_name exists, and should be used
+		set(sources ${target_name}.cpp)
+	else()
+		set(sources ${ARGV})
+	endif()
 
-add_executable(game ${GAME_SOURCES} ${GAME_HEADERS})
+	add_executable(${target_name} EXCLUDE_FROM_ALL ${sources})
+	target_link_libraries(${target_name} PUBLIC crepe)
+	add_dependencies(examples ${target_name})
+endfunction()
 
-target_link_libraries(game PUBLIC crepe)
+add_example(rendering_particle)
+add_example(button)
+add_example(replay)
+add_example(loadfont)
+add_example(AITest)
