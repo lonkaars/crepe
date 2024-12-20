@@ -4,7 +4,7 @@
 
 class StartGameScript : public crepe::Script {
 public:
-	void update();
+	void fixed_update(crepe::duration_t dt);
 
 private:
 	bool created_hole = false;

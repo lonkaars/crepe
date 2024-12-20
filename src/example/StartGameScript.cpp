@@ -7,7 +7,7 @@
 using namespace crepe;
 using namespace std;
 
-void StartGameScript::update() {
+void StartGameScript::fixed_update(crepe::duration_t dt) {
 	Transform & player_transform = this->get_components_by_name<Transform>("player").front();
 
 	// Create hole in wall and activate panic lamp
