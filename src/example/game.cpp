@@ -25,7 +25,8 @@ using namespace std;
 class ScriptBox : public Script {
 public:
 	bool oncollision(const CollisionEvent & test) {
-		Log::logf("Box {} on_collision() with {}", test.info.self.metadata.game_object_id, test.info.other.metadata.game_object_id);
+		Log::logf("Box {} on_collision() with {}", test.info.self.metadata.game_object_id,
+				  test.info.other.metadata.game_object_id);
 		return true;
 	}
 
@@ -38,7 +39,8 @@ public:
 class ScriptCircle : public Script {
 public:
 	bool oncollision(const CollisionEvent & test) {
-		Log::logf("Circle {} on_collision() with {}", test.info.self.metadata.game_object_id, test.info.other.metadata.game_object_id);
+		Log::logf("Circle {} on_collision() with {}", test.info.self.metadata.game_object_id,
+				  test.info.other.metadata.game_object_id);
 		return true;
 	}
 
@@ -68,22 +70,20 @@ class ConcreteScene1 : public Scene {
 public:
 	void load_scene() {
 		GameObject camera = this->new_object("camera");
-		camera.add_component<Camera>(ivec2(1080, 720), vec2(10, 10), Camera::Data{
-			.bg_color = Color::WHITE, 
-			.zoom = 1
-		});
+		camera.add_component<Camera>(ivec2(1080, 720), vec2(10, 10),
+									 Camera::Data{.bg_color = Color::WHITE, .zoom = 1});
 
 		GameObject reference = this->new_object("reference", "tag", vec2(0, 0), 0, 1);
 		Asset reference_asset = Asset("asset/texture/square.png");
 		reference.add_component<Sprite>(reference_asset, Sprite::Data{
-			.color = Color::RED,
-			.sorting_in_layer = 10,
-			.order_in_layer = 0,
-			.size = vec2(0.1, 0.1),
-			.angle_offset = 0,
-			.scale_offset = 1,
-			.position_offset = vec2(0, 0),
-		});
+															 .color = Color::RED,
+															 .sorting_in_layer = 10,
+															 .order_in_layer = 0,
+															 .size = vec2(0.1, 0.1),
+															 .angle_offset = 0,
+															 .scale_offset = 1,
+															 .position_offset = vec2(0, 0),
+														 });
 
 		/*GameObject box_1 = this->new_object("box_1", "tag", vec2(0, 0), 0, 1);
 		Asset box_1_asset = Asset("asset/texture/square.png");
@@ -140,16 +140,18 @@ public:
 		const float OFFSET_Y_LEFT = 0;
 		const float OFFSET_Y_RIGHT = 0;
 
-		GameObject box_1 = this->new_object("box_1", "tag", ONTOP ? vec2(-0.25, -4) : vec2(-2, -4), 0, SCALE);
+		GameObject box_1 = this->new_object("box_1", "tag",
+											ONTOP ? vec2(-0.25, -4) : vec2(-2, -4), 0, SCALE);
 		Asset box_1_asset = Asset("asset/texture/square.png");
-		box_1.add_component<Sprite>(box_1_asset, Sprite::Data{
-			.sorting_in_layer = 0,
-			.order_in_layer = 0,
-			.size = vec2(1, 1),
-			.angle_offset = 0,
-			.scale_offset = 1,
-			.position_offset = vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT),
-		});
+		box_1.add_component<Sprite>(box_1_asset,
+									Sprite::Data{
+										.sorting_in_layer = 0,
+										.order_in_layer = 0,
+										.size = vec2(1, 1),
+										.angle_offset = 0,
+										.scale_offset = 1,
+										.position_offset = vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT),
+									});
 		box_1.add_component<Rigidbody>(Rigidbody::Data{
 			.gravity_scale = 0,
 			.body_type = BODYTYPE_LEFT,
@@ -161,16 +163,18 @@ public:
 		box_1.add_component<BoxCollider>(vec2(1, 1), vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT));
 		box_1.add_component<BehaviorScript>().set_script<ScriptBox>();
 
-		GameObject circle_1 = this->new_object("ricle_1", "tag", ONTOP ? vec2(0.25, -4) : vec2(2, -4), 0, SCALE);
+		GameObject circle_1 = this->new_object("ricle_1", "tag",
+											   ONTOP ? vec2(0.25, -4) : vec2(2, -4), 0, SCALE);
 		Asset circle_1_asset = Asset("asset/texture/circle.png");
-		circle_1.add_component<Sprite>(circle_1_asset, Sprite::Data{
-			.sorting_in_layer = 0,
-			.order_in_layer = 0,
-			.size = vec2(1, 1),
-			.angle_offset = 0,
-			.scale_offset = 1,
-			.position_offset = vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT),
-		});
+		circle_1.add_component<Sprite>(
+			circle_1_asset, Sprite::Data{
+								.sorting_in_layer = 0,
+								.order_in_layer = 0,
+								.size = vec2(1, 1),
+								.angle_offset = 0,
+								.scale_offset = 1,
+								.position_offset = vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT),
+							});
 		circle_1.add_component<Rigidbody>(Rigidbody::Data{
 			.gravity_scale = 0,
 			.body_type = BODYTYPE_RIGHT,
@@ -178,20 +182,23 @@ public:
 			.elasticity_coefficient = BOUNCE_RIGHT ? 0.5 : 0,
 			.kinematic_collision = KINEMATIC_COLLISION,
 		});
-		circle_1.add_component<BehaviorScript>().set_script<ScriptMoveToLeft>().active = SCRIPT;
+		circle_1.add_component<BehaviorScript>().set_script<ScriptMoveToLeft>().active
+			= SCRIPT;
 		circle_1.add_component<CircleCollider>(0.5, vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT));
 		circle_1.add_component<BehaviorScript>().set_script<ScriptCircle>();
 
-		GameObject circle_2 = this->new_object("ricle_2", "tag", ONTOP ? vec2(-0.25, -1.5) : vec2(-2.5, -1.5), 0, SCALE);
+		GameObject circle_2 = this->new_object(
+			"ricle_2", "tag", ONTOP ? vec2(-0.25, -1.5) : vec2(-2.5, -1.5), 0, SCALE);
 		Asset circle_2_asset = Asset("asset/texture/circle.png");
-		circle_2.add_component<Sprite>(circle_2_asset, Sprite::Data{
-			.sorting_in_layer = 0,
-			.order_in_layer = 0,
-			.size = vec2(1, 1),
-			.angle_offset = 0,
-			.scale_offset = 1,
-			.position_offset = vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT),
-		});
+		circle_2.add_component<Sprite>(
+			circle_2_asset, Sprite::Data{
+								.sorting_in_layer = 0,
+								.order_in_layer = 0,
+								.size = vec2(1, 1),
+								.angle_offset = 0,
+								.scale_offset = 1,
+								.position_offset = vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT),
+							});
 		circle_2.add_component<Rigidbody>(Rigidbody::Data{
 			.gravity_scale = 0,
 			.body_type = BODYTYPE_LEFT,
@@ -199,20 +206,23 @@ public:
 			.elasticity_coefficient = BOUNCE_LEFT ? 0.5 : 0,
 			.kinematic_collision = KINEMATIC_COLLISION,
 		});
-		circle_2.add_component<BehaviorScript>().set_script<ScriptMoveToRight>().active = SCRIPT;
+		circle_2.add_component<BehaviorScript>().set_script<ScriptMoveToRight>().active
+			= SCRIPT;
 		circle_2.add_component<CircleCollider>(0.5, vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT));
 		circle_2.add_component<BehaviorScript>().set_script<ScriptCircle>();
 
-		GameObject box_2 = this->new_object("box_2", "tag", ONTOP ? vec2(0.25, -1.5) : vec2(2.5, -1.5), 0, SCALE);
+		GameObject box_2 = this->new_object(
+			"box_2", "tag", ONTOP ? vec2(0.25, -1.5) : vec2(2.5, -1.5), 0, SCALE);
 		Asset box_2_asset = Asset("asset/texture/square.png");
-		box_2.add_component<Sprite>(box_2_asset, Sprite::Data{
-			.sorting_in_layer = 0,
-			.order_in_layer = 0,
-			.size = vec2(1, 1),
-			.angle_offset = 0,
-			.scale_offset = 1,
-			.position_offset = vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT),
-		});
+		box_2.add_component<Sprite>(
+			box_2_asset, Sprite::Data{
+							 .sorting_in_layer = 0,
+							 .order_in_layer = 0,
+							 .size = vec2(1, 1),
+							 .angle_offset = 0,
+							 .scale_offset = 1,
+							 .position_offset = vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT),
+						 });
 		box_2.add_component<Rigidbody>(Rigidbody::Data{
 			.gravity_scale = 0,
 			.body_type = BODYTYPE_RIGHT,
@@ -224,16 +234,18 @@ public:
 		box_2.add_component<BoxCollider>(vec2(1, 1), vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT));
 		box_2.add_component<BehaviorScript>().set_script<ScriptBox>();
 
-		GameObject box_3 = this->new_object("box_3", "tag", ONTOP ? vec2(-0.25, 1.5) : vec2(-3, 1.5), 0, SCALE);
+		GameObject box_3 = this->new_object(
+			"box_3", "tag", ONTOP ? vec2(-0.25, 1.5) : vec2(-3, 1.5), 0, SCALE);
 		Asset box_3_asset = Asset("asset/texture/square.png");
-		box_3.add_component<Sprite>(box_3_asset, Sprite::Data{
-			.sorting_in_layer = 0,
-			.order_in_layer = 0,
-			.size = vec2(1, 1),
-			.angle_offset = 0,
-			.scale_offset = 1,
-			.position_offset = vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT),
-		});
+		box_3.add_component<Sprite>(box_3_asset,
+									Sprite::Data{
+										.sorting_in_layer = 0,
+										.order_in_layer = 0,
+										.size = vec2(1, 1),
+										.angle_offset = 0,
+										.scale_offset = 1,
+										.position_offset = vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT),
+									});
 		box_3.add_component<Rigidbody>(Rigidbody::Data{
 			.gravity_scale = 0,
 			.body_type = BODYTYPE_LEFT,
@@ -245,16 +257,18 @@ public:
 		box_3.add_component<BoxCollider>(vec2(1, 1), vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT));
 		box_3.add_component<BehaviorScript>().set_script<ScriptBox>();
 
-		GameObject box_4 = this->new_object("box_4", "tag", ONTOP ? vec2(0.25, 1.5) : vec2(3, 1.5), 0, SCALE);
+		GameObject box_4 = this->new_object("box_4", "tag",
+											ONTOP ? vec2(0.25, 1.5) : vec2(3, 1.5), 0, SCALE);
 		Asset box_4_asset = Asset("asset/texture/square.png");
-		box_4.add_component<Sprite>(box_4_asset, Sprite::Data{
-			.sorting_in_layer = 0,
-			.order_in_layer = 0,
-			.size = vec2(1, 1),
-			.angle_offset = 0,
-			.scale_offset = 1,
-			.position_offset = vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT),
-		});
+		box_4.add_component<Sprite>(
+			box_4_asset, Sprite::Data{
+							 .sorting_in_layer = 0,
+							 .order_in_layer = 0,
+							 .size = vec2(1, 1),
+							 .angle_offset = 0,
+							 .scale_offset = 1,
+							 .position_offset = vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT),
+						 });
 		box_4.add_component<Rigidbody>(Rigidbody::Data{
 			.gravity_scale = 0,
 			.body_type = BODYTYPE_RIGHT,
@@ -266,16 +280,18 @@ public:
 		box_4.add_component<BoxCollider>(vec2(1, 1), vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT));
 		box_4.add_component<BehaviorScript>().set_script<ScriptBox>();
 
-		GameObject circle_3 = this->new_object("ricle_3", "tag", ONTOP ? vec2(-0.25, 4) : vec2(-3.5, 4), 0, SCALE);
+		GameObject circle_3 = this->new_object(
+			"ricle_3", "tag", ONTOP ? vec2(-0.25, 4) : vec2(-3.5, 4), 0, SCALE);
 		Asset circle_3_asset = Asset("asset/texture/circle.png");
-		circle_3.add_component<Sprite>(circle_3_asset, Sprite::Data{
-			.sorting_in_layer = 0,
-			.order_in_layer = 0,
-			.size = vec2(1, 1),
-			.angle_offset = 0,
-			.scale_offset = 1,
-			.position_offset = vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT),
-		});
+		circle_3.add_component<Sprite>(
+			circle_3_asset, Sprite::Data{
+								.sorting_in_layer = 0,
+								.order_in_layer = 0,
+								.size = vec2(1, 1),
+								.angle_offset = 0,
+								.scale_offset = 1,
+								.position_offset = vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT),
+							});
 		circle_3.add_component<Rigidbody>(Rigidbody::Data{
 			.gravity_scale = 0,
 			.body_type = BODYTYPE_LEFT,
@@ -283,20 +299,23 @@ public:
 			.elasticity_coefficient = BOUNCE_LEFT ? 0.5 : 0,
 			.kinematic_collision = KINEMATIC_COLLISION,
 		});
-		circle_3.add_component<BehaviorScript>().set_script<ScriptMoveToRight>().active = SCRIPT;
+		circle_3.add_component<BehaviorScript>().set_script<ScriptMoveToRight>().active
+			= SCRIPT;
 		circle_3.add_component<CircleCollider>(0.5, vec2(OFFSET_X_LEFT, OFFSET_Y_LEFT));
 		circle_3.add_component<BehaviorScript>().set_script<ScriptCircle>();
 
-		GameObject circle_4 = this->new_object("ricle_4", "tag", ONTOP ? vec2(0.25, 4) : vec2(3.5, 4), 0, SCALE);
+		GameObject circle_4 = this->new_object("ricle_4", "tag",
+											   ONTOP ? vec2(0.25, 4) : vec2(3.5, 4), 0, SCALE);
 		Asset circle_4_asset = Asset("asset/texture/circle.png");
-		circle_4.add_component<Sprite>(circle_4_asset, Sprite::Data{
-			.sorting_in_layer = 0,
-			.order_in_layer = 0,
-			.size = vec2(1, 1),
-			.angle_offset = 0,
-			.scale_offset = 1,
-			.position_offset = vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT),
-		});
+		circle_4.add_component<Sprite>(
+			circle_4_asset, Sprite::Data{
+								.sorting_in_layer = 0,
+								.order_in_layer = 0,
+								.size = vec2(1, 1),
+								.angle_offset = 0,
+								.scale_offset = 1,
+								.position_offset = vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT),
+							});
 		circle_4.add_component<Rigidbody>(Rigidbody::Data{
 			.gravity_scale = 0,
 			.body_type = BODYTYPE_RIGHT,
@@ -304,7 +323,8 @@ public:
 			.elasticity_coefficient = BOUNCE_RIGHT ? 0.5 : 0,
 			.kinematic_collision = KINEMATIC_COLLISION,
 		});
-		circle_4.add_component<BehaviorScript>().set_script<ScriptMoveToLeft>().active = SCRIPT;
+		circle_4.add_component<BehaviorScript>().set_script<ScriptMoveToLeft>().active
+			= SCRIPT;
 		circle_4.add_component<CircleCollider>(0.5, vec2(OFFSET_X_RIGHT, OFFSET_Y_RIGHT));
 		circle_4.add_component<BehaviorScript>().set_script<ScriptCircle>();
 	}

@@ -171,12 +171,12 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 		if (this->is_mouse_inside_button(mouse_pos, button, transform, cam_transform)) {
 			button.hover = true;
 			if (!was_hovering) {
-				event_mgr.trigger_event<ButtonEnterEvent>(metadata,metadata.game_object_id);
+				event_mgr.trigger_event<ButtonEnterEvent>(metadata, metadata.game_object_id);
 			}
 		} else {
 			button.hover = false;
 			if (was_hovering) {
-				event_mgr.trigger_event<ButtonExitEvent>(metadata,metadata.game_object_id);
+				event_mgr.trigger_event<ButtonExitEvent>(metadata, metadata.game_object_id);
 			}
 		}
 	}
@@ -196,7 +196,7 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mo
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(button.game_object_id).front();
 		if (this->is_mouse_inside_button(mouse_pos, button, transform, cam_transform)) {
-			event_mgr.trigger_event<ButtonPressEvent>(metadata,metadata.game_object_id);
+			event_mgr.trigger_event<ButtonPressEvent>(metadata, metadata.game_object_id);
 		}
 	}
 }
@@ -209,7 +209,7 @@ bool InputSystem::is_mouse_inside_button(const vec2 & mouse_pos, const Button & 
 		actual_pos += cam_transform.position;
 	}
 	vec2 half_dimensions = button.dimensions / 2;
-	
+
 	return mouse_pos.x >= actual_pos.x - half_dimensions.x
 		   && mouse_pos.x <= actual_pos.x + half_dimensions.x
 		   && mouse_pos.y >= actual_pos.y - half_dimensions.y
