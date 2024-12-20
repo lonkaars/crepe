@@ -12,7 +12,7 @@ using namespace std;
 
 PlayerSubScene::PlayerSubScene(Scene & scn) {
 	GameObject player = scn.new_object("player", "player", vec2(-100, 200));
-	Asset player_body_asset{"asset/jetpack_joyride/barry/defaultBody.png"};
+	Asset player_body_asset{"asset/barry/defaultBody.png"};
 	Sprite & player_body_sprite
 		= player.add_component<Sprite>(player_body_asset, Sprite::Data{
 															  .sorting_in_layer = 10,
@@ -24,7 +24,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 									   .fps = 5,
 									   .looping = true,
 								   });
-	Asset player_head_asset{"asset/jetpack_joyride/barry/defaultHead.png"};
+	Asset player_head_asset{"asset/barry/defaultHead.png"};
 	Sprite & player_head_sprite
 		= player.add_component<Sprite>(player_head_asset, Sprite::Data{
 															  .sorting_in_layer = 10,
@@ -37,7 +37,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 									   .fps = 5,
 									   .looping = true,
 								   });
-	Asset player_jetpack_asset{"asset/jetpack_joyride/barry/jetpackDefault.png"};
+	Asset player_jetpack_asset{"asset/barry/jetpackDefault.png"};
 	Sprite & player_jetpack_sprite = player.add_component<Sprite>(
 		player_jetpack_asset, Sprite::Data{
 								  .sorting_in_layer = 10,
