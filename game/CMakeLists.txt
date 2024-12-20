@@ -9,6 +9,17 @@ project(game C CXX)
 
 add_subdirectory(../src crepe)
 add_executable(main
+	AquariumSubScene.cpp
+	BackgroundSubScene.cpp
+	ForestParallaxScript.cpp
+	ForestSubScene.cpp
+	GameScene.cpp
+	HallwaySubScene.cpp
+	MoveCameraManualyScript.cpp
+	PlayerScript.cpp
+	PlayerSubScene.cpp
+	StartGameScript.cpp
+	StartSubScene.cpp
 	main.cpp
 )
 
