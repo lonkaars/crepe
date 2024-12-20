@@ -7,10 +7,11 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_video.h>
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <functional>
 #include <memory>
 #include <stdexcept>
@@ -19,8 +20,12 @@
 #include "../api/Color.h"
 #include "../api/Config.h"
 #include "../api/Sprite.h"
-#include "../util/Log.h"
+#include "../util/dbg.h"
+#include "api/Text.h"
+#include "api/Transform.h"
+#include "facade/Font.h"
 #include "manager/Mediator.h"
+#include "util/AbsolutePosition.h"
 
 #include "SDLContext.h"
 #include "Texture.h"
@@ -59,6 +64,10 @@ SDLContext::SDLContext(Mediator & mediator) {
 		throw runtime_error("SDLContext: SDL_image could not initialize!");
 	}
 
+	if (TTF_Init() == -1) {
+		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
+	}
+
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
 	mediator.sdl_context = *this;
@@ -73,14 +82,14 @@ SDLContext::~SDLContext() {
 	// TODO: how are we going to ensure that these are called from the same
 	// thread that SDL_Init() was called on? This has caused problems for me
 	// before.
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
 
 Keycode SDLContext::sdl_to_keycode(SDL_Scancode sdl_key) {
-	if (!LOOKUP_TABLE.contains(sdl_key)) return Keycode::NONE;
-
-	return LOOKUP_TABLE.at(sdl_key);
+	if (!lookup_table.contains(sdl_key)) return Keycode::NONE;
+	return lookup_table.at(sdl_key);
 }
 
 const keyboard_state_t & SDLContext::get_keyboard_state() {
@@ -135,6 +144,8 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 		= (ctx.sprite.aspect_ratio == 0) ? ctx.texture.get_ratio() : ctx.sprite.aspect_ratio;
 
 	vec2 size = data.size;
+	vec2 screen_pos = ctx.pos;
+
 	if (data.size.x == 0 && data.size.y != 0) {
 		size.x = data.size.y * aspect_ratio;
 	}
@@ -143,10 +154,15 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 	}
 	size *= cam_aux_data.render_scale * ctx.img_scale * data.scale_offset;
 
-	vec2 screen_pos = (ctx.pos + data.position_offset - cam_aux_data.cam_pos
-					   + (cam_aux_data.zoomed_viewport) / 2)
-						  * cam_aux_data.render_scale
-					  - size / 2 + cam_aux_data.bar_size;
+	if (ctx.sprite.data.world_space) {
+		screen_pos = (screen_pos - cam_aux_data.cam_pos + cam_aux_data.zoomed_viewport / 2)
+						 * cam_aux_data.render_scale
+					 - size / 2 + cam_aux_data.bar_size;
+	} else {
+		screen_pos
+			= (screen_pos + cam_aux_data.zoomed_viewport / 2) * cam_aux_data.render_scale
+			  - size / 2 + cam_aux_data.bar_size;
+	}
 
 	return SDL_FRect{
 		.x = screen_pos.x,
@@ -184,6 +200,52 @@ void SDLContext::draw(const RenderContext & ctx) {
 	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
 	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect_ptr, &dstrect,
 					  angle, NULL, render_flip);
+}
+
+void SDLContext::draw_text(const RenderText & data) {
+
+	const Text & text = data.text;
+	const Font & font = data.font;
+	vec2 absoluut_pos = AbsolutePosition::get_position(data.transform, data.text.offset);
+	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>> font_surface;
+	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> font_texture;
+
+	SDL_Color color{
+		.r = text.data.text_color.r,
+		.g = text.data.text_color.g,
+		.b = text.data.text_color.b,
+		.a = text.data.text_color.a,
+	};
+	SDL_Surface * tmp_font_surface
+		= TTF_RenderText_Solid(font.get_font(), text.text.c_str(), color);
+	if (tmp_font_surface == NULL) {
+		throw runtime_error(format("draw_text: font surface error: {}", SDL_GetError()));
+	}
+	font_surface = {tmp_font_surface, [](SDL_Surface * surface) { SDL_FreeSurface(surface); }};
+
+	SDL_Texture * tmp_font_texture
+		= SDL_CreateTextureFromSurface(this->game_renderer.get(), font_surface.get());
+	if (tmp_font_texture == NULL) {
+		throw runtime_error(format("draw_text: font texture error: {}", SDL_GetError()));
+	}
+	font_texture
+		= {tmp_font_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
+
+	vec2 size = text.dimensions * cam_aux_data.render_scale * data.transform.scale;
+	vec2 screen_pos
+		= (absoluut_pos - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2)
+			  * cam_aux_data.render_scale
+		  - size / 2 + cam_aux_data.bar_size;
+
+	SDL_FRect dstrect{
+		.x = screen_pos.x,
+		.y = screen_pos.y,
+		.w = size.x,
+		.h = size.y,
+	};
+
+	SDL_RenderCopyExF(this->game_renderer.get(), font_texture.get(), NULL, &dstrect,
+					  data.transform.rotation, NULL, SDL_FLIP_NONE);
 }
 
 void SDLContext::update_camera_view(const Camera & cam, const vec2 & new_pos) {
@@ -410,4 +472,8 @@ void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
 void SDLContext::set_color_texture(const Texture & texture, const Color & color) {
 	SDL_SetTextureColorMod(texture.get_img(), color.r, color.g, color.b);
 	SDL_SetTextureAlphaMod(texture.get_img(), color.a);
+}
+
+Asset SDLContext::get_font_from_name(const std::string & font_family) {
+	return this->font_facade.get_font_asset(font_family);
 }

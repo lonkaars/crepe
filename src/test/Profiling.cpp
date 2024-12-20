@@ -32,14 +32,14 @@ using namespace testing;
 
 class TestScript : public Script {
 	bool oncollision(const CollisionEvent & test) {
-		Log::logf("Box {} script on_collision()", test.info.this_collider.game_object_id);
+		Log::logf("Box {} script on_collision()", test.info.self.transform.game_object_id);
 		return true;
 	}
 	void init() {
 		subscribe<CollisionEvent>(
 			[this](const CollisionEvent & ev) -> bool { return this->oncollision(ev); });
 	}
-	void update() {
+	void fixed_update() {
 		// Retrieve component from the same GameObject this script is on
 	}
 };
@@ -50,7 +50,7 @@ public:
 	// Minimum amount to let test pass
 	const int min_gameobject_count = 100;
 	// Maximum amount to stop test
-	const int max_gameobject_count = 150;
+	const int max_gameobject_count = 3000;
 	// Amount of times a test runs to calculate average
 	const int average = 5;
 	// Maximum duration to stop test
@@ -61,6 +61,8 @@ public:
 	ResourceManager resman{m};
 	ComponentManager mgr{m};
 	// Add system used for profling tests
+	EventManager evmgr{m};
+	LoopTimerManager loopmgr{m};
 	CollisionSystem collision_sys{m};
 	PhysicsSystem physics_sys{m};
 	ParticleSystem particle_sys{m};
@@ -82,9 +84,9 @@ public:
 										 });
 		// initialize systems here:
 		//calls init
-		script_sys.update();
+		script_sys.fixed_update();
 		//creates window
-		render_sys.update();
+		render_sys.frame_update();
 	}
 
 	// Helper function to time an update call and store its duration
@@ -102,12 +104,14 @@ public:
 	// Run and profile all systems, return the total time in milliseconds
 	std::chrono::microseconds run_all_systems() {
 		std::chrono::microseconds total_microseconds = 0us;
-		total_microseconds += time_function("PhysicsSystem", [&]() { physics_sys.update(); });
 		total_microseconds
-			+= time_function("CollisionSystem", [&]() { collision_sys.update(); });
+			+= time_function("PhysicsSystem", [&]() { physics_sys.fixed_update(); });
 		total_microseconds
-			+= time_function("ParticleSystem", [&]() { particle_sys.update(); });
-		total_microseconds += time_function("RenderSystem", [&]() { render_sys.update(); });
+			+= time_function("CollisionSystem", [&]() { collision_sys.fixed_update(); });
+		total_microseconds
+			+= time_function("ParticleSystem", [&]() { particle_sys.fixed_update(); });
+		total_microseconds
+			+= time_function("RenderSystem", [&]() { render_sys.frame_update(); });
 		return total_microseconds;
 	}
 
@@ -233,7 +237,7 @@ TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 
 							 });
 		}
-		render_sys.update();
+		render_sys.frame_update();
 		this->game_object_count++;
 
 		this->total_time = 0us;

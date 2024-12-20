@@ -50,11 +50,11 @@ TEST_F(AudioTest, Default) {
 	EXPECT_CALL(context, stop(_)).Times(0);
 	EXPECT_CALL(context, set_volume(_, _)).Times(0);
 	EXPECT_CALL(context, set_loop(_, _)).Times(0);
-	system.update();
+	system.fixed_update();
 }
 
 TEST_F(AudioTest, Play) {
-	system.update();
+	system.fixed_update();
 
 	{
 		InSequence seq;
@@ -67,12 +67,12 @@ TEST_F(AudioTest, Play) {
 		InSequence seq;
 
 		EXPECT_CALL(context, play(_)).Times(1);
-		system.update();
+		system.fixed_update();
 	}
 }
 
 TEST_F(AudioTest, Stop) {
-	system.update();
+	system.fixed_update();
 
 	{
 		InSequence seq;
@@ -85,12 +85,12 @@ TEST_F(AudioTest, Stop) {
 		InSequence seq;
 
 		EXPECT_CALL(context, stop(_)).Times(1);
-		system.update();
+		system.fixed_update();
 	}
 }
 
 TEST_F(AudioTest, Volume) {
-	system.update();
+	system.fixed_update();
 
 	{
 		InSequence seq;
@@ -103,12 +103,12 @@ TEST_F(AudioTest, Volume) {
 		InSequence seq;
 
 		EXPECT_CALL(context, set_volume(_, component.volume)).Times(1);
-		system.update();
+		system.fixed_update();
 	}
 }
 
 TEST_F(AudioTest, Looping) {
-	system.update();
+	system.fixed_update();
 
 	{
 		InSequence seq;
@@ -121,33 +121,33 @@ TEST_F(AudioTest, Looping) {
 		InSequence seq;
 
 		EXPECT_CALL(context, set_loop(_, component.loop)).Times(1);
-		system.update();
+		system.fixed_update();
 	}
 }
 
 TEST_F(AudioTest, StopOnDeactivate) {
-	system.update();
+	system.fixed_update();
 
 	{
 		InSequence seq;
 
 		EXPECT_CALL(context, stop(_)).Times(1);
 		component.active = false;
-		system.update();
+		system.fixed_update();
 	}
 }
 
 TEST_F(AudioTest, PlayOnActive) {
 	component.active = false;
 	component.play_on_awake = true;
-	system.update();
+	system.fixed_update();
 
 	{
 		InSequence seq;
 
 		EXPECT_CALL(context, play(_)).Times(1);
 		component.active = true;
-		system.update();
+		system.fixed_update();
 	}
 }
 
@@ -157,5 +157,5 @@ TEST_F(AudioTest, PlayImmediately) {
 
 	EXPECT_CALL(context, play(_)).Times(1);
 
-	system.update();
+	system.fixed_update();
 }

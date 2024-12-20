@@ -35,6 +35,12 @@ protected:
 	virtual int get_instances_max() const { return 1; }
 	//! ComponentManager instantiates all components
 	friend class ComponentManager;
+
+protected:
+	virtual std::unique_ptr<Component> save() const;
+	Transform(const Transform &) = default;
+	virtual void restore(const Component & snapshot);
+	virtual Transform & operator=(const Transform &) = default;
 };
 
 } // namespace crepe

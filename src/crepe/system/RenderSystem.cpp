@@ -2,17 +2,23 @@
 #include <cassert>
 #include <cmath>
 #include <functional>
+#include <optional>
 #include <stdexcept>
 #include <vector>
 
 #include "../api/Camera.h"
 #include "../api/ParticleEmitter.h"
 #include "../api/Sprite.h"
+#include "../api/Text.h"
 #include "../api/Transform.h"
+#include "../facade/Font.h"
 #include "../facade/SDLContext.h"
 #include "../facade/Texture.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/ResourceManager.h"
+#include "api/Text.h"
+#include "facade/Font.h"
+#include "util/AbsolutePosition.h"
 
 #include "RenderSystem.h"
 #include "types.h"
@@ -64,14 +70,37 @@ RefVector<Sprite> RenderSystem::sort(RefVector<Sprite> & objs) const {
 	return sorted_objs;
 }
 
-void RenderSystem::update() {
+void RenderSystem::frame_update() {
 	this->clear_screen();
 	this->render();
+	this->render_text();
 	this->present_screen();
 }
 
-bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) {
+void RenderSystem::render_text() {
+	SDLContext & ctx = this->mediator.sdl_context;
+	ComponentManager & mgr = this->mediator.component_manager;
+	ResourceManager & resource_manager = this->mediator.resource_manager;
 
+	RefVector<Text> texts = mgr.get_components_by_type<Text>();
+
+	for (Text & text : texts) {
+		if (!text.active) continue;
+		if (!text.font.has_value())
+			text.font.emplace(ctx.get_font_from_name(text.font_family));
+
+		const Font & font = resource_manager.get<Font>(text.font.value());
+		const auto & transform
+			= mgr.get_components_by_id<Transform>(text.game_object_id).front().get();
+		ctx.draw_text(SDLContext::RenderText{
+			.text = text,
+			.font = font,
+			.transform = transform,
+		});
+	}
+}
+
+bool RenderSystem::render_particle(const Sprite & sprite, const Transform & transform) {
 	ComponentManager & mgr = this->mediator.component_manager;
 	SDLContext & ctx = this->mediator.sdl_context;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
@@ -89,29 +118,30 @@ bool RenderSystem::render_particle(const Sprite & sprite, const double & scale) 
 
 		for (const Particle & p : em.particles) {
 			if (!p.active) continue;
+			if (p.time_in_life < em.data.begin_lifespan) continue;
 
 			ctx.draw(SDLContext::RenderContext{
 				.sprite = sprite,
 				.texture = res,
 				.pos = p.position,
-				.angle = p.angle,
-				.scale = scale,
+				.angle = p.angle + transform.rotation,
+				.scale = transform.scale,
 			});
 		}
 	}
 	return rendering_particles;
 }
-void RenderSystem::render_normal(const Sprite & sprite, const Transform & tm) {
+void RenderSystem::render_normal(const Sprite & sprite, const Transform & transform) {
 	SDLContext & ctx = this->mediator.sdl_context;
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 	const Texture & res = resource_manager.get<Texture>(sprite.source);
-
+	vec2 pos = AbsolutePosition::get_position(transform, sprite.data.position_offset);
 	ctx.draw(SDLContext::RenderContext{
 		.sprite = sprite,
 		.texture = res,
-		.pos = tm.position,
-		.angle = tm.rotation,
-		.scale = tm.scale,
+		.pos = pos,
+		.angle = transform.rotation,
+		.scale = transform.scale,
 	});
 }
 
@@ -120,14 +150,16 @@ void RenderSystem::render() {
 	this->update_camera();
 
 	RefVector<Sprite> sprites = mgr.get_components_by_type<Sprite>();
+	ResourceManager & resource_manager = this->mediator.resource_manager;
 	RefVector<Sprite> sorted_sprites = this->sort(sprites);
+	RefVector<Text> text_components = mgr.get_components_by_type<Text>();
 
 	for (const Sprite & sprite : sorted_sprites) {
 		if (!sprite.active) continue;
 		const Transform & transform
 			= mgr.get_components_by_id<Transform>(sprite.game_object_id).front().get();
 
-		bool rendered_particles = this->render_particle(sprite, transform.scale);
+		bool rendered_particles = this->render_particle(sprite, transform);
 
 		if (rendered_particles) continue;
 

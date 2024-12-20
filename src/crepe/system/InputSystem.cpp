@@ -8,13 +8,11 @@
 
 using namespace crepe;
 
-void InputSystem::update() {
+void InputSystem::fixed_update() {
 	ComponentManager & mgr = this->mediator.component_manager;
-
 	SDLContext & context = this->mediator.sdl_context;
 	std::vector<EventData> event_list = context.get_events();
-	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
-	RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
+	const RefVector<Camera> cameras = mgr.get_components_by_type<Camera>();
 	OptionalRef<Camera> curr_cam_ref;
 
 	// Find the active camera
@@ -26,9 +24,8 @@ void InputSystem::update() {
 	if (!curr_cam_ref) return;
 
 	Camera & current_cam = curr_cam_ref;
-	RefVector<Transform> transform_vec
-		= mgr.get_components_by_id<Transform>(current_cam.game_object_id);
-	Transform & cam_transform = transform_vec.front().get();
+	const Transform & cam_transform
+		= mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
 
 	vec2 camera_origin = cam_transform.position + current_cam.data.postion_offset
 						 - (current_cam.viewport_size / 2);
@@ -52,7 +49,7 @@ void InputSystem::handle_mouse_event(const EventData & event, const vec2 & camer
 	EventManager & event_mgr = this->mediator.event_manager;
 	vec2 adjusted_mouse;
 	adjusted_mouse.x = event.data.mouse_data.mouse_position.x + camera_origin.x;
-	adjusted_mouse.x = event.data.mouse_data.mouse_position.y + camera_origin.y;
+	adjusted_mouse.y = event.data.mouse_data.mouse_position.y + camera_origin.y;
 	// Check if the mouse is within the viewport
 	if ((adjusted_mouse.x < camera_origin.x
 		 || adjusted_mouse.x > camera_origin.x + current_cam.viewport_size.x
@@ -85,7 +82,8 @@ void InputSystem::handle_mouse_event(const EventData & event, const vec2 & camer
 					.mouse_pos = adjusted_mouse,
 					.button = event.data.mouse_data.mouse_button,
 				});
-				this->handle_click(event.data.mouse_data.mouse_button, adjusted_mouse);
+				this->handle_click(event.data.mouse_data.mouse_button, adjusted_mouse,
+								   current_cam);
 			}
 			break;
 		}
@@ -95,7 +93,7 @@ void InputSystem::handle_mouse_event(const EventData & event, const vec2 & camer
 				.mouse_pos = adjusted_mouse,
 				.mouse_delta = event.data.mouse_data.rel_mouse_move,
 			});
-			this->handle_move(event, adjusted_mouse);
+			this->handle_move(event, adjusted_mouse, current_cam);
 			break;
 
 		case EventType::MOUSE_WHEEL:
@@ -153,63 +151,67 @@ void InputSystem::handle_non_mouse_event(const EventData & event) {
 	}
 }
 
-void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_pos) {
+void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_pos,
+							  const Camera & current_cam) {
 	ComponentManager & mgr = this->mediator.component_manager;
-
-	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
+	EventManager & event_mgr = this->mediator.event_manager;
+	const RefVector<Button> buttons = mgr.get_components_by_type<Button>();
 
 	for (Button & button : buttons) {
 		if (!button.active) continue;
-		RefVector<Transform> transform_vec
-			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		Transform & transform(transform_vec.front().get());
 
+		const Transform & transform
+			= mgr.get_components_by_id<Transform>(button.game_object_id).front();
+		const Transform & cam_transform
+			= mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
+		const Metadata & metadata
+			= mgr.get_components_by_id<Metadata>(button.game_object_id).front();
 		bool was_hovering = button.hover;
-		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
+
+		if (this->is_mouse_inside_button(mouse_pos, button, transform, cam_transform)) {
 			button.hover = true;
-			if (!button.on_mouse_enter) continue;
 			if (!was_hovering) {
-				button.on_mouse_enter();
+				event_mgr.trigger_event<ButtonEnterEvent>(metadata);
 			}
 		} else {
 			button.hover = false;
-			// Trigger the on_exit callback if the hover state just changed to false
-			if (!button.on_mouse_exit) continue;
 			if (was_hovering) {
-				button.on_mouse_exit();
+				event_mgr.trigger_event<ButtonExitEvent>(metadata);
 			}
 		}
 	}
 }
 
-void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos) {
+void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos,
+							   const Camera & current_cam) {
 	ComponentManager & mgr = this->mediator.component_manager;
-
-	RefVector<Button> buttons = mgr.get_components_by_type<Button>();
-
+	EventManager & event_mgr = this->mediator.event_manager;
+	const RefVector<Button> buttons = mgr.get_components_by_type<Button>();
+	const Transform & cam_transform
+		= mgr.get_components_by_id<Transform>(current_cam.game_object_id).front();
 	for (Button & button : buttons) {
 		if (!button.active) continue;
-		if (!button.on_click) continue;
-		RefVector<Transform> transform_vec
-			= mgr.get_components_by_id<Transform>(button.game_object_id);
-		Transform & transform = transform_vec.front().get();
-
-		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
-
-			button.on_click();
+		const Metadata & metadata
+			= mgr.get_components_by_id<Metadata>(button.game_object_id).front();
+		const Transform & transform
+			= mgr.get_components_by_id<Transform>(button.game_object_id).front();
+		if (this->is_mouse_inside_button(mouse_pos, button, transform, cam_transform)) {
+			event_mgr.trigger_event<ButtonPressEvent>(metadata);
 		}
 	}
 }
 
 bool InputSystem::is_mouse_inside_button(const vec2 & mouse_pos, const Button & button,
-										 const Transform & transform) {
-	int actual_x = transform.position.x + button.offset.x;
-	int actual_y = transform.position.y + button.offset.y;
+										 const Transform & transform,
+										 const Transform & cam_transform) {
+	vec2 actual_pos = transform.position + button.offset;
+	if (!button.world_space) {
+		actual_pos += cam_transform.position;
+	}
+	vec2 half_dimensions = button.dimensions / 2;
 
-	int half_width = button.dimensions.x / 2;
-	int half_height = button.dimensions.y / 2;
-
-	// Check if the mouse is within the button's boundaries
-	return mouse_pos.x >= actual_x - half_width && mouse_pos.x <= actual_x + half_width
-		   && mouse_pos.y >= actual_y - half_height && mouse_pos.y <= actual_y + half_height;
+	return mouse_pos.x >= actual_pos.x - half_dimensions.x
+		   && mouse_pos.x <= actual_pos.x + half_dimensions.x
+		   && mouse_pos.y >= actual_pos.y - half_dimensions.y
+		   && mouse_pos.y <= actual_pos.y + half_dimensions.y;
 }

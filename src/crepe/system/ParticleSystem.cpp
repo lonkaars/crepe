@@ -7,12 +7,13 @@
 #include "../api/Transform.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/LoopTimerManager.h"
+#include "util/AbsolutePosition.h"
 
 #include "ParticleSystem.h"
 
 using namespace crepe;
 
-void ParticleSystem::update() {
+void ParticleSystem::fixed_update() {
 	// Get all emitters
 	const Mediator & mediator = this->mediator;
 	LoopTimerManager & loop_timer = mediator.loop_timer;
@@ -48,9 +49,10 @@ void ParticleSystem::update() {
 void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & transform) {
 	constexpr float DEG_TO_RAD = M_PI / 180.0;
 
-	vec2 initial_position = emitter.data.offset + transform.position;
+	vec2 initial_position = AbsolutePosition::get_position(transform, emitter.data.offset);
 	float random_angle
-		= this->generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
+		= this->generate_random_angle(emitter.data.min_angle + transform.rotation,
+									  emitter.data.max_angle + transform.rotation);
 
 	float random_speed
 		= this->generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);

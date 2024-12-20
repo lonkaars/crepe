@@ -97,18 +97,18 @@ TEST_F(ParticlesTest, spawnParticle) {
 	emitter.data.max_angle = 0.1;
 	emitter.data.max_speed = 10;
 	emitter.data.max_angle = 10;
-	particle_system.update();
+	particle_system.fixed_update();
 	//check if nothing happend
 	EXPECT_EQ(emitter.particles[0].active, false);
 	emitter.data.emission_rate = 50;
 	//check particle spawnes
-	particle_system.update();
+	particle_system.fixed_update();
 	EXPECT_EQ(emitter.particles[0].active, true);
-	particle_system.update();
+	particle_system.fixed_update();
 	EXPECT_EQ(emitter.particles[1].active, true);
-	particle_system.update();
+	particle_system.fixed_update();
 	EXPECT_EQ(emitter.particles[2].active, true);
-	particle_system.update();
+	particle_system.fixed_update();
 	EXPECT_EQ(emitter.particles[3].active, true);
 
 	for (auto & particle : emitter.particles) {
@@ -142,7 +142,7 @@ TEST_F(ParticlesTest, moveParticleHorizontal) {
 	emitter.data.max_angle = 0;
 	emitter.data.emission_rate = 50;
 	for (int a = 1; a < emitter.data.boundary.width / 2; a++) {
-		particle_system.update();
+		particle_system.fixed_update();
 		EXPECT_EQ(emitter.particles[0].position.x, a);
 	}
 }
@@ -160,7 +160,7 @@ TEST_F(ParticlesTest, moveParticleVertical) {
 	emitter.data.max_angle = 90;
 	emitter.data.emission_rate = 50;
 	for (int a = 1; a < emitter.data.boundary.width / 2; a++) {
-		particle_system.update();
+		particle_system.fixed_update();
 		EXPECT_EQ(emitter.particles[0].position.y, a);
 	}
 }
@@ -179,7 +179,7 @@ TEST_F(ParticlesTest, boundaryParticleReset) {
 	emitter.data.max_angle = 90;
 	emitter.data.emission_rate = 1;
 	for (int a = 0; a < emitter.data.boundary.width / 2 + 1; a++) {
-		particle_system.update();
+		particle_system.fixed_update();
 	}
 	EXPECT_EQ(emitter.particles[0].active, false);
 }
@@ -198,7 +198,7 @@ TEST_F(ParticlesTest, boundaryParticleStop) {
 	emitter.data.max_angle = 90;
 	emitter.data.emission_rate = 1;
 	for (int a = 0; a < emitter.data.boundary.width / 2 + 1; a++) {
-		particle_system.update();
+		particle_system.fixed_update();
 	}
 	const double TOLERANCE = 0.01;
 	EXPECT_NEAR(emitter.particles[0].velocity.x, 0, TOLERANCE);

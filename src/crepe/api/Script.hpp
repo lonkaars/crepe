@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../manager/ComponentManager.h"
+#include "../manager/ReplayManager.h"
 
 #include "BehaviorScript.h"
 #include "Script.h"
@@ -23,9 +24,14 @@ RefVector<T> Script::get_components() const {
 	return this->get_components_by_id<T>(this->game_object_id);
 }
 
-template <typename... Args>
-void Script::logf(Args &&... args) {
-	Log::logf(std::forward<Args>(args)...);
+template <class... Args>
+void Script::logf(const Log::Level & level, std::format_string<Args...> fmt, Args &&... args) {
+	Log::logf(level, fmt, std::forward<Args>(args)...);
+}
+
+template <class... Args>
+void Script::logf(std::format_string<Args...> fmt, Args &&... args) {
+	Log::logf(fmt, std::forward<Args>(args)...);
 }
 
 template <typename EventType>
@@ -34,8 +40,18 @@ void Script::subscribe_internal(const EventHandler<EventType> & callback,
 	EventManager & mgr = this->mediator->event_manager;
 	subscription_t listener = mgr.subscribe<EventType>(
 		[this, callback](const EventType & data) -> bool {
+			// check if (parent) BehaviorScript component is active
 			bool & active = this->active;
 			if (!active) return false;
+
+			// check if replay manager is playing (if initialized)
+			try {
+				ReplayManager & replay = this->mediator->replay_manager;
+				if (replay.get_state() == ReplayManager::PLAYING) return false;
+			} catch (const std::runtime_error &) {
+			}
+
+			// call user-provided callback
 			return callback(data);
 		},
 		channel);
@@ -50,6 +66,18 @@ void Script::subscribe(const EventHandler<EventType> & callback, event_channel_t
 template <typename EventType>
 void Script::subscribe(const EventHandler<EventType> & callback) {
 	this->subscribe_internal(callback, EventManager::CHANNEL_ALL);
+}
+
+template <typename EventType>
+void Script::trigger_event(const EventType & event, event_channel_t channel) {
+	EventManager & mgr = this->mediator->event_manager;
+	mgr.trigger_event(event, channel);
+}
+
+template <typename EventType>
+void Script::queue_event(const EventType & event, event_channel_t channel) {
+	EventManager & mgr = this->mediator->event_manager;
+	mgr.queue_event(event, channel);
 }
 
 template <typename T>

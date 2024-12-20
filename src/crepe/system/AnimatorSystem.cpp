@@ -1,5 +1,3 @@
-
-
 #include "../api/Animator.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/LoopTimerManager.h"
@@ -10,7 +8,7 @@
 using namespace crepe;
 using namespace std::chrono;
 
-void AnimatorSystem::update() {
+void AnimatorSystem::frame_update() {
 	ComponentManager & mgr = this->mediator.component_manager;
 	LoopTimerManager & timer = this->mediator.loop_timer;
 	RefVector<Animator> animations = mgr.get_components_by_type<Animator>();
