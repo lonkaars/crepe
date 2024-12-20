@@ -8,6 +8,7 @@
 #include "../manager/Mediator.h"
 #include "../manager/ReplayManager.h"
 #include "../system/CollisionSystem.h"
+#include "../system/InputSystem.h"
 #include "../types.h"
 #include "../util/Log.h"
 #include "../util/OptionalRef.h"
@@ -270,7 +271,42 @@ void Script::subscribe(const EventHandler<CollisionEvent> & callback);
 template <>
 void Script::subscribe(const EventHandler<CollisionEvent> & callback, event_channel_t)
 	= delete;
-
+/**
+ * \brief Subscribe to ButtonPressEvent for the current GameObject
+ *
+ * This is a template specialization for Script::subscribe which automatically sets the event
+ * channel so the callback handler is only called for ButtonPressEvent events that apply to the
+ * current GameObject the parent BehaviorScript is attached to.
+ */
+template <>
+void Script::subscribe(const EventHandler<ButtonPressEvent> & callback);
+template <>
+void Script::subscribe(const EventHandler<ButtonPressEvent> & callback, event_channel_t)
+	= delete;
+/**
+ * \brief Subscribe to ButtonExitEvent for the current GameObject
+ *
+ * This is a template specialization for Script::subscribe which automatically sets the event
+ * channel so the callback handler is only called for ButtonExitEvent events that apply to the
+ * current GameObject the parent BehaviorScript is attached to.
+ */
+template <>
+void Script::subscribe(const EventHandler<ButtonExitEvent> & callback);
+template <>
+void Script::subscribe(const EventHandler<ButtonExitEvent> & callback, event_channel_t)
+	= delete;
+/**
+ * \brief Subscribe to ButtonEnterEvent for the current GameObject
+ *
+ * This is a template specialization for Script::subscribe which automatically sets the event
+ * channel so the callback handler is only called for ButtonEnterEvent events that apply to the
+ * current GameObject the parent BehaviorScript is attached to.
+ */
+template <>
+void Script::subscribe(const EventHandler<ButtonEnterEvent> & callback);
+template <>
+void Script::subscribe(const EventHandler<ButtonEnterEvent> & callback, event_channel_t)
+	= delete;
 } // namespace crepe
 
 #include "Script.hpp"
