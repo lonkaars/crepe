@@ -9,7 +9,7 @@ ForestParallaxScript::ForestParallaxScript(float begin_x, float end_x,
 	  end_x(end_x),
 	  name(unique_bg_name) {}
 
-void ForestParallaxScript::update() {
+void ForestParallaxScript::fixed_update(crepe::duration_t dt) {
 	RefVector<Transform> vec_2
 		= this->get_components_by_name<Transform>("forest_bg_2_" + name);
 	RefVector<Transform> vec_3
