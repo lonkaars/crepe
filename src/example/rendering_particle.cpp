@@ -64,11 +64,14 @@ public:
 										},
 										"test TEST");
 
-		game_object.add_component<Text>(vec2{1, 1}, vec2{0, 1}, "Ariel",
-										Text::Data{
-											.text_color = Color::BLACK,
-										},
-										"TEST test").world_space = true;
+		game_object
+			.add_component<Text>(vec2{1, 1}, vec2{0, 1}, "Ariel",
+								 Text::Data{
+									 .text_color = Color::BLACK,
+								 },
+								 "TEST test")
+			.world_space
+			= true;
 	}
 
 	string get_name() const { return "TestScene"; };
