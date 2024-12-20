@@ -20,6 +20,21 @@ void Script::subscribe(const EventHandler<CollisionEvent> & callback) {
 	this->subscribe_internal(callback, this->game_object_id);
 }
 
+template <>
+void Script::subscribe(const EventHandler<ButtonExitEvent> & callback) {
+	this->subscribe_internal(callback, this->game_object_id);
+}
+
+template <>
+void Script::subscribe(const EventHandler<ButtonPressEvent> & callback) {
+	this->subscribe_internal(callback, this->game_object_id);
+}
+
+template <>
+void Script::subscribe(const EventHandler<ButtonEnterEvent> & callback) {
+	this->subscribe_internal(callback, this->game_object_id);
+}
+
 void Script::set_next_scene(const string & name) {
 	SceneManager & mgr = this->mediator->scene_manager;
 	mgr.set_next_scene(name);
