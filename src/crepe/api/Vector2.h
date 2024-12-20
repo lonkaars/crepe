@@ -90,6 +90,9 @@ struct Vector2 {
 
 	//! Returns the perpendicular vector to this vector.
 	Vector2 perpendicular() const;
+
+	//! Checks if both components of the vector are NaN.
+	bool is_nan() const;
 };
 
 } // namespace crepe

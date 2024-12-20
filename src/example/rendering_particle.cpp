@@ -1,4 +1,7 @@
+
+
 #include "api/Asset.h"
+#include "api/Text.h"
 #include <crepe/Component.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Button.h>
@@ -13,7 +16,6 @@
 #include <crepe/manager/ComponentManager.h>
 #include <crepe/manager/Mediator.h>
 #include <crepe/types.h>
-#include <iostream>
 
 using namespace crepe;
 using namespace std;
@@ -21,15 +23,11 @@ using namespace std;
 class TestScene : public Scene {
 public:
 	void load_scene() {
-
-		cout << "TestScene" << endl;
-		Mediator & mediator = this->mediator;
-		ComponentManager & mgr = mediator.component_manager;
-		GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 1);
+		GameObject game_object = new_object("", "", vec2{0, 0}, 0, 1);
 
 		Color color(255, 255, 255, 255);
 
-		Asset img{"asset/spritesheet/spritesheet_test.png"};
+		Asset img{"asset/texture/square.png"};
 
 		Sprite & test_sprite = game_object.add_component<Sprite>(
 			img, Sprite::Data{
@@ -37,29 +35,34 @@ public:
 					 .flip = Sprite::FlipSettings{false, false},
 					 .sorting_in_layer = 2,
 					 .order_in_layer = 2,
-					 .size = {0, 100},
+					 .size = {1, 1},
 					 .angle_offset = 0,
-					 .position_offset = {0, 0},
+					 .position_offset = {0, 1},
+					 .world_space = false,
 				 });
+		//auto & emitter			= game_object.add_component<ParticleEmitter>(test_sprite, ParticleEmitter::Data{});
 
-		//auto & anim = game_object.add_component<Animator>(test_sprite,ivec2{32, 64}, uvec2{4,1}, Animator::Data{});
-		//anim.set_anim(0);
+		Sprite & test_sprite1
+			= game_object.add_component<Sprite>(img, Sprite::Data{
+														 .color = color,
+														 .size = {1, 1},
+														 .position_offset = {0, -1},
+														 .world_space = false,
+													 });
 
-		auto & cam = game_object.add_component<Camera>(ivec2{720, 1280}, vec2{400, 400},
+		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{5, 5},
 													   Camera::Data{
 														   .bg_color = Color::WHITE,
+														   .postion_offset = {1000, 1000},
 													   });
 
-		function<void()> on_click = [&]() { cout << "button clicked" << std::endl; };
-		function<void()> on_enter = [&]() { cout << "enter" << std::endl; };
-		function<void()> on_exit = [&]() { cout << "exit" << std::endl; };
+		/*
+		game_object.add_component<Text>(vec2{1, 1}, vec2{0, -0.5}, "ComicSansMS",
+										Text::Data{.text_color = Color::RED}, "test TEST");
 
-		auto & button
-			= game_object.add_component<Button>(vec2{200, 200}, vec2{0, 0}, on_click, false);
-		button.on_mouse_enter = on_enter;
-		button.on_mouse_exit = on_exit;
-		button.is_toggle = true;
-		button.active = true;
+		game_object.add_component<Text>(vec2{1, 1}, vec2{0, 0.5}, "ComicSansMS",
+										Text::Data{.text_color = Color::BLACK}, "TEST test");
+		*/
 	}
 
 	string get_name() const { return "TestScene"; };
