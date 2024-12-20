@@ -36,12 +36,11 @@ public:
 	RenderSystem render{mediator};
 	EventManager event_manager{mediator};
 	//GameObject camera;
-	int offset_x = 100;
-	int offset_y = 200;
+	vec2 offset = {100, 200};
 
 protected:
 	void SetUp() override {
-		GameObject obj = mgr.new_object("camera", "camera", vec2{offset_x, offset_y}, 0, 1);
+		GameObject obj = mgr.new_object("camera", "camera", offset, 0, 1);
 		auto & camera
 			= obj.add_component<Camera>(ivec2{500, 500}, vec2{500, 500},
 										Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
@@ -77,8 +76,7 @@ TEST_F(InputTest, MouseDown) {
 	EventHandler<MousePressEvent> on_mouse_down = [&](const MousePressEvent & event) {
 		mouse_triggered = true;
 		//middle of the screen = 0,0
-		EXPECT_EQ(event.mouse_pos.x, offset_x);
-		EXPECT_EQ(event.mouse_pos.y, offset_y);
+		EXPECT_EQ(event.mouse_pos, offset);
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -102,8 +100,7 @@ TEST_F(InputTest, MouseUp) {
 	bool function_triggered = false;
 	EventHandler<MouseReleaseEvent> on_mouse_release = [&](const MouseReleaseEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_pos.x, offset_x);
-		EXPECT_EQ(e.mouse_pos.y, offset_y);
+		EXPECT_EQ(e.mouse_pos, offset);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -126,8 +123,7 @@ TEST_F(InputTest, MouseMove) {
 	bool function_triggered = false;
 	EventHandler<MouseMoveEvent> on_mouse_move = [&](const MouseMoveEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_pos.x, offset_x);
-		EXPECT_EQ(e.mouse_pos.y, offset_y);
+		EXPECT_EQ(e.mouse_pos, offset);
 		EXPECT_EQ(e.mouse_delta.x, 10);
 		EXPECT_EQ(e.mouse_delta.y, 10);
 		return false;
@@ -200,8 +196,7 @@ TEST_F(InputTest, MouseClick) {
 	EventHandler<MouseClickEvent> on_mouse_click = [&](const MouseClickEvent & event) {
 		on_click_triggered = true;
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
-		EXPECT_EQ(event.mouse_pos.x, offset_x);
-		EXPECT_EQ(event.mouse_pos.y, offset_y);
+		EXPECT_EQ(event.mouse_pos, offset);
 		return false;
 	};
 	event_manager.subscribe<MouseClickEvent>(on_mouse_click);
@@ -248,12 +243,12 @@ TEST_F(InputTest, buttonPositionCamera) {
 	bool hover = false;
 	button.active = true;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button_clicked);
 
 	this->simulate_mouse_click(300, 300, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button_clicked);
 }
@@ -270,12 +265,12 @@ TEST_F(InputTest, buttonPositionWorld) {
 	bool hover = false;
 	button.active = true;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button_clicked);
 
 	this->simulate_mouse_click(300, 300, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button_clicked);
 }
