@@ -12,7 +12,7 @@ using namespace std;
 float HallwaySubScene::create(Scene & scn, float begin_x, unsigned int sector_num,
 							  Color sector_color) {
 	GameObject begin = scn.new_object("hallway_begin", "background", vec2(begin_x, 0));
-	Asset begin_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
+	Asset begin_asset{"asset/background/hallway/hallway1FG_1_TVOS.png"};
 	begin.add_component<Sprite>(begin_asset, Sprite::Data{
 												 .sorting_in_layer = 4,
 												 .order_in_layer = 0,
@@ -25,7 +25,7 @@ float HallwaySubScene::create(Scene & scn, float begin_x, unsigned int sector_nu
 	this->add_lamp(begin, vec2(430, -120), 9);
 
 	GameObject middle_1 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
-	Asset middle_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+	Asset middle_asset{"asset/background/hallway/hallway1FG_2_TVOS.png"};
 	middle_1.add_component<Sprite>(middle_asset, Sprite::Data{
 													 .sorting_in_layer = 4,
 													 .order_in_layer = 2,
@@ -34,7 +34,7 @@ float HallwaySubScene::create(Scene & scn, float begin_x, unsigned int sector_nu
 	begin_x += 600;
 
 	GameObject middle_2 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
-	Asset middle_asset_2{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+	Asset middle_asset_2{"asset/background/hallway/hallway1FG_2_TVOS.png"};
 	middle_2.add_component<Sprite>(middle_asset_2, Sprite::Data{
 													   .sorting_in_layer = 4,
 													   .order_in_layer = 3,
@@ -43,7 +43,7 @@ float HallwaySubScene::create(Scene & scn, float begin_x, unsigned int sector_nu
 	begin_x += 200;
 
 	GameObject middle_3 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
-	Asset middle_asset_3{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+	Asset middle_asset_3{"asset/background/hallway/hallway1FG_2_TVOS.png"};
 	middle_3.add_component<Sprite>(middle_asset_3, Sprite::Data{
 													   .sorting_in_layer = 4,
 													   .order_in_layer = 4,
@@ -54,7 +54,7 @@ float HallwaySubScene::create(Scene & scn, float begin_x, unsigned int sector_nu
 	this->add_lamp(middle_3, vec2(0, -120));
 
 	GameObject middle_4 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
-	Asset middle_asset_4{"asset/jetpack_joyride/background/hallway/hallway1FG_2_TVOS.png"};
+	Asset middle_asset_4{"asset/background/hallway/hallway1FG_2_TVOS.png"};
 	middle_4.add_component<Sprite>(middle_asset_4, Sprite::Data{
 													   .sorting_in_layer = 4,
 													   .order_in_layer = 5,
@@ -63,7 +63,7 @@ float HallwaySubScene::create(Scene & scn, float begin_x, unsigned int sector_nu
 	begin_x += 600;
 
 	GameObject end = scn.new_object("hallway_end", "background", vec2(begin_x, 0));
-	Asset end_asset{"asset/jetpack_joyride/background/hallway/hallway1FG_1_TVOS.png"};
+	Asset end_asset{"asset/background/hallway/hallway1FG_1_TVOS.png"};
 	end.add_component<Sprite>(end_asset, Sprite::Data{
 											 .sorting_in_layer = 4,
 											 .order_in_layer = 1,
@@ -75,14 +75,14 @@ float HallwaySubScene::create(Scene & scn, float begin_x, unsigned int sector_nu
 }
 
 void HallwaySubScene::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) {
-	Asset lamp_asset{"asset/jetpack_joyride/background/hallway/alarmLight_TVOS.png"};
+	Asset lamp_asset{"asset/background/hallway/alarmLight_TVOS.png"};
 	obj.add_component<Sprite>(lamp_asset, Sprite::Data{
 											  .sorting_in_layer = 5,
 											  .order_in_layer = 0,
 											  .size = vec2(0, 100),
 											  .position_offset = offset,
 										  });
-	Asset lamp_glow_asset{"asset/jetpack_joyride/background/hallway/alarmGlow_TVOS.png"};
+	Asset lamp_glow_asset{"asset/background/hallway/alarmGlow_TVOS.png"};
 	Sprite & lamp_glow_sprite = obj.add_component<Sprite>(
 		lamp_glow_asset, Sprite::Data{
 							 .sorting_in_layer = 5,
@@ -99,7 +99,7 @@ void HallwaySubScene::add_lamp(GameObject & obj, vec2 offset, unsigned int fps) 
 
 void HallwaySubScene::add_sector_number(GameObject & obj, vec2 offset, unsigned int sector_num,
 										Color sector_color) {
-	Asset sector_text_asset{"asset/jetpack_joyride/background/hallway/sectorText_TVOS.png"};
+	Asset sector_text_asset{"asset/background/hallway/sectorText_TVOS.png"};
 	obj.add_component<Sprite>(sector_text_asset, Sprite::Data{
 													 .color = sector_color,
 													 .sorting_in_layer = 5,
@@ -107,7 +107,7 @@ void HallwaySubScene::add_sector_number(GameObject & obj, vec2 offset, unsigned 
 													 .size = vec2(0, 100),
 													 .position_offset = offset,
 												 });
-	Asset sector_num_asset{"asset/jetpack_joyride/background/hallway/sectorNumbers_TVOS.png"};
+	Asset sector_num_asset{"asset/background/hallway/sectorNumbers_TVOS.png"};
 	Sprite & sector_num_sprite = obj.add_component<Sprite>(
 		sector_num_asset, Sprite::Data{
 							  .color = sector_color,

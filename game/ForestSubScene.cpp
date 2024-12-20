@@ -20,7 +20,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 	this->add_background(scn, begin_x, unique_bg_name);
 
 	GameObject begin = scn.new_object("forest_begin", "background", vec2(begin_x, 0));
-	Asset begin_asset{"asset/jetpack_joyride/background/forest/forestFG_1_TVOS.png"};
+	Asset begin_asset{"asset/background/forest/forestFG_1_TVOS.png"};
 	begin.add_component<Sprite>(begin_asset, Sprite::Data{
 												 .sorting_in_layer = 4,
 												 .order_in_layer = 0,
@@ -31,7 +31,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 	this->add_background(scn, begin_x, unique_bg_name);
 
 	GameObject middle_1 = scn.new_object("forest_middle", "background", vec2(begin_x, 0));
-	Asset middle_1_asset{"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
+	Asset middle_1_asset{"asset/background/forest/forestFG_3_TVOS.png"};
 	middle_1.add_component<Sprite>(middle_1_asset, Sprite::Data{
 													   .sorting_in_layer = 4,
 													   .order_in_layer = 2,
@@ -42,7 +42,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 	this->add_background(scn, begin_x, unique_bg_name);
 
 	GameObject middle_2 = scn.new_object("forest_middle", "background", vec2(begin_x, 0));
-	Asset middle_2_asset{"asset/jetpack_joyride/background/forest/forestFG_3_TVOS.png"};
+	Asset middle_2_asset{"asset/background/forest/forestFG_3_TVOS.png"};
 	middle_2.add_component<Sprite>(middle_2_asset, Sprite::Data{
 													   .sorting_in_layer = 4,
 													   .order_in_layer = 3,
@@ -53,7 +53,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 	this->add_background(scn, begin_x, unique_bg_name);
 
 	GameObject end = scn.new_object("forest_end", "background", vec2(begin_x, 0));
-	Asset end_asset{"asset/jetpack_joyride/background/forest/forestFG_2_TVOS.png"};
+	Asset end_asset{"asset/background/forest/forestFG_2_TVOS.png"};
 	end.add_component<Sprite>(end_asset, Sprite::Data{
 											 .sorting_in_layer = 4,
 											 .order_in_layer = 1,
@@ -69,7 +69,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 void ForestSubScene::add_background(Scene & scn, float begin_x, std::string name) {
 	GameObject bg_1
 		= scn.new_object("forest_bg_1_" + name, "forest_background", vec2(begin_x, 0));
-	Asset bg_1_asset{"asset/jetpack_joyride/background/forest/forestBG1_1_TVOS.png"};
+	Asset bg_1_asset{"asset/background/forest/forestBG1_1_TVOS.png"};
 	bg_1.add_component<Sprite>(bg_1_asset, Sprite::Data{
 											   .sorting_in_layer = 3,
 											   .order_in_layer = 2,
@@ -77,14 +77,14 @@ void ForestSubScene::add_background(Scene & scn, float begin_x, std::string name
 										   });
 	GameObject bg_2
 		= scn.new_object("forest_bg_2_" + name, "forest_background", vec2(begin_x, 0));
-	Asset bg_2_1_asset{"asset/jetpack_joyride/background/forest/forestBG2_1_TVOS.png"};
+	Asset bg_2_1_asset{"asset/background/forest/forestBG2_1_TVOS.png"};
 	bg_2.add_component<Sprite>(bg_2_1_asset, Sprite::Data{
 												 .sorting_in_layer = 3,
 												 .order_in_layer = 1,
 												 .size = vec2(0, 400),
 												 .position_offset = vec2(200, 0),
 											 });
-	Asset bg_2_2_asset{"asset/jetpack_joyride/background/forest/forestBG2_2_TVOS.png"};
+	Asset bg_2_2_asset{"asset/background/forest/forestBG2_2_TVOS.png"};
 	bg_2.add_component<Sprite>(bg_2_2_asset, Sprite::Data{
 												 .sorting_in_layer = 3,
 												 .order_in_layer = 1,
@@ -93,28 +93,28 @@ void ForestSubScene::add_background(Scene & scn, float begin_x, std::string name
 											 });
 	GameObject bg_3
 		= scn.new_object("forest_bg_3_" + name, "forest_background", vec2(begin_x, 0));
-	Asset bg_3_1_asset{"asset/jetpack_joyride/background/forest/forestBG3_1_TVOS.png"};
+	Asset bg_3_1_asset{"asset/background/forest/forestBG3_1_TVOS.png"};
 	bg_3.add_component<Sprite>(bg_3_1_asset, Sprite::Data{
 												 .sorting_in_layer = 3,
 												 .order_in_layer = 0,
 												 .size = vec2(0, 200),
 												 .position_offset = vec2(300, 0),
 											 });
-	Asset bg_3_2_asset{"asset/jetpack_joyride/background/forest/forestBG3_2_TVOS.png"};
+	Asset bg_3_2_asset{"asset/background/forest/forestBG3_2_TVOS.png"};
 	bg_3.add_component<Sprite>(bg_3_2_asset, Sprite::Data{
 												 .sorting_in_layer = 3,
 												 .order_in_layer = 0,
 												 .size = vec2(0, 200),
 												 .position_offset = vec2(100, 0),
 											 });
-	Asset bg_3_3_asset{"asset/jetpack_joyride/background/forest/forestBG3_3_TVOS.png"};
+	Asset bg_3_3_asset{"asset/background/forest/forestBG3_3_TVOS.png"};
 	bg_3.add_component<Sprite>(bg_3_3_asset, Sprite::Data{
 												 .sorting_in_layer = 3,
 												 .order_in_layer = 0,
 												 .size = vec2(0, 200),
 												 .position_offset = vec2(-100, 0),
 											 });
-	Asset bg_3_4_asset{"asset/jetpack_joyride/background/forest/forestBG3_4_TVOS.png"};
+	Asset bg_3_4_asset{"asset/background/forest/forestBG3_4_TVOS.png"};
 	bg_3.add_component<Sprite>(bg_3_4_asset, Sprite::Data{
 												 .sorting_in_layer = 3,
 												 .order_in_layer = 0,
