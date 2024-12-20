@@ -64,4 +64,3 @@ void SystemManager::disable_all() {
 		system->active = false;
 	}
 }
-
