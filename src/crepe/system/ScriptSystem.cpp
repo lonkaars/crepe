@@ -7,9 +7,20 @@
 using namespace std;
 using namespace crepe;
 
-void ScriptSystem::update() {
-	dbg_trace();
+void ScriptSystem::fixed_update() {
+	LoopTimerManager & timer = this->mediator.loop_timer;
+	duration_t delta_time = timer.get_scaled_fixed_delta_time();
+	this->update(&Script::fixed_update, delta_time);
+}
 
+void ScriptSystem::frame_update() {
+	LoopTimerManager & timer = this->mediator.loop_timer;
+	duration_t delta_time = timer.get_delta_time();
+	this->update(&Script::frame_update, delta_time);
+}
+
+void ScriptSystem::update(void (Script::*update_function)(duration_t),
+						  const duration_t & delta_time) {
 	ComponentManager & mgr = this->mediator.component_manager;
 	RefVector<BehaviorScript> behavior_scripts = mgr.get_components_by_type<BehaviorScript>();
 
@@ -23,6 +34,7 @@ void ScriptSystem::update() {
 			script->init();
 			script->initialized = true;
 		}
-		script->update();
+
+		(*script.*update_function)(delta_time);
 	}
 }

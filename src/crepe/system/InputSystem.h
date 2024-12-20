@@ -3,6 +3,8 @@
 #include "../api/Config.h"
 #include "../facade/EventData.h"
 
+#include "../api/Event.h"
+#include "../api/Metadata.h"
 #include "../types.h"
 #include "../util/OptionalRef.h"
 
@@ -13,6 +15,37 @@ namespace crepe {
 class Camera;
 class Button;
 class Transform;
+//! Event triggered when a button is clicked
+class ButtonPressEvent : public Event {
+public:
+	//! Metadata of the button.
+	const Metadata & metadata;
+	/**
+	 * \param metadata Metadata of the button pressed
+	 */
+	ButtonPressEvent(const Metadata & metadata) : metadata(metadata){};
+};
+//! Event triggered when the mouse enters a button
+class ButtonEnterEvent : public Event {
+public:
+	//! Metadata of the button.
+	const Metadata & metadata;
+	/**
+	 * \param metadata Metadata of the button pressed
+	 */
+	ButtonEnterEvent(const Metadata & metadata) : metadata(metadata){};
+};
+//! Event triggered when the mouse leaves a button
+class ButtonExitEvent : public Event {
+public:
+	//! Metadata of the button.
+	const Metadata & metadata;
+	/**
+	 * \param metadata Metadata of the button pressed
+	 */
+	ButtonExitEvent(const Metadata & metadata) : metadata(metadata){};
+};
+
 /**
  * \brief Handles the processing of input events created by SDLContext
  *
@@ -28,7 +61,7 @@ public:
 	 * \brief Updates the system, processing all input events.
 	 * This method processes all events and triggers corresponding actions.
 	 */
-	void update() override;
+	void fixed_update() override;
 
 private:
 	//! Stores the last position of the mouse when the button was pressed.
@@ -61,20 +94,24 @@ private:
 	* \param mouse_button The mouse button involved in the click.
 	* \param world_mouse_x The X coordinate of the mouse in world space.
 	* \param world_mouse_y The Y coordinate of the mouse in world space.
+	* \param current_cam The current active camera.
 	*
 	* This method processes the mouse click event and triggers the corresponding button action.
 	*/
-	void handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos);
+	void handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos,
+					  const Camera & current_cam);
 
 	/**
 	* \brief Handles the mouse movement event.
 	* \param event_data The event data containing information about the mouse movement.
 	* \param world_mouse_x The X coordinate of the mouse in world space.
 	* \param world_mouse_y The Y coordinate of the mouse in world space.
+	* \param current_cam The current active camera.
 	*
 	* This method processes the mouse movement event and updates the button hover state.
 	*/
-	void handle_move(const EventData & event_data, const vec2 & mouse_pos);
+	void handle_move(const EventData & event_data, const vec2 & mouse_pos,
+					 const Camera & current_cam);
 
 	/**
 	* \brief Checks if the mouse position is inside the bounds of the button.
@@ -82,10 +119,11 @@ private:
 	* \param world_mouse_y The Y coordinate of the mouse in world space.
 	* \param button The button to check.
 	* \param transform The transform component of the button.
+	* \param cam_transform the transform of the current active camera
 	* \return True if the mouse is inside the button, false otherwise.
 	*/
 	bool is_mouse_inside_button(const vec2 & mouse_pos, const Button & button,
-								const Transform & transform);
+								const Transform & transform, const Transform & cam_transform);
 
 	/**
 	* \brief Handles the button press event, calling the on_click callback if necessary.

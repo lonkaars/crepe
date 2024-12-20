@@ -2,6 +2,7 @@
 
 #include "../facade/SDLContext.h"
 #include "../manager/SceneManager.h"
+
 #include "Script.h"
 
 using namespace crepe;
@@ -25,6 +26,28 @@ void Script::set_next_scene(const string & name) {
 }
 
 SaveManager & Script::get_save_manager() const { return this->mediator->save_manager; }
+
+LoopTimerManager & Script::get_loop_timer() const { return this->mediator->loop_timer; }
+
+void Script::replay::record_start() {
+	ReplayManager & mgr = this->mediator->replay_manager;
+	return mgr.record_start();
+}
+
+recording_t Script::replay::record_end() {
+	ReplayManager & mgr = this->mediator->replay_manager;
+	return mgr.record_end();
+}
+
+void Script::replay::play(recording_t recording) {
+	ReplayManager & mgr = this->mediator->replay_manager;
+	return mgr.play(recording);
+}
+
+void Script::replay::release(recording_t recording) {
+	ReplayManager & mgr = this->mediator->replay_manager;
+	return mgr.release(recording);
+}
 
 const keyboard_state_t & Script::get_keyboard_state() const {
 	SDLContext & sdl_context = this->mediator->sdl_context;

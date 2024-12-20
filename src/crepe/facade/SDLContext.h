@@ -12,6 +12,7 @@
 #include <unordered_map>
 
 #include "../types.h"
+#include "EventData.h"
 #include "api/Camera.h"
 #include "api/Color.h"
 #include "api/KeyCodes.h"
@@ -19,9 +20,13 @@
 #include "api/Transform.h"
 
 #include "EventData.h"
+#include "FontFacade.h"
+#include "types.h"
 
 namespace crepe {
 class Texture;
+class Text;
+class Font;
 class Mediator;
 
 /**
@@ -69,12 +74,11 @@ public:
 		const double & scale;
 	};
 
-public:
-	/**
-	 * \brief Gets the singleton instance of SDLContext.
-	 * \return Reference to the SDLContext instance.
-	 */
-	static SDLContext & get_instance();
+	struct RenderText {
+		const Text & text;
+		const Font & font;
+		const Transform & transform;
+	};
 
 public:
 	SDLContext(const SDLContext &) = delete;
@@ -184,6 +188,13 @@ public:
 	 */
 	void draw(const RenderContext & ctx);
 
+	/**
+	 * \brief draws a text to the screen 
+	 *
+	 * \param data Reference to the rendering data needed to draw
+	 */
+	void draw_text(const RenderText & data);
+
 	//! Clears the screen, preparing for a new frame.
 	void clear_screen();
 
@@ -242,10 +253,24 @@ private:
 	CameraAuxiliaryData cam_aux_data;
 
 private:
+	//! instance of the font_facade
+	FontFacade font_facade{};
+
+public:
+	/**
+	 * \brief Function to Get asset from font_family
+	 * 
+	 * This function uses the FontFacade function to convert a font_family to an asset.
+	 * 
+	 * \param font_family name of the font style that needs to be used (will return an asset with default font path of the font_family doesnt exist)
+	 * 
+	 * \return asset with the font style absolute path
+	 */
+	Asset get_font_from_name(const std::string & font_family);
 	//! variable to store the state of each key (true = pressed, false = not pressed)
 	keyboard_state_t keyboard_state;
 	//! lookup table for converting SDL_SCANCODES to Keycodes
-	const std::unordered_map<SDL_Scancode, Keycode> LOOKUP_TABLE
+	const std::unordered_map<SDL_Scancode, Keycode> lookup_table
 		= {{SDL_SCANCODE_SPACE, Keycode::SPACE},
 		   {SDL_SCANCODE_APOSTROPHE, Keycode::APOSTROPHE},
 		   {SDL_SCANCODE_COMMA, Keycode::COMMA},
