@@ -27,7 +27,6 @@ public:
 
 		Color color(255, 255, 255, 255);
 
-		/*
 		Asset img{"asset/texture/square.png"};
 
 		Sprite & test_sprite = game_object.add_component<Sprite>(
@@ -50,7 +49,6 @@ public:
 														 .position_offset = {0, -1},
 														 .world_space = false,
 													 });
-		*/
 
 		auto & cam = game_object.add_component<Camera>(ivec2{1280, 720}, vec2{5, 5},
 													   Camera::Data{
