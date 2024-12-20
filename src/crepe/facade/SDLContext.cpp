@@ -68,7 +68,6 @@ SDLContext::SDLContext(Mediator & mediator) {
 		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
 	}
 
-
 	mediator.sdl_context = *this;
 }
 
