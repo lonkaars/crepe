@@ -162,6 +162,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 500,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_1_rb.active = false;
 	frag_1.add_component<CircleCollider>(25);
@@ -182,6 +183,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 400,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_2_rb.active = false;
 	frag_2.add_component<CircleCollider>(55);
@@ -202,6 +204,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 300,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_3_rb.active = false;
 	frag_3.add_component<CircleCollider>(35);
@@ -222,6 +225,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 200,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_4_rb.active = false;
 	frag_4.add_component<CircleCollider>(60);
@@ -242,6 +246,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 100,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_5_rb.active = false;
 	frag_5.add_component<CircleCollider>(5);
@@ -262,6 +267,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 100,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_6_rb.active = false;
 	frag_6.add_component<CircleCollider>(30);
@@ -282,6 +288,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 800,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_7_rb.active = false;
 	frag_7.add_component<CircleCollider>(45);
@@ -302,6 +309,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 500,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_8_rb.active = false;
 	frag_8.add_component<CircleCollider>(25);
@@ -322,6 +330,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 500,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_9_rb.active = false;
 	frag_9.add_component<CircleCollider>(15);
@@ -342,6 +351,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 300,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_10_rb.active = false;
 	frag_10.add_component<CircleCollider>(60);
@@ -362,6 +372,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 200,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_11_rb.active = false;
 	frag_11.add_component<CircleCollider>(5);
@@ -382,6 +393,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 		.angular_velocity = 100,
 		.angular_velocity_coefficient = 0.55,
 		.elasticity_coefficient = 0.5,
+		.collision_layer = 5,
 	});
 	frag_12_rb.active = false;
 	frag_12.add_component<CircleCollider>(50);
