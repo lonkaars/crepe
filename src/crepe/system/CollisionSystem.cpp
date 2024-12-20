@@ -589,5 +589,5 @@ void CollisionSystem::call_collision_events(const CollisionInfo & info) {
 	CollisionEvent data_inverted(-info);
 	EventManager & emgr = this->mediator.event_manager;
 	emgr.trigger_event<CollisionEvent>(data, info.self.transform.game_object_id);
-	emgr.trigger_event<CollisionEvent>(data_inverted, -info.self.transform.game_object_id);
+	emgr.trigger_event<CollisionEvent>(data_inverted, info.other.transform.game_object_id);
 }
