@@ -68,7 +68,6 @@ SDLContext::SDLContext(Mediator & mediator) {
 		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
 	}
 
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
 	mediator.sdl_context = *this;
 }
@@ -173,6 +172,7 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 }
 
 void SDLContext::draw(const RenderContext & ctx) {
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 	const Sprite::Data & data = ctx.sprite.data;
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
@@ -203,6 +203,7 @@ void SDLContext::draw(const RenderContext & ctx) {
 }
 
 void SDLContext::draw_text(const RenderText & data) {
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
 
 	const Text & text = data.text;
 	const Font & font = data.font;
