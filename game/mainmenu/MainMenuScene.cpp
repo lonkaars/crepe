@@ -8,7 +8,10 @@ using namespace std;
 
 void MainMenuScene::load_scene(){
 	GameObject camera_object = this->new_object("camera");
-	camera_object.add_component<Camera>(ivec2{500,500},vec2{500,500},Camera::Data{});
+	camera_object.add_component<Camera>(ivec2(990, 720), vec2(1100, 800),
+	Camera::Data{
+		.bg_color = Color::RED,
+	});
 	
 	ButtonSubScene button;
 	button.create(*this);
