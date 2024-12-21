@@ -26,7 +26,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 	begin.add_component<Sprite>(begin_asset, Sprite::Data{
 												 .sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 												 .order_in_layer = 0,
-												 .size = vec2(0, 800),
+												 .size = vec2(0, GAME_HEIGHT),
 											 });
 	begin_x += 800;
 
@@ -38,7 +38,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 								   Sprite::Data{
 									   .sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 									   .order_in_layer = 2,
-									   .size = vec2(0, 800),
+									   .size = vec2(0, GAME_HEIGHT),
 								   });
 	begin_x += 800;
 
@@ -50,7 +50,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 								   Sprite::Data{
 									   .sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 									   .order_in_layer = 3,
-									   .size = vec2(0, 800),
+									   .size = vec2(0, GAME_HEIGHT),
 								   });
 	begin_x += 800;
 
@@ -61,7 +61,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 	end.add_component<Sprite>(end_asset, Sprite::Data{
 											 .sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 											 .order_in_layer = 1,
-											 .size = vec2(0, 800),
+											 .size = vec2(0, GAME_HEIGHT),
 										 });
 	begin_x += 600;
 

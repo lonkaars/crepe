@@ -22,7 +22,7 @@ float StartSubScene::create(Scene & scn, float begin_x) {
 	begin.add_component<Sprite>(begin_asset, Sprite::Data{
 												 .sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 												 .order_in_layer = 0,
-												 .size = vec2(0, 800),
+												 .size = vec2(0, GAME_HEIGHT),
 											 });
 	GameObject hole = scn.new_object("start_hole", "background", vec2(begin_x - 250, 140));
 	Asset hole_asset{"asset/background/start/titleWallHole.png"};
@@ -44,7 +44,7 @@ float StartSubScene::create(Scene & scn, float begin_x) {
 	end.add_component<Sprite>(end_asset, Sprite::Data{
 											 .sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 											 .order_in_layer = 1,
-											 .size = vec2(0, 800),
+											 .size = vec2(0, GAME_HEIGHT),
 										 });
 	begin_x += 100;
 

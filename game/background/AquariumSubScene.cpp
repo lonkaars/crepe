@@ -21,7 +21,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 										 Sprite::Data{
 											 .sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 											 .order_in_layer = 0,
-											 .size = vec2(0, 800),
+											 .size = vec2(0, GAME_HEIGHT),
 										 });
 	begin_x += 600;
 
@@ -32,7 +32,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 											Sprite::Data{
 												.sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 												.order_in_layer = 2,
-												.size = vec2(0, 800),
+												.size = vec2(0, GAME_HEIGHT),
 											});
 	begin_x += 400;
 
@@ -45,7 +45,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 											Sprite::Data{
 												.sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 												.order_in_layer = 3,
-												.size = vec2(0, 800),
+												.size = vec2(0, GAME_HEIGHT),
 											});
 	begin_x += 400;
 
@@ -56,7 +56,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 											Sprite::Data{
 												.sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 												.order_in_layer = 4,
-												.size = vec2(0, 800),
+												.size = vec2(0, GAME_HEIGHT),
 											});
 	begin_x += 400;
 
@@ -69,7 +69,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 											Sprite::Data{
 												.sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 												.order_in_layer = 5,
-												.size = vec2(0, 800),
+												.size = vec2(0, GAME_HEIGHT),
 											});
 	begin_x += 600;
 
@@ -81,7 +81,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 									   Sprite::Data{
 										   .sorting_in_layer = SORT_IN_LAY_BACKGROUND,
 										   .order_in_layer = 1,
-										   .size = vec2(0, 800),
+										   .size = vec2(0, GAME_HEIGHT),
 									   });
 	begin_x += 600;
 

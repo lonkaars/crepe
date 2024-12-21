@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "Config.h"
 #include "MoveCameraManualyScript.h"
 #include "PlayerSubScene.h"
 #include "StartGameScript.h"
@@ -29,7 +30,7 @@ void GameScene::load_scene() {
 	BackgroundSubScene background(*this);
 
 	GameObject camera = new_object("camera", "camera", vec2(650, 0));
-	camera.add_component<Camera>(ivec2(990, 720), vec2(1100, 800),
+	camera.add_component<Camera>(ivec2(990, 720), vec2(VIEWPORT_X, VIEWPORT_Y),
 								 Camera::Data{
 									 .bg_color = Color::RED,
 								 });
