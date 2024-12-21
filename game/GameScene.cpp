@@ -21,7 +21,6 @@
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
 #include <crepe/types.h>
-#include <iostream>
 
 using namespace crepe;
 using namespace std;
