@@ -233,7 +233,7 @@ void SDLContext::draw_text(const RenderText & data) {
 
 	vec2 size = text.dimensions * cam_aux_data.render_scale * data.transform.scale;
 	vec2 screen_pos = absoluut_pos;
-	if (text.world_space) {
+	if (text.data.world_space) {
 		screen_pos = (screen_pos - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2)
 						 * cam_aux_data.render_scale
 					 - size / 2 + cam_aux_data.bar_size;

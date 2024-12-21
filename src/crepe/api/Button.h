@@ -1,8 +1,5 @@
 #pragma once
 
-#include <functional>
-
-#include "Event.h"
 #include "UIObject.h"
 
 namespace crepe {
@@ -43,6 +40,9 @@ private:
 	friend class InputSystem;
 	//! Indicates whether the mouse is currently hovering over the button
 	bool hover = false;
+
+	//! variable indicating if transform is relative to camera(false) or world(true)
+	bool world_space = false;
 };
 
 } // namespace crepe

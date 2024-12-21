@@ -20,8 +20,6 @@ public:
 	vec2 dimensions;
 	//! Position offset relative to this GameObjects Transform
 	vec2 offset;
-	//! variable indicating if transform is relative to camera(false) or world(true)
-	bool world_space = false;
 };
 
 } // namespace crepe
