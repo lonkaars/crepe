@@ -85,7 +85,7 @@ struct Config final {
 		 * This config option is the font size at which all fonts will be loaded initially.
 		 * 
 		 */
-		unsigned int size = 32;
+		unsigned int size = 40;
 	} font;
 	//! Configuration for click tolerance.
 	struct {

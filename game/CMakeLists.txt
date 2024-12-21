@@ -25,6 +25,7 @@ set(SOURCES
 	mainmenu/ButtonScript.cpp
 	mainmenu/ButtonSubScene.cpp
 	mainmenu/MainMenuScene.cpp
+	mainmenu/ButtonStartScript.cpp
 )
 
 set(HEADERS
@@ -42,6 +43,8 @@ set(HEADERS
 	mainmenu/ButtonScript.h
 	mainmenu/ButtonSubScene.h
 	mainmenu/MainMenuScene.h
+	mainmenu/MainMenuConfig.h
+	mainmenu/ButtonStartScript.h
 )
 
 add_executable(main ${SOURCES} ${HEADERS})
