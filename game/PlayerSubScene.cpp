@@ -1,4 +1,5 @@
 #include "PlayerSubScene.h"
+#include "Config.h"
 #include "PlayerScript.h"
 
 #include <crepe/api/Animator.h>
@@ -13,25 +14,25 @@ using namespace std;
 PlayerSubScene::PlayerSubScene(Scene & scn) {
 	GameObject player = scn.new_object("player", "player", vec2(-100, 200));
 	Asset player_body_asset{"asset/barry/defaultBody.png"};
-	Sprite & player_body_sprite
-		= player.add_component<Sprite>(player_body_asset, Sprite::Data{
-															  .sorting_in_layer = 10,
-															  .order_in_layer = 0,
-															  .size = vec2(0, 50),
-														  });
+	Sprite & player_body_sprite = player.add_component<Sprite>(
+		player_body_asset, Sprite::Data{
+							   .sorting_in_layer = SORT_IN_LAY_PLAYER,
+							   .order_in_layer = 0,
+							   .size = vec2(0, 50),
+						   });
 	player.add_component<Animator>(player_body_sprite, ivec2(32, 32), uvec2(4, 8),
 								   Animator::Data{
 									   .fps = 5,
 									   .looping = true,
 								   });
 	Asset player_head_asset{"asset/barry/defaultHead.png"};
-	Sprite & player_head_sprite
-		= player.add_component<Sprite>(player_head_asset, Sprite::Data{
-															  .sorting_in_layer = 10,
-															  .order_in_layer = 1,
-															  .size = vec2(0, 50),
-															  .position_offset = vec2(0, -20),
-														  });
+	Sprite & player_head_sprite = player.add_component<Sprite>(
+		player_head_asset, Sprite::Data{
+							   .sorting_in_layer = SORT_IN_LAY_PLAYER,
+							   .order_in_layer = 1,
+							   .size = vec2(0, 50),
+							   .position_offset = vec2(0, -20),
+						   });
 	player.add_component<Animator>(player_head_sprite, ivec2(32, 32), uvec2(4, 8),
 								   Animator::Data{
 									   .fps = 5,
@@ -40,7 +41,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 	Asset player_jetpack_asset{"asset/barry/jetpackDefault.png"};
 	Sprite & player_jetpack_sprite = player.add_component<Sprite>(
 		player_jetpack_asset, Sprite::Data{
-								  .sorting_in_layer = 10,
+								  .sorting_in_layer = SORT_IN_LAY_PLAYER,
 								  .order_in_layer = 2,
 								  .size = vec2(0, 60),
 								  .position_offset = vec2(-20, 0),
