@@ -8,6 +8,12 @@ static constexpr int SORT_IN_LAY_OBSTACLES = 8; // Only for GameScene
 static constexpr int SORT_IN_LAY_PLAYER = 10; // Only for GameScene
 static constexpr int SORT_IN_LAY_PARTICLES_FOREGROUND = 15; // Only for GameScene
 
+static constexpr int COLL_LAY_BOT_TOP = 1; // Only for GameScene
+static constexpr int COLL_LAY_BOT_LOW = 2; // Only for GameScene
+static constexpr int COLL_LAY_BOT_HIGH = 3; // Only for GameScene
+static constexpr int COLL_LAY_PLAYER = 4; // Only for GameScene
+static constexpr int COLL_LAY_WALL_FRAGS = 5; // Only for GameScene
+
 static constexpr int GAME_HEIGHT = 800; // In game units
 
 static constexpr int VIEWPORT_X = 1100; // In game units
