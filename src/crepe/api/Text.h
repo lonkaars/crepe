@@ -17,16 +17,8 @@ class Text : public UIObject {
 public:
 	//! Text data that does not have to be set in the constructor
 	struct Data {
-		/**
-		 *  \brief fontsize for text rendering
-		 * 
-		 * \note this is not the actual font size that is loaded in.
-		 * 
-		 * Since SDL_TTF requires the font size when loading in the font it is not possible to switch the font size.
-		 * The default font size that is loaded is set in the Config.
-		 * Instead this value is used to upscale the font texture which can cause blurring or distorted text when upscaling or downscaling too much.
-		 */
-		unsigned int font_size = 16;
+		//! variable indicating if transform is relative to camera(false) or world(true)
+		bool world_space = false;
 
 		//! Label text color.
 		Color text_color = Color::BLACK;
