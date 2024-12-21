@@ -14,8 +14,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 
 	GameObject aquarium_begin
 		= scn.new_object("aquarium_begin", "background", vec2(begin_x, 0));
-	Asset aquarium_begin_asset{
-		"asset/background/aquarium/glassTubeFG_1_TVOS.png"};
+	Asset aquarium_begin_asset{"asset/background/aquarium/glassTubeFG_1_TVOS.png"};
 	aquarium_begin.add_component<Sprite>(aquarium_begin_asset, Sprite::Data{
 																   .sorting_in_layer = 4,
 																   .order_in_layer = 0,
@@ -25,8 +24,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 
 	GameObject aquarium_middle_1
 		= scn.new_object("aquarium_middle", "background", vec2(begin_x, 0));
-	Asset aquarium_middle_1_asset{
-		"asset/background/aquarium/glassTubeFG_3_TVOS.png"};
+	Asset aquarium_middle_1_asset{"asset/background/aquarium/glassTubeFG_3_TVOS.png"};
 	aquarium_middle_1.add_component<Sprite>(aquarium_middle_1_asset, Sprite::Data{
 																		 .sorting_in_layer = 4,
 																		 .order_in_layer = 2,
@@ -38,8 +36,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 
 	GameObject aquarium_middle_2
 		= scn.new_object("aquarium_middle", "background", vec2(begin_x, 0));
-	Asset aquarium_middle_2_asset{
-		"asset/background/aquarium/glassTubeFG_3_TVOS.png"};
+	Asset aquarium_middle_2_asset{"asset/background/aquarium/glassTubeFG_3_TVOS.png"};
 	aquarium_middle_2.add_component<Sprite>(aquarium_middle_2_asset, Sprite::Data{
 																		 .sorting_in_layer = 4,
 																		 .order_in_layer = 3,
@@ -49,8 +46,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 
 	GameObject aquarium_middle_3
 		= scn.new_object("aquarium_middle", "background", vec2(begin_x, 0));
-	Asset aquarium_middle_3_asset{
-		"asset/background/aquarium/glassTubeFG_3_TVOS.png"};
+	Asset aquarium_middle_3_asset{"asset/background/aquarium/glassTubeFG_3_TVOS.png"};
 	aquarium_middle_3.add_component<Sprite>(aquarium_middle_3_asset, Sprite::Data{
 																		 .sorting_in_layer = 4,
 																		 .order_in_layer = 4,
@@ -62,8 +58,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 
 	GameObject aquarium_middle_4
 		= scn.new_object("aquarium_middle", "background", vec2(begin_x, 0));
-	Asset aquarium_middle_4_asset{
-		"asset/background/aquarium/glassTubeFG_3_TVOS.png"};
+	Asset aquarium_middle_4_asset{"asset/background/aquarium/glassTubeFG_3_TVOS.png"};
 	aquarium_middle_4.add_component<Sprite>(aquarium_middle_4_asset, Sprite::Data{
 																		 .sorting_in_layer = 4,
 																		 .order_in_layer = 5,
@@ -74,8 +69,7 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 	this->add_background(scn, begin_x);
 
 	GameObject aquarium_end = scn.new_object("aquarium_end", "background", vec2(begin_x, 0));
-	Asset aquarium_end_asset{
-		"asset/background/aquarium/glassTubeFG_2_TVOS.png"};
+	Asset aquarium_end_asset{"asset/background/aquarium/glassTubeFG_2_TVOS.png"};
 	aquarium_end.add_component<Sprite>(aquarium_end_asset, Sprite::Data{
 															   .sorting_in_layer = 4,
 															   .order_in_layer = 1,
