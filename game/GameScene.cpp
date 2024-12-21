@@ -41,11 +41,24 @@ void GameScene::load_scene() {
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data{
 		.body_type = Rigidbody::BodyType::STATIC,
+		.collision_layer = COLL_LAY_BOT_TOP,
 	});
 	floor.add_component<BoxCollider>(vec2(INFINITY, 200));
+	GameObject floor_low = new_object("floor_low", "game_world", vec2(0, 350));
+	floor_low.add_component<Rigidbody>(Rigidbody::Data{
+		.body_type = Rigidbody::BodyType::STATIC,
+		.collision_layer = COLL_LAY_BOT_LOW,
+	});
+	floor_low.add_component<BoxCollider>(vec2(INFINITY, 200));
+	GameObject floor_high = new_object("floor_high", "game_world", vec2(0, 300));
+	floor_high.add_component<Rigidbody>(Rigidbody::Data{
+		.body_type = Rigidbody::BodyType::STATIC,
+		.collision_layer = COLL_LAY_BOT_HIGH,
+	});
 	GameObject ceiling = new_object("ceiling", "game_world", vec2(0, -325));
 	ceiling.add_component<Rigidbody>(Rigidbody::Data{
 		.body_type = Rigidbody::BodyType::STATIC,
+		.collision_layer = COLL_LAY_BOT_TOP,
 	});
 	ceiling.add_component<BoxCollider>(vec2(INFINITY, 200));
 

@@ -56,7 +56,8 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 		.gravity_scale = 20,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = vec2(100, 0),
-		.collision_layer = 10,
+		.collision_layers = {COLL_LAY_BOT_TOP},
+		.collision_layer = COLL_LAY_PLAYER,
 	});
 	player.add_component<BoxCollider>(vec2(50, 50));
 	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
