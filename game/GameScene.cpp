@@ -1,8 +1,9 @@
 #include "GameScene.h"
-#include "BackgroundSubScene.h"
 #include "MoveCameraManualyScript.h"
 #include "PlayerSubScene.h"
 #include "StartGameScript.h"
+
+#include "background/BackgroundSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
