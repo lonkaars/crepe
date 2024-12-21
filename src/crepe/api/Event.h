@@ -10,15 +10,14 @@
 namespace crepe {
 
 /**
- * \brief Base class for all event types in the system.
+ * \brief Base struct for all event types in the system.
  */
-class Event {};
+struct Event {};
 
 /**
  * \brief Event triggered when a key is pressed.
  */
-class KeyPressEvent : public Event {
-public:
+struct KeyPressEvent : public Event {
 	//! false if first time press, true if key is repeated
 	bool repeat = false;
 
@@ -29,8 +28,7 @@ public:
 /**
  * \brief Event triggered when a key is released.
  */
-class KeyReleaseEvent : public Event {
-public:
+struct KeyReleaseEvent : public Event {
 	//! The key that was released.
 	Keycode key = Keycode::NONE;
 };
@@ -38,8 +36,7 @@ public:
 /**
  * \brief Event triggered when a mouse button is pressed.
  */
-class MousePressEvent : public Event {
-public:
+struct MousePressEvent : public Event {
 	//! mouse position in world coordinates (game units).
 	vec2 mouse_pos = {0, 0};
 
@@ -50,8 +47,7 @@ public:
 /**
  * \brief Event triggered when a mouse button is clicked (press and release).
  */
-class MouseClickEvent : public Event {
-public:
+struct MouseClickEvent : public Event {
 	//! mouse position in world coordinates (game units).
 	vec2 mouse_pos = {0, 0};
 
@@ -62,8 +58,7 @@ public:
 /**
  * \brief Event triggered when a mouse button is released.
  */
-class MouseReleaseEvent : public Event {
-public:
+struct MouseReleaseEvent : public Event {
 	//! mouse position in world coordinates (game units).
 	vec2 mouse_pos = {0, 0};
 
@@ -74,8 +69,7 @@ public:
 /**
  * \brief Event triggered when the mouse is moved.
  */
-class MouseMoveEvent : public Event {
-public:
+struct MouseMoveEvent : public Event {
 	//! mouse position in world coordinates (game units).
 	vec2 mouse_pos = {0, 0};
 	//! The change in mouse position relative to the last position (in pixels).
@@ -85,8 +79,7 @@ public:
 /**
  * \brief Event triggered when the mouse is moved.
  */
-class MouseScrollEvent : public Event {
-public:
+struct MouseScrollEvent : public Event {
 	//! mouse position in world coordinates (game units) when the scroll happened.
 	vec2 mouse_pos = {0, 0};
 	//! scroll direction (-1 = down, 1 = up)
@@ -98,20 +91,19 @@ public:
 /**
  * \brief Event triggered to indicate the application is shutting down.
  */
-class ShutDownEvent : public Event {};
+struct ShutDownEvent : public Event {};
 
 /**
  * \brief Event triggered to indicate the window is overlapped by another window.
  * 
  * When two windows overlap the bottom window gets distorted and that window has to be redrawn.
  */
-class WindowExposeEvent : public Event {};
+struct WindowExposeEvent : public Event {};
 
 /**
  * \brief Event triggered to indicate the window is resized.
  */
-class WindowResizeEvent : public Event {
-public:
+struct WindowResizeEvent : public Event {
 	//! new window dimensions
 	ivec2 dimensions = {0, 0};
 };
@@ -119,8 +111,7 @@ public:
 /**
  * \brief Event triggered to indicate the window is moved.
  */
-class WindowMoveEvent : public Event {
-public:
+struct WindowMoveEvent : public Event {
 	//! The change in position relative to the last position (in pixels).
 	ivec2 delta_move = {0, 0};
 };
@@ -128,12 +119,12 @@ public:
 /**
  * \brief Event triggered to indicate the window is minimized.
  */
-class WindowMinimizeEvent : public Event {};
+struct WindowMinimizeEvent : public Event {};
 
 /**
  * \brief Event triggered to indicate the window is maximized
  */
-class WindowMaximizeEvent : public Event {};
+struct WindowMaximizeEvent : public Event {};
 
 /**
  * \brief Event triggered to indicate the window gained focus
@@ -141,7 +132,7 @@ class WindowMaximizeEvent : public Event {};
  * This event is triggered when the window receives focus, meaning it becomes the active window
  * for user interaction.
  */
-class WindowFocusGainEvent : public Event {};
+struct WindowFocusGainEvent : public Event {};
 
 /**
  * \brief Event triggered to indicate the window lost focus
@@ -149,6 +140,6 @@ class WindowFocusGainEvent : public Event {};
  * This event is triggered when the window loses focus, meaning it is no longer the active window
  * for user interaction.
  */
-class WindowFocusLostEvent : public Event {};
+struct WindowFocusLostEvent : public Event {};
 
 } // namespace crepe

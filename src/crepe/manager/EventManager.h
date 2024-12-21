@@ -106,7 +106,7 @@ private:
 	 * \brief Represents an entry in the event queue.
 	 */
 	struct QueueEntry {
-		std::unique_ptr<Event> event; ///< The event instance.
+		std::unique_ptr<Event, std::function<void(Event *)>> event; ///< The event instance.
 		event_channel_t channel = CHANNEL_ALL; ///< The channel associated with the event.
 		std::type_index type; ///< The type of the event.
 	};
