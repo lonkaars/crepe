@@ -6,6 +6,7 @@
 #include "Asset.h"
 #include "Color.h"
 #include "UIObject.h"
+#include "types.h"
 
 namespace crepe {
 /**
@@ -35,8 +36,8 @@ public:
 	 * \param font Optional font asset that can be passed or left empty.
 	 */
 	Text(
-		game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
-		const std::string & font_family, const Data & data, const std::string & text = ""
+		game_object_id_t id, const vec2 & dimensions, const std::string & font_family,
+		const Data & data, const vec2 & offset = {0, 0}, const std::string & text = ""
 	);
 
 	//! Label text.
