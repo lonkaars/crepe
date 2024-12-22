@@ -13,7 +13,7 @@ using namespace testing;
 
 class ScriptSceneTest : public ScriptTest {
 public:
-	SceneManager scene_manager{mediator};
+	SceneManager scene_manager {mediator};
 
 	class MyScene : public Scene {};
 };

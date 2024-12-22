@@ -5,10 +5,13 @@
 
 // utility macros
 #define _crepe_logf_here(level, fmt, ...) \
-	crepe::Log::logf(level, "{}" fmt, \
-					 crepe::LogColor().fg_white(false).str(std::format( \
-						 "{} ({}:{})", __PRETTY_FUNCTION__, __FILE_NAME__, __LINE__)), \
-					 __VA_ARGS__)
+	crepe::Log::logf( \
+		level, "{}" fmt, \
+		crepe::LogColor().fg_white(false).str( \
+			std::format("{} ({}:{})", __PRETTY_FUNCTION__, __FILE_NAME__, __LINE__) \
+		), \
+		__VA_ARGS__ \
+	)
 
 // very illegal global function-style macros
 // NOLINTBEGIN

@@ -70,8 +70,10 @@ public:
 	 * \param start_angle The start angle of the circle (in radians)
 	 * \param clockwise The direction of the circle
 	 */
-	void make_circle_path(float radius, const vec2 & center = {0, 0}, float start_angle = 0,
-						  bool clockwise = true);
+	void make_circle_path(
+		float radius, const vec2 & center = {0, 0}, float start_angle = 0,
+		bool clockwise = true
+	);
 	/**
 	 * \brief Make an oval path (for the path following behavior)
 	 *
@@ -84,8 +86,10 @@ public:
 	 * \param clockwise The direction of the oval
 	 * \param rotation The rotation of the oval (in radians)
 	 */
-	void make_oval_path(float radius_x, float radius_y, const vec2 & center = {0, 0},
-						float start_angle = 0, bool clockwise = true, float rotation = 0);
+	void make_oval_path(
+		float radius_x, float radius_y, const vec2 & center = {0, 0}, float start_angle = 0,
+		bool clockwise = true, float rotation = 0
+	);
 
 public:
 	//! The maximum force that can be applied to the entity (higher values will make the entity adjust faster)

@@ -28,7 +28,8 @@ void AISystem::fixed_update() {
 			= mgr.get_components_by_id<Rigidbody>(ai.game_object_id);
 		if (rigidbodies.empty()) {
 			throw std::runtime_error(
-				"AI component must be attached to a GameObject with a Rigidbody component");
+				"AI component must be attached to a GameObject with a Rigidbody component"
+			);
 		}
 		Rigidbody & rigidbody = rigidbodies.front().get();
 		if (!rigidbody.active) {
@@ -110,8 +111,8 @@ bool AISystem::accumulate_force(const AI & ai, vec2 & running_total, vec2 & forc
 	return true;
 }
 
-vec2 AISystem::seek(const AI & ai, const Rigidbody & rigidbody,
-					const Transform & transform) const {
+vec2 AISystem::seek(const AI & ai, const Rigidbody & rigidbody, const Transform & transform)
+	const {
 	// Calculate the desired velocity
 	vec2 desired_velocity = ai.seek_target - transform.position;
 	desired_velocity.normalize();
@@ -120,12 +121,12 @@ vec2 AISystem::seek(const AI & ai, const Rigidbody & rigidbody,
 	return desired_velocity - rigidbody.data.linear_velocity;
 }
 
-vec2 AISystem::flee(const AI & ai, const Rigidbody & rigidbody,
-					const Transform & transform) const {
+vec2 AISystem::flee(const AI & ai, const Rigidbody & rigidbody, const Transform & transform)
+	const {
 	// Calculate the desired velocity if the entity is within the panic distance
 	vec2 desired_velocity = transform.position - ai.flee_target;
 	if (desired_velocity.length_squared() > ai.square_flee_panic_distance) {
-		return vec2{0, 0};
+		return vec2 {0, 0};
 	}
 	desired_velocity.normalize();
 	desired_velocity *= rigidbody.data.max_linear_velocity;
@@ -133,8 +134,8 @@ vec2 AISystem::flee(const AI & ai, const Rigidbody & rigidbody,
 	return desired_velocity - rigidbody.data.linear_velocity;
 }
 
-vec2 AISystem::arrive(const AI & ai, const Rigidbody & rigidbody,
-					  const Transform & transform) const {
+vec2 AISystem::arrive(const AI & ai, const Rigidbody & rigidbody, const Transform & transform)
+	const {
 	// Calculate the desired velocity (taking into account the deceleration rate)
 	vec2 to_target = ai.arrive_target - transform.position;
 	float distance = to_target.length();
@@ -150,12 +151,12 @@ vec2 AISystem::arrive(const AI & ai, const Rigidbody & rigidbody,
 		return desired_velocity - rigidbody.data.linear_velocity;
 	}
 
-	return vec2{0, 0};
+	return vec2 {0, 0};
 }
 
 vec2 AISystem::path_follow(AI & ai, const Rigidbody & rigidbody, const Transform & transform) {
 	if (ai.path.empty()) {
-		return vec2{0, 0};
+		return vec2 {0, 0};
 	}
 
 	// Get the target node

@@ -36,8 +36,9 @@ class TestScript : public Script {
 		return true;
 	}
 	void init() {
-		subscribe<CollisionEvent>(
-			[this](const CollisionEvent & ev) -> bool { return this->oncollision(ev); });
+		subscribe<CollisionEvent>([this](const CollisionEvent & ev) -> bool {
+			return this->oncollision(ev);
+		});
 	}
 	void fixed_update() {
 		// Retrieve component from the same GameObject this script is on
@@ -57,17 +58,17 @@ public:
 	const std::chrono::microseconds duration = 16000us;
 
 	Mediator m;
-	SDLContext sdl_context{m};
-	ResourceManager resman{m};
-	ComponentManager mgr{m};
+	SDLContext sdl_context {m};
+	ResourceManager resman {m};
+	ComponentManager mgr {m};
 	// Add system used for profling tests
-	EventManager evmgr{m};
-	LoopTimerManager loopmgr{m};
-	CollisionSystem collision_sys{m};
-	PhysicsSystem physics_sys{m};
-	ParticleSystem particle_sys{m};
-	RenderSystem render_sys{m};
-	ScriptSystem script_sys{m};
+	EventManager evmgr {m};
+	LoopTimerManager loopmgr {m};
+	CollisionSystem collision_sys {m};
+	PhysicsSystem physics_sys {m};
+	ParticleSystem particle_sys {m};
+	RenderSystem render_sys {m};
+	ScriptSystem script_sys {m};
 
 	// Test data
 	std::map<std::string, std::chrono::microseconds> timings;
@@ -77,11 +78,13 @@ public:
 	void SetUp() override {
 
 		GameObject do_not_use = mgr.new_object("DO_NOT_USE", "", {0, 0});
-		do_not_use.add_component<Camera>(ivec2{1080, 720}, vec2{2000, 2000},
-										 Camera::Data{
-											 .bg_color = Color::WHITE,
-											 .zoom = 1.0f,
-										 });
+		do_not_use.add_component<Camera>(
+			ivec2 {1080, 720}, vec2 {2000, 2000},
+			Camera::Data {
+				.bg_color = Color::WHITE,
+				.zoom = 1.0f,
+			}
+		);
 		// initialize systems here:
 		//calls init
 		script_sys.fixed_update();
@@ -168,23 +171,25 @@ TEST_F(DISABLED_ProfilingTest, Profiling_2) {
 		{
 			//define gameobject used for testing
 			GameObject gameobject = mgr.new_object(
-				"gameobject", "", {static_cast<float>(game_object_count * 2), 0});
-			gameobject.add_component<Rigidbody>(Rigidbody::Data{
+				"gameobject", "", {static_cast<float>(game_object_count * 2), 0}
+			);
+			gameobject.add_component<Rigidbody>(Rigidbody::Data {
 				.gravity_scale = 0.0,
 				.body_type = Rigidbody::BodyType::STATIC,
 			});
-			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
+			gameobject.add_component<BoxCollider>(vec2 {0, 0}, vec2 {1, 1});
 
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				Asset{"asset/texture/square.png"},
-				Sprite::Data{
+				Asset {"asset/texture/square.png"},
+				Sprite::Data {
 					.color = {0, 0, 0, 0},
 					.flip = {.flip_x = false, .flip_y = false},
 					.sorting_in_layer = 1,
 					.order_in_layer = 1,
 					.size = {.y = 500},
-				});
+				}
+			);
 		}
 
 		this->game_object_count++;
@@ -207,35 +212,39 @@ TEST_F(DISABLED_ProfilingTest, Profiling_3) {
 		{
 			//define gameobject used for testing
 			GameObject gameobject = mgr.new_object(
-				"gameobject", "", {static_cast<float>(game_object_count * 2), 0});
-			gameobject.add_component<Rigidbody>(Rigidbody::Data{
+				"gameobject", "", {static_cast<float>(game_object_count * 2), 0}
+			);
+			gameobject.add_component<Rigidbody>(Rigidbody::Data {
 				.gravity_scale = 0,
 				.body_type = Rigidbody::BodyType::STATIC,
 			});
-			gameobject.add_component<BoxCollider>(vec2{0, 0}, vec2{1, 1});
+			gameobject.add_component<BoxCollider>(vec2 {0, 0}, vec2 {1, 1});
 			gameobject.add_component<BehaviorScript>().set_script<TestScript>();
 			Sprite & test_sprite = gameobject.add_component<Sprite>(
-				Asset{"asset/texture/square.png"},
-				Sprite::Data{
+				Asset {"asset/texture/square.png"},
+				Sprite::Data {
 					.color = {0, 0, 0, 0},
 					.flip = {.flip_x = false, .flip_y = false},
 					.sorting_in_layer = 1,
 					.order_in_layer = 1,
 					.size = {.y = 500},
-				});
+				}
+			);
 			auto & test = gameobject.add_component<ParticleEmitter>(
-				test_sprite, ParticleEmitter::Data{
-								 .max_particles = 10,
-								 .emission_rate = 100,
-								 .end_lifespan = 100000,
-								 .boundary{
-									 .width = 1000,
-									 .height = 1000,
-									 .offset = vec2{0, 0},
-									 .reset_on_exit = false,
-								 },
+				test_sprite,
+				ParticleEmitter::Data {
+					.max_particles = 10,
+					.emission_rate = 100,
+					.end_lifespan = 100000,
+					.boundary {
+						.width = 1000,
+						.height = 1000,
+						.offset = vec2 {0, 0},
+						.reset_on_exit = false,
+					},
 
-							 });
+				}
+			);
 		}
 		render_sys.frame_update();
 		this->game_object_count++;

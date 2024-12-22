@@ -69,9 +69,10 @@ public:
 	SaveManager & get_save_manager() const;
 
 	//! \copydoc ComponentManager::new_object
-	GameObject new_object(const std::string & name, const std::string & tag = "",
-						  const vec2 & position = {0, 0}, double rotation = 0,
-						  double scale = 1);
+	GameObject new_object(
+		const std::string & name, const std::string & tag = "", const vec2 & position = {0, 0},
+		double rotation = 0, double scale = 1
+	);
 
 	//! \copydoc ResourceManager::set_persistent
 	void set_persistent(const Asset & asset, bool persistent);

@@ -50,9 +50,11 @@ void CollisionSystem::fixed_update() {
 		for (BoxCollider & boxcollider : boxcolliders) {
 			if (boxcollider.game_object_id != id) continue;
 			if (!boxcollider.active) continue;
-			all_colliders.push_back({.id = id,
-									 .collider = collider_variant{boxcollider},
-									 .info = {transform, rigidbody, metadata}});
+			all_colliders.push_back(
+				{.id = id,
+				 .collider = collider_variant {boxcollider},
+				 .info = {transform, rigidbody, metadata}}
+			);
 		}
 		// Check if the circlecollider is active and has the same id as the rigidbody.
 		RefVector<CircleCollider> circlecolliders
@@ -60,9 +62,11 @@ void CollisionSystem::fixed_update() {
 		for (CircleCollider & circlecollider : circlecolliders) {
 			if (circlecollider.game_object_id != id) continue;
 			if (!circlecollider.active) continue;
-			all_colliders.push_back({.id = id,
-									 .collider = collider_variant{circlecollider},
-									 .info = {transform, rigidbody, metadata}});
+			all_colliders.push_back(
+				{.id = id,
+				 .collider = collider_variant {circlecollider},
+				 .info = {transform, rigidbody, metadata}}
+			);
 		}
 	}
 
@@ -110,8 +114,9 @@ CollisionSystem::gather_collisions(std::vector<CollisionInternal> & colliders) {
 	return collisions_ret;
 }
 
-bool CollisionSystem::should_collide(const CollisionInternal & self,
-									 const CollisionInternal & other) const {
+bool CollisionSystem::should_collide(
+	const CollisionInternal & self, const CollisionInternal & other
+) const {
 
 	const Rigidbody::Data & self_rigidbody = self.info.rigidbody.data;
 	const Rigidbody::Data & other_rigidbody = other.info.rigidbody.data;
@@ -133,9 +138,9 @@ bool CollisionSystem::should_collide(const CollisionInternal & self,
 	return false;
 }
 
-CollisionSystem::CollisionInternalType
-CollisionSystem::get_collider_type(const collider_variant & collider1,
-								   const collider_variant & collider2) const {
+CollisionSystem::CollisionInternalType CollisionSystem::get_collider_type(
+	const collider_variant & collider1, const collider_variant & collider2
+) const {
 	if (std::holds_alternative<std::reference_wrapper<CircleCollider>>(collider1)) {
 		if (std::holds_alternative<std::reference_wrapper<CircleCollider>>(collider2)) {
 			return CollisionInternalType::CIRCLE_CIRCLE;
@@ -151,8 +156,9 @@ CollisionSystem::get_collider_type(const collider_variant & collider1,
 	}
 }
 
-bool CollisionSystem::detect_collision(CollisionInternal & self, CollisionInternal & other,
-									   const CollisionInternalType & type) {
+bool CollisionSystem::detect_collision(
+	CollisionInternal & self, CollisionInternal & other, const CollisionInternalType & type
+) {
 	vec2 resolution;
 	switch (type) {
 		case CollisionInternalType::BOX_BOX: {
@@ -177,10 +183,11 @@ bool CollisionSystem::detect_collision(CollisionInternal & self, CollisionIntern
 				= {.collider = std::get<std::reference_wrapper<BoxCollider>>(self.collider),
 				   .transform = self.info.transform,
 				   .rigidbody = self.info.rigidbody};
-			const CircleColliderInternal CIRCLE2 = {
-				.collider = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
-				.transform = other.info.transform,
-				.rigidbody = other.info.rigidbody};
+			const CircleColliderInternal CIRCLE2
+				= {.collider
+				   = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
+				   .transform = other.info.transform,
+				   .rigidbody = other.info.rigidbody};
 			// Get resolution vector from box-circle collision detection
 			resolution = this->get_box_circle_detection(BOX1, CIRCLE2);
 			// If no collision (NaN values), return false
@@ -195,10 +202,11 @@ bool CollisionSystem::detect_collision(CollisionInternal & self, CollisionIntern
 				= {.collider = std::get<std::reference_wrapper<CircleCollider>>(self.collider),
 				   .transform = self.info.transform,
 				   .rigidbody = self.info.rigidbody};
-			const CircleColliderInternal CIRCLE2 = {
-				.collider = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
-				.transform = other.info.transform,
-				.rigidbody = other.info.rigidbody};
+			const CircleColliderInternal CIRCLE2
+				= {.collider
+				   = std::get<std::reference_wrapper<CircleCollider>>(other.collider),
+				   .transform = other.info.transform,
+				   .rigidbody = other.info.rigidbody};
 			// Get resolution vector from circle-circle collision detection
 			resolution = this->get_circle_circle_detection(CIRCLE1, CIRCLE2);
 			// If no collision (NaN values), return false
@@ -239,9 +247,10 @@ bool CollisionSystem::detect_collision(CollisionInternal & self, CollisionIntern
 	return true;
 }
 
-vec2 CollisionSystem::get_box_box_detection(const BoxColliderInternal & box1,
-											const BoxColliderInternal & box2) const {
-	vec2 resolution{NAN, NAN};
+vec2 CollisionSystem::get_box_box_detection(
+	const BoxColliderInternal & box1, const BoxColliderInternal & box2
+) const {
+	vec2 resolution {NAN, NAN};
 	// Get current positions of colliders
 	vec2 pos1 = AbsolutePosition::get_position(box1.transform, box1.collider.offset);
 	vec2 pos2 = AbsolutePosition::get_position(box2.transform, box2.collider.offset);
@@ -282,8 +291,9 @@ vec2 CollisionSystem::get_box_box_detection(const BoxColliderInternal & box1,
 	return resolution;
 }
 
-vec2 CollisionSystem::get_box_circle_detection(const BoxColliderInternal & box,
-											   const CircleColliderInternal & circle) const {
+vec2 CollisionSystem::get_box_circle_detection(
+	const BoxColliderInternal & box, const CircleColliderInternal & circle
+) const {
 	/// Get current positions of colliders
 	vec2 box_pos = AbsolutePosition::get_position(box.transform, box.collider.offset);
 	vec2 circle_pos = AbsolutePosition::get_position(circle.transform, circle.collider.offset);
@@ -324,14 +334,15 @@ vec2 CollisionSystem::get_box_circle_detection(const BoxColliderInternal & box,
 		float penetration_depth = scaled_circle_radius - distance;
 
 		// Compute the resolution vector
-		return vec2{collision_normal * penetration_depth};
+		return vec2 {collision_normal * penetration_depth};
 	}
 	// No collision
-	return vec2{NAN, NAN};
+	return vec2 {NAN, NAN};
 }
 
 vec2 CollisionSystem::get_circle_circle_detection(
-	const CircleColliderInternal & circle1, const CircleColliderInternal & circle2) const {
+	const CircleColliderInternal & circle1, const CircleColliderInternal & circle2
+) const {
 	// Get current positions of colliders
 	vec2 final_position1
 		= AbsolutePosition::get_position(circle1.transform, circle1.collider.offset);
@@ -371,7 +382,7 @@ vec2 CollisionSystem::get_circle_circle_detection(
 		return resolution;
 	}
 	// No collision
-	return vec2{NAN, NAN};
+	return vec2 {NAN, NAN};
 	;
 }
 
@@ -402,17 +413,17 @@ CollisionSystem::resolution_correction(vec2 & resolution, const Rigidbody::Data 
 	return resolution_direction;
 }
 
-CollisionSystem::CollisionInfo
-CollisionSystem::get_collision_info(const CollisionInternal & in_self,
-									const CollisionInternal & in_other) const {
+CollisionSystem::CollisionInfo CollisionSystem::get_collision_info(
+	const CollisionInternal & in_self, const CollisionInternal & in_other
+) const {
 
-	crepe::CollisionSystem::ColliderInfo self{
+	crepe::CollisionSystem::ColliderInfo self {
 		.transform = in_self.info.transform,
 		.rigidbody = in_self.info.rigidbody,
 		.metadata = in_self.info.metadata,
 	};
 
-	crepe::CollisionSystem::ColliderInfo other{
+	crepe::CollisionSystem::ColliderInfo other {
 		.transform = in_other.info.transform,
 		.rigidbody = in_other.info.rigidbody,
 		.metadata = in_other.info.metadata,

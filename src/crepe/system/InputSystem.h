@@ -79,8 +79,9 @@ private:
 	 * This method processes mouse events, adjusts the mouse position to world coordinates,
 	 * and triggers the appropriate mouse-specific event handling logic.
 	 */
-	void handle_mouse_event(const EventData & event, const vec2 & camera_origin,
-							const Camera & current_cam);
+	void handle_mouse_event(
+		const EventData & event, const vec2 & camera_origin, const Camera & current_cam
+	);
 	/**
 	 * \brief Handles non-mouse-related events.
 	 * \param event The event data for the non-mouse event.
@@ -98,8 +99,9 @@ private:
 	*
 	* This method processes the mouse click event and triggers the corresponding button action.
 	*/
-	void handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos,
-					  const Camera & current_cam);
+	void handle_click(
+		const MouseButton & mouse_button, const vec2 & mouse_pos, const Camera & current_cam
+	);
 
 	/**
 	* \brief Handles the mouse movement event.
@@ -110,8 +112,9 @@ private:
 	*
 	* This method processes the mouse movement event and updates the button hover state.
 	*/
-	void handle_move(const EventData & event_data, const vec2 & mouse_pos,
-					 const Camera & current_cam);
+	void handle_move(
+		const EventData & event_data, const vec2 & mouse_pos, const Camera & current_cam
+	);
 
 	/**
 	* \brief Checks if the mouse position is inside the bounds of the button.
@@ -122,8 +125,10 @@ private:
 	* \param cam_transform the transform of the current active camera
 	* \return True if the mouse is inside the button, false otherwise.
 	*/
-	bool is_mouse_inside_button(const vec2 & mouse_pos, const Button & button,
-								const Transform & transform, const Transform & cam_transform);
+	bool is_mouse_inside_button(
+		const vec2 & mouse_pos, const Button & button, const Transform & transform,
+		const Transform & cam_transform
+	);
 
 	/**
 	* \brief Handles the button press event, calling the on_click callback if necessary.

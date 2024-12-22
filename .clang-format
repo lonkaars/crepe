@@ -24,6 +24,9 @@ AlignEscapedNewlines: DontAlign
 BreakBeforeBinaryOperators: All
 AlwaysBreakTemplateDeclarations: Yes
 PackConstructorInitializers: CurrentLine
+# only option that doesn't result in copious indentation
+AlignAfterOpenBracket: BlockIndent
+SpaceBeforeCpp11BracedList: true
 ...
 
 # vim: ft=yaml

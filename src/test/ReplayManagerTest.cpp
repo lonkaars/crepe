@@ -14,9 +14,9 @@ class ReplayManagerTest : public Test {
 	Mediator mediator;
 
 public:
-	ComponentManager component_manager{mediator};
-	ReplayManager replay_manager{mediator};
-	ReplaySystem replay_system{mediator};
+	ComponentManager component_manager {mediator};
+	ReplayManager replay_manager {mediator};
+	ReplaySystem replay_system {mediator};
 
 	GameObject entity = component_manager.new_object("foo");
 	Transform & entity_transform
