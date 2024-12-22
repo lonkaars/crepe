@@ -23,7 +23,7 @@ public:
 	/**
 	 * \param metadata Metadata of the button pressed
 	 */
-	ButtonPressEvent(const Metadata & metadata) : metadata(metadata) {};
+	ButtonPressEvent(const Metadata & metadata) : metadata(metadata){};
 };
 //! Event triggered when the mouse enters a button
 class ButtonEnterEvent : public Event {
@@ -33,7 +33,7 @@ public:
 	/**
 	 * \param metadata Metadata of the button pressed
 	 */
-	ButtonEnterEvent(const Metadata & metadata) : metadata(metadata) {};
+	ButtonEnterEvent(const Metadata & metadata) : metadata(metadata){};
 };
 //! Event triggered when the mouse leaves a button
 class ButtonExitEvent : public Event {
@@ -43,7 +43,7 @@ public:
 	/**
 	 * \param metadata Metadata of the button pressed
 	 */
-	ButtonExitEvent(const Metadata & metadata) : metadata(metadata) {};
+	ButtonExitEvent(const Metadata & metadata) : metadata(metadata){};
 };
 
 /**

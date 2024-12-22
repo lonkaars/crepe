@@ -1,8 +1,10 @@
 #include "GameScene.h"
-#include "BackgroundSubScene.h"
+#include "Config.h"
 #include "MoveCameraManualyScript.h"
 #include "PlayerSubScene.h"
 #include "StartGameScript.h"
+
+#include "background/BackgroundSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -19,7 +21,6 @@
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
 #include <crepe/types.h>
-#include <iostream>
 
 using namespace crepe;
 using namespace std;
@@ -28,7 +29,7 @@ void GameScene::load_scene() {
 	BackgroundSubScene background(*this);
 
 	GameObject camera = new_object("camera", "camera", vec2(650, 0));
-	camera.add_component<Camera>(ivec2(990, 720), vec2(1100, 800),
+	camera.add_component<Camera>(ivec2(990, 720), vec2(VIEWPORT_X, VIEWPORT_Y),
 								 Camera::Data{
 									 .bg_color = Color::RED,
 								 });
@@ -40,11 +41,24 @@ void GameScene::load_scene() {
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data{
 		.body_type = Rigidbody::BodyType::STATIC,
+		.collision_layer = COLL_LAY_BOT_TOP,
 	});
 	floor.add_component<BoxCollider>(vec2(INFINITY, 200));
+	GameObject floor_low = new_object("floor_low", "game_world", vec2(0, 350));
+	floor_low.add_component<Rigidbody>(Rigidbody::Data{
+		.body_type = Rigidbody::BodyType::STATIC,
+		.collision_layer = COLL_LAY_BOT_LOW,
+	});
+	floor_low.add_component<BoxCollider>(vec2(INFINITY, 200));
+	GameObject floor_high = new_object("floor_high", "game_world", vec2(0, 300));
+	floor_high.add_component<Rigidbody>(Rigidbody::Data{
+		.body_type = Rigidbody::BodyType::STATIC,
+		.collision_layer = COLL_LAY_BOT_HIGH,
+	});
 	GameObject ceiling = new_object("ceiling", "game_world", vec2(0, -325));
 	ceiling.add_component<Rigidbody>(Rigidbody::Data{
 		.body_type = Rigidbody::BodyType::STATIC,
+		.collision_layer = COLL_LAY_BOT_TOP,
 	});
 	ceiling.add_component<BoxCollider>(vec2(INFINITY, 200));
 
