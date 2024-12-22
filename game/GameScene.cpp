@@ -21,6 +21,7 @@
 
 #include "background/BackgroundSubScene.h"
 #include "prefab/PlayerObject.h"
+#include "prefab/ZapperObject.h"
 
 using namespace crepe;
 using namespace std;
@@ -40,7 +41,7 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 
-	PlayerObject player {new_object("player", "player", vec2(-100, 200))};
+	PlayerObject {new_object("player", "player", vec2(-100, 200))};
 
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data {
@@ -65,6 +66,8 @@ void GameScene::load_scene() {
 		.collision_layer = COLL_LAY_BOT_TOP,
 	});
 	ceiling.add_component<BoxCollider>(vec2(INFINITY, 200));
+
+	ZapperObject {new_object("zapper", "zapper", vec2(800, 0))};
 
 	GameObject start_game_script = new_object("start_game_script", "script", vec2(0, 0));
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();

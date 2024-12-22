@@ -48,6 +48,8 @@ public:
 	BehaviorScript & set_script(Args &&... args);
 
 protected:
+	//! Script type name
+	std::string name = "unknown script";
 	//! Script instance
 	std::unique_ptr<Script> script = nullptr;
 	//! ScriptSystem needs direct access to the script instance

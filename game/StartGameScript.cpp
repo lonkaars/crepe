@@ -40,7 +40,7 @@ void StartGameScript::fixed_update(crepe::duration_t dt) {
 	if (player_transform.position.x > 275 && !this->took_jetpack) {
 		Animator & jetpack_stand_anim
 			= this->get_components_by_name<Animator>("start_begin").back();
-		jetpack_stand_anim.next_anim();
+		// jetpack_stand_anim.next_anim();
 		Sprite & jetpack_sprite = this->get_components_by_name<Sprite>("player").back();
 		jetpack_sprite.active = true;
 

@@ -36,24 +36,12 @@ void Animator::pause() { this->active = false; }
 
 void Animator::stop() {
 	this->active = false;
-	this->data.col = 0;
-	this->data.row = 0;
+	this->data.frame = this->data.cycle_start;
 }
 void Animator::set_fps(int fps) { this->data.fps = fps; }
 
 void Animator::set_cycle_range(int start, int end) {
-	this->data.cycle_start = start, this->data.cycle_end = end;
+	this->data.cycle_start = start;
+	this->data.cycle_end = end;
 }
 
-void Animator::set_anim(int col) {
-	Animator::Data & ctx = this->data;
-	this->spritesheet.mask.x = ctx.row = 0;
-	ctx.col = col;
-	this->spritesheet.mask.y = ctx.col * this->spritesheet.mask.h;
-}
-
-void Animator::next_anim() {
-	Animator::Data & ctx = this->data;
-	ctx.row = ++ctx.row % this->grid_size.x;
-	this->spritesheet.mask.x = ctx.row * this->spritesheet.mask.w;
-}

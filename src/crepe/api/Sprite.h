@@ -110,15 +110,16 @@ private:
 	 */
 	float aspect_ratio = 0;
 
-	struct Rect {
-		int w = 0;
-		int h = 0;
-		int x = 0;
-		int y = 0;
+public:
+	struct Mask {
+		unsigned w = 0;
+		unsigned h = 0;
+		unsigned x = 0;
+		unsigned y = 0;
 	};
 	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator
 	// object is present in GameObject. this is in sprite pixels
-	Rect mask;
+	Mask mask;
 };
 
 } // namespace crepe

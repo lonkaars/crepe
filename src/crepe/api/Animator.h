@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../types.h"
+#include "../manager/LoopTimerManager.h"
 
 #include "Component.h"
 #include "Sprite.h"
@@ -22,16 +23,15 @@ public:
 	struct Data {
 		//! frames per second for animation
 		unsigned int fps = 1;
-		//! The current col being animated.
-		unsigned int col = 0;
-		//! The current row being animated.
-		unsigned int row = 0;
+		//! The current frame being shown
+		unsigned int frame = 0;
+
 		//! should the animation loop
 		bool looping = false;
 		//! starting frame for cycling
 		unsigned int cycle_start = 0;
 		//! end frame for cycling (-1 = use last frame)
-		int cycle_end = -1;
+		unsigned int cycle_end = -1;
 	};
 
 public:
@@ -60,14 +60,6 @@ public:
 	 * \param end of row animation
 	 */
 	void set_cycle_range(int start, int end);
-	/**
-	 * \brief select which column to animate from
-	 *
-	 * \param col animation column
-	 */
-	void set_anim(int col);
-	//! will go to the next animaiton of current row
-	void next_anim();
 
 public:
 	/**
@@ -101,6 +93,9 @@ private:
 
 	//! Uses the spritesheet
 	friend AnimatorSystem;
+
+	//! Elasped time since last frame change
+	duration_t elapsed;
 };
 
 } // namespace crepe

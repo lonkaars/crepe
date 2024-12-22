@@ -13,28 +13,30 @@ void AnimatorSystem::frame_update() {
 	LoopTimerManager & timer = this->mediator.loop_timer;
 	RefVector<Animator> animations = mgr.get_components_by_type<Animator>();
 
-	float elapsed_time = duration_cast<duration<float>>(timer.get_elapsed_time()).count();
+	duration_t elapsed = timer.get_delta_time();
 
-	for (Animator & a : animations) {
-		if (!a.active) continue;
-		if (a.data.fps == 0) continue;
+	for (Animator & animator : animations) {
+		if (!animator.active) continue;
 
-		Animator::Data & ctx = a.data;
-		float frame_duration = 1.0f / ctx.fps;
+		Animator::Data & data = animator.data;
+		if (animator.data.fps == 0) continue;
 
-		int last_frame = ctx.row;
+		if (animator.data.cycle_end == -1)
+			animator.data.cycle_end = animator.grid_size.x * animator.grid_size.y;
 
-		int cycle_end = (ctx.cycle_end == -1) ? a.grid_size.x : ctx.cycle_end;
-		int total_frames = cycle_end - ctx.cycle_start;
+		animator.elapsed += elapsed;
+		duration_t frame_duration = 1000ms / animator.data.fps;
 
-		int curr_frame = static_cast<int>(elapsed_time / frame_duration) % total_frames;
-
-		ctx.row = ctx.cycle_start + curr_frame;
-		a.spritesheet.mask.x = ctx.row * a.spritesheet.mask.w;
-		a.spritesheet.mask.y = (ctx.col * a.spritesheet.mask.h);
-
-		if (!ctx.looping && curr_frame == ctx.cycle_start && last_frame == total_frames - 1) {
-			a.active = false;
+		if (animator.elapsed > frame_duration) {
+			animator.elapsed = 0ms;
+			animator.data.frame++;
+			
+			if (animator.data.looping && animator.data.frame >= animator.data.cycle_end)
+				animator.data.frame = animator.data.cycle_start;
 		}
+
+		Sprite::Mask & mask = animator.spritesheet.mask;
+		mask.x = animator.data.frame % animator.grid_size.x * mask.w;
+		mask.y = animator.data.frame / animator.grid_size.x * mask.h;
 	}
 }
