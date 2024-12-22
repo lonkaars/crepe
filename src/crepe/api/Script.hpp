@@ -14,7 +14,8 @@ T & Script::get_component() const {
 	RefVector<T> all_components = this->get_components<T>();
 	if (all_components.size() < 1)
 		throw runtime_error(
-			format("Script: no component found with type = {}", typeid(T).name()));
+			format("Script: no component found with type = {}", typeid(T).name())
+		);
 
 	return all_components.back().get();
 }
@@ -35,8 +36,9 @@ void Script::logf(std::format_string<Args...> fmt, Args &&... args) {
 }
 
 template <typename EventType>
-void Script::subscribe_internal(const EventHandler<EventType> & callback,
-								event_channel_t channel) {
+void Script::subscribe_internal(
+	const EventHandler<EventType> & callback, event_channel_t channel
+) {
 	EventManager & mgr = this->mediator->event_manager;
 	subscription_t listener = mgr.subscribe<EventType>(
 		[this, callback](const EventType & data) -> bool {
@@ -54,7 +56,8 @@ void Script::subscribe_internal(const EventHandler<EventType> & callback,
 			// call user-provided callback
 			return callback(data);
 		},
-		channel);
+		channel
+	);
 	this->listeners.push_back(listener);
 }
 

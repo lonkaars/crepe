@@ -6,8 +6,9 @@
 
 using namespace crepe;
 
-Camera::Camera(game_object_id_t id, const ivec2 & screen, const vec2 & viewport_size,
-			   const Data & data)
+Camera::Camera(
+	game_object_id_t id, const ivec2 & screen, const vec2 & viewport_size, const Data & data
+)
 	: Component(id),
 	  screen(screen),
 	  viewport_size(viewport_size),

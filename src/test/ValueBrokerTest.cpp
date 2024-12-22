@@ -13,7 +13,7 @@ public:
 	int write_count = 0;
 	int value = 0;
 
-	ValueBroker<int> broker{
+	ValueBroker<int> broker {
 		[this](const int & target) -> void {
 			this->write_count++;
 			this->value = target;
@@ -23,7 +23,7 @@ public:
 			return this->value;
 		},
 	};
-	Proxy<int> proxy{broker};
+	Proxy<int> proxy {broker};
 
 	void SetUp() override {
 		ASSERT_EQ(read_count, 0);

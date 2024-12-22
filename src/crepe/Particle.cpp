@@ -2,8 +2,9 @@
 
 using namespace crepe;
 
-void Particle::reset(unsigned int lifespan, const vec2 & position, const vec2 & velocity,
-					 float angle) {
+void Particle::reset(
+	unsigned int lifespan, const vec2 & position, const vec2 & velocity, float angle
+) {
 	// Initialize the particle state
 	this->time_in_life = 0;
 	this->lifespan = lifespan;

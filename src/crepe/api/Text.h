@@ -48,8 +48,10 @@ public:
 	 * \param data Data struct containing extra text parameters.
 	 * \param font Optional font asset that can be passed or left empty.
 	 */
-	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
-		 const std::string & font_family, const Data & data, const std::string & text = "");
+	Text(
+		game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
+		const std::string & font_family, const Data & data, const std::string & text = ""
+	);
 
 	//! Label text.
 	std::string text = "";

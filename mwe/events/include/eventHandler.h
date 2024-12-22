@@ -22,8 +22,9 @@ private:
 template <typename EventType>
 class EventHandlerWrapper : public IEventHandlerWrapper {
 public:
-	explicit EventHandlerWrapper(const EventHandler<EventType> & handler,
-								 const bool destroyOnSuccess = false)
+	explicit EventHandlerWrapper(
+		const EventHandler<EventType> & handler, const bool destroyOnSuccess = false
+	)
 		: m_handler(handler),
 		  m_handlerType(m_handler.target_type().name()),
 		  m_destroyOnSuccess(destroyOnSuccess) {
@@ -42,5 +43,5 @@ private:
 
 	EventHandler<EventType> m_handler;
 	const std::string m_handlerType;
-	bool m_destroyOnSuccess{false};
+	bool m_destroyOnSuccess {false};
 };

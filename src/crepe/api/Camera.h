@@ -44,8 +44,10 @@ public:
 	 * \param viewport_size is the view of the world in game units
 	 * \param data the camera component data
 	 */
-	Camera(game_object_id_t id, const ivec2 & screen, const vec2 & viewport_size,
-		   const Camera::Data & data);
+	Camera(
+		game_object_id_t id, const ivec2 & screen, const vec2 & viewport_size,
+		const Camera::Data & data
+	);
 	~Camera(); // dbg_trace only
 
 public:

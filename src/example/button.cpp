@@ -21,14 +21,16 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 	Mediator mediator;
-	ComponentManager mgr{mediator};
-	RenderSystem sys{mediator};
-	EventManager event_mgr{mediator};
-	InputSystem input_sys{mediator};
-	SDLContext sdl_context{mediator};
-	GameObject obj = mgr.new_object("camera", "camera", vec2{0, 0}, 0, 1);
+	ComponentManager mgr {mediator};
+	RenderSystem sys {mediator};
+	EventManager event_mgr {mediator};
+	InputSystem input_sys {mediator};
+	SDLContext sdl_context {mediator};
+	GameObject obj = mgr.new_object("camera", "camera", vec2 {0, 0}, 0, 1);
 	auto & camera = obj.add_component<Camera>(
-		ivec2{500, 500}, vec2{500, 500}, Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+		ivec2 {500, 500}, vec2 {500, 500},
+		Camera::Data {.bg_color = Color::WHITE, .zoom = 1.0f}
+	);
 	auto start = std::chrono::steady_clock::now();
 	while (true) {
 		const keyboard_state_t & keyboard_state = sdl_context.get_keyboard_state();

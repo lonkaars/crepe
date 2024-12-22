@@ -54,26 +54,26 @@ private:
 	Mediator mediator;
 
 	//! SystemManager
-	SystemManager system_manager{mediator};
+	SystemManager system_manager {mediator};
 
 	//! SDLContext instance
-	SDLContext sdl_context{mediator};
+	SDLContext sdl_context {mediator};
 
 	//! Resource manager instance
-	ResourceManager resource_manager{mediator};
+	ResourceManager resource_manager {mediator};
 
 	//! Component manager instance
-	ComponentManager component_manager{mediator};
+	ComponentManager component_manager {mediator};
 	//! Scene manager instance
-	SceneManager scene_manager{mediator};
+	SceneManager scene_manager {mediator};
 	//! LoopTimerManager instance
-	LoopTimerManager loop_timer{mediator};
+	LoopTimerManager loop_timer {mediator};
 	//! EventManager instance
-	EventManager event_manager{mediator};
+	EventManager event_manager {mediator};
 	//! Save manager instance
-	SaveManager save_manager{mediator};
+	SaveManager save_manager {mediator};
 	//! ReplayManager instance
-	ReplayManager replay_manager{mediator};
+	ReplayManager replay_manager {mediator};
 };
 
 } // namespace crepe

@@ -2,8 +2,9 @@
 
 void EventManager::shutdown() { subscribers.clear(); }
 
-void EventManager::subscribe(int eventType, std::unique_ptr<IEventHandlerWrapper> && handler,
-							 int eventId) {
+void EventManager::subscribe(
+	int eventType, std::unique_ptr<IEventHandlerWrapper> && handler, int eventId
+) {
 	if (eventId) {
 		std::unordered_map<
 			int, std::unordered_map<int, std::vector<std::unique_ptr<IEventHandlerWrapper>>>>::

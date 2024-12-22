@@ -44,8 +44,9 @@ void InputSystem::fixed_update() {
 	}
 }
 
-void InputSystem::handle_mouse_event(const EventData & event, const vec2 & camera_origin,
-									 const Camera & current_cam) {
+void InputSystem::handle_mouse_event(
+	const EventData & event, const vec2 & camera_origin, const Camera & current_cam
+) {
 	EventManager & event_mgr = this->mediator.event_manager;
 	vec2 adjusted_mouse;
 	adjusted_mouse.x = event.data.mouse_data.mouse_position.x + camera_origin.x;
@@ -82,8 +83,9 @@ void InputSystem::handle_mouse_event(const EventData & event, const vec2 & camer
 					.mouse_pos = adjusted_mouse,
 					.button = event.data.mouse_data.mouse_button,
 				});
-				this->handle_click(event.data.mouse_data.mouse_button, adjusted_mouse,
-								   current_cam);
+				this->handle_click(
+					event.data.mouse_data.mouse_button, adjusted_mouse, current_cam
+				);
 			}
 			break;
 		}
@@ -115,7 +117,8 @@ void InputSystem::handle_non_mouse_event(const EventData & event) {
 		case EventType::KEY_DOWN:
 
 			event_mgr.queue_event<KeyPressEvent>(
-				{.repeat = event.data.key_data.key_repeat, .key = event.data.key_data.key});
+				{.repeat = event.data.key_data.key_repeat, .key = event.data.key_data.key}
+			);
 			break;
 		case EventType::KEY_UP:
 			event_mgr.queue_event<KeyReleaseEvent>({.key = event.data.key_data.key});
@@ -128,11 +131,13 @@ void InputSystem::handle_non_mouse_event(const EventData & event) {
 			break;
 		case EventType::WINDOW_RESIZE:
 			event_mgr.queue_event<WindowResizeEvent>(
-				WindowResizeEvent{.dimensions = event.data.window_data.resize_dimension});
+				WindowResizeEvent {.dimensions = event.data.window_data.resize_dimension}
+			);
 			break;
 		case EventType::WINDOW_MOVE:
 			event_mgr.queue_event<WindowMoveEvent>(
-				{.delta_move = event.data.window_data.move_delta});
+				{.delta_move = event.data.window_data.move_delta}
+			);
 			break;
 		case EventType::WINDOW_MINIMIZE:
 			event_mgr.queue_event<WindowMinimizeEvent>({});
@@ -151,8 +156,9 @@ void InputSystem::handle_non_mouse_event(const EventData & event) {
 	}
 }
 
-void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_pos,
-							  const Camera & current_cam) {
+void InputSystem::handle_move(
+	const EventData & event_data, const vec2 & mouse_pos, const Camera & current_cam
+) {
 	ComponentManager & mgr = this->mediator.component_manager;
 	EventManager & event_mgr = this->mediator.event_manager;
 	const RefVector<Button> buttons = mgr.get_components_by_type<Button>();
@@ -182,8 +188,9 @@ void InputSystem::handle_move(const EventData & event_data, const vec2 & mouse_p
 	}
 }
 
-void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mouse_pos,
-							   const Camera & current_cam) {
+void InputSystem::handle_click(
+	const MouseButton & mouse_button, const vec2 & mouse_pos, const Camera & current_cam
+) {
 	ComponentManager & mgr = this->mediator.component_manager;
 	EventManager & event_mgr = this->mediator.event_manager;
 	const RefVector<Button> buttons = mgr.get_components_by_type<Button>();
@@ -201,9 +208,10 @@ void InputSystem::handle_click(const MouseButton & mouse_button, const vec2 & mo
 	}
 }
 
-bool InputSystem::is_mouse_inside_button(const vec2 & mouse_pos, const Button & button,
-										 const Transform & transform,
-										 const Transform & cam_transform) {
+bool InputSystem::is_mouse_inside_button(
+	const vec2 & mouse_pos, const Button & button, const Transform & transform,
+	const Transform & cam_transform
+) {
 	vec2 actual_pos = transform.position + button.offset;
 	if (!button.world_space) {
 		actual_pos += cam_transform.position;
