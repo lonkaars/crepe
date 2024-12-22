@@ -6,21 +6,10 @@
 using namespace crepe;
 using namespace std;
 
-PlayerScript::PlayerScript(PlayerObject * player) : player(player) {
-	logf(Log::DEBUG, "PlayerScript: [C] player         {}", (void*) &(*player));
-	logf(Log::DEBUG, "PlayerScript: [C] player.body    {}", (void*) &(player->body));
-	logf(Log::DEBUG, "PlayerScript: [C] player.body.id {}", (void*) &(player->body.game_object_id));
-}
-
-void PlayerScript::init() {
-	logf(Log::DEBUG, "PlayerScript: [C] player         {}", (void*) &(*player));
-	logf(Log::DEBUG, "PlayerScript: [C] player.body    {}", (void*) &(player->body));
-	logf(Log::DEBUG, "PlayerScript: [C] player.body.id {}", (void*) &(player->body.game_object_id));
-	player->controller.active = false;
-}
+PlayerScript::PlayerScript(const PlayerObject & player) : player(player) { }
 
 void PlayerScript::fixed_update(crepe::duration_t dt) {
 	if (this->get_key_state(Keycode::SPACE))
-		player->body.add_force_linear({ 0, -10 });
+		player.body.add_force_linear({ 0, -10 });
 }
 

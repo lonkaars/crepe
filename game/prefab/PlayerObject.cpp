@@ -1,5 +1,3 @@
-#include <crepe/util/Log.h>
-
 #include "Config.h"
 #include "PlayerObject.h"
 #include "PlayerScript.h"
@@ -67,10 +65,8 @@ PlayerObject::PlayerObject(crepe::GameObject && base)
 		  .collision_layer = COLL_LAY_PLAYER,
 	  })),
 	  collider(add_component<BoxCollider>(vec2(50, 50))),
-	  controller(add_component<BehaviorScript>().set_script<PlayerScript>(this)) {
+	  controller(add_component<BehaviorScript>().set_script<PlayerScript>(*this)) {
 	sprite.jetpack.active = false;
-	// controller.active = false;
-
-	Log::logf(Log::DEBUG, "PlayerObject:     ref            {}", (void*) &(this->body.game_object_id));
+	controller.active = false;
 }
 

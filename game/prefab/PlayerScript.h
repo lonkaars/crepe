@@ -6,18 +6,12 @@
 
 class PlayerScript : public crepe::Script {
 public:
-	PlayerScript(PlayerObject * player);
-
-	PlayerScript(const PlayerScript &) = delete;
-	PlayerScript(PlayerScript &&) = delete;
-	PlayerScript & operator=(const PlayerScript &) = delete;
-	PlayerScript & operator=(PlayerScript &&) = delete;
+	PlayerScript(const PlayerObject & player);
 
 protected:
 	void fixed_update(crepe::duration_t dt);
-	void init();
 
 protected:
-	PlayerObject * player = nullptr;
+	PlayerObject player;
 };
 
