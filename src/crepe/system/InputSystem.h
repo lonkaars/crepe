@@ -1,12 +1,9 @@
 #pragma once
 
-#include "../api/Config.h"
 #include "../facade/EventData.h"
-
 #include "../api/Event.h"
 #include "../api/Metadata.h"
 #include "../types.h"
-#include "../util/OptionalRef.h"
 
 #include "System.h"
 
