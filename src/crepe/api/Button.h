@@ -1,6 +1,7 @@
 #pragma once
 
 #include "UIObject.h"
+#include "types.h"
 
 namespace crepe {
 
@@ -33,7 +34,8 @@ public:
 	 * \param data additional data the button has
 	 */
 	Button(
-		game_object_id_t id, const vec2 & dimensions, const vec2 & offset, const Data & data
+		game_object_id_t id, const vec2 & dimensions, const Data & data,
+		const vec2 & offset = {0, 0}
 	);
 	/**
 	 * \brief Get the maximum number of instances for this component
