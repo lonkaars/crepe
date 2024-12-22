@@ -1,8 +1,8 @@
 #include "../api/Button.h"
+#include "../api/Config.h"
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/EventManager.h"
-#include "../api/Config.h"
 
 #include "InputSystem.h"
 

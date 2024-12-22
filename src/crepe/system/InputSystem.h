@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../facade/EventData.h"
 #include "../api/Event.h"
 #include "../api/Metadata.h"
+#include "../facade/EventData.h"
 #include "../types.h"
 
 #include "System.h"
