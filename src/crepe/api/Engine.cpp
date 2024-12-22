@@ -1,4 +1,7 @@
+#include <segvcatch.h>
+
 #include "../util/Log.h"
+#include "../facade/SignalCatch.h"
 
 #include "Engine.h"
 
@@ -6,6 +9,8 @@ using namespace crepe;
 using namespace std;
 
 int Engine::main() noexcept {
+	SignalCatch signal_catch;
+
 	try {
 		this->setup();
 	} catch (const exception & e) {
@@ -37,31 +42,39 @@ void Engine::setup() {
 
 void Engine::loop() {
 	LoopTimerManager & timer = this->loop_timer;
-	SystemManager & systems = this->system_manager;
 
 	while (this->game_running) {
 		timer.update();
 
 		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
 			try {
-				systems.fixed_update();
+				this->fixed_update();
 			} catch (const exception & e) {
 				Log::logf(
-					Log::Level::WARNING, "Uncaught exception in fixed update function: {}\n",
+					Log::Level::WARNING, "Uncaught exception in fixed update function: {}",
 					e.what()
 				);
 			}
-			timer.advance_fixed_elapsed_time();
 		}
 
 		try {
-			systems.frame_update();
+			this->frame_update();
 		} catch (const exception & e) {
 			Log::logf(
-				Log::Level::WARNING, "Uncaught exception in frame update function: {}\n",
+				Log::Level::WARNING, "Uncaught exception in frame update function: {}",
 				e.what()
 			);
 		}
-		timer.enforce_frame_rate();
 	}
 }
+
+void Engine::fixed_update() {
+	this->system_manager.fixed_update();
+	this->loop_timer.advance_fixed_elapsed_time();
+}
+
+void Engine::frame_update() {
+	this->system_manager.frame_update();
+	this->loop_timer.enforce_frame_rate();
+}
+

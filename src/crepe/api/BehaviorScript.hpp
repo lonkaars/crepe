@@ -11,6 +11,7 @@ template <class T, typename... Args>
 BehaviorScript & BehaviorScript::set_script(Args &&... args) {
 	static_assert(std::is_base_of<Script, T>::value);
 	this->script = std::unique_ptr<Script>(new T(std::forward<Args>(args)...));
+	this->name = typeid(T).name();
 
 	this->script->game_object_id = this->game_object_id;
 	this->script->active = this->active;

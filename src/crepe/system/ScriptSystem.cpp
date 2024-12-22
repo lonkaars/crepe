@@ -32,10 +32,19 @@ void ScriptSystem::update(
 		if (script == nullptr) continue;
 
 		if (!script->initialized) {
-			script->init();
-			script->initialized = true;
+			try {
+				script->init();
+				script->initialized = true;
+			} catch (const exception & e) {
+				Log::logf(Log::Level::WARNING, "Uncaught exception in {} init: {}", behavior_script.name, e.what());
+			}
 		}
 
-		(*script.*update_function)(delta_time);
+		try {
+			(*script.*update_function)(delta_time);
+		} catch (const exception & e) {
+			// TODO: print if it is fixed/frame update
+			Log::logf(Log::Level::WARNING, "Uncaught exception in {}: {}", behavior_script.name, e.what());
+		}
 	}
 }

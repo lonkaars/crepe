@@ -6,6 +6,7 @@ target_sources(crepe PUBLIC
 	DB.cpp
 	FontFacade.cpp
 	Font.cpp
+	SignalCatch.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -16,5 +17,6 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	DB.h
 	FontFacade.h
 	Font.h
+	SignalCatch.h
 )
 

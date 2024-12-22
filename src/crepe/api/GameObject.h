@@ -37,6 +37,13 @@ private:
 	//! ComponentManager instances GameObject
 	friend class ComponentManager;
 
+protected:
+	GameObject(GameObject &&) = default;
+
+	GameObject(const GameObject &) = delete;
+	GameObject & operator=(const GameObject &) = delete;
+	GameObject & operator=(GameObject &&) = delete;
+
 public:
 	//! The id of the GameObject
 	const game_object_id_t id;

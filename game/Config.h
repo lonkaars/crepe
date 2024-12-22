@@ -1,5 +1,16 @@
 #pragma once
 
+#include <crepe/api/Config.h>
+
+static const crepe::Config ENGINE_CONFIG {
+	.log {
+		.level = crepe::Log::Level::DEBUG,
+	},
+	.window_settings {
+		.window_title = "Jetpack joyride clone",
+	},
+};
+
 static constexpr int SORT_IN_LAY_BACK_BACKGROUND = 3; // For all scenes
 static constexpr int SORT_IN_LAY_BACKGROUND = 4; // For all scenes
 static constexpr int SORT_IN_LAY_FORE_BACKGROUND = 5; // For all scenes

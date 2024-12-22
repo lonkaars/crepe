@@ -26,14 +26,14 @@ public:
 	 *
 	 * Updates the game state based on the elapsed time since the last frame.
 	 */
-	void frame_update();
+	void frame_update() noexcept;
 
 	/**
 	 * \brief Fixed update executed at a fixed rate.
 	 *
 	 * This function updates physics and game logic based on LoopTimer's fixed_delta_time.
 	 */
-	void fixed_update();
+	void fixed_update() noexcept;
 
 private:
 	/**
@@ -43,13 +43,20 @@ private:
 	 * constructor of \c SystemManager using SystemManager::load_system.
 	 */
 	std::unordered_map<std::type_index, std::unique_ptr<System>> systems;
+	//! Internal ordered system list entry
+	struct SystemEntry {
+		//! System instance reference
+		System & system;
+		//! System name
+		std::string name;
+	};
 	/**
 	 * \brief Collection of System instances
 	 *
 	 * This map holds System instances indexed by the system's class typeid. It is filled in the
 	 * constructor of \c SystemManager using SystemManager::load_system.
 	 */
-	std::vector<std::reference_wrapper<System>> system_order;
+	std::vector<SystemEntry> system_order;
 	/**
 	 * \brief Initialize a system
 	 * \tparam T System type (must be derivative of \c System)

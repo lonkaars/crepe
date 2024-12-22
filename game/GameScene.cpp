@@ -1,11 +1,3 @@
-#include "GameScene.h"
-#include "Config.h"
-#include "MoveCameraManualyScript.h"
-#include "PlayerSubScene.h"
-#include "StartGameScript.h"
-
-#include "background/BackgroundSubScene.h"
-
 #include <cmath>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Asset.h>
@@ -22,10 +14,20 @@
 #include <crepe/api/Transform.h>
 #include <crepe/types.h>
 
+#include "GameScene.h"
+#include "Config.h"
+#include "MoveCameraManualyScript.h"
+#include "StartGameScript.h"
+
+#include "background/BackgroundSubScene.h"
+#include "prefab/PlayerObject.h"
+
 using namespace crepe;
 using namespace std;
 
 void GameScene::load_scene() {
+	logf(Log::DEBUG, "Loading (main) GameScene...");
+
 	BackgroundSubScene background(*this);
 
 	GameObject camera = new_object("camera", "camera", vec2(650, 0));
@@ -38,7 +40,7 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 
-	PlayerSubScene player(*this);
+	PlayerObject player {new_object("player", "player", vec2(-100, 200))};
 
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data {

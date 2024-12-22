@@ -5,6 +5,9 @@
 
 namespace crepe {
 
+/**
+ * \brief Base collider class
+ */
 class Collider : public Component {
 public:
 	Collider(game_object_id_t id, const vec2 & offset);
