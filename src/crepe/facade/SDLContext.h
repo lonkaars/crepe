@@ -116,8 +116,9 @@ public:
 	 * This method checks if any window events are triggered and adds them to the event_list.
 	 *
 	 */
-	void handle_window_event(const SDL_WindowEvent & window_event,
-							 std::vector<EventData> & event_list);
+	void handle_window_event(
+		const SDL_WindowEvent & window_event, std::vector<EventData> & event_list
+	);
 	/**
 	 * \brief Converts an SDL scan code to the custom Keycode type.
 	 *
@@ -254,7 +255,7 @@ private:
 
 private:
 	//! instance of the font_facade
-	FontFacade font_facade{};
+	FontFacade font_facade {};
 
 public:
 	/**

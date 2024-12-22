@@ -38,9 +38,10 @@ public:
 	 *
 	 * \note This method automatically assigns a new entity ID
 	 */
-	GameObject new_object(const std::string & name, const std::string & tag = "",
-						  const vec2 & position = {0, 0}, double rotation = 0,
-						  double scale = 1);
+	GameObject new_object(
+		const std::string & name, const std::string & tag = "", const vec2 & position = {0, 0},
+		double rotation = 0, double scale = 1
+	);
 
 public:
 	/**

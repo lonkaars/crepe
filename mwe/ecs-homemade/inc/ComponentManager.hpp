@@ -54,8 +54,8 @@ void ComponentManager::DeleteComponents() {
 }
 
 template <typename T>
-std::vector<std::reference_wrapper<T>>
-ComponentManager::GetComponentsByID(std::uint32_t id) const {
+std::vector<std::reference_wrapper<T>> ComponentManager::GetComponentsByID(std::uint32_t id
+) const {
 	//Determine the type of T (this is used as the key of the unordered_map<>)
 	std::type_index type = typeid(T);
 

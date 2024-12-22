@@ -68,7 +68,7 @@ private:
 	typeof(loop) last_loop = loop;
 	//! \}
 	//! This source's voice handle
-	SoundHandle voice{};
+	SoundHandle voice {};
 };
 
 } // namespace crepe

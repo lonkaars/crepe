@@ -51,8 +51,10 @@ void onKey(const KeyPressedEvent & e) {
 	std::cout << "keycode pressed: " << keyCode << std::endl;
 }
 void onMouse(const MousePressedEvent & e) {
-	fprintf(stderr, "mouse Position X: %d Y: %d\n", e.getMousePosition().first,
-			e.getMousePosition().second);
+	fprintf(
+		stderr, "mouse Position X: %d Y: %d\n", e.getMousePosition().first,
+		e.getMousePosition().second
+	);
 }
 void LoopManager::setup() {
 	gameRunning = window.initWindow();
