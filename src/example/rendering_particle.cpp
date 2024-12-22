@@ -62,18 +62,22 @@ public:
 			}
 		);
 
-		game_object.add_component<Text>(vec2{1, 1}, vec2{0, -1}, "ComicSansMS",
-										Text::Data{
-											.text_color = Color::RED,
-										},
-										"test TEST");
+		game_object.add_component<Text>(
+			vec2 {1, 1}, vec2 {0, -1}, "ComicSansMS",
+			Text::Data {
+				.text_color = Color::RED,
+			},
+			"test TEST"
+		);
 
 		game_object
-			.add_component<Text>(vec2{1, 1}, vec2{0, 1}, "Ariel",
-								 Text::Data{
-									 .text_color = Color::BLACK,
-								 },
-								 "TEST test")
+			.add_component<Text>(
+				vec2 {1, 1}, vec2 {0, 1}, "Ariel",
+				Text::Data {
+					.text_color = Color::BLACK,
+				},
+				"TEST test"
+			)
 			.world_space
 			= true;
 	}
