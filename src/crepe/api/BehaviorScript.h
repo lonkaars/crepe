@@ -33,11 +33,6 @@ protected:
 	//! Only ComponentManager is allowed to instantiate BehaviorScript
 	friend class ComponentManager;
 
-	BehaviorScript(const BehaviorScript &);
-	BehaviorScript(BehaviorScript &&);
-	BehaviorScript & operator = (const BehaviorScript &);
-	BehaviorScript & operator = (BehaviorScript &&);
-
 public:
 	/**
 	 * \brief Set the concrete script of this component
@@ -53,7 +48,6 @@ public:
 	BehaviorScript & set_script(Args &&... args);
 
 protected:
-	std::string name = "unknown script";
 	//! Script instance
 	std::unique_ptr<Script> script = nullptr;
 	//! ScriptSystem needs direct access to the script instance
