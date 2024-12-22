@@ -37,7 +37,10 @@ void SystemManager::fixed_update() noexcept {
 		try {
 			entry.system.fixed_update();
 		} catch (const exception & e) {
-			Log::logf(Log::Level::WARNING, "Uncaught exception in {} fixed update: {}", entry.name, e.what());
+			Log::logf(
+				Log::Level::WARNING, "Uncaught exception in {} fixed update: {}", entry.name,
+				e.what()
+			);
 		}
 	}
 }
@@ -48,7 +51,10 @@ void SystemManager::frame_update() noexcept {
 		try {
 			entry.system.frame_update();
 		} catch (const exception & e) {
-			Log::logf(Log::Level::WARNING, "Uncaught exception in {} frame update: {}", entry.name, e.what());
+			Log::logf(
+				Log::Level::WARNING, "Uncaught exception in {} frame update: {}", entry.name,
+				e.what()
+			);
 		}
 	}
 }

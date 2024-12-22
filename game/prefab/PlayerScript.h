@@ -14,4 +14,3 @@ protected:
 protected:
 	PlayerObject player;
 };
-

@@ -34,4 +34,3 @@ public:
 private:
 	static constexpr int SCALE = 60;
 };
-

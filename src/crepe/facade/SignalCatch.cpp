@@ -15,11 +15,6 @@ SignalCatch::~SignalCatch() {
 	segvcatch::init_fpe();
 }
 
-void SignalCatch::segv() {
-	throw runtime_error("segmentation fault");
-}
+void SignalCatch::segv() { throw runtime_error("segmentation fault"); }
 
-void SignalCatch::fpe() {
-	throw domain_error("floating point exception");
-}
-
+void SignalCatch::fpe() { throw domain_error("floating point exception"); }

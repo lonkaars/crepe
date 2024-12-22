@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../types.h"
 #include "../manager/LoopTimerManager.h"
+#include "../types.h"
 
 #include "Component.h"
 #include "Sprite.h"

@@ -30,7 +30,7 @@ void AnimatorSystem::frame_update() {
 		if (animator.elapsed > frame_duration) {
 			animator.elapsed = 0ms;
 			animator.data.frame++;
-			
+
 			if (animator.data.looping && animator.data.frame >= animator.data.cycle_end)
 				animator.data.frame = animator.data.cycle_start;
 		}

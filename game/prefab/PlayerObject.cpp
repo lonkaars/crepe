@@ -1,5 +1,5 @@
-#include "Config.h"
 #include "PlayerObject.h"
+#include "Config.h"
 #include "PlayerScript.h"
 
 using namespace crepe;
@@ -69,4 +69,3 @@ PlayerObject::PlayerObject(crepe::GameObject && base)
 	sprite.jetpack.active = false;
 	controller.active = false;
 }
-

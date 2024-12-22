@@ -38,7 +38,7 @@ void SystemManager::load_system() {
 		throw runtime_error(format("SystemManager: {} is already initialized", type.name()));
 	System * system = new T(this->mediator);
 	this->systems[type] = unique_ptr<System>(system);
-	this->system_order.push_back(SystemEntry{
+	this->system_order.push_back(SystemEntry {
 		.system = *this->systems[type],
 		.name = type.name(),
 	});

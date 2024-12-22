@@ -14,8 +14,8 @@
 #include <crepe/api/Transform.h>
 #include <crepe/types.h>
 
-#include "GameScene.h"
 #include "Config.h"
+#include "GameScene.h"
 #include "MoveCameraManualyScript.h"
 #include "StartGameScript.h"
 

@@ -20,5 +20,4 @@ public:
 	SignalCatch & operator=(SignalCatch &&) = delete;
 };
 
-}
-
+} // namespace crepe

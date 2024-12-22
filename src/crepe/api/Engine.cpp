@@ -1,7 +1,7 @@
 #include <segvcatch.h>
 
-#include "../util/Log.h"
 #include "../facade/SignalCatch.h"
+#include "../util/Log.h"
 
 #include "Engine.h"
 
@@ -77,4 +77,3 @@ void Engine::frame_update() {
 	this->system_manager.frame_update();
 	this->loop_timer.enforce_frame_rate();
 }
-

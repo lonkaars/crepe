@@ -44,4 +44,3 @@ void Animator::set_cycle_range(int start, int end) {
 	this->data.cycle_start = start;
 	this->data.cycle_end = end;
 }
-

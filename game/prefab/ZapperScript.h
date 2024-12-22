@@ -15,4 +15,3 @@ protected:
 protected:
 	ZapperObject zapper;
 };
-
