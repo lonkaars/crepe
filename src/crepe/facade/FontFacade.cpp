@@ -20,8 +20,9 @@ Asset FontFacade::get_font_asset(const string & font_family) {
 		= FcNameParse(reinterpret_cast<const FcChar8 *>(font_family.c_str()));
 	if (raw_pattern == NULL) throw runtime_error("Failed to create font pattern.");
 
-	unique_ptr<FcPattern, function<void(FcPattern *)>> pattern{
-		raw_pattern, [](FcPattern * p) { FcPatternDestroy(p); }};
+	unique_ptr<FcPattern, function<void(FcPattern *)>> pattern {
+		raw_pattern, [](FcPattern * p) { FcPatternDestroy(p); }
+	};
 
 	FcConfig * config = FcConfigGetCurrent();
 	if (config == NULL) throw runtime_error("Failed to get current Fontconfig configuration.");

@@ -129,12 +129,14 @@ protected:
 	void subscribe(const EventHandler<EventType> & callback);
 	//! \copydoc EventManager::trigger_event
 	template <typename EventType>
-	void trigger_event(const EventType & event = {},
-					   event_channel_t channel = EventManager::CHANNEL_ALL);
+	void trigger_event(
+		const EventType & event = {}, event_channel_t channel = EventManager::CHANNEL_ALL
+	);
 	//! \copydoc EventManager::queue_event
 	template <typename EventType>
-	void queue_event(const EventType & event = {},
-					 event_channel_t channel = EventManager::CHANNEL_ALL);
+	void queue_event(
+		const EventType & event = {}, event_channel_t channel = EventManager::CHANNEL_ALL
+	);
 	//! \}
 
 	/**
@@ -179,7 +181,7 @@ protected:
 		OptionalRef<Mediator> & mediator;
 		replay(OptionalRef<Mediator> & mediator) : mediator(mediator) {}
 		friend class Script;
-	} replay{mediator};
+	} replay {mediator};
 
 	/**
 	 * \brief Utility function to retrieve the keyboard state

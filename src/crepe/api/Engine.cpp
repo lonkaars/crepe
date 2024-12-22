@@ -46,8 +46,10 @@ void Engine::loop() {
 			try {
 				systems.fixed_update();
 			} catch (const exception & e) {
-				Log::logf(Log::Level::WARNING,
-						  "Uncaught exception in fixed update function: {}\n", e.what());
+				Log::logf(
+					Log::Level::WARNING, "Uncaught exception in fixed update function: {}\n",
+					e.what()
+				);
 			}
 			timer.advance_fixed_elapsed_time();
 		}
@@ -55,8 +57,10 @@ void Engine::loop() {
 		try {
 			systems.frame_update();
 		} catch (const exception & e) {
-			Log::logf(Log::Level::WARNING, "Uncaught exception in frame update function: {}\n",
-					  e.what());
+			Log::logf(
+				Log::Level::WARNING, "Uncaught exception in frame update function: {}\n",
+				e.what()
+			);
 		}
 		timer.enforce_frame_rate();
 	}

@@ -23,7 +23,7 @@ class ScriptEventTest : public ScriptTest {
 public:
 	EventManager & event_manager = mediator.event_manager;
 
-	class MyEvent : public Event {};
+	struct MyEvent : public Event {};
 };
 
 TEST_F(ScriptEventTest, Default) {

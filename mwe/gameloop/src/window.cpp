@@ -36,8 +36,10 @@ bool WindowManager::initWindow() {
 		fprintf(stderr, "Error inititalising SDL.\n");
 		return false;
 	}
-	window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-							  SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow(
+		"SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
+		SCREEN_HEIGHT, SDL_WINDOW_SHOWN
+	);
 	if (!window) {
 		fprintf(stderr, "Error creating SDL Window. \n");
 		return false;

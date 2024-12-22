@@ -28,22 +28,23 @@ using namespace crepe;
 class InputTest : public ::testing::Test {
 public:
 	Mediator mediator;
-	ComponentManager mgr{mediator};
-	SDLContext sdl_context{mediator};
+	ComponentManager mgr {mediator};
+	SDLContext sdl_context {mediator};
 
-	InputSystem input_system{mediator};
-	ResourceManager resman{mediator};
-	RenderSystem render{mediator};
-	EventManager event_manager{mediator};
+	InputSystem input_system {mediator};
+	ResourceManager resman {mediator};
+	RenderSystem render {mediator};
+	EventManager event_manager {mediator};
 	//GameObject camera;
 	vec2 offset = {100, 200};
 
 protected:
 	void SetUp() override {
 		GameObject obj = mgr.new_object("camera", "camera", offset, 0, 1);
-		auto & camera
-			= obj.add_component<Camera>(ivec2{500, 500}, vec2{500, 500},
-										Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+		auto & camera = obj.add_component<Camera>(
+			ivec2 {500, 500}, vec2 {500, 500},
+			Camera::Data {.bg_color = Color::WHITE, .zoom = 1.0f}
+		);
 		render.frame_update();
 		//mediator.event_manager = event_manager;
 		//mediator.component_manager = mgr;
@@ -208,14 +209,14 @@ TEST_F(InputTest, MouseClick) {
 }
 
 TEST_F(InputTest, testButtonClick) {
-	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+	GameObject button_obj = mgr.new_object("body", "person", vec2 {0, 0}, 0, 1);
 	bool button_clicked = false;
 	event_manager.subscribe<ButtonPressEvent>([&](const ButtonPressEvent & event) {
 		button_clicked = true;
 		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
-	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0});
+	auto & button = button_obj.add_component<Button>(vec2 {100, 100}, vec2 {0, 0});
 
 	bool hover = false;
 	button.active = true;
@@ -230,14 +231,14 @@ TEST_F(InputTest, testButtonClick) {
 	EXPECT_TRUE(button_clicked);
 }
 TEST_F(InputTest, buttonPositionCamera) {
-	GameObject button_obj = mgr.new_object("body", "person", vec2{50, 50}, 0, 1);
+	GameObject button_obj = mgr.new_object("body", "person", vec2 {50, 50}, 0, 1);
 	bool button_clicked = false;
 	event_manager.subscribe<ButtonPressEvent>([&](const ButtonPressEvent & event) {
 		button_clicked = true;
 		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
-	auto & button = button_obj.add_component<Button>(vec2{10, 10}, vec2{0, 0});
+	auto & button = button_obj.add_component<Button>(vec2 {10, 10}, vec2 {0, 0});
 
 	button.world_space = false;
 	bool hover = false;
@@ -253,14 +254,14 @@ TEST_F(InputTest, buttonPositionCamera) {
 	EXPECT_TRUE(button_clicked);
 }
 TEST_F(InputTest, buttonPositionWorld) {
-	GameObject button_obj = mgr.new_object("body", "person", vec2{50, 50}, 0, 1);
+	GameObject button_obj = mgr.new_object("body", "person", vec2 {50, 50}, 0, 1);
 	bool button_clicked = false;
 	event_manager.subscribe<ButtonPressEvent>([&](const ButtonPressEvent & event) {
 		button_clicked = true;
 		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
-	auto & button = button_obj.add_component<Button>(vec2{10, 10}, vec2{0, 0});
+	auto & button = button_obj.add_component<Button>(vec2 {10, 10}, vec2 {0, 0});
 	button.world_space = true;
 	bool hover = false;
 	button.active = true;
@@ -275,7 +276,7 @@ TEST_F(InputTest, buttonPositionWorld) {
 	EXPECT_FALSE(button_clicked);
 }
 TEST_F(InputTest, testButtonHover) {
-	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+	GameObject button_obj = mgr.new_object("body", "person", vec2 {0, 0}, 0, 1);
 	bool button_hover = false;
 	event_manager.subscribe<ButtonEnterEvent>([&](const ButtonEnterEvent & event) {
 		button_hover = true;
@@ -287,7 +288,7 @@ TEST_F(InputTest, testButtonHover) {
 		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
-	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0});
+	auto & button = button_obj.add_component<Button>(vec2 {100, 100}, vec2 {0, 0});
 	button.active = true;
 	// Mouse on button
 	SDL_Event hover_event;

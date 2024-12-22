@@ -11,8 +11,9 @@ namespace crepe {
 template <class T>
 T & SystemManager::get_system() {
 	using namespace std;
-	static_assert(is_base_of<System, T>::value,
-				  "get_system must recieve a derivative class of System");
+	static_assert(
+		is_base_of<System, T>::value, "get_system must recieve a derivative class of System"
+	);
 
 	const type_info & type = typeid(T);
 	if (!this->systems.contains(type))
@@ -28,8 +29,9 @@ T & SystemManager::get_system() {
 template <class T>
 void SystemManager::load_system() {
 	using namespace std;
-	static_assert(is_base_of<System, T>::value,
-				  "load_system must recieve a derivative class of System");
+	static_assert(
+		is_base_of<System, T>::value, "load_system must recieve a derivative class of System"
+	);
 
 	const type_info & type = typeid(T);
 	if (this->systems.contains(type))

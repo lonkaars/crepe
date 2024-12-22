@@ -92,7 +92,7 @@ void RenderSystem::render_text() {
 		const Font & font = resource_manager.get<Font>(text.font.value());
 		const auto & transform
 			= mgr.get_components_by_id<Transform>(text.game_object_id).front().get();
-		ctx.draw_text(SDLContext::RenderText{
+		ctx.draw_text(SDLContext::RenderText {
 			.text = text,
 			.font = font,
 			.transform = transform,
@@ -120,7 +120,7 @@ bool RenderSystem::render_particle(const Sprite & sprite, const Transform & tran
 			if (!p.active) continue;
 			if (p.time_in_life < em.data.begin_lifespan) continue;
 
-			ctx.draw(SDLContext::RenderContext{
+			ctx.draw(SDLContext::RenderContext {
 				.sprite = sprite,
 				.texture = res,
 				.pos = p.position,
@@ -136,7 +136,7 @@ void RenderSystem::render_normal(const Sprite & sprite, const Transform & transf
 	ResourceManager & resource_manager = this->mediator.resource_manager;
 	const Texture & res = resource_manager.get<Texture>(sprite.source);
 	vec2 pos = AbsolutePosition::get_position(transform, sprite.data.position_offset);
-	ctx.draw(SDLContext::RenderContext{
+	ctx.draw(SDLContext::RenderContext {
 		.sprite = sprite,
 		.texture = res,
 		.pos = pos,

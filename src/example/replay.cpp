@@ -55,15 +55,20 @@ public:
 		ComponentManager & mgr = mediator.component_manager;
 
 		GameObject cam = mgr.new_object("cam");
-		cam.add_component<Camera>(ivec2{640, 480}, vec2{3, 3},
-								  Camera::Data{
-									  .bg_color = Color::WHITE,
-								  });
+		cam.add_component<Camera>(
+			ivec2 {640, 480}, vec2 {3, 3},
+			Camera::Data {
+				.bg_color = Color::WHITE,
+			}
+		);
 
 		GameObject square = mgr.new_object("square");
-		square.add_component<Sprite>(Asset{"asset/texture/square.png"}, Sprite::Data{
-																			.size = {0.5, 0.5},
-																		});
+		square.add_component<Sprite>(
+			Asset {"asset/texture/square.png"},
+			Sprite::Data {
+				.size = {0.5, 0.5},
+			}
+		);
 		square.add_component<BehaviorScript>().set_script<AnimationScript>();
 
 		GameObject scapegoat = mgr.new_object("");

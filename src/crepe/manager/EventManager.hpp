@@ -5,24 +5,31 @@
 namespace crepe {
 
 template <typename EventType>
-subscription_t EventManager::subscribe(const EventHandler<EventType> & callback,
-									   event_channel_t channel) {
+subscription_t
+EventManager::subscribe(const EventHandler<EventType> & callback, event_channel_t channel) {
 	subscription_counter++;
 	std::type_index event_type = typeid(EventType);
 	std::unique_ptr<EventHandlerWrapper<EventType>> handler
 		= std::make_unique<EventHandlerWrapper<EventType>>(callback);
 	std::vector<CallbackEntry> & handlers = this->subscribers[event_type];
-	handlers.emplace_back(CallbackEntry{
-		.callback = std::move(handler), .channel = channel, .id = subscription_counter});
+	handlers.emplace_back(CallbackEntry {
+		.callback = std::move(handler), .channel = channel, .id = subscription_counter
+	});
 	return subscription_counter;
 }
 
 template <typename EventType>
 void EventManager::queue_event(const EventType & event, event_channel_t channel) {
-	static_assert(std::is_base_of<Event, EventType>::value,
-				  "EventType must derive from Event");
+	static_assert(
+		std::is_base_of<Event, EventType>::value, "EventType must derive from Event"
+	);
 	this->events_queue.push_back(QueueEntry{
-		.event = std::make_unique<EventType>(event),
+		// unique_ptr w/ custom destructor implementation is used because the base Event interface
+		// can't be polymorphic (= have default virtual destructor)
+		.event = {
+			new EventType(event),
+			[](Event * ev) { delete static_cast<EventType *>(ev); },
+		},
 		.channel = channel,
 		.type = typeid(EventType),
 	});

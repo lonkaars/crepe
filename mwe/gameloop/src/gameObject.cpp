@@ -24,8 +24,9 @@ void GameObject::setVelX(float value) { velX = value; }
 
 void GameObject::setVelY(float value) { velY = value; }
 
-GameObject::GameObject(std::string name, float x, float y, float width, float height,
-					   float velX, float velY)
+GameObject::GameObject(
+	std::string name, float x, float y, float width, float height, float velX, float velY
+)
 	: name(name),
 	  x(x),
 	  y(y),
