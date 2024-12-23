@@ -11,7 +11,6 @@ class ButtonSubScene {
 public:
 	//script enum
 	enum class ScriptSelect {
-		START,
 		PREVIEW,
 		SHOP,
 		NONE,

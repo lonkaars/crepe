@@ -1,6 +1,7 @@
 #include "ButtonSubScene.h"
 #include "ButtonScript.h"
-#include "ButtonStartScript.h"
+#include "ShowPreviewScript.h"
+#include "ShowStartScript.h"
 #include "MainMenuConfig.h"
 
 #include <crepe/api/BehaviorScript.h>
@@ -50,13 +51,10 @@ void ButtonSubScene::btn_text_middle(crepe::GameObject & button_object,const std
 
 void ButtonSubScene::set_script(crepe::GameObject & button_object,ScriptSelect script){
 	switch (script) {
-		case ScriptSelect::START:
-			button_object.add_component<BehaviorScript>().set_script<ButtonStartScript>();
-			break;
 		case ScriptSelect::PREVIEW:
-		case ScriptSelect::SHOP:
-			button_object.add_component<BehaviorScript>().set_script<ButtonScript>();
+			button_object.add_component<BehaviorScript>().set_script<ShowPreviewScript>();
 			break;
+		case ScriptSelect::SHOP:
 		case ScriptSelect::NONE:
 			break;
 	}
