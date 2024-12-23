@@ -3,6 +3,7 @@
 #include "api/Camera.h"
 #include "MainMenuConfig.h"
 #include "api/Sprite.h"
+#include "BannerSubScene.h"
 
 using namespace crepe;
 using namespace std;
@@ -13,7 +14,8 @@ void ShopMenuScene::load_scene(){
 	Camera::Data{
 		.bg_color = Color::RED,
 	});
-
+	BannerSubScene banner;
+	banner.create(*this);
 	GameObject menu_background = this->new_object("menu_background");
 	menu_background.add_component<Sprite>(
 		Asset("asset/ui/background.png"),
@@ -22,28 +24,6 @@ void ShopMenuScene::load_scene(){
 		.size = {1100,860},
 		.position_offset {0},
 		});
-	GameObject menu_banner = this->new_object("menu_banner","", {0,-414});
-	menu_banner.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_middle_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
-		.size = {1100,88},
-		});
-	menu_banner.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_2_middle_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
-		.size = {1100,66},
-		.position_offset {0,77},
-		});
-	menu_banner.add_component<Sprite>(
-		Asset("asset/ui/settings_container/banner_bottom.png"),
-		Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
-		.size = {1100,7},
-		.position_offset {0,113},
-		});
-	
 }
 
 string ShopMenuScene::get_name() const { return "shopmenu"; }

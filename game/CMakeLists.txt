@@ -29,6 +29,7 @@ set(SOURCES
 	mainmenu/ShowStartScript.cpp
 	mainmenu/ShowPreviewScript.cpp
 	mainmenu/ShopMenuScene.cpp
+	mainmenu/BannerSubScene.cpp
 )
 
 set(HEADERS
@@ -51,6 +52,7 @@ set(HEADERS
 	mainmenu/ShowStartScript.h
 	mainmenu/ShowPreviewScript.h
 	mainmenu/ShopMenuScene.h
+	mainmenu/BannerSubScene.h
 )
 
 add_executable(main ${SOURCES} ${HEADERS})
