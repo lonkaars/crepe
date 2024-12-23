@@ -19,7 +19,7 @@ struct MainMenuConfig {
 	static constexpr float VELOCITY_MAX = 200;
 	static constexpr float VELOCITY_STEP = 200;
 	//button config
-	static constexpr const char* FONT = "Garuda";
+	static constexpr const char* FONT = "Jetpackia";
 	static constexpr crepe::vec2 FONTOFFSET = {0,0};
 	static constexpr crepe::vec2 LARGE_OVERLAY_SIZE = {250,100};
 	static constexpr crepe::vec2 SIDE_PANEL_SIZE = {50,150};
