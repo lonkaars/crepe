@@ -10,7 +10,7 @@ struct MainMenuConfig {
 	static constexpr float STARTMAP_OFFSET = 50;
 	static constexpr crepe::vec2 MENU_OFFSET = {-400,-200};
 	static constexpr float MENU_BUTTON_SPACING = 10;
-	static constexpr crepe::vec2 MENU_OFFSET_BACKGROUND = {0,+200};
+	static constexpr crepe::vec2 MENU_OFFSET_BACKGROUND = {0,200};
 	//	Moving to new scene (Start and Preview)
 	static constexpr const char* START_SCENE = "scene1";
 	static constexpr const char* PREVIEW_SCENE = "scene1";

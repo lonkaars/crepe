@@ -22,13 +22,13 @@ void MainMenuScene::load_scene(){
 
 	GameObject menu = this->new_object("menu_background","",MainMenuConfig::MENU_OFFSET + MainMenuConfig::MENU_OFFSET_BACKGROUND);
 	menu.add_component<Sprite>(
-		Asset("asset/ui/itemsButtonBlankDark.png"),
+		Asset("asset/ui/background.png"),
 		Sprite::Data{
 		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+0,
-		.size = {300,922},
+		.size = {300,860},
 		});
 	menu.add_component<BehaviorScript>().set_script<ShowStartScript>();
-	
+
 	ButtonSubScene button;
 	vec2 pos = MainMenuConfig::MENU_OFFSET;
 	
