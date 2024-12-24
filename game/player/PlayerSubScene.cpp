@@ -3,6 +3,7 @@
 
 #include "../Config.h"
 #include "api/BoxCollider.h"
+#include "api/ParticleEmitter.h"
 #include "types.h"
 
 #include <crepe/api/Animator.h>
@@ -17,6 +18,73 @@ using namespace std;
 
 PlayerSubScene::PlayerSubScene(Scene & scn) {
 	GameObject player = scn.new_object("player", "player", vec2(-100, 200));
+
+	Asset player_bullet {"asset/other_effects/effect_smgbullet.png"};
+	Sprite & player_bullet_sprite = player.add_component<Sprite>(
+		player_bullet,
+		Sprite::Data {
+			.sorting_in_layer = SORT_IN_LAY_PLAYER,
+			.order_in_layer = 3,
+			.size = vec2(0, 6),
+		}
+	);
+	player.add_component<ParticleEmitter>(player_bullet_sprite, ParticleEmitter::Data{
+		.offset = vec2(-15, 15),
+		.emission_rate = 0,
+		.min_speed = 300,
+		.max_speed = 500,
+		.min_angle = 85,
+		.max_angle = 100,
+		.boundary = ParticleEmitter::Boundary {
+			.height = 400,
+			.reset_on_exit = true,
+		},
+	});
+	Asset player_bullet_x2 {"asset/other_effects/effect_smgbullet_x2.png"};
+	Sprite & player_bullet_x2_sprite = player.add_component<Sprite>(
+		player_bullet_x2,
+		Sprite::Data {
+			.sorting_in_layer = SORT_IN_LAY_PLAYER,
+			.order_in_layer = 3,
+			.size = vec2(0, 12),
+		}
+	);
+	player.add_component<ParticleEmitter>(player_bullet_x2_sprite, ParticleEmitter::Data{
+		.offset = vec2(-15, 15),
+		.emission_rate = 0,
+		.min_speed = 300,
+		.max_speed = 500,
+		.min_angle = 85,
+		.max_angle = 100,
+		.boundary = ParticleEmitter::Boundary {
+			.height = 400,
+			.reset_on_exit = true,
+		},
+	});
+	Asset player_shell {"asset/other_effects/effect_rocketmgshell_TVOS.png"};
+	Sprite & player_shell_sprite = player.add_component<Sprite>(
+		player_shell,
+		Sprite::Data {
+			.sorting_in_layer = SORT_IN_LAY_PLAYER,
+			.order_in_layer = 3,
+			.size = vec2(0, 12),
+			.angle_offset = 90,
+		}
+	);
+	player.add_component<ParticleEmitter>(player_shell_sprite, ParticleEmitter::Data{
+		.offset = vec2(-15, 15),
+		.emission_rate = 0,
+		.min_speed = 200,
+		.max_speed = 500,
+		.min_angle = 110,
+		.max_angle = 120,
+		.force_over_time = vec2(0, 1000),
+		.boundary = ParticleEmitter::Boundary {
+			.height = 400,
+			.reset_on_exit = true,
+		},
+	});
+
 	Asset player_body_asset {"asset/barry/defaultBody.png"};
 	Sprite & player_body_sprite = player.add_component<Sprite>(
 		player_body_asset,
