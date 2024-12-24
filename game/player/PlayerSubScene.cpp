@@ -2,16 +2,16 @@
 #include "PlayerScript.h"
 
 #include "../Config.h"
-#include "api/BoxCollider.h"
-#include "api/ParticleEmitter.h"
-#include "types.h"
 
 #include <crepe/api/Animator.h>
+#include <crepe/api/BoxCollider.h>
 #include <crepe/api/CircleCollider.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 using namespace std;
