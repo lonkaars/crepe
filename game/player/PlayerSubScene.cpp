@@ -1,6 +1,7 @@
 #include "PlayerSubScene.h"
-#include "Config.h"
 #include "PlayerScript.h"
+
+#include "../Config.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/GameObject.h>
