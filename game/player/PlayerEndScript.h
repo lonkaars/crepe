@@ -5,7 +5,9 @@
 class PlayerEndScript : public crepe::Script {
 public:
 	void init();
-	void fixed_update(crepe::duration_t dt);
+
+private:
+	bool on_collision(const crepe::CollisionEvent & ev);
 
 private:
 	int jump = 0;
