@@ -1,5 +1,6 @@
+#include "../types.h"
+
 #include "Text.h"
-#include "types.h"
 
 using namespace crepe;
 
