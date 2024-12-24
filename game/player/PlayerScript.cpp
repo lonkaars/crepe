@@ -18,8 +18,7 @@ void PlayerScript::init() {
 
 bool PlayerScript::on_collision(const CollisionEvent & ev) {
 	BehaviorScript & play_scr = this->get_components_by_name<BehaviorScript>("player").front();
-	BehaviorScript & end_scr
-		= this->get_components_by_name<BehaviorScript>("end_game_script").front();
+	BehaviorScript & end_scr = this->get_components_by_name<BehaviorScript>("player").back();
 	RefVector<Animator> animators = this->get_components_by_name<Animator>("player");
 	RefVector<ParticleEmitter> emitters
 		= this->get_components_by_name<ParticleEmitter>("player");
