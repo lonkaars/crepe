@@ -143,7 +143,8 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 		.gravity_scale = 20,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = vec2(100, 0),
-		.collision_layers = {COLL_LAY_BOT_TOP},
+		.collision_layers
+		= {COLL_LAY_BOT_TOP, COLL_LAY_ZAPPER, COLL_LAY_LASER, COLL_LAY_MISSILE},
 		.collision_layer = COLL_LAY_PLAYER,
 	});
 	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;

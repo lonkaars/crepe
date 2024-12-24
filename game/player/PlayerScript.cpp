@@ -9,6 +9,59 @@
 using namespace crepe;
 using namespace std;
 
+void PlayerScript::init() {
+	subscribe<CollisionEvent>([this](const CollisionEvent & ev) -> bool {
+		return this->on_collision(ev);
+	});
+}
+
+bool PlayerScript::on_collision(const CollisionEvent & ev) {
+	BehaviorScript & play_scr = this->get_components_by_name<BehaviorScript>("player").front();
+	RefVector<Animator> animators = this->get_components_by_name<Animator>("player");
+	RefVector<ParticleEmitter> emitters
+		= this->get_components_by_name<ParticleEmitter>("player");
+
+	if (ev.info.other.metadata.tag == "zapper") {
+		for (Animator & anim : animators) {
+			anim.active = true;
+			anim.set_anim(4);
+			anim.data.looping = true;
+			prev_anim = 0;
+		}
+		for (ParticleEmitter & emitter : emitters) {
+			emitter.data.emission_rate = 0;
+		}
+		play_scr.active = false;
+		return true;
+	} else if (ev.info.other.metadata.tag == "laser") {
+		for (Animator & anim : animators) {
+			anim.active = true;
+			anim.set_anim(4);
+			anim.data.looping = true;
+			prev_anim = 0;
+		}
+		for (ParticleEmitter & emitter : emitters) {
+			emitter.data.emission_rate = 0;
+		}
+		play_scr.active = false;
+		return true;
+	} else if (ev.info.other.metadata.tag == "missile") {
+		for (Animator & anim : animators) {
+			anim.active = true;
+			anim.set_anim(5);
+			anim.data.looping = true;
+			prev_anim = 0;
+		}
+		for (ParticleEmitter & emitter : emitters) {
+			emitter.data.emission_rate = 0;
+		}
+		play_scr.active = false;
+		return true;
+	}
+
+	return false;
+}
+
 void PlayerScript::fixed_update(crepe::duration_t dt) {
 	RefVector<Animator> animators = this->get_components_by_name<Animator>("player");
 	RefVector<ParticleEmitter> emitters
