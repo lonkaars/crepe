@@ -1,8 +1,7 @@
 #pragma once
 
-#include <functional>
+#include "../types.h"
 
-#include "Event.h"
 #include "UIObject.h"
 
 namespace crepe {
@@ -21,14 +20,24 @@ namespace crepe {
  */
 class Button : public UIObject {
 public:
+	struct Data {
+		//! variable indicating if transform is relative to camera(false) or world(true)
+		bool world_space = false;
+	};
+
+public:
 	/**
 	 * \brief Constructs a Button with the specified game object ID and dimensions.
 	 *
 	 * \param id The unique ID of the game object associated with this button.
 	 * \param dimensions The width and height of the UIObject
 	 * \param offset The offset relative this GameObjects Transform
+	 * \param data additional data the button has
 	 */
-	Button(game_object_id_t id, const vec2 & dimensions, const vec2 & offset);
+	Button(
+		game_object_id_t id, const vec2 & dimensions, const Data & data,
+		const vec2 & offset = {0, 0}
+	);
 	/**
 	 * \brief Get the maximum number of instances for this component
 	 *
@@ -37,6 +46,9 @@ public:
 	 * \return 1
 	 */
 	virtual int get_instances_max() const { return 1; }
+
+public:
+	Data data;
 
 private:
 	//! friend relation hover variable

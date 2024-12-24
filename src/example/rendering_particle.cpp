@@ -7,8 +7,8 @@
 #include <crepe/api/Button.h>
 #include <crepe/api/Camera.h>
 #include <crepe/api/Color.h>
+#include <crepe/api/Engine.h>
 #include <crepe/api/GameObject.h>
-#include <crepe/api/LoopManager.hpp>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Sprite.h>
@@ -62,21 +62,32 @@ public:
 			}
 		);
 
-		/*
-		game_object.add_component<Text>(vec2{1, 1}, vec2{0, -0.5}, "ComicSansMS",
-										Text::Data{.text_color = Color::RED}, "test TEST");
+		game_object.add_component<Text>(
+			vec2 {1, 1}, vec2 {0, -1}, "ComicSansMS",
+			Text::Data {
+				.text_color = Color::RED,
+			},
+			"test TEST"
+		);
 
-		game_object.add_component<Text>(vec2{1, 1}, vec2{0, 0.5}, "ComicSansMS",
-										Text::Data{.text_color = Color::BLACK}, "TEST test");
-		*/
+		game_object
+			.add_component<Text>(
+				vec2 {1, 1}, vec2 {0, 1}, "Ariel",
+				Text::Data {
+					.text_color = Color::BLACK,
+				},
+				"TEST test"
+			)
+			.world_space
+			= true;
 	}
 
 	string get_name() const { return "TestScene"; };
 };
 
 int main(int argc, char * argv[]) {
-	LoopManager engine;
+	Engine engine;
 	engine.add_scene<TestScene>();
-	engine.start();
+	engine.main();
 	return 0;
 }
