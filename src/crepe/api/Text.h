@@ -3,10 +3,11 @@
 #include <optional>
 #include <string>
 
+#include "../types.h"
+
 #include "Asset.h"
 #include "Color.h"
 #include "UIObject.h"
-#include "types.h"
 
 namespace crepe {
 /**

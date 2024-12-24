@@ -1,7 +1,8 @@
 #pragma once
 
+#include "../types.h"
+
 #include "UIObject.h"
-#include "types.h"
 
 namespace crepe {
 
@@ -46,13 +47,14 @@ public:
 	 */
 	virtual int get_instances_max() const { return 1; }
 
+public:
+	Data data;
+
 private:
 	//! friend relation hover variable
 	friend class InputSystem;
 	//! Indicates whether the mouse is currently hovering over the button
 	bool hover = false;
-
-	Data data;
 };
 
 } // namespace crepe
