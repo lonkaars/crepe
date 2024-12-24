@@ -1,6 +1,7 @@
 #include "../api/Animator.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/LoopTimerManager.h"
+#include "util/Log.h"
 #include <chrono>
 
 #include "AnimatorSystem.h"
@@ -29,12 +30,13 @@ void AnimatorSystem::frame_update() {
 
 		int curr_frame = static_cast<int>(elapsed_time / frame_duration) % total_frames;
 
+		if (!ctx.looping && curr_frame == ctx.cycle_start && last_frame == total_frames - 1) {
+			a.active = false;
+			continue;
+		}
+
 		ctx.row = ctx.cycle_start + curr_frame;
 		a.spritesheet.mask.x = ctx.row * a.spritesheet.mask.w;
 		a.spritesheet.mask.y = (ctx.col * a.spritesheet.mask.h);
-
-		if (!ctx.looping && curr_frame == ctx.cycle_start && last_frame == total_frames - 1) {
-			a.active = false;
-		}
 	}
 }
