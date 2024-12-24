@@ -2,8 +2,11 @@
 #include "PlayerScript.h"
 
 #include "../Config.h"
+#include "api/BoxCollider.h"
+#include "types.h"
 
 #include <crepe/api/Animator.h>
+#include <crepe/api/CircleCollider.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
@@ -30,6 +33,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 			.looping = true,
 		}
 	);
+	player.add_component<BoxCollider>(vec2(50, 50));
 	Asset player_head_asset {"asset/barry/defaultHead.png"};
 	Sprite & player_head_sprite = player.add_component<Sprite>(
 		player_head_asset,
@@ -47,6 +51,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 			.looping = true,
 		}
 	);
+	player.add_component<CircleCollider>(25, vec2(0, -20));
 	Asset player_jetpack_asset {"asset/barry/jetpackDefault.png"};
 	Sprite & player_jetpack_sprite = player.add_component<Sprite>(
 		player_jetpack_asset,
@@ -65,6 +70,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 			.looping = true,
 		}
 	);
+	player.add_component<BoxCollider>(vec2(40, 60), vec2(-20, 0));
 	player.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = 20,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
@@ -72,6 +78,5 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 		.collision_layers = {COLL_LAY_BOT_TOP},
 		.collision_layer = COLL_LAY_PLAYER,
 	});
-	player.add_component<BoxCollider>(vec2(50, 50));
 	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
 }
