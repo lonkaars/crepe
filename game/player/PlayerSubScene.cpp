@@ -1,4 +1,5 @@
 #include "PlayerSubScene.h"
+#include "PlayerEndScript.h"
 #include "PlayerScript.h"
 
 #include "../Config.h"
@@ -148,4 +149,5 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 		.collision_layer = COLL_LAY_PLAYER,
 	});
 	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
+	player.add_component<BehaviorScript>().set_script<PlayerEndScript>().active = false;
 }

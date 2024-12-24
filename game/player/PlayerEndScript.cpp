@@ -1,4 +1,4 @@
-#include "EndGameScript.h"
+#include "PlayerEndScript.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/BoxCollider.h>
@@ -9,14 +9,14 @@
 using namespace crepe;
 using namespace std;
 
-void EndGameScript::init() {
+void PlayerEndScript::init() {
 	BoxCollider jetpack_coll = this->get_components_by_name<BoxCollider>("player").back();
 	CircleCollider head_coll = this->get_components_by_name<CircleCollider>("player").back();
 	jetpack_coll.active = false;
 	head_coll.active = false;
 }
 
-void EndGameScript::fixed_update(crepe::duration_t dt) {
+void PlayerEndScript::fixed_update(crepe::duration_t dt) {
 	Transform & transform_player = this->get_components_by_name<Transform>("player").front();
 	RefVector<Animator> anim_player = this->get_components_by_name<Animator>("player");
 	Rigidbody & rb_player = this->get_components_by_name<Rigidbody>("player").front();
