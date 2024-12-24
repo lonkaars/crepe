@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "Config.h"
+#include "EndGameScript.h"
 #include "MoveCameraManualyScript.h"
 #include "StartGameScript.h"
 
@@ -66,6 +67,8 @@ void GameScene::load_scene() {
 
 	GameObject start_game_script = new_object("start_game_script", "script", vec2(0, 0));
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();
+	GameObject end_game_script = new_object("end_game_script", "script", vec2(0, 0));
+	end_game_script.add_component<BehaviorScript>().set_script<EndGameScript>().active = false;
 
 	// zapper, laser and missile (below) for testing purpose only!!!
 	GameObject zapper = new_object("zapper", "zapper", vec2(1000, 0));

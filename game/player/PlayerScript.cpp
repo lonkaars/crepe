@@ -1,4 +1,5 @@
 #include "PlayerScript.h"
+#include "api/BehaviorScript.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/ParticleEmitter.h>
@@ -17,6 +18,8 @@ void PlayerScript::init() {
 
 bool PlayerScript::on_collision(const CollisionEvent & ev) {
 	BehaviorScript & play_scr = this->get_components_by_name<BehaviorScript>("player").front();
+	BehaviorScript & end_scr
+		= this->get_components_by_name<BehaviorScript>("end_game_script").front();
 	RefVector<Animator> animators = this->get_components_by_name<Animator>("player");
 	RefVector<ParticleEmitter> emitters
 		= this->get_components_by_name<ParticleEmitter>("player");
@@ -32,6 +35,7 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 			emitter.data.emission_rate = 0;
 		}
 		play_scr.active = false;
+		end_scr.active = true;
 		return true;
 	} else if (ev.info.other.metadata.tag == "laser") {
 		for (Animator & anim : animators) {
@@ -44,6 +48,7 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 			emitter.data.emission_rate = 0;
 		}
 		play_scr.active = false;
+		end_scr.active = true;
 		return true;
 	} else if (ev.info.other.metadata.tag == "missile") {
 		for (Animator & anim : animators) {
@@ -56,6 +61,7 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 			emitter.data.emission_rate = 0;
 		}
 		play_scr.active = false;
+		end_scr.active = true;
 		return true;
 	}
 
