@@ -1,7 +1,6 @@
 #include "ButtonSubScene.h"
-#include "ButtonScript.h"
+#include "SetShopScript.h"
 #include "ShowPreviewScript.h"
-#include "ShowStartScript.h"
 #include "MainMenuConfig.h"
 
 #include <crepe/api/BehaviorScript.h>
@@ -55,6 +54,7 @@ void ButtonSubScene::set_script(crepe::GameObject & button_object,ScriptSelect s
 			button_object.add_component<BehaviorScript>().set_script<ShowPreviewScript>();
 			break;
 		case ScriptSelect::SHOP:
+			button_object.add_component<BehaviorScript>().set_script<SetShopScript>();
 		case ScriptSelect::NONE:
 			break;
 	}

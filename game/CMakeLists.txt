@@ -22,14 +22,15 @@ set(SOURCES
 	StartGameScript.cpp
 	StartSubScene.cpp
 	main.cpp
-	mainmenu/ButtonScript.cpp
+	mainmenu/IButtonScript.cpp
 	mainmenu/ButtonSubScene.cpp
 	mainmenu/MainMenuScene.cpp
-	mainmenu/ShowScript.cpp
+	mainmenu/IShowScript.cpp
 	mainmenu/ShowStartScript.cpp
 	mainmenu/ShowPreviewScript.cpp
 	mainmenu/ShopMenuScene.cpp
 	mainmenu/BannerSubScene.cpp
+	mainmenu/SetShopScript.cpp
 )
 
 set(HEADERS
@@ -44,15 +45,16 @@ set(HEADERS
 	PlayerSubScene.h
 	StartGameScript.h
 	StartSubScene.h
-	mainmenu/ButtonScript.h
+	mainmenu/IButtonScript.h
 	mainmenu/ButtonSubScene.h
 	mainmenu/MainMenuScene.h
 	mainmenu/MainMenuConfig.h
-	mainmenu/ShowScript.h
+	mainmenu/IShowScript.h
 	mainmenu/ShowStartScript.h
 	mainmenu/ShowPreviewScript.h
 	mainmenu/ShopMenuScene.h
 	mainmenu/BannerSubScene.h
+	mainmenu/SetShopScript.h
 )
 
 add_executable(main ${SOURCES} ${HEADERS})

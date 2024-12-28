@@ -41,8 +41,14 @@ void MainMenuScene::load_scene(){
 	});
 
 	//Shop btn
-	// pos.y += MainMenuConfig::MENU_BUTTON_SPACING + MainMenuConfig::LARGE_OVERLAY_SIZE.y;
-	// button.create(*this,"SHOP",vec2{0,0},vec2{200,80},pos);
+	pos.y += MainMenuConfig::MENU_BUTTON_SPACING + MainMenuConfig::LARGE_OVERLAY_SIZE.y;
+	button.create(*this,ButtonSubScene::Data{
+		.text = "SHOP",
+		.text_size = vec2{200,80},
+		.position = pos,
+		.script = ButtonSubScene::ScriptSelect::SHOP,
+	});
+
 	
 	//Start of map
 	StartSubScene start;

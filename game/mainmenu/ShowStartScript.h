@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ShowScript.h"
+#include "IShowScript.h"
 
-class ShowStartScript : public ShowScript {
+class ShowStartScript : public IShowScript {
 public:
 	void init() override;
 	void fixed_update(crepe::duration_t dt) override;
