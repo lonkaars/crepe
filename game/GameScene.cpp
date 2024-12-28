@@ -58,9 +58,8 @@ void GameScene::load_scene() {
 	CoinSubScene coin;
 	coin.create(*this);
 
-	// CoinSystem coin_system;
-	// coin_system.create_coins(*this);
-	// coin_system.add_location({900,0});
+	CoinSystem coin_system;
+	coin_system.create_coins(*this);
 
 }
 

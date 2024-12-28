@@ -5,6 +5,7 @@
 #include "api/Scene.h"
 #include "api/AudioSource.h"
 #include <concepts>
+#include <iostream>
 
 using namespace crepe;
 using namespace std;
@@ -13,10 +14,10 @@ int CoinSubScene::create(Scene & scn){
 	vec2 size = {20, 20};
 
 	static int coin_counter = 0;
-	std::string unique_name = "coin_" + std::to_string(coin_counter++);
+	string unique_name = "coin_" + to_string(coin_counter++);
+	cout << "new coin: "<< unique_name << endl;
 
-
-	GameObject coin = scn.new_object(unique_name.c_str(),"coin",vec2{0,0},0,1);
+	GameObject coin = scn.new_object(unique_name.c_str(),"coin",vec2{650,0},0,1);
 	coin.add_component<Rigidbody>(Rigidbody::Data{});
 	coin.add_component<CircleCollider>(size.x / 2).active = false;
 	crepe::OptionalRef<crepe::Sprite> coin_sprite = coin.add_component<Sprite>(Asset{"asset/coin/coin1_TVOS.png"}, Sprite::Data{
@@ -24,7 +25,7 @@ int CoinSubScene::create(Scene & scn){
 																	 .order_in_layer = 100,
 																   .size = size,
 															   });
-	// coin_sprite->active = false;
+	coin_sprite->active = false;
 	coin.add_component<Animator>(coin_sprite, ivec2{32, 32}, uvec2{8, 1},
 								 Animator::Data{
 									 .fps = 15, 
