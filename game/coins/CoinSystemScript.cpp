@@ -1,5 +1,5 @@
 #include "CoinSystemScript.h"
-#include "CoinSystem.h"
+#include "CoinPool.h"
 #include "api/CircleCollider.h"
 #include "api/Metadata.h"
 #include "api/Sprite.h"
@@ -11,51 +11,85 @@ using namespace std;
 std::vector<CoinData> CoinSystemScript::coin_locations;
 
 void CoinSystemScript::init() {
-	this->add_location(vec2{1500,-30});
-	this->add_location(vec2{1500,0});
-	this->add_location(vec2{1500,30});
-	this->add_location(vec2{1500,60});
-	this->add_location(vec2{1550,-30});
-	this->add_location(vec2{1550,0});
-	this->add_location(vec2{1550,30});
-	this->add_location(vec2{1550,60});
-
-	this->add_location(vec2{2500,-30});
-	this->add_location(vec2{2500,0});
-	this->add_location(vec2{2500,30});
-	this->add_location(vec2{2500,60});
-	this->add_location(vec2{2550,-30});
-	this->add_location(vec2{2550,0});
-	this->add_location(vec2{2550,30});
-	this->add_location(vec2{2550,60});
-	this->add_location(vec2{2600,-30});
-	this->add_location(vec2{2600,0});
-	this->add_location(vec2{2600,30});
-	this->add_location(vec2{2600,60});
-	this->add_location(vec2{2650,-30});
-	this->add_location(vec2{2650,0});
-	this->add_location(vec2{2650,30});
-	this->add_location(vec2{2650,60});
-	this->add_location(vec2{2700,-30});
-	this->add_location(vec2{2700,0});
-	this->add_location(vec2{2700,30});
-	this->add_location(vec2{2700,60});
-	this->add_location(vec2{2750,-30});
-	this->add_location(vec2{2750,0});
-	this->add_location(vec2{2750,30});
-	this->add_location(vec2{2750,60});
-	this->add_location(vec2{2800,-30});
-	this->add_location(vec2{2800,0});
-	this->add_location(vec2{2800,30});
-	this->add_location(vec2{2800,60});
-	this->add_location(vec2{2850,-30});
-	this->add_location(vec2{2850,0});
-	this->add_location(vec2{2850,30});
-	this->add_location(vec2{2850,60});
+	float position = 1200;
+	position += this->preset_1({position,0});
+	position += 100;
+	position += this->preset_2({position,0});
 }
+
+
+
 
 void CoinSystemScript::add_location(const crepe::vec2& location){
 	coin_locations.push_back(CoinData(location));
+}
+
+
+float CoinSystemScript::preset_1(const vec2 & begin_position){
+	vec2 top = {begin_position.x, begin_position.y - (this->ROW_OFFSET_1)};
+	vec2 bottom = {begin_position.x, begin_position.y + (this->ROW_OFFSET_1)};
+
+	// Add locations for the top row
+	for (int i = 0; i < COLUM_AMOUNT_1; ++i) {
+		add_location(top);
+		top.x += this->COLUM_OFFSET_1;
+	}
+
+	// Add locations for the bottom row
+	bottom.x +=this->COLUM_OFFSET_1 * COLUM_AMOUNT_1;
+	for (int i = 0; i < COLUM_AMOUNT_1; ++i) {
+		add_location(bottom);
+		bottom.x += this->COLUM_OFFSET_1;
+	}
+
+	// Add locations for the next set of the top row
+	top.x += this->COLUM_OFFSET_1 * COLUM_AMOUNT_1;
+	for (int i = 0; i < COLUM_AMOUNT_1; ++i) {
+		add_location(top);
+		top.x += this->COLUM_OFFSET_1;
+	}
+
+	// Add locations for the next set of the bottom row
+	bottom.x +=this->COLUM_OFFSET_1 * COLUM_AMOUNT_1;
+	for (int i = 0; i < COLUM_AMOUNT_1; ++i) {
+		add_location(bottom);
+		bottom.x += this->COLUM_OFFSET_1;
+	}
+
+	return bottom.x-begin_position.x;
+}
+
+float CoinSystemScript::preset_2(const vec2 & begin_position){
+	vec2 top = {begin_position.x+this->COLUM_OFFSET_2, begin_position.y - this->ROW_OFFSET_2};
+	vec2 middle = begin_position;
+	vec2 bottom = {begin_position.x+this->COLUM_OFFSET_2, begin_position.y + this->ROW_OFFSET_2};
+
+	// Add locations for the next set of the bottom row
+	for (int i = 0; i < COLUM_AMOUNT_2-2; ++i) {
+		add_location(bottom);
+		bottom.x += this->COLUM_OFFSET_2;
+	}
+
+	// Add locations for the next set of the middle row
+	for (int i = 0; i < COLUM_AMOUNT_2; ++i) {
+		add_location(middle);
+		middle.x += this->COLUM_OFFSET_2;
+	}
+
+	// Add locations for the next set of the top row
+	for (int i = 0; i < COLUM_AMOUNT_2-2; ++i) {
+		add_location(top);
+		top.x += this->COLUM_OFFSET_2;
+	}
+
+	return middle.x-begin_position.x;
+}
+
+
+void CoinSystemScript::frame_update(crepe::duration_t dt)
+{
+	this->despawn_coins();
+	this->spawn_coins();	
 }
 
 void CoinSystemScript::despawn_coins() {
@@ -132,11 +166,7 @@ void CoinSystemScript::spawn_coins(){
 	}
 }
 
-void CoinSystemScript::frame_update(crepe::duration_t dt)
-{
-	this->despawn_coins();
-	this->spawn_coins();	
-}
+
 
 
 
