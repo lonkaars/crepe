@@ -1,9 +1,9 @@
 #pragma once
 
 #include "IButtonScript.h"
-#include "IShowScript.h"
+#include "ITransitionScript.h"
 
-class ShowPreviewScript : public IShowScript, public IButtonScript {
+class ButtonTransitionPreviewScript : public ITransitionScript, public IButtonScript {
 public:
 	void init() override;
 	bool on_button_press(const crepe::ButtonPressEvent& e);
