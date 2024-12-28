@@ -32,7 +32,7 @@ set(SOURCES
 	mainmenu/BannerSubScene.cpp
 	mainmenu/ButtonSetShopScript.cpp
 	coins/CoinSubScene.cpp
-	coins/CoinSystem.cpp
+	coins/CoinPool.cpp
 	coins/CoinSystemScript.cpp
 )
 
@@ -60,7 +60,7 @@ set(HEADERS
 	mainmenu/ButtonSetShopScript.h
 	coins/CoinData.h
 	coins/CoinSubScene.h
-	coins/CoinSystem.h
+	coins/CoinPool.h
 	coins/CoinSystemScript.h
 )
 
