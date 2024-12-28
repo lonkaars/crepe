@@ -11,7 +11,7 @@ using namespace std;
 void ITransitionScript::frame_update(crepe::duration_t delta_time){
 	if(this->transition)
 	{
-		cout << "transition:" << velocity << std::endl;
+		// cout << "transition:" << velocity << std::endl;
 		Transform & cam = this->get_components_by_name<Transform>(MainMenuConfig::CAMERA_NAME).front();
 		if(velocity < MainMenuConfig::VELOCITY_MAX && cam.position.x < MainMenuConfig::SLOW_DOWN) velocity += MainMenuConfig::VELOCITY_STEP * delta_time.count();
 		else if(velocity > 20) velocity -= MainMenuConfig::VELOCITY_STEP * delta_time.count();
