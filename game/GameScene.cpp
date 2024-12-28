@@ -4,7 +4,7 @@
 #include "PlayerSubScene.h"
 #include "StartGameScript.h"
 #include "coins/CoinSubScene.h"
-#include "coins/CoinSystem.h"
+#include "coins/CoinPool.h"
 #include "coins/CoinSystemScript.h"
 
 #include <cmath>
@@ -58,7 +58,7 @@ void GameScene::load_scene() {
 	CoinSubScene coin;
 	coin.create(*this);
 
-	CoinSystem coin_system;
+	CoinPool coin_system;
 	coin_system.create_coins(*this);
 
 }
