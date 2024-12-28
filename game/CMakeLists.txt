@@ -31,6 +31,9 @@ set(SOURCES
 	mainmenu/ShopMenuScene.cpp
 	mainmenu/BannerSubScene.cpp
 	mainmenu/ButtonSetShopScript.cpp
+	coins/CoinSubScene.cpp
+	coins/CoinSystem.cpp
+	coins/CoinSystemScript.cpp
 )
 
 set(HEADERS
@@ -55,6 +58,10 @@ set(HEADERS
 	mainmenu/ShopMenuScene.h
 	mainmenu/BannerSubScene.h
 	mainmenu/ButtonSetShopScript.h
+	coins/CoinData.h
+	coins/CoinSubScene.h
+	coins/CoinSystem.h
+	coins/CoinSystemScript.h
 )
 
 add_executable(main ${SOURCES} ${HEADERS})

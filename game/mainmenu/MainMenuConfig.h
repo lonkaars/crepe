@@ -2,6 +2,7 @@
 #include "types.h"
 #include <string>
 
+
 struct MainMenuConfig {
 	//generic menu config
 	static constexpr unsigned int STARTING_SORTING_IN_LAYER = 7;
