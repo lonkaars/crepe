@@ -25,12 +25,12 @@ set(SOURCES
 	mainmenu/IButtonScript.cpp
 	mainmenu/ButtonSubScene.cpp
 	mainmenu/MainMenuScene.cpp
-	mainmenu/IShowScript.cpp
-	mainmenu/ShowStartScript.cpp
-	mainmenu/ShowPreviewScript.cpp
+	mainmenu/ITransitionScript.cpp
+	mainmenu/TransitionStartScript.cpp
+	mainmenu/ButtonTransitionPreviewScript.cpp
 	mainmenu/ShopMenuScene.cpp
 	mainmenu/BannerSubScene.cpp
-	mainmenu/SetShopScript.cpp
+	mainmenu/ButtonSetShopScript.cpp
 )
 
 set(HEADERS
@@ -49,12 +49,12 @@ set(HEADERS
 	mainmenu/ButtonSubScene.h
 	mainmenu/MainMenuScene.h
 	mainmenu/MainMenuConfig.h
-	mainmenu/IShowScript.h
-	mainmenu/ShowStartScript.h
-	mainmenu/ShowPreviewScript.h
+	mainmenu/ITransitionScript.h
+	mainmenu/TransitionStartScript.h
+	mainmenu/ButtonTransitionPreviewScript.h
 	mainmenu/ShopMenuScene.h
 	mainmenu/BannerSubScene.h
-	mainmenu/SetShopScript.h
+	mainmenu/ButtonSetShopScript.h
 )
 
 add_executable(main ${SOURCES} ${HEADERS})

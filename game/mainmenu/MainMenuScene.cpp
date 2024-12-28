@@ -1,7 +1,7 @@
 
 #include "MainMenuScene.h"
 #include "ButtonSubScene.h"
-#include "ShowStartScript.h"
+#include "TransitionStartScript.h"
 #include "api/BehaviorScript.h"
 #include "api/Camera.h"
 #include "../StartSubScene.h"
@@ -27,7 +27,7 @@ void MainMenuScene::load_scene(){
 		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+0,
 		.size = {300,860},
 		});
-	menu.add_component<BehaviorScript>().set_script<ShowStartScript>();
+	menu.add_component<BehaviorScript>().set_script<TransitionStartScript>();
 
 	ButtonSubScene button;
 	vec2 pos = MainMenuConfig::MENU_OFFSET;
