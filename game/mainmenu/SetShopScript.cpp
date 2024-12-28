@@ -1,24 +1,19 @@
-#include "ShowPreviewScript.h"
+#include "SetShopScript.h"
 #include "MainMenuConfig.h"
 #include "iostream"
 
 using namespace crepe;
 using namespace std;
 
-
-void ShowPreviewScript::init(){
+void SetShopScript::init(){
 	cout << "script init" << endl;
 	IButtonScript::init();
 	this->subscribe<ButtonPressEvent>([this](const ButtonPressEvent& e) { return this->on_button_press(e); });
 }
 
-bool ShowPreviewScript::on_button_press(const ButtonPressEvent& e){
-	if(!this->transition)	this->transition = true;
+bool SetShopScript::on_button_press(const ButtonPressEvent& e){
+	this->set_next_scene(MainMenuConfig::SHOP_SCENE);
 	cout << "Start triggered:" << e.metadata.game_object_id << std::endl;
 	return false;
 }
 
-const char* ShowPreviewScript::get_scene_name() const {
-    // Provide the next scene defined in MainMenuConfig
-    return MainMenuConfig::PREVIEW_SCENE;
-}

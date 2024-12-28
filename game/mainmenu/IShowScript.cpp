@@ -1,4 +1,4 @@
-#include "ShowScript.h"
+#include "IShowScript.h"
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
 #include "iostream"
@@ -8,7 +8,7 @@
 using namespace crepe;
 using namespace std;
 
-void ShowScript::frame_update(crepe::duration_t delta_time){
+void IShowScript::frame_update(crepe::duration_t delta_time){
 	if(this->transition)
 	{
 		cout << "transition:" << velocity << std::endl;

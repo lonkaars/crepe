@@ -1,12 +1,11 @@
 #pragma once
 
-#include "ShowScript.h"
+#include "IButtonScript.h"
+#include "IShowScript.h"
 
-class ShowPreviewScript : public ShowScript {
+class ShowPreviewScript : public IShowScript, public IButtonScript {
 public:
 	void init() override;
 	bool on_button_press(const crepe::ButtonPressEvent& e);
-	bool on_button_enter(const crepe::ButtonEnterEvent& e);
-	bool on_button_exit(const crepe::ButtonExitEvent& e);
 	const char* get_scene_name() const override;
 };
