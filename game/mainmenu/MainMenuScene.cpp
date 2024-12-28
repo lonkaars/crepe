@@ -5,6 +5,7 @@
 #include "api/BehaviorScript.h"
 #include "api/Camera.h"
 #include "../StartSubScene.h"
+#include "../coins/CoinSubScene.h"
 #include "MainMenuConfig.h"
 #include "api/GameObject.h"
 #include "api/Rigidbody.h"
@@ -48,8 +49,11 @@ void MainMenuScene::load_scene(){
 		.position = pos,
 		.script = ButtonSubScene::ScriptSelect::SHOP,
 	});
-
 	
+	CoinSubScene coin;
+	coin.create(*this);
+	coin.create(*this);
+
 	//Start of map
 	StartSubScene start;
 	start.create(*this, MainMenuConfig::STARTMAP_OFFSET);
