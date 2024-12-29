@@ -31,6 +31,7 @@ set(SOURCES
 	mainmenu/ShopMenuScene.cpp
 	mainmenu/BannerSubScene.cpp
 	mainmenu/ButtonSetShopScript.cpp
+	mainmenu/ButtonSetMainMenuScript.cpp
 	coins/CoinSubScene.cpp
 	coins/CoinPool.cpp
 	coins/CoinSystemScript.cpp
@@ -58,6 +59,7 @@ set(HEADERS
 	mainmenu/ShopMenuScene.h
 	mainmenu/BannerSubScene.h
 	mainmenu/ButtonSetShopScript.h
+	mainmenu/ButtonSetMainMenuScript.h
 	coins/CoinData.h
 	coins/CoinSubScene.h
 	coins/CoinPool.h

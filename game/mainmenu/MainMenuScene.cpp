@@ -34,19 +34,22 @@ void MainMenuScene::load_scene(){
 	//Preview btn
 	button.create(*this,ButtonSubScene::Data{
 		.text = "PREVIEW",
-		.text_size = vec2{200,80},
+		.text_width = 200,
 		.position = pos,
-		.script = ButtonSubScene::ScriptSelect::PREVIEW,
+		.script_type = ButtonSubScene::ScriptSelect::PREVIEW,
 	});
 
-	//Shop btn
 	pos.y += MainMenuConfig::MENU_BUTTON_SPACING + MainMenuConfig::LARGE_OVERLAY_SIZE.y;
 	button.create(*this,ButtonSubScene::Data{
 		.text = "SHOP",
-		.text_size = vec2{200,80},
+		.text_offset = {-20,0},
+		.text_width = 115,
+		.icon_offset = {60,0},
+		.icon_type = ButtonSubScene::IconSelect::SHOP,
 		.position = pos,
-		.script = ButtonSubScene::ScriptSelect::SHOP,
+		.script_type = ButtonSubScene::ScriptSelect::SHOP,
 	});
+	
 
 	//Start of map
 	StartSubScene start;
