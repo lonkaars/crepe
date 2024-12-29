@@ -18,7 +18,9 @@ int CoinSubScene::create(Scene & scn){
 	cout << "new coin: "<< unique_name << endl;
 
 	GameObject coin = scn.new_object(unique_name.c_str(),"coin",vec2{650,0},0,1);
-	coin.add_component<Rigidbody>(Rigidbody::Data{});
+	coin.add_component<Rigidbody>(Rigidbody::Data{
+		.body_type = Rigidbody::BodyType::KINEMATIC
+	});
 	coin.add_component<CircleCollider>(size.x / 2).active = false;
 	crepe::OptionalRef<crepe::Sprite> coin_sprite = coin.add_component<Sprite>(Asset{"asset/coin/coin1_TVOS.png"}, Sprite::Data{
 																   .sorting_in_layer = 100,
