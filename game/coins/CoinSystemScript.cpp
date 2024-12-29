@@ -12,9 +12,11 @@ std::vector<CoinData> CoinSystemScript::coin_locations;
 
 void CoinSystemScript::init() {
 	float position = 1200;
-	position += this->preset_1({position,0});
-	position += 100;
-	position += this->preset_2({position,0});
+	// position += this->preset_1({position,0});
+	// position += 100;
+	// position += this->preset_2({position,0});
+	// position += 100;
+	position += this->preset_5({position,0});
 }
 
 
@@ -84,6 +86,116 @@ float CoinSystemScript::preset_2(const vec2 & begin_position){
 
 	return middle.x-begin_position.x;
 }
+
+float CoinSystemScript::preset_3(const vec2 & begin_position){
+	vec2 location = {begin_position.x, begin_position.y - (this->ROW_OFFSET_3)};
+
+
+	// Add locations for the top row
+	for (int i = 0; i < COLUM_AMOUNT_3; ++i) {
+		add_location(location);
+		location.x += this->COLUM_OFFSET_3;
+	}
+
+	// Add locations for the bottom row
+	location.y +=this->ROW_OFFSET_3;
+	location.x += this->COLUM_OFFSET_3;
+	for (int i = 0; i < COLUM_AMOUNT_3; ++i) {
+		add_location(location);
+		location.x += this->COLUM_OFFSET_3;
+	}
+
+	// Add locations for the next set of the top row
+	location.y +=this->ROW_OFFSET_3;
+	location.x += this->COLUM_OFFSET_3;
+	for (int i = 0; i < COLUM_AMOUNT_3; ++i) {
+		add_location(location);
+		location.x += this->COLUM_OFFSET_3;
+	}
+
+	return location.x-begin_position.x;
+}
+
+float CoinSystemScript::preset_4(const vec2 & begin_position){
+	vec2 location = {begin_position.x, begin_position.y + (this->ROW_OFFSET_4)};
+
+
+	// Add locations for the top row
+	for (int i = 0; i < COLUM_AMOUNT_4; ++i) {
+		add_location(location);
+		location.x += this->COLUM_OFFSET_4;
+	}
+
+	// Add locations for the bottom row
+	location.y -=this->ROW_OFFSET_4;
+	location.x += this->COLUM_OFFSET_4;
+	for (int i = 0; i < COLUM_AMOUNT_4; ++i) {
+		add_location(location);
+		location.x += this->COLUM_OFFSET_4;
+	}
+
+	// Add locations for the next set of the top row
+	location.y -=this->ROW_OFFSET_4;
+	location.x += this->COLUM_OFFSET_4;
+	for (int i = 0; i < COLUM_AMOUNT_4; ++i) {
+		add_location(location);
+		location.x += this->COLUM_OFFSET_4;
+	}
+
+	return location.x-begin_position.x;
+}
+
+float CoinSystemScript::preset_5(const vec2 & begin_position){
+	vec2 location = {begin_position.x, begin_position.y-ROW_OFFSET_5/2};
+	float locationx = 0;
+	for (int i = 0; i < 2; ++i) {
+		// Add locations for the top row
+		location.y -= ROW_OFFSET_5*6;
+		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
+			add_location(location);
+			location.x += this->COLUM_OFFSET_5;
+		}
+		location.x = begin_position.x; 
+		location.y += ROW_OFFSET_5;
+		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
+			add_location(location);
+			location.x += this->COLUM_OFFSET_5;
+		}
+
+
+		// Add locations for the middle row
+		location.x = begin_position.x + COLUM_OFFSET_5*COLUM_AMOUNT_5*2; 
+		location.y += ROW_OFFSET_5*6;
+		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
+			add_location(location);
+			location.x += this->COLUM_OFFSET_5;
+		}
+		location.x = begin_position.x + COLUM_OFFSET_5*COLUM_AMOUNT_5*2; 
+		location.y += ROW_OFFSET_5;
+		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
+			add_location(location);
+			location.x += this->COLUM_OFFSET_5;
+		}
+		locationx = location.x;
+		
+		// Add locations for the bottom row
+		location.x = begin_position.x; 
+		location.y += ROW_OFFSET_5*6;
+		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
+			add_location(location);
+			location.x += this->COLUM_OFFSET_5;
+		}
+		location.x = begin_position.x; 
+		location.y += ROW_OFFSET_5;
+		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
+			add_location(location);
+			location.x += this->COLUM_OFFSET_5;
+		}
+		location.x = locationx + COLUM_OFFSET_5; 
+	}
+	return location.x-begin_position.x;
+}
+
 
 
 void CoinSystemScript::frame_update(crepe::duration_t dt)
