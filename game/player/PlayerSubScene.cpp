@@ -141,9 +141,9 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 	);
 	player.add_component<BoxCollider>(vec2(40, 60), vec2(-20, 0));
 	player.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 20,
+		.gravity_scale = PLAYER_GRAVITY_SCALE,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
-		.linear_velocity = vec2(100, 0),
+		.linear_velocity = vec2(PLAYER_SPEED, 0),
 		.collision_layers
 		= {COLL_LAY_BOT_TOP, COLL_LAY_ZAPPER, COLL_LAY_LASER, COLL_LAY_MISSILE},
 		.collision_layer = COLL_LAY_PLAYER,
