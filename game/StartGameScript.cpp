@@ -1,4 +1,5 @@
 #include "StartGameScript.h"
+#include "Config.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/ParticleEmitter.h>
@@ -50,7 +51,7 @@ void StartGameScript::fixed_update(crepe::duration_t dt) {
 	// Start camera movement, enable player jumping and disable this script
 	if (player_transform.position.x > 500) {
 		Rigidbody & rb = this->get_components_by_name<Rigidbody>("camera").front();
-		rb.data.linear_velocity = vec2(100, 0);
+		rb.data.linear_velocity = vec2(PLAYER_SPEED, 0);
 		BehaviorScript & player_script
 			= this->get_components_by_name<BehaviorScript>("player").front();
 		player_script.active = true;
