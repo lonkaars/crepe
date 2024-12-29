@@ -1,5 +1,6 @@
 
 #include "ShopMenuScene.h"
+#include "ButtonSubScene.h"
 #include "api/Camera.h"
 #include "MainMenuConfig.h"
 #include "api/Sprite.h"
@@ -24,6 +25,16 @@ void ShopMenuScene::load_scene(){
 		.size = {1100,860},
 		.position_offset {0},
 		});
+		
+	ButtonSubScene button;
+	button.create(*this,ButtonSubScene::Data{
+		.text = "BACK",
+		.text_width = 115,
+		.position = {-400,-350},
+		.script_type = ButtonSubScene::ScriptSelect::MAINMENU,
+		.button_type = ButtonSubScene::ButtonSelect::SMALL,
+		.scale = 0.8
+	});
 }
 
 string ShopMenuScene::get_name() const { return "shopmenu"; }
