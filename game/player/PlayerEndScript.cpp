@@ -1,5 +1,7 @@
 #include "PlayerEndScript.h"
 
+#include "../Config.h"
+
 #include <crepe/api/Animator.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/CircleCollider.h>
@@ -50,7 +52,7 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 		} else if (jump == 2) {
 			rb_player.data.angular_velocity = 0;
 			rb_player.data.elasticity_coefficient = 0;
-			rb_player.data.linear_velocity = vec2(100, 0);
+			rb_player.data.linear_velocity = vec2(PLAYER_SPEED, 0);
 			rb_player.data.linear_velocity_coefficient = vec2(0.5, 0.5);
 			rb_camera.data.linear_velocity_coefficient = vec2(0.5, 0.5);
 			for (Animator & anim : anim_player) {

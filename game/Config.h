@@ -22,3 +22,6 @@ static constexpr int GAME_HEIGHT = 800; // In game units
 static constexpr int VIEWPORT_X = 1100; // In game units
 // 'GAME_HEIGHT' (below) should be replaced by '500' when game development is finished
 static constexpr int VIEWPORT_Y = GAME_HEIGHT; // In game units
+
+static constexpr int PLAYER_SPEED = 100; // In game units
+static constexpr int PLAYER_GRAVITY_SCALE = 40; // In game units
