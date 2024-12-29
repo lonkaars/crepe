@@ -26,7 +26,7 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 		Rigidbody & rb_player = this->get_components_by_name<Rigidbody>("player").front();
 		Rigidbody & rb_camera = this->get_components_by_name<Rigidbody>("camera").front();
 
-		if (jump == 0 || jump == 1) {
+		if (jump == 0) {
 			int random_number = rand() % 4;
 			for (Animator & anim : anim_player) {
 				anim.active = false;
@@ -35,14 +35,19 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 					anim.next_anim();
 				}
 			}
+		} else if (jump == 1) {
+			for (Animator & anim : anim_player) {
+				anim.next_anim();
+			}
 		}
 
 		if (jump == 0) {
 			rb_player.data.angular_velocity = 320;
 			rb_player.data.angular_velocity_coefficient = 0.7;
 			jump++;
-		} else if (jump == 1 && transform_player.rotation > 65
-				   && transform_player.rotation < 115) {
+		} else if (jump == 1) {
+			jump++;
+		} else if (jump == 2) {
 			rb_player.data.angular_velocity = 0;
 			rb_player.data.elasticity_coefficient = 0;
 			rb_player.data.linear_velocity = vec2(100, 0);
@@ -51,6 +56,24 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 			for (Animator & anim : anim_player) {
 				anim.active = false;
 				anim.set_anim(7);
+			}
+			if (transform_player.rotation > 0 && transform_player.rotation < 90) {
+				// Do not call next_anim()
+			} else if (transform_player.rotation > 90 && transform_player.rotation < 180) {
+				for (Animator & anim : anim_player) {
+					anim.next_anim();
+				}
+			} else if (transform_player.rotation > 180 && transform_player.rotation < 270) {
+				for (Animator & anim : anim_player) {
+					anim.next_anim();
+					anim.next_anim();
+				}
+			} else {
+				for (Animator & anim : anim_player) {
+					anim.next_anim();
+					anim.next_anim();
+					anim.next_anim();
+				}
 			}
 			jump++;
 		}
