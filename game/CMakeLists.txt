@@ -35,6 +35,7 @@ set(SOURCES
 	coins/CoinSubScene.cpp
 	coins/CoinPool.cpp
 	coins/CoinSystemScript.cpp
+	coins/CoinScript.cpp
 )
 
 set(HEADERS
@@ -64,6 +65,7 @@ set(HEADERS
 	coins/CoinSubScene.h
 	coins/CoinPool.h
 	coins/CoinSystemScript.h
+	coins/CoinScript.h
 )
 
 add_executable(main ${SOURCES} ${HEADERS})

@@ -1,11 +1,13 @@
 #include "CoinSubScene.h"
 #include "api/Animator.h"
+#include "api/BehaviorScript.h"
 #include "api/CircleCollider.h"
 #include "api/Rigidbody.h"
 #include "api/Scene.h"
 #include "api/AudioSource.h"
 #include <concepts>
 #include <iostream>
+#include "CoinScript.h"
 
 using namespace crepe;
 using namespace std;
@@ -19,7 +21,8 @@ int CoinSubScene::create(Scene & scn){
 
 	GameObject coin = scn.new_object(unique_name.c_str(),"coin",vec2{650,0},0,1);
 	coin.add_component<Rigidbody>(Rigidbody::Data{
-		.body_type = Rigidbody::BodyType::KINEMATIC
+		.body_type = Rigidbody::BodyType::KINEMATIC,
+		.kinematic_collision = false,
 	});
 	coin.add_component<CircleCollider>(size.x / 2).active = false;
 	crepe::OptionalRef<crepe::Sprite> coin_sprite = coin.add_component<Sprite>(Asset{"asset/coin/coin1_TVOS.png"}, Sprite::Data{
@@ -34,5 +37,6 @@ int CoinSubScene::create(Scene & scn){
 									 .looping = true,
 								 }); 
 	coin.add_component<AudioSource>(Asset{"asset/sfx/coin_pickup_1.ogg"});
+	coin.add_component<BehaviorScript>().set_script<CoinScript>();
 	return coin_counter;
 }
