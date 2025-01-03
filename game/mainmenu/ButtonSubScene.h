@@ -1,6 +1,7 @@
 #pragma once
 
 #include <crepe/api/GameObject.h>
+#include <string>
 #include "MainMenuConfig.h"
 
 namespace crepe {
@@ -19,6 +20,7 @@ public:
 	//icon enum
 	enum class IconSelect {
 		SHOP,
+		COINS,
 		NONE,
 	};
 	//icon enum
@@ -37,13 +39,16 @@ public:
 		const ScriptSelect script_type = ScriptSelect::NONE;
 		const ButtonSelect button_type = ButtonSelect::LARGE;
 		const float scale = 1;
+		const bool worldspace = true;
+		const bool color_side = true;
+		const std::string & tag = "";
 	};
 public:
 	void create(crepe::Scene & scn,const Data & data);
 private:
-	void large_btn_overlay(crepe::GameObject & button_object);
-	void small_btn_overlay(crepe::GameObject & button_object);
-	void btn_color_side(crepe::GameObject & button_object,const crepe::vec2 & offset);
+	void large_btn_overlay(crepe::GameObject & button_object,const Data & data);
+	void small_btn_overlay(crepe::GameObject & button_object,const Data & data);
+	void btn_color_side(crepe::GameObject & button_object,const crepe::vec2 & offset,const Data & data);
 	void btn_text(crepe::GameObject & button_object,const Data & data);
 	void set_script(crepe::GameObject & button_object,const Data & data);
 	void set_icon(crepe::GameObject & button_object,const Data & data);
