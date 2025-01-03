@@ -5,6 +5,7 @@
 #include "api/Script.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
+#include <random>
 
 class CoinSystemScript : public crepe::Script {
 public:
@@ -15,12 +16,28 @@ private:
 	void add_location(const crepe::vec2& location);
 	void despawn_coins();
 	void spawn_coins();
+	void generate_locations();
 	float preset_1(const crepe::vec2 & begin_position);
 	float preset_2(const crepe::vec2 & begin_position);
 	float preset_3(const crepe::vec2 & begin_position);
 	float preset_4(const crepe::vec2 & begin_position);
 	float preset_5(const crepe::vec2 & begin_position);
 private:
+	std::vector<std::function<float(const crepe::vec2&)>> functions = {
+		[this](const crepe::vec2& pos) { return preset_1(pos); },
+		[this](const crepe::vec2& pos) { return preset_2(pos); },
+		[this](const crepe::vec2& pos) { return preset_3(pos); },
+		[this](const crepe::vec2& pos) { return preset_4(pos); },
+		[this](const crepe::vec2& pos) { return preset_5(pos); }
+	};
+	std::vector<int> weights = {20, 20,20,20, 20};
+	std::random_device rd;
+	std::default_random_engine engine;
+	float system_position = 1200;
+	static constexpr float SYSTEM_POSITION_OFFSET = 200;
+private:
+	static constexpr float SPAWN_SPACING_MIN = 400;
+	static constexpr float SPAWN_SPACING_MAX = 1000;
 	static constexpr float SPAWN_DISTANCE = 400;
 	static constexpr float DESPAWN_DISTANCE = 400;
 	static constexpr float SPAWN_AREA = 50;
@@ -64,13 +81,10 @@ private:
 	static constexpr float COLUM_OFFSET_4 = 25;
 	static constexpr int COLUM_AMOUNT_4 = 3;
 // preset five settings
-//  **       **        
-//  **       **   
-//			 **
-//       ** 
-//  **       **
-//  **       **  	
+//
+//			***
+//	
 	static constexpr float ROW_OFFSET_5 = 25;
 	static constexpr float COLUM_OFFSET_5 = 25;
-	static constexpr int COLUM_AMOUNT_5 = 2;
+	static constexpr int COLUM_AMOUNT_5 = 3;
 };

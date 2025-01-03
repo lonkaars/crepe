@@ -4,6 +4,8 @@
 #include "api/Metadata.h"
 #include "api/Sprite.h"
 #include "api/Transform.h"
+#include <random>
+#include "iostream"
 
 using namespace crepe;
 using namespace std;
@@ -11,21 +13,12 @@ using namespace std;
 std::vector<CoinData> CoinSystemScript::coin_locations;
 
 void CoinSystemScript::init() {
-	float position = 1200;
-	// position += this->preset_1({position,0});
-	// position += 100;
-	// position += this->preset_2({position,0});
-	// position += 100;
-	position += this->preset_5({position,0});
+	engine.seed(rd());
 }
-
-
-
 
 void CoinSystemScript::add_location(const crepe::vec2& location){
 	coin_locations.push_back(CoinData(location));
 }
-
 
 float CoinSystemScript::preset_1(const vec2 & begin_position){
 	vec2 top = {begin_position.x, begin_position.y - (this->ROW_OFFSET_1)};
@@ -147,51 +140,9 @@ float CoinSystemScript::preset_4(const vec2 & begin_position){
 
 float CoinSystemScript::preset_5(const vec2 & begin_position){
 	vec2 location = {begin_position.x, begin_position.y-ROW_OFFSET_5/2};
-	float locationx = 0;
-	for (int i = 0; i < 2; ++i) {
-		// Add locations for the top row
-		location.y -= ROW_OFFSET_5*6;
-		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
-			add_location(location);
-			location.x += this->COLUM_OFFSET_5;
-		}
-		location.x = begin_position.x; 
-		location.y += ROW_OFFSET_5;
-		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
-			add_location(location);
-			location.x += this->COLUM_OFFSET_5;
-		}
-
-
-		// Add locations for the middle row
-		location.x = begin_position.x + COLUM_OFFSET_5*COLUM_AMOUNT_5*2; 
-		location.y += ROW_OFFSET_5*6;
-		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
-			add_location(location);
-			location.x += this->COLUM_OFFSET_5;
-		}
-		location.x = begin_position.x + COLUM_OFFSET_5*COLUM_AMOUNT_5*2; 
-		location.y += ROW_OFFSET_5;
-		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
-			add_location(location);
-			location.x += this->COLUM_OFFSET_5;
-		}
-		locationx = location.x;
-		
-		// Add locations for the bottom row
-		location.x = begin_position.x; 
-		location.y += ROW_OFFSET_5*6;
-		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
-			add_location(location);
-			location.x += this->COLUM_OFFSET_5;
-		}
-		location.x = begin_position.x; 
-		location.y += ROW_OFFSET_5;
-		for (int i = 0; i < COLUM_AMOUNT_5; ++i) {
-			add_location(location);
-			location.x += this->COLUM_OFFSET_5;
-		}
-		location.x = locationx + COLUM_OFFSET_5; 
+	for (int i = 0; i < COLUM_AMOUNT_5; ++i){
+		add_location(location);
+		location.x += this->COLUM_OFFSET_5;
 	}
 	return location.x-begin_position.x;
 }
@@ -201,6 +152,7 @@ float CoinSystemScript::preset_5(const vec2 & begin_position){
 void CoinSystemScript::frame_update(crepe::duration_t dt)
 {
 	this->despawn_coins();
+	this->generate_locations();
 	this->spawn_coins();	
 }
 
@@ -278,7 +230,23 @@ void CoinSystemScript::spawn_coins(){
 	}
 }
 
+void CoinSystemScript::generate_locations(){
+	float position = this->get_component<Transform>().position.x;
+	if(position + SPAWN_DISTANCE + SYSTEM_POSITION_OFFSET < this->system_position) return;
 
+	std::discrete_distribution<int> dist(weights.begin(), weights.end());
+	int selected_index = dist(engine);
+
+	std::uniform_real_distribution<float> space_dist(SPAWN_SPACING_MIN, SPAWN_SPACING_MAX);
+	float spacing = space_dist(engine);
+
+
+	cout << "selected " << selected_index << std::endl;
+	cout << "spacing " << spacing << std::endl;
+	// Call the corresponding function and return the new x position
+	this->system_position += functions[selected_index]({this->system_position,0});
+	this->system_position += spacing;
+}
 
 
 

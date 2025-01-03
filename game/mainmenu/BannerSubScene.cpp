@@ -9,7 +9,7 @@
 using namespace crepe;
 using namespace std;
 
-void BannerSubScene::create(Scene & scn){
+void BannerSubScene::create(Scene & scn,const Data & data){
 	GameObject menu_banner = scn.new_object("menu_banner","", {0,-414});
 	menu_banner.add_component<Sprite>(
 		Asset("asset/ui/settings_container/top_middle_setting.png"),
@@ -31,5 +31,9 @@ void BannerSubScene::create(Scene & scn){
 		.size = {1100,7},
 		.position_offset {0,113},
 		});
+	crepe::vec2 size = {data.banner_title_width,(data.banner_title_width/data.banner_title.size())*2};
 
+	menu_banner.add_component<Text>(size,data.banner_title_offset + MainMenuConfig::FONTOFFSET, MainMenuConfig::FONT, Text::Data{
+		.text_color = Color::WHITE,
+		}, data.banner_title);
 }

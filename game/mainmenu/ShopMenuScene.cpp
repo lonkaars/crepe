@@ -16,7 +16,11 @@ void ShopMenuScene::load_scene(){
 		.bg_color = Color::RED,
 	});
 	BannerSubScene banner;
-	banner.create(*this);
+	banner.create(*this,{
+		.banner_title = "SHOP",
+		.banner_title_width = 200,
+		.banner_title_offset = {0,65},
+	});
 	GameObject menu_background = this->new_object("menu_background");
 	menu_background.add_component<Sprite>(
 		Asset("asset/ui/background.png"),
