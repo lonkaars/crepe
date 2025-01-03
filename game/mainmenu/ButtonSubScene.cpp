@@ -4,6 +4,7 @@
 #include "ButtonTransitionPreviewScript.h"
 #include "IButtonScript.h"
 #include "MainMenuConfig.h"
+#include "api/Color.h"
 
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Sprite.h>
@@ -25,10 +26,9 @@ void ButtonSubScene::create(Scene & scn,const Data & data){
 void ButtonSubScene::btn_text(crepe::GameObject & button_object,const Data & data){
 
 	crepe::vec2 size = {data.text_width,(data.text_width/data.text.size())*2};
-
-	button_object.add_component<Text>(size,data.text_offset+MainMenuConfig::FONTOFFSET, MainMenuConfig::FONT, Text::Data{
+	button_object.add_component<Text>(size, MainMenuConfig::FONT,Text::Data{
 		.text_color = Color::WHITE,
-		}, data.text);
+	}, data.text_offset+MainMenuConfig::FONTOFFSET, data.text);
 }
 
 void ButtonSubScene::set_script(crepe::GameObject & button_object,const Data & data){
@@ -78,7 +78,7 @@ void ButtonSubScene::large_btn_overlay(crepe::GameObject & button_object){
 		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
 		.size = MainMenuConfig::LARGE_OVERLAY_SIZE,
 	});
-	button_object.add_component<Button>(MainMenuConfig::LARGE_OVERLAY_SIZE,vec2{0,0});
+	button_object.add_component<Button>(MainMenuConfig::LARGE_OVERLAY_SIZE,Button::Data{});
 	this->btn_color_side(button_object,SIDE_PANEL_OFFSET);
 }
 
@@ -93,7 +93,7 @@ void ButtonSubScene::small_btn_overlay(crepe::GameObject & button_object){
 		.size = MainMenuConfig::SMALL_OVERLAY_SIZE_LEFT,
 		.position_offset = {-80,0},
 	});
-	button_object.add_component<Button>(vec2{MainMenuConfig::SMALL_OVERLAY_SIZE_LEFT.x+MainMenuConfig::SMALL_OVERLAY_SIZE_RIGHT.x,MainMenuConfig::SMALL_OVERLAY_SIZE_LEFT.y},vec2{0,0});
+	button_object.add_component<Button>(vec2{MainMenuConfig::SMALL_OVERLAY_SIZE_LEFT.x+MainMenuConfig::SMALL_OVERLAY_SIZE_RIGHT.x,MainMenuConfig::SMALL_OVERLAY_SIZE_LEFT.y},Button::Data{});
 }
 
 void ButtonSubScene::btn_color_side(crepe::GameObject & button_object,const vec2 & offset){
