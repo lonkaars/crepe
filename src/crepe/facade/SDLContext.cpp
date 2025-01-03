@@ -69,8 +69,6 @@ SDLContext::SDLContext(Mediator & mediator) {
 		throw runtime_error(format("SDL_ttf initialization failed: {}", TTF_GetError()));
 	}
 
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-
 	mediator.sdl_context = *this;
 }
 
@@ -174,6 +172,7 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 }
 
 void SDLContext::draw(const RenderContext & ctx) {
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 	const Sprite::Data & data = ctx.sprite.data;
 	SDL_RendererFlip render_flip
 		= (SDL_RendererFlip) ((SDL_FLIP_HORIZONTAL * data.flip.flip_x)
@@ -206,6 +205,7 @@ void SDLContext::draw(const RenderContext & ctx) {
 }
 
 void SDLContext::draw_text(const RenderText & data) {
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
 
 	const Text & text = data.text;
 	const Font & font = data.font;
@@ -235,9 +235,16 @@ void SDLContext::draw_text(const RenderText & data) {
 		= {tmp_font_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
 
 	vec2 size = text.dimensions * cam_aux_data.render_scale * data.transform.scale;
-	vec2 screen_pos = (absoluut_pos - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2
-					  ) * cam_aux_data.render_scale
-					  - size / 2 + cam_aux_data.bar_size;
+	vec2 screen_pos = absoluut_pos;
+	if (text.data.world_space) {
+		screen_pos = (screen_pos - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2)
+						 * cam_aux_data.render_scale
+					 - size / 2 + cam_aux_data.bar_size;
+	} else {
+		screen_pos
+			= (screen_pos + (cam_aux_data.zoomed_viewport) / 2) * cam_aux_data.render_scale
+			  - size / 2 + cam_aux_data.bar_size;
+	}
 
 	SDL_FRect dstrect {
 		.x = screen_pos.x,
