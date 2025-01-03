@@ -16,14 +16,14 @@ class ResourceManagerTest : public Test {
 	Mediator mediator;
 
 public:
-	ResourceManager resource_manager{mediator};
+	ResourceManager resource_manager {mediator};
 
 	class Unrelated : public Resource {
 		using Resource::Resource;
 	};
 
-	Asset asset_a{"asset/texture/img.png"};
-	Asset asset_b{"asset/texture/ERROR.png"};
+	Asset asset_a {"asset/texture/img.png"};
+	Asset asset_b {"asset/texture/ERROR.png"};
 
 	class TestResource : public Resource {
 	public:

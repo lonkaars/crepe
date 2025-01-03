@@ -31,11 +31,11 @@ private:
 
 private:
 	Mediator mediator;
-	ComponentManager component_manager{mediator};
-	ResourceManager resource_manager{mediator};
+	ComponentManager component_manager {mediator};
+	ResourceManager resource_manager {mediator};
 
 public:
-	TestAudioSystem system{mediator};
+	TestAudioSystem system {mediator};
 	TestSoundContext & context = system.context;
 
 private:

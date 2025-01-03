@@ -27,8 +27,8 @@ public:
 	virtual ~Event() = default;
 	virtual std::uint32_t getEventType() const = 0;
 	virtual std::string toString() const;
-	void addArgument(const std::string & key,
-					 const std::variant<int, std::string, float> & value);
+	void
+	addArgument(const std::string & key, const std::variant<int, std::string, float> & value);
 
 	std::variant<int, std::string, float> getArgument(const std::string & key) const;
 

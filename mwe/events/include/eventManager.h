@@ -18,8 +18,8 @@ public:
 	}
 
 	void shutdown();
-	void subscribe(int eventType, std::unique_ptr<IEventHandlerWrapper> && handler,
-				   int eventId);
+	void
+	subscribe(int eventType, std::unique_ptr<IEventHandlerWrapper> && handler, int eventId);
 	void unsubscribe(int eventType, const std::string & handlerName, int eventId);
 	void triggerEvent(const Event & event_, int eventId);
 	void queueEvent(std::unique_ptr<Event> && event_, int eventId);
@@ -35,19 +35,23 @@ private:
 };
 
 template <typename EventType>
-inline void subscribe(const EventHandler<EventType> & callback, int eventId = 0,
-					  const bool unsubscribeOnSuccess = false) {
+inline void subscribe(
+	const EventHandler<EventType> & callback, int eventId = 0,
+	const bool unsubscribeOnSuccess = false
+) {
 	std::unique_ptr<IEventHandlerWrapper> handler
 		= std::make_unique<EventHandlerWrapper<EventType>>(callback, unsubscribeOnSuccess);
-	EventManager::getInstance().subscribe(EventType::getStaticEventType(), std::move(handler),
-										  eventId);
+	EventManager::getInstance().subscribe(
+		EventType::getStaticEventType(), std::move(handler), eventId
+	);
 }
 
 template <typename EventType>
 inline void unsubscribe(const EventHandler<EventType> & callback, int eventId = 0) {
 	const std::string handlerName = callback.target_type().name();
-	EventManager::getInstance().unsubscribe(EventType::getStaticEventType(), handlerName,
-											eventId);
+	EventManager::getInstance().unsubscribe(
+		EventType::getStaticEventType(), handlerName, eventId
+	);
 }
 
 inline void triggerEvent(const Event & triggeredEvent, int eventId = 0) {
@@ -55,6 +59,7 @@ inline void triggerEvent(const Event & triggeredEvent, int eventId = 0) {
 }
 
 inline void queueEvent(std::unique_ptr<Event> && queuedEvent, int eventId = 0) {
-	EventManager::getInstance().queueEvent(std::forward<std::unique_ptr<Event>>(queuedEvent),
-										   eventId);
+	EventManager::getInstance().queueEvent(
+		std::forward<std::unique_ptr<Event>>(queuedEvent), eventId
+	);
 }

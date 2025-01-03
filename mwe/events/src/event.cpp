@@ -3,8 +3,9 @@
 // Event class methods
 Event::Event(std::string eventType) { eventData["eventType"] = eventType; }
 
-void Event::addArgument(const std::string & key,
-						const std::variant<int, std::string, float> & value) {
+void Event::addArgument(
+	const std::string & key, const std::variant<int, std::string, float> & value
+) {
 	eventData[key] = value;
 }
 

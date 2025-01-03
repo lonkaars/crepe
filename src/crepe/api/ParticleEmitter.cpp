@@ -4,8 +4,9 @@
 using namespace crepe;
 using namespace std;
 
-ParticleEmitter::ParticleEmitter(game_object_id_t game_object_id, const Sprite & sprite,
-								 const Data & data)
+ParticleEmitter::ParticleEmitter(
+	game_object_id_t game_object_id, const Sprite & sprite, const Data & data
+)
 	: Component(game_object_id),
 	  sprite(sprite),
 	  data(data) {
@@ -15,7 +16,7 @@ ParticleEmitter::ParticleEmitter(game_object_id_t game_object_id, const Sprite &
 }
 
 unique_ptr<Component> ParticleEmitter::save() const {
-	return unique_ptr<Component>{new ParticleEmitter(*this)};
+	return unique_ptr<Component> {new ParticleEmitter(*this)};
 }
 
 void ParticleEmitter::restore(const Component & snapshot) {

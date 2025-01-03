@@ -3,8 +3,9 @@
 using namespace crepe;
 using namespace std;
 
-ForestParallaxScript::ForestParallaxScript(float begin_x, float end_x,
-										   std::string unique_bg_name)
+ForestParallaxScript::ForestParallaxScript(
+	float begin_x, float end_x, std::string unique_bg_name
+)
 	: begin_x(begin_x),
 	  end_x(end_x),
 	  name(unique_bg_name) {}

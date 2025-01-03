@@ -14,7 +14,7 @@ using namespace crepe;
 class LoopTimerTest : public ::testing::Test {
 protected:
 	Mediator mediator;
-	LoopTimerManager loop_timer{mediator};
+	LoopTimerManager loop_timer {mediator};
 
 	void SetUp() override { loop_timer.start(); }
 };

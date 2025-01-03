@@ -14,7 +14,7 @@ Transform::Transform(game_object_id_t id, const vec2 & point, double rotation, d
 }
 
 unique_ptr<Component> Transform::save() const {
-	return unique_ptr<Component>{new Transform(*this)};
+	return unique_ptr<Component> {new Transform(*this)};
 }
 
 void Transform::restore(const Component & snapshot) {

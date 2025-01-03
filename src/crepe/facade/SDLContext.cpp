@@ -41,9 +41,10 @@ SDLContext::SDLContext(Mediator & mediator) {
 	}
 
 	auto & cfg = Config::get_instance().window_settings;
-	SDL_Window * tmp_window
-		= SDL_CreateWindow(cfg.window_title.c_str(), SDL_WINDOWPOS_CENTERED,
-						   SDL_WINDOWPOS_CENTERED, cfg.default_size.x, cfg.default_size.y, 0);
+	SDL_Window * tmp_window = SDL_CreateWindow(
+		cfg.window_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		cfg.default_size.x, cfg.default_size.y, 0
+	);
 	if (!tmp_window) {
 		throw runtime_error(format("SDLContext: SDL_Window error: {}", SDL_GetError()));
 	}
@@ -52,8 +53,8 @@ SDLContext::SDLContext(Mediator & mediator) {
 	SDL_Renderer * tmp_renderer
 		= SDL_CreateRenderer(this->game_window.get(), -1, SDL_RENDERER_ACCELERATED);
 	if (!tmp_renderer) {
-		throw runtime_error(
-			format("SDLContext: SDL_CreateRenderer error: {}", SDL_GetError()));
+		throw runtime_error(format("SDLContext: SDL_CreateRenderer error: {}", SDL_GetError())
+		);
 	}
 
 	this->game_renderer
@@ -108,7 +109,7 @@ const keyboard_state_t & SDLContext::get_keyboard_state() {
 
 MouseButton SDLContext::sdl_to_mousebutton(Uint8 sdl_button) {
 	static const std::array<MouseButton, 5> MOUSE_BUTTON_LOOKUP_TABLE = [] {
-		std::array<MouseButton, 5> table{};
+		std::array<MouseButton, 5> table {};
 		table.fill(MouseButton::NONE);
 
 		table[SDL_BUTTON_LEFT] = MouseButton::LEFT_MOUSE;
@@ -164,7 +165,7 @@ SDL_FRect SDLContext::get_dst_rect(const DestinationRectangleData & ctx) const {
 			  - size / 2 + cam_aux_data.bar_size;
 	}
 
-	return SDL_FRect{
+	return SDL_FRect {
 		.x = screen_pos.x,
 		.y = screen_pos.y,
 		.w = size.x,
@@ -188,7 +189,7 @@ void SDLContext::draw(const RenderContext & ctx) {
 		srcrect_ptr = &srcrect;
 	}
 
-	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData{
+	SDL_FRect dstrect = this->get_dst_rect(SDLContext::DestinationRectangleData {
 		.sprite = ctx.sprite,
 		.texture = ctx.texture,
 		.pos = ctx.pos,
@@ -198,8 +199,10 @@ void SDLContext::draw(const RenderContext & ctx) {
 	double angle = ctx.angle + data.angle_offset;
 
 	this->set_color_texture(ctx.texture, ctx.sprite.data.color);
-	SDL_RenderCopyExF(this->game_renderer.get(), ctx.texture.get_img(), srcrect_ptr, &dstrect,
-					  angle, NULL, render_flip);
+	SDL_RenderCopyExF(
+		this->game_renderer.get(), ctx.texture.get_img(), srcrect_ptr, &dstrect, angle, NULL,
+		render_flip
+	);
 }
 
 void SDLContext::draw_text(const RenderText & data) {
@@ -210,7 +213,7 @@ void SDLContext::draw_text(const RenderText & data) {
 	std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *)>> font_surface;
 	std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)>> font_texture;
 
-	SDL_Color color{
+	SDL_Color color {
 		.r = text.data.text_color.r,
 		.g = text.data.text_color.g,
 		.b = text.data.text_color.b,
@@ -232,20 +235,21 @@ void SDLContext::draw_text(const RenderText & data) {
 		= {tmp_font_texture, [](SDL_Texture * texture) { SDL_DestroyTexture(texture); }};
 
 	vec2 size = text.dimensions * cam_aux_data.render_scale * data.transform.scale;
-	vec2 screen_pos
-		= (absoluut_pos - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2)
-			  * cam_aux_data.render_scale
-		  - size / 2 + cam_aux_data.bar_size;
+	vec2 screen_pos = (absoluut_pos - cam_aux_data.cam_pos + (cam_aux_data.zoomed_viewport) / 2
+					  ) * cam_aux_data.render_scale
+					  - size / 2 + cam_aux_data.bar_size;
 
-	SDL_FRect dstrect{
+	SDL_FRect dstrect {
 		.x = screen_pos.x,
 		.y = screen_pos.y,
 		.w = size.x,
 		.h = size.y,
 	};
 
-	SDL_RenderCopyExF(this->game_renderer.get(), font_texture.get(), NULL, &dstrect,
-					  data.transform.rotation, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyExF(
+		this->game_renderer.get(), font_texture.get(), NULL, &dstrect, data.transform.rotation,
+		NULL, SDL_FLIP_NONE
+	);
 }
 
 void SDLContext::update_camera_view(const Camera & cam, const vec2 & new_pos) {
@@ -291,8 +295,10 @@ void SDLContext::update_camera_view(const Camera & cam, const vec2 & new_pos) {
 		render_scale.x = render_scale.y = scale;
 	}
 
-	SDL_SetRenderDrawColor(this->game_renderer.get(), cam_data.bg_color.r, cam_data.bg_color.g,
-						   cam_data.bg_color.b, cam_data.bg_color.a);
+	SDL_SetRenderDrawColor(
+		this->game_renderer.get(), cam_data.bg_color.r, cam_data.bg_color.g,
+		cam_data.bg_color.b, cam_data.bg_color.a
+	);
 
 	SDL_Rect bg = {
 		.x = 0,
@@ -427,11 +433,12 @@ std::vector<EventData> SDLContext::get_events() {
 	return event_list;
 }
 
-void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
-									 std::vector<EventData> & event_list) {
+void SDLContext::handle_window_event(
+	const SDL_WindowEvent & window_event, std::vector<EventData> & event_list
+) {
 	switch (window_event.event) {
 		case SDL_WINDOWEVENT_EXPOSED:
-			event_list.push_back(EventData{EventType::WINDOW_EXPOSE});
+			event_list.push_back(EventData {EventType::WINDOW_EXPOSE});
 			break;
 		case SDL_WINDOWEVENT_RESIZED:
 			event_list.push_back(EventData{
@@ -455,16 +462,16 @@ void SDLContext::handle_window_event(const SDL_WindowEvent & window_event,
 			break;
 
 		case SDL_WINDOWEVENT_MINIMIZED:
-			event_list.push_back(EventData{EventType::WINDOW_MINIMIZE});
+			event_list.push_back(EventData {EventType::WINDOW_MINIMIZE});
 			break;
 		case SDL_WINDOWEVENT_MAXIMIZED:
-			event_list.push_back(EventData{EventType::WINDOW_MAXIMIZE});
+			event_list.push_back(EventData {EventType::WINDOW_MAXIMIZE});
 			break;
 		case SDL_WINDOWEVENT_FOCUS_GAINED:
-			event_list.push_back(EventData{EventType::WINDOW_FOCUS_GAIN});
+			event_list.push_back(EventData {EventType::WINDOW_FOCUS_GAIN});
 			break;
 		case SDL_WINDOWEVENT_FOCUS_LOST:
-			event_list.push_back(EventData{EventType::WINDOW_FOCUS_LOST});
+			event_list.push_back(EventData {EventType::WINDOW_FOCUS_LOST});
 			break;
 	}
 }
