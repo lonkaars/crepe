@@ -16,17 +16,17 @@ class PhysicsTest : public ::testing::Test {
 	Mediator m;
 
 public:
-	ComponentManager component_manager{m};
-	PhysicsSystem system{m};
-	LoopTimerManager loop_timer{m};
+	ComponentManager component_manager {m};
+	PhysicsSystem system {m};
+	LoopTimerManager loop_timer {m};
 
 	void SetUp() override {
 		ComponentManager & mgr = this->component_manager;
 		vector<reference_wrapper<Transform>> transforms
 			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
-			auto entity = mgr.new_object("", "", vec2{0, 0}, 0, 0);
-			entity.add_component<Rigidbody>(Rigidbody::Data{
+			auto entity = mgr.new_object("", "", vec2 {0, 0}, 0, 0);
+			entity.add_component<Rigidbody>(Rigidbody::Data {
 				.mass = 1,
 				.gravity_scale = 1,
 				.body_type = Rigidbody::BodyType::DYNAMIC,

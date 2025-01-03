@@ -41,8 +41,8 @@ public:
 	 * \param velocity  The initial velocity of the particle.
 	 * \param angle     The angle of the particle's trajectory or orientation.
 	 */
-	void reset(unsigned int lifespan, const vec2 & position, const vec2 & velocity,
-			   float angle);
+	void
+	reset(unsigned int lifespan, const vec2 & position, const vec2 & velocity, float angle);
 	/**
 	 * \brief Updates the particle's state.
 	 *

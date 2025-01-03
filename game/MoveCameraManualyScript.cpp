@@ -4,8 +4,9 @@ using namespace crepe;
 using namespace std;
 
 void MoveCameraManualyScript::init() {
-	subscribe<KeyPressEvent>(
-		[this](const KeyPressEvent & ev) -> bool { return this->keypressed(ev); });
+	subscribe<KeyPressEvent>([this](const KeyPressEvent & ev) -> bool {
+		return this->keypressed(ev);
+	});
 }
 
 bool MoveCameraManualyScript::keypressed(const KeyPressEvent & event) {

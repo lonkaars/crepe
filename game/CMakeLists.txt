@@ -8,19 +8,18 @@ set(CMAKE_BUILD_TYPE Debug)
 project(game C CXX)
 
 add_subdirectory(../src crepe)
-
-set(SOURCES
-	AquariumSubScene.cpp
-	BackgroundSubScene.cpp
-	ForestParallaxScript.cpp
-	ForestSubScene.cpp
+add_executable(main
+	background/AquariumSubScene.cpp
+	background/BackgroundSubScene.cpp
+	background/ForestParallaxScript.cpp
+	background/ForestSubScene.cpp
 	GameScene.cpp
-	HallwaySubScene.cpp
+	background/HallwaySubScene.cpp
 	MoveCameraManualyScript.cpp
 	PlayerScript.cpp
 	PlayerSubScene.cpp
 	StartGameScript.cpp
-	StartSubScene.cpp
+	background/StartSubScene.cpp
 	main.cpp
 	mainmenu/IButtonScript.cpp
 	mainmenu/ButtonSubScene.cpp
@@ -37,38 +36,6 @@ set(SOURCES
 	coins/CoinSystemScript.cpp
 	coins/CoinScript.cpp
 )
-
-set(HEADERS
-	AquariumSubScene.h
-	BackgroundSubScene.h
-	ForestParallaxScript.h
-	ForestSubScene.h
-	GameScene.h
-	HallwaySubScene.h
-	MoveCameraManualyScript.h
-	PlayerScript.h
-	PlayerSubScene.h
-	StartGameScript.h
-	StartSubScene.h
-	mainmenu/IButtonScript.h
-	mainmenu/ButtonSubScene.h
-	mainmenu/MainMenuScene.h
-	mainmenu/MainMenuConfig.h
-	mainmenu/ITransitionScript.h
-	mainmenu/TransitionStartScript.h
-	mainmenu/ButtonTransitionPreviewScript.h
-	mainmenu/ShopMenuScene.h
-	mainmenu/BannerSubScene.h
-	mainmenu/ButtonSetShopScript.h
-	mainmenu/ButtonSetMainMenuScript.h
-	coins/CoinData.h
-	coins/CoinSubScene.h
-	coins/CoinPool.h
-	coins/CoinSystemScript.h
-	coins/CoinScript.h
-)
-
-add_executable(main ${SOURCES} ${HEADERS})
 
 target_link_libraries(main PUBLIC crepe)
 

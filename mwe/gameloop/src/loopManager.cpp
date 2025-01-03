@@ -18,11 +18,13 @@ void LoopManager::processInput() {
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				gameRunning = false;
 			} else if (event.key.keysym.sym == SDLK_i) {
-				LoopTimer::getInstance().setGameScale(LoopTimer::getInstance().getGameScale()
-													  + 0.1);
+				LoopTimer::getInstance().setGameScale(
+					LoopTimer::getInstance().getGameScale() + 0.1
+				);
 			} else if (event.key.keysym.sym == SDLK_k) {
-				LoopTimer::getInstance().setGameScale(LoopTimer::getInstance().getGameScale()
-													  - 0.1);
+				LoopTimer::getInstance().setGameScale(
+					LoopTimer::getInstance().getGameScale() - 0.1
+				);
 			}
 
 			break;

@@ -49,8 +49,8 @@ public:
 	 * \return A unique subscription ID associated with the registered callback.
 	 */
 	template <typename EventType>
-	subscription_t subscribe(const EventHandler<EventType> & callback,
-							 event_channel_t channel = CHANNEL_ALL);
+	subscription_t
+	subscribe(const EventHandler<EventType> & callback, event_channel_t channel = CHANNEL_ALL);
 
 	/**
 	 * \brief Unsubscribe a previously registered callback.

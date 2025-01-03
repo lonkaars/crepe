@@ -17,11 +17,11 @@ protected:
 	static constexpr const char * OBJ_NAME = "foo";
 
 public:
-	crepe::ComponentManager component_manager{mediator};
-	crepe::ScriptSystem system{mediator};
-	crepe::EventManager event_mgr{mediator};
-	crepe::LoopTimerManager loop_timer{mediator};
-	crepe::SaveManager save_manager{mediator};
+	crepe::ComponentManager component_manager {mediator};
+	crepe::ScriptSystem system {mediator};
+	crepe::EventManager event_mgr {mediator};
+	crepe::LoopTimerManager loop_timer {mediator};
+	crepe::SaveManager save_manager {mediator};
 	crepe::GameObject entity = component_manager.new_object(OBJ_NAME);
 
 	class MyScript : public crepe::Script {

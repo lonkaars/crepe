@@ -4,7 +4,7 @@
 #include "TransitionStartScript.h"
 #include "api/BehaviorScript.h"
 #include "api/Camera.h"
-#include "../StartSubScene.h"
+#include "../background/StartSubScene.h"
 #include "MainMenuConfig.h"
 #include "api/GameObject.h"
 #include "api/Sprite.h"
