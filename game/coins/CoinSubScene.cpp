@@ -8,6 +8,7 @@
 #include <concepts>
 #include <iostream>
 #include "CoinScript.h"
+#include "../Config.h"
 
 using namespace crepe;
 using namespace std;
@@ -23,6 +24,7 @@ int CoinSubScene::create(Scene & scn){
 	coin.add_component<Rigidbody>(Rigidbody::Data{
 		.body_type = Rigidbody::BodyType::KINEMATIC,
 		.kinematic_collision = false,
+		.collision_layers = {COLL_LAY_PLAYER},
 	});
 	coin.add_component<CircleCollider>(size.x / 2).active = false;
 	crepe::OptionalRef<crepe::Sprite> coin_sprite = coin.add_component<Sprite>(Asset{"asset/coin/coin1_TVOS.png"}, Sprite::Data{
