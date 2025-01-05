@@ -29,14 +29,11 @@ struct MainMenuConfig {
 	static constexpr float VELOCITY_STEP = 200;
 	static constexpr float VELOCITY_INFO_UP = 30;
 	//button config
-	static constexpr const char* FONT = "Jetpackia";
-	static constexpr crepe::vec2 FONTOFFSET = {0,0};
 	static constexpr crepe::vec2 LARGE_OVERLAY_SIZE = {250,100};
 	static constexpr crepe::vec2 SMALL_OVERLAY_SIZE_RIGHT = {150,100};
 	static constexpr crepe::vec2 SMALL_OVERLAY_SIZE_LEFT = {50,100};
 	static constexpr crepe::vec2 SIDE_PANEL_SIZE = {50,150};
 	static constexpr crepe::vec2 ICON_SIZE = {50,50};
-	//total coins (move to main config)
-	static constexpr const char* TOTAL_COINS = "total_coins";
+	
 };
 

@@ -1,5 +1,6 @@
 #include "BannerSubScene.h"
 #include "MainMenuConfig.h"
+#include "../Config.h"
 
 
 #include <crepe/api/Sprite.h>
@@ -33,9 +34,9 @@ void BannerSubScene::create(Scene & scn,const Data & data){
 		});
 	crepe::vec2 size = {data.banner_title_width,(data.banner_title_width/data.banner_title.size())*2};
 
-	menu_banner.add_component<Text>( size, MainMenuConfig::FONT, Text::Data{
+	menu_banner.add_component<Text>( size, FONT, Text::Data{
 		.world_space = true,
 		.text_color = Color::WHITE,
-		}, data.banner_title_offset + MainMenuConfig::FONTOFFSET,   data.banner_title);
+		}, data.banner_title_offset + FONTOFFSET,   data.banner_title);
 
 }

@@ -8,6 +8,8 @@
 #include "coins/CoinSystemScript.h"
 
 #include "background/BackgroundSubScene.h"
+#include "hud/HudScript.h"
+#include "hud/HudSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -40,6 +42,7 @@ void GameScene::load_scene() {
 	);
 	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
 	camera.add_component<BehaviorScript>().set_script<CoinSystemScript>();
+	camera.add_component<BehaviorScript>().set_script<HudScript>();
 	camera.add_component<Rigidbody>(Rigidbody::Data{});
 
 	PlayerSubScene player(*this);
@@ -71,11 +74,12 @@ void GameScene::load_scene() {
 	GameObject start_game_script = new_object("start_game_script", "script", vec2(0, 0));
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();
 
-	CoinSubScene coin;
-	coin.create(*this);
-
+	//create coin pool
 	CoinPool coin_system;
 	coin_system.create_coins(*this);
+
+	HudSubScene hud;
+	hud.create(*this);
 
 }
 

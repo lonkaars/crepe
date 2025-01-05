@@ -9,6 +9,7 @@
 #include "api/GameObject.h"
 #include "api/Sprite.h"
 #include "manager/SaveManager.h"
+#include "../Config.h"
 
 using namespace crepe;
 using namespace std;
@@ -71,7 +72,7 @@ void MainMenuScene::load_scene(){
 		.world_space = false,
 		});
 	SaveManager & savemgr = this->get_save_manager();
-	std::string number = std::to_string(savemgr.get<int>(MainMenuConfig::TOTAL_COINS,123).get());
+	string number = std::to_string(savemgr.get<int>(TOTAL_COINS_GAME,0).get());
 	float amount_number = static_cast<float>(number.size());
 	// savemgr.set(COIN_GAME_AMOUNT, amount);
 	button.create(*this,ButtonSubScene::Data{
