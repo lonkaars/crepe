@@ -4,6 +4,7 @@
 #include "ButtonTransitionPreviewScript.h"
 #include "IButtonScript.h"
 #include "MainMenuConfig.h"
+#include "../Config.h"
 #include "api/Color.h"
 
 #include <crepe/api/BehaviorScript.h>
@@ -26,10 +27,10 @@ void ButtonSubScene::create(Scene & scn,const Data & data){
 void ButtonSubScene::btn_text(crepe::GameObject & button_object,const Data & data){
 
 	crepe::vec2 size = {data.text_width,(data.text_width/data.text.size())*2};
-	button_object.add_component<Text>(size, MainMenuConfig::FONT,Text::Data{
+	button_object.add_component<Text>(size, FONT,Text::Data{
 		.world_space = data.worldspace,
 		.text_color = Color::WHITE,
-	}, data.text_offset+MainMenuConfig::FONTOFFSET, data.text);
+	}, data.text_offset+FONTOFFSET, data.text);
 }
 
 void ButtonSubScene::set_script(crepe::GameObject & button_object,const Data & data){

@@ -35,6 +35,8 @@ add_executable(main
 	coins/CoinPool.cpp
 	coins/CoinSystemScript.cpp
 	coins/CoinScript.cpp
+	hud/HudSubScene.cpp
+	hud/HudScript.cpp
 )
 
 target_link_libraries(main PUBLIC crepe)
