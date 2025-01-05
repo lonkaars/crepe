@@ -10,6 +10,7 @@
 #include "background/BackgroundSubScene.h"
 #include "hud/HudScript.h"
 #include "hud/HudSubScene.h"
+#include "hud/SpeedScript.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -43,6 +44,8 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
 	camera.add_component<BehaviorScript>().set_script<CoinSystemScript>();
 	camera.add_component<BehaviorScript>().set_script<HudScript>();
+	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
+	
 	camera.add_component<Rigidbody>(Rigidbody::Data{});
 
 	PlayerSubScene player(*this);
