@@ -4,6 +4,7 @@
 #include "manager/SaveManager.h"
 #include "../Config.h"
 #include "HudConfig.h"
+#include <climits>
 
 using namespace crepe;
 using namespace std;
@@ -14,6 +15,8 @@ void HudScript::init() {
 	Text & txt = this->get_components_by_name<Text>(HUD_BEST).front();
 	string record = BEST+to_string(savemgr->get<int>(DISTANCE_GAME,0).get())+DISTANCE_UNIT;
 	txt.text = record;
+	txt.dimensions = {BEST_CHAR_WIDTH*record.size(),(BEST_CHAR_WIDTH)*2};
+	txt.offset = TOP_LEFT+FONTOFFSET+BEST_OFFSET + vec2{record.size() * BEST_CHAR_WIDTH/2,0};
 }
 
 void HudScript::frame_update(crepe::duration_t dt) {
@@ -25,9 +28,13 @@ void HudScript::frame_update(crepe::duration_t dt) {
 	Transform & tf = this->get_components_by_name<Transform>(PLAYER_NAME).front();
 	string distance = to_string(static_cast<int>(tf.position.x/STEP_SIZE_DISTANCE)) + DISTANCE_UNIT;
 	txt_dt.text = distance;
+	txt_dt.dimensions = {DISTANCE_CHAR_WIDTH*distance.size(),(DISTANCE_CHAR_WIDTH)*2};
+	txt_dt.offset = TOP_LEFT+FONTOFFSET + vec2{distance.size() * DISTANCE_CHAR_WIDTH/2,0};
 
 	// Coins
 	Text & txt_co = this->get_components_by_name<Text>(HUD_COINS).front();
 	string amount_of_coins = to_string(savemgr->get<int>(TOTAL_COINS_RUN,0).get());
 	txt_co.text = amount_of_coins;
+	txt_co.dimensions = {COINS_CHAR_WIDTH*amount_of_coins.size(),(COINS_CHAR_WIDTH)*2};
+	txt_co.offset = TOP_LEFT+FONTOFFSET+COINS_OFFSET + vec2{amount_of_coins.size() * COINS_CHAR_WIDTH/2,0};
 }
