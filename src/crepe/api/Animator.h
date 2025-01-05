@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../types.h"
+#include "../manager/LoopTimerManager.h"
 
 #include "Component.h"
 #include "Sprite.h"
@@ -98,6 +99,12 @@ private:
 
 	//! The maximum number of rows and columns inside the spritesheet
 	const uvec2 grid_size;
+
+	// the time elapsed from a frame duration
+	duration_t elapsed_time = {};
+
+	// frame counter
+	unsigned int frame = 0;
 
 	//! Uses the spritesheet
 	friend AnimatorSystem;
