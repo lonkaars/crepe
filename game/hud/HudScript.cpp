@@ -17,6 +17,20 @@ void HudScript::init() {
 	txt.text = record;
 	txt.dimensions = {BEST_CHAR_WIDTH*record.size(),(BEST_CHAR_WIDTH)*2};
 	txt.offset = TOP_LEFT+FONTOFFSET+BEST_OFFSET + vec2{record.size() * BEST_CHAR_WIDTH/2,0};
+
+	this->subscribe<KeyPressEvent>([this](const KeyPressEvent & ev) -> bool {
+		if(ev.key != Keycode::END) return false;
+		Text & txt_fps = this->get_components_by_name<Text>(HUD_FPS).front();
+		this->show_fps = !this->show_fps;
+		if(this->show_fps)
+		{
+			txt_fps.active = true;
+		}
+		else {
+			txt_fps.active = false;
+		}
+		return true;
+	});
 }
 
 void HudScript::frame_update(crepe::duration_t dt) {

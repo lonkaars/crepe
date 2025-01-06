@@ -40,5 +40,5 @@ void HudSubScene::create(Scene & scn){
 	hud_fps.add_component<Text>(size_fps, FONT,Text::Data{
 		.world_space = false,
 		.text_color = Color::GREEN,
-	}, TOP_LEFT+FONTOFFSET+FPS_OFFSET + vec2{FPS_LENGTH * FPS_CHAR_WIDTH/2,0}, FPS);
+	}, TOP_LEFT+FONTOFFSET+FPS_OFFSET + vec2{FPS_LENGTH * FPS_CHAR_WIDTH/2,0}, FPS).active = false;
 }
