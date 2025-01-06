@@ -43,12 +43,16 @@ public:
 			}
 		);
 
-		game_object.add_component<Animator>(
+		auto & anim = game_object.add_component<Animator>(
 			test_sprite, ivec2 {56, 56}, uvec2 {4, 4},
 			Animator::Data {
-				.looping = false,
+				.looping = 0,
 			}
 		);
+
+		anim.set_anim(1);
+		anim.pause();
+		anim.next_anim();
 
 		auto & cam = game_object.add_component<Camera>(
 			ivec2 {1280, 720}, vec2 {5, 5},
