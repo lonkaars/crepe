@@ -22,45 +22,49 @@ class ParticlesTest : public ::testing::Test {
 	Mediator m;
 
 public:
-	ComponentManager component_manager{m};
-	ParticleSystem particle_system{m};
-	LoopTimerManager loop_timer{m};
+	ComponentManager component_manager {m};
+	ParticleSystem particle_system {m};
+	LoopTimerManager loop_timer {m};
 
 	void SetUp() override {
 		ComponentManager & mgr = this->component_manager;
 		std::vector<std::reference_wrapper<Transform>> transforms
 			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
-			GameObject game_object = mgr.new_object("", "", vec2{0, 0}, 0, 0);
+			GameObject game_object = mgr.new_object("", "", vec2 {0, 0}, 0, 0);
 
 			Color color(0, 0, 0, 0);
 			auto s1 = Asset("asset/texture/img.png");
 			Sprite & test_sprite = game_object.add_component<Sprite>(
-				s1, Sprite::Data{
-						.color = color,
-						.flip = Sprite::FlipSettings{true, true},
-						.size = {10, 10},
-					});
+				s1,
+				Sprite::Data {
+					.color = color,
+					.flip = Sprite::FlipSettings {true, true},
+					.size = {10, 10},
+				}
+			);
 
-			game_object.add_component<ParticleEmitter>(test_sprite,
-													   ParticleEmitter::Data{
-														   .offset = {0, 0},
-														   .max_particles = 100,
-														   .emission_rate = 0,
-														   .min_speed = 0,
-														   .max_speed = 0,
-														   .min_angle = 0,
-														   .max_angle = 0,
-														   .begin_lifespan = 0,
-														   .end_lifespan = 0,
-														   .force_over_time = vec2{0, 0},
-														   .boundary{
-															   .width = 0,
-															   .height = 0,
-															   .offset = vec2{0, 0},
-															   .reset_on_exit = false,
-														   },
-													   });
+			game_object.add_component<ParticleEmitter>(
+				test_sprite,
+				ParticleEmitter::Data {
+					.offset = {0, 0},
+					.max_particles = 100,
+					.emission_rate = 0,
+					.min_speed = 0,
+					.max_speed = 0,
+					.min_angle = 0,
+					.max_angle = 0,
+					.begin_lifespan = 0,
+					.end_lifespan = 0,
+					.force_over_time = vec2 {0, 0},
+					.boundary {
+						.width = 0,
+						.height = 0,
+						.offset = vec2 {0, 0},
+						.reset_on_exit = false,
+					},
+				}
+			);
 		}
 		transforms = mgr.get_components_by_id<Transform>(0);
 		Transform & transform = transforms.front().get();
@@ -78,8 +82,8 @@ public:
 		emitter.data.max_angle = 0;
 		emitter.data.begin_lifespan = 0;
 		emitter.data.end_lifespan = 0;
-		emitter.data.force_over_time = vec2{0, 0};
-		emitter.data.boundary = {0, 0, vec2{0, 0}, false};
+		emitter.data.force_over_time = vec2 {0, 0};
+		emitter.data.boundary = {0, 0, vec2 {0, 0}, false};
 		for (auto & particle : emitter.particles) {
 			particle.active = false;
 		}
@@ -97,18 +101,18 @@ TEST_F(ParticlesTest, spawnParticle) {
 	emitter.data.max_angle = 0.1;
 	emitter.data.max_speed = 10;
 	emitter.data.max_angle = 10;
-	particle_system.update();
+	particle_system.fixed_update();
 	//check if nothing happend
 	EXPECT_EQ(emitter.particles[0].active, false);
 	emitter.data.emission_rate = 50;
 	//check particle spawnes
-	particle_system.update();
+	particle_system.fixed_update();
 	EXPECT_EQ(emitter.particles[0].active, true);
-	particle_system.update();
+	particle_system.fixed_update();
 	EXPECT_EQ(emitter.particles[1].active, true);
-	particle_system.update();
+	particle_system.fixed_update();
 	EXPECT_EQ(emitter.particles[2].active, true);
-	particle_system.update();
+	particle_system.fixed_update();
 	EXPECT_EQ(emitter.particles[3].active, true);
 
 	for (auto & particle : emitter.particles) {
@@ -142,7 +146,7 @@ TEST_F(ParticlesTest, moveParticleHorizontal) {
 	emitter.data.max_angle = 0;
 	emitter.data.emission_rate = 50;
 	for (int a = 1; a < emitter.data.boundary.width / 2; a++) {
-		particle_system.update();
+		particle_system.fixed_update();
 		EXPECT_EQ(emitter.particles[0].position.x, a);
 	}
 }
@@ -160,7 +164,7 @@ TEST_F(ParticlesTest, moveParticleVertical) {
 	emitter.data.max_angle = 90;
 	emitter.data.emission_rate = 50;
 	for (int a = 1; a < emitter.data.boundary.width / 2; a++) {
-		particle_system.update();
+		particle_system.fixed_update();
 		EXPECT_EQ(emitter.particles[0].position.y, a);
 	}
 }
@@ -179,7 +183,7 @@ TEST_F(ParticlesTest, boundaryParticleReset) {
 	emitter.data.max_angle = 90;
 	emitter.data.emission_rate = 1;
 	for (int a = 0; a < emitter.data.boundary.width / 2 + 1; a++) {
-		particle_system.update();
+		particle_system.fixed_update();
 	}
 	EXPECT_EQ(emitter.particles[0].active, false);
 }
@@ -198,15 +202,19 @@ TEST_F(ParticlesTest, boundaryParticleStop) {
 	emitter.data.max_angle = 90;
 	emitter.data.emission_rate = 1;
 	for (int a = 0; a < emitter.data.boundary.width / 2 + 1; a++) {
-		particle_system.update();
+		particle_system.fixed_update();
 	}
 	const double TOLERANCE = 0.01;
 	EXPECT_NEAR(emitter.particles[0].velocity.x, 0, TOLERANCE);
 	EXPECT_NEAR(emitter.particles[0].velocity.y, 0, TOLERANCE);
 	if (emitter.particles[0].velocity.x != 0)
-		EXPECT_NEAR(std::abs(emitter.particles[0].position.x),
-					emitter.data.boundary.height / 2, TOLERANCE);
+		EXPECT_NEAR(
+			std::abs(emitter.particles[0].position.x), emitter.data.boundary.height / 2,
+			TOLERANCE
+		);
 	if (emitter.particles[0].velocity.y != 0)
-		EXPECT_NEAR(std::abs(emitter.particles[0].position.y), emitter.data.boundary.width / 2,
-					TOLERANCE);
+		EXPECT_NEAR(
+			std::abs(emitter.particles[0].position.y), emitter.data.boundary.width / 2,
+			TOLERANCE
+		);
 }

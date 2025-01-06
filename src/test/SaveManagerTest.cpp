@@ -14,12 +14,12 @@ class SaveManagerTest : public Test {
 		using SaveManager::SaveManager;
 
 		// in-memory database for testing
-		DB db{};
+		DB db {};
 		virtual DB & get_db() override { return this->db; }
 	};
 
 public:
-	TestSaveManager mgr{m};
+	TestSaveManager mgr {m};
 };
 
 TEST_F(SaveManagerTest, ReadWrite) {

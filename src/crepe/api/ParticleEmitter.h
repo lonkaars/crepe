@@ -84,6 +84,12 @@ public:
 	//! Configuration data for particle emission settings.
 	Data data;
 
+protected:
+	virtual std::unique_ptr<Component> save() const;
+	ParticleEmitter(const ParticleEmitter &) = default;
+	virtual void restore(const Component & snapshot);
+	virtual ParticleEmitter & operator=(const ParticleEmitter &);
+
 private:
 	//! Only ParticleSystem can move and read particles
 	friend ParticleSystem;

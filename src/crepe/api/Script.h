@@ -6,8 +6,11 @@
 #include "../manager/EventManager.h"
 #include "../manager/LoopTimerManager.h"
 #include "../manager/Mediator.h"
+#include "../manager/ReplayManager.h"
 #include "../system/CollisionSystem.h"
+#include "../system/InputSystem.h"
 #include "../types.h"
+#include "../util/Log.h"
 #include "../util/OptionalRef.h"
 
 namespace crepe {
@@ -46,14 +49,23 @@ protected:
 	 */
 	virtual void init() {}
 	/**
-	 * \brief Script update function (empty by default)
+	 * \brief Script fixed update function (empty by default)
 	 *
 	 * \param delta_time Time since last fixed update
 	 *
-	 * This function is called during the ScriptSystem::update() routine if the \c BehaviorScript
-	 * component holding this script instance is active.
+	 * \note This function is called during the ScriptSystem::update() routine if the \c
+	 * BehaviorScript component holding this script instance is active.
 	 */
-	virtual void update(duration_t delta_time) {}
+	virtual void fixed_update(duration_t delta_time) {}
+	/**
+	 * \brief Script frame update function (empty by default)
+	 *
+	 * \param delta_time Time since last frame update
+	 *
+	 * \note This function is called during the ScriptSystem::update() routine if the \c
+	 * BehaviorScript component holding this script instance is active.
+	 */
+	virtual void frame_update(duration_t delta_time) {}
 	//! \}
 
 	//! ScriptSystem calls \c init() and \c update()
@@ -61,93 +73,121 @@ protected:
 
 protected:
 	/**
-	 * \name Utility functions
+	 * \name Component query functions
+	 * \see ComponentManager
 	 * \{
 	 */
-
 	/**
 	 * \brief Get single component of type \c T on this game object
-	 *
 	 * \tparam T Type of component
-	 *
 	 * \returns Reference to component
-	 *
 	 * \throws std::runtime_error if this game object does not have a component with type \c T
 	 */
 	template <typename T>
 	T & get_component() const;
-	// TODO: make get_component calls for component types that can have more than 1 instance
-	// cause compile-time errors
-
 	/**
 	 * \brief Get all components of type \c T on this game object
-	 *
 	 * \tparam T Type of component
-	 *
 	 * \returns List of component references
 	 */
 	template <typename T>
 	RefVector<T> get_components() const;
-
-	/**
-	 * \copydoc ComponentManager::get_components_by_id
-	 * \see ComponentManager::get_components_by_id
-	 */
+	//! \copydoc ComponentManager::get_components_by_id
 	template <typename T>
 	RefVector<T> get_components_by_id(game_object_id_t id) const;
-	/**
-	 * \copydoc ComponentManager::get_components_by_name
-	 * \see ComponentManager::get_components_by_name
-	 */
+	//! \copydoc ComponentManager::get_components_by_name
 	template <typename T>
 	RefVector<T> get_components_by_name(const std::string & name) const;
-	/**
-	 * \copydoc ComponentManager::get_components_by_tag
-	 * \see ComponentManager::get_components_by_tag
-	 */
+	//! \copydoc ComponentManager::get_components_by_tag
 	template <typename T>
 	RefVector<T> get_components_by_tag(const std::string & tag) const;
+	//! \}
 
 	/**
-	 * \brief Log a message using Log::logf
-	 *
-	 * \tparam Args Log::logf parameters
-	 * \param args  Log::logf parameters
+	 * \name Logging functions
+	 * \see Log
+	 * \{
 	 */
-	template <typename... Args>
-	void logf(Args &&... args);
+	//! \copydoc Log::logf
+	template <class... Args>
+	void logf(const Log::Level & level, std::format_string<Args...> fmt, Args &&... args);
+	//! \copydoc Log::logf
+	template <class... Args>
+	void logf(std::format_string<Args...> fmt, Args &&... args);
+	// \}
 
 	/**
-	 * \brief Subscribe to an event with an explicit channel
-	 * \see EventManager::subscribe
+	 * \name Event manager functions
+	 * \see EventManager
+	 * \{
 	 */
+	//! \copydoc EventManager::subscribe
 	template <typename EventType>
 	void subscribe(const EventHandler<EventType> & callback, event_channel_t channel);
-	/**
-	 * \brief Subscribe to an event on EventManager::CHANNEL_ALL
-	 * \see EventManager::subscribe
-	 */
+	//! \copydoc EventManager::subscribe
 	template <typename EventType>
 	void subscribe(const EventHandler<EventType> & callback);
+	//! \copydoc EventManager::trigger_event
+	template <typename EventType>
+	void trigger_event(
+		const EventType & event = {}, event_channel_t channel = EventManager::CHANNEL_ALL
+	);
+	//! \copydoc EventManager::queue_event
+	template <typename EventType>
+	void queue_event(
+		const EventType & event = {}, event_channel_t channel = EventManager::CHANNEL_ALL
+	);
+	//! \}
 
 	/**
-	 * \brief Set the next scene using SceneManager
-	 * \see SceneManager::set_next_scene
+	 * \name Scene-related functions
+	 * \see SceneManager
+	 * \{
 	 */
+	//! \copydoc SceneManager::set_next_scene
 	void set_next_scene(const std::string & name);
+	//! \}
 
+	/**
+	 * \name Save data management functions
+	 * \see SaveManager
+	 * \{
+	 */
 	//! Retrieve SaveManager reference
 	SaveManager & get_save_manager() const;
+	//! \}
 
+	/**
+	 * \name Timing functions
+	 * \see LoopTimerManager
+	 * \{
+	 */
 	//! Retrieve LoopTimerManager reference
 	LoopTimerManager & get_loop_timer() const;
+	//! \}
+
+	//! Replay management functions
+	struct replay { // NOLINT
+		//! \copydoc ReplayManager::record_start
+		void record_start();
+		//! \copydoc ReplayManager::record_end
+		recording_t record_end();
+		//! \copydoc ReplayManager::play
+		void play(recording_t);
+		//! \copydoc ReplayManager::release
+		void release(recording_t);
+
+	private:
+		OptionalRef<Mediator> & mediator;
+		replay(OptionalRef<Mediator> & mediator) : mediator(mediator) {}
+		friend class Script;
+	} replay {mediator};
 
 	/**
 	 * \brief Utility function to retrieve the keyboard state
 	 * \see SDLContext::get_keyboard_state
 	 * 
 	 * \return current keyboard state map with Keycode as key and bool as value(true = pressed, false = not pressed)
-	 * 
 	 */
 	const keyboard_state_t & get_keyboard_state() const;
 	/**
@@ -155,7 +195,6 @@ protected:
 	 * \see SDLContext::get_keyboard_state
 	 * 
 	 * \return Keycode state (true if pressed, false if not pressed).
-	 * 
 	 */
 	bool get_key_state(Keycode key) const noexcept;
 
@@ -234,7 +273,42 @@ void Script::subscribe(const EventHandler<CollisionEvent> & callback);
 template <>
 void Script::subscribe(const EventHandler<CollisionEvent> & callback, event_channel_t)
 	= delete;
-
+/**
+ * \brief Subscribe to ButtonPressEvent for the current GameObject
+ *
+ * This is a template specialization for Script::subscribe which automatically sets the event
+ * channel so the callback handler is only called for ButtonPressEvent events that apply to the
+ * current GameObject the parent BehaviorScript is attached to.
+ */
+template <>
+void Script::subscribe(const EventHandler<ButtonPressEvent> & callback);
+template <>
+void Script::subscribe(const EventHandler<ButtonPressEvent> & callback, event_channel_t)
+	= delete;
+/**
+ * \brief Subscribe to ButtonExitEvent for the current GameObject
+ *
+ * This is a template specialization for Script::subscribe which automatically sets the event
+ * channel so the callback handler is only called for ButtonExitEvent events that apply to the
+ * current GameObject the parent BehaviorScript is attached to.
+ */
+template <>
+void Script::subscribe(const EventHandler<ButtonExitEvent> & callback);
+template <>
+void Script::subscribe(const EventHandler<ButtonExitEvent> & callback, event_channel_t)
+	= delete;
+/**
+ * \brief Subscribe to ButtonEnterEvent for the current GameObject
+ *
+ * This is a template specialization for Script::subscribe which automatically sets the event
+ * channel so the callback handler is only called for ButtonEnterEvent events that apply to the
+ * current GameObject the parent BehaviorScript is attached to.
+ */
+template <>
+void Script::subscribe(const EventHandler<ButtonEnterEvent> & callback);
+template <>
+void Script::subscribe(const EventHandler<ButtonEnterEvent> & callback, event_channel_t)
+	= delete;
 } // namespace crepe
 
 #include "Script.hpp"

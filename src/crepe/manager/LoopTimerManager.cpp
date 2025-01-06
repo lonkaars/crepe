@@ -1,7 +1,7 @@
 #include <chrono>
 #include <thread>
 
-#include "../util/Log.h"
+#include "../util/dbg.h"
 
 #include "LoopTimerManager.h"
 
@@ -17,9 +17,9 @@ LoopTimerManager::LoopTimerManager(Mediator & mediator) : Manager(mediator) {
 void LoopTimerManager::start() {
 	this->last_frame_time = std::chrono::steady_clock::now();
 
-	this->elapsed_time = elapsed_time_t{0};
-	this->elapsed_fixed_time = elapsed_time_t{0};
-	this->delta_time = duration_t{0};
+	this->elapsed_time = elapsed_time_t {0};
+	this->elapsed_fixed_time = elapsed_time_t {0};
+	this->delta_time = duration_t {0};
 }
 
 void LoopTimerManager::update() {

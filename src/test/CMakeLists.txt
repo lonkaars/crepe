@@ -17,7 +17,7 @@ target_sources(test_main PUBLIC
 	ValueBrokerTest.cpp
 	DBTest.cpp
 	Vector2Test.cpp
-	LoopManagerTest.cpp
+	# LoopManagerTest.cpp
 	LoopTimerTest.cpp
 	InputTest.cpp
 	ScriptEventTest.cpp
@@ -25,7 +25,5 @@ target_sources(test_main PUBLIC
 	SaveManagerTest.cpp
 	ScriptSaveManagerTest.cpp
 	ScriptECSTest.cpp
-
-	]]
-	Profiling.cpp
+	ReplayManagerTest.cpp
 )

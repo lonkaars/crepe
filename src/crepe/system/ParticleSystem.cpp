@@ -7,12 +7,13 @@
 #include "../api/Transform.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/LoopTimerManager.h"
+#include "util/AbsolutePosition.h"
 
 #include "ParticleSystem.h"
 
 using namespace crepe;
 
-void ParticleSystem::update() {
+void ParticleSystem::fixed_update() {
 	// Get all emitters
 	const Mediator & mediator = this->mediator;
 	LoopTimerManager & loop_timer = mediator.loop_timer;
@@ -48,9 +49,11 @@ void ParticleSystem::update() {
 void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & transform) {
 	constexpr float DEG_TO_RAD = M_PI / 180.0;
 
-	vec2 initial_position = emitter.data.offset + transform.position;
-	float random_angle
-		= this->generate_random_angle(emitter.data.min_angle, emitter.data.max_angle);
+	vec2 initial_position = AbsolutePosition::get_position(transform, emitter.data.offset);
+	float random_angle = this->generate_random_angle(
+		emitter.data.min_angle + transform.rotation,
+		emitter.data.max_angle + transform.rotation
+	);
 
 	float random_speed
 		= this->generate_random_speed(emitter.data.min_speed, emitter.data.max_speed);
@@ -61,8 +64,9 @@ void ParticleSystem::emit_particle(ParticleEmitter & emitter, const Transform & 
 
 	for (Particle & particle : emitter.particles) {
 		if (!particle.active) {
-			particle.reset(emitter.data.end_lifespan, initial_position, velocity,
-						   random_angle);
+			particle.reset(
+				emitter.data.end_lifespan, initial_position, velocity, random_angle
+			);
 			break;
 		}
 	}
@@ -80,8 +84,9 @@ void ParticleSystem::check_bounds(ParticleEmitter & emitter, const Transform & t
 
 	for (Particle & particle : emitter.particles) {
 		const vec2 & position = particle.position;
-		bool within_bounds = (position.x >= left && position.x <= right && position.y >= top
-							  && position.y <= bottom);
+		bool within_bounds
+			= (position.x >= left && position.x <= right && position.y >= top
+			   && position.y <= bottom);
 		//if not within bounds do a reset or stop velocity
 		if (!within_bounds) {
 			if (emitter.data.boundary.reset_on_exit) {

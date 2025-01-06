@@ -16,17 +16,17 @@ class PhysicsTest : public ::testing::Test {
 	Mediator m;
 
 public:
-	ComponentManager component_manager{m};
-	PhysicsSystem system{m};
-	LoopTimerManager loop_timer{m};
+	ComponentManager component_manager {m};
+	PhysicsSystem system {m};
+	LoopTimerManager loop_timer {m};
 
 	void SetUp() override {
 		ComponentManager & mgr = this->component_manager;
 		vector<reference_wrapper<Transform>> transforms
 			= mgr.get_components_by_id<Transform>(0);
 		if (transforms.empty()) {
-			auto entity = mgr.new_object("", "", vec2{0, 0}, 0, 0);
-			entity.add_component<Rigidbody>(Rigidbody::Data{
+			auto entity = mgr.new_object("", "", vec2 {0, 0}, 0, 0);
+			entity.add_component<Rigidbody>(Rigidbody::Data {
 				.mass = 1,
 				.gravity_scale = 1,
 				.body_type = Rigidbody::BodyType::DYNAMIC,
@@ -57,10 +57,10 @@ TEST_F(PhysicsTest, gravity) {
 	ASSERT_FALSE(transforms.empty());
 	EXPECT_EQ(transform.position.y, 0);
 
-	system.update();
+	system.fixed_update();
 	EXPECT_NEAR(transform.position.y, 0.0004, 0.0001);
 
-	system.update();
+	system.fixed_update();
 	EXPECT_NEAR(transform.position.y, 0.002, 0.001);
 }
 
@@ -74,14 +74,14 @@ TEST_F(PhysicsTest, max_velocity) {
 
 	rigidbody.add_force_linear({100, 100});
 	rigidbody.add_force_angular(100);
-	system.update();
+	system.fixed_update();
 	EXPECT_NEAR(rigidbody.data.linear_velocity.y, 7.07, 0.01);
 	EXPECT_NEAR(rigidbody.data.linear_velocity.x, 7.07, 0.01);
 	EXPECT_EQ(rigidbody.data.angular_velocity, 10);
 
 	rigidbody.add_force_linear({-100, -100});
 	rigidbody.add_force_angular(-100);
-	system.update();
+	system.fixed_update();
 	EXPECT_NEAR(rigidbody.data.linear_velocity.y, -7.07, 0.01);
 	EXPECT_NEAR(rigidbody.data.linear_velocity.x, -7.07, 0.01);
 	EXPECT_EQ(rigidbody.data.angular_velocity, -10);
@@ -99,7 +99,7 @@ TEST_F(PhysicsTest, movement) {
 
 	rigidbody.add_force_linear({1, 1});
 	rigidbody.add_force_angular(1);
-	system.update();
+	system.fixed_update();
 	EXPECT_NEAR(transform.position.x, 0.02, 0.001);
 	EXPECT_NEAR(transform.position.y, 0.02, 0.001);
 	EXPECT_NEAR(transform.rotation, 0.02, 0.001);
@@ -112,7 +112,7 @@ TEST_F(PhysicsTest, movement) {
 	rigidbody.data.linear_velocity_coefficient.x = 0.5;
 	rigidbody.data.linear_velocity_coefficient.y = 0.5;
 	rigidbody.data.angular_velocity_coefficient = 0.5;
-	system.update();
+	system.fixed_update();
 	EXPECT_NEAR(rigidbody.data.linear_velocity.x, 0.98, 0.01);
 	EXPECT_NEAR(rigidbody.data.linear_velocity.y, 0.98, 0.01);
 	EXPECT_NEAR(rigidbody.data.angular_velocity, 0.98, 0.01);
@@ -121,12 +121,12 @@ TEST_F(PhysicsTest, movement) {
 	rigidbody.data.angular_velocity_coefficient = 0;
 	rigidbody.data.max_angular_velocity = 1000;
 	rigidbody.data.angular_velocity = 360;
-	system.update();
+	system.fixed_update();
 	EXPECT_NEAR(transform.rotation, 7.24, 0.01);
 
 	rigidbody.data.angular_velocity = -360;
-	system.update();
+	system.fixed_update();
 	EXPECT_NEAR(transform.rotation, 0.04, 0.001);
-	system.update();
+	system.fixed_update();
 	EXPECT_NEAR(transform.rotation, 352.84, 0.01);
 }

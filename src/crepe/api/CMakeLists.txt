@@ -13,7 +13,7 @@ target_sources(crepe PUBLIC
 	Animator.cpp
 	BoxCollider.cpp
 	CircleCollider.cpp
-	LoopManager.cpp
+	Engine.cpp
 	Asset.cpp
 	EventHandler.cpp
 	Script.cpp
@@ -47,7 +47,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	EventHandler.h
 	EventHandler.hpp
 	Event.h
-	LoopManager.h
+	Engine.h
+	Engine.hpp
 	Asset.h
 	Button.h
 	UIObject.h

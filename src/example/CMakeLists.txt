@@ -19,10 +19,9 @@ endfunction()
 set(preview_sources,)
 
 add_example(rendering_particle)
-add_example(game)
 add_example(button)
+add_example(replay)
 add_example(loadfont)
-add_example(FontExample)
 add_example(AITest)
 
 set(preview_sources

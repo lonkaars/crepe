@@ -28,23 +28,24 @@ using namespace crepe;
 class InputTest : public ::testing::Test {
 public:
 	Mediator mediator;
-	ComponentManager mgr{mediator};
-	SDLContext sdl_context{mediator};
+	ComponentManager mgr {mediator};
+	SDLContext sdl_context {mediator};
 
-	InputSystem input_system{mediator};
-	ResourceManager resman{mediator};
-	RenderSystem render{mediator};
-	EventManager event_manager{mediator};
+	InputSystem input_system {mediator};
+	ResourceManager resman {mediator};
+	RenderSystem render {mediator};
+	EventManager event_manager {mediator};
 	//GameObject camera;
-	int offset = 100;
+	vec2 offset = {100, 200};
 
 protected:
 	void SetUp() override {
-		GameObject obj = mgr.new_object("camera", "camera", vec2{offset, offset}, 0, 1);
-		auto & camera
-			= obj.add_component<Camera>(ivec2{500, 500}, vec2{500, 500},
-										Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
-		render.update();
+		GameObject obj = mgr.new_object("camera", "camera", offset, 0, 1);
+		auto & camera = obj.add_component<Camera>(
+			ivec2 {500, 500}, vec2 {500, 500},
+			Camera::Data {.bg_color = Color::WHITE, .zoom = 1.0f}
+		);
+		render.frame_update();
 		//mediator.event_manager = event_manager;
 		//mediator.component_manager = mgr;
 		//event_manager.clear();
@@ -76,8 +77,7 @@ TEST_F(InputTest, MouseDown) {
 	EventHandler<MousePressEvent> on_mouse_down = [&](const MousePressEvent & event) {
 		mouse_triggered = true;
 		//middle of the screen = 0,0
-		EXPECT_EQ(event.mouse_pos.x, offset);
-		EXPECT_EQ(event.mouse_pos.y, offset);
+		EXPECT_EQ(event.mouse_pos, offset);
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -92,7 +92,7 @@ TEST_F(InputTest, MouseDown) {
 	event.button.button = SDL_BUTTON_LEFT;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(mouse_triggered);
 }
@@ -101,8 +101,7 @@ TEST_F(InputTest, MouseUp) {
 	bool function_triggered = false;
 	EventHandler<MouseReleaseEvent> on_mouse_release = [&](const MouseReleaseEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_pos.x, offset);
-		EXPECT_EQ(e.mouse_pos.y, offset);
+		EXPECT_EQ(e.mouse_pos, offset);
 		EXPECT_EQ(e.button, MouseButton::LEFT_MOUSE);
 		return false;
 	};
@@ -116,7 +115,7 @@ TEST_F(InputTest, MouseUp) {
 	event.button.button = SDL_BUTTON_LEFT;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(function_triggered);
 }
@@ -125,8 +124,7 @@ TEST_F(InputTest, MouseMove) {
 	bool function_triggered = false;
 	EventHandler<MouseMoveEvent> on_mouse_move = [&](const MouseMoveEvent & e) {
 		function_triggered = true;
-		EXPECT_EQ(e.mouse_pos.x, offset);
-		EXPECT_EQ(e.mouse_pos.y, offset);
+		EXPECT_EQ(e.mouse_pos, offset);
 		EXPECT_EQ(e.mouse_delta.x, 10);
 		EXPECT_EQ(e.mouse_delta.y, 10);
 		return false;
@@ -142,7 +140,7 @@ TEST_F(InputTest, MouseMove) {
 	event.motion.yrel = 10;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(function_triggered);
 }
@@ -168,7 +166,7 @@ TEST_F(InputTest, KeyDown) {
 	test_event.key.repeat = 1; // Set repeat flag
 	SDL_PushEvent(&test_event);
 
-	input_system.update(); // Process the event
+	input_system.fixed_update(); // Process the event
 	event_manager.dispatch_events(); // Dispatch events to handlers
 
 	EXPECT_TRUE(function_triggered); // Check if the handler was triggered
@@ -189,7 +187,7 @@ TEST_F(InputTest, KeyUp) {
 	event.key.keysym.scancode = SDL_SCANCODE_B;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(function_triggered);
 }
@@ -199,77 +197,98 @@ TEST_F(InputTest, MouseClick) {
 	EventHandler<MouseClickEvent> on_mouse_click = [&](const MouseClickEvent & event) {
 		on_click_triggered = true;
 		EXPECT_EQ(event.button, MouseButton::LEFT_MOUSE);
-		EXPECT_EQ(event.mouse_pos.x, offset);
-		EXPECT_EQ(event.mouse_pos.y, offset);
+		EXPECT_EQ(event.mouse_pos, offset);
 		return false;
 	};
 	event_manager.subscribe<MouseClickEvent>(on_mouse_click);
 
 	this->simulate_mouse_click(250, 250, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(on_click_triggered);
 }
 
 TEST_F(InputTest, testButtonClick) {
-	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
+	GameObject button_obj = mgr.new_object("body", "person", vec2 {0, 0}, 0, 1);
 	bool button_clicked = false;
-	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = button_obj.add_component<Button>(vec2{10, 10}, vec2{0, 0}, on_click);
-	// button.world_space =
+	event_manager.subscribe<ButtonPressEvent>([&](const ButtonPressEvent & event) {
+		button_clicked = true;
+		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
+		return false;
+	});
+	auto & button = button_obj.add_component<Button>(vec2 {100, 100}, vec2 {0, 0});
+
 	bool hover = false;
 	button.active = true;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button_clicked);
 
 	this->simulate_mouse_click(250, 250, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button_clicked);
 }
 TEST_F(InputTest, buttonPositionCamera) {
-	GameObject button_obj = mgr.new_object("body", "person", vec2{50, 50}, 0, 1);
+	GameObject button_obj = mgr.new_object("body", "person", vec2 {50, 50}, 0, 1);
 	bool button_clicked = false;
-	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = button_obj.add_component<Button>(vec2{10, 10}, vec2{0, 0}, on_click);
+	event_manager.subscribe<ButtonPressEvent>([&](const ButtonPressEvent & event) {
+		button_clicked = true;
+		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
+		return false;
+	});
+	auto & button = button_obj.add_component<Button>(vec2 {10, 10}, vec2 {0, 0});
+
 	button.world_space = false;
 	bool hover = false;
 	button.active = true;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button_clicked);
 
 	this->simulate_mouse_click(300, 300, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button_clicked);
 }
 TEST_F(InputTest, buttonPositionWorld) {
-	GameObject button_obj = mgr.new_object("body", "person", vec2{50, 50}, 0, 1);
+	GameObject button_obj = mgr.new_object("body", "person", vec2 {50, 50}, 0, 1);
 	bool button_clicked = false;
-	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = button_obj.add_component<Button>(vec2{10, 10}, vec2{0, 0}, on_click);
+	event_manager.subscribe<ButtonPressEvent>([&](const ButtonPressEvent & event) {
+		button_clicked = true;
+		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
+		return false;
+	});
+	auto & button = button_obj.add_component<Button>(vec2 {10, 10}, vec2 {0, 0});
 	button.world_space = true;
 	bool hover = false;
 	button.active = true;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button_clicked);
 
 	this->simulate_mouse_click(300, 300, SDL_BUTTON_LEFT);
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button_clicked);
 }
 TEST_F(InputTest, testButtonHover) {
-	GameObject button_obj = mgr.new_object("body", "person", vec2{0, 0}, 0, 1);
-	bool button_clicked = false;
-	std::function<void()> on_click = [&]() { button_clicked = true; };
-	auto & button = button_obj.add_component<Button>(vec2{100, 100}, vec2{0, 0}, on_click);
+	GameObject button_obj = mgr.new_object("body", "person", vec2 {0, 0}, 0, 1);
+	bool button_hover = false;
+	event_manager.subscribe<ButtonEnterEvent>([&](const ButtonEnterEvent & event) {
+		button_hover = true;
+		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
+		return false;
+	});
+	event_manager.subscribe<ButtonExitEvent>([&](const ButtonExitEvent & event) {
+		button_hover = false;
+		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
+		return false;
+	});
+	auto & button = button_obj.add_component<Button>(vec2 {100, 100}, vec2 {0, 0});
 	button.active = true;
 
 	// Mouse not on button
@@ -296,7 +315,7 @@ TEST_F(InputTest, testButtonHover) {
 	hover_event.motion.yrel = 10;
 	SDL_PushEvent(&hover_event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_TRUE(button.hover);
 	EXPECT_TRUE(button_hover);
@@ -310,7 +329,7 @@ TEST_F(InputTest, testButtonHover) {
 	event.motion.yrel = 10;
 	SDL_PushEvent(&event);
 
-	input_system.update();
+	input_system.fixed_update();
 	event_manager.dispatch_events();
 	EXPECT_FALSE(button.hover);
 	EXPECT_FALSE(button_hover);

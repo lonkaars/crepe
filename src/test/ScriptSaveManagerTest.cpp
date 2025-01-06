@@ -19,11 +19,11 @@ public:
 		using SaveManager::SaveManager;
 
 		// in-memory database for testing
-		DB db{};
+		DB db {};
 		virtual DB & get_db() override { return this->db; }
 	};
 
-	TestSaveManager save_mgr{mediator};
+	TestSaveManager save_mgr {mediator};
 };
 
 TEST_F(ScriptSaveManagerTest, GetSaveManager) {

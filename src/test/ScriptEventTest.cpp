@@ -23,7 +23,7 @@ class ScriptEventTest : public ScriptTest {
 public:
 	EventManager & event_manager = mediator.event_manager;
 
-	class MyEvent : public Event {};
+	struct MyEvent : public Event {};
 };
 
 TEST_F(ScriptEventTest, Default) {
@@ -37,7 +37,7 @@ TEST_F(ScriptEventTest, Default) {
 		return true;
 	});
 
-	system.update();
+	system.fixed_update();
 	behaviorscript.active = false;
 	EXPECT_EQ(0, event_count);
 

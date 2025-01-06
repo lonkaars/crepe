@@ -3,7 +3,7 @@
 #include <optional>
 #include <string>
 
-#include "../Component.h"
+#include "../types.h"
 
 #include "Asset.h"
 #include "Color.h"
@@ -19,22 +19,8 @@ class Text : public UIObject {
 public:
 	//! Text data that does not have to be set in the constructor
 	struct Data {
-		/**
-		 *  \brief fontsize for text rendering
-		 * 
-		 * \note this is not the actual font size that is loaded in.
-		 * 
-		 * Since SDL_TTF requires the font size when loading in the font it is not possible to switch the font size.
-		 * The default font size that is loaded is set in the Config.
-		 * Instead this value is used to upscale the font texture which can cause blurring or distorted text when upscaling or downscaling too much.
-		 */
-		unsigned int font_size = 16;
-
-		//! Layer sorting level of the text
-		const int sorting_in_layer = 0;
-
-		//! Order within the sorting text
-		const int order_in_layer = 0;
+		//! variable indicating if transform is relative to camera(false) or world(true)
+		bool world_space = false;
 
 		//! Label text color.
 		Color text_color = Color::BLACK;
@@ -50,8 +36,10 @@ public:
 	 * \param data Data struct containing extra text parameters.
 	 * \param font Optional font asset that can be passed or left empty.
 	 */
-	Text(game_object_id_t id, const vec2 & dimensions, const vec2 & offset,
-		 const std::string & font_family, const Data & data, const std::string & text = "");
+	Text(
+		game_object_id_t id, const vec2 & dimensions, const std::string & font_family,
+		const Data & data, const vec2 & offset = {0, 0}, const std::string & text = ""
+	);
 
 	//! Label text.
 	std::string text = "";

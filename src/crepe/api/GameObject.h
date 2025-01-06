@@ -6,7 +6,9 @@
 
 namespace crepe {
 
-class ComponentManager;
+class Mediator;
+class Transform;
+class Metadata;
 
 /**
  * \brief Represents a GameObject
@@ -20,7 +22,7 @@ private:
 	 * This constructor creates a new GameObject. It creates a new Transform and Metadata
 	 * component and adds them to the ComponentManager.
 	 *
-	 * \param component_manager Reference to component_manager
+	 * \param mediator Reference to mediator
 	 * \param id The id of the GameObject
 	 * \param name The name of the GameObject
 	 * \param tag The tag of the GameObject
@@ -28,11 +30,20 @@ private:
 	 * \param rotation The rotation of the GameObject
 	 * \param scale The scale of the GameObject
 	 */
-	GameObject(ComponentManager & component_manager, game_object_id_t id,
-			   const std::string & name, const std::string & tag, const vec2 & position,
-			   double rotation, double scale);
+	GameObject(
+		Mediator & mediator, game_object_id_t id, const std::string & name,
+		const std::string & tag, const vec2 & position, double rotation, double scale
+	);
 	//! ComponentManager instances GameObject
 	friend class ComponentManager;
+
+public:
+	//! The id of the GameObject
+	const game_object_id_t id;
+	//! This entity's transform
+	Transform & transform;
+	//! This entity's metadata
+	Metadata & metadata;
 
 public:
 	/**
@@ -68,12 +79,8 @@ public:
 	 */
 	void set_persistent(bool persistent = true);
 
-public:
-	//! The id of the GameObject
-	const game_object_id_t id;
-
 protected:
-	ComponentManager & component_manager;
+	Mediator & mediator;
 };
 
 } // namespace crepe

@@ -26,10 +26,10 @@ class RenderSystemTest : public Test {
 	Mediator m;
 
 public:
-	ComponentManager mgr{m};
-	SDLContext ctx{m};
-	ResourceManager resource_manager{m};
-	RenderSystem sys{m};
+	ComponentManager mgr {m};
+	SDLContext ctx {m};
+	ResourceManager resource_manager {m};
+	RenderSystem sys {m};
 	GameObject entity1 = this->mgr.new_object("name");
 	GameObject entity2 = this->mgr.new_object("name");
 	GameObject entity3 = this->mgr.new_object("name");
@@ -40,44 +40,52 @@ public:
 		auto s2 = Asset("asset/texture/img.png");
 		auto s3 = Asset("asset/texture/img.png");
 		auto s4 = Asset("asset/texture/img.png");
-		auto & sprite1
-			= entity1.add_component<Sprite>(s1, Sprite::Data{
-													.color = Color(0, 0, 0, 0),
-													.flip = Sprite::FlipSettings{false, false},
-													.sorting_in_layer = 5,
-													.order_in_layer = 5,
-													.size = {10, 10},
-												});
+		auto & sprite1 = entity1.add_component<Sprite>(
+			s1,
+			Sprite::Data {
+				.color = Color(0, 0, 0, 0),
+				.flip = Sprite::FlipSettings {false, false},
+				.sorting_in_layer = 5,
+				.order_in_layer = 5,
+				.size = {10, 10},
+			}
+		);
 
 		EXPECT_EQ(sprite1.data.order_in_layer, 5);
 		EXPECT_EQ(sprite1.data.sorting_in_layer, 5);
-		auto & sprite2
-			= entity2.add_component<Sprite>(s2, Sprite::Data{
-													.color = Color(0, 0, 0, 0),
-													.flip = Sprite::FlipSettings{false, false},
-													.sorting_in_layer = 2,
-													.order_in_layer = 1,
-												});
+		auto & sprite2 = entity2.add_component<Sprite>(
+			s2,
+			Sprite::Data {
+				.color = Color(0, 0, 0, 0),
+				.flip = Sprite::FlipSettings {false, false},
+				.sorting_in_layer = 2,
+				.order_in_layer = 1,
+			}
+		);
 		EXPECT_EQ(sprite2.data.sorting_in_layer, 2);
 		EXPECT_EQ(sprite2.data.order_in_layer, 1);
 
-		auto & sprite3
-			= entity3.add_component<Sprite>(s3, Sprite::Data{
-													.color = Color(0, 0, 0, 0),
-													.flip = Sprite::FlipSettings{false, false},
-													.sorting_in_layer = 1,
-													.order_in_layer = 2,
-												});
+		auto & sprite3 = entity3.add_component<Sprite>(
+			s3,
+			Sprite::Data {
+				.color = Color(0, 0, 0, 0),
+				.flip = Sprite::FlipSettings {false, false},
+				.sorting_in_layer = 1,
+				.order_in_layer = 2,
+			}
+		);
 		EXPECT_EQ(sprite3.data.sorting_in_layer, 1);
 		EXPECT_EQ(sprite3.data.order_in_layer, 2);
 
-		auto & sprite4
-			= entity4.add_component<Sprite>(s4, Sprite::Data{
-													.color = Color(0, 0, 0, 0),
-													.flip = Sprite::FlipSettings{false, false},
-													.sorting_in_layer = 1,
-													.order_in_layer = 1,
-												});
+		auto & sprite4 = entity4.add_component<Sprite>(
+			s4,
+			Sprite::Data {
+				.color = Color(0, 0, 0, 0),
+				.flip = Sprite::FlipSettings {false, false},
+				.sorting_in_layer = 1,
+				.order_in_layer = 1,
+			}
+		);
 		EXPECT_EQ(sprite4.data.sorting_in_layer, 1);
 		EXPECT_EQ(sprite4.data.order_in_layer, 1);
 	}
@@ -85,7 +93,7 @@ public:
 
 TEST_F(RenderSystemTest, NoCamera) {
 	// No camera
-	EXPECT_ANY_THROW({ this->sys.update(); });
+	EXPECT_ANY_THROW({ this->sys.frame_update(); });
 }
 
 TEST_F(RenderSystemTest, make_sprites) {}
@@ -128,8 +136,10 @@ TEST_F(RenderSystemTest, sorting_sprites) {
 }
 
 TEST_F(RenderSystemTest, Update) {
-	entity1.add_component<Camera>(ivec2{100, 100}, vec2{100, 100},
-								  Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+	entity1.add_component<Camera>(
+		ivec2 {100, 100}, vec2 {100, 100},
+		Camera::Data {.bg_color = Color::WHITE, .zoom = 1.0f}
+	);
 	{
 		vector<reference_wrapper<Sprite>> sprites = this->mgr.get_components_by_type<Sprite>();
 		ASSERT_EQ(sprites.size(), 4);
@@ -139,7 +149,7 @@ TEST_F(RenderSystemTest, Update) {
 		EXPECT_EQ(sprites[2].get().game_object_id, 2);
 		EXPECT_EQ(sprites[3].get().game_object_id, 3);
 	}
-	this->sys.update();
+	this->sys.frame_update();
 	{
 		vector<reference_wrapper<Sprite>> sprites = this->mgr.get_components_by_type<Sprite>();
 		ASSERT_EQ(sprites.size(), 4);
@@ -157,8 +167,10 @@ TEST_F(RenderSystemTest, Camera) {
 		EXPECT_NE(cameras.size(), 1);
 	}
 	{
-		entity1.add_component<Camera>(ivec2{100, 100}, vec2{100, 100},
-									  Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+		entity1.add_component<Camera>(
+			ivec2 {100, 100}, vec2 {100, 100},
+			Camera::Data {.bg_color = Color::WHITE, .zoom = 1.0f}
+		);
 
 		auto cameras = this->mgr.get_components_by_type<Camera>();
 		EXPECT_EQ(cameras.size(), 1);
@@ -167,8 +179,10 @@ TEST_F(RenderSystemTest, Camera) {
 	//TODO improve with newer version
 }
 TEST_F(RenderSystemTest, Color) {
-	entity1.add_component<Camera>(ivec2{100, 100}, vec2{100, 100},
-								  Camera::Data{.bg_color = Color::WHITE, .zoom = 1.0f});
+	entity1.add_component<Camera>(
+		ivec2 {100, 100}, vec2 {100, 100},
+		Camera::Data {.bg_color = Color::WHITE, .zoom = 1.0f}
+	);
 
 	auto & sprite = this->mgr.get_components_by_id<Sprite>(entity1.id).front().get();
 	//ASSERT_NE(sprite.texture.texture.get(), nullptr);
@@ -178,7 +192,7 @@ TEST_F(RenderSystemTest, Color) {
 	EXPECT_EQ(sprite.data.color.g, Color::GREEN.g);
 	EXPECT_EQ(sprite.data.color.b, Color::GREEN.b);
 	EXPECT_EQ(sprite.data.color.a, Color::GREEN.a);
-	this->sys.update();
+	this->sys.frame_update();
 	EXPECT_EQ(sprite.data.color.r, Color::GREEN.r);
 	EXPECT_EQ(sprite.data.color.g, Color::GREEN.g);
 	EXPECT_EQ(sprite.data.color.b, Color::GREEN.b);
