@@ -17,6 +17,7 @@
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
+#include <crepe/api/AudioSource.h>
 
 #include <crepe/manager/SaveManager.h>
 #include <crepe/ValueBroker.h>
@@ -28,72 +29,27 @@ using namespace std;
 void PreviewScene::load_scene() {
 	SaveManager & savemgr = this->get_save_manager();
 
-	ValueBroker player_x = savemgr.get<float>("player_x", 750);
-	ValueBroker player_y = savemgr.get<float>("player_y", 0);
-
 	GameObject cam = this->new_object("camera");
 	GameObject world = this->new_object("world", "TAG", vec2 {0, 0}, 0, 1);
-	GameObject background = this->new_object("background");
-	GameObject player
-		= this->new_object("player", "TAG", vec2 {player_x.get(), player_y.get()}, 0, 1);
 	GameObject missle = this->new_object("missle", "TAG", vec2 {0, 0}, 0, 1);
 	GameObject smoke = this->new_object("smoke_particle", "TAG", vec2 {-500, -210}, 0, 1);
 
 	// audio
 	Asset bg_audio {"assets/BGM/Music_Level.mp3"};
-	Asset sfx_audio {"assets/SFX/Barry/Player_bones.mp3"};
 
 	Asset start_begin_asset {"assets/Levels/Title/titleFG_1_TVOS.png"};
 	Asset start_middle_asset {"assets/Levels/Title/titleFG_2_TVOS.png"};
 	Asset hallway_begin_asset {"assets/Levels/Hallway1/hallway1FG_1_TVOS.png"};
 	Asset hallway_middle_asset {"assets/Levels/Hallway1/hallway1FG_2_TVOS.png"};
-	Asset player_body {"assets/Characters/Barry/defaultBody.png"};
-	Asset player_head {"assets/Characters/Barry/defaultHead.png"};
 	Asset missle_ss {"assets/Obstacles/Missile/missile.png"};
 	Asset smoke_ss {"assets/particles/smoke.png"};
 
 	cam.add_component<Camera>(ivec2 {1700, 720}, vec2 {2000, 800}, Camera::Data {});
-
 	auto & bg_music = background.add_component<AudioSource>(bg_audio);
 
 	bg_music.play_on_awake = true;
 
 	bg_music.volume = 0.5f;
-
-	background.add_component<Sprite>(
-		start_begin_asset,
-		Sprite::Data {
-			.order_in_layer = 1,
-			.size = vec2 {0, 800},
-			.position_offset = vec2 {-600, 0},
-		}
-	);
-
-	background.add_component<Sprite>(
-		start_middle_asset,
-		Sprite::Data {
-			.order_in_layer = 2,
-			.size = vec2 {0, 800},
-		}
-	);
-
-	background.add_component<Sprite>(
-		hallway_begin_asset,
-		Sprite::Data {
-			.order_in_layer = 1,
-			.size = vec2 {0, 800},
-			.position_offset = vec2 {100, 0},
-		}
-	);
-
-	background.add_component<Sprite>(
-		hallway_middle_asset,
-		Sprite::Data {
-			.order_in_layer = 2,
-			.size = vec2 {0, 800},
-			.position_offset = vec2 {600, 0},
-		}
-	);
 
 	world.add_component<Rigidbody>(Rigidbody::Data {
 		.body_type = Rigidbody::BodyType::STATIC,
@@ -102,48 +58,6 @@ void PreviewScene::load_scene() {
 
 	//bottom
 	world.add_component<BoxCollider>(vec2 {2000, 800}, vec2 {0, 600});
-
-	auto & player_head_sprite = player.add_component<Sprite>(
-		player_head,
-		Sprite::Data {
-			.sorting_in_layer = 1,
-			.order_in_layer = 1,
-			.size = vec2 {0, 100},
-		}
-	);
-	auto & player_head_anim = player.add_component<Animator>(
-		player_head_sprite, ivec2 {32, 32}, uvec2 {4, 8}, Animator::Data {}
-	);
-	player_head_anim.loop();
-
-	auto & player_body_sprite = player.add_component<Sprite>(
-		player_body,
-		Sprite::Data {
-			.sorting_in_layer = 1,
-			.order_in_layer = 0,
-			.size = vec2 {0, 100},
-			.position_offset = vec2 {0, 40},
-		}
-	);
-	auto & player_body_anim = player.add_component<Animator>(
-		player_body_sprite, ivec2 {32, 32}, uvec2 {4, 8}, Animator::Data {}
-	);
-	player_body_anim.loop();
-
-	player.add_component<BehaviorScript>().set_script<PlayerScript>();
-	player.add_component<AudioSource>(sfx_audio);
-	player.add_component<BoxCollider>(vec2 {50, 100});
-
-	player.add_component<Rigidbody>(Rigidbody::Data {
-		.mass = 10,
-		.gravity_scale = 1,
-		.body_type = Rigidbody::BodyType::DYNAMIC,
-		.linear_velocity = {0, 0},
-		.constraints = {0, 0, 0},
-		.elastisity_coefficient = 0,
-		.offset = {0, 0},
-		.collision_layers = {0},
-	});
 
 	auto & npc_body_sprite = npc.add_component<Sprite>(
 		npc_body,
