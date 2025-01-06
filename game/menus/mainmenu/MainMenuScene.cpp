@@ -1,16 +1,17 @@
 
 #include "MainMenuScene.h"
-#include "ButtonSubScene.h"
+#include "../ButtonSubScene.h"
 #include "TransitionStartScript.h"
 #include "api/BehaviorScript.h"
 #include "api/Camera.h"
-#include "../background/StartSubScene.h"
-#include "../background/HallwaySubScene.h"
+#include "../../background/StartSubScene.h"
+#include "../../background/HallwaySubScene.h"
 #include "MainMenuConfig.h"
 #include "api/GameObject.h"
 #include "api/Sprite.h"
 #include "manager/SaveManager.h"
-#include "../Config.h"
+#include "../../Config.h"
+#include "../MenusConfig.h"
 
 using namespace crepe;
 using namespace std;
@@ -18,7 +19,7 @@ using namespace std;
 void MainMenuScene::load_scene(){
 	ButtonSubScene button;
 
-	GameObject camera_object = this->new_object(MainMenuConfig::CAMERA_NAME);
+	GameObject camera_object = this->new_object(CAMERA_NAME);
 	camera_object.add_component<Camera>(ivec2(990, 720), vec2(1100, 800),
 	Camera::Data{
 		.bg_color = Color::RED,
@@ -27,16 +28,16 @@ void MainMenuScene::load_scene(){
 
 
 	//Button menu
-	GameObject menu_button = this->new_object(MainMenuConfig::MENU_BUTTON_NAME,MainMenuConfig::MENU_BUTTON_NAME,MainMenuConfig::MENU_OFFSET);
+	GameObject menu_button = this->new_object(MENU_BUTTON_NAME,MENU_BUTTON_NAME,MENU_OFFSET);
 	menu_button.add_component<Sprite>(
 		Asset("asset/ui/background.png"),
 		Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+0,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+0,
 		.size = {300,860},
-		.position_offset = MainMenuConfig::MENU_OFFSET_BUTTON_BACKGROUND,
+		.position_offset = MENU_OFFSET_BUTTON_BACKGROUND,
 		});
 
-	vec2 pos_btn = MainMenuConfig::MENU_OFFSET_BUTTON;
+	vec2 pos_btn = MENU_OFFSET_BUTTON;
 	
 	//Preview btn
 	button.create(*this,ButtonSubScene::Data{
@@ -47,7 +48,7 @@ void MainMenuScene::load_scene(){
 	});
 
 	//Shop btn
-	pos_btn.y += MainMenuConfig::MENU_BUTTON_SPACING + MainMenuConfig::LARGE_OVERLAY_SIZE.y;
+	pos_btn.y += MENU_BUTTON_SPACING + LARGE_OVERLAY_SIZE.y;
 	button.create(*this,ButtonSubScene::Data{
 		.text = "SHOP",
 		.text_offset = {-20,0},
@@ -61,18 +62,18 @@ void MainMenuScene::load_scene(){
 	//Start of map
 	StartSubScene start;
 	HallwaySubScene hallway;
-	float begin_x = start.create(*this, MainMenuConfig::STARTMAP_OFFSET);
+	float begin_x = start.create(*this, STARTMAP_OFFSET);
 	begin_x = hallway.create(*this, begin_x, 1, Color::YELLOW);
 
 
 	//INFO menu
-	GameObject menu_info = this->new_object("MENU_INFO_BACKGROUND",MainMenuConfig::MENU_INFO_TAG,MainMenuConfig::MENU_OFFSET);
+	GameObject menu_info = this->new_object("MENU_INFO_BACKGROUND",MENU_INFO_TAG,MENU_OFFSET);
 	menu_info.add_component<Sprite>(
 		Asset("asset/ui/itemsButtonBlankDark.png"),
 		Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+0,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+0,
 		.size = {250,80},
-		.position_offset = MainMenuConfig::MENU_OFFSET_INFO,
+		.position_offset = MENU_OFFSET_INFO,
 		.world_space = false,
 		});
 	SaveManager & savemgr = this->get_save_manager();
@@ -85,12 +86,12 @@ void MainMenuScene::load_scene(){
 		.text_width = amount_number*20,
 		.icon_offset = {60,0},
 		.icon_type = ButtonSubScene::IconSelect::COINS,
-		.position = MainMenuConfig::MENU_OFFSET_INFO,
+		.position = MENU_OFFSET_INFO,
 		.script_type = ButtonSubScene::ScriptSelect::SHOP,
 		.scale = 0.6,
 		.worldspace = false,
 		.color_side = false,
-		.tag = MainMenuConfig::MENU_INFO_TAG,
+		.tag = MENU_INFO_TAG,
 	});
 	
 }

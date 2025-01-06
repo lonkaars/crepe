@@ -1,16 +1,16 @@
 
 #include "ShopMenuScene.h"
-#include "ButtonSubScene.h"
+#include "../ButtonSubScene.h"
 #include "api/Camera.h"
-#include "MainMenuConfig.h"
+#include "../MenusConfig.h"
 #include "api/Sprite.h"
-#include "BannerSubScene.h"
+#include "../BannerSubScene.h"
 
 using namespace crepe;
 using namespace std;
 
 void ShopMenuScene::load_scene(){
-	GameObject camera_object = this->new_object(MainMenuConfig::CAMERA_NAME);
+	GameObject camera_object = this->new_object(CAMERA_NAME);
 	camera_object.add_component<Camera>(ivec2(990, 720), vec2(1100, 800),
 	Camera::Data{
 		.bg_color = Color::RED,
@@ -25,7 +25,7 @@ void ShopMenuScene::load_scene(){
 	menu_background.add_component<Sprite>(
 		Asset("asset/ui/background.png"),
 		Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+0,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+0,
 		.size = {1100,860},
 		.position_offset {0},
 		});

@@ -1,5 +1,5 @@
 #include "BannerSubScene.h"
-#include "MainMenuConfig.h"
+#include "MenusConfig.h"
 #include "../Config.h"
 
 
@@ -15,20 +15,20 @@ void BannerSubScene::create(Scene & scn,const Data & data){
 	menu_banner.add_component<Sprite>(
 		Asset("asset/ui/settings_container/top_middle_setting.png"),
 		Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+1,
 		.size = {1100,88},
 		});
 	menu_banner.add_component<Sprite>(
 		Asset("asset/ui/settings_container/top_2_middle_setting.png"),
 		Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+1,
 		.size = {1100,66},
 		.position_offset {0,77},
 		});
 	menu_banner.add_component<Sprite>(
 		Asset("asset/ui/settings_container/banner_bottom.png"),
 		Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+1,
 		.size = {1100,7},
 		.position_offset {0,113},
 		});

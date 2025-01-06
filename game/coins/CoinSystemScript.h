@@ -1,6 +1,7 @@
 #pragma once
 
-#include "CoinData.h"
+#include "types.h"
+#include <string>
 #include "api/CircleCollider.h"
 #include "api/Script.h"
 #include "api/Sprite.h"
@@ -8,6 +9,13 @@
 #include <random>
 
 class CoinSystemScript : public crepe::Script {
+private:
+	struct CoinData{
+		crepe::vec2 start_location = {0,0};
+		std::string name = "";
+		bool active = false;
+		CoinData(crepe::vec2 start_location) : start_location(start_location),name(""), active(false) {}
+	};
 public:
 	CoinSystemScript() {};
 	void init() override;

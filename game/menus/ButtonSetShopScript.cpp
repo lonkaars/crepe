@@ -1,6 +1,6 @@
 #include "ButtonSetShopScript.h"
-#include "MainMenuConfig.h"
 #include "iostream"
+#include "MenusConfig.h"
 
 using namespace crepe;
 using namespace std;
@@ -12,7 +12,7 @@ void ButtonSetShopScript::init(){
 }
 
 bool ButtonSetShopScript::on_button_press(const ButtonPressEvent& e){
-	this->set_next_scene(MainMenuConfig::SHOP_SCENE);
+	this->set_next_scene(SHOP_SCENE);
 	cout << "Start triggered:" << e.metadata.game_object_id << std::endl;
 	return false;
 }

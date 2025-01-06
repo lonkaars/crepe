@@ -22,16 +22,16 @@ add_executable(main
 	player/PlayerEndScript.cpp
 	background/StartSubScene.cpp
 	main.cpp
-	mainmenu/IButtonScript.cpp
-	mainmenu/ButtonSubScene.cpp
-	mainmenu/MainMenuScene.cpp
-	mainmenu/ITransitionScript.cpp
-	mainmenu/TransitionStartScript.cpp
-	mainmenu/ButtonTransitionPreviewScript.cpp
-	mainmenu/ShopMenuScene.cpp
-	mainmenu/BannerSubScene.cpp
-	mainmenu/ButtonSetShopScript.cpp
-	mainmenu/ButtonSetMainMenuScript.cpp
+	menus/BannerSubScene.cpp
+	menus/ButtonSubScene.cpp
+	menus/IButtonScript.cpp
+	menus/ButtonSetShopScript.cpp
+	menus/ButtonSetMainMenuScript.cpp
+	menus/shop/ShopMenuScene.cpp
+	menus/mainmenu/ButtonTransitionPreviewScript.cpp
+	menus/mainmenu/ITransitionScript.cpp
+	menus/mainmenu/MainMenuScene.cpp
+	menus/mainmenu/TransitionStartScript.cpp
 	coins/CoinSubScene.cpp
 	coins/CoinPool.cpp
 	coins/CoinSystemScript.cpp

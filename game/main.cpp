@@ -2,8 +2,9 @@
 #include <crepe/api/Script.h>
 
 #include "GameScene.h"
-#include "mainmenu/MainMenuScene.h"
-#include "mainmenu/ShopMenuScene.h"
+#include "menus/mainmenu/MainMenuScene.h"
+#include "menus/shop/ShopMenuScene.h"
+
 
 using namespace crepe;
 

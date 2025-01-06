@@ -1,11 +1,11 @@
 #include "ButtonSubScene.h"
 #include "ButtonSetMainMenuScript.h"
 #include "ButtonSetShopScript.h"
-#include "ButtonTransitionPreviewScript.h"
+#include "mainmenu/ButtonTransitionPreviewScript.h"
 #include "IButtonScript.h"
-#include "MainMenuConfig.h"
 #include "../Config.h"
 #include "api/Color.h"
+#include "MenusConfig.h"
 
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Sprite.h>
@@ -54,16 +54,16 @@ void ButtonSubScene::set_icon(crepe::GameObject & button_object,const Data & dat
 	switch (data.icon_type) {
 		case IconSelect::SHOP:
 			button_object.add_component<Sprite>(Asset("asset/ui/buttonCoinsSmall.png"),Sprite::Data{
-				.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+3,
-				.size = MainMenuConfig::ICON_SIZE,
+				.sorting_in_layer = STARTING_SORTING_IN_LAYER+3,
+				.size = ICON_SIZE,
 				.position_offset = data.icon_offset,
 				.world_space = data.worldspace,
 			});
 			break;
 		case IconSelect::COINS:
 			button_object.add_component<Sprite>(Asset("asset/ui/buttonCoinsSmall.png"),Sprite::Data{
-				.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+3,
-				.size = MainMenuConfig::ICON_SIZE,
+				.sorting_in_layer = STARTING_SORTING_IN_LAYER+3,
+				.size = ICON_SIZE,
 				.position_offset = data.icon_offset,
 				.world_space = data.worldspace,
 			});
@@ -86,42 +86,42 @@ void ButtonSubScene::set_button_overlay(crepe::GameObject & button_object,const 
 
 void ButtonSubScene::large_btn_overlay(crepe::GameObject & button_object,const Data & data){
 	button_object.add_component<Sprite>(Asset("asset/ui/buttonBacking.png"),Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
-		.size = MainMenuConfig::LARGE_OVERLAY_SIZE,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+1,
+		.size = LARGE_OVERLAY_SIZE,
 		.world_space = data.worldspace,
 	});
-	button_object.add_component<Button>(MainMenuConfig::LARGE_OVERLAY_SIZE,Button::Data{});
+	button_object.add_component<Button>(LARGE_OVERLAY_SIZE,Button::Data{});
 	if(!data.color_side) return;
 	this->btn_color_side(button_object,SIDE_PANEL_OFFSET,data);
 }
 
 void ButtonSubScene::small_btn_overlay(crepe::GameObject & button_object,const Data & data){
 	button_object.add_component<Sprite>(Asset("asset/ui/backbuttonright.png"),Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
-		.size = MainMenuConfig::SMALL_OVERLAY_SIZE_RIGHT,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+1,
+		.size = SMALL_OVERLAY_SIZE_RIGHT,
 		.position_offset = {20,0},
 		.world_space = data.worldspace,
 	});
 	button_object.add_component<Sprite>(Asset("asset/ui/backbuttonleft.png"),Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+1,
-		.size = MainMenuConfig::SMALL_OVERLAY_SIZE_LEFT,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+1,
+		.size = SMALL_OVERLAY_SIZE_LEFT,
 		.position_offset = {-80,0},
 		.world_space = data.worldspace,
 	});
-	button_object.add_component<Button>(vec2{MainMenuConfig::SMALL_OVERLAY_SIZE_LEFT.x+MainMenuConfig::SMALL_OVERLAY_SIZE_RIGHT.x,MainMenuConfig::SMALL_OVERLAY_SIZE_LEFT.y},Button::Data{});
+	button_object.add_component<Button>(vec2{SMALL_OVERLAY_SIZE_LEFT.x+SMALL_OVERLAY_SIZE_RIGHT.x,SMALL_OVERLAY_SIZE_LEFT.y},Button::Data{});
 }
 
 void ButtonSubScene::btn_color_side(crepe::GameObject & button_object,const vec2 & offset,const Data & data){
 	button_object.add_component<Sprite>(Asset("asset/ui/buttonSmallBlue.png"),Sprite::Data{
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+2,
-		.size = MainMenuConfig::SIDE_PANEL_SIZE,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+2,
+		.size = SIDE_PANEL_SIZE,
 		.position_offset = offset,
 		.world_space = data.worldspace,
 	});
 	button_object.add_component<Sprite>(Asset("asset/ui/buttonSmallBlue.png"),Sprite::Data{
 		.flip = {true,false},
-		.sorting_in_layer = MainMenuConfig::STARTING_SORTING_IN_LAYER+2,
-		.size = MainMenuConfig::SIDE_PANEL_SIZE,
+		.sorting_in_layer = STARTING_SORTING_IN_LAYER+2,
+		.size = SIDE_PANEL_SIZE,
 		.position_offset = {-offset.x,offset.y},
 		.world_space = data.worldspace,
 	});

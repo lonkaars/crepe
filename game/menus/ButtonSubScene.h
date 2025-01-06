@@ -2,7 +2,6 @@
 
 #include <crepe/api/GameObject.h>
 #include <string>
-#include "MainMenuConfig.h"
 
 namespace crepe {
 class Scene;
