@@ -57,7 +57,7 @@ void StartGameScript::fixed_update(crepe::duration_t dt) {
 
 		AudioSource & background_music
 			= this->get_components_by_name<AudioSource>("background_music").front();
-		//background_music.play(true);
+		background_music.play(true);
 
 		this->took_jetpack = true;
 	}
