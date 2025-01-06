@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <crepe/api/Vector2.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 
@@ -529,4 +530,13 @@ TEST_F(Vector2Test, Perpendicular) {
 	Vector2<float> result4 = vec4.perpendicular();
 	EXPECT_FLOAT_EQ(result4.x, -4.0f);
 	EXPECT_FLOAT_EQ(result4.y, 3.0f);
+}
+
+TEST_F(Vector2Test, Rotate) {
+	vec2 foo {0, 1};
+
+	foo = foo.rotate(90);
+	const float GOOD_ENOUGH = 0.001;
+	EXPECT_NEAR(foo.x, 1, GOOD_ENOUGH);
+	EXPECT_NEAR(foo.y, 0, GOOD_ENOUGH);
 }

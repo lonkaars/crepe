@@ -168,4 +168,14 @@ bool Vector2<T>::is_nan() const {
 	return std::isnan(x) && std::isnan(y);
 }
 
+template <class T>
+Vector2<T> Vector2<T>::rotate(float deg) const {
+	float rad = -deg / 180 * M_PI;
+	return {
+		x * std::cos(rad) - y * std::sin(rad),
+		x * std::sin(rad) + y * std::cos(rad),
+	};
+}
+
+
 } // namespace crepe

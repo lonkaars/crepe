@@ -30,5 +30,8 @@ public:
 	// crepe::BoxCollider & collider;
 
 private:
-	static constexpr int SCALE = 60;
+	static constexpr float SCALE = 0.8;
+
+public:
+	void place(const crepe::vec2 & position, float rotation, float length);
 };

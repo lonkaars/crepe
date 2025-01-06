@@ -1,3 +1,5 @@
+#include <crepe/api/Transform.h>
+
 #include "ZapperObject.h"
 #include "Config.h"
 
@@ -11,8 +13,7 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 			  Sprite::Data {
 				  .sorting_in_layer = SORT_IN_LAY_OBSTACLES,
 				  .order_in_layer = 1,
-				  .size = vec2 {0, 1} * SCALE,
-				  .position_offset = {0, 100},
+				  .size = vec2(0, 42) * SCALE,
 			  }
 		  ),
 		  .orb_end = add_component<Sprite>(
@@ -21,8 +22,7 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 				  .flip = {true, true},
 				  .sorting_in_layer = SORT_IN_LAY_OBSTACLES,
 				  .order_in_layer = 1,
-				  .size = vec2 {0, 1} * SCALE,
-				  .position_offset = {0, -100},
+				  .size = vec2(0, 42) * SCALE,
 			  }
 		  ),
 		  .glow_start = add_component<Sprite>(
@@ -30,8 +30,7 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 			  Sprite::Data {
 				  .sorting_in_layer = SORT_IN_LAY_OBSTACLES,
 				  .order_in_layer = -1,
-				  .size = vec2 {2, 2} * SCALE,
-				  .position_offset = {0, 100},
+				  .size = vec2(128, 128) * SCALE,
 			  }
 		  ),
 		  .glow_end = add_component<Sprite>(
@@ -40,8 +39,7 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 				  .flip = {true, true},
 				  .sorting_in_layer = SORT_IN_LAY_OBSTACLES,
 				  .order_in_layer = -1,
-				  .size = vec2 {2, 2} * SCALE,
-				  .position_offset = {0, -100},
+				  .size = vec2(128, 128) * SCALE,
 			  }
 		  ),
 		  .beam = add_component<Sprite>(
@@ -49,7 +47,7 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 			  Sprite::Data {
 				  .sorting_in_layer = SORT_IN_LAY_OBSTACLES,
 				  .order_in_layer = 0,
-				  .size = vec2 {200, 50},
+				  .size = vec2(0, 40 * SCALE),
 				  .angle_offset = 90,
 			  }
 		  ),
@@ -75,4 +73,21 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 		  .glow_end = add_component<Animator>(
 			  sprite.glow_end, ivec2(128, 128), uvec2(16, 1), animator.glow_start.data
 		  ),
-	  } {}
+		} {
+			this->place(this->transform.position, 0, 300);
+		}
+
+void ZapperObject::place(const crepe::vec2 & position, float rotation, float length) {
+	this->transform.position = position;
+	this->transform.rotation = rotation;
+
+	vec2 offset = vec2(0, 1) * length / 2;
+
+	this->sprite.orb_start.data.position_offset = offset;
+	this->sprite.glow_start.data.position_offset = offset;
+	this->sprite.orb_end.data.position_offset = -offset;
+	this->sprite.glow_end.data.position_offset = -offset;
+
+	this->sprite.beam.data.size.x = length;
+}
+
