@@ -1,6 +1,7 @@
 #include "PlayerEndScript.h"
 
 #include "../Config.h"
+#include "manager/LoopTimerManager.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/BoxCollider.h>
@@ -28,6 +29,8 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 		Rigidbody & rb_player = this->get_components_by_name<Rigidbody>("player").front();
 		Rigidbody & rb_camera = this->get_components_by_name<Rigidbody>("camera").front();
 
+		float dt = this->get_loop_timer().get_fixed_delta_time().count();
+
 		if (jump == 0) {
 			int random_number = rand() % 4;
 			for (Animator & anim : anim_player) {
@@ -44,7 +47,7 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 		}
 
 		if (jump == 0) {
-			rb_player.data.angular_velocity = 320;
+			rb_player.data.angular_velocity = 16000 * dt;
 			rb_player.data.angular_velocity_coefficient = 0.7;
 			jump++;
 		} else if (jump == 1) {
@@ -58,7 +61,7 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 
 			rb_player.data.angular_velocity = 0;
 			rb_player.data.elasticity_coefficient = 0;
-			rb_player.data.linear_velocity = vec2(PLAYER_SPEED, 0);
+			rb_player.data.linear_velocity = vec2(PLAYER_SPEED * dt, 0);
 			rb_player.data.linear_velocity_coefficient = vec2(0.5, 0.5);
 			rb_camera.data.linear_velocity_coefficient = vec2(0.5, 0.5);
 			for (Animator & anim : anim_player) {
