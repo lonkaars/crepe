@@ -28,9 +28,17 @@ void HudSubScene::create(Scene & scn){
 
 	// Coins
 	GameObject hud_coin = scn.new_object(HUD_COINS);
-	crepe::vec2 size = {COINS_CHAR_WIDTH*COINS_LENGTH,(COINS_CHAR_WIDTH)*2};
-	hud_coin.add_component<Text>(size, FONT,Text::Data{
+	crepe::vec2 size_coin = {COINS_CHAR_WIDTH*COINS_LENGTH,(COINS_CHAR_WIDTH)*2};
+	hud_coin.add_component<Text>(size_coin, FONT,Text::Data{
 		.world_space = false,
 		.text_color = Color::YELLOW,
 	}, TOP_LEFT+FONTOFFSET+COINS_OFFSET + vec2{COINS_LENGTH * COINS_CHAR_WIDTH/2,0}, COINS);
+
+	// Fps
+	GameObject hud_fps = scn.new_object(HUD_FPS);
+	crepe::vec2 size_fps = {FPS_CHAR_WIDTH*FPS_LENGTH,(FPS_CHAR_WIDTH)*2};
+	hud_fps.add_component<Text>(size_fps, FONT,Text::Data{
+		.world_space = false,
+		.text_color = Color::GREEN,
+	}, TOP_LEFT+FONTOFFSET+FPS_OFFSET + vec2{FPS_LENGTH * FPS_CHAR_WIDTH/2,0}, FPS);
 }
