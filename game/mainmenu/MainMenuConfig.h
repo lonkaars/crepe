@@ -27,7 +27,7 @@ struct MainMenuConfig {
 	static constexpr float END = 300;
 	static constexpr float VELOCITY_MAX = 200;
 	static constexpr float VELOCITY_STEP = 200;
-	static constexpr float VELOCITY_INFO_UP = 30;
+	static constexpr float VELOCITY_INFO_UP = 40;
 	//button config
 	static constexpr crepe::vec2 LARGE_OVERLAY_SIZE = {250,100};
 	static constexpr crepe::vec2 SMALL_OVERLAY_SIZE_RIGHT = {150,100};
