@@ -1,7 +1,6 @@
 #include "GameScene.h"
 #include "Config.h"
 #include "MoveCameraManualyScript.h"
-#include "PlayerSubScene.h"
 #include "StartGameScript.h"
 #include "coins/CoinSubScene.h"
 #include "coins/CoinPool.h"
@@ -11,6 +10,7 @@
 #include "hud/HudScript.h"
 #include "hud/HudSubScene.h"
 #include "hud/SpeedScript.h"
+#include "player/PlayerSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -84,6 +84,55 @@ void GameScene::load_scene() {
 	HudSubScene hud;
 	hud.create(*this);
 
+	// zapper, laser and missile (below) for testing purpose only!!!
+	GameObject zapper = new_object("zapper", "zapper", vec2(1000, 0));
+	Asset zapper_asset {"asset/obstacles/zapper/regular_zappers/zapEffect.png"};
+	Sprite & zapper_sprite = zapper.add_component<Sprite>(
+		zapper_asset,
+		Sprite::Data {
+			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
+			.order_in_layer = 0,
+			.size = vec2(100, 100),
+		}
+	);
+	zapper.add_component<Rigidbody>(Rigidbody::Data {
+		.body_type = Rigidbody::BodyType::KINEMATIC,
+		.kinematic_collision = false,
+		.collision_layer = COLL_LAY_ZAPPER,
+	});
+	zapper.add_component<BoxCollider>(vec2(100, 100));
+	GameObject laser = new_object("laser", "laser", vec2(2000, 0));
+	Asset laser_asset {"asset/obstacles/laser/laserPower.png"};
+	Sprite & laser_sprite = laser.add_component<Sprite>(
+		laser_asset,
+		Sprite::Data {
+			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
+			.order_in_layer = 0,
+			.size = vec2(100, 100),
+		}
+	);
+	laser.add_component<Rigidbody>(Rigidbody::Data {
+		.body_type = Rigidbody::BodyType::KINEMATIC,
+		.kinematic_collision = false,
+		.collision_layer = COLL_LAY_LASER,
+	});
+	laser.add_component<BoxCollider>(vec2(100, 100));
+	GameObject missile = new_object("missile", "missile", vec2(4000, 0));
+	Asset missile_asset {"asset/obstacles/missile/missile.png"};
+	Sprite & missile_sprite = missile.add_component<Sprite>(
+		missile_asset,
+		Sprite::Data {
+			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
+			.order_in_layer = 0,
+			.size = vec2(100, 100),
+		}
+	);
+	missile.add_component<Rigidbody>(Rigidbody::Data {
+		.body_type = Rigidbody::BodyType::KINEMATIC,
+		.kinematic_collision = false,
+		.collision_layer = COLL_LAY_MISSILE,
+	});
+	missile.add_component<BoxCollider>(vec2(100, 100));
 }
 
 string GameScene::get_name() const { return "scene1"; }
