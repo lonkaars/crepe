@@ -38,10 +38,8 @@ void AnimatorSystem::frame_update() {
 			}
 		}
 
-
 		ctx.row = ctx.cycle_start + a.frame;
 		a.spritesheet.mask.x = ctx.row * a.spritesheet.mask.w;
 		//a.spritesheet.mask.y = ctx.col * a.spritesheet.mask.y;
-
 	}
 }
