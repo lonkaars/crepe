@@ -70,7 +70,7 @@ void GameScene::load_scene() {
 
 	GameObject background_music = new_object("background_music", "audio", vec2(0, 0));
 	Asset background_music_asset {"asset/music/level.ogg"};
-	background_music.add_component<AudioSource>(background_music_asset).loop = true;
+	background_music.add_component<AudioSource>(background_music_asset);
 
 	GameObject boom_audio = new_object("boom_audio", "audio", vec2(0, 0));
 	Asset boom_audio_asset {"asset/sfx/window_smash.ogg"};
