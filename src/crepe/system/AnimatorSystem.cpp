@@ -34,14 +34,15 @@ void AnimatorSystem::frame_update() {
 		int total_frames = cycle_end - ctx.cycle_start;
 		int curr_cycle_frame = (a.frame - ctx.cycle_start) % total_frames;
 
+		if (!ctx.looping && a.frame >= cycle_end) {
+			a.active = false;
+			continue;
+		}
+
 		ctx.row = (ctx.cycle_start + curr_cycle_frame) % a.grid_size.x;
 		ctx.col = curr_cycle_frame / a.grid_size.x;
 
 		a.spritesheet.mask.x = ctx.row * a.spritesheet.mask.w;
 		a.spritesheet.mask.y = ctx.col * a.spritesheet.mask.y;
-
-		if (!ctx.looping && a.frame >= cycle_end) {
-			a.active = false;
-		}
 	}
 }

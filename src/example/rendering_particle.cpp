@@ -46,7 +46,7 @@ public:
 		game_object.add_component<Animator>(
 			test_sprite, ivec2 {56, 56}, uvec2 {4, 4},
 			Animator::Data {
-				.looping = true,
+				.looping = false,
 			}
 		);
 
