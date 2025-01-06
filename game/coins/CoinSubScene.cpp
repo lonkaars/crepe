@@ -26,10 +26,10 @@ int CoinSubScene::create(Scene & scn){
 		.kinematic_collision = false,
 		.collision_layers = {COLL_LAY_PLAYER},
 	});
-	coin.add_component<CircleCollider>(size.x / 2).active = false;
+	coin.add_component<CircleCollider>((size.x / 2)-3).active = false;
 	crepe::OptionalRef<crepe::Sprite> coin_sprite = coin.add_component<Sprite>(Asset{"asset/coin/coin1_TVOS.png"}, Sprite::Data{
-																   .sorting_in_layer = 100,
-																	 .order_in_layer = 100,
+																   .sorting_in_layer = SORT_IN_LAY_COINS,
+																	 .order_in_layer = 0,
 																   .size = size,
 															   });
 	coin_sprite->active = false;

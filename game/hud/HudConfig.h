@@ -5,6 +5,7 @@ static constexpr crepe::vec2 TOP_LEFT = {-530,-230};
 static constexpr const char* HUD_DISTANCE = "hud_distance";
 static constexpr const char* HUD_BEST = "hud_best";	
 static constexpr const char* HUD_COINS = "hud_coins";	
+static constexpr const char* HUD_FPS = "hud_fps";	
 
 // Distance
 static constexpr const char* DISTANCE_PLACEHOLDER = "0000m";
@@ -24,4 +25,10 @@ static constexpr const char* COINS = "0000";
 static constexpr int COINS_LENGTH = 4;
 static constexpr float COINS_CHAR_WIDTH = 10;
 static constexpr crepe::vec2 COINS_OFFSET = {0,50};
+
+// FPS
+static constexpr const char* FPS = "00";
+static constexpr int FPS_LENGTH = 2;
+static constexpr float FPS_CHAR_WIDTH = 10;
+static constexpr crepe::vec2 FPS_OFFSET = {1030,0};
 	
