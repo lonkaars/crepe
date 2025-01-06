@@ -18,9 +18,10 @@ add_executable(main
 	GameScene.cpp
 	background/HallwaySubScene.cpp
 	MoveCameraManualyScript.cpp
-	PlayerScript.cpp
-	PlayerSubScene.cpp
+	player/PlayerScript.cpp
+	player/PlayerSubScene.cpp
 	StartGameScript.cpp
+	player/PlayerEndScript.cpp
 	background/StartSubScene.cpp
 	main.cpp
 )
