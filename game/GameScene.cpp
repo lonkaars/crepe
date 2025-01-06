@@ -100,7 +100,7 @@ void GameScene::load_scene() {
 		.collision_layer = COLL_LAY_LASER,
 	});
 	laser.add_component<BoxCollider>(vec2(100, 100));
-	GameObject missile = new_object("missile", "missile", vec2(3000, 0));
+	GameObject missile = new_object("missile", "missile", vec2(4000, 0));
 	Asset missile_asset {"asset/obstacles/missile/missile.png"};
 	Sprite & missile_sprite = missile.add_component<Sprite>(
 		missile_asset,
