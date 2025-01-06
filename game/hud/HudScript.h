@@ -9,4 +9,5 @@ public:
 	void frame_update(crepe::duration_t dt) override;
 private:
 	crepe::SaveManager* savemgr;
+	bool show_fps = false;
 };
