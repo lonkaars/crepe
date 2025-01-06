@@ -1,10 +1,12 @@
 
 #include "ShopMenuScene.h"
+
 #include "../ButtonSubScene.h"
-#include "api/Camera.h"
 #include "../MenusConfig.h"
-#include "api/Sprite.h"
 #include "../BannerSubScene.h"
+
+#include <crepe/api/Camera.h>
+#include <crepe/api/Sprite.h>
 
 using namespace crepe;
 using namespace std;

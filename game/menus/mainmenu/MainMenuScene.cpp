@@ -1,17 +1,20 @@
 
 #include "MainMenuScene.h"
-#include "../ButtonSubScene.h"
 #include "TransitionStartScript.h"
-#include "api/BehaviorScript.h"
-#include "api/Camera.h"
+#include "MainMenuConfig.h"
+
+#include "../ButtonSubScene.h"
+#include "../MenusConfig.h"
+
 #include "../../background/StartSubScene.h"
 #include "../../background/HallwaySubScene.h"
-#include "MainMenuConfig.h"
-#include "api/GameObject.h"
-#include "api/Sprite.h"
-#include "manager/SaveManager.h"
 #include "../../Config.h"
-#include "../MenusConfig.h"
+
+#include <crepe/api/BehaviorScript.h>
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Sprite.h>
+#include <crepe/api/Camera.h>
+#include <crepe/manager/SaveManager.h>
 
 using namespace crepe;
 using namespace std;

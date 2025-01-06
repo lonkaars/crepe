@@ -1,7 +1,7 @@
 #include "BannerSubScene.h"
 #include "MenusConfig.h"
-#include "../Config.h"
 
+#include "../Config.h"
 
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Scene.h>

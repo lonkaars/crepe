@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.h"
+#include <crepe/types.h>
 #include <crepe/api/GameObject.h>
 
 namespace crepe {

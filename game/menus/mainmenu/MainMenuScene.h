@@ -6,6 +6,5 @@
 class MainMenuScene : public crepe::Scene {
 public:
 	void load_scene();
-
 	std::string get_name() const;
 };
