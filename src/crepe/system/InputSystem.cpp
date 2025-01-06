@@ -50,7 +50,7 @@ void InputSystem::handle_mouse_event(
 	EventManager & event_mgr = this->mediator.event_manager;
 	vec2 adjusted_mouse;
 	adjusted_mouse.x = event.data.mouse_data.mouse_position.x + camera_origin.x;
-	adjusted_mouse.x = event.data.mouse_data.mouse_position.y + camera_origin.y;
+	adjusted_mouse.y = event.data.mouse_data.mouse_position.y + camera_origin.y;
 	// Check if the mouse is within the viewport
 	if ((adjusted_mouse.x < camera_origin.x
 		 || adjusted_mouse.x > camera_origin.x + current_cam.viewport_size.x
@@ -95,7 +95,7 @@ void InputSystem::handle_mouse_event(
 				.mouse_pos = adjusted_mouse,
 				.mouse_delta = event.data.mouse_data.rel_mouse_move,
 			});
-			this->handle_move(event, adjusted_mouse);
+			this->handle_move(event, adjusted_mouse, current_cam);
 			break;
 
 		case EventType::MOUSE_WHEEL:
@@ -173,7 +173,8 @@ void InputSystem::handle_move(
 		const Metadata & metadata
 			= mgr.get_components_by_id<Metadata>(button.game_object_id).front();
 		bool was_hovering = button.hover;
-		if (this->is_mouse_inside_button(mouse_pos, button, transform)) {
+
+		if (this->is_mouse_inside_button(mouse_pos, button, transform, cam_transform)) {
 			button.hover = true;
 			if (!was_hovering) {
 				event_mgr.trigger_event<ButtonEnterEvent>(metadata, metadata.game_object_id);

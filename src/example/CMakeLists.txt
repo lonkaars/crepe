@@ -24,6 +24,7 @@ add_example(replay)
 add_example(loadfont)
 add_example(AITest)
 
+#[[
 set(preview_sources
 	preview.cpp
 	PreviewScenes/StartingScreen.cpp
@@ -31,3 +32,4 @@ set(preview_sources
 	PreviewScenes/Coin.cpp
 )
 add_example(preview ${preview_sources})
+]]

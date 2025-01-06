@@ -1,7 +1,5 @@
 target_sources(test_main PUBLIC
 	main.cpp
-
-#[[
 	CollisionTest.cpp
 	PhysicsTest.cpp
 	ScriptTest.cpp
@@ -22,6 +20,7 @@ target_sources(test_main PUBLIC
 	InputTest.cpp
 	ScriptEventTest.cpp
 	ScriptSceneTest.cpp
+	Profiling.cpp
 	SaveManagerTest.cpp
 	ScriptSaveManagerTest.cpp
 	ScriptECSTest.cpp
