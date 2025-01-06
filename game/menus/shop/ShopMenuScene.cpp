@@ -38,9 +38,9 @@ void ShopMenuScene::load_scene(){
 		.text_width = 115,
 		.position = {-400,-350},
 		.script_type = ButtonSubScene::ScriptSelect::MAINMENU,
-		.button_type = ButtonSubScene::ButtonSelect::SMALL,
+		.button_type = ButtonSubScene::ButtonSelect::BACK,
 		.scale = 0.8
 	});
 }
 
-string ShopMenuScene::get_name() const { return "shopmenu"; }
+string ShopMenuScene::get_name() const { return SHOP_SCENE; }

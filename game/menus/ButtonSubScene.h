@@ -25,7 +25,8 @@ public:
 	};
 	//icon enum
 	enum class ButtonSelect {
-		SMALL,
+		BACK,
+		NEXT,
 		LARGE,
 	};
 	//data struct
