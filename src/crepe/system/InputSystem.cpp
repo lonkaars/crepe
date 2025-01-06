@@ -1,8 +1,8 @@
 #include "../api/Button.h"
+#include "../api/Config.h"
 #include "../facade/SDLContext.h"
 #include "../manager/ComponentManager.h"
 #include "../manager/EventManager.h"
-#include "util/Log.h"
 
 #include "InputSystem.h"
 
@@ -213,7 +213,7 @@ bool InputSystem::is_mouse_inside_button(
 	const Transform & cam_transform
 ) {
 	vec2 actual_pos = transform.position + button.offset;
-	if (!button.world_space) {
+	if (!button.data.world_space) {
 		actual_pos += cam_transform.position;
 	}
 	vec2 half_dimensions = button.dimensions / 2;
