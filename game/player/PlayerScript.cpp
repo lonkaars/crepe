@@ -80,7 +80,7 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 
 	Rigidbody & rb = this->get_components_by_name<Rigidbody>("player").front();
 	if (this->get_key_state(Keycode::SPACE)) {
-		rb.add_force_linear(vec2(0, -PLAYER_GRAVITY_SCALE / 3));
+		rb.add_force_linear(vec2(0, -PLAYER_GRAVITY_SCALE / 2.5));
 		if (prev_anim != 1) {
 			for (Animator & anim : animators) {
 				anim.active = true;
