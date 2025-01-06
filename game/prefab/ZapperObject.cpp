@@ -1,6 +1,5 @@
 #include "ZapperObject.h"
 #include "Config.h"
-#include "ZapperScript.h"
 
 using namespace crepe;
 
@@ -67,14 +66,13 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 			  sprite.orb_end, ivec2(62, 42), uvec2(4, 1), animator.orb_start.data
 		  ),
 		  .glow_start = add_component<Animator>(
-			  sprite.glow_start, ivec2(128, 128), uvec2(4, 4),
+			  sprite.glow_start, ivec2(128, 128), uvec2(16, 1),
 			  Animator::Data {
 				  .fps = 30,
 				  .looping = true,
 			  }
 		  ),
 		  .glow_end = add_component<Animator>(
-			  sprite.glow_end, ivec2(128, 128), uvec2(4, 4), animator.glow_start.data
+			  sprite.glow_end, ivec2(128, 128), uvec2(16, 1), animator.glow_start.data
 		  ),
-	  },
-	  controller(add_component<BehaviorScript>().set_script<ZapperScript>(*this)) {}
+	  } {}

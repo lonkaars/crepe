@@ -1,7 +1,6 @@
 #pragma once
 
 #include <crepe/api/Animator.h>
-#include <crepe/api/BehaviorScript.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Rigidbody.h>
@@ -29,7 +28,6 @@ public:
 
 	// crepe::Rigidbody & body;
 	// crepe::BoxCollider & collider;
-	crepe::BehaviorScript & controller;
 
 private:
 	static constexpr int SCALE = 60;
