@@ -24,5 +24,4 @@ static constexpr const char* COINS = "0000";
 static constexpr int COINS_LENGTH = 4;
 static constexpr float COINS_CHAR_WIDTH = 10;
 static constexpr crepe::vec2 COINS_OFFSET = {0,50};
-
 	
