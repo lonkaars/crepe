@@ -9,6 +9,7 @@
 #include <cmath>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Asset.h>
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
@@ -66,6 +67,14 @@ void GameScene::load_scene() {
 
 	GameObject start_game_script = new_object("start_game_script", "script", vec2(0, 0));
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();
+
+	GameObject background_music = new_object("background_music", "audio", vec2(0, 0));
+	Asset background_music_asset {"asset/music/level.ogg"};
+	background_music.add_component<AudioSource>(background_music_asset).loop = true;
+
+	GameObject boom_audio = new_object("boom_audio", "audio", vec2(0, 0));
+	Asset boom_audio_asset {"asset/sfx/window_smash.ogg"};
+	boom_audio.add_component<AudioSource>(boom_audio_asset);
 
 	// zapper, laser and missile (below) for testing purpose only!!!
 	GameObject zapper = new_object("zapper", "zapper", vec2(1000, 0));
