@@ -157,24 +157,44 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 	player.add_component<AudioSource>(Asset("asset/sfx/dud_zapper_lp.ogg"));
 	player.add_component<AudioSource>(Asset("asset/sfx/dud_zapper_pop.ogg"));
 	player.add_component<AudioSource>(Asset("asset/sfx/dud_fire.ogg"));
-	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_01.ogg"));
-	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_02.ogg"));
-	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_03.ogg"));
-	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_04.ogg"));
-	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_05.ogg"));
-	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_06.ogg"));
-	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_07.ogg"));
-	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_08.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_01.ogg")).volume
+		= 0.1;
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_02.ogg")).volume
+		= 0.1;
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_03.ogg")).volume
+		= 0.1;
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_04.ogg")).volume
+		= 0.1;
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_05.ogg")).volume
+		= 0.1;
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_06.ogg")).volume
+		= 0.1;
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_07.ogg")).volume
+		= 0.1;
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_08.ogg")).volume
+		= 0.1;
 
 	GameObject player_audio = scn.new_object("player_audio", "player_audio", vec2(0, 0));
-	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_1.ogg"));
-	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_1.ogg"));
-	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_2.ogg"));
-	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_2.ogg"));
-	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_3.ogg"));
-	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_3.ogg"));
-	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_4.ogg"));
-	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_4.ogg"));
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_1.ogg")).volume
+		= 3.0;
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_1.ogg"))
+		.volume
+		= 3.0;
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_2.ogg")).volume
+		= 3.0;
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_2.ogg"))
+		.volume
+		= 3.0;
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_3.ogg")).volume
+		= 3.0;
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_3.ogg"))
+		.volume
+		= 3.0;
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_4.ogg")).volume
+		= 3.0;
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_4.ogg"))
+		.volume
+		= 3.0;
 
 	player_audio.add_component<BehaviorScript>().set_script<PlayerAudioScript>().active
 		= false;
