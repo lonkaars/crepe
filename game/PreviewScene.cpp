@@ -3,8 +3,10 @@
 #include "Config.h"
 #include "preview/PrevPlayerSubScene.h"
 #include "preview/NpcSubScene.h"
-#include "preview/MissleSubScene.h"
 #include "background/BackgroundSubScene.h"
+#include "preview/SmokeSubScene.h"
+
+#include "missile/MissileSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -25,6 +27,7 @@
 #include <crepe/manager/SaveManager.h>
 #include <crepe/ValueBroker.h>
 #include <crepe/types.h>
+#include <iostream>
 
 using namespace crepe;
 using namespace std;
@@ -71,12 +74,14 @@ void PreviewScene::load_scene() {
 		.body_type = Rigidbody::BodyType::STATIC,
 		.collision_layers = {0},
 	});
+
 	PrevPlayerSubScene player(*this);
+	NpcSubScene npc(*this);
+	SmokeSubScene smoke(*this);
+	MissileSubScene missile(*this);
+
 
 	/*
-	//bottom
-	world.add_component<BoxCollider>(vec2 {2000, 800}, vec2 {0, 600});
-
 	
 	for (int i = 0; i < 200; ++i) {
 		int row = i / 10;

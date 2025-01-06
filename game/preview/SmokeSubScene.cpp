@@ -1,6 +1,7 @@
 
 #include "SmokeSubScene.h"
 
+#include "../Config.h"
 
 #include <crepe/api/Scene.h>
 #include <crepe/api/ParticleEmitter.h>
@@ -9,14 +10,14 @@
 using namespace crepe;
 
 SmokeSubScene::SmokeSubScene(Scene & scn){
-	GameObject smoke = scn.new_object("smoke_particle", "TAG", vec2 {-500, -210}, 0, 1);
-	Asset smoke_ss {"assets/particles/smoke.png"};
+	GameObject smoke = scn.new_object("smoke_particle", "TAG", vec2 {500, -210}, 0, 1);
+
+	Asset smoke_ss {"asset/particles/smoke.png"};
 
 	auto & smoke_sprite = smoke.add_component<Sprite>(
 		smoke_ss,
 		Sprite::Data {
-			.sorting_in_layer = 10,
-			.order_in_layer = 10,
+			.sorting_in_layer = SORT_IN_LAY_PARTICLES_FOREGROUND,
 			.size = {0, 30},
 		}
 	);

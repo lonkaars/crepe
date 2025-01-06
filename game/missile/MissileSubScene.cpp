@@ -1,5 +1,5 @@
-#include "MissleSubScene.h"
-#include "MissleScript.h"
+#include "MissileSubScene.h"
+#include "../preview/MissleScript.h"
 
 #include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>
@@ -9,7 +9,7 @@
 
 using namespace crepe;
 
-MissleSubScene::MissleSubScene(Scene & scn){
+MissileSubScene::MissileSubScene(Scene & scn){
 
 	GameObject missle = scn.new_object("missle", "TAG", vec2 {0, 0}, 0, 1);
 	Asset missle_ss {"asset/obstacles/missile/missile.png"};
@@ -17,10 +17,11 @@ MissleSubScene::MissleSubScene(Scene & scn){
 	auto & missle_sprite = missle.add_component<Sprite>(
 		missle_ss,
 		Sprite::Data {
-			.order_in_layer = 5,
-			.size = {0, 50},
+			.sorting_in_layer = 10,
+			.size = {0, 35},
 		}
 	);
+
 	missle.add_component<Animator>(
 		missle_sprite, ivec2 {32, 32}, uvec2 {4, 1},
 		Animator::Data {

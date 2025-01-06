@@ -3,6 +3,8 @@
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/Camera.h>
 #include <crepe/manager/SaveManager.h>
+#include <iostream>
+#include <ostream>
 
 using namespace crepe;
 

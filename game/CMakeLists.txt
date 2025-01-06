@@ -17,9 +17,16 @@ add_executable(main
 	background/StartSubScene.cpp
 	PlayerSubScene.cpp
 
-	# preview subscenes
+	# preview
 	preview/PrevPlayerSubScene.cpp
 	preview/PrevPlayerScript.cpp
+	preview/NpcSubScene.cpp
+	preview/NpcScript.cpp
+	preview/SmokeSubScene.cpp
+	preview/MissleScript.cpp
+
+	# Missle
+	missile/MissileSubScene.cpp
 	
 	#scripts
 	MoveCameraManualyScript.cpp
