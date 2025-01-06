@@ -153,6 +153,11 @@ void HallwaySubScene::add_sector_number(
 	Animator & sector_num_anim = obj.add_component<Animator>(
 		sector_num_sprite, ivec2(256, 128), uvec2(4, 4), Animator::Data {}
 	);
-	sector_num_anim.data.frame++;
+	int column = (sector_num - 1) / 4;
+	int row = (sector_num - 1) % 4;
+	sector_num_anim.set_anim(column);
+	for (int i = 0; i < row; i++) {
+		sector_num_anim.next_anim();
+	}
 	sector_num_anim.pause();
 }
