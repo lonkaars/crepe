@@ -5,6 +5,7 @@
 #include "api/BehaviorScript.h"
 #include "api/Camera.h"
 #include "../background/StartSubScene.h"
+#include "../background/HallwaySubScene.h"
 #include "MainMenuConfig.h"
 #include "api/GameObject.h"
 #include "api/Sprite.h"
@@ -59,7 +60,10 @@ void MainMenuScene::load_scene(){
 	
 	//Start of map
 	StartSubScene start;
-	start.create(*this, MainMenuConfig::STARTMAP_OFFSET);
+	HallwaySubScene hallway;
+	float begin_x = start.create(*this, MainMenuConfig::STARTMAP_OFFSET);
+	begin_x = hallway.create(*this, begin_x, 1, Color::YELLOW);
+
 
 	//INFO menu
 	GameObject menu_info = this->new_object("MENU_INFO_BACKGROUND",MainMenuConfig::MENU_INFO_TAG,MainMenuConfig::MENU_OFFSET);
