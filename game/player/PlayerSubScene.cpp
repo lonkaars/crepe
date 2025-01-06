@@ -4,6 +4,7 @@
 #include "PlayerScript.h"
 
 #include "../Config.h"
+#include "api/Asset.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
@@ -152,6 +153,18 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 	});
 	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
 	player.add_component<BehaviorScript>().set_script<PlayerEndScript>().active = false;
+
+	player.add_component<AudioSource>(Asset("asset/sfx/dud_zapper_lp.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/dud_zapper_pop.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/dud_fire.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_01.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_02.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_03.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_04.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_05.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_06.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_07.ogg"));
+	player.add_component<AudioSource>(Asset("asset/sfx/jetpack_firecracker_lp_08.ogg"));
 
 	GameObject player_audio = scn.new_object("player_audio", "player_audio", vec2(0, 0));
 	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_1.ogg"));
