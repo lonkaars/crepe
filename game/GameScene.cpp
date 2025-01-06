@@ -10,6 +10,7 @@
 #include "hud/HudScript.h"
 #include "hud/HudSubScene.h"
 #include "hud/SpeedScript.h"
+#include "menus/endgame/EndGameSubScene.h"
 #include "player/PlayerSubScene.h"
 
 #include <cmath>
@@ -133,6 +134,10 @@ void GameScene::load_scene() {
 		.collision_layer = COLL_LAY_MISSILE,
 	});
 	missile.add_component<BoxCollider>(vec2(100, 100));
+
+
+	EndGameSubScene test;
+	test.create(*this);
 }
 
 string GameScene::get_name() const { return "scene1"; }

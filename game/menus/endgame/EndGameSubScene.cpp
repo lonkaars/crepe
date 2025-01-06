@@ -1,163 +1,62 @@
 
 #include "EndGameSubScene.h"
-
-#include "../MenusConfig.h"
+#include "../FloatingWindowSubScene.h"
+#include "../ButtonSubScene.h"
+#include <crepe/api/Text.h>
+#include <string>
+#include <crepe/api/GameObject.h>
+#include "types.h"
 #include "../../Config.h"
-#include "api/GameObject.h"
-#include "api/Scene.h"
-#include "api/Sprite.h"
-
-#include <crepe/api/Camera.h>
 
 using namespace crepe;
 using namespace std;
 
 void EndGameSubScene::create(Scene & scn){
-	const vec2 SIZE = {200,100};
-	const float THICKNESS_BANNER = 34;
-	const float MIDDLE_OFFSET_FACTOR_TICKNESS = 0.83;
-	const float MIDDLE_OFFSET_FACTOR_OFFSET = 1.2;
-	const float MIDDLE_OFFSET_TICKNESS_ADDITION = -8;
-	const float MIDDLE_OFFSET_OFFSET_ADDITION = -0.5;
-	const float BOTTOM_OFFSET_X = 3;
-	const float BOTTOM_OFFSET_Y = -5;
 
-	GameObject endgame = scn.new_object("EndGameSubScene");
+	// Window
+	FloatingWindowSubScene window;
+	window.create(scn, FloatingWindowSubScene::Data{
+		.group_tag = "end_game_window",
+		.width = 500,
+		.offset = {0,-50},
+		.width_middle_offset = -2,
+	});
 
-	// Top_middle
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_middle_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {SIZE.x,THICKNESS_BANNER},
-		.position_offset = {0,0},
-		});
+	// Titel
+	const string TITEL_STRING = "GAME OVER";
+	GameObject titel = scn.new_object("titel");
+	crepe::vec2 size = {200,(200.0f/TITEL_STRING.size())*2};
+	titel.add_component<Text>(size, FONT,Text::Data{
+		.world_space = false,
+		.text_color = Color::WHITE,
+	}, vec2{0,-207}+FONTOFFSET, TITEL_STRING);
 
-	// Top_Left
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_left_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER,THICKNESS_BANNER},
-		.position_offset = {-SIZE.x/2-THICKNESS_BANNER/2,0},
-		});
 
-	// Top_Right
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_right_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER,THICKNESS_BANNER},
-		.position_offset = {SIZE.x/2+THICKNESS_BANNER/2,0},
-		});
+	// Buttons
+	vec2 button_position = {190,190};
+	ButtonSubScene button;
+	button.create(scn,ButtonSubScene::Data{
+		.text = "NEXT",
+		.text_width = 100,
+		.position = button_position,
+		.script_type = ButtonSubScene::ScriptSelect::MAINMENU,
+		.button_type = ButtonSubScene::ButtonSelect::NEXT,
+		.scale = 0.6,
+		.worldspace = false,
+		.sorting_layer_offset = 20,
+	});
 
-	// Top_middle_2
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_2_middle_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {SIZE.x,THICKNESS_BANNER},
-		.position_offset = {0,THICKNESS_BANNER},
-		});
+	button.create(scn,ButtonSubScene::Data{
+		.text = "REPLAY",
+		.text_width = 150,
+		.position = {-button_position.x,button_position.y},
+		.script_type = ButtonSubScene::ScriptSelect::MAINMENU,
+		.button_type = ButtonSubScene::ButtonSelect::BACK,
+		.scale = 0.6,
+		.worldspace = false,
+		.sorting_layer_offset = 20,
+	});
 
-	// Top_Left_2
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_2_left_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER,THICKNESS_BANNER},
-		.position_offset = {-SIZE.x/2-THICKNESS_BANNER/2,THICKNESS_BANNER},
-		});
-
-	// Top_Right_2
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_2_right_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER,THICKNESS_BANNER},
-		.position_offset = {SIZE.x/2+THICKNESS_BANNER/2,THICKNESS_BANNER},
-		});
-
-	// Top_middle_3
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_3_middle_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {SIZE.x,THICKNESS_BANNER},
-		.position_offset = {0,THICKNESS_BANNER*2},
-		});
-
-	// Top_Left_3
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_3_left_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER,THICKNESS_BANNER},
-		.position_offset = {-SIZE.x/2-THICKNESS_BANNER/2,THICKNESS_BANNER*2},
-		});
-
-	// Top_Right_3
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/top_3_right_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER,THICKNESS_BANNER},
-		.position_offset = {SIZE.x/2+THICKNESS_BANNER/2,THICKNESS_BANNER*2},
-		});
-
-	// Middle_Mid
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/middle_mid_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+7,
-		.size = {SIZE.x*MIDDLE_OFFSET_FACTOR_OFFSET+MIDDLE_OFFSET_TICKNESS_ADDITION,SIZE.y},
-		.position_offset = {0,THICKNESS_BANNER*3+SIZE.y/2-THICKNESS_BANNER/2},
-		});
-
-	// Middle_Left
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/middle_left_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER*MIDDLE_OFFSET_FACTOR_TICKNESS,SIZE.y},
-		.position_offset = {-SIZE.x/2-THICKNESS_BANNER/2*MIDDLE_OFFSET_FACTOR_OFFSET-MIDDLE_OFFSET_OFFSET_ADDITION,THICKNESS_BANNER*3+SIZE.y/2-THICKNESS_BANNER/2},
-		});
-
-	// Middle_Right
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/middle_right_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER*MIDDLE_OFFSET_FACTOR_TICKNESS,SIZE.y},
-		.position_offset = {SIZE.x/2+THICKNESS_BANNER/2*MIDDLE_OFFSET_FACTOR_OFFSET+MIDDLE_OFFSET_OFFSET_ADDITION,THICKNESS_BANNER*3+SIZE.y/2-THICKNESS_BANNER/2},
-		});
-
-	// Bot_Middle
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/bot_middle_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+7,
-		.size = {SIZE.x*MIDDLE_OFFSET_FACTOR_OFFSET+MIDDLE_OFFSET_TICKNESS_ADDITION,THICKNESS_BANNER*MIDDLE_OFFSET_FACTOR_TICKNESS},
-		.position_offset = {0,THICKNESS_BANNER*3+SIZE.y-5},
-		});
-
-	// Bot_Left
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/bot_left_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER*MIDDLE_OFFSET_FACTOR_TICKNESS,THICKNESS_BANNER*MIDDLE_OFFSET_FACTOR_TICKNESS},
-		.position_offset = {-SIZE.x/2-THICKNESS_BANNER/2-BOTTOM_OFFSET_X,THICKNESS_BANNER*3+SIZE.y+BOTTOM_OFFSET_Y},
-		});
-
-	// Bot_Right
-	endgame.add_component<Sprite>(
-		Asset("asset/ui/settings_container/bot_right_setting.png"),
-		Sprite::Data{
-		.sorting_in_layer = STARTING_SORTING_IN_LAYER+8,
-		.size = {THICKNESS_BANNER*MIDDLE_OFFSET_FACTOR_TICKNESS,THICKNESS_BANNER*MIDDLE_OFFSET_FACTOR_TICKNESS},
-		.position_offset = {SIZE.x/2+THICKNESS_BANNER/2+BOTTOM_OFFSET_X,THICKNESS_BANNER*3+SIZE.y+BOTTOM_OFFSET_Y},
-		});
 }
 
 

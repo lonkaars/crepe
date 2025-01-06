@@ -5,8 +5,6 @@
 #include "api/Rigidbody.h"
 #include "api/Scene.h"
 #include "api/AudioSource.h"
-#include <concepts>
-#include <iostream>
 #include "CoinScript.h"
 #include "../Config.h"
 
@@ -18,7 +16,6 @@ int CoinSubScene::create(Scene & scn){
 
 	static int coin_counter = 0;
 	string unique_name = "coin_" + to_string(coin_counter++);
-	cout << "new coin: "<< unique_name << endl;
 
 	GameObject coin = scn.new_object(unique_name.c_str(),"coin",vec2{650,0},0,1);
 	coin.add_component<Rigidbody>(Rigidbody::Data{

@@ -43,12 +43,14 @@ public:
 		const bool worldspace = true;
 		const bool color_side = true;
 		const std::string & tag = "";
+		const int sorting_layer_offset = 0;
 	};
 public:
 	void create(crepe::Scene & scn,const Data & data);
 private:
 	void large_btn_overlay(crepe::GameObject & button_object,const Data & data);
-	void small_btn_overlay(crepe::GameObject & button_object,const Data & data);
+	void back_btn_overlay(crepe::GameObject & button_object,const Data & data);
+	void next_btn_overlay(crepe::GameObject & button_object,const Data & data);
 	void btn_color_side(crepe::GameObject & button_object,const crepe::vec2 & offset,const Data & data);
 	void btn_text(crepe::GameObject & button_object,const Data & data);
 	void set_script(crepe::GameObject & button_object,const Data & data);
