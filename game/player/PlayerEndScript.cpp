@@ -50,6 +50,12 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 		} else if (jump == 1) {
 			jump++;
 		} else if (jump == 2) {
+			RefVector<Rigidbody> rb_back_forest
+				= this->get_components_by_tag<Rigidbody>("forest_background");
+			for (Rigidbody & rb : rb_back_forest) {
+				rb.data.linear_velocity_coefficient = vec2(0.5, 0.5);
+			}
+
 			rb_player.data.angular_velocity = 0;
 			rb_player.data.elasticity_coefficient = 0;
 			rb_player.data.linear_velocity = vec2(PLAYER_SPEED, 0);
