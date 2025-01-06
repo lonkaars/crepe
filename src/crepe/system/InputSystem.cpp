@@ -216,8 +216,8 @@ bool InputSystem::is_mouse_inside_button(
 	if (!button.data.world_space) {
 		actual_pos += cam_transform.position;
 	}
-	vec2 half_dimensions = button.dimensions / 2;
-
+	vec2 half_dimensions = button.dimensions * transform.scale / 2;
+	
 	return mouse_pos.x >= actual_pos.x - half_dimensions.x
 		   && mouse_pos.x <= actual_pos.x + half_dimensions.x
 		   && mouse_pos.y >= actual_pos.y - half_dimensions.y
