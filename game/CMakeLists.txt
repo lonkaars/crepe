@@ -32,6 +32,7 @@ add_executable(main
 	menus/mainmenu/ITransitionScript.cpp
 	menus/mainmenu/MainMenuScene.cpp
 	menus/mainmenu/TransitionStartScript.cpp
+	menus/endgame/EndGameSubScene.cpp
 	coins/CoinSubScene.cpp
 	coins/CoinPool.cpp
 	coins/CoinSystemScript.cpp

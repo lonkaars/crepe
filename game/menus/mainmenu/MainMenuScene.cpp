@@ -10,6 +10,8 @@
 #include "../../background/HallwaySubScene.h"
 #include "../../Config.h"
 
+#include "../endgame/EndGameSubScene.h"
+
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Sprite.h>
@@ -97,6 +99,9 @@ void MainMenuScene::load_scene(){
 		.tag = MENU_INFO_TAG,
 	});
 	
+	EndGameSubScene test;
+	test.create(*this);
+
 }
 
-string MainMenuScene::get_name() const { return "mainmenu"; }
+string MainMenuScene::get_name() const { return MAINMENU_SCENE; }

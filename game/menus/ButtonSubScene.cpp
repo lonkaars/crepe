@@ -80,7 +80,10 @@ void ButtonSubScene::set_button_overlay(crepe::GameObject & button_object,const 
 		case ButtonSelect::LARGE:
 			this->large_btn_overlay(button_object,data);
 			break;
-		case ButtonSelect::SMALL:
+		case ButtonSelect::BACK:
+			this->small_btn_overlay(button_object,data);
+			break;
+		case ButtonSelect::NEXT:
 			this->small_btn_overlay(button_object,data);
 			break;
 	}
