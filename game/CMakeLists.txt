@@ -15,7 +15,6 @@ add_executable(main
 	background/ForestSubScene.cpp
 	background/HallwaySubScene.cpp
 	background/StartSubScene.cpp
-	PlayerSubScene.cpp
 
 	# preview
 	preview/PrevPlayerSubScene.cpp
@@ -27,13 +26,14 @@ add_executable(main
 
 	# Missle
 	missile/MissileSubScene.cpp
+	missile/CollisionScript.cpp
 	
 	#scripts
 	MoveCameraManualyScript.cpp
 	player/PlayerScript.cpp
 	player/PlayerSubScene.cpp
 	background/ForestParallaxScript.cpp
-	PlayerScript.cpp
+
 	StartGameScript.cpp
 	player/PlayerEndScript.cpp
 

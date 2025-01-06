@@ -78,7 +78,7 @@ void PreviewScene::load_scene() {
 	PrevPlayerSubScene player(*this);
 	NpcSubScene npc(*this);
 	SmokeSubScene smoke(*this);
-	MissileSubScene missile(*this);
+	MissileSubScene missile(*this, vec2{500,0});
 
 
 	/*
