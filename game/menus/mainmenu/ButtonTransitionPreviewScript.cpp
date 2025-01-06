@@ -1,5 +1,5 @@
 #include "ButtonTransitionPreviewScript.h"
-#include "MainMenuConfig.h"
+#include "../MenusConfig.h"
 #include "iostream"
 
 using namespace crepe;
@@ -20,5 +20,5 @@ bool ButtonTransitionPreviewScript::on_button_press(const ButtonPressEvent& e){
 
 const char* ButtonTransitionPreviewScript::get_scene_name() const {
     // Provide the next scene defined in MainMenuConfig
-    return MainMenuConfig::PREVIEW_SCENE;
+    return PREVIEW_SCENE;
 }

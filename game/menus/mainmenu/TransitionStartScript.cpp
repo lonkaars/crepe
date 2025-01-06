@@ -1,6 +1,5 @@
 #include "TransitionStartScript.h"
-#include "MainMenuConfig.h"
-#include "api/Event.h"
+#include "../MenusConfig.h"
 #include "iostream"
 
 using namespace crepe;
@@ -17,5 +16,5 @@ void TransitionStartScript::fixed_update(crepe::duration_t dt){
 
 const char* TransitionStartScript::get_scene_name() const {
     // Provide the next scene defined in MainMenuConfig
-    return MainMenuConfig::START_SCENE;
+    return START_SCENE;
 }

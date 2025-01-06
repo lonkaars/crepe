@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IButtonScript.h"
+#include "../IButtonScript.h"
 #include "ITransitionScript.h"
 
 class ButtonTransitionPreviewScript : public ITransitionScript, public IButtonScript {
