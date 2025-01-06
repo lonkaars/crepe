@@ -30,9 +30,12 @@ add_executable(main
 	
 	#scripts
 	MoveCameraManualyScript.cpp
+	player/PlayerScript.cpp
+	player/PlayerSubScene.cpp
 	background/ForestParallaxScript.cpp
 	PlayerScript.cpp
 	StartGameScript.cpp
+	player/PlayerEndScript.cpp
 
 	#scenes
 	GameScene.cpp
