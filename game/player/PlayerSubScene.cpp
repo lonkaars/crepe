@@ -1,10 +1,12 @@
 #include "PlayerSubScene.h"
+#include "PlayerAudioScript.h"
 #include "PlayerEndScript.h"
 #include "PlayerScript.h"
 
 #include "../Config.h"
 
 #include <crepe/api/Animator.h>
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/CircleCollider.h>
 #include <crepe/api/GameObject.h>
@@ -150,4 +152,17 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 	});
 	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
 	player.add_component<BehaviorScript>().set_script<PlayerEndScript>().active = false;
+
+	GameObject player_audio = scn.new_object("player_audio", "player_audio", vec2(0, 0));
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_1.ogg"));
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_1.ogg"));
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_2.ogg"));
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_2.ogg"));
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_3.ogg"));
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_3.ogg"));
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_left_4.ogg"));
+	player_audio.add_component<AudioSource>(Asset("asset/sfx/barefoot_step_right_4.ogg"));
+
+	player_audio.add_component<BehaviorScript>().set_script<PlayerAudioScript>().active
+		= false;
 }

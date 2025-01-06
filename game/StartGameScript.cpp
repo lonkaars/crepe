@@ -1,5 +1,6 @@
 #include "StartGameScript.h"
 #include "Config.h"
+#include "api/BehaviorScript.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
@@ -39,6 +40,10 @@ void StartGameScript::fixed_update(crepe::duration_t dt) {
 			= this->get_components_by_name<AudioSource>("boom_audio").front();
 		boom_audio.play();
 
+		BehaviorScript & player_audio_script
+			= this->get_components_by_name<BehaviorScript>("player_audio").front();
+		player_audio_script.active = true;
+
 		this->created_hole = true;
 	}
 
@@ -52,7 +57,7 @@ void StartGameScript::fixed_update(crepe::duration_t dt) {
 
 		AudioSource & background_music
 			= this->get_components_by_name<AudioSource>("background_music").front();
-		background_music.play(true);
+		//background_music.play(true);
 
 		this->took_jetpack = true;
 	}
