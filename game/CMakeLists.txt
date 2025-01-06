@@ -16,6 +16,10 @@ add_executable(main
 	background/HallwaySubScene.cpp
 	background/StartSubScene.cpp
 	PlayerSubScene.cpp
+
+	# preview subscenes
+	preview/PrevPlayerSubScene.cpp
+	preview/PrevPlayerScript.cpp
 	
 	#scripts
 	MoveCameraManualyScript.cpp

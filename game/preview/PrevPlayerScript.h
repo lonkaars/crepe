@@ -6,7 +6,7 @@
 #include <crepe/api/Animator.h>
 #include <crepe/api/Sprite.h>
 
-class PlayerScript : public crepe::Script {
+class PrevPlayerScript : public crepe::Script {
 private:
 	crepe::OptionalRef<crepe::Animator> head_anim;
 	crepe::OptionalRef<crepe::Animator> body_anim;

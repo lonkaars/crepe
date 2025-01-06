@@ -1,4 +1,4 @@
-#include "PlayerScript.h"
+#include "PrevPlayerScript.h"
 
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/Camera.h>
@@ -6,7 +6,7 @@
 
 using namespace crepe;
 
-bool PlayerScript::key_pressed(const KeyPressEvent & ev) {
+bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 	switch (ev.key) {
 		case Keycode::A:
 			this->get_component<Rigidbody>().data.linear_velocity.x = -move_speed;
@@ -102,7 +102,7 @@ bool PlayerScript::key_pressed(const KeyPressEvent & ev) {
 	return false;
 }
 
-void PlayerScript::init() {
+void PrevPlayerScript::init() {
 	auto animations = this->get_components<Animator>();
 	body_anim = animations[0];
 	head_anim = animations[1];
@@ -116,7 +116,7 @@ void PlayerScript::init() {
 	});
 };
 
-void PlayerScript::fixed_update(crepe::duration_t dt) {
+void PrevPlayerScript::fixed_update(crepe::duration_t dt) {
 	auto & savemgr = this->get_save_manager();
 	const auto & pos = this->get_component<Transform>().position;
 
