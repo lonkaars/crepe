@@ -1,17 +1,19 @@
 #include "ButtonSubScene.h"
 #include "ButtonSetMainMenuScript.h"
 #include "ButtonSetShopScript.h"
-#include "mainmenu/ButtonTransitionPreviewScript.h"
 #include "IButtonScript.h"
-#include "../Config.h"
-#include "api/Color.h"
 #include "MenusConfig.h"
+
+#include "mainmenu/ButtonTransitionPreviewScript.h"
+
+#include "../Config.h"
 
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Button.h>
 #include <crepe/api/Text.h>
+#include <crepe/api/Color.h>
 
 using namespace crepe;
 using namespace std;

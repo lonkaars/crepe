@@ -1,7 +1,8 @@
 #pragma once
 
-#include <crepe/api/Scene.h>
 #include <string>
+
+#include <crepe/api/Scene.h>
 
 class ShopMenuScene : public crepe::Scene {
 public:

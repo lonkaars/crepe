@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IButtonScript.h"
+
 #include <crepe/api/Script.h>
 
 class ButtonSetShopScript : public IButtonScript {

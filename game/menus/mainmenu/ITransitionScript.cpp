@@ -1,9 +1,11 @@
 #include "ITransitionScript.h"
-#include "api/Transform.h"
-#include <crepe/api/Camera.h>
 #include "MainMenuConfig.h"
+
 #include "../MenusConfig.h"
-#include "types.h"
+
+#include <crepe/types.h>
+#include <crepe/api/Transform.h>
+#include <crepe/api/Camera.h>
 
 using namespace crepe;
 using namespace std;

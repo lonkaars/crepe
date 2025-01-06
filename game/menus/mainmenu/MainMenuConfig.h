@@ -1,5 +1,5 @@
 #pragma once
-#include "types.h"
+#include <crepe/types.h>
 
 //main menu config
 static constexpr float STARTMAP_OFFSET = 50;
