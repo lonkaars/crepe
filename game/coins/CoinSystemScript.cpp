@@ -5,7 +5,6 @@
 #include "api/Sprite.h"
 #include "api/Transform.h"
 #include <random>
-#include "iostream"
 
 using namespace crepe;
 using namespace std;
@@ -239,10 +238,7 @@ void CoinSystemScript::generate_locations(){
 
 	std::uniform_real_distribution<float> space_dist(SPAWN_SPACING_MIN, SPAWN_SPACING_MAX);
 	float spacing = space_dist(engine);
-
-
-	cout << "selected " << selected_index << std::endl;
-	cout << "spacing " << spacing << std::endl;
+	
 	// Call the corresponding function and return the new x position
 	this->system_position += functions[selected_index]({this->system_position,0});
 	this->system_position += spacing;
