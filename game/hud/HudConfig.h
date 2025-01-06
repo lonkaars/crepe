@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 
-static constexpr crepe::vec2 TOP_LEFT = {-530,-380};
+static constexpr crepe::vec2 TOP_LEFT = {-530,-230};
 static constexpr const char* HUD_DISTANCE = "hud_distance";
 static constexpr const char* HUD_BEST = "hud_best";	
 static constexpr const char* HUD_COINS = "hud_coins";	
