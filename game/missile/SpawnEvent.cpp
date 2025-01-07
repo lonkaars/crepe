@@ -34,7 +34,6 @@ bool MissileSpawnEventHandler::on_event(const MissileSpawnEvent & ev) {
 		if (!mbs[i].get().active) {
 			mbs[i].get().active = true;
 
-			mas[i*2].get().active = true;
 			mas[i*2].get().play(true);
 
 			mt[i].get().position.x = cam.position.x + this->MISSILE_OFFSET;
