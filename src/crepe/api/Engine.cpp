@@ -50,7 +50,7 @@ void Engine::loop() {
 		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
 			try {
 				systems.fixed_update();
-				this->loop_timer.advance_fixed_elapsed_time();
+				timer.advance_fixed_elapsed_time();
 			} catch (const exception & e) {
 				Log::logf(
 					Log::Level::WARNING, "Uncaught exception in fixed update function: {}",
@@ -61,7 +61,7 @@ void Engine::loop() {
 
 		try {
 			systems.frame_update();
-			this->loop_timer.enforce_frame_rate();
+			timer.enforce_frame_rate();
 		} catch (const exception & e) {
 			Log::logf(
 				Log::Level::WARNING, "Uncaught exception in frame update function: {}",
