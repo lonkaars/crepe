@@ -14,10 +14,6 @@ void ButtonSetMainMenuScript::init(){
 bool ButtonSetMainMenuScript::on_button_press(const ButtonPressEvent& e){
 	RefVector<AudioSource> audios = this->get_components_by_name<AudioSource>("background_music");
 	
-	for (AudioSource & audio : audios) {
-		audio.stop();
-	}
-
 	this->set_next_scene(MAINMENU_SCENE);
 	return false;
 }

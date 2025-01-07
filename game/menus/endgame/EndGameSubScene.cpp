@@ -45,7 +45,7 @@ void EndGameSubScene::create(Scene & scn){
 		.text = "NEXT",
 		.text_width = 100,
 		.position = button_position,
-		.script_type = ButtonSubScene::ScriptSelect::MAINMENU,
+		.script_type = ButtonSubScene::ScriptSelect::NEXT,
 		.button_type = ButtonSubScene::ButtonSelect::NEXT,
 		.scale = 0.6,
 		.worldspace = false,
