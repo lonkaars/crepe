@@ -11,10 +11,9 @@
 using namespace crepe;
 using namespace std;
 
-int CoinSubScene::create(Scene & scn){
+int CoinSubScene::create(Scene & scn,int coin_counter){
 	vec2 size = {20, 20};
 
-	static int coin_counter = 0;
 	string unique_name = "coin_" + to_string(coin_counter++);
 
 	GameObject coin = scn.new_object(unique_name.c_str(),"coin",vec2{650,0},0,1);

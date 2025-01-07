@@ -94,7 +94,7 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 			this->trigger_event<EndGameEvent>();
 		}
 
-		return true;
+		return false;
 	}
 
 	return false;

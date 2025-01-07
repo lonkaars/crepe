@@ -10,11 +10,11 @@ using namespace crepe;
 using namespace std;
 
 bool CoinScript::on_collision(const CollisionEvent & collisionData){
-	if(collisionData.info.other.metadata.tag != "coin") return true;
+	if(collisionData.info.other.metadata.tag != "coin") return false;
 	this->get_components_by_name<Sprite>(collisionData.info.other.metadata.name).front().get().active = false;
 	this->get_components_by_name<CircleCollider>(collisionData.info.other.metadata.name).front().get().active = false;
 	this->amount++;
-	return true;
+	return false;
 }
 
 void CoinScript::init(){
