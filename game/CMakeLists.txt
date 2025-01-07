@@ -20,6 +20,7 @@ add_executable(main
 	player/PlayerSubScene.cpp
 	StartGameScript.cpp
 	player/PlayerEndScript.cpp
+	player/PlayerAudioScript.cpp
 	background/StartSubScene.cpp
 	main.cpp
 )
