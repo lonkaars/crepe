@@ -98,9 +98,6 @@ void MainMenuScene::load_scene(){
 		.color_side = false,
 		.tag = MENU_INFO_TAG,
 	});
-	
-	EndGameSubScene test;
-	test.create(*this);
 
 }
 

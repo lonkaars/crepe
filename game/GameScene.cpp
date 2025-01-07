@@ -11,6 +11,7 @@
 #include "hud/HudSubScene.h"
 #include "hud/SpeedScript.h"
 #include "menus/endgame/EndGameSubScene.h"
+#include "menus/endgame/EndGameSubScript.h"
 #include "player/PlayerSubScene.h"
 
 #include <cmath>
@@ -135,9 +136,8 @@ void GameScene::load_scene() {
 	});
 	missile.add_component<BoxCollider>(vec2(100, 100));
 
-
-	EndGameSubScene test;
-	test.create(*this);
+	EndGameSubScene endgamewindow;
+	endgamewindow.create(*this);
 }
 
 string GameScene::get_name() const { return "scene1"; }

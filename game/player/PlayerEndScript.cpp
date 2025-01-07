@@ -1,6 +1,7 @@
 #include "PlayerEndScript.h"
 
 #include "../Config.h"
+#include "../Events.h"
 #include "manager/LoopTimerManager.h"
 
 #include <crepe/api/Animator.h>
@@ -87,6 +88,10 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 				}
 			}
 			jump++;
+		}
+
+		if(rb_player.data.linear_velocity.x < 5){
+			this->trigger_event<EndGameEvent>();
 		}
 
 		return true;

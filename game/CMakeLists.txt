@@ -28,12 +28,14 @@ add_executable(main
 	menus/ButtonSetShopScript.cpp
 	menus/ButtonSetMainMenuScript.cpp
 	menus/FloatingWindowSubScene.cpp
+	menus/IFloatingWindowScript.cpp
 	menus/shop/ShopMenuScene.cpp
 	menus/mainmenu/ButtonTransitionPreviewScript.cpp
 	menus/mainmenu/ITransitionScript.cpp
 	menus/mainmenu/MainMenuScene.cpp
 	menus/mainmenu/TransitionStartScript.cpp
 	menus/endgame/EndGameSubScene.cpp
+	menus/endgame/EndGameSubScript.cpp
 	coins/CoinSubScene.cpp
 	coins/CoinPool.cpp
 	coins/CoinSystemScript.cpp
