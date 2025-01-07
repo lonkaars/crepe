@@ -25,9 +25,9 @@ int MissileSubScene::create(crepe::Scene & scn) {
 	Asset missile_fire {"asset/sfx/missile_launch.ogg"};
 
 	missle.add_component<BehaviorScript>().set_script<MissleScript>().active = false;
-	missle.add_component<BehaviorScript>().set_script<MissileCollisionScript>().active = false;
 
 	auto & sound = missle.add_component<AudioSource>(missile_fire);
+	sound.volume = 0.1;
 	missle.add_component<AudioSource>(explosion_sound);
 
 	// sprites
