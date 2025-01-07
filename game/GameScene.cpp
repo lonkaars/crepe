@@ -20,7 +20,7 @@
 #include "StartGameScript.h"
 
 #include "background/BackgroundSubScene.h"
-#include "prefab/PlayerObject.h"
+#include "PlayerSubScene.h"
 #include "prefab/ZapperObject.h"
 
 using namespace crepe;
@@ -41,7 +41,7 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 
-	PlayerObject {new_object("player", "player", vec2(-100, 200))};
+	PlayerSubScene player(*this);
 
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data {

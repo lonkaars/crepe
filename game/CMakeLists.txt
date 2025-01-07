@@ -15,6 +15,8 @@ target_sources(main PUBLIC
 	GameScene.cpp
 	MoveCameraManualyScript.cpp
 	StartGameScript.cpp
+	PlayerScript.cpp
+	PlayerSubScene.cpp
 	main.cpp
 )
 
