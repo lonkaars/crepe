@@ -42,7 +42,7 @@ private:
 	std::vector<int> weights = {20, 20,20,20, 20};
 	std::random_device rd;
 	std::default_random_engine engine;
-	float system_position = 1200;
+	float system_position = 1400;
 	static constexpr float SYSTEM_POSITION_OFFSET = 200;
 private:
 	static constexpr float SPAWN_SPACING_MIN = 400;
