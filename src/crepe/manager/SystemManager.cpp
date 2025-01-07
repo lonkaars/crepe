@@ -31,31 +31,17 @@ SystemManager::SystemManager(Mediator & mediator) : Manager(mediator) {
 	this->mediator.system_manager = *this;
 }
 
-void SystemManager::fixed_update() noexcept {
-	for (SystemEntry & entry : this->system_order) {
-		if (!entry.system.active) continue;
-		try {
-			entry.system.fixed_update();
-		} catch (const exception & e) {
-			Log::logf(
-				Log::Level::WARNING, "Uncaught exception in {} fixed update: {}", entry.name,
-				e.what()
-			);
-		}
+void SystemManager::fixed_update() {
+	for (System & system : this->system_order) {
+		if (!system.active) continue;
+		system.fixed_update();
 	}
 }
 
-void SystemManager::frame_update() noexcept {
-	for (SystemEntry & entry : this->system_order) {
-		if (!entry.system.active) continue;
-		try {
-			entry.system.frame_update();
-		} catch (const exception & e) {
-			Log::logf(
-				Log::Level::WARNING, "Uncaught exception in {} frame update: {}", entry.name,
-				e.what()
-			);
-		}
+void SystemManager::frame_update() {
+	for (System & system : this->system_order) {
+		if (!system.active) continue;
+		system.frame_update();
 	}
 }
 

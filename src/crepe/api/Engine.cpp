@@ -1,6 +1,3 @@
-#include <segvcatch.h>
-
-#include "../facade/SignalCatch.h"
 #include "../util/Log.h"
 
 #include "Engine.h"
@@ -9,8 +6,6 @@ using namespace crepe;
 using namespace std;
 
 int Engine::main() noexcept {
-	SignalCatch signal_catch;
-
 	try {
 		this->setup();
 	} catch (const exception & e) {
@@ -50,23 +45,23 @@ void Engine::loop() {
 		while (timer.get_lag() >= timer.get_fixed_delta_time()) {
 			try {
 				systems.fixed_update();
-				timer.advance_fixed_elapsed_time();
 			} catch (const exception & e) {
 				Log::logf(
-					Log::Level::WARNING, "Uncaught exception in fixed update function: {}",
+					Log::Level::WARNING, "Uncaught exception in fixed update function: {}\n",
 					e.what()
 				);
 			}
+			timer.advance_fixed_elapsed_time();
 		}
 
 		try {
 			systems.frame_update();
-			timer.enforce_frame_rate();
 		} catch (const exception & e) {
 			Log::logf(
-				Log::Level::WARNING, "Uncaught exception in frame update function: {}",
+				Log::Level::WARNING, "Uncaught exception in frame update function: {}\n",
 				e.what()
 			);
 		}
+		timer.enforce_frame_rate();
 	}
 }

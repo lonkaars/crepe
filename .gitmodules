@@ -30,6 +30,3 @@
 	path = lib/fontconfig
 	url = https://gitlab.freedesktop.org/fontconfig/fontconfig.git
 	shallow = true
-[submodule "lib/segvcatch/lib"]
-	path = lib/segvcatch/lib
-	url = https://github.com/Plaristote/segvcatch

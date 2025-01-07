@@ -32,29 +32,10 @@ void ScriptSystem::update(
 		if (script == nullptr) continue;
 
 		if (!script->initialized) {
-			try {
-				script->init();
-				script->initialized = true;
-			} catch (const exception & e) {
-				Log::logf(
-					Log::Level::WARNING,
-					"Disabled script \"{}\" due to exception in init function: {}",
-					behavior_script.name, e.what()
-				);
-				behavior_script.active = false;
-			}
+			script->init();
+			script->initialized = true;
 		}
 
-		try {
-			(*script.*update_function)(delta_time);
-		} catch (const exception & e) {
-			// TODO: discern between fixed/frame update
-			Log::logf(
-				Log::Level::WARNING,
-				"Disabled script \"{}\" due to exception in update function: {}",
-				behavior_script.name, e.what()
-			);
-			behavior_script.active = false;
-		}
+		(*script.*update_function)(delta_time);
 	}
 }
