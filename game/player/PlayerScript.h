@@ -13,4 +13,5 @@ private:
 
 private:
 	int prev_anim = 0;
+	int current_jetpack_sound = 0;
 };

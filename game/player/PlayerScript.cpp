@@ -3,6 +3,7 @@
 #include "../Config.h"
 
 #include <crepe/api/Animator.h>
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Transform.h>
@@ -36,6 +37,10 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		}
 		play_scr.active = false;
 		end_scr.active = true;
+
+		AudioSource & audio = this->get_components_by_name<AudioSource>("player").at(0);
+		audio.play();
+
 		return true;
 	} else if (ev.info.other.metadata.tag == "laser") {
 		for (Animator & anim : animators) {
@@ -49,6 +54,10 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		}
 		play_scr.active = false;
 		end_scr.active = true;
+
+		AudioSource & audio = this->get_components_by_name<AudioSource>("player").at(1);
+		audio.play();
+
 		return true;
 	} else if (ev.info.other.metadata.tag == "missile") {
 		for (Animator & anim : animators) {
@@ -62,6 +71,10 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		}
 		play_scr.active = false;
 		end_scr.active = true;
+
+		AudioSource & audio = this->get_components_by_name<AudioSource>("player").at(2);
+		audio.play();
+
 		return true;
 	}
 
@@ -91,6 +104,15 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 			for (ParticleEmitter & emitter : emitters) {
 				emitter.data.emission_rate = 30;
 			}
+		}
+
+		AudioSource & audio = this->get_components_by_name<AudioSource>("player").at(
+			3 + current_jetpack_sound
+		);
+		audio.play();
+		current_jetpack_sound++;
+		if (current_jetpack_sound > 7) {
+			current_jetpack_sound = 0;
 		}
 	} else if (transform.position.y == 195) {
 		if (prev_anim != 0) {
