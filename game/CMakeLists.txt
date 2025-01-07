@@ -24,7 +24,7 @@ add_executable(main
 	background/StartSubScene.cpp
 	workers/WorkersSubScene.cpp
 	workers/WorkerScript.cpp
-	workers/PanicFromPlayer.cpp
+	workers/PanicFromPlayerScript.cpp
 	main.cpp
 )
 

@@ -1,5 +1,5 @@
 #include "WorkersSubScene.h"
-#include "PanicFromPlayer.h"
+#include "PanicFromPlayerScript.h"
 #include "WorkerScript.h"
 
 #include "../Config.h"
@@ -69,7 +69,7 @@ void WorkersSubScene::worker1(crepe::Scene & scn, float start_x, float init_spee
 		.linear_velocity = vec2(init_speed, 0),
 		.collision_layers = {COLL_LAY_BOT_TOP},
 	});
-	worker_1.add_component<BehaviorScript>().set_script<PanicFromPlayer>();
+	worker_1.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
 
 	if (init_speed < 0) {
 		worker_1_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -117,7 +117,7 @@ void WorkersSubScene::worker2(crepe::Scene & scn, float start_x, float init_spee
 		.linear_velocity = vec2(init_speed, 0),
 		.collision_layers = {COLL_LAY_BOT_TOP},
 	});
-	worker_2.add_component<BehaviorScript>().set_script<PanicFromPlayer>();
+	worker_2.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
 
 	if (init_speed < 0) {
 		worker_2_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -165,7 +165,7 @@ void WorkersSubScene::worker3(crepe::Scene & scn, float start_x, float init_spee
 		.linear_velocity = vec2(init_speed, 0),
 		.collision_layers = {COLL_LAY_BOT_TOP},
 	});
-	worker_3.add_component<BehaviorScript>().set_script<PanicFromPlayer>();
+	worker_3.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
 
 	if (init_speed < 0) {
 		worker_3_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -213,7 +213,7 @@ void WorkersSubScene::worker4(crepe::Scene & scn, float start_x, float init_spee
 		.linear_velocity = vec2(init_speed, 0),
 		.collision_layers = {COLL_LAY_BOT_HIGH},
 	});
-	worker_4.add_component<BehaviorScript>().set_script<PanicFromPlayer>();
+	worker_4.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
 
 	if (init_speed < 0) {
 		worker_4_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -261,7 +261,7 @@ void WorkersSubScene::worker5(crepe::Scene & scn, float start_x, float init_spee
 		.linear_velocity = vec2(init_speed, 0),
 		.collision_layers = {COLL_LAY_BOT_HIGH},
 	});
-	worker_5.add_component<BehaviorScript>().set_script<PanicFromPlayer>();
+	worker_5.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
 
 	if (init_speed < 0) {
 		worker_5_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -309,7 +309,7 @@ void WorkersSubScene::worker6(crepe::Scene & scn, float start_x, float init_spee
 		.linear_velocity = vec2(init_speed, 0),
 		.collision_layers = {COLL_LAY_BOT_LOW},
 	});
-	worker_6.add_component<BehaviorScript>().set_script<PanicFromPlayer>();
+	worker_6.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
 
 	if (init_speed < 0) {
 		worker_6_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -357,7 +357,7 @@ void WorkersSubScene::worker7(crepe::Scene & scn, float start_x, float init_spee
 		.linear_velocity = vec2(init_speed, 0),
 		.collision_layers = {COLL_LAY_BOT_LOW},
 	});
-	worker_7.add_component<BehaviorScript>().set_script<PanicFromPlayer>();
+	worker_7.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
 
 	if (init_speed < 0) {
 		worker_7_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -405,7 +405,7 @@ void WorkersSubScene::worker8(crepe::Scene & scn, float start_x, float init_spee
 		.linear_velocity = vec2(init_speed, 0),
 		.collision_layers = {COLL_LAY_BOT_LOW},
 	});
-	worker_8.add_component<BehaviorScript>().set_script<PanicFromPlayer>();
+	worker_8.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
 
 	if (init_speed < 0) {
 		worker_8_body_sprite.data.flip = Sprite::FlipSettings {true, false};

@@ -1,4 +1,4 @@
-#include "PanicFromPlayer.h"
+#include "PanicFromPlayerScript.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/Rigidbody.h>
@@ -9,7 +9,7 @@
 using namespace crepe;
 using namespace std;
 
-void PanicFromPlayer::fixed_update(duration_t dt) {
+void PanicFromPlayerScript::fixed_update(duration_t dt) {
 	Animator & anim_player = this->get_components_by_name<Animator>("player").front();
 
 	if (anim_player.data.col == 1) {
