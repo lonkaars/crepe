@@ -27,6 +27,8 @@ add_executable(main
 	# Missle
 	missile/MissileSubScene.cpp
 	missile/CollisionScript.cpp
+	missile/MissilePool.cpp
+	missile/SpawnEvent.cpp
 	
 	#scripts
 	MoveCameraManualyScript.cpp

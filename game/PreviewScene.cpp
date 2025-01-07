@@ -1,6 +1,8 @@
 #include "PreviewScene.h"
 
 #include "Config.h"
+#include "missile/MissilePool.h"
+#include "missile/SpawnEvent.h"
 #include "preview/PrevPlayerSubScene.h"
 #include "preview/NpcSubScene.h"
 #include "background/BackgroundSubScene.h"
@@ -44,6 +46,7 @@ void PreviewScene::load_scene() {
 		}
 	);
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
+	camera.add_component<BehaviorScript>().set_script<MissileSpawnEventHandler>();
 
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data {
@@ -78,8 +81,7 @@ void PreviewScene::load_scene() {
 	PrevPlayerSubScene player(*this);
 	NpcSubScene npc(*this);
 	SmokeSubScene smoke(*this);
-	MissileSubScene missile(*this, vec2{500,0});
-
+	MissilePool mpool(*this);
 
 	/*
 	

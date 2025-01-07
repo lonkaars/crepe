@@ -4,7 +4,6 @@
 
 class MissileCollisionScript : public crepe::Script {
 private:
-	bool alive = true;
 	bool on_collision(const crepe::CollisionEvent & ev);
 public:
 	void init();

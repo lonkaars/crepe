@@ -2,27 +2,33 @@
 #include "../Config.h"
 #include "../preview/MissleScript.h"
 #include "CollisionScript.h"
-#include "api/CircleCollider.h"
-#include "types.h"
 
 #include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/BehaviorScript.h>
+#include <crepe/api/CircleCollider.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 
-MissileSubScene::MissileSubScene(crepe::Scene & scn, const crepe::vec2 & start_pos) {
+int MissileSubScene::create(crepe::Scene & scn) {
 
-	GameObject missle = scn.new_object("missle", "TAG", start_pos, 0, 1);
+	GameObject missle = scn.new_object("missile", "TAG", {0, 0}, 0, 1);
 
 	Asset missle_ss {"asset/obstacles/missile/missile.png"};
 	Asset missle_thruster_ss {"asset/obstacles/missile/missileEffects.png"};
 	Asset missile_explosion_ss {"asset/obstacles/missile/missileExplosion.png"};
+	Asset explosion_sound {"asset/sfx/rocket_explode_1.ogg"};
+	Asset missile_fire {"asset/sfx/missile_launch.ogg"};
 
-	missle.add_component<BehaviorScript>().set_script<MissleScript>();
-	missle.add_component<BehaviorScript>().set_script<MissileCollisionScript>();
+	missle.add_component<BehaviorScript>().set_script<MissleScript>().active = false;
+	missle.add_component<BehaviorScript>().set_script<MissileCollisionScript>().active = false;
+
+	auto & sound = missle.add_component<AudioSource>(missile_fire);
+	missle.add_component<AudioSource>(explosion_sound);
 
 	// sprites
 	auto & missle_sprite = missle.add_component<Sprite>(
@@ -68,7 +74,7 @@ MissileSubScene::MissileSubScene(crepe::Scene & scn, const crepe::vec2 & start_p
 	);
 
 	auto & explosion_anim = missle.add_component<Animator>(
-		missle_thruster_sprite, ivec2 {64, 64}, uvec2 {8, 1}, Animator::Data {}
+		missile_explosion_sprite, ivec2 {64, 64}, uvec2 {8, 1}, Animator::Data {}
 	);
 
 	missile_explosion_sprite.active = false;
@@ -79,9 +85,13 @@ MissileSubScene::MissileSubScene(crepe::Scene & scn, const crepe::vec2 & start_p
 		.max_linear_velocity = 40,
 		.kinematic_collision = false,
 		.collision_layers = {COLL_LAY_PLAYER},
+		.collision_layer = COLL_LAY_MISSILE,
 	});
 
-	missle.add_component<CircleCollider>(2);
+	missle.add_component<CircleCollider>(3);
 
 	auto & missle_ai = missle.add_component<AI>(1000);
+
+	static int missile_counter = 0;
+	return missile_counter++;
 }

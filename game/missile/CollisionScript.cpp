@@ -2,6 +2,7 @@
 
 #include "CollisionScript.h"
 #include "api/Animator.h"
+#include "api/AudioSource.h"
 #include "api/BehaviorScript.h"
 #include "api/Rigidbody.h"
 #include "api/Sprite.h"
@@ -11,8 +12,6 @@
 
 using namespace crepe;
 
-
-
 void MissileCollisionScript::init() {
 	subscribe<CollisionEvent>([this](const CollisionEvent & ev) -> bool {
 		return this->on_collision(ev);
@@ -20,9 +19,11 @@ void MissileCollisionScript::init() {
 }
 
 bool MissileCollisionScript::on_collision(const CollisionEvent & ev){
-	if (!this->alive) return true;
 	auto animations = this->get_components<Animator>();
 	auto sprites = this->get_components<Sprite>();
+	auto & explosion_sound  = this->get_components<AudioSource>().back().get();
+	auto & this_script = this->get_components<BehaviorScript>().back().get();
+	this_script.active = false;
 
 	for (auto & sprite : sprites) {
 		sprite.get().active ^= 1;
@@ -32,15 +33,11 @@ bool MissileCollisionScript::on_collision(const CollisionEvent & ev){
 		anim.get().active ^= 1;
 	}
 
-	animations[2].get().set_anim(0);
-	animations[2].get().play();
-	this->alive = false;
+	explosion_sound.play();
 	return true;
 }
 
 void MissileCollisionScript::fixed_update(duration_t dt) {
-	if (!this->alive) return;
-
 	auto & rb = this->get_component<Rigidbody>();
 	auto & transform = this->get_component<Transform>();
 

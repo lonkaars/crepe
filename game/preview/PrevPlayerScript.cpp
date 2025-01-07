@@ -1,5 +1,7 @@
 #include "PrevPlayerScript.h"
 
+#include "../missile/SpawnEvent.h"
+#include "api/Transform.h"
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/Camera.h>
 #include <crepe/manager/SaveManager.h>
@@ -78,20 +80,23 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 			this->get_components_by_name<Camera>("camera").front().get().data.zoom += 0.01;
 			break;
 		case Keycode::J:
-			this->get_components_by_name<Camera>("camera").front().get().data.postion_offset.x
+			this->get_components_by_name<Transform>("camera").front().get().position.x
 				-= move_speed;
 			break;
 		case Keycode::K:
-			this->get_components_by_name<Camera>("camera").front().get().data.postion_offset.y
+			this->get_components_by_name<Transform>("camera").front().get().position.y
 				-= move_speed;
 			break;
 		case Keycode::L:
-			this->get_components_by_name<Camera>("camera").front().get().data.postion_offset.x
+			this->get_components_by_name<Transform>("camera").front().get().position.x
 				+= move_speed;
 			break;
 		case Keycode::I:
-			this->get_components_by_name<Camera>("camera").front().get().data.postion_offset.y
+			this->get_components_by_name<Transform>("camera").front().get().position.y
 				+= move_speed;
+			break;
+		case Keycode::M:
+			trigger_event<MissileSpawnEvent>(MissileSpawnEvent{});
 			break;
 			//todo
 		case Keycode::PAGE_UP:

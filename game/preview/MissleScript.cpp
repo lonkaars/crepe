@@ -9,16 +9,20 @@
 using namespace std;
 using namespace crepe;
 
+/*
 bool MissleScript::mouse_click(const MouseClickEvent & ev) {
 	this->mouse_pos = ev.mouse_pos;
 	this->get_component<Transform>().position = mouse_pos;
 	return true;
 }
 
+*/
 void MissleScript::init() {
+	/*
 	subscribe<MouseClickEvent>([this](const MouseClickEvent & ev) -> bool {
 		return this->mouse_click(ev);
 	});
+	*/
 }
 
 void MissleScript::fixed_update(crepe::duration_t dt) {
