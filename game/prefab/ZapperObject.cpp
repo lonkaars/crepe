@@ -77,7 +77,7 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 	  body {add_component<Rigidbody>(Rigidbody::Data {
 		  .body_type = Rigidbody::BodyType::KINEMATIC,
 		  .kinematic_collision = false,
-			.collision_layer = COLL_LAY_ZAPPER,
+		  .collision_layer = COLL_LAY_ZAPPER,
 	  })},
 	  collider {add_component<BoxCollider>(vec2(0, 0))} {
 	this->place(this->transform.position, 0, 300);
