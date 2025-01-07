@@ -1,12 +1,13 @@
 #pragma once
 
-#include "types.h"
 #include <string>
-#include "api/CircleCollider.h"
-#include "api/Script.h"
-#include "api/Sprite.h"
-#include "api/Transform.h"
 #include <random>
+
+#include <crepe/types.h>
+#include <crepe/api/CircleCollider.h>
+#include <crepe/api/Script.h>
+#include <crepe/api/Sprite.h>
+#include <crepe/api/Transform.h>
 
 class CoinSystemScript : public crepe::Script {
 private:

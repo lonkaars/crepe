@@ -1,10 +1,13 @@
 #include "ButtonNextMainMenuScript.h"
 #include "MenusConfig.h"
 #include "ValueBroker.h"
-#include "api/AudioSource.h"
+
 #include "manager/SaveManager.h"
-#include "types.h"
+
 #include "../Config.h"
+
+#include <crepe/api/AudioSource.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 using namespace std;

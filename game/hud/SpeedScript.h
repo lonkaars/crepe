@@ -1,7 +1,7 @@
 #pragma once
 
-#include "api/Script.h"
-#include "manager/SaveManager.h"
+#include <crepe/api/Script.h>
+#include <crepe/manager/SaveManager.h>
 
 class SpeedScript : public crepe::Script {
 public:

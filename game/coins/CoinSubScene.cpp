@@ -1,12 +1,12 @@
 #include "CoinSubScene.h"
-#include "api/Animator.h"
-#include "api/BehaviorScript.h"
-#include "api/CircleCollider.h"
-#include "api/Rigidbody.h"
-#include "api/Scene.h"
-#include "api/AudioSource.h"
-#include "CoinScript.h"
+
 #include "../Config.h"
+
+#include <crepe/api/Animator.h>
+#include <crepe/api/CircleCollider.h>
+#include <crepe/api/Rigidbody.h>
+#include <crepe/api/Scene.h>
+#include <crepe/api/AudioSource.h>
 
 using namespace crepe;
 using namespace std;
