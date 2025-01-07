@@ -26,8 +26,8 @@ public:
 		crepe::Animator & glow_end;
 	} animator;
 
-	// crepe::Rigidbody & body;
-	// crepe::BoxCollider & collider;
+	crepe::Rigidbody & body;
+	crepe::BoxCollider & collider;
 
 private:
 	static constexpr float SCALE = 0.8;
