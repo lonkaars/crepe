@@ -46,11 +46,6 @@ private:
 	 */
 	void loop();
 
-	//! Fixed update function
-	void fixed_update();
-	//! Frame update function
-	void frame_update();
-
 	//! Game loop condition
 	bool game_running = true;
 

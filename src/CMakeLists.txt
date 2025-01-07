@@ -16,7 +16,6 @@ find_package(whereami REQUIRED)
 find_library(BERKELEY_DB db)
 find_library(FONTCONFIG_LIB fontconfig)
 find_package(segvcatch REQUIRED)
-find_package(segvcatch REQUIRED)
 
 add_library(crepe SHARED)
 add_executable(test_main EXCLUDE_FROM_ALL)
