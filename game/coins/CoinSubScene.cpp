@@ -36,6 +36,5 @@ int CoinSubScene::create(Scene & scn){
 									 .looping = true,
 								 }); 
 	coin.add_component<AudioSource>(Asset{"asset/sfx/coin_pickup_1.ogg"});
-	coin.add_component<BehaviorScript>().set_script<CoinScript>();
 	return coin_counter;
 }
