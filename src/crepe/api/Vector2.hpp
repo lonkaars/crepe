@@ -177,5 +177,4 @@ Vector2<T> Vector2<T>::rotate(float deg) const {
 	};
 }
 
-
 } // namespace crepe

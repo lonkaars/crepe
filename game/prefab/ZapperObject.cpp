@@ -1,7 +1,7 @@
 #include <crepe/api/Transform.h>
 
-#include "ZapperObject.h"
 #include "Config.h"
+#include "ZapperObject.h"
 
 using namespace crepe;
 
@@ -73,18 +73,14 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 		  .glow_end = add_component<Animator>(
 			  sprite.glow_end, ivec2(128, 128), uvec2(16, 1), animator.glow_start.data
 		  ),
-		},
-		body {
-			add_component<Rigidbody>(Rigidbody::Data {
-				.body_type = Rigidbody::BodyType::KINEMATIC,
-				.kinematic_collision = false,
-			})
-		},
-		collider {
-			add_component<BoxCollider>(vec2(0, 0))
-		} {
-			this->place(this->transform.position, 0, 300);
-		}
+	  },
+	  body {add_component<Rigidbody>(Rigidbody::Data {
+		  .body_type = Rigidbody::BodyType::KINEMATIC,
+		  .kinematic_collision = false,
+	  })},
+	  collider {add_component<BoxCollider>(vec2(0, 0))} {
+	this->place(this->transform.position, 0, 300);
+}
 
 void ZapperObject::place(const crepe::vec2 & position, float rotation, float length) {
 	this->transform.position = position;
@@ -101,4 +97,3 @@ void ZapperObject::place(const crepe::vec2 & position, float rotation, float len
 
 	this->collider.dimensions = offset.rotate(rotation) * 2 + vec2(30, 30) * SCALE;
 }
-

@@ -19,8 +19,8 @@
 #include "MoveCameraManualyScript.h"
 #include "StartGameScript.h"
 
-#include "background/BackgroundSubScene.h"
 #include "PlayerSubScene.h"
+#include "background/BackgroundSubScene.h"
 #include "prefab/ZapperObject.h"
 
 using namespace crepe;
