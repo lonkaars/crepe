@@ -1,5 +1,5 @@
 #pragma once
-#include "types.h"
+#include <crepe/types.h>
 
 static constexpr crepe::vec2 TOP_LEFT = {-530,-230};
 static constexpr const char* HUD_DISTANCE = "hud_distance";

@@ -1,8 +1,5 @@
 #include "CoinPool.h"
-#include "CoinScript.h"
 #include "CoinSubScene.h"
-#include "api/BehaviorScript.h"
-#include "api/GameObject.h"
 
 using namespace crepe;
 using namespace std;

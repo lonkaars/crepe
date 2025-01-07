@@ -1,8 +1,8 @@
 
 #include "FloatingWindowSubScene.h"
 #include "MenusConfig.h"
-#include "types.h"
 
+#include <crepe/types.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>

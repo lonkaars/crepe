@@ -1,7 +1,8 @@
 #include "ButtonSetMainMenuScript.h"
 #include "MenusConfig.h"
-#include "api/AudioSource.h"
-#include "types.h"
+
+#include <crepe/api/AudioSource.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 using namespace std;

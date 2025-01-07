@@ -1,11 +1,14 @@
 #include "HudScript.h"
-#include "api/Text.h"
-#include "api/Transform.h"
-#include "manager/SaveManager.h"
+#include "HudConfig.h"
+
 #include "../Config.h"
 #include "../Events.h"
-#include "HudConfig.h"
+
 #include <climits>
+
+#include <crepe/api/Text.h>
+#include <crepe/api/Transform.h>
+#include <crepe/manager/SaveManager.h>
 
 using namespace crepe;
 using namespace std;
