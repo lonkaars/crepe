@@ -56,6 +56,7 @@ void Engine::loop() {
 
 		try {
 			systems.frame_update();
+			this->scene_manager.load_next_scene();
 		} catch (const exception & e) {
 			Log::logf(
 				Log::Level::WARNING, "Uncaught exception in frame update function: {}\n",

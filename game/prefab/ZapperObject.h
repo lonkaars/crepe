@@ -11,6 +11,8 @@ public:
 	ZapperObject(crepe::GameObject &&);
 
 public:
+	bool active = true;
+
 	struct {
 		crepe::Sprite & orb_start;
 		crepe::Sprite & orb_end;

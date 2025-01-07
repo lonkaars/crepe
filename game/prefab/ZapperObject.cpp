@@ -80,8 +80,8 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 		  .collision_layer = COLL_LAY_ZAPPER,
 	  })},
 	  collider {add_component<BoxCollider>(vec2(0, 0))} {
-	this->place(this->transform.position, 0, 300);
 	this->set_active(false);
+	Log::logf(Log::DEBUG, "creating zapper");
 }
 
 void ZapperObject::place(const crepe::vec2 & position, float rotation, float length) {
@@ -114,5 +114,7 @@ void ZapperObject::set_active(bool active) {
 
 	this->body.active = active;
 	this->collider.active = active;
+
+	this->active = active;
 }
 

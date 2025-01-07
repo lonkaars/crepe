@@ -1,5 +1,7 @@
 #pragma once
 
+#include <format>
+
 namespace crepe {
 
 //! 2D vector
@@ -99,5 +101,10 @@ struct Vector2 {
 };
 
 } // namespace crepe
+
+template <typename T>
+struct std::formatter<crepe::Vector2<T>> : std::formatter<std::string> {
+	format_context::iterator format(crepe::Vector2<T> vec, format_context & ctx) const;
+};
 
 #include "Vector2.hpp"
