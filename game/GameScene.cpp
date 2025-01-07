@@ -23,7 +23,7 @@
 
 #include "background/BackgroundSubScene.h"
 #include "player/PlayerSubScene.h"
-#include "prefab/ZapperObject.h"
+#include "prefab/ZapperPoolSubScene.h"
 
 using namespace crepe;
 using namespace std;
@@ -69,7 +69,7 @@ void GameScene::load_scene() {
 	});
 	ceiling.add_component<BoxCollider>(vec2(INFINITY, 200));
 
-	ZapperObject {new_object("zapper", "zapper", vec2(800, 0))};
+	ZapperPoolSubScene {*this};
 
 	GameObject start_game_script = new_object("start_game_script", "script", vec2(0, 0));
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();

@@ -34,4 +34,5 @@ private:
 
 public:
 	void place(const crepe::vec2 & position, float rotation, float length);
+	void set_active(bool active);
 };
