@@ -53,6 +53,8 @@ void WorkerScript::fixed_update(duration_t dt) {
 						= -rb_worker.data.linear_velocity.x / 5;
 					animator_worker.back().get().data.fps
 						= -rb_worker.data.linear_velocity.x / 5;
+					animator_worker.front().get().set_anim(0);
+					animator_worker.back().get().set_anim(0);
 				} else {
 					sprite_worker.front().get().data.flip.flip_x = false;
 					sprite_worker.back().get().data.flip.flip_x = false;
@@ -61,6 +63,8 @@ void WorkerScript::fixed_update(duration_t dt) {
 						= rb_worker.data.linear_velocity.x / 5;
 					animator_worker.back().get().data.fps
 						= rb_worker.data.linear_velocity.x / 5;
+					animator_worker.front().get().set_anim(0);
+					animator_worker.back().get().set_anim(0);
 				}
 			}
 		} else {
@@ -89,6 +93,9 @@ void WorkerScript::fixed_update(duration_t dt) {
 						= -rb_worker.data.linear_velocity.x / 5;
 					animator_worker.back().get().data.fps
 						= -rb_worker.data.linear_velocity.x / 5;
+
+					animator_worker.front().get().set_anim(0);
+					animator_worker.back().get().set_anim(0);
 				} else {
 					sprite_worker.front().get().data.flip.flip_x = false;
 					sprite_worker.back().get().data.flip.flip_x = false;
@@ -97,6 +104,9 @@ void WorkerScript::fixed_update(duration_t dt) {
 						= rb_worker.data.linear_velocity.x / 5;
 					animator_worker.back().get().data.fps
 						= rb_worker.data.linear_velocity.x / 5;
+
+					animator_worker.front().get().set_anim(0);
+					animator_worker.back().get().set_anim(0);
 				}
 			}
 		}
