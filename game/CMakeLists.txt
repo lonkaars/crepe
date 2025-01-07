@@ -14,9 +14,11 @@ add_executable(main)
 target_sources(main PUBLIC
 	GameScene.cpp
 	MoveCameraManualyScript.cpp
+	player/PlayerScript.cpp
+	player/PlayerSubScene.cpp
 	StartGameScript.cpp
-	PlayerScript.cpp
-	PlayerSubScene.cpp
+	player/PlayerEndScript.cpp
+	background/StartSubScene.cpp
 	main.cpp
 )
 
