@@ -37,11 +37,31 @@ add_executable(main
 
 	StartGameScript.cpp
 	player/PlayerEndScript.cpp
-
-	#scenes
-	GameScene.cpp
-	PreviewScene.cpp
+	player/PlayerAudioScript.cpp
+	background/StartSubScene.cpp
 	main.cpp
+	menus/BannerSubScene.cpp
+	menus/ButtonSubScene.cpp
+	menus/IButtonScript.cpp
+	menus/ButtonSetShopScript.cpp
+	menus/ButtonSetMainMenuScript.cpp
+	menus/ButtonNextMainMenuScript.cpp
+	menus/FloatingWindowSubScene.cpp
+	menus/IFloatingWindowScript.cpp
+	menus/shop/ShopMenuScene.cpp
+	menus/mainmenu/ButtonTransitionPreviewScript.cpp
+	menus/mainmenu/ITransitionScript.cpp
+	menus/mainmenu/MainMenuScene.cpp
+	menus/mainmenu/TransitionStartScript.cpp
+	menus/endgame/EndGameSubScene.cpp
+	menus/endgame/EndGameSubScript.cpp
+	coins/CoinSubScene.cpp
+	coins/CoinPool.cpp
+	coins/CoinSystemScript.cpp
+	coins/CoinScript.cpp
+	hud/HudSubScene.cpp
+	hud/HudScript.cpp
+	hud/SpeedScript.cpp
 )
 
 target_link_libraries(main PUBLIC crepe)

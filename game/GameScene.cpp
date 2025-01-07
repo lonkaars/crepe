@@ -2,13 +2,22 @@
 #include "Config.h"
 #include "MoveCameraManualyScript.h"
 #include "StartGameScript.h"
+#include "coins/CoinSubScene.h"
+#include "coins/CoinPool.h"
+#include "coins/CoinSystemScript.h"
 
 #include "background/BackgroundSubScene.h"
+#include "hud/HudScript.h"
+#include "hud/HudSubScene.h"
+#include "hud/SpeedScript.h"
+#include "menus/endgame/EndGameSubScene.h"
+#include "menus/endgame/EndGameSubScript.h"
 #include "player/PlayerSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Asset.h>
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
@@ -36,7 +45,11 @@ void GameScene::load_scene() {
 		}
 	);
 	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
-	camera.add_component<Rigidbody>(Rigidbody::Data {});
+	camera.add_component<BehaviorScript>().set_script<CoinSystemScript>();
+	camera.add_component<BehaviorScript>().set_script<HudScript>();
+	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
+	
+	camera.add_component<Rigidbody>(Rigidbody::Data{});
 
 	PlayerSubScene player(*this);
 
@@ -66,6 +79,20 @@ void GameScene::load_scene() {
 
 	GameObject start_game_script = new_object("start_game_script", "script", vec2(0, 0));
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();
+
+	//create coin pool
+	CoinPool coin_system;
+	coin_system.create_coins(*this);
+
+	HudSubScene hud;
+	hud.create(*this);
+	GameObject background_music = new_object("background_music", "audio", vec2(0, 0));
+	Asset background_music_asset {"asset/music/level.ogg"};
+	background_music.add_component<AudioSource>(background_music_asset);
+
+	GameObject boom_audio = new_object("boom_audio", "audio", vec2(0, 0));
+	Asset boom_audio_asset {"asset/sfx/window_smash.ogg"};
+	boom_audio.add_component<AudioSource>(boom_audio_asset);
 
 	// zapper, laser and missile (below) for testing purpose only!!!
 	GameObject zapper = new_object("zapper", "zapper", vec2(1000, 0));
@@ -116,6 +143,9 @@ void GameScene::load_scene() {
 		.collision_layer = COLL_LAY_MISSILE,
 	});
 	missile.add_component<BoxCollider>(vec2(100, 100));
+
+	EndGameSubScene endgamewindow;
+	endgamewindow.create(*this);
 }
 
 string GameScene::get_name() const { return "scene1"; }
