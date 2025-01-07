@@ -40,6 +40,17 @@ void MissileScript::kill_missile(){
 
 	fly_sound.stop();
 }
+void MissileScript::activate(){
+	auto anim = this->get_components<Animator>();
+	auto sprites = this->get_components<Sprite>();
+
+	anim[0].get().active = true;
+	anim[1].get().active = true;
+	anim[2].get().stop();
+	sprites[0].get().active = true;
+	sprites[1].get().active = true;
+	sprites[2].get().active = false;
+}
 
 bool MissileScript::on_collision(const CollisionEvent & ev) {
 	auto & explosion_sound = this->get_components<AudioSource>().back().get();
@@ -55,30 +66,22 @@ bool MissileScript::is_in_x_range(const Transform & missile, const Transform & p
 }
 
 void MissileScript::fixed_update(crepe::duration_t dt) {
-	auto anim = this->get_components<Animator>();
-	auto sprites = this->get_components<Sprite>();
-
+	auto & explosion_anim = this->get_components<Animator>().back().get();
 	auto & missile = this->get_component<Transform>();
 	auto & m_ai = this->get_component<AI>();
-	auto & this_script = this->get_component<BehaviorScript>();
 
-	auto & fly_sound = this->get_components<AudioSource>().front().get();
 	const auto & player = this->get_components_by_name<Transform>("player").front().get();
 	const auto & cam = this->get_components_by_name<Transform>("camera").front().get();
-	const auto & rb = this->get_component<Rigidbody>();
+	const auto & velocity = this->get_component<Rigidbody>().data.linear_velocity;
 
 	if (missile.position.x < (cam.position.x - VIEWPORT_X / 1.8)) {
 		this->kill_missile();
 		return;
 	}
-
-	if (anim[2].get().data.row == 7) {
-		anim[0].get().active = true;
-		anim[1].get().active = true;
-		anim[2].get().stop();
-		sprites[0].get().active = true;
-		sprites[1].get().active = true;
-		sprites[2].get().active = false;
+	
+	// check if animation is at the end
+	if (explosion_anim.data.row == 7) {
+		this->activate();
 		this->seeking_disabled = false;
 	}
 
@@ -94,9 +97,9 @@ void MissileScript::fixed_update(crepe::duration_t dt) {
 		}
 	}
 
-	vec2 angle_pos = rb.data.linear_velocity;
+	vec2 angle_pos = velocity;
 	float angle = atan2(angle_pos.y, angle_pos.x) * (180 / M_PI);
 
 	missile.rotation = angle;
-	missile.position += rb.data.linear_velocity * dt.count();
+	missile.position += velocity * dt.count();
 }

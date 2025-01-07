@@ -12,6 +12,7 @@ private:
 	static constexpr int X_RANGE = 100;
 	bool is_in_x_range(const crepe::Transform & missile, const crepe::Transform & player);
 	void kill_missile();
+	void activate();
 
 public:
 	void init();
