@@ -5,6 +5,7 @@
 
 #include "background/BackgroundSubScene.h"
 #include "player/PlayerSubScene.h"
+#include "workers/WorkersSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -40,6 +41,8 @@ void GameScene::load_scene() {
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 
 	PlayerSubScene player(*this);
+
+	WorkersSubScene workers(*this);
 
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data {

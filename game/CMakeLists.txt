@@ -22,6 +22,8 @@ add_executable(main
 	player/PlayerEndScript.cpp
 	player/PlayerAudioScript.cpp
 	background/StartSubScene.cpp
+	workers/WorkersSubScene.cpp
+	workers/WorkerScript.cpp
 	main.cpp
 )
 
