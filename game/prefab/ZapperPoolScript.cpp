@@ -17,9 +17,15 @@ void ZapperPoolScript::init() {
 	});
 }
 
+void ZapperPoolScript::fixed_update(crepe::duration_t) {
+	if (i++ < 80) return;
+	i = 0;
+	queue_event<CreateZapperEvent>();
+}
+
 void ZapperPoolScript::spawn_random() {
 	vec2 pos = this->get_camera_pos();
-	logf(Log::DEBUG, "Spawning random zappers at {}", pos);
+	logf(Log::DEBUG, "Spawning random zapper at {}", pos);
 
 }
 

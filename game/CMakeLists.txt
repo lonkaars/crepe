@@ -18,7 +18,11 @@ target_sources(main PUBLIC
 	player/PlayerSubScene.cpp
 	StartGameScript.cpp
 	player/PlayerEndScript.cpp
+	player/PlayerAudioScript.cpp
 	background/StartSubScene.cpp
+	workers/WorkersSubScene.cpp
+	workers/WorkerScript.cpp
+	workers/PanicFromPlayerScript.cpp
 	main.cpp
 	menus/BannerSubScene.cpp
 	menus/ButtonSubScene.cpp

@@ -9,6 +9,9 @@ public:
 	ZapperPoolScript(ZapperPoolSubScene & pool);
 
 	void init();
+	void fixed_update(crepe::duration_t);
+
+	unsigned i = 0;
 
 private:
 	ZapperPoolSubScene & pool;
