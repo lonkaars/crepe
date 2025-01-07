@@ -17,7 +17,8 @@ void HudScript::init() {
 	txt.text = record;
 	txt.dimensions = {BEST_CHAR_WIDTH*record.size(),(BEST_CHAR_WIDTH)*2};
 	txt.offset = TOP_LEFT+FONTOFFSET+BEST_OFFSET + vec2{record.size() * BEST_CHAR_WIDTH/2,0};
-
+	
+	this->subscribe<GetCoinEvent>([this](const GetCoinEvent e)-> bool { return this->get_coin(e); });
 	this->subscribe<KeyPressEvent>([this](const KeyPressEvent & ev) -> bool {
 		if(ev.key != Keycode::END) return false;
 		Text & txt_fps = this->get_components_by_name<Text>(HUD_FPS).front();
@@ -45,7 +46,7 @@ void HudScript::frame_update(crepe::duration_t dt) {
 
 	// Coins
 	Text & txt_co = this->get_components_by_name<Text>(HUD_COINS).front();
-	string amount_of_coins = to_string(savemgr->get<int>(TOTAL_COINS_RUN,0).get());
+	string amount_of_coins = to_string(this->coin_amount);
 	txt_co.text = amount_of_coins;
 	txt_co.dimensions = {COINS_CHAR_WIDTH*amount_of_coins.size(),(COINS_CHAR_WIDTH)*2};
 	txt_co.offset = TOP_LEFT+FONTOFFSET+COINS_OFFSET + vec2{amount_of_coins.size() * COINS_CHAR_WIDTH/2,0};
@@ -61,3 +62,10 @@ void HudScript::frame_update(crepe::duration_t dt) {
 	if(fps >= 50) txt_fps.data.text_color = Color::GREEN;
 	if(fps < 30) txt_fps.data.text_color = Color::RED;
 }
+
+
+bool HudScript::get_coin(const GetCoinEvent e){
+	this->coin_amount = e.amount_of_coins;
+	return true;
+}
+

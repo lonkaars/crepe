@@ -3,6 +3,7 @@
 #include "PlayerScript.h"
 
 #include "../Config.h"
+#include "../coins/CoinScript.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/BoxCollider.h>
@@ -150,4 +151,5 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 	});
 	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
 	player.add_component<BehaviorScript>().set_script<PlayerEndScript>().active = false;
+	player.add_component<BehaviorScript>().set_script<CoinScript>();
 }
