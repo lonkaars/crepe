@@ -1,4 +1,4 @@
-#include "ButtonNextMainMenuScript.h"
+#include "ButtonNextMainMenuSubScript.h"
 #include "MenusConfig.h"
 #include "ValueBroker.h"
 
@@ -12,12 +12,12 @@
 using namespace crepe;
 using namespace std;
 
-void ButtonNextMainMenuScript::init(){
+void ButtonNextMainMenuSubScript::init(){
 	IButtonScript::init();
 	this->subscribe<ButtonPressEvent>([this](const ButtonPressEvent& e) { return this->on_button_press(e); });
 }
 
-bool ButtonNextMainMenuScript::on_button_press(const ButtonPressEvent& e){
+bool ButtonNextMainMenuSubScript::on_button_press(const ButtonPressEvent& e){
 	RefVector<AudioSource> audios = this->get_components_by_name<AudioSource>("background_music");
 	
 	for (AudioSource & audio : audios) {

@@ -2,7 +2,7 @@
 
 #include <crepe/api/Scene.h>
 
-class CoinPool {
+class CoinPoolSubScene {
 public:
 	void create_coins(crepe::Scene & scn);
 private:

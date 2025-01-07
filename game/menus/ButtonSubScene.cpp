@@ -1,11 +1,11 @@
 #include "ButtonSubScene.h"
-#include "ButtonNextMainMenuScript.h"
-#include "ButtonSetMainMenuScript.h"
-#include "ButtonSetShopScript.h"
+#include "ButtonNextMainMenuSubScript.h"
+#include "ButtonSetMainMenuSubScript.h"
+#include "ButtonSetShopSubScript.h"
 #include "IButtonScript.h"
 #include "MenusConfig.h"
 
-#include "mainmenu/ButtonTransitionPreviewScript.h"
+#include "mainmenu/ButtonTransitionPreviewSubScript.h"
 
 #include "../Config.h"
 
@@ -39,16 +39,16 @@ void ButtonSubScene::btn_text(crepe::GameObject & button_object,const Data & dat
 void ButtonSubScene::set_script(crepe::GameObject & button_object,const Data & data){
 	switch (data.script_type) {
 		case ScriptSelect::PREVIEW:
-			button_object.add_component<BehaviorScript>().set_script<ButtonTransitionPreviewScript>();
+			button_object.add_component<BehaviorScript>().set_script<ButtonTransitionPreviewSubScript>();
 			break;
 		case ScriptSelect::SHOP:
-			button_object.add_component<BehaviorScript>().set_script<ButtonSetShopScript>();
+			button_object.add_component<BehaviorScript>().set_script<ButtonSetShopSubScript>();
 			break;
 		case ScriptSelect::MAINMENU:
-			button_object.add_component<BehaviorScript>().set_script<ButtonSetMainMenuScript>();
+			button_object.add_component<BehaviorScript>().set_script<ButtonSetMainMenuSubScript>();
 			break;
 		case ScriptSelect::NEXT:
-			button_object.add_component<BehaviorScript>().set_script<ButtonNextMainMenuScript>();
+			button_object.add_component<BehaviorScript>().set_script<ButtonNextMainMenuSubScript>();
 			break;
 		case ScriptSelect::NONE:
 			button_object.add_component<BehaviorScript>().set_script<IButtonScript>();

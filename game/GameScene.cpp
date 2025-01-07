@@ -2,8 +2,7 @@
 #include "Config.h"
 #include "MoveCameraManualyScript.h"
 #include "StartGameScript.h"
-#include "coins/CoinSubScene.h"
-#include "coins/CoinPool.h"
+#include "coins/CoinPoolSubScene.h"
 #include "coins/CoinSystemScript.h"
 
 #include "background/BackgroundSubScene.h"
@@ -11,7 +10,6 @@
 #include "hud/HudSubScene.h"
 #include "hud/SpeedScript.h"
 #include "menus/endgame/EndGameSubScene.h"
-#include "menus/endgame/EndGameSubScript.h"
 #include "player/PlayerSubScene.h"
 
 #include <cmath>
@@ -81,7 +79,7 @@ void GameScene::load_scene() {
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();
 
 	//create coin pool
-	CoinPool coin_system;
+	CoinPoolSubScene coin_system;
 	coin_system.create_coins(*this);
 
 	HudSubScene hud;
