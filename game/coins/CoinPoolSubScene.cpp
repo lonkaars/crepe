@@ -1,10 +1,10 @@
-#include "CoinPool.h"
+#include "CoinPoolSubScene.h"
 #include "CoinSubScene.h"
 
 using namespace crepe;
 using namespace std;
 
-void CoinPool::create_coins(crepe::Scene & scn) {
+void CoinPoolSubScene::create_coins(crepe::Scene & scn) {
 	int amount = 0;
 	CoinSubScene coin;
 	while(amount < this->MAXIMUM_AMOUNT){

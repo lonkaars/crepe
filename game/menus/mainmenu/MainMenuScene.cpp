@@ -1,6 +1,6 @@
 
 #include "MainMenuScene.h"
-#include "TransitionStartScript.h"
+#include "TransitionStartSubScript.h"
 #include "MainMenuConfig.h"
 
 #include "../ButtonSubScene.h"
@@ -29,7 +29,7 @@ void MainMenuScene::load_scene(){
 	Camera::Data{
 		.bg_color = Color::RED,
 	});
-	camera_object.add_component<BehaviorScript>().set_script<TransitionStartScript>();
+	camera_object.add_component<BehaviorScript>().set_script<TransitionStartSubScript>();
 
 
 	//Button menu
