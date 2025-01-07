@@ -36,7 +36,7 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		}
 		play_scr.active = false;
 		end_scr.active = true;
-		return true;
+		return false;
 	} else if (ev.info.other.metadata.tag == "laser") {
 		for (Animator & anim : animators) {
 			anim.active = true;
@@ -49,7 +49,7 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		}
 		play_scr.active = false;
 		end_scr.active = true;
-		return true;
+		return false;
 	} else if (ev.info.other.metadata.tag == "missile") {
 		for (Animator & anim : animators) {
 			anim.active = true;
@@ -62,7 +62,7 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		}
 		play_scr.active = false;
 		end_scr.active = true;
-		return true;
+		return false;
 	}
 
 	return false;

@@ -49,7 +49,7 @@ private:
 	static constexpr float SPAWN_DISTANCE = 600;
 	static constexpr float DESPAWN_DISTANCE = 600;
 	static constexpr float SPAWN_AREA = 50;
-	static std::vector<CoinData> coin_locations;
+	std::vector<CoinData> coin_locations;
 private:
 // preset one settings
 // *****				*****

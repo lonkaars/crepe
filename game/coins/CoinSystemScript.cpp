@@ -9,7 +9,7 @@
 using namespace crepe;
 using namespace std;
 
-std::vector<CoinSystemScript::CoinData> CoinSystemScript::coin_locations;
+
 
 void CoinSystemScript::init() {
 	engine.seed(rd());
