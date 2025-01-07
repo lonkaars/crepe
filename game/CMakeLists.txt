@@ -28,6 +28,7 @@ add_executable(main
 	menus/IButtonScript.cpp
 	menus/ButtonSetShopScript.cpp
 	menus/ButtonSetMainMenuScript.cpp
+	menus/ButtonNextMainMenuScript.cpp
 	menus/FloatingWindowSubScene.cpp
 	menus/IFloatingWindowScript.cpp
 	menus/shop/ShopMenuScene.cpp

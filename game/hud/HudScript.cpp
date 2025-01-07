@@ -3,6 +3,7 @@
 #include "api/Transform.h"
 #include "manager/SaveManager.h"
 #include "../Config.h"
+#include "../Events.h"
 #include "HudConfig.h"
 #include <climits>
 
@@ -20,6 +21,7 @@ void HudScript::init() {
 	
 	this->subscribe<GetCoinEvent>([this](const GetCoinEvent e)-> bool { return this->get_coin(e); });
 	this->subscribe<KeyPressEvent>([this](const KeyPressEvent & ev) -> bool { return this->toggle_fps(ev);});
+	this->subscribe<EndGameEvent>([this](const EndGameEvent e)-> bool { return this->save(); });
 }
 
 bool HudScript::toggle_fps(crepe::KeyPressEvent ev){
@@ -42,6 +44,7 @@ void HudScript::frame_update(crepe::duration_t dt) {
 	Text & txt_dt = this->get_components_by_name<Text>(HUD_DISTANCE).front();
 	Transform & tf = this->get_components_by_name<Transform>(PLAYER_NAME).front();
 	string distance = to_string(static_cast<int>(tf.position.x/STEP_SIZE_DISTANCE)) + DISTANCE_UNIT;
+	this->distance_st = distance;
 	txt_dt.text = distance;
 	txt_dt.dimensions = {DISTANCE_CHAR_WIDTH*distance.size(),(DISTANCE_CHAR_WIDTH)*2};
 	txt_dt.offset = TOP_LEFT+FONTOFFSET + vec2{distance.size() * DISTANCE_CHAR_WIDTH/2,0};
@@ -49,6 +52,7 @@ void HudScript::frame_update(crepe::duration_t dt) {
 	// Coins
 	Text & txt_co = this->get_components_by_name<Text>(HUD_COINS).front();
 	string amount_of_coins = to_string(this->coin_amount);
+	this->coin_amount_st = amount_of_coins;
 	txt_co.text = amount_of_coins;
 	txt_co.dimensions = {COINS_CHAR_WIDTH*amount_of_coins.size(),(COINS_CHAR_WIDTH)*2};
 	txt_co.offset = TOP_LEFT+FONTOFFSET+COINS_OFFSET + vec2{amount_of_coins.size() * COINS_CHAR_WIDTH/2,0};
@@ -71,3 +75,9 @@ bool HudScript::get_coin(const GetCoinEvent e){
 	return true;
 }
 
+bool HudScript::save(){
+	SaveManager & savemgr = this->get_save_manager();
+	savemgr.set(TOTAL_COINS_RUN, this->coin_amount);
+	savemgr.set(DISTANCE_RUN, this->distance_st);
+	return false;
+}

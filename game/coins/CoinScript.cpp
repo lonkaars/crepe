@@ -19,7 +19,6 @@ bool CoinScript::on_collision(const CollisionEvent & collisionData){
 
 void CoinScript::init(){
 	this->subscribe<CollisionEvent>([this](const CollisionEvent & ev) -> bool { return this->on_collision(ev); });
-	this->subscribe<EndGameEvent>([this](const EndGameEvent e)-> bool { return this->save(); });
 }
 
 void CoinScript::fixed_update(crepe::duration_t dt) {
@@ -31,6 +30,5 @@ void CoinScript::fixed_update(crepe::duration_t dt) {
 bool CoinScript::save(){
 	SaveManager & savemgr = this->get_save_manager();
 	savemgr.set(TOTAL_COINS_RUN, this->amount);
-	this->amount = 0;
 	return false;
 }
