@@ -1,4 +1,3 @@
-
 #include "util/dbg.h"
 
 #include "Animator.h"
@@ -6,6 +5,7 @@
 #include "Sprite.h"
 
 using namespace crepe;
+using namespace std;
 
 Animator::Animator(
 	game_object_id_t id, Sprite & spritesheet, const ivec2 & single_frame_size,
@@ -56,4 +56,19 @@ void Animator::next_anim() {
 	Animator::Data & ctx = this->data;
 	ctx.row = ++ctx.row % this->grid_size.x;
 	this->spritesheet.mask.x = ctx.row * this->spritesheet.mask.w;
+}
+
+unique_ptr<Component> Animator::save() const {
+	return unique_ptr<Component>(new Animator(*this));
+}
+
+void Animator::restore(const Component & snapshot) {
+	*this = static_cast<const Animator &>(snapshot);
+}
+
+Animator & Animator::operator=(const Animator & snapshot) {
+	this->data = snapshot.data;
+	this->elapsed_time = snapshot.elapsed_time;
+	this->frame = snapshot.frame;
+	return *this;
 }
