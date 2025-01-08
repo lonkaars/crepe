@@ -30,6 +30,9 @@ add_executable(main
 	missile/MissileSubScene.cpp
 	missile/SpawnEvent.cpp
 
+	#scheduling
+	scheduler/ObjectsScheduler.cpp
+
 	# Preview
 	preview/SmokeSubScene.cpp
 	preview/NpcSubScene.cpp

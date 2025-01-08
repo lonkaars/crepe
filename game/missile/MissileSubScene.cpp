@@ -18,7 +18,7 @@ void MissileSubScene::create(crepe::Scene & scn) {
 	std::random_device rd;
 	std::mt19937 gen(rd());
 
-	GameObject missle = scn.new_object("missile", "TAG", {0, 0}, 0, 1);
+	GameObject missle = scn.new_object("missile", "missile", {0, 0}, 0, 1);
 
 	Asset missle_ss {"asset/obstacles/missile/missile.png"};
 	Asset missle_thruster_ss {"asset/obstacles/missile/missileEffects.png"};
