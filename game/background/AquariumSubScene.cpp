@@ -4,6 +4,7 @@
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/types.h>
@@ -41,6 +42,9 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 	begin_x += 400;
 
 	this->add_background(scn, begin_x - 200);
+	this->add_bubbles(aquarium_middle_1, vec2(-400, 300), 2, 0.7f);
+	this->add_bubbles(aquarium_middle_1, vec2(-100, 300), 4, 1.0f);
+	this->add_bubbles(aquarium_middle_1, vec2(500, 300), 4, 0.9f);
 
 	GameObject aquarium_middle_2
 		= scn.new_object("aquarium_middle", "background_aqua", vec2(begin_x, 0));
@@ -54,6 +58,8 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 		}
 	);
 	begin_x += 400;
+
+	this->add_bubbles(aquarium_middle_2, vec2(300, 300), 2, 0.6f);
 
 	GameObject aquarium_middle_3
 		= scn.new_object("aquarium_middle", "background_aqua", vec2(begin_x, 0));
@@ -84,6 +90,8 @@ float AquariumSubScene::create(Scene & scn, float begin_x) {
 	begin_x += 600;
 
 	this->add_background(scn, begin_x);
+	this->add_bubbles(aquarium_middle_4, vec2(175, 300), 4, 1.0f);
+	this->add_bubbles(aquarium_middle_4, vec2(200, 300), 4, 0.7f);
 
 	GameObject aquarium_end
 		= scn.new_object("aquarium_end", "background_aqua", vec2(begin_x, 0));
@@ -108,7 +116,7 @@ void AquariumSubScene::add_background(Scene & scn, float begin_x) {
 		bg_1_1_asset,
 		Sprite::Data {
 			.sorting_in_layer = SORT_IN_LAY_BACK_BACKGROUND,
-			.order_in_layer = 2,
+			.order_in_layer = 5,
 			.size = vec2(0, 400),
 			.position_offset = vec2(-200, 100),
 		}
@@ -118,7 +126,7 @@ void AquariumSubScene::add_background(Scene & scn, float begin_x) {
 		bg_1_2_asset,
 		Sprite::Data {
 			.sorting_in_layer = SORT_IN_LAY_BACK_BACKGROUND,
-			.order_in_layer = 2,
+			.order_in_layer = 5,
 			.size = vec2(0, 400),
 			.position_offset = vec2(200, 100),
 		}
@@ -129,7 +137,7 @@ void AquariumSubScene::add_background(Scene & scn, float begin_x) {
 		bg_2_1_asset,
 		Sprite::Data {
 			.sorting_in_layer = SORT_IN_LAY_BACK_BACKGROUND,
-			.order_in_layer = 1,
+			.order_in_layer = 3,
 			.size = vec2(0, 400),
 			.position_offset = vec2(200, -50),
 		}
@@ -139,7 +147,7 @@ void AquariumSubScene::add_background(Scene & scn, float begin_x) {
 		bg_2_2_asset,
 		Sprite::Data {
 			.sorting_in_layer = SORT_IN_LAY_BACK_BACKGROUND,
-			.order_in_layer = 1,
+			.order_in_layer = 3,
 			.size = vec2(0, 400),
 			.position_offset = vec2(-200, -50),
 		}
@@ -150,7 +158,7 @@ void AquariumSubScene::add_background(Scene & scn, float begin_x) {
 		bg_3_1_asset,
 		Sprite::Data {
 			.sorting_in_layer = SORT_IN_LAY_BACK_BACKGROUND,
-			.order_in_layer = 0,
+			.order_in_layer = 1,
 			.size = vec2(0, 400),
 			.position_offset = vec2(200, -200),
 		}
@@ -160,9 +168,58 @@ void AquariumSubScene::add_background(Scene & scn, float begin_x) {
 		bg_3_2_asset,
 		Sprite::Data {
 			.sorting_in_layer = SORT_IN_LAY_BACK_BACKGROUND,
-			.order_in_layer = 0,
+			.order_in_layer = 1,
 			.size = vec2(0, 400),
 			.position_offset = vec2(-200, -200),
+		}
+	);
+}
+
+void AquariumSubScene::add_bubbles(
+	GameObject & obj, vec2 offset, int order_in_layer, float scale
+) {
+	Sprite & sprite = obj.add_component<Sprite>(
+		Asset {"asset/background/aquarium/bubble.png"},
+		Sprite::Data {
+			.sorting_in_layer = SORT_IN_LAY_BACK_BACKGROUND,
+			.order_in_layer = order_in_layer,
+			.size = vec2(0, 12.5),
+			.scale_offset = scale,
+		}
+	);
+	obj.add_component<ParticleEmitter>(
+		sprite,
+		ParticleEmitter::Data {
+			.offset = offset,
+			.max_particles = 20,
+			.emission_rate = 1.2,
+			.min_speed = 50,
+			.max_speed = 100,
+			.min_angle = 265,
+			.max_angle = 275,
+			.force_over_time = vec2(0, -50),
+		}
+	);
+	Sprite & sprite_small = obj.add_component<Sprite>(
+		Asset {"asset/background/aquarium/bubble.png"},
+		Sprite::Data {
+			.sorting_in_layer = SORT_IN_LAY_BACK_BACKGROUND,
+			.order_in_layer = order_in_layer,
+			.size = vec2(0, 7.5),
+			.scale_offset = scale,
+		}
+	);
+	obj.add_component<ParticleEmitter>(
+		sprite_small,
+		ParticleEmitter::Data {
+			.offset = offset,
+			.max_particles = 20,
+			.emission_rate = 0.8,
+			.min_speed = 50,
+			.max_speed = 100,
+			.min_angle = 265,
+			.max_angle = 275,
+			.force_over_time = vec2(0, -50),
 		}
 	);
 }

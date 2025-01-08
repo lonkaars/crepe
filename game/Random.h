@@ -9,4 +9,3 @@ public:
 	static bool b();
 
 };
-
