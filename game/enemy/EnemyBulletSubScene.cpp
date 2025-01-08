@@ -15,6 +15,7 @@
 #include "EnemyBulletSubScene.h"
 #include "EnemyScript.h"
 #include "EnemyBulletScript.h"
+#include "../Random.h"
 using namespace crepe;
 using namespace std;
 int EnemyBulletSubScene::create(Scene & scn){

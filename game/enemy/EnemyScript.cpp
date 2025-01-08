@@ -15,7 +15,7 @@ using namespace std;
 EnemyScript::EnemyScript(){
 	engine.seed(rd());
 	this->last_fired = std::chrono::steady_clock::now();
-	this->shot_delay = std::chrono::duration<float>(3 + Random::f(0,1));
+	this->shot_delay = std::chrono::duration<float>(3 + Random::f(1,0));
 }
 void EnemyScript::init(){
 	Metadata& meta = this->get_component<Metadata>();
@@ -52,7 +52,7 @@ void EnemyScript::fixed_update(duration_t dt) {
 	if (elapsed > shot_delay) {
     	this->shoot(transform.position,0);
 		last_fired = now;
-		this->shot_delay = std::chrono::duration<float>(Random::f(1,4));
+		this->shot_delay = std::chrono::duration<float>(Random::f(4,1));
 	}
 
 }
