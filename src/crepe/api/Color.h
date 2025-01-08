@@ -19,6 +19,7 @@ struct Color {
 	static const Color YELLOW;
 	static const Color BLACK;
 	static const Color GREY;
+	static const Color GOLD;
 };
 
 } // namespace crepe
