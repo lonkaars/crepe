@@ -33,6 +33,7 @@ add_executable(main
 	menus/IButtonScript.cpp
 	menus/ButtonSetShopSubScript.cpp
 	menus/ButtonSetMainMenuSubScript.cpp
+	menus/ButtonReplaySubScript.cpp
 	menus/ButtonNextMainMenuSubScript.cpp
 	menus/FloatingWindowSubScene.cpp
 	menus/IFloatingWindowScript.cpp

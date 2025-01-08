@@ -2,6 +2,7 @@
 
 #include "../../Events.h"
 #include "../IFloatingWindowScript.h"
+#include "../ButtonReplaySubScript.h"
 
 #include <string>
 

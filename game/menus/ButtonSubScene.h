@@ -16,6 +16,7 @@ public:
 		SHOP,
 		MAINMENU,
 		NEXT,
+		REPLAY,
 		NONE,
 	};
 	//icon enum
