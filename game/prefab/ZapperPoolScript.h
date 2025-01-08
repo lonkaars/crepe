@@ -26,5 +26,8 @@ private:
 
 private:
 	void spawn_random();
+
+private:
+	static constexpr float OFFSCREEN_MARGIN = 40;
 };
 

@@ -12,7 +12,7 @@ ZapperPoolSubScene::ZapperPoolSubScene(Scene & scene)
 	Log::logf(Log::DEBUG, "Building zapper pool...");
 	vector<ZapperObject> pool;
 	for (size_t i = 0; i < this->POOL_SIZE; i++)
-		pool.emplace_back(scene.new_object("zapper"));
+		pool.emplace_back(scene.new_object("zapper", "zapper"));
 	BehaviorScript & behavior = this->controller.add_component<BehaviorScript>();
 	behavior.set_script<ZapperPoolScript>(std::move(pool));
 }

@@ -103,39 +103,6 @@ void GameScene::load_scene() {
 	Asset boom_audio_asset {"asset/sfx/window_smash.ogg"};
 	boom_audio.add_component<AudioSource>(boom_audio_asset);
 
-	GameObject laser = new_object("laser", "laser", vec2(2000, 0));
-	Asset laser_asset {"asset/obstacles/laser/laserPower.png"};
-	Sprite & laser_sprite = laser.add_component<Sprite>(
-		laser_asset,
-		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
-			.order_in_layer = 0,
-			.size = vec2(100, 100),
-		}
-	);
-	laser.add_component<Rigidbody>(Rigidbody::Data {
-		.body_type = Rigidbody::BodyType::KINEMATIC,
-		.kinematic_collision = false,
-		.collision_layer = COLL_LAY_LASER,
-	});
-	laser.add_component<BoxCollider>(vec2(100, 100));
-	GameObject missile = new_object("missile", "missile", vec2(4000, 0));
-	Asset missile_asset {"asset/obstacles/missile/missile.png"};
-	Sprite & missile_sprite = missile.add_component<Sprite>(
-		missile_asset,
-		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
-			.order_in_layer = 0,
-			.size = vec2(100, 100),
-		}
-	);
-	missile.add_component<Rigidbody>(Rigidbody::Data {
-		.body_type = Rigidbody::BodyType::KINEMATIC,
-		.kinematic_collision = false,
-		.collision_layer = COLL_LAY_MISSILE,
-	});
-	missile.add_component<BoxCollider>(vec2(100, 100));
-
 	EndGameSubScene endgamewindow;
 	endgamewindow.create(*this);
 }

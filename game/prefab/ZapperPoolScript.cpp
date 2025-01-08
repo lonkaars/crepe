@@ -23,10 +23,11 @@ void ZapperPoolScript::init() {
 }
 
 void ZapperPoolScript::fixed_update(crepe::duration_t) {
+	float threshold = camera_transform->position.x - camera_camera->viewport_size.x / 2 - OFFSCREEN_MARGIN;
 	for (ZapperObject & zapper : this->pool) {
 		if (!zapper.active) continue;
 
-		if (zapper.transform.position.x < camera_transform->position.x)
+		if (zapper.transform.position.x < threshold)
 			zapper.set_active(false);
 	}
 
@@ -40,11 +41,16 @@ void ZapperPoolScript::spawn_random() {
 	if (!zapper) return; // pool exhausted
 	
 	vec2 pos = {
-		.x = camera_transform->position.x + camera_camera->viewport_size.x / 2,
+		.x = camera_transform->position.x + camera_camera->viewport_size.x / 2 + OFFSCREEN_MARGIN,
 		.y = Random::f(0.5, -0.5) * HALLWAY_HEIGHT,
 	};
 
-	zapper->place(pos, 0, Random::f(400, 200));
+	bool horizontal = Random::b();
+	float rotation = 90.0 * horizontal;
+	float length = horizontal ? Random::f(400, 200) : Random::f(200, 50);
+
+	zapper->place(pos, rotation, length);
+	zapper->set_active(true);
 }
 
 OptionalRef<ZapperObject> ZapperPoolScript::get_next_zapper() {

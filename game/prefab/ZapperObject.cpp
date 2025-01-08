@@ -100,8 +100,6 @@ void ZapperObject::place(const crepe::vec2 & position, float rotation, float len
 	this->sprite.beam.data.size.x = length;
 
 	this->collider.dimensions = offset.rotate(rotation) * 2 + vec2(30, 30) * SCALE;
-
-	this->set_active(true);
 }
 
 void ZapperObject::set_active(bool active) {
