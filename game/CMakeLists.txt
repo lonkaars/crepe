@@ -52,6 +52,9 @@ target_sources(main PUBLIC
 	preview/NpcScript.cpp
 	preview/PrevPlayerSubScene.cpp
 	preview/PrevPlayerScript.cpp
+	preview/PreviewStopRecSubScript.cpp
+	preview/PreviewStartRecSubScript.cpp
+	preview/PreviewReplaySubScript.cpp
 
 	# scripts
 	GameScene.cpp

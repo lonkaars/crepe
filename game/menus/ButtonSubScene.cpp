@@ -7,6 +7,9 @@
 #include "IButtonScript.h"
 #include "MenusConfig.h"
 
+#include "../preview/PreviewReplaySubScript.h"
+#include "../preview/PreviewStartRecSubScript.h"
+#include "../preview/PreviewStopRecSubScript.h"
 #include "mainmenu/ButtonTransitionPreviewSubScript.h"
 
 #include "../Config.h"
@@ -71,6 +74,18 @@ void ButtonSubScene::set_script(crepe::GameObject & button_object, const Data & 
 		case ScriptSelect::CREDITS_SHOW:
 			button_object.add_component<BehaviorScript>()
 				.set_script<ButtonShowCreditsSubScript>();
+			break;
+		case ScriptSelect::PREVIEW_REPLAY:
+			button_object.add_component<BehaviorScript>()
+				.set_script<PreviewReplaySubScript>();
+			break;
+		case ScriptSelect::PREVIEW_START:
+			button_object.add_component<BehaviorScript>()
+				.set_script<PreviewStartRecSubScript>();
+			break;
+		case ScriptSelect::PREVIEW_STOP:
+		button_object.add_component<BehaviorScript>()
+				.set_script<PreviewStopRecSubScript>();
 			break;
 		case ScriptSelect::NONE:
 			button_object.add_component<BehaviorScript>().set_script<IButtonScript>();

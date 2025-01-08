@@ -19,6 +19,9 @@ public:
 		REPLAY,
 		CREDITS_SHOW,
 		CREDITS_BACK,
+		PREVIEW_START,
+		PREVIEW_STOP,
+		PREVIEW_REPLAY,
 		NONE,
 	};
 	//icon enum
