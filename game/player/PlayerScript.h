@@ -2,7 +2,7 @@
 
 #include <crepe/api/Event.h>
 #include <crepe/api/Script.h>
-
+#include <chrono>
 class PlayerScript : public crepe::Script {
 public:
 	void init();
@@ -14,4 +14,7 @@ private:
 	void shoot(const crepe::vec2& location,float angle);
 private:
 	int prev_anim = 0;
+	std::chrono::time_point<std::chrono::steady_clock> last_fired;
+	std::chrono::duration<float> shot_delay = std::chrono::duration<float>(0.5);
+
 };

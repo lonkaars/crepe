@@ -20,7 +20,7 @@ void PlayerBulletScript::fixed_update(crepe::duration_t dt){
 	
 	vec2 half_screen = camera.viewport_size / 2;
 	float despawn_location = cam_transform.position.x + half_screen.x + 50;
-	if(transform.position.x < despawn_location){
+	if(transform.position.x > despawn_location){
 		this->despawn_bullet();
 	}
 }

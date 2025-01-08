@@ -17,6 +17,7 @@ void PlayerScript::init() {
 	subscribe<CollisionEvent>([this](const CollisionEvent & ev) -> bool {
 		return this->on_collision(ev);
 	});
+	this->last_fired = std::chrono::steady_clock::now();
 }
 bool PlayerScript::on_collision(const CollisionEvent & ev) {
 	BehaviorScript & play_scr = this->get_components_by_name<BehaviorScript>("player").front();
@@ -86,7 +87,13 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 		});
 	}
 	if(this->get_key_state(Keycode::ENTER)){
-		this->shoot(transform.position,0);
+
+		auto now = std::chrono::steady_clock::now();
+		std::chrono::duration<float> elapsed = now - last_fired;
+		if (elapsed > shot_delay) {
+			this->shoot(transform.position,0);
+			last_fired = now;
+		}
 	}
 	if (this->get_key_state(Keycode::SPACE)) {
 		rb.add_force_linear(vec2(0, -PLAYER_GRAVITY_SCALE / 2.5) * dt.count() / 0.02);
