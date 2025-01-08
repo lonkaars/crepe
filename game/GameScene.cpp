@@ -2,8 +2,14 @@
 #include "Config.h"
 #include "MoveCameraManualyScript.h"
 #include "StartGameScript.h"
+#include "coins/CoinPoolSubScene.h"
+#include "coins/CoinSystemScript.h"
 
 #include "background/BackgroundSubScene.h"
+#include "hud/HudScript.h"
+#include "hud/HudSubScene.h"
+#include "hud/SpeedScript.h"
+#include "menus/endgame/EndGameSubScene.h"
 #include "player/PlayerSubScene.h"
 #include "workers/WorkersSubScene.h"
 
@@ -38,6 +44,10 @@ void GameScene::load_scene() {
 		}
 	);
 	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
+	camera.add_component<BehaviorScript>().set_script<CoinSystemScript>();
+	camera.add_component<BehaviorScript>().set_script<HudScript>();
+	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
+
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 
 	PlayerSubScene player(*this);
@@ -71,6 +81,12 @@ void GameScene::load_scene() {
 	GameObject start_game_script = new_object("start_game_script", "script", vec2(0, 0));
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();
 
+	//create coin pool
+	CoinPoolSubScene coin_system;
+	coin_system.create_coins(*this);
+
+	HudSubScene hud;
+	hud.create(*this);
 	GameObject background_music = new_object("background_music", "audio", vec2(0, 0));
 	Asset background_music_asset {"asset/music/level.ogg"};
 	background_music.add_component<AudioSource>(background_music_asset);
@@ -128,6 +144,9 @@ void GameScene::load_scene() {
 		.collision_layer = COLL_LAY_MISSILE,
 	});
 	missile.add_component<BoxCollider>(vec2(100, 100));
+
+	EndGameSubScene endgamewindow;
+	endgamewindow.create(*this);
 }
 
 string GameScene::get_name() const { return "scene1"; }
