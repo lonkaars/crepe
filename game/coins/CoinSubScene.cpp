@@ -40,5 +40,25 @@ int CoinSubScene::create(Scene & scn, int coin_counter) {
 		}
 	);
 	coin.add_component<AudioSource>(Asset {"asset/sfx/coin_pickup_1.ogg"}).volume = 3;
+
+	Sprite & pick_up = coin.add_component<Sprite>(
+		Asset {"asset/coin/coinCollect1_TVOS.png"},
+		Sprite::Data {
+			.sorting_in_layer = SORT_IN_LAY_COINS,
+			.order_in_layer = 1,
+			.size = size * 2,
+		}
+	);
+	pick_up.active = false;
+	coin.add_component<Animator>(
+			pick_up, ivec2 {64, 64}, uvec2 {5, 1},
+			Animator::Data {
+				.fps = 5,
+				.looping = false,
+			}
+	)
+		.active
+		= false;
+
 	return coin_counter;
 }
