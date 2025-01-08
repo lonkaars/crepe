@@ -9,12 +9,13 @@
 #include <crepe/types.h>
 #include <random>
 #include "../Random.h"
+#include "EnemyConfig.h"
 using namespace crepe;
 using namespace std;
 EnemyScript::EnemyScript(){
 	engine.seed(rd());
 	this->last_fired = std::chrono::steady_clock::now();
-	this->shot_delay = std::chrono::duration<float>(2.5 + Random::f(0,1));
+	this->shot_delay = std::chrono::duration<float>(3 + Random::f(0,1));
 }
 void EnemyScript::init(){
 	Metadata& meta = this->get_component<Metadata>();
@@ -51,7 +52,7 @@ void EnemyScript::fixed_update(duration_t dt) {
 	if (elapsed > shot_delay) {
     	this->shoot(transform.position,0);
 		last_fired = now;
-		this->shot_delay = std::chrono::duration<float>(Random::f(0.8,4));
+		this->shot_delay = std::chrono::duration<float>(Random::f(1,4));
 	}
 
 }
@@ -71,7 +72,6 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent& e){
 	float random_height = dist(engine);
 	vec2 spawn_location = {cam_transform.position.x + camera.viewport_size.x / 2 + 100,random_height};
 	transform.position = spawn_location;
-	// transform.position = vec2{cam_transform}
 	ai_component.path.clear();
 	ai_component.make_oval_path(10, 10, vec2{x_value,random_height}, 1.5708, true);
 	ai_component.active = true;
@@ -86,7 +86,7 @@ bool EnemyScript::on_collide(const CollisionEvent & e){
 }
 void EnemyScript::despawn_enemy(){
 	Transform& transform = this->get_component<Transform>();
-	transform.position = vec2{0,-650};
+	transform.position = ENEMY_POOL_LOCATION;
 	AI& ai_component = this->get_component<AI>();
 	// Rigidbody& enemy_body
 	ai_component.active = false;

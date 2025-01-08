@@ -1,4 +1,3 @@
-#include <iostream>
 #include "PlayerScript.h"
 
 #include "../Config.h"
@@ -157,25 +156,19 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 }
 
 void PlayerScript::shoot(const vec2& location,float angle){
-	//cout << "player shot" << endl;
 	RefVector<Transform> bullet_transforms = this->get_components_by_tag<Transform>("player_bullet");
 
 	for(Transform& bullet_pos : bullet_transforms){
-		//cout << "bullet pos  x: " << bullet_pos.position.x << " y: " << bullet_pos.position.y << endl;
 		if(bullet_pos.position.x == 0 && bullet_pos.position.y == -850){
-			
-			//cout << "bullet found\n";
+
 			bullet_pos.position = location;
 			bullet_pos.position.x += 20;
-			//cout << "bullet pos  x: " << bullet_pos.position.x << " y: " << bullet_pos.position.y << endl;
 			Rigidbody& bullet_body = this->get_components_by_id<Rigidbody>(bullet_pos.game_object_id).front();
 			BoxCollider bullet_collider = this->get_components_by_id<BoxCollider>(bullet_pos.game_object_id).front();
-			//bullet_collider.active = true;
 			bullet_body.active = true;
 			BehaviorScript& bullet_script = this->get_components_by_id<BehaviorScript>(bullet_pos.game_object_id).front();
 			bullet_script.active = true;
 			return;
 		}
 	}
-	cout << "bullet not found\n";
 }

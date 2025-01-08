@@ -1,4 +1,3 @@
-#include <iostream>
 #include <string>
 
 #include <crepe/api/GameObject.h>
@@ -37,14 +36,14 @@ int PlayerBulletSubScene::create(Scene & scn){
 		
 	});
 	player_bullet_body.active = false;
-	BoxCollider& player_bullet_collider = player_bullet.add_component<BoxCollider>(vec2(60, 40));
-	//player_bullet_collider.active = false;
+	BoxCollider& player_bullet_collider = player_bullet.add_component<BoxCollider>(vec2(30, 30));
+
 	Asset player_bullet_asset {"asset/other_effects/crepe.png"};
 	Sprite & player_bullet_sprite = player_bullet.add_component<Sprite>(
 		player_bullet_asset,
 		Sprite::Data {
 			.flip = {true,false},
-			.sorting_in_layer = SORT_IN_LAY_PLAYER,
+			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
 			.order_in_layer = 1,
 			.size = vec2(30,0),
 		}

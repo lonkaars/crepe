@@ -3,6 +3,8 @@
 #include <crepe/api/Camera.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Metadata.h>
+
+#include "EnemyConfig.h"
 using namespace crepe;
 using namespace std;
 void EnemyBulletScript::init(){
@@ -28,7 +30,7 @@ void EnemyBulletScript::despawn_bullet(){
 	Transform& transform = this->get_component<Transform>();
 	Rigidbody& bullet_body = this->get_component<Rigidbody>();
 	bullet_body.active = false;
-	transform.position = {0,-750};
+	transform.position = ENEMY_BULLET_POOL_LOCATION;
 }
 
 bool EnemyBulletScript::on_collide(const CollisionEvent& e){

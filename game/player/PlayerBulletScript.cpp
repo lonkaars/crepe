@@ -1,4 +1,3 @@
-#include <iostream>
 
 #include <crepe/api/Camera.h>
 #include <crepe/api/Rigidbody.h>
@@ -37,7 +36,6 @@ void PlayerBulletScript::despawn_bullet(){
 }
 
 bool PlayerBulletScript::on_collide(const CollisionEvent& e){
-	cout << "player bullet collision happened with " << e.info.other.metadata.tag << endl;
 	this->despawn_bullet();
 	return false;
 }

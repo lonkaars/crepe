@@ -1,7 +1,6 @@
 #include <string>
 
-#include "EnemySubScene.h"
-#include "EnemyScript.h"
+
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/BoxCollider.h>
@@ -10,21 +9,24 @@
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Sprite.h>
-
 #include <crepe/api/AI.h>
+
 #include "../Config.h"
+#include "EnemySubScene.h"
+#include "EnemyScript.h"
+#include "EnemyConfig.h"
 using namespace crepe;
 using namespace std;
+//#TODO add sound
 int EnemySubScene::create(Scene & scn){
 	vec2 size = {20, 20};
 
 	static int enemy_counter = 0;
 	string unique_name = "enemy_" + to_string(enemy_counter++);
-	GameObject enemy = scn.new_object(unique_name.c_str(),"enemy",vec2{0,-650},0,1);
+	GameObject enemy = scn.new_object(unique_name.c_str(),"enemy",ENEMY_POOL_LOCATION,0,1);
 	
 	enemy.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = 0,
-		
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.max_linear_velocity = 400,
 		.collision_layers = {COLL_LAY_BOT_TOP,COLL_LAY_PLAYER_BULLET},
@@ -37,7 +39,7 @@ int EnemySubScene::create(Scene & scn){
 		enemy_body_asset,
 		Sprite::Data {
 			.flip = {true,false},
-			.sorting_in_layer = SORT_IN_LAY_PLAYER,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 0,
 			.size = vec2(0, 50),
 		}
@@ -59,7 +61,7 @@ int EnemySubScene::create(Scene & scn){
 		enemy_head_asset,
 		Sprite::Data {
 			.flip = {true,false},
-			.sorting_in_layer = SORT_IN_LAY_PLAYER,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 1,
 			.size = vec2(0, 50),
 			.position_offset = vec2(0, -20),
@@ -78,7 +80,7 @@ int EnemySubScene::create(Scene & scn){
 		enemy_jetpack_asset,
 		Sprite::Data {
 			.flip = {true,false},
-			.sorting_in_layer = SORT_IN_LAY_PLAYER,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 2,
 			.size = vec2(0, 60),
 			.position_offset = vec2(20, 0),
