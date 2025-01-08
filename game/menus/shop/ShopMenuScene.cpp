@@ -6,7 +6,6 @@
 #include "../ButtonSubScene.h"
 #include "../MenusConfig.h"
 #include "types.h"
-#include "../../Config.h"
 
 #include <crepe/api/Camera.h>
 #include <crepe/api/Sprite.h>
