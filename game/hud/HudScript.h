@@ -15,8 +15,9 @@ public:
 	bool get_coin(const GetCoinEvent e);
 	bool toggle_fps(crepe::KeyPressEvent ev);
 	bool save();
+
 private:
-	crepe::SaveManager* savemgr;
+	crepe::SaveManager * savemgr;
 	bool show_fps = false;
 	int coin_amount = 0;
 	std::string coin_amount_st = "";

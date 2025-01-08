@@ -5,8 +5,7 @@
 
 #include "../Config.h"
 
-struct MissileSpawnEvent : public crepe::Event {
-};
+struct MissileSpawnEvent : public crepe::Event {};
 
 class MissileSpawnEventHandler : public crepe::Script {
 private:
@@ -14,6 +13,7 @@ private:
 	static constexpr int RANGE = GAME_HEIGHT / 4;
 	static constexpr int MIN_RANGE = -RANGE;
 	static constexpr int MAX_RANGE = RANGE;
+
 public:
 	void init();
 	bool on_event(const MissileSpawnEvent & ev);

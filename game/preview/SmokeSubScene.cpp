@@ -3,13 +3,13 @@
 
 #include "../Config.h"
 
-#include <crepe/api/Scene.h>
 #include <crepe/api/ParticleEmitter.h>
+#include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>
 
 using namespace crepe;
 
-SmokeSubScene::SmokeSubScene(Scene & scn){
+SmokeSubScene::SmokeSubScene(Scene & scn) {
 	GameObject smoke = scn.new_object("smoke_particle", "TAG", vec2 {500, -210}, 0, 1);
 
 	Asset smoke_ss {"asset/particles/smoke.png"};
@@ -34,5 +34,4 @@ SmokeSubScene::SmokeSubScene(Scene & scn){
 			.end_lifespan = 2,
 		}
 	);
-
 }

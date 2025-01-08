@@ -2,7 +2,7 @@
 
 #include <crepe/api/Scene.h>
 
-class EndGameSubScene  {
+class EndGameSubScene {
 
 public:
 	void create(crepe::Scene & scn);

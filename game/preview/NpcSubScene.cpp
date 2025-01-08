@@ -2,14 +2,14 @@
 
 #include "NpcSubScene.h"
 
-#include "NpcScript.h"
 #include "../Config.h"
+#include "NpcScript.h"
 
 #include <crepe/ValueBroker.h>
-#include <crepe/api/Scene.h>
-#include <crepe/api/Sprite.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/BehaviorScript.h>
+#include <crepe/api/Scene.h>
+#include <crepe/api/Sprite.h>
 #include <crepe/manager/SaveManager.h>
 
 using namespace crepe;
@@ -35,7 +35,7 @@ NpcSubScene::NpcSubScene(Scene & scn) {
 		Sprite::Data {
 			.sorting_in_layer = SORT_IN_LAY_PLAYER,
 			.size = {0, 50},
-			.position_offset = {0,-20},
+			.position_offset = {0, -20},
 		}
 	);
 

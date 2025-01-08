@@ -1,11 +1,11 @@
 #include "PreviewScene.h"
 
 #include "Config.h"
+#include "background/BackgroundSubScene.h"
 #include "missile/MissilePool.h"
 #include "missile/SpawnEvent.h"
-#include "preview/PrevPlayerSubScene.h"
 #include "preview/NpcSubScene.h"
-#include "background/BackgroundSubScene.h"
+#include "preview/PrevPlayerSubScene.h"
 #include "preview/SmokeSubScene.h"
 
 #include "missile/MissileSubScene.h"
@@ -13,6 +13,7 @@
 #include <cmath>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Asset.h>
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/Camera.h>
@@ -24,10 +25,9 @@
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
-#include <crepe/api/AudioSource.h>
 
-#include <crepe/manager/SaveManager.h>
 #include <crepe/ValueBroker.h>
+#include <crepe/manager/SaveManager.h>
 #include <crepe/types.h>
 #include <iostream>
 

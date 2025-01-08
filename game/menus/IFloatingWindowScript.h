@@ -8,8 +8,7 @@ public:
 	virtual void init();
 	void disable_all_sprites();
 	void enable_all_sprites();
+
 protected:
 	std::string tag = "";
 };
-
-

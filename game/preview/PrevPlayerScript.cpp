@@ -96,7 +96,7 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 				+= move_speed;
 			break;
 		case Keycode::M:
-			trigger_event<MissileSpawnEvent>(MissileSpawnEvent{});
+			trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 			break;
 			//todo
 		case Keycode::PAGE_UP:

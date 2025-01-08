@@ -22,7 +22,7 @@ void MissileScript::init() {
 	});
 	this->seeking_disabled = false;
 }
-void MissileScript::kill_missile(){
+void MissileScript::kill_missile() {
 	auto animations = this->get_components<Animator>();
 	auto sprites = this->get_components<Sprite>();
 	auto & fly_sound = this->get_components<AudioSource>().front().get();
@@ -40,7 +40,7 @@ void MissileScript::kill_missile(){
 
 	fly_sound.stop();
 }
-void MissileScript::activate(){
+void MissileScript::activate() {
 	auto anim = this->get_components<Animator>();
 	auto sprites = this->get_components<Sprite>();
 
@@ -78,7 +78,7 @@ void MissileScript::fixed_update(crepe::duration_t dt) {
 		this->kill_missile();
 		return;
 	}
-	
+
 	// check if animation is at the end
 	if (explosion_anim.data.row == 7) {
 		this->activate();

@@ -1,8 +1,7 @@
 #pragma once
 
 #include "api/Scene.h"
-class HudSubScene
-{
+class HudSubScene {
 public:
 	void create(crepe::Scene & scn);
 };

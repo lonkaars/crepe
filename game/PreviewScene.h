@@ -9,4 +9,3 @@ public:
 
 	std::string get_name() const;
 };
-

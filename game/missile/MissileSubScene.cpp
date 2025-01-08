@@ -14,7 +14,6 @@
 
 using namespace crepe;
 
-
 void MissileSubScene::create(crepe::Scene & scn) {
 	std::random_device rd;
 	std::mt19937 gen(rd());

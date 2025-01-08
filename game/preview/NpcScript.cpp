@@ -1,8 +1,8 @@
 #include "NpcScript.h"
 
-#include <crepe/manager/SaveManager.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
+#include <crepe/manager/SaveManager.h>
 
 using namespace std;
 using namespace crepe;
@@ -25,7 +25,6 @@ void NpcScript::fixed_update(duration_t dt) {
 	} else {
 		npc.data.flip = {false, false};
 	}
-
 
 	auto & savemgr = this->get_save_manager();
 	savemgr.set("npc_x", transform.position.x);
