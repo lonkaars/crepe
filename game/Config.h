@@ -7,8 +7,9 @@ static constexpr int SORT_IN_LAY_FORE_BACKGROUND = 5; // For all scenes
 static constexpr int SORT_IN_LAY_PARTICLES_BACKGROUND = 6; // For all scenes
 static constexpr int SORT_IN_LAY_COINS = 7; // Only for GameScene
 static constexpr int SORT_IN_LAY_OBSTACLES = 8; // Only for GameScene
+static constexpr int SORT_IN_LAY_WORKERS_BACK = 9; // Only for GameScene
 static constexpr int SORT_IN_LAY_PLAYER = 10; // Only for GameScene
-static constexpr int SORT_IN_LAY_WORKERS = 12; // Only for GameScene
+static constexpr int SORT_IN_LAY_WORKERS_FRONT = 12; // Only for GameScene
 static constexpr int SORT_IN_LAY_PARTICLES_FOREGROUND = 15; // Only for GameScene
 
 static constexpr int COLL_LAY_BOT_TOP = 1; // Only for GameScene

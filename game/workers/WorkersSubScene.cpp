@@ -1,4 +1,5 @@
 #include "WorkersSubScene.h"
+#include "CollisionScript.h"
 #include "PanicFromPlayerScript.h"
 #include "WorkerScript.h"
 
@@ -34,7 +35,7 @@ void WorkersSubScene::worker1(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_1_body_sprite = worker_1.add_component<Sprite>(
 		Asset {"asset/workers/worker1Body.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_BACK,
 			.order_in_layer = 0,
 			.size = vec2(0, 50),
 		}
@@ -49,7 +50,7 @@ void WorkersSubScene::worker1(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_1_head_sprite = worker_1.add_component<Sprite>(
 		Asset {"asset/workers/worker1Head.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_BACK,
 			.order_in_layer = 1,
 			.size = vec2(0, 50),
 			.position_offset = vec2(0, -20),
@@ -70,6 +71,7 @@ void WorkersSubScene::worker1(crepe::Scene & scn, float start_x, float init_spee
 		.collision_layers = {COLL_LAY_BOT_TOP},
 	});
 	worker_1.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
+	worker_1.add_component<BehaviorScript>().set_script<CollisionScript>();
 
 	if (init_speed < 0) {
 		worker_1_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -82,7 +84,7 @@ void WorkersSubScene::worker2(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_2_body_sprite = worker_2.add_component<Sprite>(
 		Asset {"asset/workers/worker2Body.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 2,
 			.size = vec2(0, 50),
 		}
@@ -97,7 +99,7 @@ void WorkersSubScene::worker2(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_2_head_sprite = worker_2.add_component<Sprite>(
 		Asset {"asset/workers/worker1Head.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 3,
 			.size = vec2(0, 50),
 			.position_offset = vec2(0, -20),
@@ -118,6 +120,7 @@ void WorkersSubScene::worker2(crepe::Scene & scn, float start_x, float init_spee
 		.collision_layers = {COLL_LAY_BOT_TOP},
 	});
 	worker_2.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
+	worker_2.add_component<BehaviorScript>().set_script<CollisionScript>();
 
 	if (init_speed < 0) {
 		worker_2_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -130,7 +133,7 @@ void WorkersSubScene::worker3(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_3_body_sprite = worker_3.add_component<Sprite>(
 		Asset {"asset/workers/worker1Body.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_BACK,
 			.order_in_layer = 4,
 			.size = vec2(0, 50),
 		}
@@ -145,7 +148,7 @@ void WorkersSubScene::worker3(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_3_head_sprite = worker_3.add_component<Sprite>(
 		Asset {"asset/workers/worker2Head.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_BACK,
 			.order_in_layer = 5,
 			.size = vec2(0, 50),
 			.position_offset = vec2(0, -20),
@@ -166,6 +169,7 @@ void WorkersSubScene::worker3(crepe::Scene & scn, float start_x, float init_spee
 		.collision_layers = {COLL_LAY_BOT_TOP},
 	});
 	worker_3.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
+	worker_3.add_component<BehaviorScript>().set_script<CollisionScript>();
 
 	if (init_speed < 0) {
 		worker_3_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -178,7 +182,7 @@ void WorkersSubScene::worker4(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_4_body_sprite = worker_4.add_component<Sprite>(
 		Asset {"asset/workers/worker2Body.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 6,
 			.size = vec2(0, 50),
 		}
@@ -193,7 +197,7 @@ void WorkersSubScene::worker4(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_4_head_sprite = worker_4.add_component<Sprite>(
 		Asset {"asset/workers/worker2Head.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 7,
 			.size = vec2(0, 50),
 			.position_offset = vec2(0, -20),
@@ -214,6 +218,7 @@ void WorkersSubScene::worker4(crepe::Scene & scn, float start_x, float init_spee
 		.collision_layers = {COLL_LAY_BOT_HIGH},
 	});
 	worker_4.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
+	worker_4.add_component<BehaviorScript>().set_script<CollisionScript>();
 
 	if (init_speed < 0) {
 		worker_4_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -226,7 +231,7 @@ void WorkersSubScene::worker5(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_5_body_sprite = worker_5.add_component<Sprite>(
 		Asset {"asset/workers/workerFatBody.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_BACK,
 			.order_in_layer = 8,
 			.size = vec2(0, 50),
 		}
@@ -241,7 +246,7 @@ void WorkersSubScene::worker5(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_5_head_sprite = worker_5.add_component<Sprite>(
 		Asset {"asset/workers/worker1Head.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_BACK,
 			.order_in_layer = 9,
 			.size = vec2(0, 50),
 			.position_offset = vec2(0, -20),
@@ -262,6 +267,7 @@ void WorkersSubScene::worker5(crepe::Scene & scn, float start_x, float init_spee
 		.collision_layers = {COLL_LAY_BOT_HIGH},
 	});
 	worker_5.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
+	worker_5.add_component<BehaviorScript>().set_script<CollisionScript>();
 
 	if (init_speed < 0) {
 		worker_5_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -274,7 +280,7 @@ void WorkersSubScene::worker6(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_6_body_sprite = worker_6.add_component<Sprite>(
 		Asset {"asset/workers/workerFatBody.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 10,
 			.size = vec2(0, 50),
 		}
@@ -289,7 +295,7 @@ void WorkersSubScene::worker6(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_6_head_sprite = worker_6.add_component<Sprite>(
 		Asset {"asset/workers/worker2Head.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 11,
 			.size = vec2(0, 50),
 			.position_offset = vec2(0, -20),
@@ -310,6 +316,7 @@ void WorkersSubScene::worker6(crepe::Scene & scn, float start_x, float init_spee
 		.collision_layers = {COLL_LAY_BOT_LOW},
 	});
 	worker_6.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
+	worker_6.add_component<BehaviorScript>().set_script<CollisionScript>();
 
 	if (init_speed < 0) {
 		worker_6_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -322,7 +329,7 @@ void WorkersSubScene::worker7(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_7_body_sprite = worker_7.add_component<Sprite>(
 		Asset {"asset/workers/workerTallBody.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_BACK,
 			.order_in_layer = 12,
 			.size = vec2(0, 50),
 		}
@@ -337,7 +344,7 @@ void WorkersSubScene::worker7(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_7_head_sprite = worker_7.add_component<Sprite>(
 		Asset {"asset/workers/worker1Head.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_BACK,
 			.order_in_layer = 13,
 			.size = vec2(0, 50),
 			.position_offset = vec2(0, -20),
@@ -358,6 +365,7 @@ void WorkersSubScene::worker7(crepe::Scene & scn, float start_x, float init_spee
 		.collision_layers = {COLL_LAY_BOT_LOW},
 	});
 	worker_7.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
+	worker_7.add_component<BehaviorScript>().set_script<CollisionScript>();
 
 	if (init_speed < 0) {
 		worker_7_body_sprite.data.flip = Sprite::FlipSettings {true, false};
@@ -370,7 +378,7 @@ void WorkersSubScene::worker8(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_8_body_sprite = worker_8.add_component<Sprite>(
 		Asset {"asset/workers/workerTallBody.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 14,
 			.size = vec2(0, 50),
 		}
@@ -385,7 +393,7 @@ void WorkersSubScene::worker8(crepe::Scene & scn, float start_x, float init_spee
 	Sprite & worker_8_head_sprite = worker_8.add_component<Sprite>(
 		Asset {"asset/workers/worker2Head.png"},
 		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_WORKERS,
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
 			.order_in_layer = 15,
 			.size = vec2(0, 50),
 			.position_offset = vec2(0, -20),
@@ -406,6 +414,7 @@ void WorkersSubScene::worker8(crepe::Scene & scn, float start_x, float init_spee
 		.collision_layers = {COLL_LAY_BOT_LOW},
 	});
 	worker_8.add_component<BehaviorScript>().set_script<PanicFromPlayerScript>();
+	worker_8.add_component<BehaviorScript>().set_script<CollisionScript>();
 
 	if (init_speed < 0) {
 		worker_8_body_sprite.data.flip = Sprite::FlipSettings {true, false};
