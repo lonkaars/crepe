@@ -81,12 +81,9 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 	  })},
 	  collider {add_component<BoxCollider>(vec2(0, 0))} {
 	this->set_active(false);
-	Log::logf(Log::DEBUG, "Creating zapper");
 }
 
 void ZapperObject::place(const crepe::vec2 & position, float rotation, float length) {
-	Log::logf(Log::DEBUG, "Placing zapper [position = {}, rotation = {}, length = {}]", position, rotation, length);
-
 	this->transform.position = position;
 	this->transform.rotation = rotation;
 
