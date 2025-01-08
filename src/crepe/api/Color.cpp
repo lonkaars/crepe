@@ -11,3 +11,4 @@ const Color Color::CYAN {0x00, 0xff, 0xff};
 const Color Color::YELLOW {0xff, 0xff, 0x00};
 const Color Color::MAGENTA {0xff, 0x00, 0xff};
 const Color Color::GREY {0x80, 0x80, 0x80};
+const Color Color::GOLD {249, 205, 91};

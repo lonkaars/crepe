@@ -1,4 +1,4 @@
-#include "EndGameSubScript.h"
+#include "CreditsSubScript.h"
 
 #include "../../Events.h"
 #include "../ButtonReplaySubScript.h"
@@ -13,17 +13,21 @@
 
 using namespace crepe;
 
-EndGameSubScript::EndGameSubScript(const std::string & tag) { this->tag = tag; }
+CreditsSubScript::CreditsSubScript(const std::string & tag) { this->tag = tag; }
 
-void EndGameSubScript::init() {
-	this->disable_all();
-	this->subscribe<EndGameEvent>([this](const EndGameEvent e) { return this->enable_all(); });
-	this->subscribe<EndGameEvent>([this](const EndGameEvent e) {
-		return this->reset_timescale();
+void CreditsSubScript::init() {
+	IButtonScript::init();
+	this->subscribe<ButtonPressEvent>([this](const ButtonPressEvent & e) {
+		return this->on_button_press(e);
 	});
+	this->subscribe<ShowCreditsEvent>([this](const ShowCreditsEvent & e) {
+		this->enable_all();
+		return false;
+	});
+	this->disable_all();
 }
 
-bool EndGameSubScript::disable_all() {
+bool CreditsSubScript::disable_all() {
 	IFloatingWindowScript::disable_all_sprites();
 	RefVector<Button> buttons = this->get_components_by_tag<Button>(this->tag);
 	for (Button & button : buttons) {
@@ -36,7 +40,7 @@ bool EndGameSubScript::disable_all() {
 	return false;
 }
 
-bool EndGameSubScript::enable_all() {
+bool CreditsSubScript::enable_all() {
 	IFloatingWindowScript::enable_all_sprites();
 	RefVector<Button> buttons = this->get_components_by_tag<Button>(this->tag);
 	for (Button & button : buttons) {
@@ -49,7 +53,6 @@ bool EndGameSubScript::enable_all() {
 	return false;
 }
 
-bool EndGameSubScript::reset_timescale() {
-	this->get_loop_timer().set_time_scale(1);
-	return false;
+bool CreditsSubScript::on_button_press(const ButtonPressEvent & e) {
+	return this->disable_all();
 }

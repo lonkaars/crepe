@@ -59,3 +59,5 @@ static constexpr int PLAYER_SPEED = 7500; // In game units
 static constexpr int PLAYER_GRAVITY_SCALE = 60; // In game units
 
 static constexpr const char * CAMERA_NAME = "camera";
+// Jetpack particles
+static constexpr const char * JETPACK_PARTICLES = "jetpack_particles";

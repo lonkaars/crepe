@@ -10,6 +10,6 @@ public:
 
 private:
 	crepe::SaveManager * savemgr;
-	bool toggle = true;
+	bool toggle = false;
 	float timescale = 1;
 };
