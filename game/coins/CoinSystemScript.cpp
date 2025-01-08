@@ -209,6 +209,10 @@ void CoinSystemScript::spawn_coins() {
 		for (Sprite & coin_sprite : coin_sprites) {
 			// Skip this sprite if it is already active
 			if (coin_sprite.active) continue;
+			if (coin_sprite.data.order_in_layer == 1) {
+				coin_sprite.active = false;
+				continue;
+			}
 
 			// Found an available (inactive) coin sprite
 			// Retrieve its associated components
