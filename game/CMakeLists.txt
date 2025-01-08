@@ -7,7 +7,10 @@ set(CMAKE_BUILD_TYPE Debug)
 project(game C CXX)
 
 add_subdirectory(../src crepe)
-add_executable(main
+
+add_executable(main)
+
+add_executable(main PUBLIC
 	#background
 	background/AquariumSubScene.cpp
 	background/AquariumScript.cpp
@@ -43,6 +46,11 @@ add_executable(main
 	main.cpp
 
 	# scripts
+
+add_executable(main)
+
+target_sources(main PUBLIC
+	GameScene.cpp
 	MoveCameraManualyScript.cpp
 	StartGameScript.cpp
 
@@ -88,5 +96,9 @@ add_executable(main
 	Random.cpp
 )
 
+add_subdirectory(background)
+add_subdirectory(prefab)
+
 target_link_libraries(main PUBLIC crepe)
+target_include_directories(main PRIVATE .)
 

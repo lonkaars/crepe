@@ -2,6 +2,7 @@
 #include "MainMenuConfig.h"
 
 #include "../MenusConfig.h"
+#include "../../Config.h"
 
 #include <crepe/api/Camera.h>
 #include <crepe/api/Transform.h>

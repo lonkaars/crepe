@@ -14,6 +14,7 @@
 #include "missile/SpawnEvent.h"
 #include "player/PlayerSubScene.h"
 #include "scheduler/ObjectsScheduler.h"
+#include "prefab/ZapperPoolSubScene.h"
 #include "workers/WorkersSubScene.h"
 
 #include <cmath>
@@ -37,9 +38,11 @@ using namespace crepe;
 using namespace std;
 
 void GameScene::load_scene() {
+	logf(Log::DEBUG, "Loading (main) GameScene...");
+
 	BackgroundSubScene background(*this);
 
-	GameObject camera = new_object("camera", "camera", vec2(650, 0));
+	GameObject camera = new_object(CAMERA_NAME, "camera", vec2(650, 0));
 	camera.add_component<Camera>(
 		ivec2(990, 720), vec2(VIEWPORT_X, VIEWPORT_Y),
 		Camera::Data {
@@ -85,6 +88,8 @@ void GameScene::load_scene() {
 	});
 	ceiling.add_component<BoxCollider>(vec2(INFINITY, 200));
 
+	ZapperPoolSubScene {*this};
+
 	GameObject start_game_script = new_object("start_game_script", "script", vec2(0, 0));
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();
 
@@ -94,6 +99,7 @@ void GameScene::load_scene() {
 
 	HudSubScene hud;
 	hud.create(*this);
+
 	GameObject background_music = new_object("background_music", "audio", vec2(0, 0));
 	Asset background_music_asset {"asset/music/level.ogg"};
 	background_music.add_component<AudioSource>(background_music_asset);
@@ -101,56 +107,6 @@ void GameScene::load_scene() {
 	GameObject boom_audio = new_object("boom_audio", "audio", vec2(0, 0));
 	Asset boom_audio_asset {"asset/sfx/window_smash.ogg"};
 	boom_audio.add_component<AudioSource>(boom_audio_asset);
-
-	// zapper, laser and missile (below) for testing purpose only!!!
-	GameObject zapper = new_object("zapper", "zapper", vec2(1000, 200));
-	Asset zapper_asset {"asset/obstacles/zapper/regular_zappers/zapEffect.png"};
-	Sprite & zapper_sprite = zapper.add_component<Sprite>(
-		zapper_asset,
-		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
-			.order_in_layer = 0,
-			.size = vec2(100, 100),
-		}
-	);
-	zapper.add_component<Rigidbody>(Rigidbody::Data {
-		.body_type = Rigidbody::BodyType::KINEMATIC,
-		.kinematic_collision = false,
-		.collision_layer = COLL_LAY_ZAPPER,
-	});
-	zapper.add_component<BoxCollider>(vec2(100, 100));
-	GameObject laser = new_object("laser", "laser", vec2(2000, 200));
-	Asset laser_asset {"asset/obstacles/laser/laserPower.png"};
-	Sprite & laser_sprite = laser.add_component<Sprite>(
-		laser_asset,
-		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
-			.order_in_layer = 0,
-			.size = vec2(100, 100),
-		}
-	);
-	laser.add_component<Rigidbody>(Rigidbody::Data {
-		.body_type = Rigidbody::BodyType::KINEMATIC,
-		.kinematic_collision = false,
-		.collision_layer = COLL_LAY_LASER,
-	});
-	laser.add_component<BoxCollider>(vec2(100, 100));
-	GameObject missile = new_object("missile", "missile", vec2(4000, 200));
-	Asset missile_asset {"asset/obstacles/missile/missile.png"};
-	Sprite & missile_sprite = missile.add_component<Sprite>(
-		missile_asset,
-		Sprite::Data {
-			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
-			.order_in_layer = 0,
-			.size = vec2(100, 100),
-		}
-	);
-	missile.add_component<Rigidbody>(Rigidbody::Data {
-		.body_type = Rigidbody::BodyType::KINEMATIC,
-		.kinematic_collision = false,
-		.collision_layer = COLL_LAY_MISSILE,
-	});
-	missile.add_component<BoxCollider>(vec2(100, 100));
 
 	EndGameSubScene endgamewindow;
 	endgamewindow.create(*this);

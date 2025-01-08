@@ -1,0 +1,36 @@
+#!/bin/sh
+INPUT="$1"
+FRAMES="$2"
+
+die() {
+	echo "$@"
+	exit 1
+}
+check_command() {
+	cmd="$1"
+	command -v "$cmd" > /dev/null || die "command '$cmd' not found"
+}
+
+check_command magick
+check_command identify
+[ "$#" -eq 2 ] || die "usage: $0 <input image> <frame count>"
+[ -e "$INPUT" ] || die "file not found: $INPUT"
+[ "$FRAMES" -gt 0 ] || die "invalid frame count: $FRAMES"
+
+tile_width=$(identify -format "%w" "$INPUT")
+tile_height=$(identify -format "%h" "$INPUT")
+
+OUTPUT="$INPUT.scroll.png"
+magick -size "${tile_width}x$(( $tile_height * $FRAMES ))" 'xc:#ff00ff00' "$OUTPUT"
+
+for i in $(seq 0 $(( $FRAMES - 1 ))); do
+	offset_x=$(( $tile_width * $i / $FRAMES ))
+	offset_y=$(( i * $tile_height ))
+
+	magick "$OUTPUT" "$INPUT" -geometry "+${offset_x}+${offset_y}" -composite "$OUTPUT"
+	magick "$OUTPUT" "$INPUT" -geometry "+$(( $offset_x - $tile_width ))+${offset_y}" -composite "$OUTPUT"
+	echo "+${offset_x}+${offset_y}"
+done
+
+# magick -size ${total_width}x${sprite_height} xc:none canvas.png
+

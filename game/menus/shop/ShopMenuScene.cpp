@@ -4,6 +4,7 @@
 #include "../BannerSubScene.h"
 #include "../ButtonSubScene.h"
 #include "../MenusConfig.h"
+#include "../../Config.h"
 
 #include <crepe/api/Camera.h>
 #include <crepe/api/Sprite.h>
