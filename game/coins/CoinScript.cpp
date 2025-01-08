@@ -13,7 +13,11 @@ using namespace std;
 
 bool CoinScript::on_collision(const CollisionEvent & collisionData) {
 	if (collisionData.info.other.metadata.tag != "coin") return false;
-	if(!this->get_components_by_name<Sprite>(collisionData.info.other.metadata.name).front().get().active) return false;
+	if (!this->get_components_by_name<Sprite>(collisionData.info.other.metadata.name)
+			 .front()
+			 .get()
+			 .active)
+		return false;
 	this->get_components_by_name<Sprite>(collisionData.info.other.metadata.name)
 		.front()
 		.get()
