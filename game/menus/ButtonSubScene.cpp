@@ -62,12 +62,11 @@ void ButtonSubScene::set_script(crepe::GameObject & button_object, const Data & 
 				.set_script<ButtonNextMainMenuSubScript>();
 			break;
 		case ScriptSelect::REPLAY:
-			button_object.add_component<BehaviorScript>()
-				.set_script<ButtonReplaySubScript>();
+			button_object.add_component<BehaviorScript>().set_script<ButtonReplaySubScript>();
 			break;
 		case ScriptSelect::CREDITS_BACK:
-			button_object.add_component<BehaviorScript>()
-				.set_script<CreditsSubScript>(data.tag);
+			button_object.add_component<BehaviorScript>().set_script<CreditsSubScript>(data.tag
+			);
 			break;
 		case ScriptSelect::CREDITS_SHOW:
 			button_object.add_component<BehaviorScript>()

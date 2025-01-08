@@ -1,8 +1,8 @@
 #include "CreditsSubScript.h"
 
 #include "../../Events.h"
-#include "../IFloatingWindowScript.h"
 #include "../ButtonReplaySubScript.h"
+#include "../IFloatingWindowScript.h"
 
 #include <string>
 
@@ -12,7 +12,6 @@
 #include <crepe/types.h>
 
 using namespace crepe;
-
 
 CreditsSubScript::CreditsSubScript(const std::string & tag) { this->tag = tag; }
 
@@ -57,4 +56,3 @@ bool CreditsSubScript::enable_all() {
 bool CreditsSubScript::on_button_press(const ButtonPressEvent & e) {
 	return this->disable_all();
 }
-

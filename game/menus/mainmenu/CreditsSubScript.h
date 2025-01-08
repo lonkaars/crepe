@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../IFloatingWindowScript.h"
 #include "../IButtonScript.h"
+#include "../IFloatingWindowScript.h"
 
 #include <crepe/api/Event.h>
 #include <crepe/api/Script.h>

@@ -55,7 +55,7 @@ void CreditsSubScene::create(Scene & scn) {
 		ButtonSubScene::Data {
 			.text = "Back",
 			.text_width = 150,
-			.position = {-button_position.x+150, button_position.y},
+			.position = {-button_position.x + 150, button_position.y},
 			.script_type = ButtonSubScene::ScriptSelect::CREDITS_BACK,
 			.button_type = ButtonSubScene::ButtonSelect::BACK,
 			.scale = 0.6,
@@ -69,58 +69,64 @@ void CreditsSubScene::create(Scene & scn) {
 	const float Y_OFFSET_NAMES_BEGIN = 100;
 	const float Y_OFFSET_NAMES = 30;
 	const string LOEK = "Loek Le Blansch";
-	crepe::vec2 size_loek = {LOEK.size()*SIZE_CHAR_NAMES, (LOEK.size()*SIZE_CHAR_NAMES / LOEK.size()) * 2};
+	crepe::vec2 size_loek
+		= {LOEK.size() * SIZE_CHAR_NAMES, (LOEK.size() * SIZE_CHAR_NAMES / LOEK.size()) * 2};
 	titel.add_component<Text>(
 		size_loek, FONT,
 		Text::Data {
 			.world_space = false,
 			.text_color = Color::WHITE,
 		},
-		vec2 {150, -207+Y_OFFSET_NAMES+Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, LOEK
+		vec2 {150, -207 + Y_OFFSET_NAMES + Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, LOEK
 	);
 
 	const string WOUTER = "Wouter Boerenkamps";
-	crepe::vec2 size_wouter = {WOUTER.size()*SIZE_CHAR_NAMES, (WOUTER.size()*SIZE_CHAR_NAMES / WOUTER.size()) * 2};
+	crepe::vec2 size_wouter
+		= {WOUTER.size() * SIZE_CHAR_NAMES,
+		   (WOUTER.size() * SIZE_CHAR_NAMES / WOUTER.size()) * 2};
 	titel.add_component<Text>(
 		size_wouter, FONT,
 		Text::Data {
 			.world_space = false,
 			.text_color = Color::WHITE,
 		},
-		vec2 {150, -207+Y_OFFSET_NAMES*2+Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, WOUTER
+		vec2 {150, -207 + Y_OFFSET_NAMES * 2 + Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, WOUTER
 	);
 
 	const string JARO = "Jaro Rutjes";
-	crepe::vec2 size_jaro = {JARO.size()*SIZE_CHAR_NAMES, (JARO.size()*SIZE_CHAR_NAMES / JARO.size()) * 2};
+	crepe::vec2 size_jaro
+		= {JARO.size() * SIZE_CHAR_NAMES, (JARO.size() * SIZE_CHAR_NAMES / JARO.size()) * 2};
 	titel.add_component<Text>(
 		size_jaro, FONT,
 		Text::Data {
 			.world_space = false,
 			.text_color = Color::WHITE,
 		},
-		vec2 {150, -207+Y_OFFSET_NAMES*3+Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, JARO
+		vec2 {150, -207 + Y_OFFSET_NAMES * 3 + Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, JARO
 	);
 
 	const string MAX = "Max Smits";
-	crepe::vec2 size_max = {MAX.size()*SIZE_CHAR_NAMES, (MAX.size()*SIZE_CHAR_NAMES / MAX.size()) * 2};
+	crepe::vec2 size_max
+		= {MAX.size() * SIZE_CHAR_NAMES, (MAX.size() * SIZE_CHAR_NAMES / MAX.size()) * 2};
 	titel.add_component<Text>(
 		size_max, FONT,
 		Text::Data {
 			.world_space = false,
 			.text_color = Color::WHITE,
 		},
-		vec2 {150, -207+Y_OFFSET_NAMES*4+Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, MAX
+		vec2 {150, -207 + Y_OFFSET_NAMES * 4 + Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, MAX
 	);
 
 	const string NIELS = "Niels Stunnebrink";
-	crepe::vec2 size_niels = {NIELS.size()*SIZE_CHAR_NAMES, (NIELS.size()*SIZE_CHAR_NAMES / NIELS.size()) * 2};
+	crepe::vec2 size_niels
+		= {NIELS.size() * SIZE_CHAR_NAMES, (NIELS.size() * SIZE_CHAR_NAMES / NIELS.size()) * 2
+		};
 	titel.add_component<Text>(
 		size_niels, FONT,
 		Text::Data {
 			.world_space = false,
 			.text_color = Color::WHITE,
 		},
-		vec2 {150, -207+Y_OFFSET_NAMES*5+Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, NIELS
+		vec2 {150, -207 + Y_OFFSET_NAMES * 5 + Y_OFFSET_NAMES_BEGIN} + FONTOFFSET, NIELS
 	);
-
 }
