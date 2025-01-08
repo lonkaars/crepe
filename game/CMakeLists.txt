@@ -31,7 +31,6 @@ add_executable(main
 	missile/SpawnEvent.cpp
 
 	# Preview
-	#preview/Coin.cpp
 	preview/SmokeSubScene.cpp
 	preview/NpcSubScene.cpp
 	preview/NpcScript.cpp
@@ -47,11 +46,13 @@ add_executable(main
 	player/PlayerSubScene.cpp
 	player/PlayerEndScript.cpp
 	player/PlayerAudioScript.cpp
-	background/StartSubScene.cpp
+
+	# workers
 	workers/WorkersSubScene.cpp
 	workers/WorkerScript.cpp
 	workers/PanicFromPlayerScript.cpp
-	main.cpp
+
+	# menus
 	menus/BannerSubScene.cpp
 	menus/ButtonSubScene.cpp
 	menus/IButtonScript.cpp

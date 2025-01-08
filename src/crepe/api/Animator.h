@@ -22,7 +22,7 @@ class Animator : public Component {
 public:
 	struct Data {
 		//! frames per second for animation
-		unsigned int fps = 5;
+		unsigned int fps = 1;
 		//! The current col being animated.
 		unsigned int col = 0;
 		//! The current row being animated.
