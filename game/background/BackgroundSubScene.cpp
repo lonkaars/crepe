@@ -33,7 +33,7 @@ BackgroundSubScene::BackgroundSubScene(Scene & scn) {
 
 	begin_x = hallway.create(scn, begin_x, 4, Color::GREEN);
 
-	begin_x = aquarium.create(scn, begin_x);
+	/*begin_x = aquarium.create(scn, begin_x);
 
 	begin_x = hallway.create(scn, begin_x, 5, Color::RED);
 
@@ -79,5 +79,5 @@ BackgroundSubScene::BackgroundSubScene(Scene & scn) {
 
 	begin_x = forest.create(scn, begin_x, "8");
 
-	begin_x = hallway.create(scn, begin_x, 16, Color::MAGENTA);
+	begin_x = hallway.create(scn, begin_x, 16, Color::MAGENTA);*/
 }
