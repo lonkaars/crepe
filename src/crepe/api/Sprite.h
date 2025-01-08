@@ -42,10 +42,10 @@ public:
 		FlipSettings flip;
 
 		//! Layer sorting level of the sprite
-		const int sorting_in_layer = 0;
+		int sorting_in_layer = 0;
 
 		//! Order within the sorting layer
-		const int order_in_layer = 0;
+		int order_in_layer = 0;
 
 		/**
 		 * \brief width and height of the sprite in game units
@@ -119,6 +119,12 @@ private:
 	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator
 	// object is present in GameObject. this is in sprite pixels
 	Rect mask;
+
+protected:
+	virtual std::unique_ptr<Component> save() const;
+	Sprite(const Sprite &) = default;
+	virtual void restore(const Component & snapshot);
+	virtual Sprite & operator=(const Sprite &);
 };
 
 } // namespace crepe
