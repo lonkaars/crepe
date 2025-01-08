@@ -8,6 +8,8 @@
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Transform.h>
+#include <crepe/api/AudioSource.h>
+#include <crepe/api/Animator.h>
 #include <crepe/types.h>
 #include <random>
 using namespace crepe;
@@ -82,8 +84,12 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 
 bool EnemyScript::on_collide(const CollisionEvent & e) {
 	if (e.info.other.metadata.tag == "player_bullet") {
-		this->despawn_enemy();
+		//this->despawn_enemy();
+
 	}
+	Animator& body_animator = this->get_components<Animator>().front();
+	body_animator.data.col = 2;
+	//body_animator.play();
 	BehaviorScript & enemy_script = this->get_component<BehaviorScript>();
 	enemy_script.active = false;
 	return false;
@@ -110,6 +116,8 @@ void EnemyScript::shoot(const vec2 & location, float angle) {
 				= this->get_components_by_id<BoxCollider>(bullet_pos.game_object_id).front();
 			bullet_collider.active = true;
 			bullet_body.active = true;
+			AudioSource& audio = this->get_component<AudioSource>();
+			audio.play();
 			return;
 		}
 	}

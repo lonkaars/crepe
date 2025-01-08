@@ -8,6 +8,7 @@
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Scene.h>
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/Sprite.h>
 
 #include "../Config.h"
@@ -45,9 +46,8 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 		enemy_body_sprite, ivec2(32, 32), uvec2(4, 8),
 		Animator::Data {
 			.fps = 5,
-			.col = 3,
-			.row = 1,
-
+			.col = 1,
+			.row = 0,
 			.looping = false,
 		}
 	);
@@ -91,7 +91,8 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = true,
 		}
 	);
-
+	enemy.add_component<AudioSource>(Asset("asset/sfx/bike_gun_2.ogg")).volume
+		= 0.1;
 	AI & ai_component = enemy.add_component<AI>(3000);
 	ai_component.path_follow_on();
 	BehaviorScript & enemy_script
