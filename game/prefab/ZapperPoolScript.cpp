@@ -46,8 +46,18 @@ void ZapperPoolScript::spawn_random() {
 	};
 
 	bool horizontal = Random::b();
-	float rotation = 90.0 * horizontal;
-	float length = horizontal ? Random::f(400, 200) : Random::f(200, 50);
+	float rotation, length;
+
+	if (horizontal) {
+		rotation = 90;
+		length = Random::f(400, 200);
+	} else {
+		rotation = 0;
+		length = Random::f(200, 50);
+		if (abs(pos.y) + length / 2 > HALLWAY_HEIGHT / 2) {
+			// TODO: fix offset
+		}
+	}
 
 	zapper->place(pos, rotation, length);
 	zapper->set_active(true);
