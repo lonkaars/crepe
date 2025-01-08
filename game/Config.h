@@ -31,11 +31,12 @@ static constexpr int COLL_LAY_ZAPPER = 6; // Only for GameScene
 static constexpr int COLL_LAY_LASER = 7; // Only for GameScene
 static constexpr int COLL_LAY_MISSILE = 8; // Only for GameScene
 
-static constexpr int GAME_HEIGHT = 800; // In game units
+static constexpr float GAME_HEIGHT = 800; // In game units
+static constexpr float HALLWAY_HEIGHT = 475; // In game units
 
-static constexpr int VIEWPORT_X = 1100; // In game units
+static constexpr float VIEWPORT_X = 1100; // In game units
 // 'GAME_HEIGHT' (below) should be replaced by '500' when game development is finished
-static constexpr int VIEWPORT_Y = 500; // In game units
+static constexpr float VIEWPORT_Y = 500; // In game units
 
 // Font settings
 static constexpr const char* FONT = "Jetpackia";
