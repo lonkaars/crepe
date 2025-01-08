@@ -55,6 +55,7 @@ void MainMenuScene::load_scene() {
 			.text_width = 200,
 			.position = pos_btn,
 			.script_type = ButtonSubScene::ScriptSelect::PREVIEW,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::PURPLE,
 		}
 	);
 
@@ -70,6 +71,7 @@ void MainMenuScene::load_scene() {
 			.icon_type = ButtonSubScene::IconSelect::SHOP,
 			.position = pos_btn,
 			.script_type = ButtonSubScene::ScriptSelect::SHOP,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::ORANGE,
 		}
 	);
 
@@ -83,6 +85,7 @@ void MainMenuScene::load_scene() {
 			.text_width = 200,
 			.position = pos_btn,
 			.script_type = ButtonSubScene::ScriptSelect::CREDITS_SHOW,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::BLUE,
 		}
 	);
 

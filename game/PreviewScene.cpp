@@ -124,6 +124,7 @@ void PreviewScene::load_scene() {
 			.worldspace = false,
 			.tag = "Next button",
 			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::YELLOW,
 		}
 	);
 
@@ -139,6 +140,7 @@ void PreviewScene::load_scene() {
 			.worldspace = false,
 			.tag = "Next button",
 			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::BLUE,
 		}
 	);
 
@@ -154,6 +156,7 @@ void PreviewScene::load_scene() {
 			.worldspace = false,
 			.tag = "Next button",
 			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::ORANGE,
 		}
 	);
 

@@ -10,6 +10,7 @@
 #include "../preview/PreviewReplaySubScript.h"
 #include "../preview/PreviewStartRecSubScript.h"
 #include "../preview/PreviewStopRecSubScript.h"
+#include "api/Asset.h"
 #include "mainmenu/ButtonTransitionPreviewSubScript.h"
 
 #include "../Config.h"
@@ -211,8 +212,31 @@ void ButtonSubScene::next_btn_overlay(crepe::GameObject & button_object, const D
 void ButtonSubScene::btn_color_side(
 	crepe::GameObject & button_object, const vec2 & offset, const Data & data
 ) {
+	Asset * selected;
+	Asset blue = Asset("asset/ui/buttonSmallBlue.png");
+	Asset orange = Asset("asset/ui/buttonSmallOrange.png");
+	Asset purple = Asset("asset/ui/buttonSmallPurple.png");
+	Asset yellow = Asset("asset/ui/buttonSmallYellow.png");
+	switch (data.btn_side_color) {
+		case ButtonSideColor::BLUE:
+			selected = &blue;
+			break;
+		case ButtonSideColor::ORANGE:
+			selected = &orange;
+			break;
+		case ButtonSideColor::PURPLE:
+			selected = &purple;
+			break;
+		case ButtonSideColor::YELLOW:
+			selected = &yellow;
+			break;
+		case ButtonSideColor::NONE:
+			selected = &blue;
+			break;
+	}
+
 	button_object.add_component<Sprite>(
-		Asset("asset/ui/buttonSmallBlue.png"),
+		*selected,
 		Sprite::Data {
 			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 2 + data.sorting_layer_offset,
 			.size = SIDE_PANEL_SIZE,
@@ -221,7 +245,7 @@ void ButtonSubScene::btn_color_side(
 		}
 	);
 	button_object.add_component<Sprite>(
-		Asset("asset/ui/buttonSmallBlue.png"),
+		*selected,
 		Sprite::Data {
 			.flip = {true, false},
 			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 2 + data.sorting_layer_offset,

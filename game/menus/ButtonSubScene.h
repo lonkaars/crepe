@@ -36,6 +36,14 @@ public:
 		NEXT,
 		LARGE,
 	};
+
+	enum class ButtonSideColor {
+		BLUE,
+		ORANGE,
+		PURPLE,
+		YELLOW,
+		NONE,
+	};
 	//data struct
 	struct Data {
 		const std::string & text = "NODATA";
@@ -51,6 +59,7 @@ public:
 		const bool color_side = true;
 		const std::string & tag = "";
 		const int sorting_layer_offset = 0;
+		const ButtonSideColor btn_side_color = ButtonSideColor::NONE;
 	};
 
 public:
