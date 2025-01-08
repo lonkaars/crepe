@@ -1,5 +1,5 @@
-#include "PlayerBulletSubScene.h"
 #include "PlayerBulletPool.h"
+#include "PlayerBulletSubScene.h"
 using namespace std;
 
 void PlayerBulletPool::create_bullets(crepe::Scene & scn) {

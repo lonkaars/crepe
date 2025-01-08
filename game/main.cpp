@@ -9,7 +9,7 @@ using namespace crepe;
 
 int main() {
 	Engine gameloop;
-	
+
 	gameloop.add_scene<MainMenuScene>();
 	gameloop.add_scene<ShopMenuScene>();
 	gameloop.add_scene<GameScene>();

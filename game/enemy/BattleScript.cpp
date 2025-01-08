@@ -1,51 +1,51 @@
 #include "BattleScript.h"
-#include <crepe/api/AI.h>
 #include "EnemyScript.h"
+#include <crepe/api/AI.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Metadata.h>
-#include "EnemyScript.h"
 using namespace std;
 using namespace crepe;
 
-BattleScript::BattleScript(){
-	engine.seed(rd());
-}
-void BattleScript::init(){
-	std::uniform_int_distribution<int> dist(2,10);
+BattleScript::BattleScript() { engine.seed(rd()); }
+void BattleScript::init() {
+	std::uniform_int_distribution<int> dist(2, 10);
 	int random_enemy_amount = dist(this->engine);
 	// this->create_battle(random_enemy_amount);
-	this->subscribe<BattleStartEvent>([this](const BattleStartEvent& e) -> bool {
+	this->subscribe<BattleStartEvent>([this](const BattleStartEvent & e) -> bool {
 		return this->create_battle(e);
 	});
 }
-void BattleScript::fixed_update(duration_t dt){
-	if(!battle_active) return;
+void BattleScript::fixed_update(duration_t dt) {
+	if (!battle_active) return;
 	bool enemies_alive = false;
-	RefVector<BehaviorScript> enemy_scripts = this->get_components_by_tag<BehaviorScript>("enemy");
-	
-	for(BehaviorScript& script : enemy_scripts){
-		if(script.active){
+	RefVector<BehaviorScript> enemy_scripts
+		= this->get_components_by_tag<BehaviorScript>("enemy");
+
+	for (BehaviorScript & script : enemy_scripts) {
+		if (script.active) {
 			enemies_alive = true;
 		}
 	}
-	if(!enemies_alive){
+	if (!enemies_alive) {
 		this->battle_active = false;
 		this->trigger_event<BattleWonEvent>();
 	}
 }
-bool BattleScript::create_battle(const BattleStartEvent& e){
+bool BattleScript::create_battle(const BattleStartEvent & e) {
 	this->battle_active = true;
-	RefVector<BehaviorScript> enemy_scripts = this->get_components_by_tag<BehaviorScript>("enemy");
-	std::uniform_real_distribution<float> dist(10,30);
-	for(int i = 0; i < e.num_enemies;i++){
-		BehaviorScript& script = enemy_scripts[i];
+	RefVector<BehaviorScript> enemy_scripts
+		= this->get_components_by_tag<BehaviorScript>("enemy");
+	std::uniform_real_distribution<float> dist(10, 30);
+	for (int i = 0; i < e.num_enemies; i++) {
+		BehaviorScript & script = enemy_scripts[i];
 		script.active = true;
-		this->trigger_event<SpawnEnemyEvent>(SpawnEnemyEvent{
-			.speed = dist(engine),
-			.column = i,
-		},script.game_object_id);
-		
+		this->trigger_event<SpawnEnemyEvent>(
+			SpawnEnemyEvent {
+				.speed = dist(engine),
+				.column = i,
+			},
+			script.game_object_id
+		);
 	}
 	return true;
 }
-

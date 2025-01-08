@@ -1,24 +1,24 @@
 #pragma once
+#include <chrono>
+#include <crepe/api/Camera.h>
 #include <crepe/api/Event.h>
 #include <crepe/api/Script.h>
-#include <crepe/api/Event.h>
-#include <crepe/api/Camera.h>
 #include <random>
-#include <chrono>
-struct SpawnEnemyEvent : public crepe::Event{
+struct SpawnEnemyEvent : public crepe::Event {
 	float speed = 0;
 	int column = 0;
 };
 class EnemyScript : public crepe::Script {
-	public:
+public:
 	EnemyScript();
 	void init() override;
 	void fixed_update(crepe::duration_t dt) override;
-	void shoot(const crepe::vec2& position,float angle);
+	void shoot(const crepe::vec2 & position, float angle);
 	bool on_collide(const crepe::CollisionEvent & collisionData);
 	void despawn_enemy();
-	bool spawn_enemy(const SpawnEnemyEvent& e);
-	private:
+	bool spawn_enemy(const SpawnEnemyEvent & e);
+
+private:
 	std::random_device rd;
 	std::default_random_engine engine;
 	bool alive = false;

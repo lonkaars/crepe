@@ -4,9 +4,9 @@
 #include "../enemy/BattleScript.h"
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
+#include <crepe/api/BoxCollider.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
-#include <crepe/api/BoxCollider.h>
 #include <crepe/api/Transform.h>
 #include <crepe/types.h>
 
@@ -60,7 +60,8 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		audio.play();
 
 		return false;
-	} else if (ev.info.other.metadata.tag == "missile" || ev.info.other.metadata.tag == "enemy_bullet") {
+	} else if (ev.info.other.metadata.tag == "missile"
+			   || ev.info.other.metadata.tag == "enemy_bullet") {
 		for (Animator & anim : animators) {
 			anim.active = true;
 			anim.set_anim(5);
@@ -91,19 +92,19 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 	for (ParticleEmitter & emitter : emitters) {
 		emitter.data.boundary.offset = vec2(0, -transform.position.y);
 	}
-	
+
 	Rigidbody & rb = this->get_components_by_name<Rigidbody>("player").front();
 	if (this->get_key_state(Keycode::P)) {
-		this->trigger_event<BattleStartEvent>(BattleStartEvent{
+		this->trigger_event<BattleStartEvent>(BattleStartEvent {
 			.num_enemies = 5,
 		});
 	}
-	if(this->get_key_state(Keycode::ENTER)){
+	if (this->get_key_state(Keycode::ENTER)) {
 
 		auto now = std::chrono::steady_clock::now();
 		std::chrono::duration<float> elapsed = now - last_fired;
 		if (elapsed > shot_delay) {
-			this->shoot(transform.position,0);
+			this->shoot(transform.position, 0);
 			last_fired = now;
 		}
 	}
@@ -155,18 +156,23 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 	}
 }
 
-void PlayerScript::shoot(const vec2& location,float angle){
-	RefVector<Transform> bullet_transforms = this->get_components_by_tag<Transform>("player_bullet");
+void PlayerScript::shoot(const vec2 & location, float angle) {
+	RefVector<Transform> bullet_transforms
+		= this->get_components_by_tag<Transform>("player_bullet");
 
-	for(Transform& bullet_pos : bullet_transforms){
-		if(bullet_pos.position.x == 0 && bullet_pos.position.y == -850){
+	for (Transform & bullet_pos : bullet_transforms) {
+		if (bullet_pos.position.x == 0 && bullet_pos.position.y == -850) {
 
 			bullet_pos.position = location;
 			bullet_pos.position.x += 20;
-			Rigidbody& bullet_body = this->get_components_by_id<Rigidbody>(bullet_pos.game_object_id).front();
-			BoxCollider bullet_collider = this->get_components_by_id<BoxCollider>(bullet_pos.game_object_id).front();
+			Rigidbody & bullet_body
+				= this->get_components_by_id<Rigidbody>(bullet_pos.game_object_id).front();
+			BoxCollider bullet_collider
+				= this->get_components_by_id<BoxCollider>(bullet_pos.game_object_id).front();
 			bullet_body.active = true;
-			BehaviorScript& bullet_script = this->get_components_by_id<BehaviorScript>(bullet_pos.game_object_id).front();
+			BehaviorScript & bullet_script
+				= this->get_components_by_id<BehaviorScript>(bullet_pos.game_object_id)
+					  .front();
 			bullet_script.active = true;
 			return;
 		}
