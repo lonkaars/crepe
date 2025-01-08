@@ -13,7 +13,7 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 			  Sprite::Data {
 				  .sorting_in_layer = SORT_IN_LAY_OBSTACLES,
 				  .order_in_layer = 1,
-				  .size = vec2(0, 42) * SCALE,
+				  .size = vec2(0, 50) * SCALE,
 			  }
 		  ),
 		  .orb_end = add_component<Sprite>(
@@ -22,7 +22,7 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 				  .flip = {true, true},
 				  .sorting_in_layer = SORT_IN_LAY_OBSTACLES,
 				  .order_in_layer = 1,
-				  .size = vec2(0, 42) * SCALE,
+				  .size = vec2(0, 50) * SCALE,
 			  }
 		  ),
 		  .glow_start = add_component<Sprite>(
@@ -81,10 +81,12 @@ ZapperObject::ZapperObject(crepe::GameObject && base)
 	  })},
 	  collider {add_component<BoxCollider>(vec2(0, 0))} {
 	this->set_active(false);
-	Log::logf(Log::DEBUG, "creating zapper");
+	Log::logf(Log::DEBUG, "Creating zapper");
 }
 
 void ZapperObject::place(const crepe::vec2 & position, float rotation, float length) {
+	Log::logf(Log::DEBUG, "Placing zapper [position = {}, rotation = {}, length = {}]", position, rotation, length);
+
 	this->transform.position = position;
 	this->transform.rotation = rotation;
 
@@ -98,6 +100,8 @@ void ZapperObject::place(const crepe::vec2 & position, float rotation, float len
 	this->sprite.beam.data.size.x = length;
 
 	this->collider.dimensions = offset.rotate(rotation) * 2 + vec2(30, 30) * SCALE;
+
+	this->set_active(true);
 }
 
 void ZapperObject::set_active(bool active) {

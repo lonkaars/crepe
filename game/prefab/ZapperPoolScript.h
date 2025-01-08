@@ -2,11 +2,14 @@
 
 #include <crepe/api/Script.h>
 
+#include "ZapperObject.h"
+#include "util/OptionalRef.h"
+
 class ZapperPoolSubScene;
 
 class ZapperPoolScript : public crepe::Script {
 public:
-	ZapperPoolScript(ZapperPoolSubScene & pool);
+	ZapperPoolScript(std::vector<ZapperObject> && pool);
 
 	void init();
 	void fixed_update(crepe::duration_t);
@@ -14,10 +17,12 @@ public:
 	unsigned i = 0;
 
 private:
-	ZapperPoolSubScene & pool;
+	std::vector<ZapperObject> pool;
 
 private:
-	crepe::vec2 get_camera_pos();
+	crepe::OptionalRef<crepe::Transform> camera_transform;
+	crepe::OptionalRef<crepe::Camera> camera_camera;
+	crepe::OptionalRef<ZapperObject> get_next_zapper();
 
 private:
 	void spawn_random();
