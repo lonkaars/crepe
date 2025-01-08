@@ -3,5 +3,8 @@
 using namespace std;
 void EnemyPool::create_enemies(crepe::Scene & scn) {
 	EnemySubScene enemy;
-	while(enemy.create(scn) < this->MAXIMUM_AMOUNT);
+	int amount = 0;
+	while (amount < this->MAXIMUM_AMOUNT) {
+		amount = enemy.create(scn, amount);
+	}
 }

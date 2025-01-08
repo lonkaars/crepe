@@ -4,5 +4,8 @@ using namespace std;
 
 void EnemyBulletPool::create_bullets(crepe::Scene & scn) {
 	EnemyBulletSubScene bullet;
-	while(bullet.create(scn) < this->MAXIMUM_AMOUNT);
+	int amount = 0;
+	while (amount < this->MAXIMUM_AMOUNT) {
+		amount = bullet.create(scn, amount);
+	}
 }

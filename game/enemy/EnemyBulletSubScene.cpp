@@ -18,10 +18,7 @@
 #include "../Random.h"
 using namespace crepe;
 using namespace std;
-int EnemyBulletSubScene::create(Scene & scn){
-	vec2 size = {20, 20};
-
-	static int counter = 0;
+int EnemyBulletSubScene::create(Scene & scn, int counter){
 	string unique_name = "enemy_bullet_" + to_string(counter++);
 	GameObject bullet = scn.new_object(unique_name.c_str(),"enemy_bullet",ENEMY_BULLET_POOL_LOCATION,0,1);
 	

@@ -17,9 +17,7 @@
 #include "PlayerBulletScript.h"
 using namespace crepe;
 using namespace std;
-int PlayerBulletSubScene::create(Scene & scn){
-	vec2 size = {20, 20};
-	static int counter = 0;
+int PlayerBulletSubScene::create(Scene & scn,int counter){
 	string unique_name = "player_bullet_" + to_string(counter++);
 	GameObject player_bullet = scn.new_object(unique_name.c_str(),"player_bullet",vec2{0,-850},0,1);
 	

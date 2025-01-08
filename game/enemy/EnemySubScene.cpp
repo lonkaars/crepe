@@ -18,10 +18,8 @@
 using namespace crepe;
 using namespace std;
 //#TODO add sound
-int EnemySubScene::create(Scene & scn){
-	vec2 size = {20, 20};
+int EnemySubScene::create(Scene & scn,int enemy_counter){
 
-	static int enemy_counter = 0;
 	string unique_name = "enemy_" + to_string(enemy_counter++);
 	GameObject enemy = scn.new_object(unique_name.c_str(),"enemy",ENEMY_POOL_LOCATION,0,1);
 	

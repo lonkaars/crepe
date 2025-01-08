@@ -6,5 +6,5 @@ class Scene;
 
 class EnemyBulletSubScene {
 public:
-	int create(crepe::Scene & scn);
+	int create(crepe::Scene & scn, int counter);
 };
