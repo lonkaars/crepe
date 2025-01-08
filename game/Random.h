@@ -8,4 +8,3 @@ public:
 	static unsigned u(unsigned upper, unsigned lower = 0);
 	static bool b();
 };
-

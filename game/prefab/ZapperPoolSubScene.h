@@ -1,8 +1,8 @@
 #pragma once
 
-#include <crepe/api/Scene.h>
-#include <crepe/api/GameObject.h>
 #include <crepe/api/Event.h>
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Scene.h>
 #include <crepe/util/OptionalRef.h>
 
 class CreateZapperEvent : public crepe::Event {};

@@ -116,4 +116,3 @@ void ZapperObject::set_active(bool active) {
 
 	this->active = active;
 }
-

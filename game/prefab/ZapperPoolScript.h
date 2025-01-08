@@ -31,4 +31,3 @@ private:
 	static constexpr float MAX_LENGTH = 400;
 	static constexpr float OFFSCREEN_MARGIN = 50 + MAX_LENGTH;
 };
-

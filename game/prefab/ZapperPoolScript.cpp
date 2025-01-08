@@ -23,23 +23,24 @@ void ZapperPoolScript::init() {
 }
 
 void ZapperPoolScript::fixed_update(crepe::duration_t) {
-	float threshold = camera_transform->position.x - camera_camera->viewport_size.x / 2 - OFFSCREEN_MARGIN;
+	float threshold
+		= camera_transform->position.x - camera_camera->viewport_size.x / 2 - OFFSCREEN_MARGIN;
 	for (ZapperObject & zapper : this->pool) {
 		if (!zapper.active) continue;
 
-		if (zapper.transform.position.x < threshold)
-			zapper.set_active(false);
+		if (zapper.transform.position.x < threshold) zapper.set_active(false);
 	}
 }
 
 void ZapperPoolScript::spawn_random() {
 	OptionalRef<ZapperObject> zapper = this->get_next_zapper();
 	if (!zapper) return; // pool exhausted
-	
+
 	bool horizontal = Random::b();
 	vec2 pos;
 	float rotation, length;
-	pos.x = camera_transform->position.x + camera_camera->viewport_size.x / 2 + OFFSCREEN_MARGIN;
+	pos.x
+		= camera_transform->position.x + camera_camera->viewport_size.x / 2 + OFFSCREEN_MARGIN;
 
 	if (horizontal) {
 		rotation = 90;
@@ -67,4 +68,3 @@ OptionalRef<ZapperObject> ZapperPoolScript::get_next_zapper() {
 	}
 	return {};
 }
-

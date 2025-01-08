@@ -58,5 +58,4 @@ static constexpr const char * PLAYER_NAME = "player";
 static constexpr int PLAYER_SPEED = 7500; // In game units
 static constexpr int PLAYER_GRAVITY_SCALE = 60; // In game units
 
-static constexpr const char* CAMERA_NAME = "camera";
-
+static constexpr const char * CAMERA_NAME = "camera";

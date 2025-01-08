@@ -180,7 +180,7 @@ Vector2<T> Vector2<T>::rotate(float deg) const {
 } // namespace crepe
 
 template <typename T>
-std::format_context::iterator std::formatter<crepe::Vector2<T>>::format(crepe::Vector2<T> vec, format_context & ctx) const {
+std::format_context::iterator
+std::formatter<crepe::Vector2<T>>::format(crepe::Vector2<T> vec, format_context & ctx) const {
 	return formatter<string>::format(std::format("{{{}, {}}}", vec.x, vec.y), ctx);
 }
-

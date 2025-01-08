@@ -1,11 +1,10 @@
 
 #include "ShopMenuScene.h"
 
+#include "../../Config.h"
 #include "../BannerSubScene.h"
 #include "../ButtonSubScene.h"
 #include "../MenusConfig.h"
-#include "../BannerSubScene.h"
-#include "../../Config.h"
 
 #include <crepe/api/Camera.h>
 #include <crepe/api/Sprite.h>
