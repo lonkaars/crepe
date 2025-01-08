@@ -39,7 +39,7 @@ bool BattleScript::create_battle(const BattleStartEvent & e) {
 	for (int i = 0; i < e.num_enemies; i++) {
 		BehaviorScript & script = enemy_scripts[i];
 		script.active = true;
-		this->trigger_event<SpawnEnemyEvent>(
+		this->queue_event<SpawnEnemyEvent>(
 			SpawnEnemyEvent {
 				.speed = dist(engine),
 				.column = i,
@@ -47,5 +47,5 @@ bool BattleScript::create_battle(const BattleStartEvent & e) {
 			script.game_object_id
 		);
 	}
-	return true;
+	return false;
 }
