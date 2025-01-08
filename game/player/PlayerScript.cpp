@@ -94,11 +94,6 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 	}
 
 	Rigidbody & rb = this->get_components_by_name<Rigidbody>("player").front();
-	if (this->get_key_state(Keycode::P)) {
-		this->trigger_event<BattleStartEvent>(BattleStartEvent {
-			.num_enemies = 5,
-		});
-	}
 	if (this->get_key_state(Keycode::ENTER)) {
 
 		auto now = std::chrono::steady_clock::now();
