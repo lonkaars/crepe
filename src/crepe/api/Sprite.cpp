@@ -20,9 +20,7 @@ Sprite::Sprite(game_object_id_t id, const Asset & texture, const Sprite::Data & 
 
 Sprite::~Sprite() { dbg_trace(); }
 
-unique_ptr<Component> Sprite::save() const {
-	return unique_ptr<Component>(new Sprite(*this));
-}
+unique_ptr<Component> Sprite::save() const { return unique_ptr<Component>(new Sprite(*this)); }
 
 void Sprite::restore(const Component & snapshot) {
 	*this = static_cast<const Sprite &>(snapshot);
