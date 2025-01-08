@@ -6,7 +6,7 @@ using namespace crepe;
 using namespace std;
 
 void TransitionStartSubScript::fixed_update(crepe::duration_t dt) {
-	if (this->get_key_state(Keycode::ENTER) && this->transition == false)
+	if (this->get_key_state(Keycode::SPACE) && this->transition == false)
 		this->transition = true;
 }
 
