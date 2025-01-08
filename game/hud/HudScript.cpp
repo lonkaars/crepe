@@ -3,6 +3,7 @@
 
 #include "../Config.h"
 #include "../Events.h"
+#include "menus/endgame/EndGameSubScript.h"
 
 #include <climits>
 
@@ -91,5 +92,6 @@ bool HudScript::save() {
 	SaveManager & savemgr = this->get_save_manager();
 	savemgr.set(TOTAL_COINS_RUN, this->coin_amount);
 	savemgr.set(DISTANCE_RUN, this->distance_st);
+	this->trigger_event<ShowScoreEvent>();
 	return false;
 }
