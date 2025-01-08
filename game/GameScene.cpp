@@ -80,7 +80,7 @@ void GameScene::load_scene() {
 	boom_audio.add_component<AudioSource>(boom_audio_asset);
 
 	// zapper, laser and missile (below) for testing purpose only!!!
-	GameObject zapper = new_object("zapper", "zapper", vec2(1000, 0));
+	GameObject zapper = new_object("zapper", "zapper", vec2(1000, 200));
 	Asset zapper_asset {"asset/obstacles/zapper/regular_zappers/zapEffect.png"};
 	Sprite & zapper_sprite = zapper.add_component<Sprite>(
 		zapper_asset,
@@ -96,7 +96,7 @@ void GameScene::load_scene() {
 		.collision_layer = COLL_LAY_ZAPPER,
 	});
 	zapper.add_component<BoxCollider>(vec2(100, 100));
-	GameObject laser = new_object("laser", "laser", vec2(2000, 0));
+	GameObject laser = new_object("laser", "laser", vec2(2000, 200));
 	Asset laser_asset {"asset/obstacles/laser/laserPower.png"};
 	Sprite & laser_sprite = laser.add_component<Sprite>(
 		laser_asset,
@@ -112,7 +112,7 @@ void GameScene::load_scene() {
 		.collision_layer = COLL_LAY_LASER,
 	});
 	laser.add_component<BoxCollider>(vec2(100, 100));
-	GameObject missile = new_object("missile", "missile", vec2(4000, 0));
+	GameObject missile = new_object("missile", "missile", vec2(4000, 200));
 	Asset missile_asset {"asset/obstacles/missile/missile.png"};
 	Sprite & missile_sprite = missile.add_component<Sprite>(
 		missile_asset,

@@ -25,6 +25,7 @@ add_executable(main
 	workers/WorkersSubScene.cpp
 	workers/WorkerScript.cpp
 	workers/PanicFromPlayerScript.cpp
+	workers/CollisionScript.cpp
 	main.cpp
 )
 
