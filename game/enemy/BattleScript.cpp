@@ -3,7 +3,6 @@
 #include "EnemyScript.h"
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Metadata.h>
-#include "BattleWonEvent.h"
 #include "EnemyScript.h"
 using namespace std;
 using namespace crepe;

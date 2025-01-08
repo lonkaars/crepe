@@ -13,7 +13,6 @@ using namespace std;
 
 void StartGameScript::fixed_update(crepe::duration_t dt) {
 	Transform & player_transform = this->get_components_by_name<Transform>("player").front();
-	// cout << "startgameScript call speed: " << PLAYER_SPEED * dt.count() << endl;
 	// Create hole in wall and activate panic lamp
 	if (player_transform.position.x > 75 && !this->created_hole) {
 		Sprite & lamp_sprite = this->get_components_by_name<Sprite>("start_end").back();
@@ -64,14 +63,14 @@ void StartGameScript::fixed_update(crepe::duration_t dt) {
 	}
 
 	// Start camera movement, enable player jumping and disable this script
-	// if (player_transform.position.x > 500) {
-	// 	Rigidbody & rb = this->get_components_by_name<Rigidbody>("camera").front();
-	// 	rb.data.linear_velocity = vec2(PLAYER_SPEED * dt.count(), 0);
-	// 	BehaviorScript & player_script
-	// 		= this->get_components_by_name<BehaviorScript>("player").front();
-	// 	player_script.active = true;
-	// 	BehaviorScript & this_script
-	// 		= this->get_components_by_name<BehaviorScript>("start_game_script").front();
-	// 	this_script.active = false;
-	// }
+	if (player_transform.position.x > 500) {
+		Rigidbody & rb = this->get_components_by_name<Rigidbody>("camera").front();
+		rb.data.linear_velocity = vec2(PLAYER_SPEED * dt.count(), 0);
+		BehaviorScript & player_script
+			= this->get_components_by_name<BehaviorScript>("player").front();
+		player_script.active = true;
+		BehaviorScript & this_script
+			= this->get_components_by_name<BehaviorScript>("start_game_script").front();
+		this_script.active = false;
+	}
 }

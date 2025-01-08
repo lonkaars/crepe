@@ -4,6 +4,10 @@
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Event.h>
 #include <random>
+struct BattleWonEvent : public crepe::Event{
+
+};
+
 struct BattleStartEvent : public crepe::Event{
 	public: 
 	int num_enemies = 0;
