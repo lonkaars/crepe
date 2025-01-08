@@ -5,6 +5,7 @@
 #include "../Config.h"
 #include "../hud/HudScript.h"
 
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/CircleCollider.h>
 #include <crepe/api/Sprite.h>
 
@@ -29,6 +30,13 @@ bool CoinScript::on_collision(const CollisionEvent & collisionData) {
 		.active
 		= false;
 	this->amount++;
+
+	AudioSource & audio = this->get_components_by_id<AudioSource>(
+								  collisionData.info.other.metadata.game_object_id
+	)
+							  .front();
+	audio.play();
+
 	return false;
 }
 
