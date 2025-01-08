@@ -8,5 +8,5 @@ class Scene;
 
 class CoinSubScene {
 public:
-	int create(crepe::Scene & scn);
+	int create(crepe::Scene & scn, int coin_counter);
 };

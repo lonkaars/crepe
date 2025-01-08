@@ -18,8 +18,9 @@ static constexpr int SORT_IN_LAY_FORE_BACKGROUND = 5; // For all scenes
 static constexpr int SORT_IN_LAY_PARTICLES_BACKGROUND = 6; // For all scenes
 static constexpr int SORT_IN_LAY_COINS = 7; // Only for GameScene
 static constexpr int SORT_IN_LAY_OBSTACLES = 8; // Only for GameScene
+static constexpr int SORT_IN_LAY_WORKERS_BACK = 9; // Only for GameScene
 static constexpr int SORT_IN_LAY_PLAYER = 10; // Only for GameScene
-static constexpr int SORT_IN_LAY_WORKERS = 12; // Only for GameScene
+static constexpr int SORT_IN_LAY_WORKERS_FRONT = 12; // Only for GameScene
 static constexpr int SORT_IN_LAY_PARTICLES_FOREGROUND = 15; // Only for GameScene
 
 static constexpr int COLL_LAY_BOT_TOP = 1; // Only for GameScene
@@ -39,21 +40,21 @@ static constexpr float VIEWPORT_X = 1100; // In game units
 static constexpr float VIEWPORT_Y = 500; // In game units
 
 // Font settings
-static constexpr const char* FONT = "Jetpackia";
-static constexpr crepe::vec2 FONTOFFSET = {0,0};
+static constexpr const char * FONT = "Jetpackia";
+static constexpr crepe::vec2 FONTOFFSET = {0, 0};
 
-// Amount of coins in game 
-static constexpr const char* TOTAL_COINS_GAME = "total_coins_game";
+// Amount of coins in game
+static constexpr const char * TOTAL_COINS_GAME = "total_coins_game";
 
-// Amount of coins in current run 
-static constexpr const char* TOTAL_COINS_RUN = "total_coins_run";
+// Amount of coins in current run
+static constexpr const char * TOTAL_COINS_RUN = "total_coins_run";
 
 // Distance
-static constexpr const char* DISTANCE_GAME = "distance_game";
-static constexpr const char* DISTANCE_RUN = "distance_run";
+static constexpr const char * DISTANCE_GAME = "distance_game";
+static constexpr const char * DISTANCE_RUN = "distance_run";
 
 // Player config
-static constexpr const char* PLAYER_NAME = "player";
+static constexpr const char * PLAYER_NAME = "player";
 static constexpr int PLAYER_SPEED = 7500; // In game units
 static constexpr int PLAYER_GRAVITY_SCALE = 60; // In game units
 

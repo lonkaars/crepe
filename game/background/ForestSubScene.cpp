@@ -15,14 +15,14 @@ using namespace crepe;
 using namespace std;
 
 float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_name) {
-	GameObject script = scn.new_object("forest_script", "background");
+	GameObject script = scn.new_object("forest_script", "background_forest");
 	script.add_component<BehaviorScript>().set_script<ForestParallaxScript>(
 		begin_x - 400, begin_x + 3000 + 400, unique_bg_name
 	);
 
 	this->add_background(scn, begin_x, unique_bg_name);
 
-	GameObject begin = scn.new_object("forest_begin", "background", vec2(begin_x, 0));
+	GameObject begin = scn.new_object("forest_begin", "background_forest", vec2(begin_x, 0));
 	Asset begin_asset {"asset/background/forest/forestFG_1_TVOS.png"};
 	begin.add_component<Sprite>(
 		begin_asset,
@@ -36,7 +36,8 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 
 	this->add_background(scn, begin_x, unique_bg_name);
 
-	GameObject middle_1 = scn.new_object("forest_middle", "background", vec2(begin_x, 0));
+	GameObject middle_1
+		= scn.new_object("forest_middle", "background_forest", vec2(begin_x, 0));
 	Asset middle_1_asset {"asset/background/forest/forestFG_3_TVOS.png"};
 	middle_1.add_component<Sprite>(
 		middle_1_asset,
@@ -50,7 +51,8 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 
 	this->add_background(scn, begin_x, unique_bg_name);
 
-	GameObject middle_2 = scn.new_object("forest_middle", "background", vec2(begin_x, 0));
+	GameObject middle_2
+		= scn.new_object("forest_middle", "background_forest", vec2(begin_x, 0));
 	Asset middle_2_asset {"asset/background/forest/forestFG_3_TVOS.png"};
 	middle_2.add_component<Sprite>(
 		middle_2_asset,
@@ -64,7 +66,7 @@ float ForestSubScene::create(Scene & scn, float begin_x, std::string unique_bg_n
 
 	this->add_background(scn, begin_x, unique_bg_name);
 
-	GameObject end = scn.new_object("forest_end", "background", vec2(begin_x, 0));
+	GameObject end = scn.new_object("forest_end", "background_forest", vec2(begin_x, 0));
 	Asset end_asset {"asset/background/forest/forestFG_2_TVOS.png"};
 	end.add_component<Sprite>(
 		end_asset,

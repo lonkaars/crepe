@@ -4,12 +4,11 @@
 
 #include <crepe/api/Script.h>
 
-class ButtonSetShopScript : public IButtonScript {
+class ButtonNextMainMenuSubScript : public IButtonScript {
 public:
 	void init() override;
-	bool on_button_press(const crepe::ButtonPressEvent& e);
-private:
-	float velocity = 20;
+	bool on_button_press(const crepe::ButtonPressEvent & e);
+
 protected:
 	bool transition = false;
 };

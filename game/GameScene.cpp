@@ -2,8 +2,7 @@
 #include "Config.h"
 #include "MoveCameraManualyScript.h"
 #include "StartGameScript.h"
-#include "coins/CoinSubScene.h"
-#include "coins/CoinPool.h"
+#include "coins/CoinPoolSubScene.h"
 #include "coins/CoinSystemScript.h"
 
 #include "background/BackgroundSubScene.h"
@@ -11,7 +10,6 @@
 #include "hud/HudSubScene.h"
 #include "hud/SpeedScript.h"
 #include "menus/endgame/EndGameSubScene.h"
-#include "menus/endgame/EndGameSubScript.h"
 #include "player/PlayerSubScene.h"
 #include "prefab/ZapperPoolSubScene.h"
 #include "workers/WorkersSubScene.h"
@@ -45,15 +43,15 @@ void GameScene::load_scene() {
 	camera.add_component<Camera>(
 		ivec2(990, 720), vec2(VIEWPORT_X, VIEWPORT_Y),
 		Camera::Data {
-			.bg_color = Color::RED,
+			.bg_color = Color::BLACK,
 		}
 	);
 	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
 	camera.add_component<BehaviorScript>().set_script<CoinSystemScript>();
 	camera.add_component<BehaviorScript>().set_script<HudScript>();
 	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
-	
-	camera.add_component<Rigidbody>(Rigidbody::Data{});
+
+	camera.add_component<Rigidbody>(Rigidbody::Data {});
 
 	PlayerSubScene player(*this);
 
@@ -89,7 +87,7 @@ void GameScene::load_scene() {
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();
 
 	//create coin pool
-	CoinPool coin_system;
+	CoinPoolSubScene coin_system;
 	coin_system.create_coins(*this);
 
 	HudSubScene hud;
