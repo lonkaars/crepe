@@ -1,6 +1,7 @@
 #include "WorkerScript.h"
 
 #include "../Config.h"
+#include "api/BehaviorScript.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/Rigidbody.h>
@@ -44,6 +45,9 @@ void WorkerScript::fixed_update(duration_t dt) {
 					= this->get_components_by_id<Sprite>(trans_worker.game_object_id);
 				RefVector<Animator> animator_worker
 					= this->get_components_by_id<Animator>(trans_worker.game_object_id);
+				BehaviorScript & bs_panic
+					= this->get_components_by_id<BehaviorScript>(trans_worker.game_object_id)
+						  .front();
 
 				if (rb_worker.data.linear_velocity.x < 0) {
 					sprite_worker.front().get().data.flip.flip_x = true;
@@ -55,6 +59,8 @@ void WorkerScript::fixed_update(duration_t dt) {
 						= -rb_worker.data.linear_velocity.x / 5;
 					animator_worker.front().get().set_anim(0);
 					animator_worker.back().get().set_anim(0);
+					animator_worker.front().get().active = true;
+					animator_worker.back().get().active = true;
 				} else {
 					sprite_worker.front().get().data.flip.flip_x = false;
 					sprite_worker.back().get().data.flip.flip_x = false;
@@ -65,6 +71,15 @@ void WorkerScript::fixed_update(duration_t dt) {
 						= rb_worker.data.linear_velocity.x / 5;
 					animator_worker.front().get().set_anim(0);
 					animator_worker.back().get().set_anim(0);
+					animator_worker.front().get().active = true;
+					animator_worker.back().get().active = true;
+				}
+
+				trans_worker.rotation = 0;
+				bs_panic.active = true;
+				rb_worker.data.linear_velocity_coefficient = {1, 1};
+				for (Sprite & sprite : sprite_worker) {
+					sprite.data.position_offset.x = 0;
 				}
 			}
 		} else {
@@ -84,6 +99,9 @@ void WorkerScript::fixed_update(duration_t dt) {
 					= this->get_components_by_id<Sprite>(trans_worker.game_object_id);
 				RefVector<Animator> animator_worker
 					= this->get_components_by_id<Animator>(trans_worker.game_object_id);
+				BehaviorScript & bs_panic
+					= this->get_components_by_id<BehaviorScript>(trans_worker.game_object_id)
+						  .front();
 
 				if (rb_worker.data.linear_velocity.x < 0) {
 					sprite_worker.front().get().data.flip.flip_x = true;
@@ -96,6 +114,8 @@ void WorkerScript::fixed_update(duration_t dt) {
 
 					animator_worker.front().get().set_anim(0);
 					animator_worker.back().get().set_anim(0);
+					animator_worker.front().get().active = true;
+					animator_worker.back().get().active = true;
 				} else {
 					sprite_worker.front().get().data.flip.flip_x = false;
 					sprite_worker.back().get().data.flip.flip_x = false;
@@ -107,6 +127,15 @@ void WorkerScript::fixed_update(duration_t dt) {
 
 					animator_worker.front().get().set_anim(0);
 					animator_worker.back().get().set_anim(0);
+					animator_worker.front().get().active = true;
+					animator_worker.back().get().active = true;
+				}
+
+				trans_worker.rotation = 0;
+				bs_panic.active = true;
+				rb_worker.data.linear_velocity_coefficient = {1, 1};
+				for (Sprite & sprite : sprite_worker) {
+					sprite.data.position_offset.x = 0;
 				}
 			}
 		}

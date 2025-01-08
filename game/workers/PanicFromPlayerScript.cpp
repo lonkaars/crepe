@@ -32,11 +32,21 @@ void PanicFromPlayerScript::fixed_update(duration_t dt) {
 			}
 
 			if (result_x < 0) {
-				rb_worker.data.linear_velocity.x = 10000 * dt.count();
+				float min_value = 8000;
+				float max_value = 10000;
+				float value = min_value
+							  + static_cast<float>(rand())
+									/ (static_cast<float>(RAND_MAX / (max_value - min_value)));
+				rb_worker.data.linear_velocity.x = value * dt.count();
 				sprite_worker.front().get().data.flip.flip_x = false;
 				sprite_worker.back().get().data.flip.flip_x = false;
 			} else {
-				rb_worker.data.linear_velocity.x = -5000 * dt.count();
+				float min_value = -4000;
+				float max_value = -5000;
+				float value = min_value
+							  + static_cast<float>(rand())
+									/ (static_cast<float>(RAND_MAX / (max_value - min_value)));
+				rb_worker.data.linear_velocity.x = value * dt.count();
 				sprite_worker.front().get().data.flip.flip_x = true;
 				sprite_worker.back().get().data.flip.flip_x = true;
 			}
