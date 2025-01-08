@@ -5,6 +5,7 @@
 #include "../Random.h"
 #include "../missile/SpawnEvent.h"
 #include "api/Transform.h"
+#include "enemy/BattleScript.h"
 #include "prefab/ZapperPoolSubScene.h"
 #include <iostream>
 
@@ -14,7 +15,12 @@ void ObjectsScheduler::preset_1() { trigger_event<MissileSpawnEvent>(MissileSpaw
 void ObjectsScheduler::preset_2() { trigger_event<CreateZapperEvent>(CreateZapperEvent {}); }
 void ObjectsScheduler::preset_3() {}
 void ObjectsScheduler::preset_4() {}
-void ObjectsScheduler::boss_fight_1() { std::cout << "Boss fight" << std::endl; }
+void ObjectsScheduler::boss_fight_1() { trigger_event<BattleStartEvent>(BattleStartEvent {}); }
+
+bool ObjectsScheduler::boss_fight_1_event() {
+	std::cout << "BATTLE WON" << std::endl;
+	return false;
+}
 
 void ObjectsScheduler::init() {
 	this->obstacles.push_back([this]() { preset_0(); });
@@ -24,6 +30,9 @@ void ObjectsScheduler::init() {
 	this->obstacles.push_back([this]() { boss_fight_1(); });
 
 	// subscribe to battlewonevent
+	this->subscribe<BattleWonEvent>([this](const BattleWonEvent & ev) -> bool {
+		return this->boss_fight_1_event();
+	});
 }
 
 void ObjectsScheduler::fixed_update(duration_t dt) {
@@ -32,7 +41,7 @@ void ObjectsScheduler::fixed_update(duration_t dt) {
 
 	int boss_check = (pos_x - this->start_offset) / this->boss_fight_interval;
 	if (boss_check > this->last_boss_check) {
-		this->obstacles[2]();
+		this->obstacles.back()();
 		this->last_boss_check = boss_check;
 	}
 	int obstacle_check = (pos_x - this->start_offset) / this->obstacle_interval;

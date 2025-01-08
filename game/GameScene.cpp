@@ -8,6 +8,7 @@
 #include "background/BackgroundSubScene.h"
 #include "enemy/BattleScript.h"
 #include "enemy/EnemyBulletPool.h"
+#include "enemy/EnemyBulletSubScene.h"
 #include "enemy/EnemyPool.h"
 #include "enemy/EnemySubScene.h"
 #include "hud/HudScript.h"
@@ -62,8 +63,8 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
 	camera.add_component<BehaviorScript>().set_script<ObjectsScheduler>();
 	camera.add_component<BehaviorScript>().set_script<MissileSpawnEventHandler>();
-
 	camera.add_component<BehaviorScript>().set_script<BattleScript>();
+
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 	AI & enemy_path_1 = camera.add_component<AI>(400);
 	enemy_path_1.make_oval_path(100, 100, camera.transform.position, 1.5708, true);
@@ -73,9 +74,7 @@ void GameScene::load_scene() {
 	enemy_path_3.make_oval_path(100, 100, {0, 0}, 1.5708, true);
 	// camer.add_component<AI>
 	PlayerSubScene player(*this);
-
 	MissilePool missile_pool(*this);
-
 	WorkersSubScene workers(*this);
 
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
