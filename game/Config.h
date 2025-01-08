@@ -26,20 +26,20 @@ static constexpr int VIEWPORT_X = 1100; // In game units
 static constexpr int VIEWPORT_Y = 500; // In game units
 
 // Font settings
-static constexpr const char* FONT = "Jetpackia";
-static constexpr crepe::vec2 FONTOFFSET = {0,0};
+static constexpr const char * FONT = "Jetpackia";
+static constexpr crepe::vec2 FONTOFFSET = {0, 0};
 
-// Amount of coins in game 
-static constexpr const char* TOTAL_COINS_GAME = "total_coins_game";
+// Amount of coins in game
+static constexpr const char * TOTAL_COINS_GAME = "total_coins_game";
 
-// Amount of coins in current run 
-static constexpr const char* TOTAL_COINS_RUN = "total_coins_run";
+// Amount of coins in current run
+static constexpr const char * TOTAL_COINS_RUN = "total_coins_run";
 
 // Distance
-static constexpr const char* DISTANCE_GAME = "distance_game";
-static constexpr const char* DISTANCE_RUN = "distance_run";
+static constexpr const char * DISTANCE_GAME = "distance_game";
+static constexpr const char * DISTANCE_RUN = "distance_run";
 
 // Player config
-static constexpr const char* PLAYER_NAME = "player";
+static constexpr const char * PLAYER_NAME = "player";
 static constexpr int PLAYER_SPEED = 7500; // In game units
 static constexpr int PLAYER_GRAVITY_SCALE = 60; // In game units

@@ -5,7 +5,6 @@
 #include "menus/mainmenu/MainMenuScene.h"
 #include "menus/shop/ShopMenuScene.h"
 
-
 using namespace crepe;
 
 int main() {

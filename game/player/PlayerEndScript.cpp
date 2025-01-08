@@ -90,7 +90,7 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 			jump++;
 		}
 
-		if(rb_player.data.linear_velocity.x < 5){
+		if (rb_player.data.linear_velocity.x < 5) {
 			this->trigger_event<EndGameEvent>();
 		}
 
