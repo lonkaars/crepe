@@ -1,4 +1,3 @@
-#include <iostream>
 #include "BattleScript.h"
 #include <crepe/api/AI.h>
 #include "EnemyScript.h"
@@ -8,10 +7,7 @@
 #include "EnemyScript.h"
 using namespace std;
 using namespace crepe;
-// stop player movement
-// spawn enemies
-// resume game once enemies are defeated
-// optional: spawn lazers during fight
+
 BattleScript::BattleScript(){
 	engine.seed(rd());
 }
@@ -24,6 +20,7 @@ void BattleScript::init(){
 	});
 }
 void BattleScript::fixed_update(duration_t dt){
+	if(!battle_active) return;
 	bool enemies_alive = false;
 	RefVector<BehaviorScript> enemy_scripts = this->get_components_by_tag<BehaviorScript>("enemy");
 	
@@ -33,10 +30,12 @@ void BattleScript::fixed_update(duration_t dt){
 		}
 	}
 	if(!enemies_alive){
+		this->battle_active = false;
 		this->trigger_event<BattleWonEvent>();
 	}
 }
 bool BattleScript::create_battle(const BattleStartEvent& e){
+	this->battle_active = true;
 	RefVector<BehaviorScript> enemy_scripts = this->get_components_by_tag<BehaviorScript>("enemy");
 	std::uniform_real_distribution<float> dist(10,30);
 	for(int i = 0; i < e.num_enemies;i++){

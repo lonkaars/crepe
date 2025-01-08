@@ -82,6 +82,8 @@ bool EnemyScript::on_collide(const CollisionEvent & e){
 	if(e.info.other.metadata.tag == "player_bullet"){
 		this->despawn_enemy();
 	}
+	BehaviorScript& enemy_script = this->get_component<BehaviorScript>();
+	enemy_script.active = false;
 	return false;
 }
 void EnemyScript::despawn_enemy(){

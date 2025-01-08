@@ -14,6 +14,7 @@ class BattleScript : public crepe::Script{
 	void init() override;
 	void fixed_update(crepe::duration_t dt) override;
 	private:
+	bool battle_active = false;
 	std::random_device rd;
 	std::default_random_engine engine;
 	bool create_battle(const BattleStartEvent& e);
