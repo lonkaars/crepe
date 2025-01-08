@@ -108,6 +108,12 @@ private:
 
 	//! Uses the spritesheet
 	friend AnimatorSystem;
+
+protected:
+	virtual std::unique_ptr<Component> save() const;
+	Animator(const Animator &) = default;
+	virtual void restore(const Component & snapshot);
+	virtual Animator & operator=(const Animator &);
 };
 
 } // namespace crepe
