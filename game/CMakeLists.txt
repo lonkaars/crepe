@@ -27,6 +27,28 @@ add_executable(main
 	workers/PanicFromPlayerScript.cpp
 	workers/CollisionScript.cpp
 	main.cpp
+	menus/BannerSubScene.cpp
+	menus/ButtonSubScene.cpp
+	menus/IButtonScript.cpp
+	menus/ButtonSetShopSubScript.cpp
+	menus/ButtonSetMainMenuSubScript.cpp
+	menus/ButtonNextMainMenuSubScript.cpp
+	menus/FloatingWindowSubScene.cpp
+	menus/IFloatingWindowScript.cpp
+	menus/shop/ShopMenuScene.cpp
+	menus/mainmenu/ButtonTransitionPreviewSubScript.cpp
+	menus/mainmenu/ITransitionScript.cpp
+	menus/mainmenu/MainMenuScene.cpp
+	menus/mainmenu/TransitionStartSubScript.cpp
+	menus/endgame/EndGameSubScene.cpp
+	menus/endgame/EndGameSubScript.cpp
+	coins/CoinSubScene.cpp
+	coins/CoinPoolSubScene.cpp
+	coins/CoinSystemScript.cpp
+	coins/CoinScript.cpp
+	hud/HudSubScene.cpp
+	hud/HudScript.cpp
+	hud/SpeedScript.cpp
 )
 
 target_link_libraries(main PUBLIC crepe)
