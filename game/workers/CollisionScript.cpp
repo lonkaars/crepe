@@ -23,6 +23,7 @@ bool CollisionScript::on_collision(const CollisionEvent & ev) {
 	Transform & tr = this->get_component<Transform>();
 	BehaviorScript & bs_panic = this->get_components<BehaviorScript>().front();
 
+	
 	if (ev.info.other.metadata.tag == "zapper") {
 		for (Animator & anim : animators) {
 			anim.active = false;
@@ -49,7 +50,7 @@ bool CollisionScript::on_collision(const CollisionEvent & ev) {
 		bs_panic.active = false;
 
 		return false;
-	} else if (ev.info.other.metadata.tag == "missile" || ev.info.other.metadata.tag == "enemy_bullet") {
+	} else if (ev.info.other.metadata.tag == "missile") {
 		for (Animator & anim : animators) {
 			anim.active = false;
 			anim.set_anim(3);
