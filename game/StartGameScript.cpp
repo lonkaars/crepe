@@ -1,7 +1,6 @@
 #include "StartGameScript.h"
 #include "Config.h"
 #include "api/BehaviorScript.h"
-#include <iostream>
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>

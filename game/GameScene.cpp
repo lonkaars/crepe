@@ -162,6 +162,8 @@ void GameScene::load_scene() {
 		.collision_layer = COLL_LAY_MISSILE,
 	});
 	missile.add_component<BoxCollider>(vec2(100, 100));
+	EndGameSubScene endgamewindow;
+	endgamewindow.create(*this);
 }
 
 string GameScene::get_name() const { return "scene1"; }
