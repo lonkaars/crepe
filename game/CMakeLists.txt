@@ -16,6 +16,7 @@ add_executable(main
 	background/ForestSubScene.cpp
 	background/HallwaySubScene.cpp
 	background/StartSubScene.cpp
+	background/HallwayScript.cpp
 
 	# mainscenes
 	GameScene.cpp
@@ -39,9 +40,9 @@ add_executable(main
 	preview/NpcScript.cpp
 	preview/PrevPlayerSubScene.cpp
 	preview/PrevPlayerScript.cpp
+	main.cpp
 
 	# scripts
-	background/HallwayScript.cpp
 	MoveCameraManualyScript.cpp
 	StartGameScript.cpp
 
@@ -58,7 +59,6 @@ add_executable(main
 	workers/CollisionScript.cpp
 
 	# menus
-	main.cpp
 	menus/BannerSubScene.cpp
 	menus/ButtonSubScene.cpp
 	menus/IButtonScript.cpp

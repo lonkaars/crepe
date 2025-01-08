@@ -10,7 +10,10 @@
 #include "hud/HudSubScene.h"
 #include "hud/SpeedScript.h"
 #include "menus/endgame/EndGameSubScene.h"
+#include "missile/MissilePool.h"
+#include "missile/SpawnEvent.h"
 #include "player/PlayerSubScene.h"
+#include "scheduler/ObjectsScheduler.h"
 #include "workers/WorkersSubScene.h"
 
 #include <cmath>
@@ -47,10 +50,14 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<CoinSystemScript>();
 	camera.add_component<BehaviorScript>().set_script<HudScript>();
 	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
+	camera.add_component<BehaviorScript>().set_script<ObjectsScheduler>();
+	camera.add_component<BehaviorScript>().set_script<MissileSpawnEventHandler>();
 
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 
 	PlayerSubScene player(*this);
+
+	MissilePool missile_pool(*this);
 
 	WorkersSubScene workers(*this);
 
