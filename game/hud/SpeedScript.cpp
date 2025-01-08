@@ -1,5 +1,7 @@
 #include "SpeedScript.h"
 
+#include "../Events.h"
+#include "api/BehaviorScript.h"
 #include <crepe/api/Event.h>
 #include <crepe/api/KeyCodes.h>
 #include <crepe/manager/LoopTimerManager.h>
@@ -20,6 +22,10 @@ void SpeedScript::init() {
 		}
 
 		return true;
+	});
+	this->subscribe<EndGameEvent>([this](const EndGameEvent e) {
+		this->get_component<BehaviorScript>().active = false;
+		return false;
 	});
 }
 
