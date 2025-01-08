@@ -1,8 +1,10 @@
 #include <iostream>
 #include "StartGameScript.h"
 #include "Config.h"
+#include "api/BehaviorScript.h"
 
 #include <crepe/api/Animator.h>
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Sprite.h>
 
@@ -35,6 +37,14 @@ void StartGameScript::fixed_update(crepe::duration_t dt) {
 			emitter.active = true;
 		}
 
+		AudioSource & boom_audio
+			= this->get_components_by_name<AudioSource>("boom_audio").front();
+		boom_audio.play();
+
+		BehaviorScript & player_audio_script
+			= this->get_components_by_name<BehaviorScript>("player_audio").front();
+		player_audio_script.active = true;
+
 		this->created_hole = true;
 	}
 
@@ -45,6 +55,10 @@ void StartGameScript::fixed_update(crepe::duration_t dt) {
 		jetpack_stand_anim.next_anim();
 		Sprite & jetpack_sprite = this->get_components_by_name<Sprite>("player").back();
 		jetpack_sprite.active = true;
+
+		AudioSource & background_music
+			= this->get_components_by_name<AudioSource>("background_music").front();
+		background_music.play(true);
 
 		this->took_jetpack = true;
 	}

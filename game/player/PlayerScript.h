@@ -17,4 +17,5 @@ private:
 	std::chrono::time_point<std::chrono::steady_clock> last_fired;
 	std::chrono::duration<float> shot_delay = std::chrono::duration<float>(0.5);
 
+	int current_jetpack_sound = 0;
 };

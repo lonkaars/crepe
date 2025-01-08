@@ -36,6 +36,8 @@ void AudioSystem::diff_update(AudioSource & component, Sound & resource) {
 
 	if (component.oneshot_play) {
 		component.voice = context.play(resource);
+		context.set_loop(component.voice, component.loop);
+		context.set_volume(component.voice, component.volume);
 		component.oneshot_play = false;
 	}
 	if (component.oneshot_stop) {
