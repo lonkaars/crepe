@@ -8,25 +8,56 @@ project(game C CXX)
 
 add_subdirectory(../src crepe)
 add_executable(main
+	#background
 	background/AquariumSubScene.cpp
 	background/AquariumScript.cpp
 	background/BackgroundSubScene.cpp
 	background/ForestParallaxScript.cpp
 	background/ForestSubScene.cpp
-	GameScene.cpp
 	background/HallwaySubScene.cpp
+	background/StartSubScene.cpp
+
+	# mainscenes
+	GameScene.cpp
+	menus/shop/ShopMenuScene.cpp
+	menus/mainmenu/MainMenuScene.cpp
+	PreviewScene.cpp
+	main.cpp
+
+	# missile
+	missile/MissilePool.cpp
+	missile/MissileScript.cpp
+	missile/MissileSubScene.cpp
+	missile/SpawnEvent.cpp
+
+	#scheduling
+	scheduler/ObjectsScheduler.cpp
+
+	# Preview
+	preview/SmokeSubScene.cpp
+	preview/NpcSubScene.cpp
+	preview/NpcScript.cpp
+	preview/PrevPlayerSubScene.cpp
+	preview/PrevPlayerScript.cpp
+
+	# scripts
 	background/HallwayScript.cpp
 	MoveCameraManualyScript.cpp
+	StartGameScript.cpp
+
+	# player
 	player/PlayerScript.cpp
 	player/PlayerSubScene.cpp
-	StartGameScript.cpp
 	player/PlayerEndScript.cpp
 	player/PlayerAudioScript.cpp
-	background/StartSubScene.cpp
+
+	# workers
 	workers/WorkersSubScene.cpp
 	workers/WorkerScript.cpp
 	workers/PanicFromPlayerScript.cpp
 	workers/CollisionScript.cpp
+
+	# menus
 	main.cpp
 	menus/BannerSubScene.cpp
 	menus/ButtonSubScene.cpp
@@ -36,20 +67,24 @@ add_executable(main
 	menus/ButtonNextMainMenuSubScript.cpp
 	menus/FloatingWindowSubScene.cpp
 	menus/IFloatingWindowScript.cpp
-	menus/shop/ShopMenuScene.cpp
 	menus/mainmenu/ButtonTransitionPreviewSubScript.cpp
 	menus/mainmenu/ITransitionScript.cpp
-	menus/mainmenu/MainMenuScene.cpp
 	menus/mainmenu/TransitionStartSubScript.cpp
 	menus/endgame/EndGameSubScene.cpp
 	menus/endgame/EndGameSubScript.cpp
+
+	# coins
 	coins/CoinSubScene.cpp
 	coins/CoinPoolSubScene.cpp
 	coins/CoinSystemScript.cpp
 	coins/CoinScript.cpp
+
+	# hud
 	hud/HudSubScene.cpp
 	hud/HudScript.cpp
 	hud/SpeedScript.cpp
+
+	#random
 	Random.cpp
 )
 
