@@ -83,7 +83,7 @@ void ShopMenuScene::load_scene() {
 		vec2 {37.5, 37.5}, FONT,
 		Text::Data {
 			.world_space = true,
-			.text_color = Color::YELLOW,
+			.text_color = Color::GOLD,
 		},
 		vec2 {-25, 75}, "0"
 	);
@@ -117,7 +117,7 @@ void ShopMenuScene::load_scene() {
 		vec2 {100, 25}, FONT,
 		Text::Data {
 			.world_space = true,
-			.text_color = Color::YELLOW,
+			.text_color = Color::GOLD,
 		},
 		vec2 {-25, 75}, "1000"
 	);
