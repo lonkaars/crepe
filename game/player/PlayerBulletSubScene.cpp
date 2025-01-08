@@ -25,7 +25,7 @@ int PlayerBulletSubScene::create(Scene & scn, int counter) {
 		.gravity_scale = 0,
 		.body_type = Rigidbody::BodyType::KINEMATIC,
 		.linear_velocity = vec2 {400, 0},
-		.angular_velocity = 10,
+		.angular_velocity = 300,
 		.kinematic_collision = false,
 		.collision_layers = {COLL_LAY_ENEMY, COLL_LAY_ZAPPER},
 
