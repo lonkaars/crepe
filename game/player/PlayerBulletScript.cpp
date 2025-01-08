@@ -17,7 +17,7 @@ void PlayerBulletScript::fixed_update(crepe::duration_t dt) {
 	Camera & camera = this->get_components_by_name<Camera>("camera").front();
 	Transform & cam_transform = this->get_components_by_name<Transform>("camera").front();
 	Rigidbody & bullet_body = this->get_component<Rigidbody>();
-	transform.rotation += bullet_body.data.angular_velocity;
+	transform.rotation += bullet_body.data.angular_velocity * dt.count();
 	transform.position += bullet_body.data.linear_velocity * dt.count();
 	vec2 half_screen = camera.viewport_size / 2;
 	float despawn_location = cam_transform.position.x + half_screen.x + 50;
