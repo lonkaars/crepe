@@ -65,6 +65,7 @@ void MissileSubScene::create(crepe::Scene & scn) {
 	missle.add_component<Animator>(
 		missle_sprite, ivec2 {32, 32}, uvec2 {4, 1},
 		Animator::Data {
+			.fps = 15,
 			.looping = true,
 		}
 	);
@@ -72,6 +73,7 @@ void MissileSubScene::create(crepe::Scene & scn) {
 	missle.add_component<Animator>(
 		missle_thruster_sprite, ivec2 {64, 64}, uvec2 {4, 2},
 		Animator::Data {
+			.fps = 15,
 			.looping = true,
 		}
 	);
@@ -86,7 +88,7 @@ void MissileSubScene::create(crepe::Scene & scn) {
 	missile_explosion_sprite.active = false;
 	explosion_anim.active = false;
 
-	std::uniform_int_distribution<> dist(140, 200);
+	std::uniform_int_distribution<> dist(200, 250);
 	missle.add_component<Rigidbody>(Rigidbody::Data {
 		.body_type = Rigidbody::BodyType::KINEMATIC,
 		.max_linear_velocity = static_cast<float>(dist(gen)),
