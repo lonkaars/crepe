@@ -28,6 +28,6 @@ private:
 	void spawn_random();
 
 private:
-	static constexpr float OFFSCREEN_MARGIN = 40;
+	static constexpr float MAX_LENGTH = 400;
+	static constexpr float OFFSCREEN_MARGIN = 50 + MAX_LENGTH;
 };
-

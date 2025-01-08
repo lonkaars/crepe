@@ -26,7 +26,4 @@ unsigned Random::u(unsigned upper, unsigned lower) {
 	return x + lower;
 }
 
-bool Random::b() {
-	return rand() % 2;
-}
-
+bool Random::b() { return rand() % 2; }

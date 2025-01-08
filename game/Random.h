@@ -7,5 +7,4 @@ public:
 	static int i(int upper, int lower = 0);
 	static unsigned u(unsigned upper, unsigned lower = 0);
 	static bool b();
-
 };

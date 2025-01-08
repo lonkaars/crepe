@@ -7,7 +7,10 @@ set(CMAKE_BUILD_TYPE Debug)
 project(game C CXX)
 
 add_subdirectory(../src crepe)
-add_executable(main
+
+add_executable(main)
+
+target_sources(main PUBLIC
 	# enemy
 	enemy/BattleScript.cpp
 	enemy/EnemyPool.cpp
