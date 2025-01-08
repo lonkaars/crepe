@@ -13,9 +13,18 @@
 
 using namespace crepe;
 
+
 CreditsSubScript::CreditsSubScript(const std::string & tag) { this->tag = tag; }
 
 void CreditsSubScript::init() {
+	IButtonScript::init();
+	this->subscribe<ButtonPressEvent>([this](const ButtonPressEvent & e) {
+		return this->on_button_press(e);
+	});
+	this->subscribe<ShowCreditsEvent>([this](const ShowCreditsEvent & e) {
+		this->enable_all();
+		return false;
+	});
 	this->disable_all();
 }
 
@@ -44,3 +53,8 @@ bool CreditsSubScript::enable_all() {
 	}
 	return false;
 }
+
+bool CreditsSubScript::on_button_press(const ButtonPressEvent & e) {
+	return this->disable_all();
+}
+

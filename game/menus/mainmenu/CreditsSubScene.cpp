@@ -1,7 +1,6 @@
 
 #include "CreditsSubScene.h"
 #include "CreditsSubScript.h"
-#include "EndGameSubScript.h"
 
 #include "../../Config.h"
 #include "../ButtonSubScene.h"
@@ -19,7 +18,7 @@ using namespace std;
 
 void CreditsSubScene::create(Scene & scn) {
 
-	const std::string TAG = "end_game_tag";
+	const std::string TAG = "credits_tag";
 	GameObject script = scn.new_object("script");
 	script.add_component<BehaviorScript>().set_script<CreditsSubScript>(TAG);
 
@@ -30,7 +29,7 @@ void CreditsSubScene::create(Scene & scn) {
 		FloatingWindowSubScene::Data {
 			.group_tag = TAG,
 			.width = 500,
-			.offset = {0, -50},
+			.offset = {150, -50},
 			.width_middle_offset = -2,
 		}
 	);
@@ -45,7 +44,7 @@ void CreditsSubScene::create(Scene & scn) {
 			.world_space = false,
 			.text_color = Color::WHITE,
 		},
-		vec2 {0, -207} + FONTOFFSET, TITEL_STRING
+		vec2 {150, -207} + FONTOFFSET, TITEL_STRING
 	);
 
 	// Buttons
@@ -56,9 +55,9 @@ void CreditsSubScene::create(Scene & scn) {
 		ButtonSubScene::Data {
 			.text = "Back",
 			.text_width = 150,
-			.position = {-button_position.x, button_position.y},
-			//.script_type = ButtonSubScene::ScriptSelect::REPLAY,
-			//.button_type = ButtonSubScene::ButtonSelect::BACK,
+			.position = {-button_position.x+150, button_position.y},
+			.script_type = ButtonSubScene::ScriptSelect::CREDITS_BACK,
+			.button_type = ButtonSubScene::ButtonSelect::BACK,
 			.scale = 0.6,
 			.worldspace = false,
 			.tag = TAG,

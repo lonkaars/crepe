@@ -1,5 +1,6 @@
 
 #include "MainMenuScene.h"
+#include "CreditsSubScene.h"
 #include "MainMenuConfig.h"
 #include "TransitionStartSubScript.h"
 
@@ -81,7 +82,7 @@ void MainMenuScene::load_scene() {
 			.text_offset = {0, 0},
 			.text_width = 200,
 			.position = pos_btn,
-			//.script_type = ButtonSubScene::ScriptSelect::SHOP,
+			.script_type = ButtonSubScene::ScriptSelect::CREDITS_SHOW,
 		}
 	);
 
@@ -123,6 +124,9 @@ void MainMenuScene::load_scene() {
 			.tag = MENU_INFO_TAG,
 		}
 	);
+
+	CreditsSubScene creditscene;
+	creditscene.create(*this);
 }
 
 string MainMenuScene::get_name() const { return MAINMENU_SCENE; }
