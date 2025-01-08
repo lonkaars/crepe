@@ -1,6 +1,7 @@
 #include "ITransitionScript.h"
 #include "MainMenuConfig.h"
 
+#include "../../Config.h"
 #include "../MenusConfig.h"
 
 #include <crepe/api/Camera.h>

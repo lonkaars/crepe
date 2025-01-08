@@ -49,7 +49,8 @@ bool CollisionScript::on_collision(const CollisionEvent & ev) {
 		bs_panic.active = false;
 
 		return false;
-	} else if (ev.info.other.metadata.tag == "missile") {
+	} else if (ev.info.other.metadata.tag == "missile"
+			   || ev.info.other.metadata.tag == "enemy_bullet") {
 		for (Animator & anim : animators) {
 			anim.active = false;
 			anim.set_anim(3);

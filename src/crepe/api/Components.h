@@ -1,0 +1,16 @@
+#pragma once
+
+#include "AI.h"
+#include "Animator.h"
+#include "AudioSource.h"
+#include "BehaviorScript.h"
+#include "BoxCollider.h"
+#include "Button.h"
+#include "Camera.h"
+#include "CircleCollider.h"
+#include "Metadata.h"
+#include "ParticleEmitter.h"
+#include "Rigidbody.h"
+#include "Sprite.h"
+#include "Text.h"
+#include "Transform.h"

@@ -7,27 +7,73 @@ set(CMAKE_BUILD_TYPE Debug)
 project(game C CXX)
 
 add_subdirectory(../src crepe)
-add_executable(main
+
+add_executable(main)
+
+target_sources(main PUBLIC
+	# enemy
+	enemy/BattleScript.cpp
+	enemy/EnemyPool.cpp
+	enemy/EnemyBulletScript.cpp
+	enemy/EnemyBulletSubScene.cpp
+	enemy/EnemyBulletPool.cpp
+	enemy/EnemySubScene.cpp
+	enemy/EnemyScript.cpp
+
+	#background
 	background/AquariumSubScene.cpp
 	background/AquariumScript.cpp
 	background/BackgroundSubScene.cpp
 	background/ForestParallaxScript.cpp
 	background/ForestSubScene.cpp
-	GameScene.cpp
 	background/HallwaySubScene.cpp
+	background/StartSubScene.cpp
 	background/HallwayScript.cpp
+
+	# mainscenes
+	GameScene.cpp
+	menus/shop/ShopMenuScene.cpp
+	menus/mainmenu/MainMenuScene.cpp
+	PreviewScene.cpp
+	main.cpp
+
+	# missile
+	missile/MissilePool.cpp
+	missile/MissileScript.cpp
+	missile/MissileSubScene.cpp
+	missile/SpawnEvent.cpp
+
+	#scheduling
+	scheduler/ObjectsScheduler.cpp
+
+	# Preview
+	preview/SmokeSubScene.cpp
+	preview/NpcSubScene.cpp
+	preview/NpcScript.cpp
+	preview/PrevPlayerSubScene.cpp
+	preview/PrevPlayerScript.cpp
+
+	# scripts
+	GameScene.cpp
 	MoveCameraManualyScript.cpp
+	StartGameScript.cpp
+
+	# player
 	player/PlayerScript.cpp
 	player/PlayerSubScene.cpp
-	StartGameScript.cpp
+	player/PlayerBulletPool.cpp
+	player/PlayerBulletScript.cpp
+	player/PlayerBulletSubScene.cpp
 	player/PlayerEndScript.cpp
 	player/PlayerAudioScript.cpp
-	background/StartSubScene.cpp
+
+	# workers
 	workers/WorkersSubScene.cpp
 	workers/WorkerScript.cpp
 	workers/PanicFromPlayerScript.cpp
 	workers/CollisionScript.cpp
-	main.cpp
+
+	# menus
 	menus/BannerSubScene.cpp
 	menus/ButtonSubScene.cpp
 	menus/IButtonScript.cpp
@@ -38,24 +84,32 @@ add_executable(main
 	menus/FloatingWindowSubScene.cpp
 	menus/IFloatingWindowScript.cpp
 	menus/ButtonShowCreditsSubScript.cpp
-	menus/shop/ShopMenuScene.cpp
 	menus/mainmenu/ButtonTransitionPreviewSubScript.cpp
 	menus/mainmenu/ITransitionScript.cpp
-	menus/mainmenu/MainMenuScene.cpp
 	menus/mainmenu/TransitionStartSubScript.cpp
 	menus/mainmenu/CreditsSubScene.cpp
 	menus/mainmenu/CreditsSubScript.cpp
 	menus/endgame/EndGameSubScene.cpp
 	menus/endgame/EndGameSubScript.cpp
+
+	# coins
 	coins/CoinSubScene.cpp
 	coins/CoinPoolSubScene.cpp
 	coins/CoinSystemScript.cpp
 	coins/CoinScript.cpp
+
+	# hud
 	hud/HudSubScene.cpp
 	hud/HudScript.cpp
 	hud/SpeedScript.cpp
+
+	#random
 	Random.cpp
 )
 
+add_subdirectory(background)
+add_subdirectory(prefab)
+
 target_link_libraries(main PUBLIC crepe)
+target_include_directories(main PRIVATE .)
 

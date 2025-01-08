@@ -25,3 +25,5 @@ unsigned Random::u(unsigned upper, unsigned lower) {
 	unsigned x = rand() % range;
 	return x + lower;
 }
+
+bool Random::b() { return rand() % 2; }

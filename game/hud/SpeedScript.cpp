@@ -1,10 +1,10 @@
 #include "SpeedScript.h"
 
+#include "../Events.h"
+#include "api/BehaviorScript.h"
 #include <crepe/api/Event.h>
 #include <crepe/api/KeyCodes.h>
 #include <crepe/manager/LoopTimerManager.h>
-#include "../Events.h"
-#include "api/BehaviorScript.h"
 
 using namespace crepe;
 using namespace std;

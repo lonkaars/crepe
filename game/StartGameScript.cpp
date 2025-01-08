@@ -12,7 +12,6 @@ using namespace std;
 
 void StartGameScript::fixed_update(crepe::duration_t dt) {
 	Transform & player_transform = this->get_components_by_name<Transform>("player").front();
-
 	// Create hole in wall and activate panic lamp
 	if (player_transform.position.x > 75 && !this->created_hole) {
 		Sprite & lamp_sprite = this->get_components_by_name<Sprite>("start_end").back();
