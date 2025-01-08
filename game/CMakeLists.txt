@@ -15,6 +15,7 @@ add_executable(main
 	background/ForestSubScene.cpp
 	GameScene.cpp
 	background/HallwaySubScene.cpp
+	background/HallwayScript.cpp
 	MoveCameraManualyScript.cpp
 	player/PlayerScript.cpp
 	player/PlayerSubScene.cpp

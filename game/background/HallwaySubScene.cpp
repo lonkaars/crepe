@@ -14,7 +14,7 @@ using namespace std;
 float HallwaySubScene::create(
 	Scene & scn, float begin_x, unsigned int sector_num, Color sector_color
 ) {
-	GameObject begin = scn.new_object("hallway_begin", "background", vec2(begin_x, 0));
+	GameObject begin = scn.new_object("hallway_begin", "background_hall", vec2(begin_x, 0));
 	Asset begin_asset {"asset/background/hallway/hallway1FG_1_TVOS.png"};
 	begin.add_component<Sprite>(
 		begin_asset,
@@ -30,7 +30,8 @@ float HallwaySubScene::create(
 	this->add_lamp(begin, vec2(330, -120), 11);
 	this->add_lamp(begin, vec2(430, -120), 9);
 
-	GameObject middle_1 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
+	GameObject middle_1
+		= scn.new_object("hallway_middle", "background_hall", vec2(begin_x, 0));
 	Asset middle_asset {"asset/background/hallway/hallway1FG_2_TVOS.png"};
 	middle_1.add_component<Sprite>(
 		middle_asset,
@@ -42,7 +43,8 @@ float HallwaySubScene::create(
 	);
 	begin_x += 600;
 
-	GameObject middle_2 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
+	GameObject middle_2
+		= scn.new_object("hallway_middle", "background_hall", vec2(begin_x, 0));
 	Asset middle_asset_2 {"asset/background/hallway/hallway1FG_2_TVOS.png"};
 	middle_2.add_component<Sprite>(
 		middle_asset_2,
@@ -54,7 +56,8 @@ float HallwaySubScene::create(
 	);
 	begin_x += 200;
 
-	GameObject middle_3 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
+	GameObject middle_3
+		= scn.new_object("hallway_middle", "background_hall", vec2(begin_x, 0));
 	Asset middle_asset_3 {"asset/background/hallway/hallway1FG_2_TVOS.png"};
 	middle_3.add_component<Sprite>(
 		middle_asset_3,
@@ -68,7 +71,8 @@ float HallwaySubScene::create(
 
 	this->add_lamp(middle_3, vec2(0, -120));
 
-	GameObject middle_4 = scn.new_object("hallway_middle", "background", vec2(begin_x, 0));
+	GameObject middle_4
+		= scn.new_object("hallway_middle", "background_hall", vec2(begin_x, 0));
 	Asset middle_asset_4 {"asset/background/hallway/hallway1FG_2_TVOS.png"};
 	middle_4.add_component<Sprite>(
 		middle_asset_4,
@@ -80,7 +84,7 @@ float HallwaySubScene::create(
 	);
 	begin_x += 600;
 
-	GameObject end = scn.new_object("hallway_end", "background", vec2(begin_x, 0));
+	GameObject end = scn.new_object("hallway_end", "background_hall", vec2(begin_x, 0));
 	Asset end_asset {"asset/background/hallway/hallway1FG_1_TVOS.png"};
 	end.add_component<Sprite>(
 		end_asset,
