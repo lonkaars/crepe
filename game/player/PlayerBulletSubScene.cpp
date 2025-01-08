@@ -21,22 +21,24 @@ using namespace std;
 int PlayerBulletSubScene::create(Scene & scn){
 	vec2 size = {20, 20};
 	static int counter = 0;
-	string unique_name = "playerBullet_" + to_string(counter++);
-	GameObject player_bullet = scn.new_object(unique_name.c_str(),"PlayerBullet",vec2{0,-850},0,1);
+	string unique_name = "player_bullet_" + to_string(counter++);
+	GameObject player_bullet = scn.new_object(unique_name.c_str(),"player_bullet",vec2{0,-850},0,1);
 	
 	Rigidbody& player_bullet_body = player_bullet.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = 0,
-		.body_type = Rigidbody::BodyType::DYNAMIC,
+		.body_type = Rigidbody::BodyType::KINEMATIC,
 		.linear_velocity = vec2{300,0},
 		.angular_velocity = 150,
-		// .collision_layers = {COLL_LAY_PLAYER},
-		// .collision_layer = COLL_LAY_BULLET,
-
+		.kinematic_collision = false,
+		.collision_layers = {COLL_LAY_ENEMY},
+		
+		.collision_layer = COLL_LAY_PLAYER_BULLET,
+		
 		
 	});
 	player_bullet_body.active = false;
 	BoxCollider& player_bullet_collider = player_bullet.add_component<BoxCollider>(vec2(60, 40));
-	player_bullet_collider.active = false;
+	//player_bullet_collider.active = false;
 	Asset player_bullet_asset {"asset/other_effects/crepe.png"};
 	Sprite & player_bullet_sprite = player_bullet.add_component<Sprite>(
 		player_bullet_asset,
@@ -47,6 +49,6 @@ int PlayerBulletSubScene::create(Scene & scn){
 			.size = vec2(30,0),
 		}
 	);
-	player_bullet.add_component<BehaviorScript>().set_script<PlayerBulletScript>();
+	player_bullet.add_component<BehaviorScript>().set_script<PlayerBulletScript>().active = false;
 	return counter;
 }

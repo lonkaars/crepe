@@ -152,7 +152,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 		= {COLL_LAY_BOT_TOP, COLL_LAY_ZAPPER, COLL_LAY_LASER, COLL_LAY_MISSILE,COLL_LAY_BULLET},
 		.collision_layer = COLL_LAY_PLAYER,
 	});
-	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
+	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = true;
 	player.add_component<BehaviorScript>().set_script<CoinScript>();
 	player.add_component<BehaviorScript>().set_script<PlayerEndScript>().active = false;
 

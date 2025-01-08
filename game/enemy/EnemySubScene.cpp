@@ -26,9 +26,8 @@ int EnemySubScene::create(Scene & scn){
 		.gravity_scale = 0,
 		
 		.body_type = Rigidbody::BodyType::DYNAMIC,
-		// .collision_layers
-		// = {COLL_LAY_BOT_TOP, COLL_LAY_ZAPPER, COLL_LAY_LASER},
 		.max_linear_velocity = 400,
+		.collision_layers = {COLL_LAY_BOT_TOP,COLL_LAY_PLAYER_BULLET},
 		.collision_layer = COLL_LAY_ENEMY,
 		
 	});

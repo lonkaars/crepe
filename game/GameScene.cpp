@@ -16,7 +16,8 @@
 #include "enemy/EnemyPool.h"
 #include "enemy/EnemySubScene.h"
 #include "enemy/EnemyBulletPool.h"
-#include "enemy/BattleScript.h"#include "workers/WorkersSubScene.h"
+#include "enemy/BattleScript.h"
+#include "workers/WorkersSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -53,7 +54,7 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<CoinSystemScript>();
 	camera.add_component<BehaviorScript>().set_script<HudScript>();
 	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
-
+	camera.add_component<BehaviorScript>().set_script<BattleScript>();
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 	AI& enemy_path_1 = camera.add_component<AI>(400);
 	enemy_path_1.make_oval_path(100, 100, camera.transform.position, 1.5708, true);
@@ -96,7 +97,12 @@ void GameScene::load_scene() {
 	//create coin pool
 	CoinPoolSubScene coin_system;
 	coin_system.create_coins(*this);
-
+	EnemyBulletPool enemy_bullet_pool;
+	enemy_bullet_pool.create_bullets(*this);
+	PlayerBulletPool player_bullet_pool;
+	player_bullet_pool.create_bullets(*this);
+	EnemyPool enemy_pool;
+	enemy_pool.create_enemies(*this);
 	HudSubScene hud;
 	hud.create(*this);
 	GameObject background_music = new_object("background_music", "audio", vec2(0, 0));

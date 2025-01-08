@@ -14,7 +14,9 @@ void EnemyBulletScript::fixed_update(crepe::duration_t dt){
 	Transform& transform = this->get_component<Transform>();
 	Camera& camera = this->get_components_by_name<Camera>("camera").front();
 	Transform& cam_transform = this->get_components_by_name<Transform>("camera").front();
-	
+	Rigidbody& bullet_body = this->get_component<Rigidbody>();
+	//move
+	transform.position.x += bullet_body.data.linear_velocity.x * dt.count();
 	vec2 half_screen = camera.viewport_size / 2;
 	float despawn_location = cam_transform.position.x - half_screen.x - 50;
 	if(transform.position.x < despawn_location){
@@ -30,7 +32,7 @@ void EnemyBulletScript::despawn_bullet(){
 }
 
 bool EnemyBulletScript::on_collide(const CollisionEvent& e){
-	cout << "collision happened with " << e.info.other.metadata.tag << endl;
-	//this->despawn_bullet();
+	//cout << "collision happened with " << e.info.other.metadata.tag << endl;
+	this->despawn_bullet();
 	return false;
 }
