@@ -4,7 +4,6 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 set(CMAKE_BUILD_TYPE Debug)
-
 project(game C CXX)
 
 add_subdirectory(../src crepe)
@@ -51,6 +50,7 @@ add_executable(main
 	hud/HudSubScene.cpp
 	hud/HudScript.cpp
 	hud/SpeedScript.cpp
+	Random.cpp
 )
 
 target_link_libraries(main PUBLIC crepe)
