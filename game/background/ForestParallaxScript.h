@@ -9,7 +9,9 @@ public:
 	void fixed_update(crepe::duration_t dt);
 
 private:
-	const float begin_x;
-	const float end_x;
+	float begin_x;
+	float end_x;
 	const std::string name;
+	float start_x = 4200;
+	const float lenght = 3000;
 };
