@@ -46,8 +46,6 @@ using namespace crepe;
 using namespace std;
 
 void GameScene::load_scene() {
-	logf(Log::DEBUG, "Loading (main) GameScene...");
-
 	BackgroundSubScene background(*this);
 
 	GameObject camera = new_object(CAMERA_NAME, "camera", vec2(650, 0));
