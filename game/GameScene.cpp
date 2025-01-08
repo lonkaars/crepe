@@ -46,8 +46,8 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<CoinSystemScript>();
 	camera.add_component<BehaviorScript>().set_script<HudScript>();
 	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
-	
-	camera.add_component<Rigidbody>(Rigidbody::Data{});
+
+	camera.add_component<Rigidbody>(Rigidbody::Data {});
 
 	PlayerSubScene player(*this);
 

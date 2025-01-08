@@ -1,16 +1,17 @@
 #pragma once
 
-#include <crepe/types.h>
 #include <crepe/api/Scene.h>
+#include <crepe/types.h>
 
-class FloatingWindowSubScene  {
+class FloatingWindowSubScene {
 public:
-	struct Data{
+	struct Data {
 		const std::string group_tag = "";
 		float width = 200;
-		crepe::vec2 offset = {0,0};
+		crepe::vec2 offset = {0, 0};
 		float width_middle_offset = 0;
 	};
+
 public:
-	void create(crepe::Scene & scn,const Data & data);
+	void create(crepe::Scene & scn, const Data & data);
 };
