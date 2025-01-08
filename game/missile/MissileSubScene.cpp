@@ -29,9 +29,9 @@ void MissileSubScene::create(crepe::Scene & scn) {
 	missle.add_component<BehaviorScript>().set_script<MissileScript>().active = false;
 
 	auto & sound = missle.add_component<AudioSource>(missile_fire);
-	sound.volume = 0.1;
+	sound.volume = 0.5;
 	auto & sound2 = missle.add_component<AudioSource>(explosion_sound);
-	sound2.volume = 0.1;
+	sound2.volume = 3;
 
 	// sprites
 	auto & missle_sprite = missle.add_component<Sprite>(
