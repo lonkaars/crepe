@@ -1,13 +1,16 @@
 #include "ButtonSubScene.h"
 #include "ButtonNextMainMenuSubScript.h"
+#include "ButtonReplaySubScript.h"
 #include "ButtonSetMainMenuSubScript.h"
 #include "ButtonSetShopSubScript.h"
+#include "ButtonShowCreditsSubScript.h"
 #include "IButtonScript.h"
 #include "MenusConfig.h"
 
 #include "mainmenu/ButtonTransitionPreviewSubScript.h"
 
 #include "../Config.h"
+#include "mainmenu/CreditsSubScript.h"
 
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Button.h>
@@ -57,6 +60,17 @@ void ButtonSubScene::set_script(crepe::GameObject & button_object, const Data & 
 		case ScriptSelect::NEXT:
 			button_object.add_component<BehaviorScript>()
 				.set_script<ButtonNextMainMenuSubScript>();
+			break;
+		case ScriptSelect::REPLAY:
+			button_object.add_component<BehaviorScript>().set_script<ButtonReplaySubScript>();
+			break;
+		case ScriptSelect::CREDITS_BACK:
+			button_object.add_component<BehaviorScript>().set_script<CreditsSubScript>(data.tag
+			);
+			break;
+		case ScriptSelect::CREDITS_SHOW:
+			button_object.add_component<BehaviorScript>()
+				.set_script<ButtonShowCreditsSubScript>();
 			break;
 		case ScriptSelect::NONE:
 			button_object.add_component<BehaviorScript>().set_script<IButtonScript>();
