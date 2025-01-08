@@ -49,6 +49,12 @@ public:
 	std::optional<Asset> font;
 	//! Data instance
 	Data data;
+
+protected:
+	virtual std::unique_ptr<Component> save() const;
+	Text(const Text &) = default;
+	virtual void restore(const Component & snapshot);
+	virtual Text & operator=(const Text &);
 };
 
 } // namespace crepe
