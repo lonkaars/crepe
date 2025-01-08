@@ -63,3 +63,4 @@ static constexpr int PLAYER_GRAVITY_SCALE = 60; // In game units
 
 // Jetpack particles
 static constexpr const char * JETPACK_PARTICLES = "jetpack_particles";
+static constexpr const char * CAMERA_NAME = "camera";

@@ -84,8 +84,7 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 
 bool EnemyScript::on_collide(const CollisionEvent & e) {
 	if (e.info.other.metadata.tag == "player_bullet") {
-		//this->despawn_enemy();
-
+		this->despawn_enemy();
 	}
 	Animator& body_animator = this->get_components<Animator>().front();
 	body_animator.data.col = 2;

@@ -9,7 +9,6 @@
 #include "api/Transform.h"
 #include "enemy/BattleScript.h"
 #include "prefab/ZapperPoolSubScene.h"
-#include <iostream>
 
 using namespace crepe;
 void ObjectsScheduler::preset_0() { trigger_event<MissileSpawnEvent>(MissileSpawnEvent {}); }
@@ -20,13 +19,12 @@ void ObjectsScheduler::preset_4() {}
 void ObjectsScheduler::boss_fight_1() { 
 	this->get_components_by_name<Rigidbody>("camera").front().get().data.linear_velocity.x = 0;
 	this->get_components_by_name<Rigidbody>("player").front().get().data.linear_velocity.x = 0;
-
-	this->trigger_event<BattleStartEvent>(BattleStartEvent{.num_enemies = 5});
+	this->trigger_event<BattleStartEvent>(BattleStartEvent{.num_enemies = 2});
 }
 
 bool ObjectsScheduler::boss_fight_1_event() {
-	this->get_components_by_name<Rigidbody>("camera").front().get().data.linear_velocity.x = PLAYER_SPEED;
-	this->get_components_by_name<Rigidbody>("player").front().get().data.linear_velocity.x = PLAYER_SPEED;
+	this->get_components_by_name<Rigidbody>("camera").front().get().data.linear_velocity.x = PLAYER_SPEED * 0.02;
+	this->get_components_by_name<Rigidbody>("player").front().get().data.linear_velocity.x = PLAYER_SPEED * 0.02;
 	return false;
 }
 

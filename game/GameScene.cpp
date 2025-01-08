@@ -61,9 +61,9 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<CoinSystemScript>();
 	camera.add_component<BehaviorScript>().set_script<HudScript>();
 	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
-	camera.add_component<BehaviorScript>().set_script<ObjectsScheduler>();
-	camera.add_component<BehaviorScript>().set_script<MissileSpawnEventHandler>();
 	camera.add_component<BehaviorScript>().set_script<BattleScript>();
+	camera.add_component<BehaviorScript>().set_script<MissileSpawnEventHandler>();
+	camera.add_component<BehaviorScript>().set_script<ObjectsScheduler>();
 
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 	AI & enemy_path_1 = camera.add_component<AI>(400);
