@@ -16,6 +16,9 @@ void ButtonReplaySubScript::init() {
 	this->subscribe<EndGameEvent>([this](const EndGameEvent & e) {
 		return this->set_recording();
 	});
+	this->subscribe<DeleteRecordingEvent>([this](const DeleteRecordingEvent & e) {
+		return this->delete_recording();
+	});
 	replay.record_start();
 }
 
@@ -26,5 +29,10 @@ bool ButtonReplaySubScript::on_button_press(const ButtonPressEvent & e) {
 
 bool ButtonReplaySubScript::set_recording() {
 	this->recording = replay.record_end();
+	return false;
+}
+
+bool ButtonReplaySubScript::delete_recording() {
+	replay.release(this->recording);
 	return false;
 }

@@ -1,4 +1,5 @@
 #include "ButtonNextMainMenuSubScript.h"
+#include "ButtonReplaySubScript.h"
 #include "MenusConfig.h"
 #include "ValueBroker.h"
 
@@ -26,7 +27,8 @@ bool ButtonNextMainMenuSubScript::on_button_press(const ButtonPressEvent & e) {
 	for (AudioSource & audio : audios) {
 		audio.stop();
 	}
-
+	
+	this->trigger_event<DeleteRecordingEvent>();
 	SaveManager & savemgr = this->get_save_manager();
 
 	ValueBroker<int> coins = savemgr.get<int>(TOTAL_COINS_RUN, 0);
