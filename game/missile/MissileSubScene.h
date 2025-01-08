@@ -8,5 +8,5 @@ class MissileSubScene {
 public:
 	MissileSubScene() = default;
 
-	int create(crepe::Scene & scn);
+	void create(crepe::Scene & scn);
 };

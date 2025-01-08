@@ -10,10 +10,14 @@
 #include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/types.h>
+#include <random>
 
 using namespace crepe;
 
-int MissileSubScene::create(crepe::Scene & scn) {
+
+void MissileSubScene::create(crepe::Scene & scn) {
+	std::random_device rd;
+	std::mt19937 gen(rd());
 
 	GameObject missle = scn.new_object("missile", "TAG", {0, 0}, 0, 1);
 
@@ -27,7 +31,8 @@ int MissileSubScene::create(crepe::Scene & scn) {
 
 	auto & sound = missle.add_component<AudioSource>(missile_fire);
 	sound.volume = 0.1;
-	missle.add_component<AudioSource>(explosion_sound);
+	auto & sound2 = missle.add_component<AudioSource>(explosion_sound);
+	sound2.volume = 0.1;
 
 	// sprites
 	auto & missle_sprite = missle.add_component<Sprite>(
@@ -82,18 +87,16 @@ int MissileSubScene::create(crepe::Scene & scn) {
 	missile_explosion_sprite.active = false;
 	explosion_anim.active = false;
 
+	std::uniform_int_distribution<> dist(140, 200);
 	missle.add_component<Rigidbody>(Rigidbody::Data {
 		.body_type = Rigidbody::BodyType::KINEMATIC,
-		.max_linear_velocity = 100,
+		.max_linear_velocity = static_cast<float>(dist(gen)),
 		.kinematic_collision = false,
-		.collision_layers = {COLL_LAY_PLAYER},
+		.collision_layers = {COLL_LAY_PLAYER, COLL_LAY_BOT_TOP},
 		.collision_layer = COLL_LAY_MISSILE,
 	});
 
 	missle.add_component<CircleCollider>(3);
 
-	auto & missle_ai = missle.add_component<AI>(3000);
-
-	static int missile_counter = 0;
-	return missile_counter++;
+	auto & missle_ai = missle.add_component<AI>(1000);
 }

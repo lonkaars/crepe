@@ -7,7 +7,10 @@ using namespace std;
 using namespace crepe;
 
 MissilePool::MissilePool(Scene & scn) {
+	int amount = 0;
 	MissileSubScene missile;
-	while (missile.create(scn) < this->MAX_MISSILE_COUNT) {
+	while (amount < this->MAX_MISSILE_COUNT) {
+		missile.create(scn);
+		amount++;
 	}
 }

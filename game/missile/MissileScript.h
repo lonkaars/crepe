@@ -9,7 +9,7 @@ private:
 	bool seeking_disabled;
 
 	// will be used to calculate when ai will be stopped
-	static constexpr int X_RANGE = 100;
+	static constexpr int X_RANGE = 90;
 	bool is_in_x_range(const crepe::Transform & missile, const crepe::Transform & player);
 	void kill_missile();
 	void activate();
