@@ -41,7 +41,7 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		AudioSource & audio = this->get_components_by_name<AudioSource>("player").at(0);
 		audio.play();
 
-		return true;
+		return false;
 	} else if (ev.info.other.metadata.tag == "laser") {
 		for (Animator & anim : animators) {
 			anim.active = true;
@@ -58,7 +58,7 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		AudioSource & audio = this->get_components_by_name<AudioSource>("player").at(1);
 		audio.play();
 
-		return true;
+		return false;
 	} else if (ev.info.other.metadata.tag == "missile") {
 		for (Animator & anim : animators) {
 			anim.active = true;
@@ -75,7 +75,7 @@ bool PlayerScript::on_collision(const CollisionEvent & ev) {
 		AudioSource & audio = this->get_components_by_name<AudioSource>("player").at(2);
 		audio.play();
 
-		return true;
+		return false;
 	}
 
 	return false;
