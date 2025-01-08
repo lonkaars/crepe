@@ -10,7 +10,7 @@ add_subdirectory(../src crepe)
 
 add_executable(main)
 
-add_executable(main PUBLIC
+target_sources(main PUBLIC
 	#background
 	background/AquariumSubScene.cpp
 	background/AquariumScript.cpp
@@ -43,13 +43,8 @@ add_executable(main PUBLIC
 	preview/NpcScript.cpp
 	preview/PrevPlayerSubScene.cpp
 	preview/PrevPlayerScript.cpp
-	main.cpp
 
 	# scripts
-
-add_executable(main)
-
-target_sources(main PUBLIC
 	GameScene.cpp
 	MoveCameraManualyScript.cpp
 	StartGameScript.cpp

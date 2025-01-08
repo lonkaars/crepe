@@ -15,7 +15,7 @@ private:
 	int last_boss_check = 0;
 	int last_obstacle_check = 0;
 
-	int boss_fight_interval = 2000;
+	int boss_fight_interval = 2500;
 	int obstacle_interval = 300;
 	int start_offset = 1300;
 

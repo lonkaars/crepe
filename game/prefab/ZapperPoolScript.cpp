@@ -30,10 +30,6 @@ void ZapperPoolScript::fixed_update(crepe::duration_t) {
 		if (zapper.transform.position.x < threshold)
 			zapper.set_active(false);
 	}
-
-	if (i-- > 0) return;
-	i = 200;
-	queue_event<CreateZapperEvent>();
 }
 
 void ZapperPoolScript::spawn_random() {

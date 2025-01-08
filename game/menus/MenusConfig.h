@@ -3,7 +3,6 @@
 
 //generic menu config
 static constexpr int STARTING_SORTING_IN_LAYER = 7;
-static constexpr const char * CAMERA_NAME = "camera";
 //Scene names
 static constexpr const char * START_SCENE = "scene1";
 static constexpr const char * PREVIEW_SCENE = "preview scene";

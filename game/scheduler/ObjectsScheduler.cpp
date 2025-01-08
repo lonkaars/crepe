@@ -5,13 +5,13 @@
 #include "../Random.h"
 #include "../missile/SpawnEvent.h"
 #include "api/Transform.h"
+#include "prefab/ZapperPoolSubScene.h"
 #include <iostream>
 
 using namespace crepe;
-
 void ObjectsScheduler::preset_0() { trigger_event<MissileSpawnEvent>(MissileSpawnEvent {}); }
 void ObjectsScheduler::preset_1() { trigger_event<MissileSpawnEvent>(MissileSpawnEvent {}); }
-void ObjectsScheduler::preset_2() {}
+void ObjectsScheduler::preset_2() { trigger_event<CreateZapperEvent>(CreateZapperEvent {}); }
 void ObjectsScheduler::preset_3() {}
 void ObjectsScheduler::preset_4() {}
 void ObjectsScheduler::boss_fight_1() { std::cout << "Boss fight" << std::endl; }
@@ -19,6 +19,8 @@ void ObjectsScheduler::boss_fight_1() { std::cout << "Boss fight" << std::endl; 
 void ObjectsScheduler::init() {
 	this->obstacles.push_back([this]() { preset_0(); });
 	this->obstacles.push_back([this]() { preset_1(); });
+	this->obstacles.push_back([this]() { preset_2(); });
+
 	this->obstacles.push_back([this]() { boss_fight_1(); });
 
 	// subscribe to battlewonevent
