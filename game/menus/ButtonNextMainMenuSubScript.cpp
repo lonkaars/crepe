@@ -1,22 +1,25 @@
-#include "ButtonNextMainMenuScript.h"
-#include "../Config.h"
+#include "ButtonNextMainMenuSubScript.h"
 #include "MenusConfig.h"
 #include "ValueBroker.h"
-#include "api/AudioSource.h"
+
 #include "manager/SaveManager.h"
-#include "types.h"
+
+#include "../Config.h"
+
+#include <crepe/api/AudioSource.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 using namespace std;
 
-void ButtonNextMainMenuScript::init() {
+void ButtonNextMainMenuSubScript::init() {
 	IButtonScript::init();
 	this->subscribe<ButtonPressEvent>([this](const ButtonPressEvent & e) {
 		return this->on_button_press(e);
 	});
 }
 
-bool ButtonNextMainMenuScript::on_button_press(const ButtonPressEvent & e) {
+bool ButtonNextMainMenuSubScript::on_button_press(const ButtonPressEvent & e) {
 	RefVector<AudioSource> audios
 		= this->get_components_by_name<AudioSource>("background_music");
 

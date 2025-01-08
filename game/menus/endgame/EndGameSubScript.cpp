@@ -1,11 +1,14 @@
 #include "EndGameSubScript.h"
+
 #include "../../Events.h"
 #include "../IFloatingWindowScript.h"
-#include "api/Button.h"
-#include "api/Sprite.h"
-#include "api/Text.h"
-#include "types.h"
+
 #include <string>
+
+#include <crepe/api/Button.h>
+#include <crepe/api/Sprite.h>
+#include <crepe/api/Text.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 

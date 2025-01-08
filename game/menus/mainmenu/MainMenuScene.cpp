@@ -1,7 +1,7 @@
 
 #include "MainMenuScene.h"
 #include "MainMenuConfig.h"
-#include "TransitionStartScript.h"
+#include "TransitionStartSubScript.h"
 
 #include "../ButtonSubScene.h"
 #include "../MenusConfig.h"
@@ -31,7 +31,7 @@ void MainMenuScene::load_scene() {
 			.bg_color = Color::RED,
 		}
 	);
-	camera_object.add_component<BehaviorScript>().set_script<TransitionStartScript>();
+	camera_object.add_component<BehaviorScript>().set_script<TransitionStartSubScript>();
 
 	//Button menu
 	GameObject menu_button = this->new_object(MENU_BUTTON_NAME, MENU_BUTTON_NAME, MENU_OFFSET);

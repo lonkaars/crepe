@@ -1,16 +1,23 @@
 #include "CoinScript.h"
-#include "../Config.h"
-#include "../Events.h"
-#include "../hud/HudScript.h"
-#include "api/CircleCollider.h"
-#include "api/Sprite.h"
+
 #include "manager/SaveManager.h"
+
+#include "../Config.h"
+#include "../hud/HudScript.h"
+
+#include <crepe/api/CircleCollider.h>
+#include <crepe/api/Sprite.h>
 
 using namespace crepe;
 using namespace std;
 
 bool CoinScript::on_collision(const CollisionEvent & collisionData) {
 	if (collisionData.info.other.metadata.tag != "coin") return false;
+	if (!this->get_components_by_name<Sprite>(collisionData.info.other.metadata.name)
+			 .front()
+			 .get()
+			 .active)
+		return false;
 	this->get_components_by_name<Sprite>(collisionData.info.other.metadata.name)
 		.front()
 		.get()

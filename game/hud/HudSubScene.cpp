@@ -1,8 +1,10 @@
 #include "HudSubScene.h"
-#include "../Config.h"
 #include "HudConfig.h"
-#include "api/GameObject.h"
-#include "api/Text.h"
+
+#include "../Config.h"
+
+#include <crepe/api/GameObject.h>
+#include <crepe/api/Text.h>
 
 using namespace crepe;
 using namespace std;

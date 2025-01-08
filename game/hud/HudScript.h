@@ -1,8 +1,8 @@
 #pragma once
 
-#include "api/Event.h"
-#include "api/Script.h"
-#include "manager/SaveManager.h"
+#include <crepe/api/Event.h>
+#include <crepe/api/Script.h>
+#include <crepe/manager/SaveManager.h>
 
 struct GetCoinEvent : public crepe::Event {
 	int amount_of_coins;

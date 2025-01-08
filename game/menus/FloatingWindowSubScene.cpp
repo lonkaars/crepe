@@ -1,12 +1,12 @@
 
 #include "FloatingWindowSubScene.h"
 #include "MenusConfig.h"
-#include "types.h"
 
 #include <crepe/api/Camera.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Scene.h>
 #include <crepe/api/Sprite.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 using namespace std;

@@ -2,8 +2,7 @@
 #include "Config.h"
 #include "MoveCameraManualyScript.h"
 #include "StartGameScript.h"
-#include "coins/CoinPool.h"
-#include "coins/CoinSubScene.h"
+#include "coins/CoinPoolSubScene.h"
 #include "coins/CoinSystemScript.h"
 
 #include "background/BackgroundSubScene.h"
@@ -11,8 +10,8 @@
 #include "hud/HudSubScene.h"
 #include "hud/SpeedScript.h"
 #include "menus/endgame/EndGameSubScene.h"
-#include "menus/endgame/EndGameSubScript.h"
 #include "player/PlayerSubScene.h"
+#include "workers/WorkersSubScene.h"
 
 #include <cmath>
 #include <crepe/api/Animator.h>
@@ -53,6 +52,8 @@ void GameScene::load_scene() {
 
 	PlayerSubScene player(*this);
 
+	WorkersSubScene workers(*this);
+
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data {
 		.body_type = Rigidbody::BodyType::STATIC,
@@ -81,7 +82,7 @@ void GameScene::load_scene() {
 	start_game_script.add_component<BehaviorScript>().set_script<StartGameScript>();
 
 	//create coin pool
-	CoinPool coin_system;
+	CoinPoolSubScene coin_system;
 	coin_system.create_coins(*this);
 
 	HudSubScene hud;

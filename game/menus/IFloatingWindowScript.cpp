@@ -1,6 +1,7 @@
 #include "IFloatingWindowScript.h"
-#include "api/Sprite.h"
-#include "types.h"
+
+#include <crepe/api/Sprite.h>
+#include <crepe/types.h>
 
 using namespace crepe;
 

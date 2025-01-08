@@ -1,6 +1,7 @@
 #pragma once
 
 #include <crepe/api/Script.h>
+
 #include <string>
 
 class IFloatingWindowScript : public virtual crepe::Script {

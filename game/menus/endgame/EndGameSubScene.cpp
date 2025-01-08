@@ -1,14 +1,17 @@
 
 #include "EndGameSubScene.h"
+#include "EndGameSubScript.h"
+
 #include "../../Config.h"
 #include "../ButtonSubScene.h"
 #include "../FloatingWindowSubScene.h"
-#include "EndGameSubScript.h"
-#include "types.h"
+
+#include <string>
+
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Text.h>
-#include <string>
+#include <crepe/types.h>
 
 using namespace crepe;
 using namespace std;

@@ -4,7 +4,7 @@
 
 #include "../IButtonScript.h"
 
-class ButtonTransitionPreviewScript : public ITransitionScript, public IButtonScript {
+class ButtonTransitionPreviewSubScript : public ITransitionScript, public IButtonScript {
 public:
 	void init() override;
 	bool on_button_press(const crepe::ButtonPressEvent & e);

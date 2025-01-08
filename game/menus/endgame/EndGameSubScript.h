@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../IFloatingWindowScript.h"
-#include "api/Event.h"
+
+#include <crepe/api/Event.h>
 #include <crepe/api/Script.h>
 
 class EndGameSubScript : public IFloatingWindowScript {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "types.h"
 #include <crepe/api/Scene.h>
+#include <crepe/types.h>
 
 class FloatingWindowSubScene {
 public:

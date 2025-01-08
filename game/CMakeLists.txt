@@ -47,25 +47,28 @@ add_executable(main
 	player/PlayerSubScene.cpp
 	player/PlayerEndScript.cpp
 	player/PlayerAudioScript.cpp
-
-	# menus
+	background/StartSubScene.cpp
+	workers/WorkersSubScene.cpp
+	workers/WorkerScript.cpp
+	workers/PanicFromPlayerScript.cpp
+	main.cpp
 	menus/BannerSubScene.cpp
 	menus/ButtonSubScene.cpp
 	menus/IButtonScript.cpp
-	menus/ButtonSetShopScript.cpp
-	menus/ButtonSetMainMenuScript.cpp
-	menus/ButtonNextMainMenuScript.cpp
+	menus/ButtonSetShopSubScript.cpp
+	menus/ButtonSetMainMenuSubScript.cpp
+	menus/ButtonNextMainMenuSubScript.cpp
 	menus/FloatingWindowSubScene.cpp
 	menus/IFloatingWindowScript.cpp
-	menus/mainmenu/ButtonTransitionPreviewScript.cpp
+	menus/mainmenu/ButtonTransitionPreviewSubScript.cpp
 	menus/mainmenu/ITransitionScript.cpp
-	menus/mainmenu/TransitionStartScript.cpp
+	menus/mainmenu/TransitionStartSubScript.cpp
 	menus/endgame/EndGameSubScene.cpp
 	menus/endgame/EndGameSubScript.cpp
 
 	# coins
 	coins/CoinSubScene.cpp
-	coins/CoinPool.cpp
+	coins/CoinPoolSubScene.cpp
 	coins/CoinSystemScript.cpp
 	coins/CoinScript.cpp
 
