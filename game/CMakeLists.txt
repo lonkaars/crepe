@@ -7,10 +7,16 @@ set(CMAKE_BUILD_TYPE Debug)
 project(game C CXX)
 
 add_subdirectory(../src crepe)
+add_executable(main
+	# enemy
+	enemy/BattleScript.cpp
+	enemy/EnemyPool.cpp
+	enemy/EnemyBulletScript.cpp
+	enemy/EnemyBulletSubScene.cpp
+	enemy/EnemyBulletPool.cpp
+	enemy/EnemySubScene.cpp
+	enemy/EnemyScript.cpp
 
-add_executable(main)
-
-target_sources(main PUBLIC
 	#background
 	background/AquariumSubScene.cpp
 	background/AquariumScript.cpp
@@ -52,6 +58,9 @@ target_sources(main PUBLIC
 	# player
 	player/PlayerScript.cpp
 	player/PlayerSubScene.cpp
+	player/PlayerBulletPool.cpp
+	player/PlayerBulletScript.cpp
+	player/PlayerBulletSubScene.cpp
 	player/PlayerEndScript.cpp
 	player/PlayerAudioScript.cpp
 

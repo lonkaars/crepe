@@ -6,18 +6,25 @@
 #include "coins/CoinSystemScript.h"
 
 #include "background/BackgroundSubScene.h"
+#include "enemy/BattleScript.h"
+#include "enemy/EnemyBulletPool.h"
+#include "enemy/EnemyPool.h"
+#include "enemy/EnemySubScene.h"
 #include "hud/HudScript.h"
 #include "hud/HudSubScene.h"
 #include "hud/SpeedScript.h"
 #include "menus/endgame/EndGameSubScene.h"
 #include "missile/MissilePool.h"
 #include "missile/SpawnEvent.h"
+#include "player/PlayerBulletPool.h"
+#include "player/PlayerBulletSubScene.h"
 #include "player/PlayerSubScene.h"
 #include "scheduler/ObjectsScheduler.h"
 #include "prefab/ZapperPoolSubScene.h"
 #include "workers/WorkersSubScene.h"
 
 #include <cmath>
+#include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Asset.h>
 #include <crepe/api/AudioSource.h>
@@ -56,8 +63,15 @@ void GameScene::load_scene() {
 	camera.add_component<BehaviorScript>().set_script<ObjectsScheduler>();
 	camera.add_component<BehaviorScript>().set_script<MissileSpawnEventHandler>();
 
+	camera.add_component<BehaviorScript>().set_script<BattleScript>();
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
-
+	AI & enemy_path_1 = camera.add_component<AI>(400);
+	enemy_path_1.make_oval_path(100, 100, camera.transform.position, 1.5708, true);
+	AI & enemy_path_2 = camera.add_component<AI>(400);
+	enemy_path_2.make_oval_path(100, 100, {0, 0}, 1.5708, true);
+	AI & enemy_path_3 = camera.add_component<AI>(400);
+	enemy_path_3.make_oval_path(100, 100, {0, 0}, 1.5708, true);
+	// camer.add_component<AI>
 	PlayerSubScene player(*this);
 
 	MissilePool missile_pool(*this);
@@ -96,7 +110,12 @@ void GameScene::load_scene() {
 	//create coin pool
 	CoinPoolSubScene coin_system;
 	coin_system.create_coins(*this);
-
+	EnemyBulletPool enemy_bullet_pool;
+	enemy_bullet_pool.create_bullets(*this);
+	PlayerBulletPool player_bullet_pool;
+	player_bullet_pool.create_bullets(*this);
+	EnemyPool enemy_pool;
+	enemy_pool.create_enemies(*this);
 	HudSubScene hud;
 	hud.create(*this);
 

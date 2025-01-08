@@ -17,7 +17,6 @@ int main() {
 	Config::get_instance() = ENGINE_CONFIG;
 
 	Engine gameloop;
-	gameloop.add_scene<GameScene>();
 	gameloop.add_scene<MainMenuScene>();
 	gameloop.add_scene<ShopMenuScene>();
 	gameloop.add_scene<GameScene>();
