@@ -1,3 +1,4 @@
+#include <iostream>
 #include "PlayerEndScript.h"
 
 #include "../Config.h"
@@ -22,6 +23,7 @@ void PlayerEndScript::init() {
 }
 
 bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
+	cout << "collision player" << endl;
 	if (ev.info.other.metadata.name == "floor") {
 		Transform & transform_player
 			= this->get_components_by_name<Transform>("player").front();

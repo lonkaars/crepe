@@ -18,7 +18,7 @@ using namespace crepe;
 using namespace std;
 
 PlayerSubScene::PlayerSubScene(Scene & scn) {
-	GameObject player = scn.new_object("player", "player", vec2(-100, 200));
+	GameObject player = scn.new_object("player", "player", vec2(300, 200));
 
 	Asset player_bullet {"asset/other_effects/effect_smgbullet.png"};
 	Sprite & player_bullet_sprite = player.add_component<Sprite>(
@@ -143,11 +143,11 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 	player.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = PLAYER_GRAVITY_SCALE,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
-		.linear_velocity = vec2(PLAYER_SPEED * 0.02, 0),
+		//.linear_velocity = vec2(PLAYER_SPEED * 0.02, 0),
 		.collision_layers
-		= {COLL_LAY_BOT_TOP, COLL_LAY_ZAPPER, COLL_LAY_LASER, COLL_LAY_MISSILE},
+		= {COLL_LAY_BOT_TOP, COLL_LAY_ZAPPER, COLL_LAY_LASER, COLL_LAY_MISSILE,COLL_LAY_BULLET},
 		.collision_layer = COLL_LAY_PLAYER,
 	});
-	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
+	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = true;
 	player.add_component<BehaviorScript>().set_script<PlayerEndScript>().active = false;
 }

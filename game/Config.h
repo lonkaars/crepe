@@ -16,6 +16,8 @@ static constexpr int COLL_LAY_WALL_FRAGS = 5; // Only for GameScene
 static constexpr int COLL_LAY_ZAPPER = 6; // Only for GameScene
 static constexpr int COLL_LAY_LASER = 7; // Only for GameScene
 static constexpr int COLL_LAY_MISSILE = 8; // Only for GameScene
+static constexpr int COLL_LAY_BULLET = 9; // Only for GameScene
+static constexpr int COLL_LAY_ENEMY = 10; // Only for GameScene
 
 static constexpr int GAME_HEIGHT = 800; // In game units
 

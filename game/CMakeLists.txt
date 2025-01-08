@@ -9,8 +9,13 @@ project(game C CXX)
 
 add_subdirectory(../src crepe)
 add_executable(main
+	enemy/BattleScript.cpp
 	enemy/EnemyPool.cpp
+	enemy/EnemyBulletScript.cpp
+	enemy/EnemyBulletSubScene.cpp
+	enemy/EnemyBulletPool.cpp
 	enemy/EnemySubScene.cpp
+	enemy/EnemyScript.cpp
 	background/AquariumSubScene.cpp
 	background/BackgroundSubScene.cpp
 	background/ForestParallaxScript.cpp
@@ -20,6 +25,9 @@ add_executable(main
 	MoveCameraManualyScript.cpp
 	player/PlayerScript.cpp
 	player/PlayerSubScene.cpp
+	player/PlayerBulletPool.cpp
+	player/PlayerBulletScript.cpp
+	player/PlayerBulletSubScene.cpp
 	StartGameScript.cpp
 	player/PlayerEndScript.cpp
 	background/StartSubScene.cpp

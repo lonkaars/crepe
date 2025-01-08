@@ -6,5 +6,5 @@ class EnemyPool {
 public:
 	void create_enemies(crepe::Scene & scn);
 private:
-	static constexpr int MAXIMUM_AMOUNT = 100;
+	static constexpr int MAXIMUM_AMOUNT = 10;
 };

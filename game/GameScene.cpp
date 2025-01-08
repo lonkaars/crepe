@@ -5,7 +5,12 @@
 
 #include "background/BackgroundSubScene.h"
 #include "player/PlayerSubScene.h"
-
+#include "player/PlayerBulletPool.h"
+#include "player/PlayerBulletSubScene.h"
+#include "enemy/EnemyPool.h"
+#include "enemy/EnemySubScene.h"
+#include "enemy/EnemyBulletPool.h"
+#include "enemy/BattleScript.h"
 #include <cmath>
 #include <crepe/api/Animator.h>
 #include <crepe/api/Asset.h>
@@ -15,6 +20,7 @@
 #include <crepe/api/Color.h>
 #include <crepe/api/Event.h>
 #include <crepe/api/GameObject.h>
+#include <crepe/api/AI.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Script.h>
@@ -29,7 +35,7 @@ void GameScene::load_scene() {
 	BackgroundSubScene background(*this);
 
 	GameObject camera = new_object("camera", "camera", vec2(650, 0));
-	camera.add_component<Camera>(
+	Camera& camera_cam = camera.add_component<Camera>(
 		ivec2(990, 720), vec2(VIEWPORT_X, VIEWPORT_Y),
 		Camera::Data {
 			.bg_color = Color::RED,
@@ -37,7 +43,13 @@ void GameScene::load_scene() {
 	);
 	camera.add_component<BehaviorScript>().set_script<MoveCameraManualyScript>();
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
-
+	AI& enemy_path_1 = camera.add_component<AI>(400);
+	enemy_path_1.make_oval_path(100, 100, camera.transform.position, 1.5708, true);
+	AI& enemy_path_2 = camera.add_component<AI>(400);
+	enemy_path_2.make_oval_path(100, 100, {0, 0}, 1.5708, true);
+	AI& enemy_path_3 = camera.add_component<AI>(400);
+	enemy_path_3.make_oval_path(100, 100, {0, 0}, 1.5708, true);
+	// camer.add_component<AI>
 	PlayerSubScene player(*this);
 
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
@@ -116,6 +128,22 @@ void GameScene::load_scene() {
 		.collision_layer = COLL_LAY_MISSILE,
 	});
 	missile.add_component<BoxCollider>(vec2(100, 100));
+	//Enemy pool
+	EnemyPool enemy_pool;
+	enemy_pool.create_enemies(*this);
+	PlayerBulletPool player_bullet_pool;
+	player_bullet_pool.create_bullets(*this);
+	//Enemy Bullet pool
+	// PlayerBulletSubScene player_bullet;
+	// player_bullet.create(*this);
+	EnemyBulletPool enemy_bullet_pool;
+	enemy_bullet_pool.create_bullets(*this);
+	BehaviorScript& script = camera.add_component<BehaviorScript>().set_script<BattleScript>();
+	
+	// EnemySubScene enemy_sub_scene1;
+	// enemy_sub_scene1.create(*this);
+	// EnemySubScene enemy_sub_scene2;
+	// enemy_sub_scene2.create(*this);
 }
 
 string GameScene::get_name() const { return "scene1"; }

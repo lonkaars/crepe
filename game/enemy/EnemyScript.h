@@ -1,7 +1,30 @@
 #pragma once
-
+#include <crepe/api/Event.h>
+#include <crepe/api/Script.h>
+#include <crepe/api/Event.h>
+#include <crepe/api/Camera.h>
+#include <random>
+#include <chrono>
+struct SpawnEnemyEvent : public crepe::Event{
+	float speed = 0;
+	int column = 0;
+};
 class EnemyScript : public crepe::Script {
+	public:
+	EnemyScript();
 	void init() override;
-	void update() override;
-	void onCollide(const CollisionEvent & collisionData);
+	void fixed_update(crepe::duration_t dt) override;
+	void shoot(const crepe::vec2& position,float angle);
+	void onCollide(const crepe::CollisionEvent & collisionData);
+	bool spawn_enemy(const SpawnEnemyEvent& e);
+	private:
+	std::random_device rd;
+	std::default_random_engine engine;
+
+	float speed = 50;
+	const float MIN_SPEED = 10;
+	const float MAX_SPEED = 130;
+	const float MAX_DISTANCE = 100;
+	std::chrono::time_point<std::chrono::steady_clock> last_fired;
+	std::chrono::duration<float> shot_delay;
 };
