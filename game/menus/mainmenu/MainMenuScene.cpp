@@ -64,11 +64,24 @@ void MainMenuScene::load_scene() {
 		ButtonSubScene::Data {
 			.text = "SHOP",
 			.text_offset = {-20, 0},
-			.text_width = 115,
+			.text_width = 110,
 			.icon_offset = {60, 0},
 			.icon_type = ButtonSubScene::IconSelect::SHOP,
 			.position = pos_btn,
 			.script_type = ButtonSubScene::ScriptSelect::SHOP,
+		}
+	);
+
+	//Credits btn
+	pos_btn.y += MENU_BUTTON_SPACING + LARGE_OVERLAY_SIZE.y;
+	button.create(
+		*this,
+		ButtonSubScene::Data {
+			.text = "CREDITS",
+			.text_offset = {0, 0},
+			.text_width = 200,
+			.position = pos_btn,
+			//.script_type = ButtonSubScene::ScriptSelect::SHOP,
 		}
 	);
 

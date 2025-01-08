@@ -26,9 +26,11 @@ void SpeedScript::init() {
 void SpeedScript::fixed_update(crepe::duration_t dt) {
 	LoopTimerManager & lp = this->get_loop_timer();
 	if (this->get_key_state(Keycode::PAGE_UP)) {
+		if(lp.get_time_scale() >= 2) return;
 		lp.set_time_scale(lp.get_time_scale() + 0.1);
 	}
 	if (this->get_key_state(Keycode::PAGE_DOWN)) {
+		if(lp.get_time_scale() <= 0.5) return;
 		lp.set_time_scale(lp.get_time_scale() - 0.1);
 	}
 }
