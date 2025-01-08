@@ -20,8 +20,8 @@
 #include "player/PlayerBulletPool.h"
 #include "player/PlayerBulletSubScene.h"
 #include "player/PlayerSubScene.h"
-#include "scheduler/ObjectsScheduler.h"
 #include "prefab/ZapperPoolSubScene.h"
+#include "scheduler/ObjectsScheduler.h"
 #include "workers/WorkersSubScene.h"
 
 #include <cmath>

@@ -2,13 +2,13 @@
 
 #include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
+#include <crepe/api/AudioSource.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/CircleCollider.h>
 #include <crepe/api/GameObject.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Scene.h>
-#include <crepe/api/AudioSource.h>
 #include <crepe/api/Sprite.h>
 
 #include "../Config.h"
@@ -91,8 +91,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = true,
 		}
 	);
-	enemy.add_component<AudioSource>(Asset("asset/sfx/bike_gun_2.ogg")).volume
-		= 0.1;
+	enemy.add_component<AudioSource>(Asset("asset/sfx/bike_gun_2.ogg")).volume = 0.1;
 	AI & ai_component = enemy.add_component<AI>(3000);
 	ai_component.path_follow_on();
 	BehaviorScript & enemy_script
