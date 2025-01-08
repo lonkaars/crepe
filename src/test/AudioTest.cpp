@@ -60,6 +60,8 @@ TEST_F(AudioTest, Play) {
 		InSequence seq;
 
 		EXPECT_CALL(context, play(_)).Times(0);
+		EXPECT_CALL(context, set_loop(_, _)).Times(0);
+		EXPECT_CALL(context, set_volume(_, _)).Times(0);
 		component.play();
 	}
 
@@ -67,6 +69,8 @@ TEST_F(AudioTest, Play) {
 		InSequence seq;
 
 		EXPECT_CALL(context, play(_)).Times(1);
+		EXPECT_CALL(context, set_loop(_, _)).Times(1);
+		EXPECT_CALL(context, set_volume(_, _)).Times(1);
 		system.fixed_update();
 	}
 }
@@ -146,6 +150,9 @@ TEST_F(AudioTest, PlayOnActive) {
 		InSequence seq;
 
 		EXPECT_CALL(context, play(_)).Times(1);
+		EXPECT_CALL(context, set_loop(_, _)).Times(1);
+		EXPECT_CALL(context, set_volume(_, _)).Times(1);
+
 		component.active = true;
 		system.fixed_update();
 	}
@@ -156,6 +163,8 @@ TEST_F(AudioTest, PlayImmediately) {
 	component.play();
 
 	EXPECT_CALL(context, play(_)).Times(1);
+	EXPECT_CALL(context, set_volume(_, _)).Times(1);
+	EXPECT_CALL(context, set_loop(_, _)).Times(1);
 
 	system.fixed_update();
 }

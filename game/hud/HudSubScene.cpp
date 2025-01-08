@@ -45,7 +45,7 @@ void HudSubScene::create(Scene & scn) {
 		size_coin, FONT,
 		Text::Data {
 			.world_space = false,
-			.text_color = Color::YELLOW,
+			.text_color = Color::GOLD,
 		},
 		TOP_LEFT + FONTOFFSET + COINS_OFFSET + vec2 {COINS_LENGTH * COINS_CHAR_WIDTH / 2, 0},
 		COINS

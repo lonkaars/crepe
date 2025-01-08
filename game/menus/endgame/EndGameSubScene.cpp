@@ -71,7 +71,7 @@ void EndGameSubScene::create(Scene & scn) {
 			.text = "REPLAY",
 			.text_width = 150,
 			.position = {-button_position.x, button_position.y},
-			// .script_type = ButtonSubScene::ScriptSelect::MAINMENU,
+			.script_type = ButtonSubScene::ScriptSelect::REPLAY,
 			.button_type = ButtonSubScene::ButtonSelect::BACK,
 			.scale = 0.6,
 			.worldspace = false,

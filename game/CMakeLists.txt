@@ -76,12 +76,16 @@ add_executable(main
 	menus/IButtonScript.cpp
 	menus/ButtonSetShopSubScript.cpp
 	menus/ButtonSetMainMenuSubScript.cpp
+	menus/ButtonReplaySubScript.cpp
 	menus/ButtonNextMainMenuSubScript.cpp
 	menus/FloatingWindowSubScene.cpp
 	menus/IFloatingWindowScript.cpp
+	menus/ButtonShowCreditsSubScript.cpp
 	menus/mainmenu/ButtonTransitionPreviewSubScript.cpp
 	menus/mainmenu/ITransitionScript.cpp
 	menus/mainmenu/TransitionStartSubScript.cpp
+	menus/mainmenu/CreditsSubScene.cpp
+	menus/mainmenu/CreditsSubScript.cpp
 	menus/endgame/EndGameSubScene.cpp
 	menus/endgame/EndGameSubScript.cpp
 
