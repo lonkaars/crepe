@@ -79,7 +79,7 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 	ai_component.make_oval_path(10, 10, vec2 {x_value, random_height}, 1.5708, true);
 	ai_component.active = true;
 	this->last_fired = std::chrono::steady_clock::now();
-	return true;
+	return false;
 }
 
 bool EnemyScript::on_collide(const CollisionEvent & e) {

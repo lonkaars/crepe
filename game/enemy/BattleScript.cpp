@@ -47,5 +47,5 @@ bool BattleScript::create_battle(const BattleStartEvent & e) {
 			script.game_object_id
 		);
 	}
-	return true;
+	return false;
 }
