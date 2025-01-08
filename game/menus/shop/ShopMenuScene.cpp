@@ -50,6 +50,8 @@ void ShopMenuScene::load_scene() {
 			.scale = 0.8
 		}
 	);
+
+	//
 }
 
 string ShopMenuScene::get_name() const { return SHOP_SCENE; }
