@@ -1,4 +1,5 @@
 #include "BackgroundSubScene.h"
+#include "AquariumScript.h"
 #include "AquariumSubScene.h"
 #include "ForestSubScene.h"
 #include "HallwayScript.h"
@@ -31,10 +32,10 @@ BackgroundSubScene::BackgroundSubScene(Scene & scn) {
 
 	begin_x = aquarium.create(scn, begin_x);
 
-	begin_x += 3000;
+	//begin_x += 3000;
 	//begin_x = hallway.create(scn, begin_x, 3, Color::CYAN);
 
-	begin_x = forest.create(scn, begin_x, "2");
+	//begin_x = forest.create(scn, begin_x, "2");
 
 	//begin_x = hallway.create(scn, begin_x, 4, Color::GREEN);
 
@@ -88,4 +89,5 @@ BackgroundSubScene::BackgroundSubScene(Scene & scn) {
 
 	GameObject scripts = scn.new_object("scrips_background", "background");
 	scripts.add_component<BehaviorScript>().set_script<HallwayScript>();
+	scripts.add_component<BehaviorScript>().set_script<AquariumScript>();
 }
