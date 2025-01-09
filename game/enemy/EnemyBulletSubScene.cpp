@@ -27,7 +27,7 @@ int EnemyBulletSubScene::create(Scene & scn, int counter) {
 	Rigidbody & bullet_body = bullet.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = 0,
 		.body_type = Rigidbody::BodyType::KINEMATIC,
-		.linear_velocity = vec2 {-400, 0},
+		.linear_velocity = vec2 {-350, 0},
 		.kinematic_collision = false,
 		.collision_layers = {COLL_LAY_BOT_TOP, COLL_LAY_MISSILE, COLL_LAY_ZAPPER},
 		.collision_layer = COLL_LAY_BULLET
