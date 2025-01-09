@@ -16,6 +16,7 @@
 #include "EnemyBulletScript.h"
 #include "EnemyBulletSubScene.h"
 #include "EnemyScript.h"
+#include "api/Color.h"
 using namespace crepe;
 using namespace std;
 int EnemyBulletSubScene::create(Scene & scn, int counter) {
@@ -39,6 +40,7 @@ int EnemyBulletSubScene::create(Scene & scn, int counter) {
 	Sprite & bullet_sprite = bullet.add_component<Sprite>(
 		bullet_asset,
 		Sprite::Data {
+			.color = Color::BLUE,
 			.flip = {true, false},
 			.sorting_in_layer = SORT_IN_LAY_OBSTACLES,
 			.order_in_layer = 1,
