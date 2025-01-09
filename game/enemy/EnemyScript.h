@@ -17,6 +17,7 @@ public:
 	bool on_collide(const crepe::CollisionEvent & collisionData);
 	void despawn_enemy();
 	bool spawn_enemy(const SpawnEnemyEvent & e);
+	void death();
 	void create_tank();
 	void create_soldier();
 	void set_hit_blink(bool status);
@@ -25,6 +26,7 @@ private:
 	std::random_device rd;
 	std::default_random_engine engine;
 	bool alive = false;
+	bool spawned = false;
 	float speed = 50;
 	int health = 2;
 	const float MIN_SPEED = 20;

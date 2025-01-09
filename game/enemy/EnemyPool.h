@@ -7,5 +7,5 @@ public:
 	void create_enemies(crepe::Scene & scn);
 
 private:
-	static constexpr int MAXIMUM_AMOUNT = 10;
+	static constexpr int MAXIMUM_AMOUNT = 7;
 };

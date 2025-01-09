@@ -52,7 +52,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = false,
 		}
 	);
-	enemy_body_sprite.active = false;
+	enemy_body_sprite.active = true;
 	body_animator.pause();
 	body_animator.active = true;
 	enemy.add_component<BoxCollider>(vec2(40, 60), vec2(-20, 0));
@@ -74,30 +74,6 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = true,
 		}
 	);
-	// tanky body
-	Asset tank_body_asset {"asset/workers/workerFatBody.png"};
-	enemy.add_component<BoxCollider>(vec2(50, 50));
-	Sprite & tank_body_sprite = enemy.add_component<Sprite>(
-		tank_body_asset,
-		Sprite::Data {
-			.flip = {true, false},
-			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
-			.order_in_layer = 0,
-			.size = vec2(0, 50),
-		}
-	);
-	tank_body_sprite.active = true;
-	Animator & tank_animator = enemy.add_component<Animator>(
-		tank_body_sprite, ivec2(32, 32), uvec2(4, 8),
-		Animator::Data {
-			.fps = 5,
-			.col = 1,
-			.row = 0,
-			.looping = false,
-		}
-	);
-	tank_animator.pause();
-	tank_animator.active = true;
 
 	//jetpack
 	enemy.add_component<CircleCollider>(25, vec2(0, -20));
@@ -135,8 +111,9 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 	enemy.add_component<AudioSource>(Asset("asset/sfx/bike_gun_2.ogg")).volume = 0.1;
 	AI & ai_component = enemy.add_component<AI>(3000);
 	ai_component.path_follow_on();
+	ai_component.active = false;
 	BehaviorScript & enemy_script
 		= enemy.add_component<BehaviorScript>().set_script<EnemyScript>();
-	enemy_script.active = false;
+	//enemy_script.active = false;
 	return enemy_counter;
 }

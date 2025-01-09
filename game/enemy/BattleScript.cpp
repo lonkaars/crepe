@@ -1,5 +1,7 @@
 #include "BattleScript.h"
 #include "EnemyScript.h"
+#include "../enemy/EnemyConfig.h"
+#include "api/Transform.h"
 #include <crepe/api/AI.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Metadata.h>
@@ -18,11 +20,11 @@ void BattleScript::init() {
 void BattleScript::fixed_update(duration_t dt) {
 	if (!battle_active) return;
 	bool enemies_alive = false;
-	RefVector<BehaviorScript> enemy_scripts
-		= this->get_components_by_tag<BehaviorScript>("enemy");
+	RefVector<AI> enemy_ai
+		= this->get_components_by_tag<AI>("enemy");
 
-	for (BehaviorScript & script : enemy_scripts) {
-		if (script.active) {
+	for (AI & ai : enemy_ai) {
+		if (ai.active) {
 			enemies_alive = true;
 		}
 	}
@@ -37,20 +39,24 @@ bool BattleScript::create_battle(const BattleStartEvent & e) {
 	return false;
 }
 void BattleScript::spawn_enemies(int amount) {
-	RefVector<BehaviorScript> enemy_scripts
-		= this->get_components_by_tag<BehaviorScript>("enemy");
+	RefVector<AI> enemy_ai
+		= this->get_components_by_tag<AI>("enemy");
 	std::uniform_real_distribution<float> dist(70, 150);
-
-	for (int i = 0; i < amount; i++) {
-		BehaviorScript & script = enemy_scripts[i];
-		if (script.active == true) continue;
-		script.active = true;
+	int spawned = 0;
+	for (int i = 0; i < 7; i++) {
+		AI& ai = enemy_ai[i];
+		Transform& enemy_transform = this->get_components_by_id<Transform>(ai.game_object_id).front();
+		if (ai.active == true || enemy_transform.position != ENEMY_POOL_LOCATION) continue;
 		this->queue_event<SpawnEnemyEvent>(
 			SpawnEnemyEvent {
 				.speed = dist(engine),
 				.column = i,
 			},
-			script.game_object_id
+			ai.game_object_id
 		);
+		spawned++;
+		if(spawned >= amount){
+			return;
+		}
 	}
 }
