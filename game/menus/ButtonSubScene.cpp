@@ -15,6 +15,8 @@
 
 #include "../Config.h"
 #include "mainmenu/CreditsSubScript.h"
+#include "menus/shop/ButtonBuySelectBubbleScript.h"
+#include "menus/shop/ButtonBuySelectBulletScript.h"
 
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Button.h>
@@ -87,6 +89,14 @@ void ButtonSubScene::set_script(crepe::GameObject & button_object, const Data & 
 		case ScriptSelect::PREVIEW_STOP:
 		button_object.add_component<BehaviorScript>()
 				.set_script<PreviewStopRecSubScript>();
+			break;
+		case ScriptSelect::SHOP_BULLET:
+		button_object.add_component<BehaviorScript>()
+				.set_script<ButtonBuySelectBulletScript>();
+			break;
+		case ScriptSelect::SHOP_BUBBLE:
+		button_object.add_component<BehaviorScript>()
+				.set_script<ButtonBuySelectBubbleScript>();
 			break;
 		case ScriptSelect::NONE:
 			button_object.add_component<BehaviorScript>().set_script<IButtonScript>();

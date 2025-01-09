@@ -22,6 +22,8 @@ public:
 		PREVIEW_START,
 		PREVIEW_STOP,
 		PREVIEW_REPLAY,
+		SHOP_BULLET,
+		SHOP_BUBBLE,
 		NONE,
 	};
 	//icon enum

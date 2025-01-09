@@ -33,6 +33,9 @@ target_sources(main PUBLIC
 	# mainscenes
 	GameScene.cpp
 	menus/shop/ShopMenuScene.cpp
+	menus/shop/ShopLoadScript.cpp
+	menus/shop/ButtonBuySelectBubbleScript.cpp
+	menus/shop/ButtonBuySelectBulletScript.cpp
 	menus/mainmenu/MainMenuScene.cpp
 	PreviewScene.cpp
 	main.cpp
