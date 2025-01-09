@@ -2,6 +2,7 @@
 #include "../Config.h"
 #include "../Random.h"
 #include "EnemyConfig.h"
+#include <iostream>
 #include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
@@ -9,7 +10,11 @@
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
 #include <crepe/api/Transform.h>
+#include <crepe/api/Sprite.h>
 #include <crepe/types.h>
+#include "../Random.h"
+#include "api/Color.h"
+#include "api/Sprite.h"
 #include <random>
 using namespace crepe;
 using namespace std;
@@ -40,23 +45,33 @@ void EnemyScript::fixed_update(duration_t dt) {
 	//transform.position += enemy_body.data.linear_velocity * dt.count();
 	float direction_to_player_y = player_transform.position.y - transform.position.y;
 	float distance_to_player_y = std::abs(direction_to_player_y);
+	
 
 	float adjustment_speed = speed * (distance_to_player_y / MAX_DISTANCE);
-
+	//cout << "before clamp speed: " << adjustment_speed << endl;
 	adjustment_speed = std::clamp(adjustment_speed, MIN_SPEED, MAX_SPEED);
 	// Move the path nodes on the Y-axis
+	//cout << "adjusted_speed: " << adjustment_speed << endl;
+	Rigidbody& player_body = this->get_components_by_tag<Rigidbody>("player").front();
 	for (vec2 & path_node : ai_component.path) {
 		path_node.y += (direction_to_player_y > 0 ? 1 : -1) * adjustment_speed * dt.count();
+		path_node.x += player_body.data.linear_velocity.x * dt.count();
 	}
 	//bullet fire logic:
 	auto now = std::chrono::steady_clock::now();
 	std::chrono::duration<float> elapsed = now - last_fired;
 	if (elapsed > shot_delay) {
-		this->shoot(transform.position, 0);
+		this->shoot(transform.position);
 		last_fired = now;
 		this->shot_delay = std::chrono::duration<float>(Random::f(4, 1));
 	}
+	std::chrono::duration<float> elapsed_hit = now - last_hit;
+	//hit blink timer
+	if(elapsed_hit > blink_time){
+		set_hit_blink(false);
+	}
 }
+
 bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 	this->speed = e.speed;
 	AI & ai_component = this->get_component<AI>();
@@ -65,7 +80,7 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 	Transform & cam_transform = this->get_components_by_name<Transform>("camera").front();
 
 	vec2 half_screen = camera.viewport_size / 2;
-	float x_value = cam_transform.position.x + half_screen.x - 50 * (1 + e.column);
+	float x_value = cam_transform.position.x + half_screen.x - 70 * (1 + e.column);
 	uniform_real_distribution<float> dist(
 		cam_transform.position.y - half_screen.y + 100,
 		cam_transform.position.y + half_screen.y - 100
@@ -75,31 +90,52 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 		= {cam_transform.position.x + camera.viewport_size.x / 2 + 100, random_height};
 	transform.position = spawn_location;
 	ai_component.path.clear();
-	ai_component.make_oval_path(10, 10, vec2 {x_value, random_height}, 1.5708, true);
+	ai_component.make_oval_path(10, 30, vec2 {x_value, random_height}, 1.5708, true);
 	ai_component.active = true;
 	this->last_fired = std::chrono::steady_clock::now();
 	return false;
 }
 
+void EnemyScript::set_hit_blink(bool status){
+	RefVector<Sprite> sprites = this->get_components<Sprite>();
+	for(Sprite& sprite : sprites){
+		if(status){
+			sprite.data.color = Color::RED;
+			continue;
+		}
+		sprite.data.color = Color::WHITE;
+	}
+}
+
 bool EnemyScript::on_collide(const CollisionEvent & e) {
 	if (e.info.other.metadata.tag == "player_bullet") {
+		this->health--;
+		last_hit = std::chrono::steady_clock::now();
+		//Sprite& sprite;
+		set_hit_blink(true);
+		
+	}
+	if(health <= 0){
 		this->despawn_enemy();
 	}
-	Animator & body_animator = this->get_components<Animator>().front();
-	body_animator.data.col = 2;
 	//body_animator.play();
-	BehaviorScript & enemy_script = this->get_component<BehaviorScript>();
-	enemy_script.active = false;
+	
 	return false;
 }
+
 void EnemyScript::despawn_enemy() {
 	Transform & transform = this->get_component<Transform>();
+	BehaviorScript & enemy_script = this->get_component<BehaviorScript>();
+	enemy_script.active = false;
+	Animator & body_animator = this->get_components<Animator>().front();
+	body_animator.data.col = 2;
 	transform.position = ENEMY_POOL_LOCATION;
 	AI & ai_component = this->get_component<AI>();
 	// Rigidbody& enemy_body
 	ai_component.active = false;
 }
-void EnemyScript::shoot(const vec2 & location, float angle) {
+
+void EnemyScript::shoot(const vec2 & location) {
 	RefVector<Transform> bullet_transforms
 		= this->get_components_by_tag<Transform>("enemy_bullet");
 
@@ -119,4 +155,11 @@ void EnemyScript::shoot(const vec2 & location, float angle) {
 			return;
 		}
 	}
+}
+
+void EnemyScript::create_tank(){
+	RefVector<Sprite> sprites = this->get_components<Sprite>();
+	Sprite& tank_body = sprites[2];
+	tank_body.active = true;
+
 }

@@ -13,19 +13,24 @@ public:
 	EnemyScript();
 	void init() override;
 	void fixed_update(crepe::duration_t dt) override;
-	void shoot(const crepe::vec2 & position, float angle);
+	void shoot(const crepe::vec2 & position);
 	bool on_collide(const crepe::CollisionEvent & collisionData);
 	void despawn_enemy();
 	bool spawn_enemy(const SpawnEnemyEvent & e);
-
+	void create_tank();
+	void create_soldier();
+	void set_hit_blink(bool status);
 private:
 	std::random_device rd;
 	std::default_random_engine engine;
 	bool alive = false;
 	float speed = 50;
-	const float MIN_SPEED = 10;
-	const float MAX_SPEED = 130;
-	const float MAX_DISTANCE = 100;
+	int health = 2;
+	const float MIN_SPEED = 20;
+	const float MAX_SPEED = 150;
+	const float MAX_DISTANCE = 200;
 	std::chrono::time_point<std::chrono::steady_clock> last_fired;
+	std::chrono::time_point<std::chrono::steady_clock> last_hit;
 	std::chrono::duration<float> shot_delay = std::chrono::duration<float>(0);
+	std::chrono::duration<float> blink_time = std::chrono::duration<float>(0.1);
 };

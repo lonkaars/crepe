@@ -27,14 +27,13 @@ int EnemyBulletSubScene::create(Scene & scn, int counter) {
 	Rigidbody & bullet_body = bullet.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = 0,
 		.body_type = Rigidbody::BodyType::KINEMATIC,
-
-		.linear_velocity = vec2 {-250, 0},
+		.linear_velocity = vec2 {-400, 0},
 		.kinematic_collision = false,
-		.collision_layers = {COLL_LAY_MISSILE, COLL_LAY_ZAPPER},
+		.collision_layers = {COLL_LAY_BOT_TOP,COLL_LAY_MISSILE, COLL_LAY_ZAPPER},
 		.collision_layer = COLL_LAY_BULLET
 	});
 	bullet_body.active = false;
-	BoxCollider & bullet_collider = bullet.add_component<BoxCollider>(vec2(60, 30));
+	BoxCollider & bullet_collider = bullet.add_component<BoxCollider>(vec2(40, 10));
 	//bullet_collider.active = false;
 	Asset bullet_asset {"asset/other_effects/effect_smgbullet_x2.png"};
 	Sprite & bullet_sprite = bullet.add_component<Sprite>(

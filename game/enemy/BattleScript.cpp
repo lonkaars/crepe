@@ -1,6 +1,7 @@
 #include "BattleScript.h"
 #include "EnemyScript.h"
 #include <crepe/api/AI.h>
+#include <iostream>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Metadata.h>
 using namespace std;
@@ -28,16 +29,23 @@ void BattleScript::fixed_update(duration_t dt) {
 	}
 	if (!enemies_alive) {
 		this->battle_active = false;
+		cout << "battle won" << endl;
 		this->trigger_event<BattleWonEvent>();
 	}
 }
 bool BattleScript::create_battle(const BattleStartEvent & e) {
-	this->battle_active = true;
+	this->battle_active = e.battle;
+	this->spawn_enemies(e.num_enemies);
+	return false;
+}
+void BattleScript::spawn_enemies(int amount) {
 	RefVector<BehaviorScript> enemy_scripts
 		= this->get_components_by_tag<BehaviorScript>("enemy");
-	std::uniform_real_distribution<float> dist(10, 30);
-	for (int i = 0; i < e.num_enemies; i++) {
+	std::uniform_real_distribution<float> dist(70, 150);
+	
+	for (int i = 0; i < amount; i++) {
 		BehaviorScript & script = enemy_scripts[i];
+		if(script.active == true) continue;
 		script.active = true;
 		this->queue_event<SpawnEnemyEvent>(
 			SpawnEnemyEvent {
@@ -47,5 +55,4 @@ bool BattleScript::create_battle(const BattleStartEvent & e) {
 			script.game_object_id
 		);
 	}
-	return false;
 }

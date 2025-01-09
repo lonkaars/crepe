@@ -15,8 +15,11 @@ private:
 
 private:
 	int prev_anim = 0;
+	bool gravity_mode = true;
+	bool fall_direction = false;
 	std::chrono::time_point<std::chrono::steady_clock> last_fired;
+	std::chrono::time_point<std::chrono::steady_clock> last_switched;
 	std::chrono::duration<float> shot_delay = std::chrono::duration<float>(0.5);
-
+	std::chrono::duration<float> switch_delay = std::chrono::duration<float>(0.01);
 	int current_jetpack_sound = 0;
 };

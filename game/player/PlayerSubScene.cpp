@@ -22,7 +22,7 @@ using namespace crepe;
 using namespace std;
 
 PlayerSubScene::PlayerSubScene(Scene & scn) {
-	GameObject player = scn.new_object("player", "player", vec2(-100, 200));
+	GameObject player = scn.new_object("player", "player", vec2(200, 200));
 
 	Asset player_bullet {"asset/other_effects/effect_smgbullet.png"};
 	Sprite & player_bullet_sprite = player.add_component<Sprite>(
@@ -106,7 +106,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 			.looping = true,
 		}
 	);
-	player.add_component<BoxCollider>(vec2(50, 50));
+	player.add_component<BoxCollider>(vec2(35, 35));
 	Asset player_head_asset {"asset/barry/defaultHead.png"};
 	Sprite & player_head_sprite = player.add_component<Sprite>(
 		player_head_asset,
@@ -143,7 +143,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 			.looping = true,
 		}
 	);
-	player.add_component<BoxCollider>(vec2(40, 60), vec2(-20, 0));
+	player.add_component<BoxCollider>(vec2(40, 50), vec2(-20, 0));
 	player.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = PLAYER_GRAVITY_SCALE,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
@@ -153,6 +153,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 		},
 		.collision_layer = COLL_LAY_PLAYER,
 	});
+
 	player.add_component<BehaviorScript>().set_script<PlayerScript>().active = false;
 	player.add_component<BehaviorScript>().set_script<CoinScript>();
 	player.add_component<BehaviorScript>().set_script<PlayerEndScript>().active = false;

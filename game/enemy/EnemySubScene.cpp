@@ -31,6 +31,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 		.collision_layer = COLL_LAY_ENEMY,
 
 	});
+	// normal body
 	Asset enemy_body_asset {"asset/workers/worker2Body.png"};
 	enemy.add_component<BoxCollider>(vec2(50, 50));
 	Sprite & enemy_body_sprite = enemy.add_component<Sprite>(
@@ -51,7 +52,9 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = false,
 		}
 	);
+	enemy_body_sprite.active = false;
 	body_animator.pause();
+	body_animator.active = true;
 	enemy.add_component<BoxCollider>(vec2(40, 60), vec2(-20, 0));
 	Asset enemy_head_asset {"asset/workers/worker2Head.png"};
 	Sprite & enemy_head_sprite = enemy.add_component<Sprite>(
@@ -71,6 +74,32 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = true,
 		}
 	);
+	// tanky body 
+	Asset tank_body_asset {"asset/workers/workerFatBody.png"};
+	enemy.add_component<BoxCollider>(vec2(50, 50));
+	Sprite & tank_body_sprite = enemy.add_component<Sprite>(
+		tank_body_asset,
+		Sprite::Data {
+			.flip = {true, false},
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
+			.order_in_layer = 0,
+			.size = vec2(0, 50),
+		}
+	);
+	tank_body_sprite.active = true;
+	Animator & tank_animator = enemy.add_component<Animator>(
+		tank_body_sprite, ivec2(32, 32), uvec2(4, 8),
+		Animator::Data {
+			.fps = 5,
+			.col = 1,
+			.row = 0,
+			.looping = false,
+		}
+	);
+	tank_animator.pause();
+	tank_animator.active = true;
+
+	//jetpack
 	enemy.add_component<CircleCollider>(25, vec2(0, -20));
 	Asset enemy_jetpack_asset {"asset/barry/jetpackDefault.png"};
 	Sprite & enemy_jetpack_sprite = enemy.add_component<Sprite>(
@@ -89,6 +118,18 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 		Animator::Data {
 			.fps = 5,
 			.looping = true,
+		}
+	);
+	//gun
+	Asset enemy_pistol_asset{"asset/workers/gun.png"};
+	Sprite & enemy_pistol_sprite = enemy.add_component<Sprite>(
+		enemy_pistol_asset,
+		Sprite::Data {
+			.flip = {false, false},
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
+			.order_in_layer = 2,
+			.size = vec2(0, 20),
+			.position_offset = vec2(-20, 0),
 		}
 	);
 	enemy.add_component<AudioSource>(Asset("asset/sfx/bike_gun_2.ogg")).volume = 0.1;
