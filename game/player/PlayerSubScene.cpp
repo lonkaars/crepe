@@ -22,7 +22,7 @@ using namespace crepe;
 using namespace std;
 
 PlayerSubScene::PlayerSubScene(Scene & scn) {
-	GameObject player = scn.new_object("player", "player", vec2(200, 200));
+	GameObject player = scn.new_object("player", "player", vec2(-100, 200));
 
 	Asset player_bullet {"asset/other_effects/effect_smgbullet.png"};
 	Sprite & player_bullet_sprite = player.add_component<Sprite>(
@@ -106,7 +106,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 			.looping = true,
 		}
 	);
-	player.add_component<BoxCollider>(vec2(35, 35));
+	player.add_component<BoxCollider>(vec2(50, 35));
 	Asset player_head_asset {"asset/barry/defaultHead.png"};
 	Sprite & player_head_sprite = player.add_component<Sprite>(
 		player_head_asset,
