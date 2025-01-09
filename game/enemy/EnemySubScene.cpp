@@ -52,9 +52,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = false,
 		}
 	);
-	enemy_body_sprite.active = true;
 	body_animator.pause();
-	body_animator.active = true;
 	enemy.add_component<BoxCollider>(vec2(40, 60), vec2(-20, 0));
 	Asset enemy_head_asset {"asset/workers/worker2Head.png"};
 	Sprite & enemy_head_sprite = enemy.add_component<Sprite>(

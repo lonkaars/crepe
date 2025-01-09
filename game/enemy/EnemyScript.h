@@ -18,8 +18,6 @@ public:
 	void despawn_enemy();
 	bool spawn_enemy(const SpawnEnemyEvent & e);
 	void death();
-	void create_tank();
-	void create_soldier();
 	void set_hit_blink(bool status);
 
 private:

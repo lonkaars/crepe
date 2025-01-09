@@ -199,9 +199,3 @@ void EnemyScript::shoot(const vec2 & location) {
 		}
 	}
 }
-
-void EnemyScript::create_tank() {
-	RefVector<Sprite> sprites = this->get_components<Sprite>();
-	Sprite & tank_body = sprites[2];
-	tank_body.active = true;
-}
