@@ -34,7 +34,6 @@ static constexpr int COLL_LAY_MISSILE = 8; // Only for GameScene
 static constexpr int COLL_LAY_BULLET = 9; // Only for GameScene
 static constexpr int COLL_LAY_ENEMY = 10; // Only for GameScene
 static constexpr int COLL_LAY_PLAYER_BULLET = 11; // Only for GameScene
-static constexpr int COLL_LAY_PLAYER_SHIELD = 12; // Only for GameScene
 
 static constexpr float GAME_HEIGHT = 800; // In game units
 static constexpr float HALLWAY_HEIGHT = 475; // In game units
