@@ -23,6 +23,12 @@ void ObjectsScheduler::boss_fight_1() {
 	this->get_components_by_name<Rigidbody>("camera").front().get().data.linear_velocity.x = 0;
 	this->get_components_by_name<Rigidbody>("player").front().get().data.linear_velocity.x = 0;
 	this->trigger_event<BattleStartEvent>(BattleStartEvent {.num_enemies = 2});
+
+	RefVector<Rigidbody> rb_back_forest
+		= this->get_components_by_tag<Rigidbody>("forest_background");
+	for (Rigidbody & rb : rb_back_forest) {
+		rb.data.linear_velocity.x = 0;
+	}
 }
 
 bool ObjectsScheduler::boss_fight_1_event() {
@@ -30,6 +36,12 @@ bool ObjectsScheduler::boss_fight_1_event() {
 		= PLAYER_SPEED * 0.02;
 	this->get_components_by_name<Rigidbody>("player").front().get().data.linear_velocity.x
 		= PLAYER_SPEED * 0.02;
+
+	RefVector<Rigidbody> rb_back_forest
+		= this->get_components_by_tag<Rigidbody>("forest_background");
+	rb_back_forest.front().get().data.linear_velocity.x = 30;
+	rb_back_forest.back().get().data.linear_velocity.x = 40;
+
 	return false;
 }
 

@@ -62,7 +62,9 @@ bool PlayerEndScript::on_collision(const crepe::CollisionEvent & ev) {
 
 			rb_player.data.angular_velocity = 0;
 			rb_player.data.elasticity_coefficient = 0;
-			rb_player.data.linear_velocity = vec2(PLAYER_SPEED * dt, 0);
+			if (rb_player.data.linear_velocity.x != 0) {
+				rb_player.data.linear_velocity = vec2(PLAYER_SPEED * dt, 0);
+			}
 			rb_player.data.linear_velocity_coefficient = vec2(0.5, 0.5);
 			rb_camera.data.linear_velocity_coefficient = vec2(0.5, 0.5);
 			for (Animator & anim : anim_player) {

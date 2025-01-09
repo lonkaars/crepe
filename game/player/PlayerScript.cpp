@@ -2,6 +2,7 @@
 
 #include "../Config.h"
 #include "../enemy/BattleScript.h"
+
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/BoxCollider.h>
@@ -126,7 +127,8 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 			current_jetpack_sound = 0;
 		}
 	} else if (transform.position.y == 195) {
-		if (prev_anim != 0) {
+		Rigidbody & rb = this->get_components_by_name<Rigidbody>("player").front();
+		if (prev_anim != 0 && rb.data.linear_velocity.x != 0) {
 			for (Animator & anim : animators) {
 				anim.active = true;
 				anim.set_anim(0);
