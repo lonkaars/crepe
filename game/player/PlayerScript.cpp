@@ -104,12 +104,7 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 			last_fired = now;
 		}
 	}
-	if (this->get_key_state(Keycode::P)) {
-		this->trigger_event<BattleStartEvent>(BattleStartEvent{
-			.num_enemies = 4,
-			.battle = true,
-		});
-	}
+
 	if (this->get_key_state(Keycode::SPACE)) {
 		rb.add_force_linear(vec2(0, -PLAYER_GRAVITY_SCALE / 2.5) * dt.count() / 0.02);
 		if (prev_anim != 1) {
