@@ -32,7 +32,7 @@ void EnemyScript::init() {
 	});
 };
 void EnemyScript::fixed_update(duration_t dt) {
-	if(!spawned) return;
+	if (!spawned) return;
 	auto now = std::chrono::steady_clock::now();
 	std::chrono::duration<float> elapsed_hit = now - last_hit;
 	//hit blink timer
@@ -45,12 +45,12 @@ void EnemyScript::fixed_update(duration_t dt) {
 		Transform & cam_transform = this->get_components_by_name<Transform>("camera").front();
 		vec2 half_screen = camera.viewport_size / 2;
 		float x_value = cam_transform.position.x - half_screen.x - 100;
-		if(transform.position.x < x_value){
+		if (transform.position.x < x_value) {
 			this->despawn_enemy();
 		}
 		return;
 	}
-	
+
 	Transform & player_transform = this->get_components_by_name<Transform>("player").front();
 	Rigidbody & enemy_body = this->get_component<Rigidbody>();
 	AI & ai_component = this->get_component<AI>();
@@ -67,33 +67,32 @@ void EnemyScript::fixed_update(duration_t dt) {
 		path_node.x += player_body.data.linear_velocity.x * dt.count();
 	}
 	//bullet fire logic:
-	
+
 	std::chrono::duration<float> elapsed = now - last_fired;
 	if (elapsed > shot_delay) {
 		this->shoot(transform.position);
 		last_fired = now;
 		this->shot_delay = std::chrono::duration<float>(Random::f(4, 1));
 	}
-	
 }
 
 bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
-	
+
 	this->speed = e.speed;
 	this->alive = true;
 	this->spawned = true;
 	RefVector<Animator> animators = this->get_components<Animator>();
-		for (Animator & anim : animators) {
-			anim.active = false;
-			anim.set_anim(0);
-		}
+	for (Animator & anim : animators) {
+		anim.active = false;
+		anim.set_anim(0);
+	}
 	RefVector<Sprite> sprites = this->get_components<Sprite>();
 	for (Sprite & sprite : sprites) {
-			sprite.data.position_offset.x = 0;
+		sprite.data.position_offset.x = 0;
 	}
-	Sprite& jetpack = sprites[2];
+	Sprite & jetpack = sprites[2];
 	jetpack.data.position_offset.x = 20;
-	Sprite& gun = sprites[3];
+	Sprite & gun = sprites[3];
 	gun.data.position_offset.x = -20;
 	AI & ai_component = this->get_component<AI>();
 	Transform & transform = this->get_component<Transform>();
@@ -114,7 +113,7 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 	ai_component.make_oval_path(10, 30, vec2 {x_value, random_height}, 1.5708, true);
 	ai_component.active = true;
 	this->last_fired = std::chrono::steady_clock::now();
-	
+
 	return false;
 }
 
@@ -130,7 +129,7 @@ void EnemyScript::set_hit_blink(bool status) {
 }
 
 bool EnemyScript::on_collide(const CollisionEvent & e) {
-	if(!this->alive)return false;
+	if (!this->alive) return false;
 	if (e.info.other.metadata.tag == "player_bullet") {
 		this->health--;
 		last_hit = std::chrono::steady_clock::now();
@@ -144,10 +143,10 @@ bool EnemyScript::on_collide(const CollisionEvent & e) {
 
 	return false;
 }
-void EnemyScript::death(){
-	
-	Rigidbody& rb = this->get_component<Rigidbody>();
-	Transform& tr = this->get_component<Transform>();
+void EnemyScript::death() {
+
+	Rigidbody & rb = this->get_component<Rigidbody>();
+	Transform & tr = this->get_component<Transform>();
 	RefVector<Animator> animators = this->get_components<Animator>();
 	for (Animator & anim : animators) {
 		anim.active = false;
@@ -155,26 +154,26 @@ void EnemyScript::death(){
 	}
 	RefVector<Sprite> sprites = this->get_components<Sprite>();
 	for (Sprite & sprite : sprites) {
-			sprite.data.position_offset.x = 15;
-	}	
+		sprite.data.position_offset.x = 15;
+	}
 	rb.data.linear_velocity_coefficient = {0.5, 1};
 	//rb.add_force_linear(vec2{0,20});
 	rb.data.gravity_scale = 20;
 	tr.rotation = 90;
-	AI& ai = this->get_component<AI>();
+	AI & ai = this->get_component<AI>();
 	ai.active = false;
 	this->alive = false;
-	AI& ai_component = this->get_component<AI>();
+	AI & ai_component = this->get_component<AI>();
 	ai_component.active = false;
 }
 void EnemyScript::despawn_enemy() {
 	Transform & transform = this->get_component<Transform>();
-	Rigidbody& rb = this->get_component<Rigidbody>();
+	Rigidbody & rb = this->get_component<Rigidbody>();
 	rb.data.gravity_scale = 0;
-	rb.data.linear_velocity = {0,0};
+	rb.data.linear_velocity = {0, 0};
 	transform.rotation = 0;
 	transform.position = ENEMY_POOL_LOCATION;
-	
+
 	this->spawned = false;
 }
 
