@@ -20,6 +20,7 @@ public:
 	void create_tank();
 	void create_soldier();
 	void set_hit_blink(bool status);
+
 private:
 	std::random_device rd;
 	std::default_random_engine engine;

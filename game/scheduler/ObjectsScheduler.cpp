@@ -4,8 +4,8 @@
 
 #include "../Config.h"
 #include "../Random.h"
-#include "../missile/SpawnEvent.h"
 #include "../enemy/EnemyScript.h"
+#include "../missile/SpawnEvent.h"
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
 #include "enemy/BattleScript.h"
@@ -16,23 +16,23 @@ void ObjectsScheduler::preset_0() {
 	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 	this->trigger_event<BattleStartEvent>(BattleStartEvent {
-		.num_enemies = Random::i(3,1),
+		.num_enemies = Random::i(3, 1),
 		.battle = false,
 	});
 }
-void ObjectsScheduler::preset_1() { 
-	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {}); 
+void ObjectsScheduler::preset_1() {
+	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 	this->trigger_event<BattleStartEvent>(BattleStartEvent {
-		.num_enemies = Random::i(4,1),
+		.num_enemies = Random::i(4, 1),
 		.battle = false,
-		});
+	});
 }
-void ObjectsScheduler::preset_2() { 
+void ObjectsScheduler::preset_2() {
 	trigger_event<CreateZapperEvent>(CreateZapperEvent {});
 	this->trigger_event<BattleStartEvent>(BattleStartEvent {
-		.num_enemies = Random::i(2,1),
+		.num_enemies = Random::i(2, 1),
 		.battle = false,
-		});
+	});
 }
 void ObjectsScheduler::preset_3() { trigger_event<CreateZapperEvent>(CreateZapperEvent {}); }
 void ObjectsScheduler::preset_4() {}
@@ -42,7 +42,7 @@ void ObjectsScheduler::boss_fight_1() {
 	this->trigger_event<BattleStartEvent>(BattleStartEvent {
 		.num_enemies = 7,
 		.battle = true,
-		});
+	});
 
 	RefVector<Rigidbody> rb_back_forest
 		= this->get_components_by_tag<Rigidbody>("forest_background");

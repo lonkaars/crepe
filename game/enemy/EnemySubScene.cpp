@@ -74,7 +74,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = true,
 		}
 	);
-	// tanky body 
+	// tanky body
 	Asset tank_body_asset {"asset/workers/workerFatBody.png"};
 	enemy.add_component<BoxCollider>(vec2(50, 50));
 	Sprite & tank_body_sprite = enemy.add_component<Sprite>(
@@ -121,7 +121,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 		}
 	);
 	//gun
-	Asset enemy_pistol_asset{"asset/workers/gun.png"};
+	Asset enemy_pistol_asset {"asset/workers/gun.png"};
 	Sprite & enemy_pistol_sprite = enemy.add_component<Sprite>(
 		enemy_pistol_asset,
 		Sprite::Data {

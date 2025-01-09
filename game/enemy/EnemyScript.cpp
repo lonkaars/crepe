@@ -2,18 +2,17 @@
 #include "../Config.h"
 #include "../Random.h"
 #include "EnemyConfig.h"
+#include "api/Color.h"
+#include "api/Sprite.h"
 #include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/BoxCollider.h>
 #include <crepe/api/ParticleEmitter.h>
 #include <crepe/api/Rigidbody.h>
-#include <crepe/api/Transform.h>
 #include <crepe/api/Sprite.h>
+#include <crepe/api/Transform.h>
 #include <crepe/types.h>
-#include "../Random.h"
-#include "api/Color.h"
-#include "api/Sprite.h"
 #include <random>
 using namespace crepe;
 using namespace std;
@@ -43,11 +42,10 @@ void EnemyScript::fixed_update(duration_t dt) {
 
 	float direction_to_player_y = player_transform.position.y - transform.position.y;
 	float distance_to_player_y = std::abs(direction_to_player_y);
-	
 
 	float adjustment_speed = speed * (distance_to_player_y / MAX_DISTANCE);
 	adjustment_speed = std::clamp(adjustment_speed, MIN_SPEED, MAX_SPEED);
-	Rigidbody& player_body = this->get_components_by_tag<Rigidbody>("player").front();
+	Rigidbody & player_body = this->get_components_by_tag<Rigidbody>("player").front();
 	// move path nodes
 	for (vec2 & path_node : ai_component.path) {
 		path_node.y += (direction_to_player_y > 0 ? 1 : -1) * adjustment_speed * dt.count();
@@ -63,7 +61,7 @@ void EnemyScript::fixed_update(duration_t dt) {
 	}
 	std::chrono::duration<float> elapsed_hit = now - last_hit;
 	//hit blink timer
-	if(elapsed_hit > blink_time){
+	if (elapsed_hit > blink_time) {
 		set_hit_blink(false);
 	}
 }
@@ -92,10 +90,10 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 	return false;
 }
 
-void EnemyScript::set_hit_blink(bool status){
+void EnemyScript::set_hit_blink(bool status) {
 	RefVector<Sprite> sprites = this->get_components<Sprite>();
-	for(Sprite& sprite : sprites){
-		if(status){
+	for (Sprite & sprite : sprites) {
+		if (status) {
 			sprite.data.color = Color::RED;
 			continue;
 		}
@@ -109,13 +107,12 @@ bool EnemyScript::on_collide(const CollisionEvent & e) {
 		last_hit = std::chrono::steady_clock::now();
 		//Sprite& sprite;
 		set_hit_blink(true);
-		
 	}
-	if(health <= 0){
+	if (health <= 0) {
 		this->despawn_enemy();
 	}
 	//body_animator.play();
-	
+
 	return false;
 }
 
@@ -153,9 +150,8 @@ void EnemyScript::shoot(const vec2 & location) {
 	}
 }
 
-void EnemyScript::create_tank(){
+void EnemyScript::create_tank() {
 	RefVector<Sprite> sprites = this->get_components<Sprite>();
-	Sprite& tank_body = sprites[2];
+	Sprite & tank_body = sprites[2];
 	tank_body.active = true;
-
 }

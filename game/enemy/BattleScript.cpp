@@ -40,10 +40,10 @@ void BattleScript::spawn_enemies(int amount) {
 	RefVector<BehaviorScript> enemy_scripts
 		= this->get_components_by_tag<BehaviorScript>("enemy");
 	std::uniform_real_distribution<float> dist(70, 150);
-	
+
 	for (int i = 0; i < amount; i++) {
 		BehaviorScript & script = enemy_scripts[i];
-		if(script.active == true) continue;
+		if (script.active == true) continue;
 		script.active = true;
 		this->queue_event<SpawnEnemyEvent>(
 			SpawnEnemyEvent {
