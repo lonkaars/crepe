@@ -1,7 +1,6 @@
 #include "BattleScript.h"
 #include "EnemyScript.h"
 #include <crepe/api/AI.h>
-#include <iostream>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Metadata.h>
 using namespace std;
@@ -29,7 +28,6 @@ void BattleScript::fixed_update(duration_t dt) {
 	}
 	if (!enemies_alive) {
 		this->battle_active = false;
-		cout << "battle won" << endl;
 		this->trigger_event<BattleWonEvent>();
 	}
 }

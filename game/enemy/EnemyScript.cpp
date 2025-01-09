@@ -2,7 +2,6 @@
 #include "../Config.h"
 #include "../Random.h"
 #include "EnemyConfig.h"
-#include <iostream>
 #include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
@@ -42,17 +41,14 @@ void EnemyScript::fixed_update(duration_t dt) {
 	Rigidbody & enemy_body = this->get_component<Rigidbody>();
 	AI & ai_component = this->get_component<AI>();
 
-	//transform.position += enemy_body.data.linear_velocity * dt.count();
 	float direction_to_player_y = player_transform.position.y - transform.position.y;
 	float distance_to_player_y = std::abs(direction_to_player_y);
 	
 
 	float adjustment_speed = speed * (distance_to_player_y / MAX_DISTANCE);
-	//cout << "before clamp speed: " << adjustment_speed << endl;
 	adjustment_speed = std::clamp(adjustment_speed, MIN_SPEED, MAX_SPEED);
-	// Move the path nodes on the Y-axis
-	//cout << "adjusted_speed: " << adjustment_speed << endl;
 	Rigidbody& player_body = this->get_components_by_tag<Rigidbody>("player").front();
+	// move path nodes
 	for (vec2 & path_node : ai_component.path) {
 		path_node.y += (direction_to_player_y > 0 ? 1 : -1) * adjustment_speed * dt.count();
 		path_node.x += player_body.data.linear_velocity.x * dt.count();
