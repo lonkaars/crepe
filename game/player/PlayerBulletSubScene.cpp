@@ -24,7 +24,7 @@ int PlayerBulletSubScene::create(Scene & scn, int counter) {
 	Rigidbody & player_bullet_body = player_bullet.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = 0,
 		.body_type = Rigidbody::BodyType::KINEMATIC,
-		.linear_velocity = vec2 {400, 0},
+		.linear_velocity = vec2 {450, 0},
 		.angular_velocity = 300,
 		.kinematic_collision = false,
 		.collision_layers = {COLL_LAY_ENEMY, COLL_LAY_ZAPPER},

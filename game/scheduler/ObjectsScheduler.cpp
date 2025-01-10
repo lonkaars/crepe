@@ -16,14 +16,14 @@ void ObjectsScheduler::preset_0() {
 	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 	this->trigger_event<BattleStartEvent>(BattleStartEvent {
-		.num_enemies = Random::i(3, 1),
+		.num_enemies = Random::i(2, 1),
 		.battle = false,
 	});
 }
 void ObjectsScheduler::preset_1() {
 	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 	this->trigger_event<BattleStartEvent>(BattleStartEvent {
-		.num_enemies = Random::i(4, 1),
+		.num_enemies = Random::i(2, 1),
 		.battle = false,
 	});
 }

@@ -14,6 +14,7 @@
 #include <crepe/api/Transform.h>
 #include <crepe/types.h>
 #include <random>
+#include <iostream>
 using namespace crepe;
 using namespace std;
 EnemyScript::EnemyScript() {
@@ -72,7 +73,7 @@ void EnemyScript::fixed_update(duration_t dt) {
 	if (elapsed > shot_delay) {
 		this->shoot(transform.position);
 		last_fired = now;
-		this->shot_delay = std::chrono::duration<float>(Random::f(4, 1));
+		this->shot_delay = std::chrono::duration<float>(Random::f(4, 1.5));
 	}
 }
 
@@ -100,7 +101,7 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 	Transform & cam_transform = this->get_components_by_name<Transform>("camera").front();
 
 	vec2 half_screen = camera.viewport_size / 2;
-	float x_value = cam_transform.position.x + half_screen.x - 60 * (1 + e.column);
+	float x_value = cam_transform.position.x + half_screen.x - 40 * (1 + e.column);
 	uniform_real_distribution<float> dist(
 		cam_transform.position.y - half_screen.y + 100,
 		cam_transform.position.y + half_screen.y - 100
@@ -131,14 +132,16 @@ void EnemyScript::set_hit_blink(bool status) {
 bool EnemyScript::on_collide(const CollisionEvent & e) {
 	if (!this->alive) return false;
 	if (e.info.other.metadata.tag == "player_bullet") {
+		cout << "health: " << health << endl;
 		this->health--;
 		last_hit = std::chrono::steady_clock::now();
 		//Sprite& sprite;
 		set_hit_blink(true);
-	}
-	if (health <= 0) {
+		if (health <= 0) {
 		this->death();
 	}
+	}
+	
 	//body_animator.play();
 
 	return false;
