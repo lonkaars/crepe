@@ -14,7 +14,6 @@
 #include <crepe/api/Transform.h>
 #include <crepe/types.h>
 #include <random>
-#include <iostream>
 using namespace crepe;
 using namespace std;
 EnemyScript::EnemyScript() {
