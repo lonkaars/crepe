@@ -31,8 +31,9 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 		.collision_layer = COLL_LAY_ENEMY,
 
 	});
+	// normal body
 	Asset enemy_body_asset {"asset/workers/worker2Body.png"};
-	enemy.add_component<BoxCollider>(vec2(50, 50));
+	enemy.add_component<BoxCollider>(vec2(40, 60));
 	Sprite & enemy_body_sprite = enemy.add_component<Sprite>(
 		enemy_body_asset,
 		Sprite::Data {
@@ -52,7 +53,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 		}
 	);
 	body_animator.pause();
-	enemy.add_component<BoxCollider>(vec2(40, 60), vec2(-20, 0));
+
 	Asset enemy_head_asset {"asset/workers/worker2Head.png"};
 	Sprite & enemy_head_sprite = enemy.add_component<Sprite>(
 		enemy_head_asset,
@@ -71,7 +72,9 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = true,
 		}
 	);
-	enemy.add_component<CircleCollider>(25, vec2(0, -20));
+
+	//jetpack
+	//enemy.add_component<CircleCollider>(25, vec2(0, -20));
 	Asset enemy_jetpack_asset {"asset/barry/jetpackDefault.png"};
 	Sprite & enemy_jetpack_sprite = enemy.add_component<Sprite>(
 		enemy_jetpack_asset,
@@ -91,11 +94,24 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 			.looping = true,
 		}
 	);
+	//gun
+	Asset enemy_pistol_asset {"asset/workers/gun.png"};
+	Sprite & enemy_pistol_sprite = enemy.add_component<Sprite>(
+		enemy_pistol_asset,
+		Sprite::Data {
+			.flip = {false, false},
+			.sorting_in_layer = SORT_IN_LAY_WORKERS_FRONT,
+			.order_in_layer = 2,
+			.size = vec2(0, 20),
+			.position_offset = vec2(-20, 0),
+		}
+	);
 	enemy.add_component<AudioSource>(Asset("asset/sfx/bike_gun_2.ogg")).volume = 0.1;
 	AI & ai_component = enemy.add_component<AI>(3000);
 	ai_component.path_follow_on();
+	ai_component.active = false;
 	BehaviorScript & enemy_script
 		= enemy.add_component<BehaviorScript>().set_script<EnemyScript>();
-	enemy_script.active = false;
+	//enemy_script.active = false;
 	return enemy_counter;
 }

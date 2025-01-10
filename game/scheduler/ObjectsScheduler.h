@@ -16,6 +16,8 @@ private:
 	int obstacle_interval = 350;
 	int start_offset = 1300;
 
+	int amount_of_boss_fights = 0;
+
 private:
 	void preset_0();
 	void preset_1();

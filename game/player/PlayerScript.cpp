@@ -163,7 +163,7 @@ void PlayerScript::fixed_update(crepe::duration_t dt) {
 		if (current_jetpack_sound > 7) {
 			current_jetpack_sound = 0;
 		}
-	} else if (transform.position.y == 195) {
+	} else if (transform.position.y == 200) {
 		Rigidbody & rb = this->body;
 		if (prev_anim != 0 && rb.data.linear_velocity.x != 0) {
 			for (Animator & anim : animators) {
