@@ -1,16 +1,6 @@
 #pragma once
+
 #include "types.h"
-
-#include <crepe/api/Config.h>
-
-static const crepe::Config ENGINE_CONFIG {
-	.log {
-		.level = crepe::Log::Level::DEBUG,
-	},
-	.window_settings {
-		.window_title = "Jetpack joyride clone",
-	},
-};
 
 static constexpr int SORT_IN_LAY_BACK_BACKGROUND = 3; // For all scenes
 static constexpr int SORT_IN_LAY_BACKGROUND = 4; // For all scenes
@@ -59,7 +49,9 @@ static constexpr const char * DISTANCE_RUN = "distance_run";
 // Player config
 static constexpr const char * PLAYER_NAME = "player";
 static constexpr int PLAYER_SPEED = 7500; // In game units
-static constexpr int PLAYER_GRAVITY_SCALE = 60; // In game units
+static constexpr float PLAYER_GRAVITY_SCALE = 3; // factor
+static constexpr float PLAYER_HELP_KICK_SCALE = 0.2; // factor
+static constexpr float PLAYER_HELP_KICK_MAX = 0.3; // factor
 
 static constexpr const char * CAMERA_NAME = "camera";
 // Jetpack particles
