@@ -16,7 +16,7 @@ void ObjectsScheduler::preset_0() {
 	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 	this->trigger_event<BattleStartEvent>(BattleStartEvent {
-		.num_enemies = Random::i(2, 1),
+		.num_enemies = Random::i(2, 0),
 		.battle = false,
 	});
 }
@@ -40,7 +40,7 @@ void ObjectsScheduler::boss_fight_1() {
 	this->get_components_by_name<Rigidbody>("camera").front().get().data.linear_velocity.x = 0;
 	this->get_components_by_name<Rigidbody>("player").front().get().data.linear_velocity.x = 0;
 	this->trigger_event<BattleStartEvent>(BattleStartEvent {
-		.num_enemies = 7,
+		.num_enemies = 5,
 		.battle = true,
 	});
 
