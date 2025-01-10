@@ -9,6 +9,7 @@ struct BattleWonEvent : public crepe::Event {};
 struct BattleStartEvent : public crepe::Event {
 public:
 	int num_enemies = 0;
+	bool battle = false;
 };
 class BattleScript : public crepe::Script {
 public:
@@ -20,5 +21,6 @@ private:
 	bool battle_active = false;
 	std::random_device rd;
 	std::default_random_engine engine;
+	void spawn_enemies(int amount);
 	bool create_battle(const BattleStartEvent & e);
 };

@@ -4,6 +4,7 @@
 
 #include "../Config.h"
 #include "../Random.h"
+#include "../enemy/EnemyScript.h"
 #include "../missile/SpawnEvent.h"
 #include "api/Rigidbody.h"
 #include "api/Transform.h"
@@ -14,15 +15,34 @@ using namespace crepe;
 void ObjectsScheduler::preset_0() {
 	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
 	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
+	this->trigger_event<BattleStartEvent>(BattleStartEvent {
+		.num_enemies = Random::i(2, 0),
+		.battle = false,
+	});
 }
-void ObjectsScheduler::preset_1() { trigger_event<MissileSpawnEvent>(MissileSpawnEvent {}); }
-void ObjectsScheduler::preset_2() { trigger_event<CreateZapperEvent>(CreateZapperEvent {}); }
+void ObjectsScheduler::preset_1() {
+	trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
+	this->trigger_event<BattleStartEvent>(BattleStartEvent {
+		.num_enemies = Random::i(2, 1),
+		.battle = false,
+	});
+}
+void ObjectsScheduler::preset_2() {
+	trigger_event<CreateZapperEvent>(CreateZapperEvent {});
+	this->trigger_event<BattleStartEvent>(BattleStartEvent {
+		.num_enemies = Random::i(2, 1),
+		.battle = false,
+	});
+}
 void ObjectsScheduler::preset_3() { trigger_event<CreateZapperEvent>(CreateZapperEvent {}); }
 void ObjectsScheduler::preset_4() {}
 void ObjectsScheduler::boss_fight_1() {
 	this->get_components_by_name<Rigidbody>("camera").front().get().data.linear_velocity.x = 0;
 	this->get_components_by_name<Rigidbody>("player").front().get().data.linear_velocity.x = 0;
-	this->trigger_event<BattleStartEvent>(BattleStartEvent {.num_enemies = 2});
+	this->trigger_event<BattleStartEvent>(BattleStartEvent {
+		.num_enemies = 5,
+		.battle = true,
+	});
 
 	RefVector<Rigidbody> rb_back_forest
 		= this->get_components_by_tag<Rigidbody>("forest_background");
