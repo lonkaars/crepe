@@ -49,7 +49,7 @@ void PreviewScene::load_scene() {
 			.bg_color = Color::RED,
 		}
 	);
-	camera.add_component<Rigidbody>(Rigidbody::Data {});
+
 	camera.add_component<BehaviorScript>().set_script<MissileSpawnEventHandler>();
 	camera.add_component<BehaviorScript>().set_script<HudScript>();
 	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
@@ -77,12 +77,15 @@ void PreviewScene::load_scene() {
 		.collision_layer = COLL_LAY_BOT_TOP,
 	});
 	ceiling.add_component<BoxCollider>(vec2(INFINITY, 200));
+	
 	GameObject world = this->new_object("world", "TAG", vec2 {0, 0}, 0, 1);
-
 	world.add_component<Rigidbody>(Rigidbody::Data {
 		.body_type = Rigidbody::BodyType::STATIC,
-		.collision_layers = {0},
+		.collision_layer = COLL_LAY_BOT_TOP,
 	});
+
+	world.add_component<BoxCollider>(vec2(100,INFINITY), vec2(VIEWPORT_X,VIEWPORT_Y));
+	world.add_component<BoxCollider>(vec2(100,INFINITY), vec2(100,VIEWPORT_Y));
 
 	PrevPlayerSubScene player(*this);
 	NpcSubScene npc(*this);
@@ -111,6 +114,8 @@ void PreviewScene::load_scene() {
 		}
 	);
 
+
+	/*
 	button.create(
 		*this,
 		ButtonSubScene::Data {
@@ -158,18 +163,7 @@ void PreviewScene::load_scene() {
 			.btn_side_color = ButtonSubScene::ButtonSideColor::ORANGE,
 		}
 	);
-
-	/*
-	
-	for (int i = 0; i < 200; ++i) {
-		int row = i / 10;
-		int col = i % 10;
-		float x = col * 25 + i;
-		float y = row * 25 - 400;
-		GameObject game_coin = this->new_object("coin", "coin", vec2 {x, y}, 0, 1);
-		Coin coin(game_coin, vec2 {0, 0});
-	}
-	  */
+	*/
 }
 
 string PreviewScene::get_name() const { return "preview scene"; }

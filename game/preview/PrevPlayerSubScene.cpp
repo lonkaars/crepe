@@ -16,13 +16,9 @@
 using namespace crepe;
 
 PrevPlayerSubScene::PrevPlayerSubScene(Scene & scn) {
-	auto & savemgr = scn.get_save_manager();
-
-	ValueBroker player_x = savemgr.get<float>("player_x", 500);
-	ValueBroker player_y = savemgr.get<float>("player_y", -100);
 
 	GameObject player
-		= scn.new_object("player", "TAG", vec2 {player_x.get(), player_y.get()}, 0, 1);
+		= scn.new_object("player", "player", vec2 {800 , -100}, 0, 1);
 	Asset player_body_asset {"asset/barry/defaultBody.png"};
 	Sprite & player_body_sprite = player.add_component<Sprite>(
 		player_body_asset,

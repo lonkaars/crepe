@@ -7,16 +7,15 @@
 using namespace std;
 using namespace crepe;
 
-void NpcScript::init() {}
 void NpcScript::fixed_update(duration_t dt) {
 	auto & rb = this->get_component<Rigidbody>();
 	auto & npc = this->get_component<Sprite>();
 	auto & transform = this->get_component<Transform>();
 
-	if (transform.position.x < -990) {
+	if (transform.position.x < 200) {
 		rb.data.linear_velocity.x *= -1;
 	}
-	if (transform.position.x > 990) {
+	if (transform.position.x > 700) {
 		rb.data.linear_velocity.x *= -1;
 	}
 
@@ -25,8 +24,4 @@ void NpcScript::fixed_update(duration_t dt) {
 	} else {
 		npc.data.flip = {false, false};
 	}
-
-	auto & savemgr = this->get_save_manager();
-	savemgr.set("npc_x", transform.position.x);
-	savemgr.set("npc_y", transform.position.y);
 }
