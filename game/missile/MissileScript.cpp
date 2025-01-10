@@ -2,17 +2,17 @@
 #include "../Config.h"
 #include <cmath>
 
-#include <crepe/api/CircleCollider.h>
-#include <crepe/api/Rigidbody.h>
-#include <crepe/api/BehaviorScript.h>
+#include <crepe/api/AI.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
+#include <crepe/api/BehaviorScript.h>
+#include <crepe/api/CircleCollider.h>
+#include <crepe/api/KeyCodes.h>
+#include <crepe/api/Rigidbody.h>
+#include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/types.h>
-#include <crepe/api/AI.h>
-#include <crepe/api/KeyCodes.h>
-#include <crepe/api/Sprite.h>
 
 using namespace std;
 using namespace crepe;

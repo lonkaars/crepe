@@ -27,7 +27,7 @@ bool ButtonNextMainMenuSubScript::on_button_press(const ButtonPressEvent & e) {
 	for (AudioSource & audio : audios) {
 		audio.stop();
 	}
-	
+
 	this->trigger_event<DeleteRecordingEvent>();
 	SaveManager & savemgr = this->get_save_manager();
 

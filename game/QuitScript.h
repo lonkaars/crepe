@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <crepe/api/Script.h>
 
 class QuitScript : public crepe::Script {

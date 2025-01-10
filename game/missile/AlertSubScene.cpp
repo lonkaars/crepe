@@ -7,7 +7,7 @@
 
 using namespace crepe;
 
-MissileAlert::MissileAlert(Scene& scn){
+MissileAlert::MissileAlert(Scene & scn) {
 	GameObject alert = scn.new_object("missile_alert", "missile_alert", {0, 0}, 0, 1);
 
 	Asset missile_alert_ss {"asset/obstacles/missile/missileAlert.png"};
@@ -30,6 +30,4 @@ MissileAlert::MissileAlert(Scene& scn){
 
 	missile_alert_anim.set_anim(1);
 	missile_alert_sprite.active = false;
-
-
 }

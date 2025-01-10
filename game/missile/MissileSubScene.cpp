@@ -87,14 +87,13 @@ void MissileSubScene::create(crepe::Scene & scn) {
 	missile_explosion_sprite.active = false;
 	explosion_anim.active = false;
 
-	missle
-		.add_component<Rigidbody>(Rigidbody::Data {
-			.body_type = Rigidbody::BodyType::KINEMATIC,
-			.max_linear_velocity = Random::f(250, 200),
-			.kinematic_collision = false,
-			.collision_layers = {COLL_LAY_PLAYER, COLL_LAY_BOT_TOP},
-			.collision_layer = COLL_LAY_MISSILE,
-		});
+	missle.add_component<Rigidbody>(Rigidbody::Data {
+		.body_type = Rigidbody::BodyType::KINEMATIC,
+		.max_linear_velocity = Random::f(250, 200),
+		.kinematic_collision = false,
+		.collision_layers = {COLL_LAY_PLAYER, COLL_LAY_BOT_TOP},
+		.collision_layer = COLL_LAY_MISSILE,
+	});
 
 	missle.add_component<CircleCollider>(3).active = false;
 

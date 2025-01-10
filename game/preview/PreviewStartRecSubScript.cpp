@@ -12,7 +12,6 @@ void PreviewStartRecSubScript::init() {
 	this->subscribe<ButtonPressEvent>([this](const ButtonPressEvent & e) {
 		return this->on_button_press(e);
 	});
-	
 }
 
 bool PreviewStartRecSubScript::on_button_press(const ButtonPressEvent & e) {

@@ -1,12 +1,11 @@
 #include "SpawnEvent.h"
 #include "Random.h"
 
-
-#include <crepe/api/CircleCollider.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Camera.h>
+#include <crepe/api/CircleCollider.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
 
@@ -39,7 +38,6 @@ bool MissileSpawnEventHandler::on_event(const MissileSpawnEvent & event) {
 		auto & transform = missile_transforms[i].get();
 		transform.position.x = camera_transform.position.x + this->MISSILE_OFFSET;
 		transform.position.y = Random::i(this->MAX_RANGE, this->MIN_RANGE);
-
 
 		auto & alert_transform = alert_transforms[i].get();
 		auto & alert_sprite = alert_sprites[i].get();

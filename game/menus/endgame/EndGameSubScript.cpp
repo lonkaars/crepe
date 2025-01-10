@@ -1,9 +1,9 @@
 #include "EndGameSubScript.h"
 
+#include "../../Config.h"
 #include "../../Events.h"
 #include "../ButtonReplaySubScript.h"
 #include "../IFloatingWindowScript.h"
-#include "../../Config.h"
 #include "ValueBroker.h"
 #include "manager/SaveManager.h"
 
@@ -60,11 +60,13 @@ bool EndGameSubScript::reset_timescale() {
 	return false;
 }
 
-bool EndGameSubScript::showscore(){
-	// Gather text 
+bool EndGameSubScript::showscore() {
+	// Gather text
 	Text & coins_text = this->get_components_by_name<Text>("gold_endgame").front().get();
-	Text & distance_text = this->get_components_by_name<Text>("distance_endgame").front().get();
-	Text & highscore_text = this->get_components_by_name<Text>("highscore_endgame").front().get();
+	Text & distance_text
+		= this->get_components_by_name<Text>("distance_endgame").front().get();
+	Text & highscore_text
+		= this->get_components_by_name<Text>("highscore_endgame").front().get();
 	highscore_text.active = false;
 
 	// Gather saved data
@@ -75,20 +77,24 @@ bool EndGameSubScript::showscore(){
 	int distance_game = savemgr.get<int>(DISTANCE_GAME, 0).get();
 
 	// Show highscore
-	if(distance_run > distance_game) highscore_text.active = true;
+	if (distance_run > distance_game) highscore_text.active = true;
 
 	const float CHAR_SIZE_DIS = 20;
 	// Show distance
-	std::string distance_string = "DISTANCE:" + distance.get(); 
+	std::string distance_string = "DISTANCE:" + distance.get();
 	distance_text.text = distance_string;
-	crepe::vec2 size_distance = {CHAR_SIZE_DIS*distance_string.size(), (CHAR_SIZE_DIS*distance_string.size() / distance_string.size()) * 2};
+	crepe::vec2 size_distance
+		= {CHAR_SIZE_DIS * distance_string.size(),
+		   (CHAR_SIZE_DIS * distance_string.size() / distance_string.size()) * 2};
 	distance_text.dimensions = size_distance;
 
 	const float CHAR_SIZE_COIN = 16;
 	// Show coins
-	std::string coins_string = "Coins:" + coins.get(); 
+	std::string coins_string = "Coins:" + coins.get();
 	coins_text.text = coins_string;
-	crepe::vec2 size_coins = {CHAR_SIZE_COIN*coins_string.size(), (CHAR_SIZE_COIN*coins_string.size() / coins_string.size()) * 2};
+	crepe::vec2 size_coins
+		= {CHAR_SIZE_COIN * coins_string.size(),
+		   (CHAR_SIZE_COIN * coins_string.size() / coins_string.size()) * 2};
 	coins_text.dimensions = size_coins;
 
 	return false;
