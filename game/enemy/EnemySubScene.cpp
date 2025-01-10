@@ -33,7 +33,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 	});
 	// normal body
 	Asset enemy_body_asset {"asset/workers/worker2Body.png"};
-	enemy.add_component<BoxCollider>(vec2(50, 50));
+	enemy.add_component<BoxCollider>(vec2(40, 60));
 	Sprite & enemy_body_sprite = enemy.add_component<Sprite>(
 		enemy_body_asset,
 		Sprite::Data {
@@ -53,7 +53,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 		}
 	);
 	body_animator.pause();
-	enemy.add_component<BoxCollider>(vec2(40, 60), vec2(-20, 0));
+	
 	Asset enemy_head_asset {"asset/workers/worker2Head.png"};
 	Sprite & enemy_head_sprite = enemy.add_component<Sprite>(
 		enemy_head_asset,
@@ -74,7 +74,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 	);
 
 	//jetpack
-	enemy.add_component<CircleCollider>(25, vec2(0, -20));
+	//enemy.add_component<CircleCollider>(25, vec2(0, -20));
 	Asset enemy_jetpack_asset {"asset/barry/jetpackDefault.png"};
 	Sprite & enemy_jetpack_sprite = enemy.add_component<Sprite>(
 		enemy_jetpack_asset,

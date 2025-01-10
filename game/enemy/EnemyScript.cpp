@@ -82,6 +82,7 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 	this->speed = e.speed;
 	this->alive = true;
 	this->spawned = true;
+	this->health = 2;
 	RefVector<Animator> animators = this->get_components<Animator>();
 	for (Animator & anim : animators) {
 		anim.active = false;
@@ -99,7 +100,9 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 	Transform & transform = this->get_component<Transform>();
 	Camera & camera = this->get_components_by_name<Camera>("camera").front();
 	Transform & cam_transform = this->get_components_by_name<Transform>("camera").front();
-
+	Rigidbody& rb = this->get_component<Rigidbody>();
+	rb.data.collision_layers = {COLL_LAY_BOT_TOP, COLL_LAY_PLAYER_BULLET};
+	rb.data.collision_layer = COLL_LAY_ENEMY;
 	vec2 half_screen = camera.viewport_size / 2;
 	float x_value = cam_transform.position.x + half_screen.x - 40 * (1 + e.column);
 	uniform_real_distribution<float> dist(
@@ -132,7 +135,6 @@ void EnemyScript::set_hit_blink(bool status) {
 bool EnemyScript::on_collide(const CollisionEvent & e) {
 	if (!this->alive) return false;
 	if (e.info.other.metadata.tag == "player_bullet") {
-		cout << "health: " << health << endl;
 		this->health--;
 		last_hit = std::chrono::steady_clock::now();
 		//Sprite& sprite;
@@ -160,8 +162,10 @@ void EnemyScript::death() {
 		sprite.data.position_offset.x = 15;
 	}
 	rb.data.linear_velocity_coefficient = {0.5, 1};
-	//rb.add_force_linear(vec2{0,20});
-	rb.data.gravity_scale = 20;
+	rb.data.collision_layers = {COLL_LAY_BOT_TOP};
+	rb.data.collision_layer = 0;
+
+	rb.data.gravity_scale = 1;
 	tr.rotation = 90;
 	AI & ai = this->get_component<AI>();
 	ai.active = false;

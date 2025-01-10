@@ -30,7 +30,7 @@ int EnemyBulletSubScene::create(Scene & scn, int counter) {
 		.body_type = Rigidbody::BodyType::KINEMATIC,
 		.linear_velocity = vec2 {-300, 0},
 		.kinematic_collision = false,
-		.collision_layers = {COLL_LAY_BOT_TOP, COLL_LAY_MISSILE, COLL_LAY_ZAPPER},
+		.collision_layers = {COLL_LAY_MISSILE, COLL_LAY_ZAPPER},
 		.collision_layer = COLL_LAY_BULLET
 	});
 	bullet_body.active = false;
