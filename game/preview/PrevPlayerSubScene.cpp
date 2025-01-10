@@ -71,10 +71,10 @@ PrevPlayerSubScene::PrevPlayerSubScene(Scene & scn) {
 		}
 	);
 	player.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 20,
+		.gravity_scale = 1,
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = vec2(100, 0),
-		.collision_layers = {COLL_LAY_BOT_TOP},
+		.collision_layers = {COLL_LAY_BOT_TOP, 100},
 		.collision_layer = COLL_LAY_PLAYER,
 	});
 	player.add_component<BoxCollider>(vec2(50, 50));

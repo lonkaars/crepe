@@ -81,7 +81,7 @@ void PreviewScene::load_scene() {
 	GameObject world = this->new_object("world", "TAG", vec2 {0, 0}, 0, 1);
 	world.add_component<Rigidbody>(Rigidbody::Data {
 		.body_type = Rigidbody::BodyType::STATIC,
-		.collision_layer = COLL_LAY_BOT_TOP,
+		.collision_layer = 100,
 	});
 
 	world.add_component<BoxCollider>(vec2(100,INFINITY), vec2(VIEWPORT_X,VIEWPORT_Y));
