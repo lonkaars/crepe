@@ -30,6 +30,7 @@ void PlayerScript::init() {
 }
 
 bool PlayerScript::on_key_down(const KeyPressEvent & ev) {
+	if (ev.repeat) return false;
 	if (ev.key == Keycode::SPACE) {
 		const vec2 UP = {0, -1};
 		this->help_kick(UP);
