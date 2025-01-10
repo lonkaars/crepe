@@ -92,7 +92,6 @@ void PreviewScene::load_scene() {
 	HudSubScene hud;
 	hud.create(*this);
 
-
 	const float Y_POS_BUTTONS = -220;
 	const float X_POS_BUTTONS = -150;
 	const float X_POS_BUTTONS_SPACING = 145;
@@ -102,7 +101,7 @@ void PreviewScene::load_scene() {
 		ButtonSubScene::Data {
 			.text = "BACK",
 			.text_width = 60,
-			.position = {X_POS_BUTTONS,Y_POS_BUTTONS},
+			.position = {X_POS_BUTTONS, Y_POS_BUTTONS},
 			.script_type = ButtonSubScene::ScriptSelect::NEXT,
 			.button_type = ButtonSubScene::ButtonSelect::BACK,
 			.scale = 0.6,
@@ -117,7 +116,7 @@ void PreviewScene::load_scene() {
 		ButtonSubScene::Data {
 			.text = "START REC",
 			.text_width = 130,
-			.position = {X_POS_BUTTONS+X_POS_BUTTONS_SPACING,Y_POS_BUTTONS},
+			.position = {X_POS_BUTTONS + X_POS_BUTTONS_SPACING, Y_POS_BUTTONS},
 			.script_type = ButtonSubScene::ScriptSelect::PREVIEW_START,
 			.button_type = ButtonSubScene::ButtonSelect::LARGE,
 			.scale = 0.6,
@@ -133,7 +132,7 @@ void PreviewScene::load_scene() {
 		ButtonSubScene::Data {
 			.text = "STOP REC",
 			.text_width = 120,
-			.position = {X_POS_BUTTONS+X_POS_BUTTONS_SPACING*2,Y_POS_BUTTONS},
+			.position = {X_POS_BUTTONS + X_POS_BUTTONS_SPACING * 2, Y_POS_BUTTONS},
 			.script_type = ButtonSubScene::ScriptSelect::PREVIEW_STOP,
 			.button_type = ButtonSubScene::ButtonSelect::LARGE,
 			.scale = 0.6,
@@ -149,7 +148,7 @@ void PreviewScene::load_scene() {
 		ButtonSubScene::Data {
 			.text = "REPLAY",
 			.text_width = 90,
-			.position = {X_POS_BUTTONS+X_POS_BUTTONS_SPACING*3,Y_POS_BUTTONS},
+			.position = {X_POS_BUTTONS + X_POS_BUTTONS_SPACING * 3, Y_POS_BUTTONS},
 			.script_type = ButtonSubScene::ScriptSelect::PREVIEW_REPLAY,
 			.button_type = ButtonSubScene::ButtonSelect::LARGE,
 			.scale = 0.6,

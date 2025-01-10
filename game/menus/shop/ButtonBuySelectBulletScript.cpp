@@ -17,19 +17,17 @@ void ButtonBuySelectBulletScript::init() {
 
 bool ButtonBuySelectBulletScript::on_button_press(const ButtonPressEvent & e) {
 	SaveManager & save = this->get_save_manager();
-	ValueBroker<int> buy_bullet = save.get<int>(BUY_BULLET_SAVE,0);
-	if(!buy_bullet.get()){
-		ValueBroker<int> coins = save.get<int>(TOTAL_COINS_GAME,0);
-		if(coins.get() >= 0)
-		{
+	ValueBroker<int> buy_bullet = save.get<int>(BUY_BULLET_SAVE, 0);
+	if (!buy_bullet.get()) {
+		ValueBroker<int> coins = save.get<int>(TOTAL_COINS_GAME, 0);
+		if (coins.get() >= 0) {
 			int coin = coins.get();
 			coin -= 0;
-			save.set(TOTAL_COINS_GAME,coin);
-			save.set(BUY_BULLET_SAVE,1);
+			save.set(TOTAL_COINS_GAME, coin);
+			save.set(BUY_BULLET_SAVE, 1);
 		}
-	}
-	else {
-		save.set(JETPACK_PARTICLES,0);
+	} else {
+		save.set(JETPACK_PARTICLES, 0);
 	}
 	this->trigger_event<ShopUpdate>();
 	return false;

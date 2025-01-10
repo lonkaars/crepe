@@ -9,10 +9,10 @@
 #include "menus/shop/ShopLoadScript.h"
 #include "types.h"
 
+#include "Shopconfig.h"
 #include <crepe/api/Camera.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Text.h>
-#include "Shopconfig.h"
 
 using namespace crepe;
 using namespace std;
@@ -58,8 +58,6 @@ void ShopMenuScene::load_scene() {
 		}
 	);
 
-
-
 	const float CHAR_SIZE = 16;
 	const float CHAR_SIZE_COIN = 16;
 	crepe::vec2 size;
@@ -75,7 +73,9 @@ void ShopMenuScene::load_scene() {
 	);
 
 	const string BULLETS_STRING = "BULLETS";
-	size = {CHAR_SIZE*BULLETS_STRING.size(), (CHAR_SIZE*BULLETS_STRING.size() / BULLETS_STRING.size()) * 2};
+	size
+		= {CHAR_SIZE * BULLETS_STRING.size(),
+		   (CHAR_SIZE * BULLETS_STRING.size() / BULLETS_STRING.size()) * 2};
 
 	shop_item_bullet.add_component<Text>(
 		size, FONT,
@@ -95,7 +95,9 @@ void ShopMenuScene::load_scene() {
 	);
 
 	const string BULLETS_GOLD_STRING = "0";
-	size = {CHAR_SIZE_COIN*BULLETS_GOLD_STRING.size(), (CHAR_SIZE_COIN*BULLETS_GOLD_STRING.size() / BULLETS_GOLD_STRING.size()) * 2};
+	size
+		= {CHAR_SIZE_COIN * BULLETS_GOLD_STRING.size(),
+		   (CHAR_SIZE_COIN * BULLETS_GOLD_STRING.size() / BULLETS_GOLD_STRING.size()) * 2};
 	shop_item_bullet.add_component<Text>(
 		size, FONT,
 		Text::Data {
@@ -116,7 +118,9 @@ void ShopMenuScene::load_scene() {
 	);
 
 	const string BUBBLE_STRING = "BUBBLE";
-	size = {CHAR_SIZE*BUBBLE_STRING.size(), (CHAR_SIZE*BUBBLE_STRING.size() / BUBBLE_STRING.size()) * 2};
+	size
+		= {CHAR_SIZE * BUBBLE_STRING.size(),
+		   (CHAR_SIZE * BUBBLE_STRING.size() / BUBBLE_STRING.size()) * 2};
 	shop_item_bubble.add_component<Text>(
 		size, FONT,
 		Text::Data {
@@ -135,7 +139,9 @@ void ShopMenuScene::load_scene() {
 	);
 
 	const string BUBBLE_GOLD_STRING = "1000";
-	size = {CHAR_SIZE_COIN*BUBBLE_GOLD_STRING.size(), (CHAR_SIZE_COIN*BUBBLE_GOLD_STRING.size() / BUBBLE_GOLD_STRING.size()) * 2};
+	size
+		= {CHAR_SIZE_COIN * BUBBLE_GOLD_STRING.size(),
+		   (CHAR_SIZE_COIN * BUBBLE_GOLD_STRING.size() / BUBBLE_GOLD_STRING.size()) * 2};
 	shop_item_bubble.add_component<Text>(
 		size, FONT,
 		Text::Data {
@@ -205,7 +211,6 @@ void ShopMenuScene::load_scene() {
 			.btn_side_color = ButtonSubScene::ButtonSideColor::PURPLE
 		}
 	);
-
 }
 
 string ShopMenuScene::get_name() const { return SHOP_SCENE; }
