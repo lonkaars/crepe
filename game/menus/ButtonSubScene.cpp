@@ -79,23 +79,22 @@ void ButtonSubScene::set_script(crepe::GameObject & button_object, const Data & 
 				.set_script<ButtonShowCreditsSubScript>();
 			break;
 		case ScriptSelect::PREVIEW_REPLAY:
-			button_object.add_component<BehaviorScript>()
-				.set_script<PreviewReplaySubScript>();
+			button_object.add_component<BehaviorScript>().set_script<PreviewReplaySubScript>();
 			break;
 		case ScriptSelect::PREVIEW_START:
-			button_object.add_component<BehaviorScript>()
-				.set_script<PreviewStartRecSubScript>();
+			button_object.add_component<BehaviorScript>().set_script<PreviewStartRecSubScript>(
+			);
 			break;
 		case ScriptSelect::PREVIEW_STOP:
-		button_object.add_component<BehaviorScript>()
-				.set_script<PreviewStopRecSubScript>();
+			button_object.add_component<BehaviorScript>().set_script<PreviewStopRecSubScript>(
+			);
 			break;
 		case ScriptSelect::SHOP_BULLET:
-		button_object.add_component<BehaviorScript>()
+			button_object.add_component<BehaviorScript>()
 				.set_script<ButtonBuySelectBulletScript>();
 			break;
 		case ScriptSelect::SHOP_BUBBLE:
-		button_object.add_component<BehaviorScript>()
+			button_object.add_component<BehaviorScript>()
 				.set_script<ButtonBuySelectBubbleScript>();
 			break;
 		case ScriptSelect::NONE:

@@ -17,6 +17,7 @@ private:
 	bool start_recording();
 	bool stop_recording();
 	bool delete_recording();
+
 private:
 	bool record_saved = false;
 	bool record_started = false;
