@@ -29,7 +29,7 @@ void MainMenuScene::load_scene() {
 	camera_object.add_component<Camera>(
 		ivec2(990, 720), vec2(1100, 800),
 		Camera::Data {
-			.bg_color = Color::RED,
+			.bg_color = Color::BLACK,
 		}
 	);
 	camera_object.add_component<BehaviorScript>().set_script<TransitionStartSubScript>();
