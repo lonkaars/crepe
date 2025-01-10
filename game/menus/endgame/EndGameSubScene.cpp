@@ -47,6 +47,51 @@ void EndGameSubScene::create(Scene & scn) {
 		vec2 {0, -207} + FONTOFFSET, TITEL_STRING
 	);
 
+	const float Y_SPACING = 50;
+	const float Y_OFFSET = -100;
+
+	// Gold gathered
+	const string GOLD_STRING = "gold:0";
+	GameObject gold = scn.new_object("gold_endgame", TAG);
+	crepe::vec2 size_gold = {200, (200.0f / GOLD_STRING.size()) * 2};
+	gold.add_component<Text>(
+		size_gold, FONT,
+		Text::Data {
+			.world_space = false,
+			.text_color = Color::GOLD,
+		},
+		vec2 {0, Y_OFFSET} + FONTOFFSET, GOLD_STRING
+	);
+
+	// Distance
+	const string DISTANCE_STRING = "0M";
+	GameObject distance = scn.new_object("distance_endgame", TAG);
+	crepe::vec2 size_distance = {200, (200.0f / DISTANCE_STRING.size()) * 2};
+	distance.add_component<Text>(
+		size_distance, FONT,
+		Text::Data {
+			.world_space = false,
+			.text_color = Color::WHITE,
+		},
+		vec2 {0, Y_SPACING + Y_OFFSET} + FONTOFFSET, DISTANCE_STRING
+	);
+
+	// Highscore
+	const string HIGHSCORE_STRING = "NEW HIGHSCORE";
+	GameObject highscore = scn.new_object("highscore_endgame", "highscore_tag_end");
+	crepe::vec2 size_highscore = {200, (200.0f / HIGHSCORE_STRING.size()) * 2};
+	highscore
+		.add_component<Text>(
+			size_highscore, FONT,
+			Text::Data {
+				.world_space = false,
+				.text_color = Color::WHITE,
+			},
+			vec2 {0, Y_SPACING * 2 + Y_OFFSET} + FONTOFFSET, HIGHSCORE_STRING
+		)
+		.active
+		= false;
+
 	// Buttons
 	vec2 button_position = {190, 190};
 	ButtonSubScene button;

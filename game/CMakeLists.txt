@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.28)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 project(game C CXX)
 
 add_subdirectory(../src crepe)
@@ -33,6 +33,9 @@ target_sources(main PUBLIC
 	# mainscenes
 	GameScene.cpp
 	menus/shop/ShopMenuScene.cpp
+	menus/shop/ShopLoadScript.cpp
+	menus/shop/ButtonBuySelectBubbleScript.cpp
+	menus/shop/ButtonBuySelectBulletScript.cpp
 	menus/mainmenu/MainMenuScene.cpp
 	PreviewScene.cpp
 	main.cpp
@@ -41,6 +44,8 @@ target_sources(main PUBLIC
 	missile/MissilePool.cpp
 	missile/MissileScript.cpp
 	missile/MissileSubScene.cpp
+	missile/AlertSubScene.cpp
+	missile/AlertScript.cpp
 	missile/SpawnEvent.cpp
 
 	#scheduling
@@ -52,11 +57,15 @@ target_sources(main PUBLIC
 	preview/NpcScript.cpp
 	preview/PrevPlayerSubScene.cpp
 	preview/PrevPlayerScript.cpp
+	preview/PreviewStopRecSubScript.cpp
+	preview/PreviewStartRecSubScript.cpp
+	preview/PreviewReplaySubScript.cpp
 
 	# scripts
 	GameScene.cpp
 	MoveCameraManualyScript.cpp
 	StartGameScript.cpp
+	QuitScript.cpp
 
 	# player
 	player/PlayerScript.cpp

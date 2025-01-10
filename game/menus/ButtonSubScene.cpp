@@ -7,10 +7,16 @@
 #include "IButtonScript.h"
 #include "MenusConfig.h"
 
+#include "../preview/PreviewReplaySubScript.h"
+#include "../preview/PreviewStartRecSubScript.h"
+#include "../preview/PreviewStopRecSubScript.h"
+#include "api/Asset.h"
 #include "mainmenu/ButtonTransitionPreviewSubScript.h"
 
 #include "../Config.h"
 #include "mainmenu/CreditsSubScript.h"
+#include "menus/shop/ButtonBuySelectBubbleScript.h"
+#include "menus/shop/ButtonBuySelectBulletScript.h"
 
 #include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Button.h>
@@ -71,6 +77,25 @@ void ButtonSubScene::set_script(crepe::GameObject & button_object, const Data & 
 		case ScriptSelect::CREDITS_SHOW:
 			button_object.add_component<BehaviorScript>()
 				.set_script<ButtonShowCreditsSubScript>();
+			break;
+		case ScriptSelect::PREVIEW_REPLAY:
+			button_object.add_component<BehaviorScript>().set_script<PreviewReplaySubScript>();
+			break;
+		case ScriptSelect::PREVIEW_START:
+			button_object.add_component<BehaviorScript>().set_script<PreviewStartRecSubScript>(
+			);
+			break;
+		case ScriptSelect::PREVIEW_STOP:
+			button_object.add_component<BehaviorScript>().set_script<PreviewStopRecSubScript>(
+			);
+			break;
+		case ScriptSelect::SHOP_BULLET:
+			button_object.add_component<BehaviorScript>()
+				.set_script<ButtonBuySelectBulletScript>();
+			break;
+		case ScriptSelect::SHOP_BUBBLE:
+			button_object.add_component<BehaviorScript>()
+				.set_script<ButtonBuySelectBubbleScript>();
 			break;
 		case ScriptSelect::NONE:
 			button_object.add_component<BehaviorScript>().set_script<IButtonScript>();
@@ -196,8 +221,31 @@ void ButtonSubScene::next_btn_overlay(crepe::GameObject & button_object, const D
 void ButtonSubScene::btn_color_side(
 	crepe::GameObject & button_object, const vec2 & offset, const Data & data
 ) {
+	Asset * selected;
+	Asset blue = Asset("asset/ui/buttonSmallBlue.png");
+	Asset orange = Asset("asset/ui/buttonSmallOrange.png");
+	Asset purple = Asset("asset/ui/buttonSmallPurple.png");
+	Asset yellow = Asset("asset/ui/buttonSmallYellow.png");
+	switch (data.btn_side_color) {
+		case ButtonSideColor::BLUE:
+			selected = &blue;
+			break;
+		case ButtonSideColor::ORANGE:
+			selected = &orange;
+			break;
+		case ButtonSideColor::PURPLE:
+			selected = &purple;
+			break;
+		case ButtonSideColor::YELLOW:
+			selected = &yellow;
+			break;
+		case ButtonSideColor::NONE:
+			selected = &blue;
+			break;
+	}
+
 	button_object.add_component<Sprite>(
-		Asset("asset/ui/buttonSmallBlue.png"),
+		*selected,
 		Sprite::Data {
 			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 2 + data.sorting_layer_offset,
 			.size = SIDE_PANEL_SIZE,
@@ -206,7 +254,7 @@ void ButtonSubScene::btn_color_side(
 		}
 	);
 	button_object.add_component<Sprite>(
-		Asset("asset/ui/buttonSmallBlue.png"),
+		*selected,
 		Sprite::Data {
 			.flip = {true, false},
 			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 2 + data.sorting_layer_offset,

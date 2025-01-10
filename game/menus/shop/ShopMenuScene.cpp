@@ -2,11 +2,14 @@
 #include "ShopMenuScene.h"
 
 #include "../../Config.h"
-#include "../BannerSubScene.h"
 #include "../ButtonSubScene.h"
 #include "../MenusConfig.h"
+#include "api/BehaviorScript.h"
+#include "menus/BannerSubScene.h"
+#include "menus/shop/ShopLoadScript.h"
 #include "types.h"
 
+#include "Shopconfig.h"
 #include <crepe/api/Camera.h>
 #include <crepe/api/Sprite.h>
 #include <crepe/api/Text.h>
@@ -40,6 +43,7 @@ void ShopMenuScene::load_scene() {
 			.position_offset {0},
 		}
 	);
+	menu_background.add_component<BehaviorScript>().set_script<ShopLoadScript>();
 
 	ButtonSubScene button;
 	button.create(
@@ -54,6 +58,10 @@ void ShopMenuScene::load_scene() {
 		}
 	);
 
+	const float CHAR_SIZE = 16;
+	const float CHAR_SIZE_COIN = 16;
+	crepe::vec2 size;
+
 	GameObject shop_item_bullet = this->new_object("bullet", "shop_item", vec2(-100, 0));
 	shop_item_bullet.add_component<Sprite>(
 		Asset("asset/other_effects/effect_rocketmgshell_TVOS.png"),
@@ -63,13 +71,19 @@ void ShopMenuScene::load_scene() {
 			.position_offset = {0, 0},
 		}
 	);
+
+	const string BULLETS_STRING = "BULLETS";
+	size
+		= {CHAR_SIZE * BULLETS_STRING.size(),
+		   (CHAR_SIZE * BULLETS_STRING.size() / BULLETS_STRING.size()) * 2};
+
 	shop_item_bullet.add_component<Text>(
-		vec2 {100, 50}, FONT,
+		size, FONT,
 		Text::Data {
 			.world_space = true,
 			.text_color = Color::WHITE,
 		},
-		vec2 {0, -75}, "BULLETS"
+		vec2 {0, -75}, BULLETS_STRING
 	);
 	shop_item_bullet.add_component<Sprite>(
 		Asset("asset/ui/buttonCoinsSmall.png"),
@@ -79,13 +93,18 @@ void ShopMenuScene::load_scene() {
 			.position_offset = {25, 75},
 		}
 	);
+
+	const string BULLETS_GOLD_STRING = "0";
+	size
+		= {CHAR_SIZE_COIN * BULLETS_GOLD_STRING.size(),
+		   (CHAR_SIZE_COIN * BULLETS_GOLD_STRING.size() / BULLETS_GOLD_STRING.size()) * 2};
 	shop_item_bullet.add_component<Text>(
-		vec2 {37.5, 37.5}, FONT,
+		size, FONT,
 		Text::Data {
 			.world_space = true,
 			.text_color = Color::GOLD,
 		},
-		vec2 {-25, 75}, "0"
+		vec2 {-5, 75}, BULLETS_GOLD_STRING
 	);
 
 	GameObject shop_item_bubble = this->new_object("bubble", "shop_item", vec2(100, 0));
@@ -97,13 +116,18 @@ void ShopMenuScene::load_scene() {
 			.position_offset = {0, 0},
 		}
 	);
+
+	const string BUBBLE_STRING = "BUBBLE";
+	size
+		= {CHAR_SIZE * BUBBLE_STRING.size(),
+		   (CHAR_SIZE * BUBBLE_STRING.size() / BUBBLE_STRING.size()) * 2};
 	shop_item_bubble.add_component<Text>(
-		vec2 {100, 50}, FONT,
+		size, FONT,
 		Text::Data {
 			.world_space = true,
 			.text_color = Color::WHITE,
 		},
-		vec2 {0, -75}, "BUBBLE"
+		vec2 {0, -75}, BUBBLE_STRING
 	);
 	shop_item_bubble.add_component<Sprite>(
 		Asset("asset/ui/buttonCoinsSmall.png"),
@@ -113,13 +137,79 @@ void ShopMenuScene::load_scene() {
 			.position_offset = {45, 75},
 		}
 	);
+
+	const string BUBBLE_GOLD_STRING = "1000";
+	size
+		= {CHAR_SIZE_COIN * BUBBLE_GOLD_STRING.size(),
+		   (CHAR_SIZE_COIN * BUBBLE_GOLD_STRING.size() / BUBBLE_GOLD_STRING.size()) * 2};
 	shop_item_bubble.add_component<Text>(
-		vec2 {100, 25}, FONT,
+		size, FONT,
 		Text::Data {
 			.world_space = true,
 			.text_color = Color::GOLD,
 		},
-		vec2 {-25, 75}, "1000"
+		vec2 {-10, 75}, BUBBLE_GOLD_STRING
+	);
+
+	button.create(
+		*this,
+		ButtonSubScene::Data {
+			.text = "BUY",
+			.text_width = 100,
+			.position = vec2(-100, 120),
+			.script_type = ButtonSubScene::ScriptSelect::SHOP_BULLET,
+			.button_type = ButtonSubScene::ButtonSelect::LARGE,
+			.scale = 0.4,
+			.tag = BUY_BULLET,
+			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::PURPLE
+
+		}
+	);
+
+	button.create(
+		*this,
+		ButtonSubScene::Data {
+			.text = "BUY",
+			.text_width = 100,
+			.position = vec2(100, 120),
+			.script_type = ButtonSubScene::ScriptSelect::SHOP_BUBBLE,
+			.button_type = ButtonSubScene::ButtonSelect::LARGE,
+			.scale = 0.4,
+			.tag = BUY_BUBBLE,
+			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::PURPLE
+		}
+	);
+
+	button.create(
+		*this,
+		ButtonSubScene::Data {
+			.text = "SELECT",
+			.text_width = 100,
+			.position = vec2(-100, 120),
+			.script_type = ButtonSubScene::ScriptSelect::SHOP_BULLET,
+			.button_type = ButtonSubScene::ButtonSelect::LARGE,
+			.scale = 0.4,
+			.tag = SELECT_BULLET,
+			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::PURPLE
+		}
+	);
+
+	button.create(
+		*this,
+		ButtonSubScene::Data {
+			.text = "SELECT",
+			.text_width = 100,
+			.position = vec2(100, 120),
+			.script_type = ButtonSubScene::ScriptSelect::SHOP_BUBBLE,
+			.button_type = ButtonSubScene::ButtonSelect::LARGE,
+			.scale = 0.4,
+			.tag = SELECT_BUBBLE,
+			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::PURPLE
+		}
 	);
 }
 

@@ -19,6 +19,11 @@ public:
 		REPLAY,
 		CREDITS_SHOW,
 		CREDITS_BACK,
+		PREVIEW_START,
+		PREVIEW_STOP,
+		PREVIEW_REPLAY,
+		SHOP_BULLET,
+		SHOP_BUBBLE,
 		NONE,
 	};
 	//icon enum
@@ -32,6 +37,14 @@ public:
 		BACK,
 		NEXT,
 		LARGE,
+	};
+
+	enum class ButtonSideColor {
+		BLUE,
+		ORANGE,
+		PURPLE,
+		YELLOW,
+		NONE,
 	};
 	//data struct
 	struct Data {
@@ -48,6 +61,7 @@ public:
 		const bool color_side = true;
 		const std::string & tag = "";
 		const int sorting_layer_offset = 0;
+		const ButtonSideColor btn_side_color = ButtonSideColor::NONE;
 	};
 
 public:

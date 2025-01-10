@@ -1,6 +1,5 @@
 #include "GameScene.h"
 #include "Config.h"
-#include "MoveCameraManualyScript.h"
 #include "StartGameScript.h"
 #include "coins/CoinPoolSubScene.h"
 #include "coins/CoinSystemScript.h"
