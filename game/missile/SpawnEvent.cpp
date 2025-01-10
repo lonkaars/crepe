@@ -20,16 +20,17 @@ void MissileSpawnEventHandler::init() {
 }
 
 bool MissileSpawnEventHandler::on_event(const MissileSpawnEvent & event) {
-	auto missile_transforms = this->get_components_by_name<Transform>("missile");
 	auto alert_sprites = this->get_components_by_name<Sprite>("missile_alert");
-	auto alert_transforms = this->get_components_by_name<Transform>("missile_alert");
+
+	auto missile_transforms = this->get_components_by_name<Transform>("missile");
 	auto colliders = this->get_components_by_name<CircleCollider>("missile");
 	auto missile_behaviorscripts = this->get_components_by_name<BehaviorScript>("missile");
 	auto missile_audiosources = this->get_components_by_name<AudioSource>("missile");
+
 	auto & camera_transform = this->get_components_by_name<Transform>("camera").front().get();
 
-	for (size_t i = 0; i < missile_behaviorscripts.size(); ++i) {
-		auto & script = missile_behaviorscripts[i * 2].get();
+	for (size_t i = 0; i < missile_transforms.size(); ++i) {
+		BehaviorScript & script = missile_behaviorscripts[i * 2].get();
 		if (script.active) continue;
 		script.active = true;
 		colliders[i].get().active = true;
@@ -39,7 +40,6 @@ bool MissileSpawnEventHandler::on_event(const MissileSpawnEvent & event) {
 		transform.position.x = camera_transform.position.x + this->MISSILE_OFFSET;
 		transform.position.y = Random::i(this->MAX_RANGE, this->MIN_RANGE);
 
-		auto & alert_transform = alert_transforms[i].get();
 		auto & alert_sprite = alert_sprites[i].get();
 		alert_sprite.active = true;
 		break;

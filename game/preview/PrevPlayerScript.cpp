@@ -1,12 +1,11 @@
 #include "PrevPlayerScript.h"
 
 #include "../missile/SpawnEvent.h"
-#include "api/Transform.h"
+
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/Camera.h>
+#include <crepe/api/Transform.h>
 #include <crepe/manager/SaveManager.h>
-#include <iostream>
-#include <ostream>
 
 using namespace crepe;
 
@@ -59,16 +58,16 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 			this->head_anim->set_anim(7);
 			break;
 		case Keycode::LEFT:
-			this->head->data.angle_offset -= 1;
+			this->get_component<Transform>().rotation += 10;
 			break;
 		case Keycode::RIGHT:
-			this->head->data.angle_offset += 1;
+			this->get_component<Transform>().rotation -= 10;
 			break;
 		case Keycode::UP:
-			this->head->data.scale_offset += 0.1;
+			this->head->data.position_offset += 10;
 			break;
 		case Keycode::DOWN:
-			this->head->data.scale_offset -= 0.1;
+			this->head->data.position_offset -= 10;
 			break;
 		case Keycode::P:
 			this->get_component<AudioSource>().play();
@@ -97,11 +96,6 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 			break;
 		case Keycode::M:
 			trigger_event<MissileSpawnEvent>(MissileSpawnEvent {});
-			break;
-			//todo
-		case Keycode::PAGE_UP:
-		case Keycode::PAGE_DOWN:
-		case Keycode::HOME:
 			break;
 		default:
 			break;

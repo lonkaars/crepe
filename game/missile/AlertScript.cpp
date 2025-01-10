@@ -18,7 +18,7 @@ void AlertScript::fixed_update(crepe::duration_t dt) {
 	auto alert_transforms = this->get_components_by_name<Transform>("missile_alert");
 
 	int idx = 0;
-	for (int i = 0; i < missile_transforms.size(); i++) {
+	for (int i = 0; i < missile_transforms.size(); ++i) {
 		const auto & missile_transform = missile_transforms[i].get();
 		if (this_transform.game_object_id == missile_transform.game_object_id) {
 			idx = i;

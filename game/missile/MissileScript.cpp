@@ -27,7 +27,6 @@ void MissileScript::kill_missile() {
 	auto animations = this->get_components<Animator>();
 	auto sprites = this->get_components<Sprite>();
 	auto collider = this->get_component<CircleCollider>();
-	auto & fly_sound = this->get_components<AudioSource>().front().get();
 	auto & this_script = this->get_components<BehaviorScript>().front().get();
 
 	animations[0].get().active = false;
@@ -36,27 +35,23 @@ void MissileScript::kill_missile() {
 	sprites[0].get().active = false;
 	sprites[1].get().active = false;
 	sprites[2].get().active = true;
+
 	collider.active = false;
 	this_script.active = false;
 	this->seeking_disabled = false;
-
-	fly_sound.stop();
 }
 void MissileScript::activate() {
 	auto anim = this->get_components<Animator>();
 	auto sprites = this->get_components<Sprite>();
 
-	anim[0].get().active = true;
-	anim[1].get().active = true;
-	anim[2].get().stop();
-	//anim[3].get().active = true;
-
 	sprites[0].get().active = true;
 	sprites[1].get().active = true;
 	sprites[2].get().active = false;
-	//sprites[3].get().active = true;
-}
 
+	anim[0].get().active = true;
+	anim[1].get().active = true;
+	anim[2].get().stop();
+}
 bool MissileScript::on_collision(const CollisionEvent & ev) {
 	auto & explosion_sound = this->get_components<AudioSource>().back().get();
 
@@ -79,15 +74,16 @@ void MissileScript::fixed_update(crepe::duration_t dt) {
 	const auto & cam = this->get_components_by_name<Transform>("camera").front().get();
 	const auto & velocity = this->get_component<Rigidbody>().data.linear_velocity;
 
-	if (missile.position.x < (cam.position.x - VIEWPORT_X / 1.8)) {
-		this->kill_missile();
-		return;
-	}
-
 	// check if animation is at the end
 	if (explosion_anim.data.row == 7) {
 		this->activate();
 		this->seeking_disabled = false;
+		return;
+	}
+
+	if (missile.position.x < (cam.position.x - VIEWPORT_X / 1.8)) {
+		this->kill_missile();
+		return;
 	}
 
 	if (this->seeking_disabled) {
