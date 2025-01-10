@@ -17,8 +17,7 @@ using namespace crepe;
 
 PrevPlayerSubScene::PrevPlayerSubScene(Scene & scn) {
 
-	GameObject player
-		= scn.new_object("player", "player", vec2 {800 , -100}, 0, 1);
+	GameObject player = scn.new_object("player", "player", vec2 {800, -100}, 0, 1);
 	Asset player_body_asset {"asset/barry/defaultBody.png"};
 	Sprite & player_body_sprite = player.add_component<Sprite>(
 		player_body_asset,
