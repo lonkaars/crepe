@@ -1,5 +1,5 @@
 #include "BattleScript.h"
-#include "../enemy/EnemyConfig.h"
+#include "EnemyConfig.h"
 #include "EnemyScript.h"
 #include "api/Transform.h"
 #include <crepe/api/AI.h>
@@ -41,7 +41,7 @@ void BattleScript::spawn_enemies(int amount) {
 	RefVector<AI> enemy_ai = this->get_components_by_tag<AI>("enemy");
 	std::uniform_real_distribution<float> dist(70, 150);
 	int spawned = 0;
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < ENEMY_POOL_MAX; i++) {
 		AI & ai = enemy_ai[i];
 		Transform & enemy_transform
 			= this->get_components_by_id<Transform>(ai.game_object_id).front();
