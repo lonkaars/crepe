@@ -1,6 +1,7 @@
 #pragma once
 
-#include "api/Script.h"
+#include <crepe/api/Script.h>
+
 class AlertScript : public crepe::Script {
 private:
 	bool has_alert = false;

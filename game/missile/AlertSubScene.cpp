@@ -1,10 +1,9 @@
 #include "AlertSubScene.h"
 #include "../Config.h"
-#include "api/Animator.h"
-#include "api/BehaviorScript.h"
-#include "api/Scene.h"
-#include "api/Sprite.h"
-#include "missile/AlertScript.h"
+
+#include <crepe/api/Animator.h>
+#include <crepe/api/Scene.h>
+#include <crepe/api/Sprite.h>
 
 using namespace crepe;
 
@@ -12,8 +11,6 @@ MissileAlert::MissileAlert(Scene& scn){
 	GameObject alert = scn.new_object("missile_alert", "missile_alert", {0, 0}, 0, 1);
 
 	Asset missile_alert_ss {"asset/obstacles/missile/missileAlert.png"};
-
-	//alert.add_component<BehaviorScript>().set_script<AlertScript>();
 
 	auto & missile_alert_sprite = alert.add_component<Sprite>(
 		missile_alert_ss,

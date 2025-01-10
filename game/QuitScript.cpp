@@ -1,8 +1,9 @@
 
 
 #include "QuitScript.h"
-#include "api/Event.h"
-#include "api/KeyCodes.h"
+
+#include <crepe/api/Event.h>
+#include <crepe/api/KeyCodes.h>
 
 
 using namespace crepe;

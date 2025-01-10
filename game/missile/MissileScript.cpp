@@ -1,17 +1,15 @@
 #include "MissileScript.h"
 #include "../Config.h"
-#include "Collider.h"
-#include "api/BehaviorScript.h"
-#include "api/CircleCollider.h"
-#include "api/Rigidbody.h"
+#include <cmath>
 
+#include <crepe/api/CircleCollider.h>
+#include <crepe/api/Rigidbody.h>
+#include <crepe/api/BehaviorScript.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/Transform.h>
 #include <crepe/system/CollisionSystem.h>
 #include <crepe/types.h>
-
-#include <cmath>
 #include <crepe/api/AI.h>
 #include <crepe/api/KeyCodes.h>
 #include <crepe/api/Sprite.h>

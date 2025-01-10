@@ -1,8 +1,8 @@
 #include "AlertScript.h"
 #include "../Config.h"
-#include "api/CircleCollider.h"
-#include "api/Sprite.h"
 
+#include <crepe/api/CircleCollider.h>
+#include <crepe/api/Sprite.h>
 #include <crepe/api/Transform.h>
 
 using namespace crepe;

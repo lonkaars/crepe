@@ -1,8 +1,8 @@
 #include "SpawnEvent.h"
-#include "Config.h"
 #include "Random.h"
-#include "api/CircleCollider.h"
 
+
+#include <crepe/api/CircleCollider.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/BehaviorScript.h>
