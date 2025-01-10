@@ -5,8 +5,8 @@
 
 #include "../Config.h"
 #include "../coins/CoinScript.h"
-#include "api/Asset.h"
 
+#include <crepe/ValueBroker.h>
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
 #include <crepe/api/BoxCollider.h>
@@ -16,6 +16,7 @@
 #include <crepe/api/Scene.h>
 #include <crepe/api/Script.h>
 #include <crepe/api/Sprite.h>
+#include <crepe/manager/SaveManager.h>
 #include <crepe/types.h>
 
 using namespace crepe;
@@ -24,7 +25,23 @@ using namespace std;
 PlayerSubScene::PlayerSubScene(Scene & scn) {
 	GameObject player = scn.new_object("player", "player", vec2(-100, 200));
 
-	Asset player_bullet {"asset/other_effects/effect_smgbullet.png"};
+	SaveManager & save = scn.get_save_manager();
+	ValueBroker<int> particle_type = save.get<int>(JETPACK_PARTICLES, 0);
+
+	string player_bullet_string;
+	string player_bullet_x2_string;
+	string player_shell_string;
+	if (particle_type.get() == 0) {
+		player_bullet_string = "asset/other_effects/effect_smgbullet.png";
+		player_bullet_x2_string = "asset/other_effects/effect_smgbullet_x2.png";
+		player_shell_string = "asset/other_effects/effect_rocketmgshell_TVOS.png";
+	} else {
+		player_bullet_string = "asset/background/aquarium/bubble.png";
+		player_bullet_x2_string = "asset/background/aquarium/bubble.png";
+		player_shell_string = "asset/background/aquarium/bubble.png";
+	}
+
+	Asset player_bullet {player_bullet_string};
 	Sprite & player_bullet_sprite = player.add_component<Sprite>(
 		player_bullet,
 		Sprite::Data {
@@ -45,7 +62,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 			.reset_on_exit = true,
 		},
 	});
-	Asset player_bullet_x2 {"asset/other_effects/effect_smgbullet_x2.png"};
+	Asset player_bullet_x2 {player_bullet_x2_string};
 	Sprite & player_bullet_x2_sprite = player.add_component<Sprite>(
 		player_bullet_x2,
 		Sprite::Data {
@@ -66,7 +83,7 @@ PlayerSubScene::PlayerSubScene(Scene & scn) {
 			.reset_on_exit = true,
 		},
 	});
-	Asset player_shell {"asset/other_effects/effect_rocketmgshell_TVOS.png"};
+	Asset player_shell {player_shell_string};
 	Sprite & player_shell_sprite = player.add_component<Sprite>(
 		player_shell,
 		Sprite::Data {
