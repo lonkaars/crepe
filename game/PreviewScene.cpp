@@ -114,8 +114,6 @@ void PreviewScene::load_scene() {
 		}
 	);
 
-
-	/*
 	button.create(
 		*this,
 		ButtonSubScene::Data {
@@ -163,7 +161,6 @@ void PreviewScene::load_scene() {
 			.btn_side_color = ButtonSubScene::ButtonSideColor::ORANGE,
 		}
 	);
-	*/
 }
 
 string PreviewScene::get_name() const { return "preview scene"; }
