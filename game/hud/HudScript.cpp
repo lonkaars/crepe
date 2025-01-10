@@ -3,6 +3,7 @@
 
 #include "../Config.h"
 #include "../Events.h"
+#include "api/KeyCodes.h"
 #include "menus/endgame/EndGameSubScript.h"
 
 #include <climits>
@@ -37,7 +38,7 @@ void HudScript::init() {
 }
 
 bool HudScript::toggle_fps(crepe::KeyPressEvent ev) {
-	if (ev.key != Keycode::END) return false;
+	if (ev.key != Keycode::D1) return false;
 	Text & txt_fps = this->get_components_by_name<Text>(HUD_FPS).front();
 	this->show_fps = !this->show_fps;
 	if (this->show_fps) {

@@ -2,6 +2,7 @@
 #include "MainMenuScene.h"
 #include "CreditsSubScene.h"
 #include "MainMenuConfig.h"
+#include "QuitScript.h"
 #include "TransitionStartSubScript.h"
 
 #include "../ButtonSubScene.h"
@@ -33,6 +34,7 @@ void MainMenuScene::load_scene() {
 		}
 	);
 	camera_object.add_component<BehaviorScript>().set_script<TransitionStartSubScript>();
+	camera_object.add_component<BehaviorScript>().set_script<QuitScript>();
 
 	//Button menu
 	GameObject menu_button = this->new_object(MENU_BUTTON_NAME, MENU_BUTTON_NAME, MENU_OFFSET);
