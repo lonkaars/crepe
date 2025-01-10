@@ -56,3 +56,5 @@ static constexpr float PLAYER_HELP_KICK_MAX = 0.3; // factor
 static constexpr const char * CAMERA_NAME = "camera";
 // Jetpack particles
 static constexpr const char * JETPACK_PARTICLES = "jetpack_particles";
+
+static constexpr bool DISABLE_REPLAY = false;

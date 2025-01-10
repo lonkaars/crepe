@@ -29,7 +29,7 @@ void MainMenuScene::load_scene() {
 	camera_object.add_component<Camera>(
 		ivec2(990, 720), vec2(1100, 800),
 		Camera::Data {
-			.bg_color = Color::RED,
+			.bg_color = Color::BLACK,
 		}
 	);
 	camera_object.add_component<BehaviorScript>().set_script<TransitionStartSubScript>();
@@ -55,6 +55,7 @@ void MainMenuScene::load_scene() {
 			.text_width = 200,
 			.position = pos_btn,
 			.script_type = ButtonSubScene::ScriptSelect::PREVIEW,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::PURPLE,
 		}
 	);
 
@@ -70,6 +71,7 @@ void MainMenuScene::load_scene() {
 			.icon_type = ButtonSubScene::IconSelect::SHOP,
 			.position = pos_btn,
 			.script_type = ButtonSubScene::ScriptSelect::SHOP,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::ORANGE,
 		}
 	);
 
@@ -83,6 +85,7 @@ void MainMenuScene::load_scene() {
 			.text_width = 200,
 			.position = pos_btn,
 			.script_type = ButtonSubScene::ScriptSelect::CREDITS_SHOW,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::BLUE,
 		}
 	);
 

@@ -2,6 +2,10 @@
 
 #include "Config.h"
 #include "background/BackgroundSubScene.h"
+#include "hud/HudScript.h"
+#include "hud/HudSubScene.h"
+#include "hud/SpeedScript.h"
+#include "menus/ButtonSubScene.h"
 #include "missile/MissilePool.h"
 #include "missile/SpawnEvent.h"
 #include "preview/NpcSubScene.h"
@@ -47,6 +51,8 @@ void PreviewScene::load_scene() {
 	);
 	camera.add_component<Rigidbody>(Rigidbody::Data {});
 	camera.add_component<BehaviorScript>().set_script<MissileSpawnEventHandler>();
+	camera.add_component<BehaviorScript>().set_script<HudScript>();
+	camera.add_component<BehaviorScript>().set_script<SpeedScript>();
 
 	GameObject floor = new_object("floor", "game_world", vec2(0, 325));
 	floor.add_component<Rigidbody>(Rigidbody::Data {
@@ -82,6 +88,77 @@ void PreviewScene::load_scene() {
 	NpcSubScene npc(*this);
 	SmokeSubScene smoke(*this);
 	MissilePool mpool(*this);
+
+	HudSubScene hud;
+	hud.create(*this);
+
+
+	const float Y_POS_BUTTONS = -220;
+	const float X_POS_BUTTONS = -150;
+	const float X_POS_BUTTONS_SPACING = 145;
+	ButtonSubScene button;
+	button.create(
+		*this,
+		ButtonSubScene::Data {
+			.text = "BACK",
+			.text_width = 60,
+			.position = {X_POS_BUTTONS,Y_POS_BUTTONS},
+			.script_type = ButtonSubScene::ScriptSelect::NEXT,
+			.button_type = ButtonSubScene::ButtonSelect::BACK,
+			.scale = 0.6,
+			.worldspace = false,
+			.tag = "Next button",
+			.sorting_layer_offset = 20,
+		}
+	);
+
+	button.create(
+		*this,
+		ButtonSubScene::Data {
+			.text = "START REC",
+			.text_width = 130,
+			.position = {X_POS_BUTTONS+X_POS_BUTTONS_SPACING,Y_POS_BUTTONS},
+			.script_type = ButtonSubScene::ScriptSelect::PREVIEW_START,
+			.button_type = ButtonSubScene::ButtonSelect::LARGE,
+			.scale = 0.6,
+			.worldspace = false,
+			.tag = "Next button",
+			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::YELLOW,
+		}
+	);
+
+	button.create(
+		*this,
+		ButtonSubScene::Data {
+			.text = "STOP REC",
+			.text_width = 120,
+			.position = {X_POS_BUTTONS+X_POS_BUTTONS_SPACING*2,Y_POS_BUTTONS},
+			.script_type = ButtonSubScene::ScriptSelect::PREVIEW_STOP,
+			.button_type = ButtonSubScene::ButtonSelect::LARGE,
+			.scale = 0.6,
+			.worldspace = false,
+			.tag = "Next button",
+			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::BLUE,
+		}
+	);
+
+	button.create(
+		*this,
+		ButtonSubScene::Data {
+			.text = "REPLAY",
+			.text_width = 90,
+			.position = {X_POS_BUTTONS+X_POS_BUTTONS_SPACING*3,Y_POS_BUTTONS},
+			.script_type = ButtonSubScene::ScriptSelect::PREVIEW_REPLAY,
+			.button_type = ButtonSubScene::ButtonSelect::LARGE,
+			.scale = 0.6,
+			.worldspace = false,
+			.tag = "Next button",
+			.sorting_layer_offset = 20,
+			.btn_side_color = ButtonSubScene::ButtonSideColor::ORANGE,
+		}
+	);
 
 	/*
 	

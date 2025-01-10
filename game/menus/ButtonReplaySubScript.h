@@ -4,6 +4,8 @@
 
 #include <crepe/api/Script.h>
 
+struct DeleteRecordingEvent : public crepe::Event {};
+
 class ButtonReplaySubScript : public IButtonScript {
 public:
 	void init() override;
@@ -12,6 +14,7 @@ public:
 private:
 	crepe::recording_t recording = 0;
 	bool set_recording();
+	bool delete_recording();
 
 protected:
 	bool transition = false;
