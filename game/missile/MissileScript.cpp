@@ -1,6 +1,9 @@
 #include "MissileScript.h"
 #include "../Config.h"
+#include "Collider.h"
 #include "api/BehaviorScript.h"
+#include "api/CircleCollider.h"
+#include "api/Rigidbody.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
@@ -25,8 +28,9 @@ void MissileScript::init() {
 void MissileScript::kill_missile() {
 	auto animations = this->get_components<Animator>();
 	auto sprites = this->get_components<Sprite>();
+	auto collider = this->get_component<CircleCollider>();
 	auto & fly_sound = this->get_components<AudioSource>().front().get();
-	auto & this_script = this->get_components<BehaviorScript>().back().get();
+	auto & this_script = this->get_components<BehaviorScript>().front().get();
 
 	animations[0].get().active = false;
 	animations[1].get().active = false;
@@ -34,7 +38,7 @@ void MissileScript::kill_missile() {
 	sprites[0].get().active = false;
 	sprites[1].get().active = false;
 	sprites[2].get().active = true;
-
+	collider.active = false;
 	this_script.active = false;
 	this->seeking_disabled = false;
 
@@ -47,9 +51,12 @@ void MissileScript::activate() {
 	anim[0].get().active = true;
 	anim[1].get().active = true;
 	anim[2].get().stop();
+	//anim[3].get().active = true;
+
 	sprites[0].get().active = true;
 	sprites[1].get().active = true;
 	sprites[2].get().active = false;
+	//sprites[3].get().active = true;
 }
 
 bool MissileScript::on_collision(const CollisionEvent & ev) {

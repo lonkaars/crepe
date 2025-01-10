@@ -41,6 +41,8 @@ target_sources(main PUBLIC
 	missile/MissilePool.cpp
 	missile/MissileScript.cpp
 	missile/MissileSubScene.cpp
+	missile/AlertSubScene.cpp
+	missile/AlertScript.cpp
 	missile/SpawnEvent.cpp
 
 	#scheduling
@@ -57,6 +59,7 @@ target_sources(main PUBLIC
 	GameScene.cpp
 	MoveCameraManualyScript.cpp
 	StartGameScript.cpp
+	QuitScript.cpp
 
 	# player
 	player/PlayerScript.cpp

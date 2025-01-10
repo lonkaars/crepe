@@ -1,4 +1,7 @@
 #include "SpawnEvent.h"
+#include "Config.h"
+#include "Random.h"
+#include "api/CircleCollider.h"
 
 #include <crepe/api/Animator.h>
 #include <crepe/api/AudioSource.h>
@@ -8,7 +11,6 @@
 #include <crepe/api/Transform.h>
 
 #include <cstdlib>
-#include <random>
 
 using namespace crepe;
 
@@ -18,28 +20,30 @@ void MissileSpawnEventHandler::init() {
 	});
 }
 
-std::random_device rd;
-std::mt19937 gen(rd());
-
 bool MissileSpawnEventHandler::on_event(const MissileSpawnEvent & event) {
-	auto missile_sprites = this->get_components_by_name<Sprite>("missile");
 	auto missile_transforms = this->get_components_by_name<Transform>("missile");
+	auto alert_sprites = this->get_components_by_name<Sprite>("missile_alert");
+	auto alert_transforms = this->get_components_by_name<Transform>("missile_alert");
+	auto colliders = this->get_components_by_name<CircleCollider>("missile");
 	auto missile_behaviorscripts = this->get_components_by_name<BehaviorScript>("missile");
 	auto missile_audiosources = this->get_components_by_name<AudioSource>("missile");
 	auto & camera_transform = this->get_components_by_name<Transform>("camera").front().get();
 
 	for (size_t i = 0; i < missile_behaviorscripts.size(); ++i) {
-		auto & script = missile_behaviorscripts[i].get();
+		auto & script = missile_behaviorscripts[i * 2].get();
 		if (script.active) continue;
 		script.active = true;
-
+		colliders[i].get().active = true;
 		missile_audiosources[i * 2].get().play();
 
 		auto & transform = missile_transforms[i].get();
 		transform.position.x = camera_transform.position.x + this->MISSILE_OFFSET;
-		std::uniform_int_distribution<> dist(this->MIN_RANGE, this->MAX_RANGE);
-		transform.position.y = dist(gen);
+		transform.position.y = Random::i(this->MAX_RANGE, this->MIN_RANGE);
 
+
+		auto & alert_transform = alert_transforms[i].get();
+		auto & alert_sprite = alert_sprites[i].get();
+		alert_sprite.active = true;
 		break;
 	}
 
