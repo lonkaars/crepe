@@ -53,7 +53,7 @@ int EnemySubScene::create(Scene & scn, int enemy_counter) {
 		}
 	);
 	body_animator.pause();
-	
+
 	Asset enemy_head_asset {"asset/workers/worker2Head.png"};
 	Sprite & enemy_head_sprite = enemy.add_component<Sprite>(
 		enemy_head_asset,

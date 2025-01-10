@@ -99,7 +99,7 @@ bool EnemyScript::spawn_enemy(const SpawnEnemyEvent & e) {
 	Transform & transform = this->get_component<Transform>();
 	Camera & camera = this->get_components_by_name<Camera>("camera").front();
 	Transform & cam_transform = this->get_components_by_name<Transform>("camera").front();
-	Rigidbody& rb = this->get_component<Rigidbody>();
+	Rigidbody & rb = this->get_component<Rigidbody>();
 	rb.data.collision_layers = {COLL_LAY_BOT_TOP, COLL_LAY_PLAYER_BULLET};
 	rb.data.collision_layer = COLL_LAY_ENEMY;
 	vec2 half_screen = camera.viewport_size / 2;
@@ -139,10 +139,10 @@ bool EnemyScript::on_collide(const CollisionEvent & e) {
 		//Sprite& sprite;
 		set_hit_blink(true);
 		if (health <= 0) {
-		this->death();
+			this->death();
+		}
 	}
-	}
-	
+
 	//body_animator.play();
 
 	return false;
