@@ -37,10 +37,18 @@ bool ObjectsScheduler::boss_fight_1_event() {
 	this->get_components_by_name<Rigidbody>("player").front().get().data.linear_velocity.x
 		= PLAYER_SPEED * 0.02;
 
+	bool first = true;
 	RefVector<Rigidbody> rb_back_forest
 		= this->get_components_by_tag<Rigidbody>("forest_background");
-	rb_back_forest.front().get().data.linear_velocity.x = 30;
-	rb_back_forest.back().get().data.linear_velocity.x = 40;
+	for (Rigidbody & rb : rb_back_forest) {
+		if (first == true) {
+			rb.data.linear_velocity.x = 30;
+			first = false;
+		} else {
+			rb.data.linear_velocity.x = 40;
+			first = true;
+		}
+	}
 
 	return false;
 }
