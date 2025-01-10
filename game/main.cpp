@@ -3,7 +3,7 @@
 #include <crepe/api/Engine.h>
 #include <crepe/api/Script.h>
 
-#include "Config.h"
+#include "EngineConfig.h"
 #include "GameScene.h"
 #include "PreviewScene.h"
 #include "menus/mainmenu/MainMenuScene.h"

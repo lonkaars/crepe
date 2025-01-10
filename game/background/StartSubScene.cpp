@@ -199,8 +199,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_1_sprite.active = false;
 	Rigidbody & frag_1_rb = frag_1.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 10,
-		.linear_velocity = vec2(400, 400),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(400, -400),
 		.linear_velocity_coefficient = vec2(0.5, 0.6),
 		.angular_velocity = 500,
 		.angular_velocity_coefficient = 0.55,
@@ -223,8 +223,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_2_sprite.active = false;
 	Rigidbody & frag_2_rb = frag_2.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 20,
-		.linear_velocity = vec2(400, 400),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(400, -400),
 		.linear_velocity_coefficient = vec2(0.35, 0.4),
 		.angular_velocity = 400,
 		.angular_velocity_coefficient = 0.55,
@@ -247,8 +247,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_3_sprite.active = false;
 	Rigidbody & frag_3_rb = frag_3.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 30,
-		.linear_velocity = vec2(400, 400),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(400, -400),
 		.linear_velocity_coefficient = vec2(0.3, 0.3),
 		.angular_velocity = 300,
 		.angular_velocity_coefficient = 0.55,
@@ -271,8 +271,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_4_sprite.active = false;
 	Rigidbody & frag_4_rb = frag_4.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 40,
-		.linear_velocity = vec2(700, 400),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(700, -400),
 		.linear_velocity_coefficient = vec2(0.2, 0.2),
 		.angular_velocity = 200,
 		.angular_velocity_coefficient = 0.55,
@@ -295,8 +295,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_5_sprite.active = false;
 	Rigidbody & frag_5_rb = frag_5.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 50,
-		.linear_velocity = vec2(600, 800),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(600, -800),
 		.linear_velocity_coefficient = vec2(0.25, 0.15),
 		.angular_velocity = 100,
 		.angular_velocity_coefficient = 0.55,
@@ -319,8 +319,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_6_sprite.active = false;
 	Rigidbody & frag_6_rb = frag_6.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 30,
-		.linear_velocity = vec2(300, 800),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(300, -800),
 		.linear_velocity_coefficient = vec2(0.35, 0.25),
 		.angular_velocity = 100,
 		.angular_velocity_coefficient = 0.55,
@@ -343,8 +343,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_7_sprite.active = false;
 	Rigidbody & frag_7_rb = frag_7.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 20,
-		.linear_velocity = vec2(400, 500),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(400, -500),
 		.linear_velocity_coefficient = vec2(0.45, 0.6),
 		.angular_velocity = 800,
 		.angular_velocity_coefficient = 0.55,
@@ -367,8 +367,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_8_sprite.active = false;
 	Rigidbody & frag_8_rb = frag_8.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 30,
-		.linear_velocity = vec2(400, 400),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(400, -400),
 		.linear_velocity_coefficient = vec2(0.5, 0.6),
 		.angular_velocity = 500,
 		.angular_velocity_coefficient = 0.55,
@@ -391,8 +391,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_9_sprite.active = false;
 	Rigidbody & frag_9_rb = frag_9.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 40,
-		.linear_velocity = vec2(200, 400),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(200, -400),
 		.linear_velocity_coefficient = vec2(0.5, 0.25),
 		.angular_velocity = 500,
 		.angular_velocity_coefficient = 0.55,
@@ -415,8 +415,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_10_sprite.active = false;
 	Rigidbody & frag_10_rb = frag_10.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 50,
-		.linear_velocity = vec2(400, 900),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(400, -900),
 		.linear_velocity_coefficient = vec2(0.35, 0.4),
 		.angular_velocity = 300,
 		.angular_velocity_coefficient = 0.55,
@@ -439,8 +439,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_11_sprite.active = false;
 	Rigidbody & frag_11_rb = frag_11.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 60,
-		.linear_velocity = vec2(600, 800),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(600, -800),
 		.linear_velocity_coefficient = vec2(0.3, 0.3),
 		.angular_velocity = 200,
 		.angular_velocity_coefficient = 0.55,
@@ -463,8 +463,8 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	);
 	frag_12_sprite.active = false;
 	Rigidbody & frag_12_rb = frag_12.add_component<Rigidbody>(Rigidbody::Data {
-		.gravity_scale = 70,
-		.linear_velocity = vec2(500, 800),
+		.gravity_scale = 1.0,
+		.linear_velocity = vec2(500, -800),
 		.linear_velocity_coefficient = vec2(0.25, 0.15),
 		.angular_velocity = 100,
 		.angular_velocity_coefficient = 0.55,
