@@ -54,7 +54,8 @@ void ShopMenuScene::load_scene() {
 			.position = {-400, -350},
 			.script_type = ButtonSubScene::ScriptSelect::MAINMENU,
 			.button_type = ButtonSubScene::ButtonSelect::BACK,
-			.scale = 0.8
+			.scale = 0.8,
+			.sorting_layer_offset = 1,
 		}
 	);
 
