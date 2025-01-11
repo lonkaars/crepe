@@ -9,7 +9,7 @@ using namespace crepe;
 
 void NpcScript::fixed_update(duration_t dt) {
 	auto & rb = this->get_component<Rigidbody>();
-	auto & npc = this->get_component<Sprite>();
+	auto npc = this->get_components<Sprite>();
 	auto & transform = this->get_component<Transform>();
 
 	if (transform.position.x < 200) {
@@ -20,8 +20,10 @@ void NpcScript::fixed_update(duration_t dt) {
 	}
 
 	if (rb.data.linear_velocity.x < 0) {
-		npc.data.flip = {true, false};
+		npc.front().get().data.flip = {true, false};
+		npc.back().get().data.flip = {true, false};
 	} else {
-		npc.data.flip = {false, false};
+		npc.front().get().data.flip = {false, false};
+		npc.back().get().data.flip = {false, false};
 	}
 }
