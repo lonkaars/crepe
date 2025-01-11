@@ -21,10 +21,6 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 			this->body->data.flip = {false, false};
 			this->head->data.flip = {false, false};
 			break;
-
-		case Keycode::SPACE:
-			this->get_component<Rigidbody>().data.linear_velocity.y = -move_speed;
-			break;
 		case Keycode::D0:
 			this->body_anim->set_anim(0);
 			this->head_anim->set_anim(0);
@@ -72,12 +68,6 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 		case Keycode::P:
 			this->get_component<AudioSource>().play();
 			break;
-		case Keycode::Q:
-			this->get_components_by_name<Camera>("camera").front().get().data.zoom -= 0.01;
-			break;
-		case Keycode::E:
-			this->get_components_by_name<Camera>("camera").front().get().data.zoom += 0.01;
-			break;
 		case Keycode::J:
 			this->get_components_by_name<Transform>("camera").front().get().position.x
 				-= move_speed;
@@ -104,6 +94,8 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 }
 
 void PrevPlayerScript::init() {
+	this->rb = get_component<Rigidbody>();
+
 	auto animations = this->get_components<Animator>();
 	body_anim = animations[0];
 	head_anim = animations[1];
@@ -115,12 +107,50 @@ void PrevPlayerScript::init() {
 	subscribe<KeyPressEvent>([this](const KeyPressEvent & ev) -> bool {
 		return this->key_pressed(ev);
 	});
+	subscribe<KeyPressEvent>([this](const KeyPressEvent & ev) -> bool {
+		if (ev.repeat) return false;
+		return this->on_key_down(ev);
+	});
+	subscribe<KeyReleaseEvent>([this](const KeyReleaseEvent & ev) -> bool {
+		return this->on_key_up(ev);
+	});
 };
 
 void PrevPlayerScript::fixed_update(crepe::duration_t dt) {
+	if (this->get_key_state(Keycode::SPACE)) {
+		this->rb->add_force_linear(
+			vec2(0, -1) * (engine_gravity * PLAYER_GRAVITY_SCALE * dt.count())
+		);
+	}
+
 	auto & savemgr = this->get_save_manager();
 	const auto & pos = this->get_component<Transform>().position;
 
 	savemgr.set("player_x", pos.x);
 	savemgr.set("player_y", pos.y);
 };
+
+bool PrevPlayerScript::on_key_down(const KeyPressEvent & ev) {
+	if (ev.key == Keycode::SPACE) {
+		const vec2 UP = {0, -1};
+		this->help_kick(UP);
+	}
+	return false;
+}
+
+bool PrevPlayerScript::on_key_up(const KeyReleaseEvent & ev) {
+	if (ev.key == Keycode::SPACE) {
+		const vec2 DOWN = {0, 1};
+		this->help_kick(DOWN);
+	}
+	return false;
+}
+
+void PrevPlayerScript::help_kick(const vec2 & direction) {
+	// softly "kick" the player (at start/end of flight)
+	vec2 & velocity = this->rb->data.linear_velocity;
+	float kick_amount = std::min(
+		velocity.length() * PLAYER_HELP_KICK_SCALE, engine_gravity * PLAYER_HELP_KICK_MAX
+	);
+	velocity += direction * kick_amount;
+}
