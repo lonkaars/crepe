@@ -1,0 +1,57 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_script_ecs Using ECS inside Script
+\ingroup feature
+\brief Query the component manager inside a concrete Script
+
+Script provides several methods to request references to components during
+runtime. These methods may be used in cases where it is either not practical or
+impossible to manually pass the references required to implement a certain
+behavior.
+
+\see Script
+\see ComponentManager
+
+\par Example
+
+\note This example assumes you already have a concrete Script. If not, read
+\"\ref feature_script\" first.
+
+The component manager can be queried for components inside Script using the
+following methods:
+
+- For requesting components on the same GameObject as this Script instance:
+	- Script::get_component(): \copybrief Script::get_component
+	- Script::get_components(): \copybrief Script::get_components
+- For requesting components in the current Scene:
+	- Script::get_components_by_id(): \copybrief Script::get_components_by_id
+	- Script::get_components_by_name(): \copybrief Script::get_components_by_name
+	- Script::get_components_by_tag(): \copybrief Script::get_components_by_tag
+
+```cpp
+#include <crepe/util/Log.h>
+#include <crepe/api/Script.h>
+#include <crepe/api/Metadata.h>
+
+using namespace crepe;
+
+class MyScript : public Script {
+	void show_self() {
+		Metadata & own_metadata = get_component<Metadata>();
+		logf("My name is {}", own_metadata.name);
+	}
+
+	void list_enemies() {
+		RefVector<Metadata> enemies = get_components_by_tag<Metadata>("enemy");
+		logf("There are {} enemies:", enemies.size());
+		for (const Metadata & enemy : enemies) {
+			logf("- {}", enemy.name);
+		}
+	}
+};
+```
+
+*/
+}

@@ -1,0 +1,22 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_bgm Playing background music
+\ingroup feature
+\brief Add background music to a scene using the AudioSource component
+
+This page shows how to implement background music using the AudioSource
+effects.
+
+\see AudioSource
+
+\par Example
+
+\note This example assumes you already have a GameObject. If not, read
+\"\ref feature_gameobject\" first.
+
+\todo Merge #60
+
+*/
+}

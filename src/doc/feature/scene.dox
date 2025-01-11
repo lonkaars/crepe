@@ -40,31 +40,28 @@ added to the loop/scene manger via loop_mgr::add_scene<>(). The templated
 argument should define the concrete scene to be added.
 
 ```cpp
-#include <crepe/api/LoopManager.h>
-#include <crepe/api/GameObject.h>
+#include <crepe/api/Engine.h>
 #include <crepe/api/Scene.h>
-#include <crepe/types.h>
 
 using namespace crepe;
 
 class MyScene : public Scene {
 public:
 	void load_scene() {
-		ComponentManager & mgr = this->component_manager;
-		GameObject object1 = mgr.new_object("object1", "tag_my_scene", vec2{0, 0}, 0, 1);
-		GameObject object2 = mgr.new_object("object2", "tag_my_scene", vec2{1, 0}, 0, 1);
+		GameObject object1 = new_object("object1", "tag_my_scene", vec2{0, 0}, 0, 1);
+		GameObject object2 = new_object("object2", "tag_my_scene", vec2{1, 0}, 0, 1);
 	}
 
 	string get_name() const { return "my_scene"; }
 };
 
 int main() {
-	LoopManager loop_mgr;
+	Engine foo;
 	
 	// Add the scenes to the loop manager
-	loop_mgr.add_scene<MyScene>();
+	foo.add_scene<MyScene>();
 
-	loop_mgr.start();
+	return foo.main();
 }
 ```
 

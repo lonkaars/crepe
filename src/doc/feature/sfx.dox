@@ -1,0 +1,24 @@
+// vim:ft=doxygen
+namespace crepe {
+/**
+
+\defgroup feature_sfx Playing sound effects
+\ingroup feature
+\brief Fire a sound effect using the AudioSource component
+
+This page shows how to implement one-shot sound effects using the AudioSource
+component's 'fire and forget'-style API.
+
+\see AudioSource
+
+\par Example
+
+\note This example assumes you already have a GameObject to attach the
+AudioSource component to, and uses a Script to control the AudioSource instance.
+Separate pages describing these features in more detail can be found at \"\ref
+feature_gameobject\" and \"\ref feature_script\" respectively.
+
+\todo Merge #60
+
+*/
+}

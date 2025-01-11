@@ -2,25 +2,22 @@
 
 #include <string>
 
+#include "../types.h"
 #include "../util/Log.h"
-
-#include "types.h"
 
 namespace crepe {
 
 /**
  * \brief Global configuration interface
  *
- * This class stores engine default settings. Properties on this class are only supposed to be
- * modified *before* execution is handed over from the game programmer to the engine (i.e. the
- * main loop is started).
+ * This struct stores both engine default settings and global configuration parameters.
  */
 struct Config final {
 	//! Retrieve handle to global Config instance
 	static Config & get_instance();
 
 	//! Logging-related settings
-	struct {
+	struct log { // NOLINT
 		/**
 		 * \brief Log level
 		 *
@@ -28,7 +25,7 @@ struct Config final {
 		 */
 		Log::Level level = Log::Level::INFO;
 		/**
-		 * \brief Colored log output
+		 * \brief Enable colored log output
 		 *
 		 * Enables log coloring using ANSI escape codes.
 		 */
@@ -36,7 +33,7 @@ struct Config final {
 	} log;
 
 	//! Save manager
-	struct {
+	struct savemgr { // NOLINT
 		/**
 		 * \brief Save file location
 		 *
@@ -46,8 +43,8 @@ struct Config final {
 		std::string location = "save.crepe.db";
 	} savemgr;
 
-	//! physics-related settings
-	struct {
+	//! Physics-related settings
+	struct physics { // NOLINT
 		/**
 		 * \brief gravity value of physics system
 		 *
@@ -56,16 +53,16 @@ struct Config final {
 		float gravity = 10;
 	} physics;
 
-	//! default window settings
-	struct {
-		//! default screen size in pixels
+	//! Default window settings
+	struct window_settings { // NOLINT
+		//! Default window size (in pixels)
 		ivec2 default_size = {1280, 720};
-		//! default window title
+		//! Default window title
 		std::string window_title = "crepe window";
 	} window_settings;
 
 	//! Asset loading options
-	struct {
+	struct asset { // NOLINT
 		/**
 		 * \brief Pattern to match for Asset base directory
 		 *

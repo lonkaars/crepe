@@ -4,3 +4,30 @@ a[href="namespaces.html"]
 { display: none; }
 
 h2.groupheader { margin-top: revert; }
+
+dl {
+	padding: 4px 12px !important;
+	border-radius: 8px !important;
+	border: 0 !important;
+}
+dt {
+	margin-bottom: 0.5ex;
+}
+
+a:hover {
+	text-decoration: revert !important;
+	background: unset !important;
+}
+
+dl.section.see,
+dl.section.user {
+	padding: 0 !important;
+	border-radius: 0 !important;
+	margin-top: 0;
+}
+dl.section.see dt,
+dl.section.user dt {
+	font-size: 130%;
+	margin-bottom: 0.5ex;
+	margin-top: 1.5ex;
+}

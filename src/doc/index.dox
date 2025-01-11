@@ -5,7 +5,14 @@
 
 Welcome to the documentation for the crêpe game engine.
 
-\see feature
+\see \ref install "Engine installation instructions"
+\see \ref feature "Example code and usage instructions"
+\see [API documentation](annotated.html)
+
+\noop No bold links in "See also" section
+\htmlonly
+<style> .section.see a { font-weight: normal; } </style>
+\endhtmlonly
 
 */
 

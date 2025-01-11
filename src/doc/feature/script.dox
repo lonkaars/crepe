@@ -2,19 +2,14 @@
 namespace crepe {
 /**
 
-\defgroup feature_script Scripting
+\defgroup feature_script Scripting basics
 \ingroup feature
-\brief User-defined scripts for game objects
+\brief Create a concrete Script and attach it to a GameObject
 
 Scripts can be used to implement game behavior, and allow arbitrary code to run
 as part of the game loop. Scripts are implemented as derivative classes of
-Script, which are added to game objects using the BehaviorScript \ref Component
-"component".
-
-\todo This section is incomplete:
-- Utility functions to get components/events/etc inside script
-- How to listen for events
-- Extensions of script (keylistener)
+Script, which are added to \ref GameObject "game objects" using the \ref
+BehaviorScript \ref Component "component".
 
 \see Script
 \see BehaviorScript
@@ -22,11 +17,14 @@ Script, which are added to game objects using the BehaviorScript \ref Component
 
 \par Example
 
-First, define a class that inherits from Script. This class acts as an
-interface, and has two functions (\ref Script::init "\c init()" and \ref
-Script::update "\c update()"), which may be implemented (they are empty by
-default). From now on, this derivative class will be referred to as a *concrete
-script*.
+\note This example assumes you already have a GameObject. If not, read
+\"\ref feature_gameobject\" first.
+
+First, define a class (anywhere) that inherits from Script. The Script class
+acts as an interface, and has three functions (\ref Script::init "\c init()",
+\ref Script::fixed_update "\c fixed_update()" and \ref Script::frame_update
+"\c frame_update()"), which *may* be implemented (they are empty by default).
+From now on, this derivative class will be referred to as a *concrete script*.
 
 ```cpp
 #include <crepe/api/Script.h>
@@ -36,25 +34,33 @@ class MyScript : public crepe::Script {
 	void init() {
 		// called once
 	}
-	void update() {
+
+	void fixed_update(crepe::duration_t delta_time) {
 		// called on fixed update
+	}
+	void frame_update(crepe::duration_t delta_time) {
+		// called for every rendered frame
 	}
 };
 ```
 
-Concrete scripts can be instantiated and attached to \ref GameObject
-"game objects" using the BehaviorScript \ref Component "component".
+After defining a concrete script, it can be instantiated and attached to \ref
+feature_gameobject "game objects" during \ref feature_scene
+"scene initialization" using a BehaviorScript component:
 
 ```cpp
 using namespace crepe;
-GameObject obj = component_manager.new_object("name");
+GameObject obj;
 
-// create BehaviorScript instance
+// Create a BehaviorScript component to hold MyScript
 BehaviorScript & behavior_script = obj.add_component<BehaviorScript>();
-// attach (and instantiate) MyScript to behavior_script
-behavior_script.set_script<MyScript>();
 
-// the above can also be done in a single call for convenience:
+// Instantiate (and attach) MyScript to behavior_script
+behavior_script.set_script<MyScript>();
+```
+
+The above can also be done in a single call for convenience:
+```cpp
 obj.add_component<BehaviorScript>().set_script<MyScript>();
 ```
 
