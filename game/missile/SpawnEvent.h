@@ -10,9 +10,8 @@ struct MissileSpawnEvent : public crepe::Event {};
 class MissileSpawnEventHandler : public crepe::Script {
 private:
 	static constexpr int MISSILE_OFFSET = VIEWPORT_X;
-	static constexpr int RANGE = GAME_HEIGHT / 4.5;
-	static constexpr int MIN_RANGE = -RANGE;
-	static constexpr int MAX_RANGE = RANGE;
+	static constexpr int MIN_RANGE = -150;
+	static constexpr int MAX_RANGE = 150;
 
 public:
 	void init();
