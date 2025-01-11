@@ -49,7 +49,7 @@ static constexpr const char * DISTANCE_RUN = "distance_run";
 // Player config
 static constexpr const char * PLAYER_NAME = "player";
 static constexpr int PLAYER_SPEED = 7500; // In game units
-static constexpr float PLAYER_GRAVITY_SCALE = 3; // factor
+static constexpr float PLAYER_GRAVITY_SCALE = 2.2; // factor
 static constexpr float PLAYER_HELP_KICK_SCALE = 0.2; // factor
 static constexpr float PLAYER_HELP_KICK_MAX = 0.3; // factor
 
