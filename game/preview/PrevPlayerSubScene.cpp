@@ -78,4 +78,5 @@ PrevPlayerSubScene::PrevPlayerSubScene(Scene & scn) {
 	});
 	player.add_component<BoxCollider>(vec2(50, 50));
 	player.add_component<BehaviorScript>().set_script<PrevPlayerScript>();
+	player.add_component<AudioSource>(Asset {"asset/music/level.ogg"}).stop();
 }
