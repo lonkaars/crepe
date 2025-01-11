@@ -54,7 +54,8 @@ void ShopMenuScene::load_scene() {
 			.position = {-400, -350},
 			.script_type = ButtonSubScene::ScriptSelect::MAINMENU,
 			.button_type = ButtonSubScene::ButtonSelect::BACK,
-			.scale = 0.8
+			.scale = 0.8,
+			.sorting_layer_offset = 1,
 		}
 	);
 
@@ -67,8 +68,45 @@ void ShopMenuScene::load_scene() {
 		Asset("asset/other_effects/effect_rocketmgshell_TVOS.png"),
 		Sprite::Data {
 			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
-			.size = {0, 100},
+			.size = {0, 20},
+			.angle_offset = 30,
 			.position_offset = {0, 0},
+		}
+	);
+	shop_item_bullet.add_component<Sprite>(
+		Asset("asset/other_effects/effect_rocketmgshell_TVOS.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 20},
+			.angle_offset = 10,
+			.position_offset = {-10, -30},
+		}
+	);
+	shop_item_bullet.add_component<Sprite>(
+		Asset("asset/other_effects/effect_rocketmgshell_TVOS.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 20},
+			.angle_offset = -10,
+			.position_offset = {-40, 30},
+		}
+	);
+	shop_item_bullet.add_component<Sprite>(
+		Asset("asset/other_effects/effect_rocketmgshell_TVOS.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 20},
+			.angle_offset = 0,
+			.position_offset = {10, 15},
+		}
+	);
+	shop_item_bullet.add_component<Sprite>(
+		Asset("asset/other_effects/effect_rocketmgshell_TVOS.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 20},
+			.angle_offset = -5,
+			.position_offset = {45, -5},
 		}
 	);
 
@@ -112,8 +150,80 @@ void ShopMenuScene::load_scene() {
 		Asset("asset/background/aquarium/bubble.png"),
 		Sprite::Data {
 			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
-			.size = {0, 100},
+			.size = {0, 10},
 			.position_offset = {0, 0},
+		}
+	);
+	shop_item_bubble.add_component<Sprite>(
+		Asset("asset/background/aquarium/bubble.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 10},
+			.position_offset = {-50, -20},
+		}
+	);
+	shop_item_bubble.add_component<Sprite>(
+		Asset("asset/background/aquarium/bubble.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 20},
+			.position_offset = {45, -40},
+		}
+	);
+	shop_item_bubble.add_component<Sprite>(
+		Asset("asset/background/aquarium/bubble.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 20},
+			.position_offset = {-20, 40},
+		}
+	);
+	shop_item_bubble.add_component<Sprite>(
+		Asset("asset/background/aquarium/bubble.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 15},
+			.position_offset = {15, -25},
+		}
+	);
+	shop_item_bubble.add_component<Sprite>(
+		Asset("asset/background/aquarium/bubble.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 10},
+			.position_offset = {10, 5},
+		}
+	);
+	shop_item_bubble.add_component<Sprite>(
+		Asset("asset/background/aquarium/bubble.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 10},
+			.position_offset = {-5, -20},
+		}
+	);
+	shop_item_bubble.add_component<Sprite>(
+		Asset("asset/background/aquarium/bubble.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 20},
+			.position_offset = {15, -40},
+		}
+	);
+	shop_item_bubble.add_component<Sprite>(
+		Asset("asset/background/aquarium/bubble.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 20},
+			.position_offset = {-20, 10},
+		}
+	);
+	shop_item_bubble.add_component<Sprite>(
+		Asset("asset/background/aquarium/bubble.png"),
+		Sprite::Data {
+			.sorting_in_layer = STARTING_SORTING_IN_LAYER + 1,
+			.size = {0, 15},
+			.position_offset = {30, -25},
 		}
 	);
 
