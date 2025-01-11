@@ -216,7 +216,8 @@ TEST_F(InputTest, testButtonClick) {
 		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
-	auto & button = button_obj.add_component<Button>(vec2 {100, 100}, vec2 {0, 0});
+	auto & button
+		= button_obj.add_component<Button>(vec2 {100, 100}, Button::Data {}, vec2 {0, 0});
 
 	bool hover = false;
 	button.active = true;
@@ -238,9 +239,14 @@ TEST_F(InputTest, buttonPositionCamera) {
 		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
-	auto & button = button_obj.add_component<Button>(vec2 {10, 10}, vec2 {0, 0});
+	auto & button = button_obj.add_component<Button>(
+		vec2 {10, 10},
+		Button::Data {
+			.world_space = false,
+		},
+		vec2 {0, 0}
+	);
 
-	button.world_space = false;
 	bool hover = false;
 	button.active = true;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
@@ -261,8 +267,13 @@ TEST_F(InputTest, buttonPositionWorld) {
 		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
-	auto & button = button_obj.add_component<Button>(vec2 {10, 10}, vec2 {0, 0});
-	button.world_space = true;
+	auto & button = button_obj.add_component<Button>(
+		vec2 {10, 10},
+		Button::Data {
+			.world_space = true,
+		},
+		vec2 {0, 0}
+	);
 	bool hover = false;
 	button.active = true;
 	this->simulate_mouse_click(999, 999, SDL_BUTTON_LEFT);
@@ -288,8 +299,13 @@ TEST_F(InputTest, testButtonHover) {
 		EXPECT_EQ(event.metadata.game_object_id, button_obj.id);
 		return false;
 	});
-	auto & button = button_obj.add_component<Button>(vec2 {100, 100}, vec2 {0, 0});
-	button.active = true;
+	auto & button = button_obj.add_component<Button>(
+		vec2 {100, 100},
+		Button::Data {
+			.world_space = true,
+		},
+		vec2 {0, 0}
+	);
 	// Mouse on button
 	SDL_Event hover_event;
 	SDL_zero(hover_event);
