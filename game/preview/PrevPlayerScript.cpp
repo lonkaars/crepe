@@ -68,12 +68,6 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 		case Keycode::P:
 			this->get_component<AudioSource>().play();
 			break;
-		case Keycode::Q:
-			this->get_components_by_name<Camera>("camera").front().get().data.zoom -= 0.01;
-			break;
-		case Keycode::E:
-			this->get_components_by_name<Camera>("camera").front().get().data.zoom += 0.01;
-			break;
 		case Keycode::J:
 			this->get_components_by_name<Transform>("camera").front().get().position.x
 				-= move_speed;
