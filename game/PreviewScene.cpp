@@ -62,7 +62,7 @@ void PreviewScene::load_scene() {
 	camera.add_component<Camera>(
 		ivec2(990, 720), vec2(VIEWPORT_X, VIEWPORT_Y),
 		Camera::Data {
-			.bg_color = Color::RED,
+			.bg_color = Color::BLACK,
 		}
 	);
 
