@@ -57,7 +57,7 @@ NpcSubScene::NpcSubScene(Scene & scn) {
 		.body_type = Rigidbody::BodyType::DYNAMIC,
 		.linear_velocity = {-50, 0},
 		//.max_linear_velocity = 40,
-		.collision_layers = {COLL_LAY_BOT_TOP, COLL_LAY_PLAYER, 100},
+		.collision_layers = {COLL_LAY_BOT_TOP, 100},
 		.collision_layer = COLL_LAY_PLAYER,
 	});
 
