@@ -1,7 +1,10 @@
 #include "PreviewScene.h"
 
 #include "Config.h"
-#include "background/BackgroundSubScene.h"
+#include "background/AquariumSubScene.h"
+#include "background/ForestSubScene.h"
+#include "background/HallwaySubScene.h"
+#include "background/StartSubScene.h"
 #include "hud/HudScript.h"
 #include "hud/HudSubScene.h"
 #include "hud/SpeedScript.h"
@@ -40,7 +43,20 @@ using namespace std;
 
 void PreviewScene::load_scene() {
 
-	BackgroundSubScene background(*this);
+	StartSubScene start;
+	HallwaySubScene hallway;
+	ForestSubScene forest;
+	AquariumSubScene aquarium;
+
+	float begin_x = 400;
+
+	begin_x = start.create(*this, begin_x);
+
+	begin_x = hallway.create(*this, begin_x, 1, Color::YELLOW);
+
+	begin_x = aquarium.create(*this, begin_x);
+
+	begin_x = hallway.create(*this, begin_x, 2, Color::GREEN);
 
 	GameObject camera = new_object("camera", "camera", vec2(650, 0));
 	camera.add_component<Camera>(
