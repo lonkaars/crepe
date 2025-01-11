@@ -26,7 +26,7 @@ static constexpr int COLL_LAY_ENEMY = 10; // Only for GameScene
 static constexpr int COLL_LAY_PLAYER_BULLET = 11; // Only for GameScene
 
 static constexpr float GAME_HEIGHT = 800; // In game units
-static constexpr float HALLWAY_HEIGHT = 475; // In game units
+static constexpr float HALLWAY_HEIGHT = 450; // In game units
 
 static constexpr float VIEWPORT_X = 1100; // In game units
 // 'GAME_HEIGHT' (below) should be replaced by '500' when game development is finished
