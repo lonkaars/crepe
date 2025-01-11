@@ -3,20 +3,21 @@
 
 #include <string>
 
+#include "types.h"
+
 #include "KeyCodes.h"
 
 namespace crepe {
 
 /**
- * \brief Base class for all event types in the system.
+ * \brief Base struct for all event types in the system.
  */
-class Event {};
+struct Event {};
 
 /**
  * \brief Event triggered when a key is pressed.
  */
-class KeyPressEvent : public Event {
-public:
+struct KeyPressEvent : public Event {
 	//! false if first time press, true if key is repeated
 	bool repeat = false;
 
@@ -27,8 +28,7 @@ public:
 /**
  * \brief Event triggered when a key is released.
  */
-class KeyReleaseEvent : public Event {
-public:
+struct KeyReleaseEvent : public Event {
 	//! The key that was released.
 	Keycode key = Keycode::NONE;
 };
@@ -36,13 +36,9 @@ public:
 /**
  * \brief Event triggered when a mouse button is pressed.
  */
-class MousePressEvent : public Event {
-public:
-	//! X-coordinate of the mouse position at the time of the event.
-	int mouse_x = 0;
-
-	//! Y-coordinate of the mouse position at the time of the event.
-	int mouse_y = 0;
+struct MousePressEvent : public Event {
+	//! mouse position in world coordinates (game units).
+	vec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was pressed.
 	MouseButton button = MouseButton::NONE;
@@ -51,13 +47,9 @@ public:
 /**
  * \brief Event triggered when a mouse button is clicked (press and release).
  */
-class MouseClickEvent : public Event {
-public:
-	//! X-coordinate of the mouse position at the time of the event.
-	int mouse_x = 0;
-
-	//! Y-coordinate of the mouse position at the time of the event.
-	int mouse_y = 0;
+struct MouseClickEvent : public Event {
+	//! mouse position in world coordinates (game units).
+	vec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was clicked.
 	MouseButton button = MouseButton::NONE;
@@ -66,13 +58,9 @@ public:
 /**
  * \brief Event triggered when a mouse button is released.
  */
-class MouseReleaseEvent : public Event {
-public:
-	//! X-coordinate of the mouse position at the time of the event.
-	int mouse_x = 0;
-
-	//! Y-coordinate of the mouse position at the time of the event.
-	int mouse_y = 0;
+struct MouseReleaseEvent : public Event {
+	//! mouse position in world coordinates (game units).
+	vec2 mouse_pos = {0, 0};
 
 	//! The mouse button that was released.
 	MouseButton button = MouseButton::NONE;
@@ -81,32 +69,19 @@ public:
 /**
  * \brief Event triggered when the mouse is moved.
  */
-class MouseMoveEvent : public Event {
-public:
-	//! X-coordinate of the mouse position at the time of the event.
-	int mouse_x = 0;
-
-	//! Y-coordinate of the mouse position at the time of the event.
-	int mouse_y = 0;
-
-	// Movement since last event in x
-	int delta_x = 0;
-
-	// Movement since last event in y
-	int delta_y = 0;
+struct MouseMoveEvent : public Event {
+	//! mouse position in world coordinates (game units).
+	vec2 mouse_pos = {0, 0};
+	//! The change in mouse position relative to the last position (in pixels).
+	ivec2 mouse_delta = {0, 0};
 };
 
 /**
  * \brief Event triggered when the mouse is moved.
  */
-class MouseScrollEvent : public Event {
-public:
-	//! X-coordinate of the mouse position at the time of the event.
-	int mouse_x = 0;
-
-	//! Y-coordinate of the mouse position at the time of the event.
-	int mouse_y = 0;
-
+struct MouseScrollEvent : public Event {
+	//! mouse position in world coordinates (game units) when the scroll happened.
+	vec2 mouse_pos = {0, 0};
 	//! scroll direction (-1 = down, 1 = up)
 	int scroll_direction = 0;
 	//! scroll amount in y axis (from and away from the person).
@@ -114,17 +89,57 @@ public:
 };
 
 /**
- * \brief Event triggered when text is submitted, e.g., from a text input.
+ * \brief Event triggered to indicate the application is shutting down.
  */
-class TextSubmitEvent : public Event {
-public:
-	//! The submitted text.
-	std::string text = "";
+struct ShutDownEvent : public Event {};
+
+/**
+ * \brief Event triggered to indicate the window is overlapped by another window.
+ * 
+ * When two windows overlap the bottom window gets distorted and that window has to be redrawn.
+ */
+struct WindowExposeEvent : public Event {};
+
+/**
+ * \brief Event triggered to indicate the window is resized.
+ */
+struct WindowResizeEvent : public Event {
+	//! new window dimensions
+	ivec2 dimensions = {0, 0};
 };
 
 /**
- * \brief Event triggered to indicate the application is shutting down.
+ * \brief Event triggered to indicate the window is moved.
  */
-class ShutDownEvent : public Event {};
+struct WindowMoveEvent : public Event {
+	//! The change in position relative to the last position (in pixels).
+	ivec2 delta_move = {0, 0};
+};
+
+/**
+ * \brief Event triggered to indicate the window is minimized.
+ */
+struct WindowMinimizeEvent : public Event {};
+
+/**
+ * \brief Event triggered to indicate the window is maximized
+ */
+struct WindowMaximizeEvent : public Event {};
+
+/**
+ * \brief Event triggered to indicate the window gained focus
+ * 
+ * This event is triggered when the window receives focus, meaning it becomes the active window
+ * for user interaction.
+ */
+struct WindowFocusGainEvent : public Event {};
+
+/**
+ * \brief Event triggered to indicate the window lost focus
+ * 
+ * This event is triggered when the window loses focus, meaning it is no longer the active window
+ * for user interaction.
+ */
+struct WindowFocusLostEvent : public Event {};
 
 } // namespace crepe

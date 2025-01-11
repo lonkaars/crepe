@@ -12,8 +12,7 @@
 
 using namespace crepe;
 
-void PhysicsSystem::update() {
-
+void PhysicsSystem::fixed_update() {
 	const Mediator & mediator = this->mediator;
 	ComponentManager & mgr = mediator.component_manager;
 	LoopTimerManager & loop_timer = mediator.loop_timer;

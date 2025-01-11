@@ -15,9 +15,9 @@ using namespace crepe;
 class ConcreteScene1 : public Scene {
 public:
 	void load_scene() {
-		GameObject object1 = new_object("scene_1", "tag_scene_1", vec2{0, 0}, 0, 1);
-		GameObject object2 = new_object("scene_1", "tag_scene_1", vec2{1, 0}, 0, 1);
-		GameObject object3 = new_object("scene_1", "tag_scene_1", vec2{2, 0}, 0, 1);
+		GameObject object1 = new_object("scene_1", "tag_scene_1", vec2 {0, 0}, 0, 1);
+		GameObject object2 = new_object("scene_1", "tag_scene_1", vec2 {1, 0}, 0, 1);
+		GameObject object3 = new_object("scene_1", "tag_scene_1", vec2 {2, 0}, 0, 1);
 	}
 
 	string get_name() const { return "scene1"; }
@@ -26,10 +26,10 @@ public:
 class ConcreteScene2 : public Scene {
 public:
 	void load_scene() {
-		GameObject object1 = new_object("scene_2", "tag_scene_2", vec2{0, 0}, 0, 1);
-		GameObject object2 = new_object("scene_2", "tag_scene_2", vec2{0, 1}, 0, 1);
-		GameObject object3 = new_object("scene_2", "tag_scene_2", vec2{0, 2}, 0, 1);
-		GameObject object4 = new_object("scene_2", "tag_scene_2", vec2{0, 3}, 0, 1);
+		GameObject object1 = new_object("scene_2", "tag_scene_2", vec2 {0, 0}, 0, 1);
+		GameObject object2 = new_object("scene_2", "tag_scene_2", vec2 {0, 1}, 0, 1);
+		GameObject object3 = new_object("scene_2", "tag_scene_2", vec2 {0, 2}, 0, 1);
+		GameObject object4 = new_object("scene_2", "tag_scene_2", vec2 {0, 3}, 0, 1);
 	}
 
 	string get_name() const { return "scene2"; }
@@ -40,7 +40,7 @@ public:
 	ConcreteScene3(const string & name) : name(name) {}
 
 	void load_scene() {
-		GameObject object1 = new_object("scene_3", "tag_scene_3", vec2{0, 0}, 0, 1);
+		GameObject object1 = new_object("scene_3", "tag_scene_3", vec2 {0, 0}, 0, 1);
 	}
 
 	string get_name() const { return name; }
@@ -53,8 +53,8 @@ class SceneManagerTest : public ::testing::Test {
 	Mediator m;
 
 public:
-	ComponentManager component_mgr{m};
-	SceneManager scene_mgr{m};
+	ComponentManager component_mgr {m};
+	SceneManager scene_mgr {m};
 };
 
 TEST_F(SceneManagerTest, loadScene) {

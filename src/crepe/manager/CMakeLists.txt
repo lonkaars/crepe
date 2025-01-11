@@ -6,6 +6,8 @@ target_sources(crepe PUBLIC
 	SceneManager.cpp
 	LoopTimerManager.cpp
 	ResourceManager.cpp
+	ReplayManager.cpp
+	SystemManager.cpp
 )
 
 target_sources(crepe PUBLIC FILE_SET HEADERS FILES
@@ -21,5 +23,8 @@ target_sources(crepe PUBLIC FILE_SET HEADERS FILES
 	LoopTimerManager.h
 	ResourceManager.h
 	ResourceManager.hpp
+	ReplayManager.h
+	SystemManager.h
+	SystemManager.hpp
 )
 

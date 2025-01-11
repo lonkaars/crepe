@@ -1,7 +1,7 @@
 #include "../api/GameObject.h"
 #include "../api/Metadata.h"
 #include "../types.h"
-#include "../util/Log.h"
+#include "../util/dbg.h"
 
 #include "ComponentManager.h"
 
@@ -46,14 +46,16 @@ void ComponentManager::delete_all_components() {
 	this->next_id = 0;
 }
 
-GameObject ComponentManager::new_object(const string & name, const string & tag,
-										const vec2 & position, double rotation, double scale) {
+GameObject ComponentManager::new_object(
+	const string & name, const string & tag, const vec2 & position, double rotation,
+	double scale
+) {
 	// Find the first available id (taking persistent objects into account)
 	while (this->persistent[this->next_id]) {
 		this->next_id++;
 	}
 
-	GameObject object{*this, this->next_id, name, tag, position, rotation, scale};
+	GameObject object {this->mediator, this->next_id, name, tag, position, rotation, scale};
 	this->next_id++;
 
 	return object;
@@ -64,11 +66,38 @@ void ComponentManager::set_persistent(game_object_id_t id, bool persistent) {
 }
 
 set<game_object_id_t> ComponentManager::get_objects_by_name(const string & name) const {
-	return this->get_objects_by_predicate<Metadata>(
-		[name](const Metadata & data) { return data.name == name; });
+	return this->get_objects_by_predicate<Metadata>([name](const Metadata & data) {
+		return data.name == name;
+	});
 }
 
 set<game_object_id_t> ComponentManager::get_objects_by_tag(const string & tag) const {
-	return this->get_objects_by_predicate<Metadata>(
-		[tag](const Metadata & data) { return data.tag == tag; });
+	return this->get_objects_by_predicate<Metadata>([tag](const Metadata & data) {
+		return data.tag == tag;
+	});
+}
+
+ComponentManager::Snapshot ComponentManager::save() {
+	Snapshot snapshot {};
+	for (const auto & [type, by_id_index] : this->components) {
+		for (game_object_id_t id = 0; id < by_id_index.size(); id++) {
+			const auto & components = by_id_index[id];
+			for (size_t index = 0; index < components.size(); index++) {
+				const Component & component = *components[index];
+				snapshot.components.push_back(SnapshotComponent {
+					.type = type,
+					.id = id,
+					.index = index,
+					.component = component.save(),
+				});
+			}
+		}
+	}
+	return snapshot;
+}
+
+void ComponentManager::restore(const Snapshot & snapshot) {
+	for (const SnapshotComponent & info : snapshot.components) {
+		this->components[info.type][info.id][info.index]->restore(*info.component);
+	}
 }

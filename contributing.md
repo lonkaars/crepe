@@ -19,6 +19,20 @@ that you can click on to open them.
   an explanation as to why the code can not (reliably) be tested
 - Non-bugfix pull requests must be approved by at least 2 reviewers before being
   merged
+- Pull requests should have the following labels (where appropriate)
+  |label|meaning|
+  |:-:|-|
+  |`fix me`|has feedback that should be resolved/discussed by its author|
+  |`review me`|needs additional reviewers (minimum of 2 per PR)|
+  |`do not review`|is actively being worked on or not ready for feedback|
+  |`high priority`|should be worked on before all the others|
+  - PRs start with the `review me` label
+  - Reviewers—
+    - Add the `fix me` label after adding comments
+  - Authors—
+    - Remove the `review me` label if the pull request has enough reviewers
+    - Add the `do not review` label while processing feedback / pushing
+      additional commits
 
 <!--
 - TODO: tagging / versions
@@ -163,39 +177,27 @@ that you can click on to open them.
   ```
   </td></tr></table></details>
 - <details><summary>
-  <code>using namespace</code> may not be used in header files (.h, .hpp), only
-  in source files (.cpp).
+  <a href="https://en.cppreference.com/w/cpp/language/using_declaration">Using-declarations</a>
+  may not be used in header files (<code>.h</code>, <code>.hpp</code>), only in
+  source files (<code>.cpp</code>).
   </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
 
   example.h:
   ```cpp
   namespace crepe {
-  void foo();
+  std::string foo();
   }
   ```
   
-  example.cpp:
-  ```cpp
-  #include "example.h"
-  using namespace crepe;
-  void foo() {}
-  ```
   </td><td>
 
   example.h:
   ```cpp
+  using namespace std;
+
   namespace crepe {
-  template <typename T>
-  T foo();
+  string foo();
   }
-  ```
-  
-  example.hpp:
-  ```cpp
-  #include "example.h"
-  using namespace crepe;
-  template <typename T>
-  T foo();
   ```
   </td></tr></table></details>
 
@@ -825,6 +827,32 @@ that you can click on to open them.
   ```cpp
   vector<int> foo = { 1, 2, 3 };
   int bar = foo[0];
+  ```
+  </td></tr></table></details>
+- <details><summary>
+  Always explicitly check against <code>NULL</code> (for C APIs) or
+  <code>nullptr</code> (for C++ APIs) when checking if a pointer is valid
+  </summary><table><tr><th>Good</th><th>Bad</th></tr><tr><td>
+
+  ```cpp
+  string foo = "Hello world";
+  if (foo.c_str() == nullptr)
+    // ...
+
+  void * bar = malloc();
+  if (bar == NULL)
+    // ...
+  ```
+  </td><td>
+
+  ```cpp
+  string foo = "Hello world";
+  if (!foo.c_str())
+    // ...
+
+  void * bar = malloc();
+  if (!bar)
+    // ...
   ```
   </td></tr></table></details>
 

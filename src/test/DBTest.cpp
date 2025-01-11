@@ -35,4 +35,3 @@ TEST_F(DBTest, MultipleKeys) {
 	EXPECT_EQ(db.get("foo"), "foo");
 	EXPECT_EQ(db.get("bar"), "bar");
 }
-

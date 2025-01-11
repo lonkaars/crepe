@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "../util/Log.h"
+#include "../util/dbg.h"
 #include "api/Asset.h"
 
 #include "Component.h"
@@ -19,3 +19,16 @@ Sprite::Sprite(game_object_id_t id, const Asset & texture, const Sprite::Data & 
 }
 
 Sprite::~Sprite() { dbg_trace(); }
+
+unique_ptr<Component> Sprite::save() const { return unique_ptr<Component>(new Sprite(*this)); }
+
+void Sprite::restore(const Component & snapshot) {
+	*this = static_cast<const Sprite &>(snapshot);
+}
+
+Sprite & Sprite::operator=(const Sprite & snapshot) {
+	this->active = snapshot.active;
+	this->data = snapshot.data;
+	this->mask = snapshot.mask;
+	return *this;
+}

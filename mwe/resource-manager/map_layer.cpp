@@ -9,8 +9,9 @@ MapLayer::MapLayer() {}
 
 MapLayer::~MapLayer() { m_subsets.clear(); }
 
-bool MapLayer::create(const tmx::Map & map, std::uint32_t layerIndex,
-					  const std::vector<TextureMap *> & textures) {
+bool MapLayer::create(
+	const tmx::Map & map, std::uint32_t layerIndex, const std::vector<TextureMap *> & textures
+) {
 	const auto & layers = map.getLayers();
 	assert(layers[layerIndex]->getType() == tmx::Layer::Type::Tile);
 
@@ -68,9 +69,10 @@ bool MapLayer::create(const tmx::Map & map, std::uint32_t layerIndex,
 					verts.emplace_back(vert);
 					vert = {{tilePosX + mapTileSize.x, tilePosY}, vertColour, {u + uNorm, v}};
 					verts.emplace_back(vert);
-					vert = {{tilePosX + mapTileSize.x, tilePosY + mapTileSize.y},
-							vertColour,
-							{u + uNorm, v + vNorm}};
+					vert
+						= {{tilePosX + mapTileSize.x, tilePosY + mapTileSize.y},
+						   vertColour,
+						   {u + uNorm, v + vNorm}};
 					verts.emplace_back(vert);
 				}
 			}
@@ -89,7 +91,9 @@ bool MapLayer::create(const tmx::Map & map, std::uint32_t layerIndex,
 void MapLayer::draw(SDL_Renderer * renderer) const {
 	assert(renderer);
 	for (const auto & s : m_subsets) {
-		SDL_RenderGeometry(renderer, s.texture, s.vertexData.data(),
-						   static_cast<std::int32_t>(s.vertexData.size()), nullptr, 0);
+		SDL_RenderGeometry(
+			renderer, s.texture, s.vertexData.data(),
+			static_cast<std::int32_t>(s.vertexData.size()), nullptr, 0
+		);
 	}
 }

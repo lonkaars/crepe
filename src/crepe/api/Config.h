@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "../util/Log.h"
 #include "../types.h"
+#include "../util/Log.h"
 
 namespace crepe {
 
@@ -54,12 +54,12 @@ struct Config final {
 	} physics;
 
 	//! Default window settings
-	struct window { // NOLINT
+	struct window_settings { // NOLINT
 		//! Default window size (in pixels)
-		ivec2 size = {1280, 720};
+		ivec2 default_size = {1280, 720};
 		//! Default window title
-		std::string title = "Jetpack joyride clone";
-	} window;
+		std::string window_title = "crepe window";
+	} window_settings;
 
 	//! Asset loading options
 	struct asset { // NOLINT
@@ -74,6 +74,22 @@ struct Config final {
 		 */
 		std::string root_pattern = ".crepe-root";
 	} asset;
+	//! Default font options
+	struct {
+		/**
+		 * \brief Default font size
+		 *
+		 * Using the SDL_ttf library the font size needs to be set when loading the font. 
+		 * This config option is the font size at which all fonts will be loaded initially.
+		 * 
+		 */
+		unsigned int size = 100;
+	} font;
+	//! Configuration for click tolerance.
+	struct {
+		//! The maximum number of pixels the mouse can move between MouseDown and MouseUp events to be considered a click.
+		int click_tolerance = 5;
+	} input;
 
 	//! Audio system settings
 	struct {

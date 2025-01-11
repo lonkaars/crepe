@@ -163,4 +163,24 @@ Vector2<T> Vector2<T>::perpendicular() const {
 	return {-y, x};
 }
 
+template <class T>
+bool Vector2<T>::is_nan() const {
+	return std::isnan(x) && std::isnan(y);
+}
+
+template <class T>
+Vector2<T> Vector2<T>::rotate(float deg) const {
+	float rad = -deg / 180 * M_PI;
+	return {
+		x * std::cos(rad) - y * std::sin(rad),
+		x * std::sin(rad) + y * std::cos(rad),
+	};
+}
+
 } // namespace crepe
+
+template <typename T>
+std::format_context::iterator
+std::formatter<crepe::Vector2<T>>::format(crepe::Vector2<T> vec, format_context & ctx) const {
+	return formatter<string>::format(std::format("{{{}, {}}}", vec.x, vec.y), ctx);
+}

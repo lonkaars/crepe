@@ -20,7 +20,7 @@ public:
 	using System::System;
 
 	//! Update the AI system
-	void update() override;
+	void fixed_update() override;
 
 private:
 	/**

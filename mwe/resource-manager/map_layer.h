@@ -10,8 +10,8 @@ public:
 	explicit MapLayer();
 	~MapLayer();
 
-	bool create(const tmx::Map &, std::uint32_t index,
-				const std::vector<TextureMap *> & textures);
+	bool
+	create(const tmx::Map &, std::uint32_t index, const std::vector<TextureMap *> & textures);
 	void draw(SDL_Renderer *) const;
 
 private:

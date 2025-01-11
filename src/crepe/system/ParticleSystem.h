@@ -20,7 +20,7 @@ public:
 	 * \brief Updates all particle emitters by emitting particles, updating particle states, and
 	 * checking bounds.
 	 */
-	void update() override;
+	void fixed_update() override;
 
 private:
 	/**
@@ -30,16 +30,6 @@ private:
 	 * \param transform Const reference to the Transform component associated with the emitter.
 	 */
 	void emit_particle(ParticleEmitter & emitter, const Transform & transform);
-
-	/**
-	 * \brief Calculates the number of times particles should be emitted based on emission rate
-	 * and update count.
-	 *
-	 * \param count Current update count.
-	 * \param emission Emission rate.
-	 * \return The number of particles to emit.
-	 */
-	int calculate_update(int count, double emission) const;
 
 	/**
 	 * \brief Checks whether particles are within the emitter’s boundary, resets or stops
@@ -57,7 +47,7 @@ private:
 	 * \param max_angle Maximum emission angle in degrees.
 	 * \return Random angle in degrees.
 	 */
-	double generate_random_angle(double min_angle, double max_angle) const;
+	float generate_random_angle(float min_angle, float max_angle) const;
 
 	/**
 	 * \brief Generates a random speed for particle emission within the specified range.
@@ -66,15 +56,7 @@ private:
 	 * \param max_speed Maximum emission speed.
 	 * \return Random speed.
 	 */
-	double generate_random_speed(double min_speed, double max_speed) const;
-
-private:
-	//! Counter to count updates to determine how many times emit_particle is
-	// called.
-	unsigned int update_count = 0;
-	//! Determines the lowest amount of emission rate (1000 = 0.001 = 1 particle per 1000
-	// updates).
-	static constexpr unsigned int MAX_UPDATE_COUNT = 100;
+	float generate_random_speed(float min_speed, float max_speed) const;
 };
 
 } // namespace crepe

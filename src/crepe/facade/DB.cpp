@@ -1,6 +1,6 @@
 #include <cstring>
 
-#include "util/Log.h"
+#include "util/dbg.h"
 
 #include "DB.h"
 
@@ -59,4 +59,3 @@ bool DB::has(const std::string & key) {
 	}
 	return true;
 }
-

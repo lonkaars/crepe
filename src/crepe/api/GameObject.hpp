@@ -8,7 +8,7 @@ namespace crepe {
 
 template <typename T, typename... Args>
 T & GameObject::add_component(Args &&... args) {
-	ComponentManager & mgr = this->component_manager;
+	ComponentManager & mgr = this->mediator.component_manager;
 	return mgr.add_component<T>(this->id, std::forward<Args>(args)...);
 }
 

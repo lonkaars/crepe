@@ -4,7 +4,7 @@
 #include <thread>
 #define private public
 #define protected public
-#include <crepe/api/LoopManager.h>
+#include <crepe/api/Engine.h>
 #include <crepe/manager/EventManager.h>
 #include <crepe/manager/LoopTimerManager.h>
 using namespace std::chrono;
@@ -12,7 +12,7 @@ using namespace crepe;
 
 class DISABLED_LoopManagerTest : public ::testing::Test {
 protected:
-	class TestGameLoop : public crepe::LoopManager {
+	class TestGameLoop : public crepe::Engine {
 	public:
 		MOCK_METHOD(void, fixed_update, (), (override));
 		MOCK_METHOD(void, frame_update, (), (override));
@@ -72,7 +72,7 @@ TEST_F(DISABLED_LoopManagerTest, ShutDown) {
 	// Start the loop in a separate thread
 	std::thread loop_thread([&]() { test_loop.start(); });
 	std::this_thread::sleep_for(std::chrono::milliseconds(1));
-	test_loop.event_manager.trigger_event<ShutDownEvent>(ShutDownEvent{});
+	test_loop.event_manager.trigger_event<ShutDownEvent>(ShutDownEvent {});
 	// Wait for the loop thread to finish
 	loop_thread.join();
 }

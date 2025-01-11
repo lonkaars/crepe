@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../manager/LoopTimerManager.h"
 #include "../types.h"
 
 #include "Component.h"
@@ -83,8 +84,10 @@ public:
 	 * This constructor sets up the Animator with the given parameters, and initializes the
 	 * animation system.
 	 */
-	Animator(game_object_id_t id, Sprite & spritesheet, const ivec2 & single_frame_size,
-			 const uvec2 & grid_size, const Animator::Data & data);
+	Animator(
+		game_object_id_t id, Sprite & spritesheet, const ivec2 & single_frame_size,
+		const uvec2 & grid_size, const Animator::Data & data
+	);
 	~Animator(); // dbg_trace
 
 public:
@@ -96,6 +99,12 @@ private:
 
 	//! The maximum number of rows and columns inside the spritesheet
 	const uvec2 grid_size;
+
+	// the time elapsed from a frame duration
+	duration_t elapsed_time = {};
+
+	// frame counter
+	unsigned int frame = 0;
 
 	//! Uses the spritesheet
 	friend AnimatorSystem;

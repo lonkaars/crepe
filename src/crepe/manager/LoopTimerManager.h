@@ -6,6 +6,8 @@
 
 namespace crepe {
 
+class Engine;
+
 typedef std::chrono::duration<float> duration_t;
 typedef std::chrono::duration<unsigned long long, std::micro> elapsed_time_t;
 
@@ -107,7 +109,7 @@ public:
 
 private:
 	//! Friend relation to use start,enforce_frame_rate,get_lag,update,advance_fixed_update.
-	friend class LoopManager;
+	friend class Engine;
 	/**
 	 * \brief Start the loop timer.
 	 *
@@ -155,17 +157,17 @@ private:
 	//! Time scale for speeding up or slowing down the game (0 = pause, < 1 = slow down, 1 = normal speed, > 1 = speed up).
 	float time_scale = 1;
 	//! Maximum delta time in seconds to avoid large jumps.
-	duration_t maximum_delta_time{0.25};
+	duration_t maximum_delta_time {0.25};
 	//! Delta time for the current frame in seconds.
-	duration_t delta_time{0.0};
+	duration_t delta_time {0.0};
 	//! Target time per frame in seconds
-	duration_t frame_target_time{1.0 / target_fps};
+	duration_t frame_target_time {1.0 / target_fps};
 	//! Fixed delta time for fixed updates in seconds.
-	duration_t fixed_delta_time{1.0 / 50.0};
+	duration_t fixed_delta_time {1.0 / 50.0};
 	//! Total elapsed game time in microseconds.
-	elapsed_time_t elapsed_time{0};
+	elapsed_time_t elapsed_time {0};
 	//! Total elapsed time for fixed updates in microseconds.
-	elapsed_time_t elapsed_fixed_time{0};
+	elapsed_time_t elapsed_fixed_time {0};
 
 	typedef std::chrono::steady_clock::time_point time_point_t;
 	//! Time of the last frame.

@@ -42,10 +42,10 @@ public:
 		FlipSettings flip;
 
 		//! Layer sorting level of the sprite
-		const int sorting_in_layer = 0;
+		int sorting_in_layer = 0;
 
 		//! Order within the sorting layer
-		const int order_in_layer = 0;
+		int order_in_layer = 0;
 
 		/**
 		 * \brief width and height of the sprite in game units
@@ -66,6 +66,16 @@ public:
 
 		//! independent sprite offset position
 		vec2 position_offset;
+
+		/**
+		 * \brief gives the user the option to render this in world space or in camera space
+		 *
+		 * - if true will this be rendered in world space this means that the sprite can be
+		 *   rendered off the screen 
+		 * - if false --> will the sprite be rendered in camera space. this means that the
+		 *   coordinates given on the \c Sprite and \c Transform will be inside the camera 
+		 */
+		bool world_space = true;
 	};
 
 public:
@@ -109,6 +119,12 @@ private:
 	//! Render area of the sprite this will also be adjusted by the AnimatorSystem if an Animator
 	// object is present in GameObject. this is in sprite pixels
 	Rect mask;
+
+protected:
+	virtual std::unique_ptr<Component> save() const;
+	Sprite(const Sprite &) = default;
+	virtual void restore(const Component & snapshot);
+	virtual Sprite & operator=(const Sprite &);
 };
 
 } // namespace crepe

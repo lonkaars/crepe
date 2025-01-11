@@ -14,8 +14,6 @@ namespace crepe {
  * can also be reset or stopped.
  */
 class Particle {
-	// TODO: add friend particleSsytem and rendersystem. Unit test will fail.
-
 public:
 	//! Position of the particle in 2D space.
 	vec2 position;
@@ -24,13 +22,13 @@ public:
 	//! Accumulated force affecting the particle over time.
 	vec2 force_over_time;
 	//! Total lifespan of the particle in milliseconds.
-	uint32_t lifespan;
+	float lifespan;
 	//! Active state of the particle; true if it is in use, false otherwise.
 	bool active = false;
 	//! The time the particle has been alive, in milliseconds.
-	uint32_t time_in_life = 0;
+	float time_in_life = 0;
 	//! The angle at which the particle is oriented or moving.
-	double angle = 0;
+	float angle = 0;
 
 	/**
 	 * \brief Resets the particle with new properties.
@@ -43,14 +41,16 @@ public:
 	 * \param velocity  The initial velocity of the particle.
 	 * \param angle     The angle of the particle's trajectory or orientation.
 	 */
-	void reset(uint32_t lifespan, const vec2 & position, const vec2 & velocity, double angle);
+	void
+	reset(unsigned int lifespan, const vec2 & position, const vec2 & velocity, float angle);
 	/**
 	 * \brief Updates the particle's state.
 	 *
 	 * Advances the particle's position based on its velocity and applies accumulated forces.
 	 * Deactivates the particle if its lifespan has expired.
+	 * \param dt The amount of fixed delta time that has passed.
 	 */
-	void update();
+	void update(double dt);
 	/**
 	 * \brief Stops the particle's movement.
 	 *
