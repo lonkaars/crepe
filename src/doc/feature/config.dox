@@ -54,8 +54,8 @@ tr td:first-child { font-family: monospace; }
 |\ref Config::log::level ".log.level"|\copybrief Config::log::level|
 |\ref Config::physics::gravity ".physics.gravity"|\copybrief Config::physics::gravity|
 |\ref Config::savemgr::location ".savemgr.location"|\copybrief Config::savemgr::location|
-|\ref Config::window::size ".window.size"|\copybrief Config::window::size|
-|\ref Config::window::title ".window.title"|\copybrief Config::window::title|
+|\ref Config::window_settings::default_size ".window_settings.default_size"|\copybrief Config::window_settings::default_size|
+|\ref Config::window_settings::window_title ".window_settings.window_title"|\copybrief Config::window_settings::window_title|
 
 */
 }

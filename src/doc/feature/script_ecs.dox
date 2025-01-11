@@ -40,14 +40,14 @@ using namespace crepe;
 class MyScript : public Script {
 	void show_self() {
 		Metadata & own_metadata = get_component<Metadata>();
-		Log::logf("My name is {}", own_metadata.name);
+		logf("My name is {}", own_metadata.name);
 	}
 
 	void list_enemies() {
 		RefVector<Metadata> enemies = get_components_by_tag<Metadata>("enemy");
-		Log::logf("There are {} enemies:", enemies.size());
+		logf("There are {} enemies:", enemies.size());
 		for (const Metadata & enemy : enemies) {
-			Log::logf("- {}", enemy.name);
+			logf("- {}", enemy.name);
 		}
 	}
 };

@@ -4,7 +4,7 @@
 		<tab type="mainpage" visible="yes" title="Intro"/>
 		<tab type="user" url="@ref install" title="Installation"/>
 		<tab type="user" url="@ref feature" title="Features"/>
-		<tab type="user" url="@ref internal" title="Internals"/>
+		<!-- <tab type="user" url="@ref internal" title="Internals"/> -->
 		<tab type="pages" visible="no" title="" intro=""/>
 		<tab type="topics" visible="no" title="" intro=""/>
 		<tab type="modules" visible="no" title="" intro="">
@@ -22,7 +22,7 @@
 			<tab type="interfaceindex" visible="$ALPHABETICAL_INDEX" title=""/>
 			<tab type="interfacehierarchy" visible="yes" title="" intro=""/>
 		</tab>
-		<tab type="classes" visible="yes" title="">
+		<tab type="classes" visible="yes" title="API">
 			<tab type="classlist" visible="yes" title="" intro=""/>
 			<tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/>
 			<tab type="hierarchy" visible="yes" title="" intro=""/>

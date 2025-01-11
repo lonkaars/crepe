@@ -21,10 +21,10 @@ BehaviorScript \ref Component "component".
 \"\ref feature_gameobject\" first.
 
 First, define a class (anywhere) that inherits from Script. The Script class
-acts as an interface, and has two functions (\ref Script::init "\c init()" and
-\ref Script::update "\c update()"), which *may* be implemented (they are empty
-by default). From now on, this derivative class will be referred to as a
-*concrete script*.
+acts as an interface, and has three functions (\ref Script::init "\c init()",
+\ref Script::fixed_update "\c fixed_update()" and \ref Script::frame_update
+"\c frame_update()"), which *may* be implemented (they are empty by default).
+From now on, this derivative class will be referred to as a *concrete script*.
 
 ```cpp
 #include <crepe/api/Script.h>
@@ -34,8 +34,12 @@ class MyScript : public crepe::Script {
 	void init() {
 		// called once
 	}
-	void update() {
+
+	void fixed_update(crepe::duration_t delta_time) {
 		// called on fixed update
+	}
+	void frame_update(crepe::duration_t delta_time) {
+		// called for every rendered frame
 	}
 };
 ```
