@@ -296,7 +296,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	frag_5_sprite.active = false;
 	Rigidbody & frag_5_rb = frag_5.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = 1.0,
-		.linear_velocity = vec2(600, -800),
+		.linear_velocity = vec2(600, -500),
 		.linear_velocity_coefficient = vec2(0.25, 0.15),
 		.angular_velocity = 100,
 		.angular_velocity_coefficient = 0.55,
@@ -440,7 +440,7 @@ void StartSubScene::create_wall_fragments(crepe::Scene & scn, float begin_x) {
 	frag_11_sprite.active = false;
 	Rigidbody & frag_11_rb = frag_11.add_component<Rigidbody>(Rigidbody::Data {
 		.gravity_scale = 1.0,
-		.linear_velocity = vec2(600, -800),
+		.linear_velocity = vec2(600, -400),
 		.linear_velocity_coefficient = vec2(0.3, 0.3),
 		.angular_velocity = 200,
 		.angular_velocity_coefficient = 0.55,
