@@ -79,7 +79,8 @@ PrevPlayerSubScene::PrevPlayerSubScene(Scene & scn) {
 	player.add_component<BoxCollider>(vec2(40, 50));
 	player.add_component<BehaviorScript>().set_script<PrevPlayerScript>();
 
-	AudioSource & audio = player.add_component<AudioSource>(Asset {"asset/music/level.ogg"});
+	GameObject music = scn.new_object("background_music", "background_music");
+	AudioSource & audio = music.add_component<AudioSource>(Asset {"asset/music/level.ogg"});
 	audio.loop = true;
 	audio.play_on_awake = true;
 	audio.active = false;
