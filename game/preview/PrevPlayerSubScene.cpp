@@ -76,7 +76,7 @@ PrevPlayerSubScene::PrevPlayerSubScene(Scene & scn) {
 		.collision_layers = {COLL_LAY_BOT_TOP, 100},
 		.collision_layer = COLL_LAY_PLAYER,
 	});
-	player.add_component<BoxCollider>(vec2(50, 50));
+	player.add_component<BoxCollider>(vec2(40, 50));
 	player.add_component<BehaviorScript>().set_script<PrevPlayerScript>();
 
 	AudioSource & audio = player.add_component<AudioSource>(Asset {"asset/music/level.ogg"});

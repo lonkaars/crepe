@@ -49,7 +49,7 @@ NpcSubScene::NpcSubScene(Scene & scn) {
 			.looping = true,
 		}
 	);
-	npc.add_component<BoxCollider>(vec2 {50, 50});
+	npc.add_component<BoxCollider>(vec2 {40, 50});
 
 	npc.add_component<Rigidbody>(Rigidbody::Data {
 		.mass = 10,
