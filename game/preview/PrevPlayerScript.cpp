@@ -66,7 +66,7 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 			this->head->data.position_offset -= 10;
 			break;
 		case Keycode::P:
-			this->get_component<AudioSource>().play();
+			this->get_component<AudioSource>().active = true;
 			break;
 		case Keycode::J:
 			this->get_components_by_name<Transform>("camera").front().get().position.x
