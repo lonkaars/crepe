@@ -21,35 +21,35 @@ bool PrevPlayerScript::key_pressed(const KeyPressEvent & ev) {
 			this->body->data.flip = {false, false};
 			this->head->data.flip = {false, false};
 			break;
-		case Keycode::D0:
+		case Keycode::D2:
 			this->body_anim->set_anim(0);
 			this->head_anim->set_anim(0);
 			break;
-		case Keycode::D1:
+		case Keycode::D3:
 			this->body_anim->set_anim(1);
 			this->head_anim->set_anim(1);
 			break;
-		case Keycode::D2:
+		case Keycode::D4:
 			this->body_anim->set_anim(2);
 			this->head_anim->set_anim(2);
 			break;
-		case Keycode::D3:
+		case Keycode::D5:
 			this->body_anim->set_anim(3);
 			this->head_anim->set_anim(3);
 			break;
-		case Keycode::D4:
+		case Keycode::D6:
 			this->body_anim->set_anim(4);
 			this->head_anim->set_anim(4);
 			break;
-		case Keycode::D5:
+		case Keycode::D7:
 			this->body_anim->set_anim(5);
 			this->head_anim->set_anim(5);
 			break;
-		case Keycode::D6:
+		case Keycode::D8:
 			this->body_anim->set_anim(6);
 			this->head_anim->set_anim(6);
 			break;
-		case Keycode::D7:
+		case Keycode::D9:
 			this->body_anim->set_anim(7);
 			this->head_anim->set_anim(7);
 			break;
